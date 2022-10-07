@@ -19,9 +19,12 @@ public class PlayerRay : MonoBehaviour
     void Awake()
     {
         _lineRenderer = GetComponentInChildren<LineRenderer>();
-        SetRayColor();
+        //SetRayColor();
+        
         _lineRenderer.enabled = false;
     }
+
+
 
     void Update()
     {
@@ -33,6 +36,12 @@ public class PlayerRay : MonoBehaviour
         if (_playerInput.isRay)
         {
             _lineRenderer.enabled = true;
+
+            _rayPositions[0] = transform.position;
+            _rayPositions[1] = transform.position + transform.forward * _rayLength;
+
+            _lineRenderer.positionCount = _rayPositions.Length;
+            _lineRenderer.SetPositions(_rayPositions);
 
             Ray ray;
             RaycastHit hit;
@@ -49,7 +58,7 @@ public class PlayerRay : MonoBehaviour
 
     private void SetRayColor()
     {
-        _lineRenderer.material = new Material(Shader.Find("RayColor"));
+        _lineRenderer.material = new Material(Shader.Find("Custom/RayShader"));
 
         _rayPositions[0] = transform.position;
         _rayPositions[1] = transform.position + transform.forward * _rayLength;
