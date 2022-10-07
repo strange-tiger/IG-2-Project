@@ -7,12 +7,14 @@ public class PlayerRay : MonoBehaviour
     [SerializeField]
     private PlayerInput _playerInput;
 
-    [SerializeField]
-    private GameObject _rayBox;
+    private LineRenderer _lineRenderer;
 
-    void Start()
+    void Awake()
     {
-        _rayBox.SetActive(false);
+        _lineRenderer = GetComponentInChildren<LineRenderer>();
+
+        _lineRenderer.positionCount = 2;
+        _lineRenderer.enabled = false;
     }
 
     void Update()
@@ -24,7 +26,10 @@ public class PlayerRay : MonoBehaviour
     {
         if (_playerInput.isRay)
         {
-            _rayBox.SetActive(true);
+            _lineRenderer.SetPosition(0, Vector3.zero);
+            _lineRenderer.SetPosition(1, new Vector3(0f, 0f, 5f));
+
+            _lineRenderer.enabled = true;
 
             Ray ray;
             RaycastHit hit;
@@ -35,8 +40,7 @@ public class PlayerRay : MonoBehaviour
         }
         else
         {
-            _rayBox.SetActive(false);
+            _lineRenderer.enabled = false;
         }
-
     }
 }
