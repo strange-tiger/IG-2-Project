@@ -63,7 +63,7 @@ public class PlayerRay : MonoBehaviour
 
     private void SetRayColor()
     {
-        _lineRenderer.material = new Material(Shader.Find("Custom/RayShader"));
+        _lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
 
         Gradient RayMaterialGradient = new Gradient();
 
