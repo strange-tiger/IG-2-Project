@@ -10,8 +10,8 @@ public class PlayerRay : MonoBehaviour
     private LineRenderer _lineRenderer;
 
     private Vector3[] _rayPositions = new Vector3[2];
-    private Color _startRayColor = new Vector4(42f, 244f, 37f);
-    private Color _endRayColor = new Vector4(42f, 244f, 37f);
+    private Color _startRayColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
+    private Color _endRayColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
 
     private float _rayLength = 5.0f;
     private float alpha = 1.0f;
@@ -19,7 +19,7 @@ public class PlayerRay : MonoBehaviour
     void Awake()
     {
         _lineRenderer = GetComponentInChildren<LineRenderer>();
-        //SetRayColor();
+        SetRayColor();
         
         _lineRenderer.enabled = false;
     }
@@ -35,13 +35,9 @@ public class PlayerRay : MonoBehaviour
     {
         if (_playerInput.isRay)
         {
+            SetRayPosition();
+
             _lineRenderer.enabled = true;
-
-            _rayPositions[0] = transform.position;
-            _rayPositions[1] = transform.position + transform.forward * _rayLength;
-
-            _lineRenderer.positionCount = _rayPositions.Length;
-            _lineRenderer.SetPositions(_rayPositions);
 
             Ray ray;
             RaycastHit hit;
@@ -56,21 +52,24 @@ public class PlayerRay : MonoBehaviour
         }
     }
 
-    private void SetRayColor()
+    private void SetRayPosition()
     {
-        _lineRenderer.material = new Material(Shader.Find("Custom/RayShader"));
-
         _rayPositions[0] = transform.position;
         _rayPositions[1] = transform.position + transform.forward * _rayLength;
 
         _lineRenderer.positionCount = _rayPositions.Length;
         _lineRenderer.SetPositions(_rayPositions);
+    }
+
+    private void SetRayColor()
+    {
+        _lineRenderer.material = new Material(Shader.Find("Custom/RayShader"));
 
         Gradient RayMaterialGradient = new Gradient();
 
         RayMaterialGradient.SetKeys(
             new GradientColorKey[] { new GradientColorKey(_startRayColor, 0.0f), new GradientColorKey(_endRayColor, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(0.0f, 0.0f) }
+            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(0.0f, alpha) }
             );
         _lineRenderer.colorGradient = RayMaterialGradient;
     }
