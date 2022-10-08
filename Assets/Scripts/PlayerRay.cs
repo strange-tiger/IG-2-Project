@@ -14,7 +14,7 @@ public class PlayerRay : MonoBehaviour
     private Color _endRayColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
 
     private float _rayLength = 5.0f;
-    private float alpha = 1.0f;
+    private float _alpha = 1.0f;
 
     void Awake()
     {
@@ -33,7 +33,7 @@ public class PlayerRay : MonoBehaviour
 
     private void OnTriggerButton()
     {
-        if (_playerInput.isRay)
+        if (_playerInput.IsRay)
         {
             SetRayPosition();
 
@@ -69,7 +69,7 @@ public class PlayerRay : MonoBehaviour
 
         RayMaterialGradient.SetKeys(
             new GradientColorKey[] { new GradientColorKey(_startRayColor, 0.0f), new GradientColorKey(_endRayColor, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(0.0f, alpha) }
+            new GradientAlphaKey[] { new GradientAlphaKey(_alpha, 0.0f), new GradientAlphaKey(0.0f, _alpha) }
             );
         _lineRenderer.colorGradient = RayMaterialGradient;
     }

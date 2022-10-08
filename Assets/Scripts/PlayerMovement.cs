@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
+    private PlayerInput _playerInput;
     private CharacterController _controller;
 
     private float _speed = 3.0f;
@@ -12,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     private void Update()
@@ -21,7 +23,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void MovePlayer()
     {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
+        if (_playerInput.IsMove)
         {
             Vector2 thumbstick = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
 
@@ -34,7 +36,7 @@ public class PlayerMove : MonoBehaviour
 
     private void RotatePlayer()
     {
-        if (OVRInput.Get(OVRInput.Touch.SecondaryThumbstick))
+        if (_playerInput.IsRotate)
         {
             Vector2 thumbstick = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
 
