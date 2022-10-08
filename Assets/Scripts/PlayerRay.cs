@@ -19,12 +19,11 @@ public class PlayerRay : MonoBehaviour
     void Awake()
     {
         _lineRenderer = GetComponentInChildren<LineRenderer>();
+
         SetRayColor();
-        
+
         _lineRenderer.enabled = false;
     }
-
-
 
     void Update()
     {
@@ -63,8 +62,6 @@ public class PlayerRay : MonoBehaviour
 
     private void SetRayColor()
     {
-        _lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
-
         Gradient RayMaterialGradient = new Gradient();
 
         RayMaterialGradient.SetKeys(
