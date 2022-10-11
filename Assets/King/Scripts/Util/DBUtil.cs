@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using MySql.Data.MySqlClient;
+using LitJson;
+
 
 namespace Asset.MySql
 {
@@ -26,11 +28,7 @@ namespace Asset.MySql
     public enum EAccountInfoColumns
     {
         Nickname,
-        Gender,
-        SkinR,
-        SkinG,
-        SkinB,
-        IsTutorialEnd,
+        AccountData,
         Max
     }
 
@@ -40,9 +38,8 @@ namespace Asset.MySql
 
         private static string _connectionString;
         private static string[] _insertStrings = new string[(int)ETableType.Max];
+        private static string _insertInitDataString;
         private static string _selectAccountString;
-        private static string _selectAccountInfoString;
-
         /// <summary>
         ///  MySql 세팅 초기화
         /// </summary>
@@ -69,8 +66,8 @@ namespace Asset.MySql
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
+            _insertInitDataString = Resources.Load<TextAsset>("InitInsertAccountData").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
-            _selectAccountInfoString = Resources.Load<TextAsset>("SelectAccountInfo").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -205,9 +202,12 @@ namespace Asset.MySql
                     string _insertAccountInfoString = GetInsertString(ETableType.AccountInfoDB, Nickname);
                     MySqlCommand _insertAccountInfoCommand = new MySqlCommand(_insertAccountInfoString, _mysqlConnection);
 
+                    MySqlCommand _insertInitDataCommand = new MySqlCommand(_insertInitDataString + $"where {Nickname};", _mysqlConnection);
+
                     _mysqlConnection.Open();
                     _insertAccountCommand.ExecuteNonQuery();
                     _insertAccountInfoCommand.ExecuteNonQuery();
+                    _insertInitDataCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
 
@@ -232,6 +232,9 @@ namespace Asset.MySql
 
             return insertString;
         }
+
+       
+
 
         /// <summary>
         /// 해당 값이 DB에 있는지 확인한다.
@@ -321,17 +324,7 @@ namespace Asset.MySql
         {
             return GetValueByBase(ETableType.AccountDB, baseType, baseValue, targetType);
         }
-        /// <summary>
-        /// AccountInfo 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
-        /// </summary>
-        /// <param name="baseType">기준이 되는 값의 Column명</param>
-        /// <param name="baseValue">기준이 되는 데이터</param>
-        /// <param name="targetType">가져오기 위한 데이터 Column명</param>
-        /// <returns>해당 데이터를 반환. 오류 시 null 반환</returns>
-        public static string GetValueByBase(EAccountInfoColumns baseType, string baseValue, EAccountInfoColumns targetType)
-        {
-            return GetValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType);
-        }
+       
         private static string GetValueByBase<T>(ETableType targetTable,
             T baseType, string baseValue,
             T targetType) where T : System.Enum
@@ -367,32 +360,7 @@ namespace Asset.MySql
 
         }
 
-        /// <summary>
-        /// AccountInfo Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
-        /// </summary>
-        /// <param name="baseType">기준 값의 Column명</param>
-        /// <param name="baseValue">기준 값의 데이터</param>
-        /// <param name="targetType">변경할 값의 Column명</param>
-        /// <param name="targetValue">변경할 값</param>
-        /// <returns>정상적으로 변경되었다면 true, 아니면 false를 반환</returns>
-        public static bool UpdateValueByBase(EAccountInfoColumns baseType, string baseValue,
-            EAccountInfoColumns targetType, int targetValue)
-        {
-            return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
-        }
-        /// <summary>
-        /// AccountInfo Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
-        /// </summary>
-        /// <param name="baseType">기준 값의 Column명</param>
-        /// <param name="baseValue">기준 값의 데이터</param>
-        /// <param name="targetType">변경할 값의 Column명</param>
-        /// <param name="targetValue">변경할 값</param>
-        /// <returns>정상적으로 변경되었다면 true, 아니면 false를 반환</returns>
-        public static bool UpdateValueByBase(EAccountInfoColumns baseType, string baseValue,
-            EAccountInfoColumns targetType, string targetValue)
-        {
-            return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
-        }
+       
         /// <summary>
         /// Account Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
         /// </summary>
@@ -406,19 +374,7 @@ namespace Asset.MySql
         {
             return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
         }
-        /// <summary>
-        /// AccountInfo Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
-        /// </summary>
-        /// <param name="baseType">기준 값의 Column명</param>
-        /// <param name="baseValue">기준 값의 데이터</param>
-        /// <param name="targetType">변경할 값의 Column명</param>
-        /// <param name="targetValue">변경할 값</param>
-        /// <returns>정상적으로 변경되었다면 true, 아니면 false를 반환</returns>
-        public static bool UpdateValueByBase(EAccountColumns baseType, string baseValue,
-            EAccountColumns targetType, string targetValue)
-        {
-            return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
-        }
+        
         private static bool UpdateValueByBase<T>(ETableType targetTable,
             T baseType, string baseValue,
             T targetType, int targetValue) where T : System.Enum
@@ -444,31 +400,9 @@ namespace Asset.MySql
             }
 
         }
-        private static bool UpdateValueByBase<T>(ETableType targetTable,
-            T baseType, string baseValue,
-            T targetType, string targetValue) where T : System.Enum
-        {
-            try
-            {
-                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string updateString = $"Update {targetTable} set {targetType} = '{targetValue}' where {baseType} = '{baseValue}';";
-                    MySqlCommand command = new MySqlCommand(updateString, _sqlConnection);
 
-                    _sqlConnection.Open();
-                    command.ExecuteNonQuery();
-                    _sqlConnection.Close();
 
-                    return true;
-                }
-            }
-            catch (System.Exception error)
-            {
-                Debug.LogError(error.Message);
-                return false;
-            }
 
-        }
 
     }
 }
