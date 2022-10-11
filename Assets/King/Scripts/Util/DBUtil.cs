@@ -40,6 +40,8 @@ namespace Asset.MySql
         private static string[] _insertStrings = new string[(int)ETableType.Max];
         private static string _insertInitDataString;
         private static string _selectAccountString;
+        private static string _selectJsonString;
+
         /// <summary>
         ///  MySql 세팅 초기화
         /// </summary>
@@ -372,9 +374,14 @@ namespace Asset.MySql
         public static bool UpdateValueByBase(EAccountColumns baseType, string baseValue,
             EAccountColumns targetType, int targetValue)
         {
-            return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
+            return UpdateValueByBase(ETableType.AccountDB, baseType, baseValue, targetType, targetValue);
         }
         
+        public static bool UpdateValueByBase(EAccountInfoColumns baseType, string baseValue,
+            EAccountInfoColumns targetType, int targetValue)
+        {
+            return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
+        }
         private static bool UpdateValueByBase<T>(ETableType targetTable,
             T baseType, string baseValue,
             T targetType, int targetValue) where T : System.Enum
@@ -399,10 +406,71 @@ namespace Asset.MySql
                 return false;
             }
 
+
         }
 
+        /// <summary>
+        /// 유저의 캐릭터 데이터를 가진 Json을 불러옴.
+        /// </summary>
+        /// <param name="nickname"> 유저의 닉네임</param>
+        /// <returns>JsonData로 반환.</returns>
+        public static JsonData SelectCharacterData(string nickname)
+        {
+            try
+            {
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string selectString = $"Select * from AccountInfoDB where {nickname};";
+                    MySqlCommand selectCommand = new MySqlCommand(selectString, _sqlConnection);
+                    _sqlConnection.Open();
+                    MySqlDataReader dataReader = selectCommand.ExecuteReader();
+                    if(dataReader.Read())
+                    {
+                        _selectJsonString = dataReader["AccountData"].ToString();
+                    }
+                    JsonData resultData = JsonMapper.ToObject(_selectJsonString);
+                    _sqlConnection.Close();
 
+                    return resultData;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
 
+        /// <summary>
+        /// 유저의 캐릭터 데이터 Json에서 특정 값을 바꿔줌
+        /// </summary>
+        /// <param name="nickname">유저의 닉네임</param>
+        /// <param name="targetColumn">값을 바꿔줄 Column명</param>
+        /// <param name="value">바꿔줄 값</param>
+        /// <returns>성공하면 true, 실패하면 false</returns>
+        public static bool ReplaceCharacterData(string nickname, string targetColumn, string value)
+        {
+            try
+            {
+                using(MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string replaceString = $"Update AccountInfoDB set AccountData = (AccountData,'$.{targetColumn}', {value}) where {nickname};";
 
+                    MySqlCommand replaceCommand = new MySqlCommand(replaceString, _sqlConnection);
+                    _sqlConnection.Open();
+                    replaceCommand.ExecuteNonQuery();
+                    _sqlConnection.Close();
+
+                    return true;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+        
     }
+
 }
