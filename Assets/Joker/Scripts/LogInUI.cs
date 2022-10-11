@@ -22,6 +22,10 @@ public class LogInUI : MonoBehaviour
 
     private void OnEnable()
     {
+        _logInButton.onClick.RemoveListener(LogIn);
+        _signInButton.onClick.RemoveListener(LoadSignIn);
+        _findPasswordButton.onClick.RemoveListener(LoadFind);
+        _quitButton.onClick.AddListener(Quit);
         _logInButton.onClick.AddListener(LogIn);
         _signInButton.onClick.AddListener(LoadSignIn);
         _findPasswordButton.onClick.AddListener(LoadFind);
@@ -29,20 +33,21 @@ public class LogInUI : MonoBehaviour
     }
 
     // 입력된 계정 정보를 계정 DB와 비교해 일치하면 다음 씬을 로드한다.
-    public void LogIn()
+    private void LogIn()
     {
         // DB 접근 필요
         Debug.Log("로그인!");
     }
 
-    public void LoadSignIn() => _logInUIManager.LoadUI(LogInUIManager.ELogInUIIndex.SIGNIN);
-    public void LoadFind() => _logInUIManager.LoadUI(LogInUIManager.ELogInUIIndex.FINDPASSWORD);
-    public void Quit() => Application.Quit();
+    private void LoadSignIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.SIGNIN);
+    private void LoadFind() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.FINDPASSWORD);
+    private void Quit() => Application.Quit();
 
     private void OnDisable()
     {
         _emailInput.text = "";
         _passwordInput.text = "";
+        
         _logInButton.onClick.RemoveListener(LogIn);
         _signInButton.onClick.RemoveListener(LoadSignIn);
         _findPasswordButton.onClick.RemoveListener(LoadFind);

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +36,10 @@ public class SignInUI : MonoBehaviour
     
     private void OnEnable()
     {
+        _signInButton.onClick.RemoveListener(SignIn);
+        _passwordDoubleCheckButton.onClick.RemoveListener(PasswordDoubleCheck);
+        _nicknameDoubleCheckButton.onClick.RemoveListener(NicknameDoubleCheck);
+        _emailDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
         _signInButton.onClick.AddListener(SignIn);
         _passwordDoubleCheckButton.onClick.AddListener(PasswordDoubleCheck);
         _nicknameDoubleCheckButton.onClick.AddListener(NicknameDoubleCheck);
@@ -54,7 +57,7 @@ public class SignInUI : MonoBehaviour
     }
 
     // 입력된 계정 정보를 바탕으로 중복체크가 완료되었다면 계정 DB에 저장한다.
-    public void SignIn()
+    private void SignIn()
     {
         if (!_hasEmailCheck || !_hasPasswordCheck || !_hasNicknameCheck)
         {
@@ -66,7 +69,7 @@ public class SignInUI : MonoBehaviour
         _successPopup.SetActive(true);
     }
 
-    public void EmailDoubleCheck()
+    private void EmailDoubleCheck()
     {
         if (true) // 여기에 DB 접근 필요
         {
@@ -80,7 +83,7 @@ public class SignInUI : MonoBehaviour
         }
     }
 
-    public void PasswordDoubleCheck()
+    private void PasswordDoubleCheck()
     {
         if (_passwordInput.text == _passwordCheckInput.text)
         {
@@ -94,7 +97,7 @@ public class SignInUI : MonoBehaviour
         }
     }
 
-    public void NicknameDoubleCheck()
+    private void NicknameDoubleCheck()
     {
         if (true) // 여기에 DB 접근 필요
         {

@@ -19,31 +19,35 @@ public class FindPasswordUI : MonoBehaviour
     [SerializeField] TMP_InputField _passwordOutput;
 
     [Header("Popup")]
-    [SerializeField] GameObject _errorPopup;
+    [SerializeField] FindPasswordErrorPopupUI _errorPopup;
+
+    public Defines.EErrorType ErrorType { get; private set; }
 
     private void OnEnable()
     {
+        _logInButton.onClick.RemoveListener(LoadLogIn);
+        _findPasswordButton.onClick.RemoveListener(FindPassword);
         _logInButton.onClick.AddListener(LoadLogIn);
         _findPasswordButton.onClick.AddListener(FindPassword);
     }
 
-    public void LoadLogIn() => _logInUIManager.LoadUI(LogInUIManager.ELogInUIIndex.LOGIN);
-    
-    public void FindPassword()
+    private void LoadLogIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.LOGIN);
+
+    private void FindPassword()
     {
-        if (_emailInput.text != _emailInput.text) // DB 접근 필요
+        if (_emailInput.text == _emailInput.text) // DB 접근 필요
         {
+            _errorPopup.ErrorPopup(Defines.EErrorType.EMAIL);
             return;
         }
         if (_answerInput.text != _answerInput.text) // DB 접근 필요
         {
+            _errorPopup.ErrorPopup(Defines.EErrorType.ANSWER);
             return;
         }
 
         _passwordOutput.text = "비밀번호"; // DB 접근 필요
     }
-
-    public void Quit() => Application.Quit();
 
     private void OnDisable()
     {
