@@ -12,6 +12,10 @@ public class LogInUIManager : MonoBehaviour
         FINDPASSWORD,
         MAX
     }
+    private void Awake()
+    {
+        LoadUI(ELogInUIIndex.LOGIN);
+    }
 
     [SerializeField] GameObject[] UI;
 
