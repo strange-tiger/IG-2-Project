@@ -54,12 +54,6 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        Debug.Log("Connection Fail... ReConnecting...");
-        PhotonNetwork.ConnectUsingSettings();
-    }
-
     public override void OnJoinedLobby()
     {
         _infoText.text = "Lobby Joined!";
@@ -68,14 +62,22 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        if(_roomCount != roomList.Count)
-        {
-            _roomCount = roomList.Count;
+        _infoText.text = "Room List Updated";
+        RoomListUpdate(roomList);
+    }
 
-            foreach(RoomInfo roominfo in roomList)
-            {
-                CreateRoom(roominfo.Name);
-            }
+    private void RoomListUpdate(List<RoomInfo> roomList)
+    {
+        _roomCount = 0;
+        foreach (GameObject room in _roomList)
+        {
+            Destroy(room);
+        }
+
+        foreach (RoomInfo roominfo in roomList)
+        {
+            AddRoomToList(roominfo.Name);
+            _roomCount = int.Parse(roominfo.Name);
         }
     }
 
@@ -89,11 +91,11 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
     private void ResetRoomList()
     {
         DeactiveButtons();
-        foreach(GameObject room in _roomList)
+        foreach (GameObject room in _roomList)
         {
             Destroy(room);
         }
-        PhotonNetwork.LeaveLobby();
+        _infoText.text = "Resetting Room List...";
     }
 
     private RoomOptions _roomOption = new RoomOptions()
@@ -103,13 +105,25 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
     private void CreateRoom()
     {
         ++_roomCount;
-        CreateRoom(_roomCount.ToString());
+        AddRoomToList(_roomCount.ToString());
+        PhotonNetwork.CreateRoom(_roomCount.ToString(), _roomOption, null, null);
     }
-    private void CreateRoom(string roomName)
+    private void AddRoomToList(string roomName)
     {
-        PhotonNetwork.CreateRoom(roomName, _roomOption, null, null);
         GameObject roomInfo = Instantiate(_roomPanel, _scrollViewContent.transform);
-        roomInfo.GetComponent<Transform>().gameObject.GetComponent<Text>().text = _roomCount.ToString();
+        roomInfo.GetComponentInChildren<Text>().text = roomName;
         _roomList.Add(roomInfo);
+    }
+
+    public override void OnCreatedRoom()
+    {
+        Debug.Log($"Created Room {PhotonNetwork.CurrentRoom.Name}");
+        //PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.Log($"Fail to Created Room {_roomCount}");
     }
 }
