@@ -5,8 +5,6 @@ using TMPro;
 
 public class Buttons : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI _text;
 
     private void Start()
     {

@@ -7,6 +7,8 @@ public class PlayerRay : MonoBehaviour
     [SerializeField]
     private PlayerInput _playerInput;
 
+    private OVRGazePointer _OVRGazePointer;
+
     private LineRenderer _lineRenderer;
 
     private Vector3[] _rayPositions = new Vector3[2];
@@ -50,6 +52,8 @@ public class PlayerRay : MonoBehaviour
             _lineRenderer.enabled = false;
         }
     }
+
+    
 
     private void SetRayPosition()
     {
