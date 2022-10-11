@@ -42,7 +42,7 @@ public class PlayerRay : MonoBehaviour
             RaycastHit hit;
 
             ray = new Ray(transform.position, transform.forward);
-            Physics.Raycast(ray, out hit, 10f);
+            Physics.Raycast(ray, out hit, Mathf.Infinity);
 
         }
         else
