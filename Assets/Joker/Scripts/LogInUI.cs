@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Asset.MySql;
 
 public class LogInUI : MonoBehaviour
 {
@@ -35,8 +36,17 @@ public class LogInUI : MonoBehaviour
     // 입력된 계정 정보를 계정 DB와 비교해 일치하면 다음 씬을 로드한다.
     private void LogIn()
     {
-        // DB 접근 필요
-        Debug.Log("로그인!");
+        if (!MySqlSetting.HasValue(EAccountColumns.Email, _emailInput.text))
+        {
+            return;
+        }
+
+        if (!MySqlSetting.CheckValueByBase(EAccountColumns.Email, _emailInput.text, EAccountColumns.Password, _passwordInput.text))
+        {
+            return;
+        }
+
+        SceneManager.LoadScene(1); // 다음 씬으로 이어지는 부분 필요
     }
 
     private void LoadSignIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.SIGNIN);

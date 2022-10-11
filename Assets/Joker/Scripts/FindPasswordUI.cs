@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Asset.MySql;
 
 public class FindPasswordUI : MonoBehaviour
 {
@@ -29,24 +30,27 @@ public class FindPasswordUI : MonoBehaviour
         _findPasswordButton.onClick.RemoveListener(FindPassword);
         _logInButton.onClick.AddListener(LoadLogIn);
         _findPasswordButton.onClick.AddListener(FindPassword);
+
+        _errorPopup.gameObject.SetActive(false);
     }
 
     private void LoadLogIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.LOGIN);
 
     private void FindPassword()
     {
-        if (_emailInput.text == _emailInput.text) // DB 접근 필요
+        if (!MySqlSetting.HasValue(EAccountColumns.Email, _emailInput.text))
         {
             _errorPopup.ErrorPopup(Defines.EErrorType.EMAIL);
             return;
         }
-        if (_answerInput.text != _answerInput.text) // DB 접근 필요
+        if (_answerInput.text != _answerInput.text)
+            // DB 접근 필요 // Answer Column 필요
         {
             _errorPopup.ErrorPopup(Defines.EErrorType.ANSWER);
             return;
         }
 
-        _passwordOutput.text = "비밀번호"; // DB 접근 필요
+        _passwordOutput.text = MySqlSetting.GetValueByBase(EAccountColumns.Email, _emailInput.text, EAccountColumns.Password);
     }
 
     private void OnDisable()

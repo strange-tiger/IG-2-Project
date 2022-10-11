@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Asset.MySql;
 
 public class SignInUI : MonoBehaviour
 {
@@ -64,14 +65,14 @@ public class SignInUI : MonoBehaviour
             return;
         }
 
-        // 여기에 DB 접근 필요
+        Debug.Assert(MySqlSetting.AddNewAccount(_emailInput.text, _passwordInput.text, _nicknameInput.text), "계정 생성 실패!");
 
         _successPopup.SetActive(true);
     }
 
     private void EmailDoubleCheck()
     {
-        if (true) // 여기에 DB 접근 필요
+        if (MySqlSetting.HasValue(EAccountColumns.Email, _emailInput.text))
         {
             _hasEmailCheck = true;
             _emailErrorText.SetActive(false);
@@ -99,7 +100,7 @@ public class SignInUI : MonoBehaviour
 
     private void NicknameDoubleCheck()
     {
-        if (true) // 여기에 DB 접근 필요
+        if (MySqlSetting.HasValue(EAccountColumns.Nickname, _nicknameInput.text))
         {
             _hasNicknameCheck = true;
             _nicknameErrorText.SetActive(false);
