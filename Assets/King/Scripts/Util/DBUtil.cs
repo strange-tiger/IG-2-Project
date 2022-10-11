@@ -454,7 +454,7 @@ namespace Asset.MySql
             {
                 using(MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string replaceString = $"Update AccountInfoDB set AccountData = (AccountData,'$.{targetColumn}', {value}) where {nickname};";
+                    string replaceString = $"Update AccountInfoDB set AccountData = json_replace(AccountData,'$.{targetColumn}', {value}) where {nickname};";
 
                     MySqlCommand replaceCommand = new MySqlCommand(replaceString, _sqlConnection);
                     _sqlConnection.Open();
