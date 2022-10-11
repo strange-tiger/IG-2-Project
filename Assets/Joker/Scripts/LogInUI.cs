@@ -25,7 +25,7 @@ public class LogInUI : MonoBehaviour
         _logInButton.onClick.RemoveListener(LogIn);
         _signInButton.onClick.RemoveListener(LoadSignIn);
         _findPasswordButton.onClick.RemoveListener(LoadFind);
-        _quitButton.onClick.AddListener(Quit);
+        _quitButton.onClick.RemoveListener(Quit);
         _logInButton.onClick.AddListener(LogIn);
         _signInButton.onClick.AddListener(LoadSignIn);
         _findPasswordButton.onClick.AddListener(LoadFind);
@@ -51,6 +51,6 @@ public class LogInUI : MonoBehaviour
         _logInButton.onClick.RemoveListener(LogIn);
         _signInButton.onClick.RemoveListener(LoadSignIn);
         _findPasswordButton.onClick.RemoveListener(LoadFind);
-        _quitButton.onClick.AddListener(Quit);
+        _quitButton.onClick.RemoveListener(Quit);
     }
 }
