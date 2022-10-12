@@ -21,7 +21,7 @@ public class FindPasswordUI : MonoBehaviour
     [Header("Popup")]
     [SerializeField] FindPasswordErrorPopupUI _errorPopup;
 
-    public Defines.EErrorType ErrorType { get; private set; }
+    public Defines.EFindPasswordErrorType ErrorType { get; private set; }
 
     private void OnEnable()
     {
@@ -37,12 +37,12 @@ public class FindPasswordUI : MonoBehaviour
     {
         if (_emailInput.text == _emailInput.text) // DB 접근 필요
         {
-            _errorPopup.ErrorPopup(Defines.EErrorType.EMAIL);
+            _errorPopup.ErrorPopup(Defines.EFindPasswordErrorType.EMAIL);
             return;
         }
         if (_answerInput.text != _answerInput.text) // DB 접근 필요
         {
-            _errorPopup.ErrorPopup(Defines.EErrorType.ANSWER);
+            _errorPopup.ErrorPopup(Defines.EFindPasswordErrorType.ANSWER);
             return;
         }
 

@@ -1,31 +1,24 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using _UI = Defines.ELogInUIIndex;
 
-public class LogInUIManager : MonoBehaviour
+public class LogInUIManager : UIManager
 {
-    [SerializeField] GameObject[] UI;
-
     private void Awake()
     {
         LoadUI(_UI.LOGIN);
     }
-
-    private void ShutUI()
-    {
-        foreach (GameObject ui in UI)
-        {
-            ui.SetActive(false);
-        }
-    }
-
-    // ELogInUIIndex¸¦ ¸Å°³º¯¼ö·Î ¹Ş¾Æ, ui ¿ÀºêÁ§Æ®¸¦ ¸ğµÎ ºñÈ°¼ºÈ­ÇÑ ÈÄ ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ui ¿ÀºêÁ§Æ®¸¦ È°¼ºÈ­ÇÑ´Ù.
+    
+    /// <summary>
+    /// ELogInUIIndexë¥¼ ui ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„, UIManager.LoadUIì— ì „ë‹¬í•´ 
+    /// UI ì˜¤ë¸Œì íŠ¸ë¥¼ ëª¨ë‘ ë¹„í™œì„±í™”í•œ í›„ ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” UI ì˜¤ë¸Œì íŠ¸ë¥¼ í™œì„±í™”í•œë‹¤.
+    /// </summary>
+    /// <param name="ui"></param>
     public void LoadUI(_UI ui)
     {
-        ShutUI();
-        UI[(int)ui].SetActive(true);
+        LoadUI((int)ui);
     }
 }

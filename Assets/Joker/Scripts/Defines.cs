@@ -12,7 +12,15 @@ namespace Defines
         MAX
     }
 
-    public enum EErrorType
+    public enum ELogInErrorType
+    {
+        NONE,
+        ID,
+        PASSWORD,
+        MAX
+    }
+
+    public enum EFindPasswordErrorType
     {
         NONE,
         EMAIL,

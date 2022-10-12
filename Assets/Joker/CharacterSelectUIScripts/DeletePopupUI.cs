@@ -1,7 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Asset.MySql;
+
+
 
 public class DeletePopupUI : PopupUI
 {
@@ -14,9 +17,10 @@ public class DeletePopupUI : PopupUI
         _deleteButton.onClick.AddListener(DeleteCharacter);
     }
 
+    // í˜„ì¬ ìºë¦­í„°ì˜ ë‹‰ë„¤ì„ ë°›ì•„ì™€ì•¼ í•¨
     private void DeleteCharacter()
     {
-        // Ä³¸¯ÅÍ Á¤º¸¸¦ »èÁ¦
+        MySqlSetting.DeleteRowByBase(EAccountInfoColumns.Nickname, "");
     }
 
     protected new void OnDisable()

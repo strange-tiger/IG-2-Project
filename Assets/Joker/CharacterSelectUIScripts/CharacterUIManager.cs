@@ -4,27 +4,20 @@ using UnityEngine;
 
 using _UI = Defines.ECharacterUIIndex;
 
-public class CharacterUIManager : MonoBehaviour
+public class CharacterUIManager : UIManager
 {
-    [SerializeField] GameObject[] UI;
-
     private void Awake()
     {
         LoadUI(_UI.SELECT);
     }
 
-    private void ShutUI()
-    {
-        foreach (GameObject ui in UI)
-        {
-            ui.SetActive(false);
-        }
-    }
-
-    // ECharacterUIIndex¸¦ ¸Å°³º¯¼ö·Î ¹Ş¾Æ, ui ¿ÀºêÁ§Æ®¸¦ ¸ğµÎ ºñÈ°¼ºÈ­ÇÑ ÈÄ ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ui ¿ÀºêÁ§Æ®¸¦ È°¼ºÈ­ÇÑ´Ù.
+    /// <summary>
+    /// ECharacterUIIndex uië¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„, UIManager.LoadUIì— ì „ë‹¬í•´ 
+    /// UI ì˜¤ë¸Œì íŠ¸ë¥¼ ëª¨ë‘ ë¹„í™œì„±í™”í•œ í›„ ui ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” UI ì˜¤ë¸Œì íŠ¸ë¥¼ í™œì„±í™”í•œë‹¤.
+    /// </summary>
+    /// <param name="ui"></param>
     public void LoadUI(_UI ui)
     {
-        ShutUI();
-        UI[(int)ui].SetActive(true);
+        LoadUI((int)ui);
     }
 }
