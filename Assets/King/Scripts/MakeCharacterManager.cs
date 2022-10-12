@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Asset.MySql;
 
 public class MakeCharacterManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class MakeCharacterManager : MonoBehaviour
     [SerializeField]
     private Button _femaleSelectButton;
     [SerializeField]
+    private Button _makeCharacterButton;
+    [SerializeField]
     private GameObject _maleCharacter;
     [SerializeField]
     private GameObject _femaleCharacter;
@@ -27,7 +30,9 @@ public class MakeCharacterManager : MonoBehaviour
     private GameObject _genderSettingPanel;
     [SerializeField]
     private GameObject _skinSettingPanel;
-    
+    [SerializeField]
+    private ColorPicker _colorPicker;
+    private bool _isFemaleCharacter;
     void Start()
     {
         _genderSelectButton.onClick.RemoveListener(SelectGender);
@@ -42,9 +47,12 @@ public class MakeCharacterManager : MonoBehaviour
         _femaleSelectButton.onClick.RemoveListener(SelectFemale);
         _femaleSelectButton.onClick.AddListener(SelectFemale);
 
+        _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
+        _makeCharacterButton.onClick.AddListener(CreateCharacter);
         _characterRotateSlider.minValue = 0f;
         _characterRotateSlider.maxValue = 360f;
         _characterRotateSlider.value = 180f;
+
     }
 
     private void Update()
@@ -56,11 +64,13 @@ public class MakeCharacterManager : MonoBehaviour
     {
         _femaleCharacter.SetActive(false);
         _maleCharacter.SetActive(true);
+        _isFemaleCharacter = false;
     }
     private void SelectFemale()
     {
         _maleCharacter.SetActive(false);
         _femaleCharacter.SetActive(true);
+        _isFemaleCharacter = true;
     }
     private void SelectGender()
     {
@@ -73,11 +83,23 @@ public class MakeCharacterManager : MonoBehaviour
         _skinSettingPanel.SetActive(true);
     }
 
+    private void CreateCharacter()
+    {
+        Debug.Log(_colorPicker.SkinColor.color.r);
+        Debug.Log(_colorPicker.SkinColor.color.g);
+        Debug.Log(_colorPicker.SkinColor.color.b);
+        Debug.Log(_isFemaleCharacter);
+        MySqlSetting.Init();
+        MySqlSetting.AddNewCharacter("test", _isFemaleCharacter, _colorPicker.SkinColor.color.r, _colorPicker.SkinColor.color.g, _colorPicker.SkinColor.color.b);
+    }
+
     private void OnDisable()
     {
         _genderSelectButton.onClick.RemoveListener(SelectGender);
         _skinSelectButton.onClick.RemoveListener(SelectSkin);
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _femaleSelectButton.onClick.RemoveListener(SelectFemale);
+        _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
+
     }
 }

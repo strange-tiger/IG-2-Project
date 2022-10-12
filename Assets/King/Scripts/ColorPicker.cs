@@ -6,13 +6,12 @@ using UnityEngine.UI;
 public class ColorPicker : MonoBehaviour
 {
 
+    public Material SkinColor;
 
     [SerializeField]
     private Image _colorPalette;
     [SerializeField]
     private Image _picker;
-    [SerializeField]
-    private Material _skinColor;
     private Vector2 _paletteSize;
     private float[] _paletteCornerPositions = { 656f, 866f, 255f, 405f };
     
@@ -25,10 +24,8 @@ public class ColorPicker : MonoBehaviour
     private void SelectColor()
     {
        
-        Debug.Log(GetColor());
         _picker.transform.localPosition = new Vector3(Mathf.Clamp(Input.mousePosition.x, _paletteCornerPositions[0], _paletteCornerPositions[1]) - 762.5f, Mathf.Clamp(Input.mousePosition.y, _paletteCornerPositions[2], _paletteCornerPositions[3]) - 330f);
-        //_skinColor.color = new Color(GetColor().r, GetColor().g, GetColor().b);
-        _skinColor.color = GetColor();
+        SkinColor.color = GetColor();
     }
   
     public void MousePointerDown()
