@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class NeedChangeButton : MonoBehaviour
+public abstract class NeedCheckButton : MonoBehaviour
 {
     /// <summary>
     /// 확인 시 나올 메시지

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class LogOutButton : NeedChangeButton
+public class LogOutButton : NeedCheckButton
 {
     protected override void AcceptAction()
     {

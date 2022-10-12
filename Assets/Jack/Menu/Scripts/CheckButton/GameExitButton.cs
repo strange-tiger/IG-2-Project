@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameExitButton : NeedChangeButton
+public class GameExitButton : NeedCheckButton
 {
     protected override void AcceptAction()
     {

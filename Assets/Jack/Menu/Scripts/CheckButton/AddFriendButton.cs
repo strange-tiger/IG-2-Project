@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class AddFriendButton : NeedChangeButton
+public class AddFriendButton : NeedCheckButton
 {
     private TextMeshProUGUI _targetUserName;
 
