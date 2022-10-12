@@ -13,19 +13,20 @@ public class ColorPicker : MonoBehaviour
     [SerializeField]
     private Image _picker;
     private Vector2 _paletteSize;
-    private Vector3 _pickerMovePosition;
+    private float[] _paletteCornerPositions = { 656f, 866f, 255f, 405f };
 
     private void Start()
     {
         _paletteSize = new Vector2(_colorPalette.GetComponent<RectTransform>().rect.width, _colorPalette.GetComponent<RectTransform>().rect.height);
-        Debug.Log(_picker.rectTransform.localPosition);
        
     }
 
     private void SelectColor()
     {
+        
+        Debug.Log(_picker.rectTransform.localPosition);
         Debug.Log(Input.mousePosition);
-        _picker.transform.localPosition = new Vector3(Mathf.Clamp(Input.mousePosition.x, 656f, 866f), Mathf.Clamp(Input.mousePosition.y, 255f, 405f));
+        _picker.transform.position = new Vector3(Mathf.Clamp(Input.mousePosition.x, _paletteCornerPositions[0], _paletteCornerPositions[1]), Mathf.Clamp(Input.mousePosition.y, _paletteCornerPositions[2], _paletteCornerPositions[3]));
         
         SelectedColor = GetColor();
     }
