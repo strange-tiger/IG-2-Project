@@ -22,6 +22,8 @@ namespace Asset.MySql
         Email,
         Password,
         Nickname,
+        Qustion,
+        Answer,
         Max
     }
 
