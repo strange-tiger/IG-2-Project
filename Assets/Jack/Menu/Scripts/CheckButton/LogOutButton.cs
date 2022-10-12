@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class LogOutButton : CheckButton
+public class LogOutButton : NeedChangeButton
 {
-    public override void AcceptAction()
+    protected override void AcceptAction()
     {
         Debug.Log("LogOut");
         // PhotonNetwork.LoadLevel()

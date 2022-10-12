@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameExitButton : CheckButton
+public class GameExitButton : NeedChangeButton
 {
-    public override void AcceptAction()
+    protected override void AcceptAction()
     {
         Debug.Log("Game Exit");
         Application.Quit();
