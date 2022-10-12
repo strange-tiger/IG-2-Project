@@ -19,14 +19,9 @@ public class MasterVolume : MonoBehaviour
         _slider.value = 0.5f;
     }
 
-    void Update()
-    {
-        
-    }
-
     public void ChangeValue(Slider slider)
     {
         _volumeValueText.text = (int)(slider.value * 100) + "%";
-        _audioSource.volume = slider.value;
+        //_audioSource.volume = slider.value;
     }
 }

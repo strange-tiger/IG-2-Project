@@ -5,6 +5,13 @@ namespace Defines
         None,
         Always,
         PushToTalk,
-        End,
+        MaxCount,
+    }
+
+    public enum ESoundType
+    {
+        Bgm,
+        Effect,
+        MaxCount, 
     }
 }

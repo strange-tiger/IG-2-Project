@@ -47,7 +47,7 @@ public class ScrollButton : MonoBehaviour
     }
     public void OnClickRightButton()
     {
-        if (Type + 1 >= Defines.EVoiceType.End)
+        if (Type + 1 >= Defines.EVoiceType.MaxCount)
         {
             return;
         }
