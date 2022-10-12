@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Asset.MySql;
 
+using Column = Asset.MySql.EAccountColumns;
+using UI = Defines.ELogInUIIndex;
+
 public class LogInUI : MonoBehaviour
 {
     [Header("Manager")]
@@ -36,12 +39,12 @@ public class LogInUI : MonoBehaviour
     // 입력된 계정 정보를 계정 DB와 비교해 일치하면 다음 씬을 로드한다.
     private void LogIn()
     {
-        if (!MySqlSetting.HasValue(EAccountColumns.Email, _emailInput.text))
+        if (!MySqlSetting.HasValue(Column.Email, _emailInput.text))
         {
             return;
         }
 
-        if (!MySqlSetting.CheckValueByBase(EAccountColumns.Email, _emailInput.text, EAccountColumns.Password, _passwordInput.text))
+        if (!MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Password, _passwordInput.text))
         {
             return;
         }
@@ -49,8 +52,8 @@ public class LogInUI : MonoBehaviour
         SceneManager.LoadScene(1); // 다음 씬으로 이어지는 부분 필요
     }
 
-    private void LoadSignIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.SIGNIN);
-    private void LoadFind() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.FINDPASSWORD);
+    private void LoadSignIn() => _logInUIManager.LoadUI(UI.SIGNIN);
+    private void LoadFind() => _logInUIManager.LoadUI(UI.FINDPASSWORD);
     private void Quit() => Application.Quit();
 
     private void OnDisable()

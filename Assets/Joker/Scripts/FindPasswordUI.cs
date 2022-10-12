@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using TMPro;
 using Asset.MySql;
 
+using Column = Asset.MySql.EAccountColumns;
+using UI = Defines.ELogInUIIndex;
+using Error = Defines.EErrorType;
+
 public class FindPasswordUI : MonoBehaviour
 {
     [Header("Manager")]
@@ -23,7 +27,7 @@ public class FindPasswordUI : MonoBehaviour
     [Header("Popup")]
     [SerializeField] FindPasswordErrorPopupUI _errorPopup;
 
-    public Defines.EErrorType ErrorType { get; private set; }
+    public Error ErrorType { get; private set; }
 
     private void OnEnable()
     {
@@ -35,23 +39,23 @@ public class FindPasswordUI : MonoBehaviour
         _errorPopup.gameObject.SetActive(false);
     }
 
-    private void LoadLogIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.LOGIN);
+    private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
 
     private void FindPassword()
     {
-        if (!MySqlSetting.HasValue(EAccountColumns.Email, _emailInput.text))
+        if (!MySqlSetting.HasValue(Column.Email, _emailInput.text))
         {
-            _errorPopup.ErrorPopup(Defines.EErrorType.EMAIL);
+            _errorPopup.ErrorPopup(Error.EMAIL);
             return;
         }
-        if (_questionList.value != _questionList.value || _answerInput.text != _answerInput.text)
-            // DB 접근 필요 // Answer Column 필요
+        if (MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Qustion, _questionList.value.ToString()) || 
+            MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Answer, _answerInput.text))
         {
-            _errorPopup.ErrorPopup(Defines.EErrorType.ANSWER);
+            _errorPopup.ErrorPopup(Error.ANSWER);
             return;
         }
 
-        _passwordOutput.text = MySqlSetting.GetValueByBase(EAccountColumns.Email, _emailInput.text, EAccountColumns.Password);
+        _passwordOutput.text = MySqlSetting.GetValueByBase(Column.Email, _emailInput.text, Column.Password);
     }
 
     private void OnDisable()

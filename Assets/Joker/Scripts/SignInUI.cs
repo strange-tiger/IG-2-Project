@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Asset.MySql;
 
+using Column = Asset.MySql.EAccountColumns;
+using UI = Defines.ELogInUIIndex;
+
 public class SignInUI : MonoBehaviour
 {
     [Header("Manager")]
@@ -72,7 +75,7 @@ public class SignInUI : MonoBehaviour
 
     private void EmailDoubleCheck()
     {
-        if (MySqlSetting.HasValue(EAccountColumns.Email, _emailInput.text))
+        if (MySqlSetting.HasValue(Column.Email, _emailInput.text))
         {
             _hasEmailCheck = true;
             _emailErrorText.SetActive(false);
@@ -100,7 +103,7 @@ public class SignInUI : MonoBehaviour
 
     private void NicknameDoubleCheck()
     {
-        if (MySqlSetting.HasValue(EAccountColumns.Nickname, _nicknameInput.text))
+        if (MySqlSetting.HasValue(Column.Nickname, _nicknameInput.text))
         {
             _hasNicknameCheck = true;
             _nicknameErrorText.SetActive(false);
