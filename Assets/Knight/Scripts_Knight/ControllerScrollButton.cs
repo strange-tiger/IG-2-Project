@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ControllerScrollButton : MonoBehaviour
 {
     private SwitchControllerScrollUI _switchControllerScrollUI;
     private Defines.ESwitchController _type = Defines.ESwitchController.Left;
     private Dictionary<Defines.ESwitchController, VoiceTypeDelegate> _voiceTable = new Dictionary<Defines.ESwitchController, VoiceTypeDelegate>();
+
+    [SerializeField]
+    private GameObject _player;
 
     public Defines.ESwitchController Type
     {
@@ -54,12 +58,16 @@ public class ControllerScrollButton : MonoBehaviour
 
     private void ControllerTypeLeft()
     {
-        // 이게 호출되면 왼쪽으로 선택된걸로 인보크
+        Debug.Log("왼쪽으로");
+        _player.GetComponent<PlayerMovementLeft>().enabled = true;
+        _player.GetComponent<PlayerMovementRight>().enabled = false;
     }
 
     private void ControllerTypeRight()
     {
-        // 이게 호출되면 오른쪽으로 선택된걸로 인보크
+        Debug.Log("오른쪽으로");
+        _player.GetComponent<PlayerMovementLeft>().enabled = false;
+        _player.GetComponent<PlayerMovementRight>().enabled = true;
     }
 
 }
