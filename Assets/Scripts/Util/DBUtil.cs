@@ -202,20 +202,48 @@ namespace Asset.MySql
                 {
                     string _insertAccountString = GetInsertString(ETableType.AccountDB, Nickname, Password, Email);
                     MySqlCommand _insertAccountCommand = new MySqlCommand(_insertAccountString, _mysqlConnection);
-
-                    string _insertAccountInfoString = GetInsertString(ETableType.AccountInfoDB, Nickname);
-                    MySqlCommand _insertAccountInfoCommand = new MySqlCommand(_insertAccountInfoString, _mysqlConnection);
-
-                    MySqlCommand _insertInitDataCommand = new MySqlCommand(_insertInitDataString + $"where {Nickname};", _mysqlConnection);
+    
 
                     _mysqlConnection.Open();
                     _insertAccountCommand.ExecuteNonQuery();
-                    _insertAccountInfoCommand.ExecuteNonQuery();
-                    _insertInitDataCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
 
                 return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+
+        public static bool AddNewCharacter(string nickname, bool gender, float skinR, float skinG, float skinB)
+        {
+            try
+            {
+                string initDataString = _insertInitDataString +
+                    $"('{nickname}'," +
+                    $"'{{\"Gender\" : \"{gender}\"," +
+                    $"\"SkinR\" : {skinR}," +
+                    $"\"SkinG\" : {skinG}," +
+                    $"\"SkinB\" : {skinB}," +
+                    "\"IsTutorialEnd\" : 0 " +
+                    $"}}');";
+                Debug.Log(initDataString);
+
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string _insertAccountInfoString = GetInsertString(ETableType.AccountInfoDB, nickname);
+
+                    MySqlCommand _insertInitDataCommand = new MySqlCommand(initDataString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    _insertInitDataCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+
+                 return true;
             }
             catch (System.Exception error)
             {

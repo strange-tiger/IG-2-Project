@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ColorPicker : MonoBehaviour
 {
 
-    public Color SelectedColor;
+    public Material SkinColor;
 
     [SerializeField]
     private Image _colorPalette;
@@ -14,23 +14,20 @@ public class ColorPicker : MonoBehaviour
     private Image _picker;
     private Vector2 _paletteSize;
     private float[] _paletteCornerPositions = { 656f, 866f, 255f, 405f };
-
+    
     private void Start()
     {
         _paletteSize = new Vector2(_colorPalette.GetComponent<RectTransform>().rect.width, _colorPalette.GetComponent<RectTransform>().rect.height);
        
     }
-
+   
     private void SelectColor()
     {
-        
-        Debug.Log(_picker.rectTransform.localPosition);
-        Debug.Log(Input.mousePosition);
-        _picker.transform.position = new Vector3(Mathf.Clamp(Input.mousePosition.x, _paletteCornerPositions[0], _paletteCornerPositions[1]), Mathf.Clamp(Input.mousePosition.y, _paletteCornerPositions[2], _paletteCornerPositions[3]));
-        
-        SelectedColor = GetColor();
+       
+        _picker.transform.localPosition = new Vector3(Mathf.Clamp(Input.mousePosition.x, _paletteCornerPositions[0], _paletteCornerPositions[1]) - 762.5f, Mathf.Clamp(Input.mousePosition.y, _paletteCornerPositions[2], _paletteCornerPositions[3]) - 330f);
+        SkinColor.color = GetColor();
     }
-
+  
     public void MousePointerDown()
     {
         SelectColor();
@@ -45,7 +42,7 @@ public class ColorPicker : MonoBehaviour
     private Color GetColor()
     {
         Vector2 colorPalettePosition = _colorPalette.transform.position;
-        Vector2 pickerPosition = _picker.transform.position;
+        Vector2 pickerPosition = _picker.transform.localPosition;
 
         Vector2 colorPickerPosition = pickerPosition - colorPalettePosition + _paletteSize * 0.5f;
         Vector2 normalized = new Vector2(
