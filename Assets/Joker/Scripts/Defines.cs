@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Defines
 {
+    /// <summary>
+    /// 로그인 씬의 UI 인덱스
+    /// </summary>
     public enum ELogInUIIndex
     {
         LOGIN,
@@ -12,6 +15,9 @@ namespace Defines
         MAX
     }
 
+    /// <summary>
+    /// FindPassword UI에서의 에러 타입 인덱스
+    /// </summary>
     public enum EErrorType
     {
         NONE,

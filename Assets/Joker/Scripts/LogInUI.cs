@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Asset.MySql;
+
+using Column = Asset.MySql.EAccountColumns;
+using UI = Defines.ELogInUIIndex;
 
 public class LogInUI : MonoBehaviour
 {
@@ -32,15 +36,39 @@ public class LogInUI : MonoBehaviour
         _quitButton.onClick.AddListener(Quit);
     }
 
-    // 입력된 계정 정보를 계정 DB와 비교해 일치하면 다음 씬을 로드한다.
+    /// <summary>
+    /// 입력된 계정 정보(Email, Password)를 계정 DB와 비교해
+    /// 일치하면 다음 씬을 로드한다.
+    /// </summary>
     private void LogIn()
     {
-        // DB 접근 필요
-        Debug.Log("로그인!");
+        if (!MySqlSetting.HasValue(Column.Email, _emailInput.text))
+        {
+            return;
+        }
+
+        if (!MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Password, _passwordInput.text))
+        {
+            return;
+        }
+
+        Debug.Log("로그인 성공!");
+        // SceneManager.LoadScene(1); // 다음 씬으로 이어지는 부분 필요
     }
 
-    private void LoadSignIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.SIGNIN);
-    private void LoadFind() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.FINDPASSWORD);
+    /// <summary>
+    /// 회원가입 UI 로드
+    /// </summary>
+    private void LoadSignIn() => _logInUIManager.LoadUI(UI.SIGNIN);
+
+    /// <summary>
+    /// 비밀번호 찾기 UI 로드
+    /// </summary>
+    private void LoadFind() => _logInUIManager.LoadUI(UI.FINDPASSWORD);
+
+    /// <summary>
+    /// 게임 종료
+    /// </summary>
     private void Quit() => Application.Quit();
 
     private void OnDisable()
