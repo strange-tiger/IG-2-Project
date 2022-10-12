@@ -14,7 +14,6 @@ public class Buttons : MonoBehaviour
 
     public void OnClickLeftButton()
     {
-
     }
 
     public void OnClickRightButton()
