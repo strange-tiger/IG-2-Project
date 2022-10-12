@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,11 +25,11 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
         MaxPlayers = 5
     };
 
-    // ¿©±â¿¡ RoomList°¡ ÀúÀåµÊ.
+    // ì—¬ê¸°ì— RoomListê°€ ì €ì¥ë¨.
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     private int _roomCount = 0;
 
-    /* ¼­¹ö/·Îºñ Á¢¼Ó °ü·Ã ÇÔ¼ö */
+    /* ì„œë²„/ë¡œë¹„ ì ‘ì† ê´€ë ¨ í•¨ìˆ˜ */
     private void Awake()
     {
         ResetButton();
@@ -57,8 +57,8 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// ¹æ ¸®½ºÆ®°¡ ¾÷µ¥ÀÌÆ® µÉ ¶§¸¶´Ù È£ÃâµÇ´Â ÇÔ¼ö.
-    /// ·Îºñ¿¡ ÀÖÀ» ¶§¸¸ ½ÇÇàµÈ´Ù.
+    /// ë°© ë¦¬ìŠ¤íŠ¸ê°€ ì—…ë°ì´íŠ¸ ë  ë•Œë§ˆë‹¤ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜.
+    /// ë¡œë¹„ì— ìˆì„ ë•Œë§Œ ì‹¤í–‰ëœë‹¤.
     /// </summary>
     /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -68,16 +68,16 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
         Invoke("setInfoText", 0.5f);
     }
     /// <summary>
-    /// cachedRoomList¸¦ ÃÊ±âÈ­ ÇÔ
+    /// cachedRoomListë¥¼ ì´ˆê¸°í™” í•¨
     /// </summary>
-    /// <param name="roomList">OnRoomListUpdate¿¡¼­ ¹Ş¾Æ¿Â roomList</param>
+    /// <param name="roomList">OnRoomListUpdateì—ì„œ ë°›ì•„ì˜¨ roomList</param>
     private void RoomListUpdate(List<RoomInfo> roomList)
     {
         Debug.Log(roomList.Count);
 
         foreach (RoomInfo room in roomList)
         {
-            // ¹æ ¸®½ºÆ®¿¡ ÀÖ´Â ¹æµé Áß ÀÌ¹Ì »èÁ¦ µÈ ¹æµéÀº cachedRoomList¿¡¼­ Á¦¿ÜµÈ´Ù.
+            // ë°© ë¦¬ìŠ¤íŠ¸ì— ìˆëŠ” ë°©ë“¤ ì¤‘ ì´ë¯¸ ì‚­ì œ ëœ ë°©ë“¤ì€ cachedRoomListì—ì„œ ì œì™¸ëœë‹¤.
             if(room.RemovedFromList)
             {
                 cachedRoomList.Remove(room.Name);
@@ -91,26 +91,21 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
         SetRoomList();
     }
     /// <summary>
-    /// cachedRoomList¸¦ ±â¹İÀ¸·Î UI¸¦ º¸¿©ÁÜ.
-    /// È¿À²ÀûÀÌÁö ¸øÇÑ ½ºÅ©¸³Æ®... ¹ßÀü ÇÊ¿ä
+    /// cachedRoomListë¥¼ ê¸°ë°˜ìœ¼ë¡œ UIë¥¼ ë³´ì—¬ì¤Œ.
+    /// íš¨ìœ¨ì ì´ì§€ ëª»í•œ ìŠ¤í¬ë¦½íŠ¸... ë°œì „ í•„ìš”
     /// </summary>
     private void SetRoomList()
     {
-        // Room List Panel ÃÊ±âÈ­
-        foreach(Transform roomPanel in _scrollViewContent.GetComponentsInChildren<Transform>())
+        // Room List Panel ì´ˆê¸°í™”
+        foreach(Text roomPanel in _scrollViewContent.GetComponentsInChildren<Text>())
         {
-            if(roomPanel.gameObject == _scrollViewContent.gameObject)
-            {
-                continue;
-            }
-
-            Destroy(roomPanel.gameObject);
+            Destroy(roomPanel.transform.parent.gameObject);
         }
 
-        // cachedRoomList¿¡ ¸ÂÃç Panel ¼³Á¤
+        // cachedRoomListì— ë§ì¶° Panel ì„¤ì •
         foreach(KeyValuePair<string, RoomInfo> room in cachedRoomList)
         {
-            // ÇØ´ç ¹æÀÌ ÀÌ¹Ì »èÁ¦µÇ¾ú´Ù¸é ui¿¡¼­ Á¦¿ÜÇÔ
+            // í•´ë‹¹ ë°©ì´ ì´ë¯¸ ì‚­ì œë˜ì—ˆë‹¤ë©´ uiì—ì„œ ì œì™¸í•¨
             if(room.Value.RemovedFromList)
             {
                 continue;
@@ -123,7 +118,7 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
         _roomCount = cachedRoomList.Count;
     }
     /// <summary>
-    /// ¹æ »õ·Î °íÄ§
+    /// ë°© ìƒˆë¡œ ê³ ì¹¨
     /// </summary>
     private void ResetRoomList()
     {
@@ -139,7 +134,7 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
 
 
 
-    /* ¹æ¸¸µé±â °ü·Ã ÇÔ¼ö */
+    /* ë°©ë§Œë“¤ê¸° ê´€ë ¨ í•¨ìˆ˜ */
     private void CreateRoom()
     {
         ++_roomCount;
@@ -160,7 +155,7 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
         _infoText.text = $"Fail to Created Room {_roomCount}";
     }
 
-    /* ±âÅ¸ ÇÔ¼ö, Áß¿äÇÏÁö ¾ÊÀ½ */
+    /* ê¸°íƒ€ í•¨ìˆ˜, ì¤‘ìš”í•˜ì§€ ì•ŠìŒ */
     private void ExitRoom()
     {
         PhotonNetwork.LeaveRoom();
