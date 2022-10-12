@@ -12,11 +12,31 @@ public class MasterVolume : MonoBehaviour
 
     [SerializeField]
     private AudioSource _audioSource;
-    
+
+    const string MASTER_VOLUME = "MasterVolume";
+    const string EFFECT_VOLUME = "EffectVolume";
+    const string BACKGROUND_VOLUME = "BackGroundVolume";
+    const string INPUT_VOLUME = "InputVolume";
+    const string OUTPUT_VOLUME = "OutputVolume";
+    private float _initVolume = 0.5f;
+
     void Awake()
     {
         _slider = GetComponentInChildren<Slider>();
-        _slider.value = 0.5f;
+
+        SetNewValue(MASTER_VOLUME, _initVolume);
+        SetNewValue(EFFECT_VOLUME, _initVolume);
+        SetNewValue(BACKGROUND_VOLUME, _initVolume);
+        SetNewValue(INPUT_VOLUME, _initVolume);
+        SetNewValue(OUTPUT_VOLUME, _initVolume);
+    }
+    
+    void SetNewValue(string key, float value)
+    {
+        if (PlayerPrefs.HasKey(key) == false)
+        {
+            PlayerPrefs.SetFloat(key, value);
+        }
     }
 
     public void ChangeValue(Slider slider)

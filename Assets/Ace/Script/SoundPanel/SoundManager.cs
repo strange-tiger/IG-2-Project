@@ -20,5 +20,5 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private float masterVolumeValue;
+    
 }
