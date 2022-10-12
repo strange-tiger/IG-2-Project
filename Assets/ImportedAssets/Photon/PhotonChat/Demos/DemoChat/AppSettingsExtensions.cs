@@ -23,10 +23,7 @@ namespace Photon.Chat.Demo
                        Protocol = appSettings.Protocol,
                        EnableProtocolFallback = appSettings.EnableProtocolFallback,
                        Server = appSettings.IsDefaultNameServer ? null : appSettings.Server,
-                       Port = (ushort)appSettings.Port,
-                       ProxyServer = appSettings.ProxyServer
-                       // values not copied from AppSettings class: AuthMode
-                       // values not needed from AppSettings class: EnableLobbyStatistics 
+                       Port = (ushort)appSettings.Port
                    };
         }
     }

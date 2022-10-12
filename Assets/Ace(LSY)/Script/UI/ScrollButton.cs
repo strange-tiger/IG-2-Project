@@ -1,10 +1,13 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ScrollButton : MonoBehaviour
 {
+    //[SerializeField]
+    //private Recorder photonVoice;
     private VoiceScrollUI _voiceScrollUI;
+
     private Defines.EVoiceType _type = Defines.EVoiceType.None;
     private Dictionary<Defines.EVoiceType, VoiceTypeDelegate> _voiceTable =
         new Dictionary<Defines.EVoiceType, VoiceTypeDelegate>();
@@ -33,9 +36,18 @@ public class ScrollButton : MonoBehaviour
         _voiceTable.Add(Defines.EVoiceType.PushToTalk, VoiceTypePushToTalk);
     }
 
+    public void OnClickLeftButton()
+    {
+        if(Type - 1 < Defines.EVoiceType.None)
+        {
+            return;
+        }
+        --Type;
+        _voiceTable[Type].Invoke();
+    }
     public void OnClickRightButton()
     {
-        if (Type == Defines.EVoiceType.End - 1)
+        if (Type + 1 >= Defines.EVoiceType.End)
         {
             return;
         }
@@ -43,15 +55,6 @@ public class ScrollButton : MonoBehaviour
         _voiceTable[Type].Invoke();
     }
 
-    public void OnClickLeftButton()
-    {
-        if(Type == Defines.EVoiceType.None)
-        {
-            return;
-        }
-        --Type;
-        _voiceTable[Type].Invoke();
-    }
 
     private void VoiceTypeNone()
     {

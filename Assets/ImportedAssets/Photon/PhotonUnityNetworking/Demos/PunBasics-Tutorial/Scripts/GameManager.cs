@@ -141,9 +141,9 @@ namespace Photon.Pun.Demo.PunBasics
 
 		#region Public Methods
 
-		public bool LeaveRoom()
+		public void LeaveRoom()
 		{
-			return PhotonNetwork.LeaveRoom();
+			PhotonNetwork.LeaveRoom();
 		}
 
 		public void QuitApplication()
