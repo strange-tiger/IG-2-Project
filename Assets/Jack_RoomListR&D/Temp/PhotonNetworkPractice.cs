@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
 {
     [Header("Info Text")]
-    [SerializeField] private TextMeshProUGUI _infoText;
+    [SerializeField] private Text _infoText;
 
     [Header("Buttons")]
     [SerializeField] private Button _createRoomButton;
