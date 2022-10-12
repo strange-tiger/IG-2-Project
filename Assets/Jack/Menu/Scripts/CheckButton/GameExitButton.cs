@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class LogOutButton : CheckButton
+public class GameExitButton : CheckButton
 {
     public override void AcceptAction()
     {
-        Debug.Log("LogOut");
-        // PhotonNetwork.LoadLevel()
+        Debug.Log("Game Exit");
+        Application.Quit();
     }
 }

@@ -9,8 +9,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button _inventoryButton;
     [SerializeField] private Button _settingButton;
     [SerializeField] private Button _socialButton;
-    [SerializeField] private Button _logOutButton;
-    [SerializeField] private Button _gameExitButton;
 
     [Header("Panels")]
     [Header("Main Panel")]
@@ -41,21 +39,12 @@ public class UIManager : MonoBehaviour
         _inventoryButton.onClick.AddListener(() => { ShowPanel(_inventoryPanel); });
         _settingButton.onClick.AddListener(() => { ShowPanel(_settingPanel); });
         _socialButton.onClick.AddListener(() => { ShowPanel(_socialPanel); });
-
-        _logOutButton.onClick.AddListener(() => { ShowCheckPanel(_logOutButton.GetComponent<CheckButton>()); });
-        _gameExitButton.onClick.AddListener(() => { ShowCheckPanel(_logOutButton.GetComponent<CheckButton>()); });
-
     }
     private void ShowPanel(GameObject panel)
     {
         _currentShownPanel.SetActive(false);
         panel.SetActive(true);
         _currentShownPanel = panel;
-    }
-    public void ShowCheckPanel(CheckButton buttonScript)
-    {
-        _checkPanelScript.CheckPanelSetting(buttonScript.Message,
-            buttonScript.AcceptAction, buttonScript.RefuseAction);
     }
     public void ExitPanel(GameObject exitPanel)
     {
