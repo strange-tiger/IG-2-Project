@@ -60,7 +60,10 @@ public class SignInUI : MonoBehaviour
         _hasNicknameCheck = false;
     }
 
-    // 입력된 계정 정보를 바탕으로 중복체크가 완료되었다면 계정 DB에 저장한다.
+    /// <summary>
+    /// 입력된 계정 정보(Email, Password, Nickname)를 바탕으로ㄴ
+    /// 각 정보의 중복체크가 완료되었다면 계정 DB에 저장한다.
+    /// </summary>
     private void SignIn()
     {
         if (!_hasEmailCheck || !_hasPasswordCheck || !_hasNicknameCheck)
@@ -73,6 +76,9 @@ public class SignInUI : MonoBehaviour
         _successPopup.SetActive(true);
     }
 
+    /// <summary>
+    /// 입력된 Email 정보를 DB와 비교해 중복체크
+    /// </summary>
     private void EmailDoubleCheck()
     {
         if (MySqlSetting.HasValue(Column.Email, _emailInput.text))
@@ -86,7 +92,10 @@ public class SignInUI : MonoBehaviour
             _emailErrorText.SetActive(true);
         }
     }
-
+    
+    /// <summary>
+    /// 입력된 비밀번호와 비밀번호 체크용 입력을 비교해 일치하는지 확인
+    /// </summary>
     private void PasswordDoubleCheck()
     {
         if (_passwordInput.text == _passwordCheckInput.text)
@@ -101,6 +110,9 @@ public class SignInUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 입력된 Nickname 정보를 DB와 비교해 중복체크
+    /// </summary>
     private void NicknameDoubleCheck()
     {
         if (MySqlSetting.HasValue(Column.Nickname, _nicknameInput.text))
