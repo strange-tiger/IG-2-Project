@@ -8,7 +8,7 @@ public abstract class NeedCheckButton : MonoBehaviour
     /// <summary>
     /// 확인 시 나올 메시지
     /// </summary>
-    [SerializeField] private string _checkMessage;
+    [SerializeField] protected string _checkMessage;
 
     /// <summary>
     /// Check Panel을 띄울 메니저

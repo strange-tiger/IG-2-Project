@@ -45,6 +45,7 @@ public class InventoryUIManager : MonoBehaviour
         _targetFriendName = _friendPanel.GetComponentInChildren<TextMeshProUGUI>();
 
         SettingButtons();
+        ShowFriendPanel("¸¾º¸");
     }
 
     private void SettingButtons()
