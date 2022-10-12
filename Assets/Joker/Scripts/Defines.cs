@@ -26,7 +26,7 @@ namespace Defines
     public enum EFindPasswordErrorType
     {
         NONE,
-        EMAIL,
+        ID,
         ANSWER,
         MAX
     }

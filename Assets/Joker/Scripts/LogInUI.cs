@@ -21,7 +21,7 @@ public class LogInUI : MonoBehaviour
     [SerializeField] Button _quitButton;
 
     [Header("Input Field")]
-    [SerializeField] TMP_InputField _emailInput;
+    [SerializeField] TMP_InputField _idInput;
     [SerializeField] TMP_InputField _passwordInput;
 
     [Header("Popup")]
@@ -47,12 +47,12 @@ public class LogInUI : MonoBehaviour
     /// </summary>
     private void LogIn()
     {
-        if (!MySqlSetting.HasValue(Column.Email, _emailInput.text))
+        if (!MySqlSetting.HasValue(Column.Email, _idInput.text))
         {
             return;
         }
 
-        if (!MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Password, _passwordInput.text))
+        if (!MySqlSetting.CheckValueByBase(Column.Email, _idInput.text, Column.Password, _passwordInput.text))
         {
             return;
         }
@@ -78,7 +78,7 @@ public class LogInUI : MonoBehaviour
 
     private void OnDisable()
     {
-        _emailInput.text = "";
+        _idInput.text = "";
         _passwordInput.text = "";
         
         _logInButton.onClick.RemoveListener(LogIn);
