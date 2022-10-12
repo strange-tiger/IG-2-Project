@@ -265,7 +265,7 @@ namespace Asset.MySql
             return insertString;
         }
 
-       
+
 
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace Asset.MySql
         {
             return GetValueByBase(ETableType.AccountDB, baseType, baseValue, targetType);
         }
-       
+
         private static string GetValueByBase<T>(ETableType targetTable,
             T baseType, string baseValue,
             T targetType) where T : System.Enum
@@ -392,7 +392,7 @@ namespace Asset.MySql
 
         }
 
-       
+
         /// <summary>
         /// Account Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
         /// </summary>
@@ -406,7 +406,7 @@ namespace Asset.MySql
         {
             return UpdateValueByBase(ETableType.AccountDB, baseType, baseValue, targetType, targetValue);
         }
-        
+
         public static bool UpdateValueByBase(EAccountInfoColumns baseType, string baseValue,
             EAccountInfoColumns targetType, int targetValue)
         {
@@ -454,7 +454,7 @@ namespace Asset.MySql
                     MySqlCommand selectCommand = new MySqlCommand(selectString, _sqlConnection);
                     _sqlConnection.Open();
                     MySqlDataReader dataReader = selectCommand.ExecuteReader();
-                    if(dataReader.Read())
+                    if (dataReader.Read())
                     {
                         _selectJsonString = dataReader["AccountData"].ToString();
                     }
@@ -482,7 +482,7 @@ namespace Asset.MySql
         {
             try
             {
-                using(MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
                     string replaceString = $"Update AccountInfoDB set AccountData = json_replace(AccountData,'$.{targetColumn}', {value}) where {nickname};";
 
@@ -500,7 +500,33 @@ namespace Asset.MySql
                 return false;
             }
         }
-        
+
+        public static bool DeleteRowByBase(EAccountInfoColumns baseType, string baseValue)
+        {
+            return DeleteRowByBase(ETableType.AccountInfoDB, baseType, baseValue);
+        }
+        private static bool DeleteRowByBase<T>(ETableType targetTable, T baseType, string baseValue) where T : System.Enum
+        {
+            try
+            {
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string deleteString = $"Delete From {targetTable} where {baseType} = '{baseValue}';";
+                    MySqlCommand command = new MySqlCommand(deleteString, _sqlConnection);
+
+                    _sqlConnection.Open();
+                    command.ExecuteNonQuery();
+                    _sqlConnection.Close();
+
+                    return true;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
     }
 
 }

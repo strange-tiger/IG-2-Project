@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Asset.MySql;
+
+using Column = Asset.MySql.EAccountColumns;
+using UI = Defines.ELogInUIIndex;
+using Error = Defines.EFindPasswordErrorType;
 
 public class FindPasswordUI : MonoBehaviour
 {
@@ -16,12 +21,13 @@ public class FindPasswordUI : MonoBehaviour
     [Header("Input Field")]
     [SerializeField] TMP_InputField _emailInput;
     [SerializeField] TMP_InputField _answerInput;
+    [SerializeField] TMP_Dropdown _questionList;
     [SerializeField] TMP_InputField _passwordOutput;
 
     [Header("Popup")]
     [SerializeField] FindPasswordErrorPopupUI _errorPopup;
 
-    public Defines.EErrorType ErrorType { get; private set; }
+    public Error ErrorType { get; private set; }
 
     private void OnEnable()
     {
@@ -29,24 +35,37 @@ public class FindPasswordUI : MonoBehaviour
         _findPasswordButton.onClick.RemoveListener(FindPassword);
         _logInButton.onClick.AddListener(LoadLogIn);
         _findPasswordButton.onClick.AddListener(FindPassword);
+
+        _errorPopup.gameObject.SetActive(false);
     }
 
-    private void LoadLogIn() => _logInUIManager.LoadUI(Defines.ELogInUIIndex.LOGIN);
+    /// <summary>
+    /// ï¿½Î±ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½Îµï¿½
+    /// </summary>
+    private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
 
+    /// <summary>
+    /// Emailï¿½ï¿½ Emailï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ Question ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ Answerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
+    /// ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½
+    /// Emailï¿½ï¿½ Æ²ï¿½ï¿½ï¿½ï¿½ Defines.EErrorType.EMAILï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ErrorPopup ï¿½ï¿½ï¿½
+    /// Question ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ Answer Æ²ï¿½ï¿½ï¿½ï¿½ Defines.EErrorType.ANSWER ï¿½ï¿½ï¿½ï¿½, 
+    /// ErrorPopup ï¿½ï¿½ï¿½
+    /// </summary>
     private void FindPassword()
     {
-        if (_emailInput.text == _emailInput.text) // DB Á¢±Ù ÇÊ¿ä
+        if (!MySqlSetting.HasValue(Column.Email, _emailInput.text))
         {
-            _errorPopup.ErrorPopup(Defines.EErrorType.EMAIL);
+            _errorPopup.ErrorPopup(Error.EMAIL);
             return;
         }
-        if (_answerInput.text != _answerInput.text) // DB Á¢±Ù ÇÊ¿ä
+        if (MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Qustion, _questionList.value.ToString()) || 
+            MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Answer, _answerInput.text))
         {
-            _errorPopup.ErrorPopup(Defines.EErrorType.ANSWER);
+            _errorPopup.ErrorPopup(Error.ANSWER);
             return;
         }
 
-        _passwordOutput.text = "ºñ¹Ð¹øÈ£"; // DB Á¢±Ù ÇÊ¿ä
+        _passwordOutput.text = MySqlSetting.GetValueByBase(Column.Email, _emailInput.text, Column.Password);
     }
 
     private void OnDisable()
