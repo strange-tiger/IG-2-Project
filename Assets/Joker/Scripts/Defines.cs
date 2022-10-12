@@ -19,4 +19,11 @@ namespace Defines
         ANSWER,
         MAX
     }
+
+    public enum ECharacterUIIndex
+    {
+        SELECT,
+        MAKE,
+        MAX
+    }
 }
