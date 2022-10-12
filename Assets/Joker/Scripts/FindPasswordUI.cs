@@ -17,6 +17,7 @@ public class FindPasswordUI : MonoBehaviour
     [Header("Input Field")]
     [SerializeField] TMP_InputField _emailInput;
     [SerializeField] TMP_InputField _answerInput;
+    [SerializeField] TMP_Dropdown _questionList;
     [SerializeField] TMP_InputField _passwordOutput;
 
     [Header("Popup")]
@@ -43,7 +44,7 @@ public class FindPasswordUI : MonoBehaviour
             _errorPopup.ErrorPopup(Defines.EErrorType.EMAIL);
             return;
         }
-        if (_answerInput.text != _answerInput.text)
+        if (_questionList.value != _questionList.value || _answerInput.text != _answerInput.text)
             // DB 접근 필요 // Answer Column 필요
         {
             _errorPopup.ErrorPopup(Defines.EErrorType.ANSWER);
