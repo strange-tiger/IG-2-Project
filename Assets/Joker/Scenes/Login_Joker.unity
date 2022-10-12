@@ -1273,8 +1273,9 @@ MonoBehaviour:
   _signInButton: {fileID: 1786021910}
   _findPasswordButton: {fileID: 94817105}
   _quitButton: {fileID: 1092721995}
-  _emailInput: {fileID: 2015305205}
+  _idInput: {fileID: 2015305205}
   _passwordInput: {fileID: 1030073466}
+  _errorPopup: {fileID: 2104916531}
 --- !u!1 &184377213
 GameObject:
   m_ObjectHideFlags: 0
@@ -3642,7 +3643,7 @@ GameObject:
   - component: {fileID: 453930346}
   - component: {fileID: 453930345}
   m_Layer: 5
-  m_Name: EmailDoubleCheckButton
+  m_Name: IdDoubleCheckButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4991,7 +4992,7 @@ GameObject:
   - component: {fileID: 692158207}
   - component: {fileID: 692158206}
   m_Layer: 5
-  m_Name: EmailInputField
+  m_Name: IdInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5065,14 +5066,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 6
+  m_ContentType: 4
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 7
+  m_KeyboardType: 1
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 7
+  m_CharacterValidation: 4
   m_RegexValue: 
   m_GlobalPointSize: 20
   m_CharacterLimit: 0
@@ -6541,7 +6542,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uC774\uBBF8 \uC0AC\uC6A9\uC911\uC778 \uB2C9\uB124\uC784\uC785\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
   m_sharedMaterial: {fileID: 4475362041035770404, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
@@ -7015,7 +7016,7 @@ GameObject:
   - component: {fileID: 1074344812}
   - component: {fileID: 1074344811}
   m_Layer: 5
-  m_Name: EmailDoubleCheckError
+  m_Name: IdDoubleCheckError
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7060,7 +7061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uC774\uBBF8 \uC0AC\uC6A9\uC911\uC778 \uC544\uC774\uB514\uC785\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
   m_sharedMaterial: {fileID: 4475362041035770404, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
@@ -9568,7 +9569,7 @@ MonoBehaviour:
   _logInUIManager: {fileID: 1307859901}
   _logInButton: {fileID: 1409045177}
   _findPasswordButton: {fileID: 177180200}
-  _emailInput: {fileID: 1716258666}
+  _idInput: {fileID: 1716258666}
   _answerInput: {fileID: 1199478484}
   _questionList: {fileID: 312270551}
   _passwordOutput: {fileID: 1181801157}
@@ -9585,7 +9586,7 @@ GameObject:
   - component: {fileID: 1271324010}
   - component: {fileID: 1271324009}
   m_Layer: 5
-  m_Name: Email
+  m_Name: ID
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9630,7 +9631,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Email
+  m_text: ID
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
   m_sharedMaterial: {fileID: 4475362041035770404, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
@@ -9764,7 +9765,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uBE44\uBC00\uBC88\uD638\uAC00 \uC77C\uCE58\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
   m_sharedMaterial: {fileID: 4475362041035770404, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
@@ -10350,15 +10351,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _logInUIManager: {fileID: 1307859901}
   _signInButton: {fileID: 311221711}
-  _emailDoubleCheckButton: {fileID: 453930345}
+  _idDoubleCheckButton: {fileID: 453930345}
   _passwordDoubleCheckButton: {fileID: 1090259928}
   _nicknameDoubleCheckButton: {fileID: 941363631}
-  _emailInput: {fileID: 692158206}
+  _idInput: {fileID: 692158206}
   _passwordInput: {fileID: 1895511672}
   _passwordCheckInput: {fileID: 1835255248}
   _nicknameInput: {fileID: 184377215}
   _answerInput: {fileID: 2045322205}
-  _emailErrorText: {fileID: 1074344809}
+  _idErrorText: {fileID: 1074344809}
   _passwordErrorText: {fileID: 1284278517}
   _nicknameErrorText: {fileID: 965468232}
   _successPopup: {fileID: 1843681167}
@@ -11969,7 +11970,7 @@ GameObject:
   - component: {fileID: 1716258667}
   - component: {fileID: 1716258666}
   m_Layer: 5
-  m_Name: EmailInputField
+  m_Name: IdInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12218,7 +12219,7 @@ GameObject:
   - component: {fileID: 1733005115}
   - component: {fileID: 1733005114}
   m_Layer: 5
-  m_Name: EmailErrorMessage
+  m_Name: IdErrorMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12263,7 +12264,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC874\uC7AC\uD558\uC9C0 \uC54A\uB294 \uC774\uBA54\uC77C\uC785\uB2C8\uB2E4."
+  m_text: "\uC874\uC7AC\uD558\uC9C0 \uC54A\uB294 \uC544\uC774\uB514\uC785\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
   m_sharedMaterial: {fileID: 4475362041035770404, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
@@ -12564,7 +12565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 33848576}
-  _emailErrorMessage: {fileID: 1733005114}
+  _idErrorMessage: {fileID: 1733005114}
   _answerErrorMessage: {fileID: 360450072}
 --- !u!1 &1761537035
 GameObject:
@@ -13227,7 +13228,7 @@ GameObject:
   - component: {fileID: 1891380762}
   - component: {fileID: 1891380761}
   m_Layer: 5
-  m_Name: Email
+  m_Name: Id
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13272,7 +13273,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Email
+  m_text: ID
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
   m_sharedMaterial: {fileID: 4475362041035770404, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
@@ -14740,12 +14741,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2104916529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9859736db1913f42985fcf710dbfeeb, type: 3}
+  m_Script: {fileID: 11500000, guid: 334e883de7c0b2a43aa2a47ed0c74ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 147260246}
-  _emailErrorMessage: {fileID: 60645141}
-  _answerErrorMessage: {fileID: 334329410}
+  _idErrorMessage: {fileID: 60645141}
+  _passwordErrorMessage: {fileID: 334329410}
 --- !u!114 &2104916532
 MonoBehaviour:
   m_ObjectHideFlags: 0

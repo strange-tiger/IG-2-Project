@@ -19,7 +19,7 @@ public class FindPasswordUI : MonoBehaviour
     [SerializeField] Button _findPasswordButton;
 
     [Header("Input Field")]
-    [SerializeField] TMP_InputField _emailInput;
+    [SerializeField] TMP_InputField _idInput;
     [SerializeField] TMP_InputField _answerInput;
     [SerializeField] TMP_Dropdown _questionList;
     [SerializeField] TMP_InputField _passwordOutput;
@@ -39,38 +39,28 @@ public class FindPasswordUI : MonoBehaviour
         _errorPopup.gameObject.SetActive(false);
     }
 
-    /// <summary>
-    /// �α��� UI�� �ε�
-    /// </summary>
     private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
-
-    /// <summary>
-    /// Email�� Email�� ���� ������ ���Ե� Question �ε����� Answer�� ����, ����
-    /// ��й�ȣ ���
-    /// Email�� Ʋ���� Defines.EErrorType.EMAIL�� �Ű������� ������ ErrorPopup ���
-    /// Question �ε��� �� Answer Ʋ���� Defines.EErrorType.ANSWER ����, 
-    /// ErrorPopup ���
-    /// </summary>
+    
     private void FindPassword()
     {
-        if (!MySqlSetting.HasValue(Column.Email, _emailInput.text))
+        if (!MySqlSetting.HasValue(Column.Email, _idInput.text))
         {
-            _errorPopup.ErrorPopup(Error.EMAIL);
+            _errorPopup.ErrorPopup(Error.ID);
             return;
         }
-        if (MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Qustion, _questionList.value.ToString()) || 
-            MySqlSetting.CheckValueByBase(Column.Email, _emailInput.text, Column.Answer, _answerInput.text))
+        if (MySqlSetting.CheckValueByBase(Column.Email, _idInput.text, Column.Qustion, _questionList.value.ToString()) || 
+            MySqlSetting.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
         {
             _errorPopup.ErrorPopup(Error.ANSWER);
             return;
         }
 
-        _passwordOutput.text = MySqlSetting.GetValueByBase(Column.Email, _emailInput.text, Column.Password);
+        _passwordOutput.text = MySqlSetting.GetValueByBase(Column.Email, _idInput.text, Column.Password);
     }
 
     private void OnDisable()
     {
-        _emailInput.text = "";
+        _idInput.text = "";
         _answerInput.text = "";
         _passwordOutput.text = "";
         
