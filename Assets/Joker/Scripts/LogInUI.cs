@@ -24,6 +24,11 @@ public class LogInUI : MonoBehaviour
     [SerializeField] TMP_InputField _emailInput;
     [SerializeField] TMP_InputField _passwordInput;
 
+    [Header("Popup")]
+    [SerializeField] FindPasswordErrorPopupUI _errorPopup;
+
+    public Defines.ELogInErrorType ErrorType { get; private set; }
+
     private void OnEnable()
     {
         _logInButton.onClick.RemoveListener(LogIn);

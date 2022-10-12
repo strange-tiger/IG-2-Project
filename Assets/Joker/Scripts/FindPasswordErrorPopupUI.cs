@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-using Error = Defines.EErrorType;
+using Error = Defines.EFindPasswordErrorType;
 
 public class FindPasswordErrorPopupUI : PopupUI
 {
@@ -11,8 +11,8 @@ public class FindPasswordErrorPopupUI : PopupUI
     [SerializeField] TextMeshProUGUI _answerErrorMessage;
 
     /// <summary>
-    /// ¿¡·¯ Å¸ÀÔÀ» ÀüÇÏ´Â Defines.EErrorType error ¸Å°³º¯¼ö¸¦ ¹Þ¾Æ
-    /// ¿¡·¯ Å¸ÀÔ¿¡ ¸Â´Â ÅØ½ºÆ®¸¦ È°¼ºÈ­ÇÏ¸é¼­ ÆË¾÷(È°¼ºÈ­)
+    /// ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ Defines.EErrorType error ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½
+    /// ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ô¿ï¿½ ï¿½Â´ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½Ï¸é¼­ ï¿½Ë¾ï¿½(È°ï¿½ï¿½È­)
     /// </summary>
     /// <param name="error"></param>
     public void ErrorPopup(Error error)

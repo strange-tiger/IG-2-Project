@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Defines
 {
     /// <summary>
-    /// ·Î±×ÀÎ ¾ÀÀÇ UI ÀÎµ¦½º
+    /// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UI ï¿½Îµï¿½ï¿½ï¿½
     /// </summary>
     public enum ELogInUIIndex
     {
@@ -15,14 +15,26 @@ namespace Defines
         MAX
     }
 
-    /// <summary>
-    /// FindPassword UI¿¡¼­ÀÇ ¿¡·¯ Å¸ÀÔ ÀÎµ¦½º
-    /// </summary>
-    public enum EErrorType
+    public enum ELogInErrorType
+    {
+        NONE,
+        ID,
+        PASSWORD,
+        MAX
+    }
+
+    public enum EFindPasswordErrorType
     {
         NONE,
         EMAIL,
         ANSWER,
+        MAX
+    }
+
+    public enum ECharacterUIIndex
+    {
+        SELECT,
+        MAKE,
         MAX
     }
 }

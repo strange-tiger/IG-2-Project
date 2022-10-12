@@ -7,7 +7,7 @@ using Asset.MySql;
 
 using Column = Asset.MySql.EAccountColumns;
 using UI = Defines.ELogInUIIndex;
-using Error = Defines.EErrorType;
+using Error = Defines.EFindPasswordErrorType;
 
 public class FindPasswordUI : MonoBehaviour
 {
@@ -40,16 +40,16 @@ public class FindPasswordUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ·Î±×ÀÎ UI¸¦ ·Îµå
+    /// ï¿½Î±ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½Îµï¿½
     /// </summary>
     private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
 
     /// <summary>
-    /// Email°ú EmailÀÇ °èÁ¤ Á¤º¸¿¡ Æ÷ÇÔµÈ Question ÀÎµ¦½º¿Í AnswerÀ» ÂüÁ¶, ºñ±³ÇØ
-    /// ºñ¹Ð¹øÈ£ Ãâ·Â
-    /// EmailÀÌ Æ²¸®¸é Defines.EErrorType.EMAILÀ» ¸Å°³º¯¼ö·Î Àü´ÞÇØ ErrorPopup ¶ç¿ò
-    /// Question ÀÎµ¦½º ¹× Answer Æ²¸®¸é Defines.EErrorType.ANSWER Àü´Þ, 
-    /// ErrorPopup ¶ç¿ò
+    /// Emailï¿½ï¿½ Emailï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ Question ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ Answerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
+    /// ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½
+    /// Emailï¿½ï¿½ Æ²ï¿½ï¿½ï¿½ï¿½ Defines.EErrorType.EMAILï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ErrorPopup ï¿½ï¿½ï¿½
+    /// Question ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ Answer Æ²ï¿½ï¿½ï¿½ï¿½ Defines.EErrorType.ANSWER ï¿½ï¿½ï¿½ï¿½, 
+    /// ErrorPopup ï¿½ï¿½ï¿½
     /// </summary>
     private void FindPassword()
     {
