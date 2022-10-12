@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovementLeft : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     //private PlayerInput _playerInput;
     //private CharacterController _controller;
@@ -162,21 +162,23 @@ public class PlayerMovementLeft : MonoBehaviour
     /// Rotation defaults to secondary thumbstick. You can allow either here. Note that this won't behave well if EnableLinearMovement is true.
     /// </summary>
     public bool RotationEitherThumbstick = false;
+    public float InitialYRotation { get; private set; }
 
     protected CharacterController Controller = null;
     protected OVRCameraRig CameraRig = null;
 
-    private float MoveScale = 1.0f;
-    private Vector3 MoveThrottle = Vector3.zero;
-    private float FallSpeed = 0.0f;
-    private OVRPose? InitialPose;
-    public float InitialYRotation { get; private set; }
-    private float MoveScaleMultiplier = 1.0f;
-    private float RotationScaleMultiplier = 1.0f;
-    private bool SkipMouseRotation = true; // It is rare to want to use mouse movement in VR, so ignore the mouse by default.
-    private bool HaltUpdateMovement = false;
-    private float SimulationRate = 60f;
-    private bool playerControllerEnabled = false;
+    private Vector3 _moveThrottle = Vector3.zero;
+    private OVRPose? _initialPose;
+    private float _moveScale = 1.0f;
+    private float _fallSpeed = 0.0f;
+    private float _moveScaleMultiplier = 1.0f;
+    private float _simulationRate = 60f;
+    private bool _haltUpdateMovement = false;
+    private bool _playerControllerEnabled = false;
+    private bool isControllerRight;
+
+    [SerializeField]
+    private ControllerScrollButton _controllerScrollButton;
 
     private void Start()
     {
@@ -184,7 +186,11 @@ public class PlayerMovementLeft : MonoBehaviour
         var p = CameraRig.transform.localPosition;
         p.z = OVRManager.profile.eyeDepth;
         CameraRig.transform.localPosition = p;
+
+        _controllerScrollButton.SwitchController.AddListener(SwitchController);
     }
+
+    
 
     private void Awake()
     {
@@ -213,7 +219,7 @@ public class PlayerMovementLeft : MonoBehaviour
 
     private void OnDisable()
     {
-        if (playerControllerEnabled)
+        if (_playerControllerEnabled)
         {
             OVRManager.display.RecenteredPose -= ResetOrientation;
 
@@ -221,13 +227,13 @@ public class PlayerMovementLeft : MonoBehaviour
             {
                 CameraRig.UpdatedAnchors -= UpdateTransform;
             }
-            playerControllerEnabled = false;
+            _playerControllerEnabled = false;
         }
     }
 
-    private  void Update()
+    private void Update()
     {
-        if (!playerControllerEnabled)
+        if (!_playerControllerEnabled)
         {
             if (OVRManager.OVRManagerinitialized)
             {
@@ -237,7 +243,7 @@ public class PlayerMovementLeft : MonoBehaviour
                 {
                     CameraRig.UpdatedAnchors += UpdateTransform;
                 }
-                playerControllerEnabled = true;
+                _playerControllerEnabled = true;
             }
             else
                 return;
@@ -248,11 +254,11 @@ public class PlayerMovementLeft : MonoBehaviour
     {
         if (useProfileData)
         {
-            if (InitialPose == null)
+            if (_initialPose == null)
             {
                 // Save the initial pose so it can be recovered if useProfileData
                 // is turned off later.
-                InitialPose = new OVRPose()
+                _initialPose = new OVRPose()
                 {
                     position = CameraRig.transform.localPosition,
                     orientation = CameraRig.transform.localRotation
@@ -270,12 +276,12 @@ public class PlayerMovementLeft : MonoBehaviour
             }
             CameraRig.transform.localPosition = p;
         }
-        else if (InitialPose != null)
+        else if (_initialPose != null)
         {
             // Return to the initial pose if useProfileData was turned off at runtime
-            CameraRig.transform.localPosition = InitialPose.Value.position;
-            CameraRig.transform.localRotation = InitialPose.Value.orientation;
-            InitialPose = null;
+            CameraRig.transform.localPosition = _initialPose.Value.position;
+            CameraRig.transform.localRotation = _initialPose.Value.orientation;
+            _initialPose = null;
         }
 
         CameraHeight = CameraRig.centerEyeAnchor.localPosition.y;
@@ -289,24 +295,24 @@ public class PlayerMovementLeft : MonoBehaviour
 
         Vector3 moveDirection = Vector3.zero;
 
-        float motorDamp = (1.0f + (Damping * SimulationRate * Time.deltaTime));
+        float motorDamp = (1.0f + (Damping * _simulationRate * Time.deltaTime));
 
-        MoveThrottle.x /= motorDamp;
-        MoveThrottle.y = (MoveThrottle.y > 0.0f) ? (MoveThrottle.y / motorDamp) : MoveThrottle.y;
-        MoveThrottle.z /= motorDamp;
+        _moveThrottle.x /= motorDamp;
+        _moveThrottle.y = (_moveThrottle.y > 0.0f) ? (_moveThrottle.y / motorDamp) : _moveThrottle.y;
+        _moveThrottle.z /= motorDamp;
 
-        moveDirection += MoveThrottle * SimulationRate * Time.deltaTime;
+        moveDirection += _moveThrottle * _simulationRate * Time.deltaTime;
 
         // Gravity
-        if (Controller.isGrounded && FallSpeed <= 0)
-            FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
+        if (Controller.isGrounded && _fallSpeed <= 0)
+            _fallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
         else
-            FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * SimulationRate * Time.deltaTime);
+            _fallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * _simulationRate * Time.deltaTime);
 
-        moveDirection.y += FallSpeed * SimulationRate * Time.deltaTime;
+        moveDirection.y += _fallSpeed * _simulationRate * Time.deltaTime;
 
 
-        if (Controller.isGrounded && MoveThrottle.y <= transform.lossyScale.y * 0.001f)
+        if (Controller.isGrounded && _moveThrottle.y <= transform.lossyScale.y * 0.001f)
         {
             // Offset correction for uneven ground
             float bumpUpOffset = Mathf.Max(Controller.stepOffset, new Vector3(moveDirection.x, 0, moveDirection.z).magnitude);
@@ -326,14 +332,14 @@ public class PlayerMovementLeft : MonoBehaviour
         Vector3 actualXZ = Vector3.Scale(Controller.transform.localPosition, new Vector3(1, 0, 1));
 
         if (predictedXZ != actualXZ)
-            MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
+            _moveThrottle += (actualXZ - predictedXZ) / (_simulationRate * Time.deltaTime);
     }
 
     public virtual void UpdateMovement()
     {
         //todo: enable for Unity Input System
 #if ENABLE_LEGACY_INPUT_MANAGER
-        if (HaltUpdateMovement)
+        if (_haltUpdateMovement)
             return;
 
         if (EnableLinearMovement)
@@ -349,7 +355,6 @@ public class PlayerMovementLeft : MonoBehaviour
             {
                 moveForward = true;
                 dpad_move = true;
-
             }
 
             if (OVRInput.Get(OVRInput.Button.DpadDown))
@@ -358,20 +363,20 @@ public class PlayerMovementLeft : MonoBehaviour
                 dpad_move = true;
             }
 
-            MoveScale = 1.0f;
+            _moveScale = 1.0f;
 
             if ((moveForward && moveLeft) || (moveForward && moveRight) ||
                 (moveBack && moveLeft) || (moveBack && moveRight))
-                MoveScale = 0.70710678f;
+                _moveScale = 0.70710678f;
 
             // No positional movement if we are in the air
             if (!Controller.isGrounded)
-                MoveScale = 0.0f;
+                _moveScale = 0.0f;
 
-            MoveScale *= SimulationRate * Time.deltaTime;
+            _moveScale *= _simulationRate * Time.deltaTime;
 
             // Compute this for key movement
-            float moveInfluence = Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
+            float moveInfluence = Acceleration * 0.1f * _moveScale * _moveScaleMultiplier;
 
             // Run!
             if (dpad_move || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -383,49 +388,77 @@ public class PlayerMovementLeft : MonoBehaviour
             ort = Quaternion.Euler(ortEuler);
 
             if (moveForward)
-                MoveThrottle += ort * (transform.lossyScale.z * moveInfluence * Vector3.forward);
+                _moveThrottle += ort * (transform.lossyScale.z * moveInfluence * Vector3.forward);
             if (moveBack)
-                MoveThrottle += ort * (transform.lossyScale.z * moveInfluence * BackAndSideDampen * Vector3.back);
+                _moveThrottle += ort * (transform.lossyScale.z * moveInfluence * BackAndSideDampen * Vector3.back);
             if (moveLeft)
-                MoveThrottle += ort * (transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.left);
+                _moveThrottle += ort * (transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.left);
             if (moveRight)
-                MoveThrottle += ort * (transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
+                _moveThrottle += ort * (transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
 
-
-
-            moveInfluence = Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
+            moveInfluence = Acceleration * 0.1f * _moveScale * _moveScaleMultiplier;
 
 #if !UNITY_ANDROID // LeftTrigger not avail on Android game pad
-            moveInfluence *= 1.0f + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
+
+            if (!isControllerRight)
+            {
+                moveInfluence *= 1.0f + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
+            }
+            else
+            {
+                moveInfluence *= 1.0f + OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
+            }
 #endif
 
-            Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
-
-            // If speed quantization is enabled, adjust the input to the number of fixed speed steps.
-            if (FixedSpeedSteps > 0)
+            if (!isControllerRight)
             {
-                primaryAxis.y = Mathf.Round(primaryAxis.y * FixedSpeedSteps) / FixedSpeedSteps;
-                primaryAxis.x = Mathf.Round(primaryAxis.x * FixedSpeedSteps) / FixedSpeedSteps;
+                Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+
+                // If speed quantization is enabled, adjust the input to the number of fixed speed steps.
+                if (FixedSpeedSteps > 0)
+                {
+                    primaryAxis.y = Mathf.Round(primaryAxis.y * FixedSpeedSteps) / FixedSpeedSteps;
+                    primaryAxis.x = Mathf.Round(primaryAxis.x * FixedSpeedSteps) / FixedSpeedSteps;
+                }
+
+                if (primaryAxis.y > 0.0f)
+                    _moveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);
+
+                if (primaryAxis.y < 0.0f)
+                    _moveThrottle += ort * (Mathf.Abs(primaryAxis.y) * transform.lossyScale.z * moveInfluence * BackAndSideDampen * Vector3.back);
+
+                if (primaryAxis.x < 0.0f)
+                    _moveThrottle += ort * (Mathf.Abs(primaryAxis.x) * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.left);
+
+                if (primaryAxis.x > 0.0f)
+                    _moveThrottle += ort * (primaryAxis.x * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
             }
+            else
+            {
+                Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
 
-            if (primaryAxis.y > 0.0f)
-                MoveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);
+                // If speed quantization is enabled, adjust the input to the number of fixed speed steps.
+                if (FixedSpeedSteps > 0)
+                {
+                    primaryAxis.y = Mathf.Round(primaryAxis.y * FixedSpeedSteps) / FixedSpeedSteps;
+                    primaryAxis.x = Mathf.Round(primaryAxis.x * FixedSpeedSteps) / FixedSpeedSteps;
+                }
 
-            if (primaryAxis.y < 0.0f)
-                MoveThrottle += ort * (Mathf.Abs(primaryAxis.y) * transform.lossyScale.z * moveInfluence *
-                                       BackAndSideDampen * Vector3.back);
+                if (primaryAxis.y > 0.0f)
+                    _moveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);
 
-            if (primaryAxis.x < 0.0f)
-                MoveThrottle += ort * (Mathf.Abs(primaryAxis.x) * transform.lossyScale.x * moveInfluence *
-                                       BackAndSideDampen * Vector3.left);
+                if (primaryAxis.y < 0.0f)
+                    _moveThrottle += ort * (Mathf.Abs(primaryAxis.y) * transform.lossyScale.z * moveInfluence * BackAndSideDampen * Vector3.back);
 
-            if (primaryAxis.x > 0.0f)
-                MoveThrottle += ort * (primaryAxis.x * transform.lossyScale.x * moveInfluence * BackAndSideDampen *
-                                       Vector3.right);
+                if (primaryAxis.x < 0.0f)
+                    _moveThrottle += ort * (Mathf.Abs(primaryAxis.x) * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.left);
+
+                if (primaryAxis.x > 0.0f)
+                    _moveThrottle += ort * (primaryAxis.x * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
+            }
         }
 #endif
     }
-
 
     /// <summary>
     /// Invoked by OVRCameraRig's UpdatedAnchors callback. Allows the Hmd rotation to update the facing direction of the player.
@@ -454,88 +487,6 @@ public class PlayerMovementLeft : MonoBehaviour
     }
 
     /// <summary>
-    /// Stop this instance.
-    /// </summary>
-    public void Stop()
-    {
-        Controller.Move(Vector3.zero);
-        MoveThrottle = Vector3.zero;
-        FallSpeed = 0.0f;
-    }
-
-    /// <summary>
-    /// Gets the move scale multiplier.
-    /// </summary>
-    /// <param name="moveScaleMultiplier">Move scale multiplier.</param>
-    public void GetMoveScaleMultiplier(ref float moveScaleMultiplier)
-    {
-        moveScaleMultiplier = MoveScaleMultiplier;
-    }
-
-    /// <summary>
-    /// Sets the move scale multiplier.
-    /// </summary>
-    /// <param name="moveScaleMultiplier">Move scale multiplier.</param>
-    public void SetMoveScaleMultiplier(float moveScaleMultiplier)
-    {
-        MoveScaleMultiplier = moveScaleMultiplier;
-    }
-
-    /// <summary>
-    /// Gets the rotation scale multiplier.
-    /// </summary>
-    /// <param name="rotationScaleMultiplier">Rotation scale multiplier.</param>
-    public void GetRotationScaleMultiplier(ref float rotationScaleMultiplier)
-    {
-        rotationScaleMultiplier = RotationScaleMultiplier;
-    }
-
-    /// <summary>
-    /// Sets the rotation scale multiplier.
-    /// </summary>
-    /// <param name="rotationScaleMultiplier">Rotation scale multiplier.</param>
-    public void SetRotationScaleMultiplier(float rotationScaleMultiplier)
-    {
-        RotationScaleMultiplier = rotationScaleMultiplier;
-    }
-
-    /// <summary>
-    /// Gets the allow mouse rotation.
-    /// </summary>
-    /// <param name="skipMouseRotation">Allow mouse rotation.</param>
-    public void GetSkipMouseRotation(ref bool skipMouseRotation)
-    {
-        skipMouseRotation = SkipMouseRotation;
-    }
-
-    /// <summary>
-    /// Sets the allow mouse rotation.
-    /// </summary>
-    /// <param name="skipMouseRotation">If set to <c>true</c> allow mouse rotation.</param>
-    public void SetSkipMouseRotation(bool skipMouseRotation)
-    {
-        SkipMouseRotation = skipMouseRotation;
-    }
-
-    /// <summary>
-    /// Gets the halt update movement.
-    /// </summary>
-    /// <param name="haltUpdateMovement">Halt update movement.</param>
-    public void GetHaltUpdateMovement(ref bool haltUpdateMovement)
-    {
-        haltUpdateMovement = HaltUpdateMovement;
-    }
-
-    /// <summary>
-    /// Sets the halt update movement.
-    /// </summary>
-    /// <param name="haltUpdateMovement">If set to <c>true</c> halt update movement.</param>
-    public void SetHaltUpdateMovement(bool haltUpdateMovement)
-    {
-        HaltUpdateMovement = haltUpdateMovement;
-    }
-
-    /// <summary>
     /// Resets the player look rotation when the device orientation is reset.
     /// </summary>
     public void ResetOrientation()
@@ -546,6 +497,11 @@ public class PlayerMovementLeft : MonoBehaviour
             euler.y = InitialYRotation;
             transform.rotation = Quaternion.Euler(euler);
         }
+    }
+
+    private void SwitchController(bool isLeft)
+    {
+        isControllerRight = isLeft;
     }
 }
 
