@@ -25,7 +25,7 @@ public class LogInUI : MonoBehaviour
     [SerializeField] TMP_InputField _passwordInput;
 
     [Header("Popup")]
-    [SerializeField] FindPasswordErrorPopupUI _errorPopup;
+    [SerializeField] LogInErrorPopupUI _errorPopup;
 
     public Defines.ELogInErrorType ErrorType { get; private set; }
 

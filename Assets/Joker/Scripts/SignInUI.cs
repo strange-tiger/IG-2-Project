@@ -15,19 +15,19 @@ public class SignInUI : MonoBehaviour
     
     [Header("Button")]
     [SerializeField] Button _signInButton;
-    [SerializeField] Button _emailDoubleCheckButton;
+    [SerializeField] Button _idDoubleCheckButton;
     [SerializeField] Button _passwordDoubleCheckButton;
     [SerializeField] Button _nicknameDoubleCheckButton;
 
     [Header("Input Field")]
-    [SerializeField] TMP_InputField _emailInput;
+    [SerializeField] TMP_InputField _idInput;
     [SerializeField] TMP_InputField _passwordInput;
     [SerializeField] TMP_InputField _passwordCheckInput;
     [SerializeField] TMP_InputField _nicknameInput;
     [SerializeField] TMP_InputField _answerInput;
 
     [Header("Error Text")]
-    [SerializeField] GameObject _emailErrorText;
+    [SerializeField] GameObject _idErrorText;
     [SerializeField] GameObject _passwordErrorText;
     [SerializeField] GameObject _nicknameErrorText;
 
@@ -43,15 +43,15 @@ public class SignInUI : MonoBehaviour
         _signInButton.onClick.RemoveListener(SignIn);
         _passwordDoubleCheckButton.onClick.RemoveListener(PasswordDoubleCheck);
         _nicknameDoubleCheckButton.onClick.RemoveListener(NicknameDoubleCheck);
-        _emailDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
+        _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
         _signInButton.onClick.AddListener(SignIn);
         _passwordDoubleCheckButton.onClick.AddListener(PasswordDoubleCheck);
         _nicknameDoubleCheckButton.onClick.AddListener(NicknameDoubleCheck);
-        _emailDoubleCheckButton.onClick.AddListener(EmailDoubleCheck);
+        _idDoubleCheckButton.onClick.AddListener(EmailDoubleCheck);
 
         _nicknameErrorText?.SetActive(false);
         _passwordErrorText?.SetActive(false);
-        _emailErrorText?.SetActive(false);
+        _idErrorText?.SetActive(false);
 
         _successPopup.SetActive(false);
 
@@ -71,7 +71,7 @@ public class SignInUI : MonoBehaviour
             return;
         }
 
-        Debug.Assert(MySqlSetting.AddNewAccount(_emailInput.text, _passwordInput.text, _nicknameInput.text), "계정 생성 실패!");
+        Debug.Assert(MySqlSetting.AddNewAccount(_idInput.text, _passwordInput.text, _nicknameInput.text), "계정 생성 실패!");
 
         _successPopup.SetActive(true);
     }
@@ -81,15 +81,15 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     private void EmailDoubleCheck()
     {
-        if (MySqlSetting.HasValue(Column.Email, _emailInput.text))
+        if (MySqlSetting.HasValue(Column.Email, _idInput.text))
         {
             _hasEmailCheck = true;
-            _emailErrorText.SetActive(false);
+            _idErrorText.SetActive(false);
         }
         else
         {
             _hasEmailCheck = false;
-            _emailErrorText.SetActive(true);
+            _idErrorText.SetActive(true);
         }
     }
     
@@ -132,12 +132,12 @@ public class SignInUI : MonoBehaviour
         _nicknameInput.text = "";
         _passwordInput.text = "";
         _passwordCheckInput.text = "";
-        _emailInput.text = "";
+        _idInput.text = "";
         _answerInput.text = "";
 
         _signInButton.onClick.RemoveListener(SignIn);
         _passwordDoubleCheckButton.onClick.RemoveListener(PasswordDoubleCheck);
         _nicknameDoubleCheckButton.onClick.RemoveListener(NicknameDoubleCheck);
-        _emailDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
+        _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
     }
 }

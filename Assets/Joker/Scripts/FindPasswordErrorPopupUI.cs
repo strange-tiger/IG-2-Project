@@ -7,7 +7,7 @@ using Error = Defines.EFindPasswordErrorType;
 
 public class FindPasswordErrorPopupUI : PopupUI
 {
-    [SerializeField] TextMeshProUGUI _emailErrorMessage;
+    [SerializeField] TextMeshProUGUI _idErrorMessage;
     [SerializeField] TextMeshProUGUI _answerErrorMessage;
 
     public void ErrorPopup(Error error)
@@ -17,12 +17,12 @@ public class FindPasswordErrorPopupUI : PopupUI
         
         if (error == Error.ID)
         {
-            _emailErrorMessage.gameObject.SetActive(true);
+            _idErrorMessage.gameObject.SetActive(true);
             _answerErrorMessage.gameObject.SetActive(false);
         }
         else if (error == Error.ANSWER)
         {
-            _emailErrorMessage.gameObject.SetActive(false);
+            _idErrorMessage.gameObject.SetActive(false);
             _answerErrorMessage.gameObject.SetActive(true);
         }
     }
