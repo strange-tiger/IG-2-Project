@@ -14,11 +14,13 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
     [Header("Buttons")]
     [SerializeField] private Button _createRoomButton;
     [SerializeField] private Button _resetRoomListButton;
+    [SerializeField] private Button _exitRoomButton;
 
     [Header("Room List")]
     [SerializeField] private GameObject _roomPanel;
     [SerializeField] private GameObject _scrollViewContent;
-    private List<GameObject> _roomList = new List<GameObject>();
+
+    private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     private int _roomCount = 0;
 
     private void Awake()
@@ -32,20 +34,18 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
     {
         _createRoomButton.onClick.AddListener(() => { CreateRoom(); });
         _resetRoomListButton.onClick.AddListener(() => { ResetRoomList(); });
+        _exitRoomButton.onClick.AddListener(() => { ExitRoom(); });
 
-        DeactiveButtons();
+        SetInteractableOfAllButtons(false);
+
+        _exitRoomButton.gameObject.SetActive(false);
     }
 
-    private void ActiveButtons()
+    private void SetInteractableOfAllButtons(bool value)
     {
-        _createRoomButton.interactable = true;
-        _resetRoomListButton.interactable = true;
-    }
-
-    private void DeactiveButtons()
-    {
-        _createRoomButton.interactable = false;
-        _resetRoomListButton.interactable = false;
+        _createRoomButton.interactable = value;
+        _resetRoomListButton.interactable = value;
+        _exitRoomButton.interactable = value;
     }
 
     public override void OnConnectedToMaster()
@@ -57,69 +57,110 @@ public class PhotonNetworkPractice : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         _infoText.text = "Lobby Joined!";
-        ActiveButtons();
+        SetInteractableOfAllButtons(true);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         _infoText.text = "Room List Updated";
+        Invoke("setInfoText", 0.5f);
         RoomListUpdate(roomList);
     }
 
     private void RoomListUpdate(List<RoomInfo> roomList)
     {
-        _roomCount = 0;
-        foreach (GameObject room in _roomList)
+        Debug.Log(roomList.Count);
+
+        foreach (RoomInfo room in roomList)
         {
-            Destroy(room);
+            if(room.RemovedFromList)
+            {
+                cachedRoomList.Remove(room.Name);
+            }
+            else
+            {
+                cachedRoomList[room.Name] = room;
+            }
         }
 
-        foreach (RoomInfo roominfo in roomList)
+        SetRoomList();
+    }
+    private void SetRoomList()
+    {
+        foreach(Transform roomPanel in _scrollViewContent.GetComponentsInChildren<Transform>())
         {
-            AddRoomToList(roominfo.Name);
-            _roomCount = int.Parse(roominfo.Name);
+            if(roomPanel.gameObject == _scrollViewContent.gameObject)
+            {
+                continue;
+            }
+
+            Destroy(roomPanel.gameObject);
         }
+
+        foreach(KeyValuePair<string, RoomInfo> room in cachedRoomList)
+        {
+            if(room.Value.RemovedFromList)
+            {
+                continue;
+            }
+
+            GameObject newRoomPanel = Instantiate(_roomPanel, _scrollViewContent.transform);
+            newRoomPanel.GetComponentInChildren<Text>().text = room.Key;
+        }
+
+        _roomCount = cachedRoomList.Count;
     }
 
     public override void OnLeftLobby()
     {
         _infoText.text = "Reconnecting Lobby...";
-        DeactiveButtons();
+        SetInteractableOfAllButtons(false);
         PhotonNetwork.JoinLobby();
+    }
+
+    private void setInfoText()
+    {
+        _infoText.text = "...";
     }
 
     private void ResetRoomList()
     {
-        DeactiveButtons();
-        foreach (GameObject room in _roomList)
-        {
-            Destroy(room);
-        }
+        SetInteractableOfAllButtons(false);
         _infoText.text = "Resetting Room List...";
+
+        SetRoomList();
+
+        SetInteractableOfAllButtons(true);
+        _infoText.text = "Done!";
+        Invoke("setInfoText", 0.5f);
+    }
+
+    private void ExitRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        _createRoomButton.gameObject.SetActive(true);
+        _resetRoomListButton.gameObject.SetActive(true);
+        _exitRoomButton.gameObject.SetActive(false);
     }
 
     private RoomOptions _roomOption = new RoomOptions()
     {
-        MaxPlayers = 1
+        MaxPlayers = 5
     };
     private void CreateRoom()
     {
         ++_roomCount;
-        AddRoomToList(_roomCount.ToString());
         PhotonNetwork.CreateRoom(_roomCount.ToString(), _roomOption, null, null);
-    }
-    private void AddRoomToList(string roomName)
-    {
-        GameObject roomInfo = Instantiate(_roomPanel, _scrollViewContent.transform);
-        roomInfo.GetComponentInChildren<Text>().text = roomName;
-        _roomList.Add(roomInfo);
+        _infoText.text = "Creating Room...";
+        SetRoomList();
     }
 
     public override void OnCreatedRoom()
     {
-        Debug.Log($"Created Room {PhotonNetwork.CurrentRoom.Name}");
-        //PhotonNetwork.LeaveRoom();
-        //PhotonNetwork.JoinLobby();
+        _infoText.text = $"Created Room {PhotonNetwork.CurrentRoom.Name}";
+        _createRoomButton.gameObject.SetActive(false);
+        _resetRoomListButton.gameObject.SetActive(false);
+        _exitRoomButton.gameObject.SetActive(true);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
