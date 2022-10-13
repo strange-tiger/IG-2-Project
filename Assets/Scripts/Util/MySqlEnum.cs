@@ -2,7 +2,7 @@ namespace Asset {
 	public enum ETableType {
 		accountdb,
 		accountinfodb,
-		test,
+		
 	}
 	public enum EaccountdbColumns {
 		Email,
@@ -11,11 +11,5 @@ namespace Asset {
 		Question,
 		Answer,
 	}
-	public enum EaccountinfodbColumns {
-		Nickname,
-		AccountData,
-	}
-	public enum EtestColumns {
-		Data,
-	}
+	
 }
