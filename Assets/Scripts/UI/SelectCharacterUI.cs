@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 using _UI = Defines.ECharacterUIIndex;
 
@@ -50,7 +50,7 @@ public class SelectCharacterUI : MonoBehaviour
 
     private void StartGame()
     {
-        //SceneManager.LoadScene(2);
+        // PhotonNetwork.LoadLevel() // 다음 씬으로 이어지는 부분 필요
     }
 
     private void LoadMake() => _characterUIManager.LoadUI(_UI.MAKE);
