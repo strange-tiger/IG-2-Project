@@ -20,7 +20,7 @@ public class DeletePopupUI : PopupUI
     // 현재 캐릭터의 닉네임 받아와야 함
     private void DeleteCharacter()
     {
-        MySqlSetting.DeleteRowByBase(EAccountInfoColumns.Nickname, "");
+        MySqlSetting.DeleteRowByBase(ECharacterColumns.Nickname, "");
     }
 
     protected new void OnDisable()

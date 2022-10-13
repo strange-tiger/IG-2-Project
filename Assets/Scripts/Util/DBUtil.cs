@@ -13,7 +13,7 @@ namespace Asset.MySql
     public enum ETableType
     {
         AccountDB,
-        AccountInfoDB,
+        CharacterDB,
         Max
     };
 
@@ -27,10 +27,12 @@ namespace Asset.MySql
         Max
     }
 
-    public enum EAccountInfoColumns
+    public enum ECharacterColumns
     {
         Nickname,
-        AccountData,
+        Gender,
+        Tutorial,
+        OnOff,
         Max
     }
 
@@ -40,7 +42,6 @@ namespace Asset.MySql
 
         private static string _connectionString;
         private static string[] _insertStrings = new string[(int)ETableType.Max];
-        private static string _insertInitDataString;
         private static string _selectAccountString;
         private static string _selectJsonString;
 
@@ -70,7 +71,6 @@ namespace Asset.MySql
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
-            _insertInitDataString = Resources.Load<TextAsset>("InitInsertAccountData").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
 
             SetEnum();
@@ -218,28 +218,19 @@ namespace Asset.MySql
             }
         }
 
-        public static bool AddNewCharacter(string nickname, bool gender, float skinR, float skinG, float skinB)
+        public static bool AddNewCharacter(string nickname, string gender)
         {
             try
             {
-                string initDataString = _insertInitDataString +
-                    $"('{nickname}'," +
-                    $"'{{\"Gender\" : \"{gender}\"," +
-                    $"\"SkinR\" : {skinR}," +
-                    $"\"SkinG\" : {skinG}," +
-                    $"\"SkinB\" : {skinB}," +
-                    "\"IsTutorialEnd\" : 0 " +
-                    $"}}');";
-                Debug.Log(initDataString);
-
+                
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string _insertAccountInfoString = GetInsertString(ETableType.AccountInfoDB, nickname);
+                    string _insertCharacterString = GetInsertString(ETableType.CharacterDB, nickname, gender);
 
-                    MySqlCommand _insertInitDataCommand = new MySqlCommand(initDataString, _mysqlConnection);
+                    MySqlCommand _insertCharacterCommand = new MySqlCommand(_insertCharacterString, _mysqlConnection);
 
                     _mysqlConnection.Open();
-                    _insertInitDataCommand.ExecuteNonQuery();
+                    _insertCharacterCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
 
@@ -305,20 +296,20 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// AccountInfo Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
+        /// CharacterDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// </summary>
         /// <param name="baseType">기준 데이터 Column 타입</param>
         /// <param name="baseValue">기준 데이터 값</param>
         /// <param name="checkType">확인할 데이터 Column 타입</param>
         /// <param name="checkValue">확인할 값</param>
         /// <returns>일치하면 true를 반환, 아니거나 오류가 있을 경우 false 반환</returns>
-        public static bool CheckValueByBase(EAccountInfoColumns baseType, string baseValue,
-            EAccountInfoColumns checkType, string checkValue)
+        public static bool CheckValueByBase(ECharacterColumns baseType, string baseValue,
+            ECharacterColumns checkType, string checkValue)
         {
-            return CheckValueByBase(ETableType.AccountInfoDB, baseType, baseValue, checkType, checkValue);
+            return CheckValueByBase(ETableType.CharacterDB, baseType, baseValue, checkType, checkValue);
         }
         /// <summary>
-        /// Account Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
+        /// AccountDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// ex. ID(baseType)가 aaa(baseValue)인 데이터의 Password(checkType)이 123(checkValue)인지 확인함
         /// </summary>
         /// <param name="baseType">기준 데이터 Column 타입</param>
@@ -346,7 +337,7 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// Account 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
+        /// AccountDB 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
         /// </summary>
         /// <param name="baseType">기준이 되는 값의 Column명</param>
         /// <param name="baseValue">기준이 되는 데이터</param>
@@ -394,7 +385,7 @@ namespace Asset.MySql
 
 
         /// <summary>
-        /// Account Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
+        /// AccountDB Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
         /// </summary>
         /// <param name="baseType">기준 값의 Column명</param>
         /// <param name="baseValue">기준 값의 데이터</param>
@@ -407,10 +398,10 @@ namespace Asset.MySql
             return UpdateValueByBase(ETableType.AccountDB, baseType, baseValue, targetType, targetValue);
         }
 
-        public static bool UpdateValueByBase(EAccountInfoColumns baseType, string baseValue,
-            EAccountInfoColumns targetType, int targetValue)
+        public static bool UpdateValueByBase(ECharacterColumns baseType, string baseValue,
+            ECharacterColumns targetType, int targetValue)
         {
-            return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
+            return UpdateValueByBase(ETableType.CharacterDB, baseType, baseValue, targetType, targetValue);
         }
         private static bool UpdateValueByBase<T>(ETableType targetTable,
             T baseType, string baseValue,
@@ -439,71 +430,10 @@ namespace Asset.MySql
 
         }
 
-        /// <summary>
-        /// 유저의 캐릭터 데이터를 가진 Json을 불러옴.
-        /// </summary>
-        /// <param name="nickname"> 유저의 닉네임</param>
-        /// <returns>JsonData로 반환.</returns>
-        public static JsonData SelectCharacterData(string nickname)
+
+        public static bool DeleteRowByBase(ECharacterColumns baseType, string baseValue)
         {
-            try
-            {
-                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string selectString = $"Select * from AccountInfoDB where {nickname};";
-                    MySqlCommand selectCommand = new MySqlCommand(selectString, _sqlConnection);
-                    _sqlConnection.Open();
-                    MySqlDataReader dataReader = selectCommand.ExecuteReader();
-                    if (dataReader.Read())
-                    {
-                        _selectJsonString = dataReader["AccountData"].ToString();
-                    }
-                    JsonData resultData = JsonMapper.ToObject(_selectJsonString);
-                    _sqlConnection.Close();
-
-                    return resultData;
-                }
-            }
-            catch (System.Exception error)
-            {
-                Debug.LogError(error.Message);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 유저의 캐릭터 데이터 Json에서 특정 값을 바꿔줌
-        /// </summary>
-        /// <param name="nickname">유저의 닉네임</param>
-        /// <param name="targetColumn">값을 바꿔줄 Column명</param>
-        /// <param name="value">바꿔줄 값</param>
-        /// <returns>성공하면 true, 실패하면 false</returns>
-        public static bool ReplaceCharacterData(string nickname, string targetColumn, string value)
-        {
-            try
-            {
-                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string replaceString = $"Update AccountInfoDB set AccountData = json_replace(AccountData,'$.{targetColumn}', {value}) where {nickname};";
-
-                    MySqlCommand replaceCommand = new MySqlCommand(replaceString, _sqlConnection);
-                    _sqlConnection.Open();
-                    replaceCommand.ExecuteNonQuery();
-                    _sqlConnection.Close();
-
-                    return true;
-                }
-            }
-            catch (System.Exception error)
-            {
-                Debug.LogError(error.Message);
-                return false;
-            }
-        }
-
-        public static bool DeleteRowByBase(EAccountInfoColumns baseType, string baseValue)
-        {
-            return DeleteRowByBase(ETableType.AccountInfoDB, baseType, baseValue);
+            return DeleteRowByBase(ETableType.CharacterDB, baseType, baseValue);
         }
         private static bool DeleteRowByBase<T>(ETableType targetTable, T baseType, string baseValue) where T : System.Enum
         {
