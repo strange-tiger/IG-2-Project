@@ -36,14 +36,26 @@ namespace Asset.MySql
         Max
     }
 
+    public enum ESocialStatus
+    {
+        None,
+        Request,
+        Friend,
+        Block,
+        Denied,
+        Max
+    }
+
     public class MySqlSetting
     {
         private static bool hasInit = false;
 
         private static string _connectionString;
         private static string[] _insertStrings = new string[(int)ETableType.Max];
+        private static string _insertSocialRelationString;
         private static string _selectAccountString;
-        private static string _selectJsonString;
+        private static string _selectSocialStatusString;
+        private static string _updateSocialStatusString;
 
         /// <summary>
         ///  MySql 세팅 초기화
@@ -71,7 +83,10 @@ namespace Asset.MySql
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
+            _insertSocialRelationString = Resources.Load<TextAsset>("InsertSocial").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
+            _selectSocialStatusString = Resources.Load<TextAsset>("SelectSocialStatus").text;
+            _updateSocialStatusString = Resources.Load<TextAsset>("UpdateSocialStatus").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -256,7 +271,103 @@ namespace Asset.MySql
             return insertString;
         }
 
+        /// <summary>
+        /// 소셜 관련 요청을 DB에 등록함
+        /// </summary>
+        /// <param name="requestNickname">요청한 유저의 닉네임</param>
+        /// <param name="responseNickname">대상이 되는 유저의 닉네임</param>
+        /// <param name="status">등록할 소셜 기능 / 상태</param>
+        /// <returns>등록에 성공하면 true, 아니면 false </returns>
+        public static bool RequestSocialInteraction(string requestNickname, string responseNickname, ESocialStatus status)
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string insertSocialRequestString = _insertSocialRelationString + $"('{requestNickname}','{responseNickname}','{status}');";
 
+                    MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    insertSocialRequestCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 특정 요청에 대한 Status를 확인함.
+        /// </summary>
+        /// <param name="requestNickname"> 요청을 확인할 유저의 닉네임 </param>
+        /// <param name="responseNickname">확인할 요청의 대상이 되는 유저의 닉네임</param>
+        /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
+        public static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
+        {
+           
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+
+                    string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{requestNickname}' and Repondent = '{responseNickname}';";
+
+                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+
+                    if(!selectSocialStatusData.Read())
+                    {
+                        return ESocialStatus.None;
+                    }
+
+                    ESocialStatus resultStatus = (ESocialStatus)selectSocialStatusData.GetInt32("Status");
+
+                    _mysqlConnection.Close();
+
+                    return resultStatus;
+                }
+           
+        }
+
+        /// <summary>
+        /// 특정 요청의 Status를 바꿔줌.
+        /// </summary>
+        /// <param name="requestNickname"> Status를 바꿔줄 요청을 한 유저의 닉네임</param>
+        /// <param name="responseNickname">요청의 대상이 되는 유저의 닉네임</param>
+        /// <param name="status"> 바꿀 상태 </param>
+        /// <returns>성공하면 true, 실패하면 false </returns>
+        public static bool UpdateSocialStatus(string requestNickname, string responseNickname, ESocialStatus status)
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string updateSocialStatusString = _updateSocialStatusString + $"'{status}' where Requester = '{requestNickname}' and Respondent = '{responseNickname}';";
+
+                    MySqlCommand updateSocialStatusCommand = new MySqlCommand(updateSocialStatusString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    updateSocialStatusCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
+      
 
 
         /// <summary>
