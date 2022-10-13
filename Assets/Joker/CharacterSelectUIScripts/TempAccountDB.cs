@@ -9,6 +9,11 @@ public class TempAccountDB : SingletonBehaviour<TempAccountDB>
 
     private void Start()
     {
+        InitAccountData();
+    }
+
+    private void InitAccountData()
+    {
         SetAccountData("", "");
     }
 
@@ -16,5 +21,10 @@ public class TempAccountDB : SingletonBehaviour<TempAccountDB>
     {
         ID = id;
         Nickname = nickname;
+    }
+
+    private void OnDestroy()
+    {
+        InitAccountData();
     }
 }
