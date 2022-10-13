@@ -16,8 +16,15 @@ public class SelectCharacterUI : MonoBehaviour
     [SerializeField] Button _makeButton;
     [SerializeField] Button _deleteButton;
 
+    [Header("Character")]
+    [SerializeField] GameObject _maleCharacter;
+    [SerializeField] GameObject _femaleCharacter;
+    [SerializeField] GameObject _customizingCharacter;
+
     [Header("Popup")]
     [SerializeField] GameObject _deletePopup;
+
+    private bool _isFemaleCharacter;
 
     private void OnEnable()
     {
@@ -28,7 +35,17 @@ public class SelectCharacterUI : MonoBehaviour
         _makeButton.onClick.AddListener(LoadMake);
         _deleteButton.onClick.AddListener(PopupDelete);
 
+        // DB 연결 필요 (AccountInfoDB.CharacterDB.Gender 데이터 파싱)
+        _isFemaleCharacter = true;
+        SetGender(_isFemaleCharacter);
+
         _deletePopup.SetActive(false);
+    }
+
+    private void SetGender(bool isFemale)
+    {
+        _maleCharacter.SetActive(!isFemale);
+        _femaleCharacter.SetActive(isFemale);
     }
 
     private void StartGame()
