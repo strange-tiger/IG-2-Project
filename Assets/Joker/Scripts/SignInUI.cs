@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Asset.MySql;
 
 using Column = Asset.MySql.EAccountColumns;
 using UI = Defines.ELogInUIIndex;
+using Sql = Asset.MySql.MySqlSetting;
 
 public class SignInUI : MonoBehaviour
 {
@@ -71,7 +71,7 @@ public class SignInUI : MonoBehaviour
             return;
         }
 
-        Debug.Assert(MySqlSetting.AddNewAccount(_idInput.text, _passwordInput.text, _nicknameInput.text), "계정 생성 실패!");
+        Debug.Assert(Sql.AddNewAccount(_idInput.text, _passwordInput.text, _nicknameInput.text), "계정 생성 실패!");
 
         _successPopup.SetActive(true);
     }
@@ -81,7 +81,7 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     private void EmailDoubleCheck()
     {
-        if (MySqlSetting.HasValue(Column.Email, _idInput.text))
+        if (Sql.HasValue(Column.Email, _idInput.text))
         {
             _hasEmailCheck = true;
             _idErrorText.SetActive(false);
@@ -115,7 +115,7 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     private void NicknameDoubleCheck()
     {
-        if (MySqlSetting.HasValue(Column.Nickname, _nicknameInput.text))
+        if (Sql.HasValue(Column.Nickname, _nicknameInput.text))
         {
             _hasNicknameCheck = true;
             _nicknameErrorText.SetActive(false);
