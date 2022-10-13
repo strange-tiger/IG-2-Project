@@ -58,13 +58,13 @@ public class ControllerScrollButton : MonoBehaviour
     private void ControllerTypeLeft()
     {
         Debug.Log("왼쪽으로");
-        SwitchController.Invoke(true);
+        SwitchController.Invoke(false);
     }
 
     private void ControllerTypeRight()
     {
         Debug.Log("오른쪽으로");
-        SwitchController.Invoke(false);
+        SwitchController.Invoke(true);
     }
 
 }
