@@ -14,4 +14,14 @@ namespace Defines
         Effect,
         MaxCount, 
     }
+
+    public enum EVoiceUIType
+    {
+        MasterVolume = 0,
+        EffectVolume,
+        BackGroundVolume,
+        InputVolume,
+        OutputVolume,
+        MaxCount,
+    }
 }

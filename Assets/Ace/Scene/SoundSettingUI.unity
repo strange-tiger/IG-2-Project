@@ -1321,7 +1321,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1548581297}
+        m_TargetAssemblyTypeName: VolumeController, Assembly-CSharp
+        m_MethodName: OutputValueChanged
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 218045237}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &280521795
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,7 +4111,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1548581297}
+        m_TargetAssemblyTypeName: VolumeController, Assembly-CSharp
+        m_MethodName: EffectValueChanged
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 764464964}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &766792086
 GameObject:
   m_ObjectHideFlags: 0
@@ -4947,7 +4971,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 955649118}
-  - component: {fileID: 955649119}
   m_Layer: 5
   m_Name: Master
   m_TagString: Untagged
@@ -4978,21 +5001,6 @@ RectTransform:
   m_AnchoredPosition: {x: 20, y: -20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &955649119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 955649117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b99adc85c14d5284b9858c1bf04e2373, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _volumeValueText: {fileID: 413257203}
-  _slider: {fileID: 1232929995}
-  _audioSource: {fileID: 0}
 --- !u!1 &974883426
 GameObject:
   m_ObjectHideFlags: 0
@@ -6628,7 +6636,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 955649119}
+      - m_Target: {fileID: 1548581297}
         m_TargetAssemblyTypeName: VolumeController, Assembly-CSharp
         m_MethodName: MasterValueChanged
         m_Mode: 2
@@ -8149,7 +8157,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1548581297}
+        m_TargetAssemblyTypeName: VolumeController, Assembly-CSharp
+        m_MethodName: BackGroundValueChanged
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1415585597}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1426014582
 GameObject:
   m_ObjectHideFlags: 0
@@ -8598,6 +8618,7 @@ GameObject:
   - component: {fileID: 1548581294}
   - component: {fileID: 1548581296}
   - component: {fileID: 1548581295}
+  - component: {fileID: 1548581297}
   m_Layer: 5
   m_Name: SoundPanel
   m_TagString: Untagged
@@ -8668,6 +8689,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548581293}
   m_CullTransparentMesh: 1
+--- !u!114 &1548581297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548581293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99adc85c14d5284b9858c1bf04e2373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text:
+  - {fileID: 413257203}
+  - {fileID: 416419864}
+  - {fileID: 1106457431}
+  - {fileID: 2057268297}
+  - {fileID: 2009523235}
+  _slider:
+  - {fileID: 1232929995}
+  - {fileID: 764464964}
+  - {fileID: 1415585597}
+  - {fileID: 1569392475}
+  - {fileID: 218045237}
+  _audioSource: {fileID: 0}
 --- !u!1 &1567668795
 GameObject:
   m_ObjectHideFlags: 0
@@ -8893,7 +8939,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1548581297}
+        m_TargetAssemblyTypeName: VolumeController, Assembly-CSharp
+        m_MethodName: InputValueChanged
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1569392475}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1619489717
 GameObject:
   m_ObjectHideFlags: 0
