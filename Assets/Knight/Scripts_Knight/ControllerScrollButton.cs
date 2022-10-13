@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class ControllerScrollButton : MonoBehaviour
 
     private SwitchControllerScrollUI _switchControllerScrollUI;
     private _Switch _type = _Switch.Left;
-    private Dictionary<_Switch, VoiceTypeDelegate> _voiceTable = new Dictionary<_Switch, VoiceTypeDelegate>();
+    // private Dictionary<_Switch, ControllerTypeDelegate> _controllerTable = new Dictionary<_Switch, ControllerTypeDelegate>();
 
     public _Switch Type
     {
@@ -26,35 +27,47 @@ public class ControllerScrollButton : MonoBehaviour
         }
     }
 
-    private delegate void VoiceTypeDelegate();
+    private delegate void ControllerTypeDelegate();
 
     private void Awake()
     {
         _switchControllerScrollUI = GetComponent<SwitchControllerScrollUI>();
         Type = _Switch.Left;
 
-        _voiceTable.Add(_Switch.Left, ControllerTypeLeft);
-        _voiceTable.Add(_Switch.Right, ControllerTypeRight);
+        //_controllerTable.Add(_Switch.Left, ControllerTypeLeft);
+        //_controllerTable.Add(_Switch.Right, ControllerTypeRight);
     }
 
-    public void OnClickLeftButton()
+    private void OnClickLeftButton()
+    {
+        SwitchController.Invoke(true);
+    }
+
+    private void OnClickRightButton()
+    {
+        SwitchController.Invoke(false);
+    }
+
+    #region Legacy
+    /*
+    private void OnClickLeftButton()
     {
         if (Type - 1 < _Switch.Left)
         {
             return;
         }
         --Type;
-        _voiceTable[Type].Invoke();
+        _controllerTable[Type].Invoke();
     }
 
-    public void OnClickRightButton()
+    private void OnClickRightButton()
     {
         if (Type + 1 >= _Switch.End)
         {
             return;
         }
         ++Type;
-        _voiceTable[Type].Invoke();
+        _controllerTable[Type].Invoke();
     }
 
     private void ControllerTypeLeft()
@@ -68,5 +81,6 @@ public class ControllerScrollButton : MonoBehaviour
         Debug.Log("오른쪽으로");
         SwitchController.Invoke(false);
     }
-
+    */
+    #endregion
 }
