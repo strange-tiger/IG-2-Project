@@ -175,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
     private float _simulationRate = 60f;
     private bool _haltUpdateMovement = false;
     private bool _playerControllerEnabled = false;
-    private bool isControllerRight;
+    private bool _isControllerRight;
 
     [SerializeField]
     private ControllerScrollButton _controllerScrollButton;
@@ -197,16 +197,16 @@ public class PlayerMovement : MonoBehaviour
         Controller = gameObject.GetComponent<CharacterController>();
 
         if (Controller == null)
-            Debug.LogWarning("OVRPlayerController: No CharacterController attached.");
+            Debug.LogWarning("PlayerMovement: No CharacterController attached.");
 
         // We use OVRCameraRig to set rotations to cameras,
         // and to be influenced by rotation
         OVRCameraRig[] CameraRigs = gameObject.GetComponentsInChildren<OVRCameraRig>();
 
         if (CameraRigs.Length == 0)
-            Debug.LogWarning("OVRPlayerController: No OVRCameraRig attached.");
+            Debug.LogWarning("PlayerMovement: No OVRCameraRig attached.");
         else if (CameraRigs.Length > 1)
-            Debug.LogWarning("OVRPlayerController: More then 1 OVRCameraRig attached.");
+            Debug.LogWarning("PlayerMovement: More then 1 OVRCameraRig attached.");
         else
             CameraRig = CameraRigs[0];
 
@@ -400,7 +400,7 @@ public class PlayerMovement : MonoBehaviour
 
 #if !UNITY_ANDROID // LeftTrigger not avail on Android game pad
 
-            if (!isControllerRight)
+            if (!_isControllerRight)
             {
                 moveInfluence *= 1.0f + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
             }
@@ -410,7 +410,7 @@ public class PlayerMovement : MonoBehaviour
             }
 #endif
 
-            if (!isControllerRight)
+            if (!_isControllerRight)
             {
                 Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
 
@@ -501,7 +501,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void SwitchController(bool isLeft)
     {
-        isControllerRight = isLeft;
+        _isControllerRight = isLeft;
     }
 }
 
