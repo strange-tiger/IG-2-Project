@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using _Switch = Defines.ESwitchController;
+
 public class ControllerScrollButton : MonoBehaviour
 {
     public UnityEvent<bool> SwitchController = new UnityEvent<bool>();
 
     private SwitchControllerScrollUI _switchControllerScrollUI;
-    private Defines.ESwitchController _type = Defines.ESwitchController.Left;
-    private Dictionary<Defines.ESwitchController, VoiceTypeDelegate> _voiceTable = new Dictionary<Defines.ESwitchController, VoiceTypeDelegate>();
+    private _Switch _type = _Switch.Left;
+    private Dictionary<_Switch, VoiceTypeDelegate> _voiceTable = new Dictionary<_Switch, VoiceTypeDelegate>();
 
-    public Defines.ESwitchController Type
+    public _Switch Type
     {
         get
         {
@@ -29,15 +31,15 @@ public class ControllerScrollButton : MonoBehaviour
     private void Awake()
     {
         _switchControllerScrollUI = GetComponent<SwitchControllerScrollUI>();
-        Type = Defines.ESwitchController.Left;
+        Type = _Switch.Left;
 
-        _voiceTable.Add(Defines.ESwitchController.Left, ControllerTypeLeft);
-        _voiceTable.Add(Defines.ESwitchController.Right, ControllerTypeRight);
+        _voiceTable.Add(_Switch.Left, ControllerTypeLeft);
+        _voiceTable.Add(_Switch.Right, ControllerTypeRight);
     }
 
     public void OnClickLeftButton()
     {
-        if (Type - 1 < Defines.ESwitchController.Left)
+        if (Type - 1 < _Switch.Left)
         {
             return;
         }
@@ -47,7 +49,7 @@ public class ControllerScrollButton : MonoBehaviour
 
     public void OnClickRightButton()
     {
-        if (Type + 1 >= Defines.ESwitchController.End)
+        if (Type + 1 >= _Switch.End)
         {
             return;
         }
