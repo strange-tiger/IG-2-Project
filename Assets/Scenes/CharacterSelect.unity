@@ -430,9 +430,9 @@ MonoBehaviour:
   _startButton: {fileID: 111046328}
   _makeButton: {fileID: 1433370083}
   _deleteButton: {fileID: 295386518}
-  _maleCharacter: {fileID: 0}
-  _femaleCharacter: {fileID: 0}
-  _customizingCharacter: {fileID: 0}
+  _maleCharacter: {fileID: 490788545}
+  _femaleCharacter: {fileID: 490788544}
+  _customizingCharacter: {fileID: 490788543}
   _deletePopup: {fileID: 2094686069}
 --- !u!1 &138283508
 GameObject:
@@ -1196,6 +1196,21 @@ PrefabInstance:
 --- !u!4 &490788542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8547809343219157940, guid: e6d0bc89a0a36d345a02dcd2a842a43c, type: 3}
+  m_PrefabInstance: {fileID: 490788541}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &490788543 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8547809343218786602, guid: e6d0bc89a0a36d345a02dcd2a842a43c, type: 3}
+  m_PrefabInstance: {fileID: 490788541}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &490788544 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8547809343218801926, guid: e6d0bc89a0a36d345a02dcd2a842a43c, type: 3}
+  m_PrefabInstance: {fileID: 490788541}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &490788545 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8547809343218826186, guid: e6d0bc89a0a36d345a02dcd2a842a43c, type: 3}
   m_PrefabInstance: {fileID: 490788541}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &503458756
@@ -4268,6 +4283,7 @@ GameObject:
   - component: {fileID: 1678942963}
   - component: {fileID: 1678942962}
   - component: {fileID: 1678942964}
+  - component: {fileID: 1678942965}
   m_Layer: 5
   m_Name: MakeCharacterPanel
   m_TagString: Untagged
@@ -4350,10 +4366,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1ca8d1b45fe1e44a1ec7c080d0ff0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkinColorValue: {r: 0, g: 0, b: 0, a: 0}
   _characterRotateSlider: {fileID: 77107123}
   _genderSelectButton: {fileID: 227394805}
-  _skinSelectButton: {fileID: 791272211}
   _maleSelectButton: {fileID: 1300579077}
   _femaleSelectButton: {fileID: 2013504402}
   _makeCharacterButton: {fileID: 1862231336}
@@ -4362,7 +4376,20 @@ MonoBehaviour:
   _customizingCharacter: {fileID: 1944220757}
   _genderSettingPanel: {fileID: 1486317137}
   _skinSettingPanel: {fileID: 1527554680}
-  _colorPicker: {fileID: 1359451435}
+--- !u!114 &1678942965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678942960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c21ca551cc19e7f44820c9d8e642e2c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterUIManager: {fileID: 503458761}
+  _backButton: {fileID: 797168870}
 --- !u!1 &1699315786
 GameObject:
   m_ObjectHideFlags: 0
