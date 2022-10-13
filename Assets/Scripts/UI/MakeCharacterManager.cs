@@ -8,30 +8,18 @@ public class MakeCharacterManager : MonoBehaviour
 {
     public Color SkinColorValue;
 
-    [SerializeField]
-    private Slider _characterRotateSlider;
-    [SerializeField]
-    private Button _genderSelectButton;
-    [SerializeField]
-    private Button _skinSelectButton;
-    [SerializeField]
-    private Button _maleSelectButton;
-    [SerializeField]
-    private Button _femaleSelectButton;
-    [SerializeField]
-    private Button _makeCharacterButton;
-    [SerializeField]
-    private GameObject _maleCharacter;
-    [SerializeField]
-    private GameObject _femaleCharacter;
-    [SerializeField]
-    private GameObject _customizingCharacter;
-    [SerializeField]
-    private GameObject _genderSettingPanel;
-    [SerializeField]
-    private GameObject _skinSettingPanel;
-    [SerializeField]
-    private ColorPicker _colorPicker;
+    [SerializeField] private Slider _characterRotateSlider;
+    [SerializeField] private Button _genderSelectButton;
+    [SerializeField] private Button _skinSelectButton;
+    [SerializeField] private Button _maleSelectButton;
+    [SerializeField] private Button _femaleSelectButton;
+    [SerializeField] private Button _makeCharacterButton;
+    [SerializeField] private GameObject _maleCharacter;
+    [SerializeField] private GameObject _femaleCharacter;
+    [SerializeField] private GameObject _customizingCharacter;
+    [SerializeField] private GameObject _genderSettingPanel;
+    [SerializeField] private GameObject _skinSettingPanel;
+    [SerializeField] private ColorPicker _colorPicker;
     private bool _isFemaleCharacter;
     void Start()
     {

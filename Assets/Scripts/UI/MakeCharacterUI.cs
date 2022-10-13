@@ -13,9 +13,6 @@ public class MakeCharacterUI : MonoBehaviour
 
     [Header("Button")]
     [SerializeField] Button _backButton;
-    [SerializeField] Button _makeButton;
-    [SerializeField] Button _genderSelectButton;
-    [SerializeField] Button _colorSelectButton;
 
     private void OnEnable()
     {
