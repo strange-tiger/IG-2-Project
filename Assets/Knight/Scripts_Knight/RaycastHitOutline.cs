@@ -2,21 +2,15 @@ using EPOOutline;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class RaycastHitOutline : MonoBehaviour
+public class RaycastHitOutline : SensingObject
 {
     [SerializeField]
     private PlayerInput _playerInput;
 
-    public UnityEvent Hit = new UnityEvent();
-
     private float _rayLength = 5.0f;
-    private int _object = 1 << 10;
 
-
-
-    void Update()
+    private void Update()
     {
         if (_playerInput.IsRay)
         {
@@ -24,11 +18,21 @@ public class RaycastHitOutline : MonoBehaviour
             RaycastHit hit;
 
             ray = new Ray(transform.position, transform.forward);
-            if (Physics.Raycast(ray, out hit, _rayLength, _object))
+            if (Physics.Raycast(ray, out hit, _rayLength))
             {
-                Hit.Invoke();
+                base.Awake();
             }
-
         }
     }
+
+    public override void OnFocus()
+    {
+        base.OnFocus();
+    }
+
+    public override void OutFocus()
+    {
+        base.OutFocus();
+    }
+
 }
