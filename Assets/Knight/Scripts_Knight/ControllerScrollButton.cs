@@ -38,14 +38,22 @@ public class ControllerScrollButton : MonoBehaviour
         //_controllerTable.Add(_Switch.Right, ControllerTypeRight);
     }
 
-    private void OnClickLeftButton()
+    public void OnClickLeftButton()
     {
-        SwitchController.Invoke(true);
+        if (Type > _Switch.Left)
+        {
+            SwitchController.Invoke(true);
+            --Type;
+        }
     }
 
-    private void OnClickRightButton()
+    public void OnClickRightButton()
     {
-        SwitchController.Invoke(false);
+        if (Type < _Switch.Right)
+        {
+            SwitchController.Invoke(false);
+            ++Type;
+        }
     }
 
     #region Legacy
