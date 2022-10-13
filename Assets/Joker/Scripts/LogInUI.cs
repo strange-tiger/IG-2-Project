@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using Asset.MySql;
 
 using Column = Asset.MySql.EAccountColumns;
 using UI = Defines.ELogInUIIndex;
+using Sql = Asset.MySql.MySqlSetting;
 
 public class LogInUI : MonoBehaviour
 {
@@ -47,16 +47,17 @@ public class LogInUI : MonoBehaviour
     /// </summary>
     private void LogIn()
     {
-        if (!MySqlSetting.HasValue(Column.Email, _idInput.text))
+        if (!Sql.HasValue(Column.Email, _idInput.text))
         {
             return;
         }
 
-        if (!MySqlSetting.CheckValueByBase(Column.Email, _idInput.text, Column.Password, _passwordInput.text))
+        if (!Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Password, _passwordInput.text))
         {
             return;
         }
 
+        TempAccountDB.SetAccountData(_idInput.text, Sql.GetValueByBase(Column.Email, _idInput.text, Column.Nickname));
         Debug.Log("로그인 성공!");
         // SceneManager.LoadScene(1); // 다음 씬으로 이어지는 부분 필요
     }

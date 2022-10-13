@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Asset.MySql;
 
 using Column = Asset.MySql.EAccountColumns;
 using UI = Defines.ELogInUIIndex;
 using Error = Defines.EFindPasswordErrorType;
+using Sql = Asset.MySql.MySqlSetting;
 
 public class FindPasswordUI : MonoBehaviour
 {
@@ -43,19 +43,19 @@ public class FindPasswordUI : MonoBehaviour
     
     private void FindPassword()
     {
-        if (!MySqlSetting.HasValue(Column.Email, _idInput.text))
+        if (!Sql.HasValue(Column.Email, _idInput.text))
         {
             _errorPopup.ErrorPopup(Error.ID);
             return;
         }
-        if (MySqlSetting.CheckValueByBase(Column.Email, _idInput.text, Column.Qustion, _questionList.value.ToString()) || 
-            MySqlSetting.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
+        if (Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Qustion, _questionList.value.ToString()) ||
+            Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
         {
             _errorPopup.ErrorPopup(Error.ANSWER);
             return;
         }
 
-        _passwordOutput.text = MySqlSetting.GetValueByBase(Column.Email, _idInput.text, Column.Password);
+        _passwordOutput.text = Sql.GetValueByBase(Column.Email, _idInput.text, Column.Password);
     }
 
     private void OnDisable()
