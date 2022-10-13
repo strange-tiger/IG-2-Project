@@ -67,15 +67,12 @@ namespace Photon.Chat
         /// <summary>Subscribed users.</summary>
         public readonly HashSet<string> Subscribers = new HashSet<string>();
 
-        /// <summary> Properties of subscribers </summary>
-        private Dictionary<string, Dictionary<object, object>> usersProperties;
-
         /// <summary>Used internally to create new channels. This does NOT create a channel on the server! Use ChatClient.Subscribe.</summary>
         public ChatChannel(string name)
         {
             this.Name = name;
         }
-
+        
         /// <summary>Used internally to add messages to this channel.</summary>
         public void Add(string sender, object message, int msgId)
         {
@@ -157,83 +154,29 @@ namespace Photon.Chat
             }
         }
 
-        internal bool AddSubscribers(string[] users)
+        internal void AddSubscribers(string[] users)
         {
             if (users == null)
             {
-                return false;
+                return;
             }
-            bool result = true;
             for (int i = 0; i < users.Length; i++)
             {
-                if (!this.Subscribers.Add(users[i]))
-                {
-                    result = false;
-                }
+                this.Subscribers.Add(users[i]);
             }
-            return result;
         }
-
-        internal bool AddSubscriber(string userId)
-        {
-            return this.Subscribers.Add(userId);
-        }
-
-        internal bool RemoveSubscriber(string userId)
-        {
-            if (this.usersProperties != null)
-            {
-                this.usersProperties.Remove(userId);
-            }
-            return this.Subscribers.Remove(userId);
-        }
-
 
         #if CHAT_EXTENDED
         internal void ReadUserProperties(string userId, Dictionary<object, object> changedProperties)
         {
-            if (this.usersProperties == null)
-            {
-                this.usersProperties = new Dictionary<string, Dictionary<object, object>>();
-            }
-            Dictionary<object, object> userProperties;
-            if (!this.usersProperties.TryGetValue(userId, out userProperties))
-            {
-                userProperties = new Dictionary<object, object>();
-                this.usersProperties.Add(userId, userProperties);
-            }
-            foreach (var property in changedProperties)
-            {
-                //UnityEngine.Debug.LogFormat("User {0} property {1} = {2}", userId, property.Key, property.Value);
-                if (property.Value == null)
-                {
-                    userProperties.Remove(property.Key);
-                }
-                else
-                {
-                    userProperties[property.Key] = property.Value;
-                }
-            }
+            throw new System.NotImplementedException();
         }
-
+        
         internal bool TryGetChannelProperty<T>(object propertyKey, out T propertyValue)
         {
-            propertyValue = default;
+            propertyValue = default(T);
             object temp;
             if (properties != null && properties.TryGetValue(propertyKey, out temp) && temp is T)
-            {
-                propertyValue = (T)temp;
-                return true;
-            }
-            return false;
-        }
-
-        internal bool TryGetUserProperty<T>(string userId, object propertyKey, out T propertyValue)
-        {
-            propertyValue = default;
-            object temp;
-            Dictionary<object, object> userProperties;
-            if (this.usersProperties != null && usersProperties.TryGetValue(userId, out userProperties) && userProperties.TryGetValue(propertyKey, out temp) && temp is T)
             {
                 propertyValue = (T)temp;
                 return true;
@@ -244,11 +187,6 @@ namespace Photon.Chat
         public bool TryGetCustomChannelProperty<T>(string propertyKey, out T propertyValue)
         {
             return this.TryGetChannelProperty(propertyKey, out propertyValue);
-        }
-
-        public bool TryGetCustomUserProperty<T>(string userId, string propertyKey, out T propertyValue)
-        {
-            return this.TryGetUserProperty(userId, propertyKey, out propertyValue);
         }
         #endif
     }

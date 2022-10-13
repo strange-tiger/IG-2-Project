@@ -13,7 +13,7 @@ namespace Asset.MySql
     public enum ETableType
     {
         AccountDB,
-        AccountInfoDB,
+        CharacterDB,
         Max
     };
 
@@ -27,10 +27,22 @@ namespace Asset.MySql
         Max
     }
 
-    public enum EAccountInfoColumns
+    public enum ECharacterColumns
     {
         Nickname,
-        AccountData,
+        Gender,
+        Tutorial,
+        OnOff,
+        Max
+    }
+
+    public enum ESocialStatus
+    {
+        None,
+        Request,
+        Friend,
+        Block,
+        Denied,
         Max
     }
 
@@ -40,9 +52,10 @@ namespace Asset.MySql
 
         private static string _connectionString;
         private static string[] _insertStrings = new string[(int)ETableType.Max];
-        private static string _insertInitDataString;
+        private static string _insertSocialRelationString;
         private static string _selectAccountString;
-        private static string _selectJsonString;
+        private static string _selectSocialStatusString;
+        private static string _updateSocialStatusString;
 
         /// <summary>
         ///  MySql 세팅 초기화
@@ -70,8 +83,10 @@ namespace Asset.MySql
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
-            _insertInitDataString = Resources.Load<TextAsset>("InitInsertAccountData").text;
+            _insertSocialRelationString = Resources.Load<TextAsset>("InsertSocial").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
+            _selectSocialStatusString = Resources.Load<TextAsset>("SelectSocialStatus").text;
+            _updateSocialStatusString = Resources.Load<TextAsset>("UpdateSocialStatus").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -218,28 +233,19 @@ namespace Asset.MySql
             }
         }
 
-        public static bool AddNewCharacter(string nickname, bool gender, float skinR, float skinG, float skinB)
+        public static bool AddNewCharacter(string nickname, string gender)
         {
             try
             {
-                string initDataString = _insertInitDataString +
-                    $"('{nickname}'," +
-                    $"'{{\"Gender\" : \"{gender}\"," +
-                    $"\"SkinR\" : {skinR}," +
-                    $"\"SkinG\" : {skinG}," +
-                    $"\"SkinB\" : {skinB}," +
-                    "\"IsTutorialEnd\" : 0 " +
-                    $"}}');";
-                Debug.Log(initDataString);
-
+                
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string _insertAccountInfoString = GetInsertString(ETableType.AccountInfoDB, nickname);
+                    string _insertCharacterString = GetInsertString(ETableType.CharacterDB, nickname, gender);
 
-                    MySqlCommand _insertInitDataCommand = new MySqlCommand(initDataString, _mysqlConnection);
+                    MySqlCommand _insertCharacterCommand = new MySqlCommand(_insertCharacterString, _mysqlConnection);
 
                     _mysqlConnection.Open();
-                    _insertInitDataCommand.ExecuteNonQuery();
+                    _insertCharacterCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
 
@@ -265,7 +271,103 @@ namespace Asset.MySql
             return insertString;
         }
 
+        /// <summary>
+        /// 소셜 관련 요청을 DB에 등록함
+        /// </summary>
+        /// <param name="requestNickname">요청한 유저의 닉네임</param>
+        /// <param name="responseNickname">대상이 되는 유저의 닉네임</param>
+        /// <param name="status">등록할 소셜 기능 / 상태</param>
+        /// <returns>등록에 성공하면 true, 아니면 false </returns>
+        public static bool RequestSocialInteraction(string requestNickname, string responseNickname, ESocialStatus status)
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string insertSocialRequestString = _insertSocialRelationString + $"('{requestNickname}','{responseNickname}','{status}');";
 
+                    MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    insertSocialRequestCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 특정 요청에 대한 Status를 확인함.
+        /// </summary>
+        /// <param name="requestNickname"> 요청을 확인할 유저의 닉네임 </param>
+        /// <param name="responseNickname">확인할 요청의 대상이 되는 유저의 닉네임</param>
+        /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
+        public static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
+        {
+           
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+
+                    string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{requestNickname}' and Repondent = '{responseNickname}';";
+
+                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+
+                    if(!selectSocialStatusData.Read())
+                    {
+                        return ESocialStatus.None;
+                    }
+
+                    ESocialStatus resultStatus = (ESocialStatus)selectSocialStatusData.GetInt32("Status");
+
+                    _mysqlConnection.Close();
+
+                    return resultStatus;
+                }
+           
+        }
+
+        /// <summary>
+        /// 특정 요청의 Status를 바꿔줌.
+        /// </summary>
+        /// <param name="requestNickname"> Status를 바꿔줄 요청을 한 유저의 닉네임</param>
+        /// <param name="responseNickname">요청의 대상이 되는 유저의 닉네임</param>
+        /// <param name="status"> 바꿀 상태 </param>
+        /// <returns>성공하면 true, 실패하면 false </returns>
+        public static bool UpdateSocialStatus(string requestNickname, string responseNickname, ESocialStatus status)
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string updateSocialStatusString = _updateSocialStatusString + $"'{status}' where Requester = '{requestNickname}' and Respondent = '{responseNickname}';";
+
+                    MySqlCommand updateSocialStatusCommand = new MySqlCommand(updateSocialStatusString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    updateSocialStatusCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
+      
 
 
         /// <summary>
@@ -305,20 +407,20 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// AccountInfo Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
+        /// CharacterDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// </summary>
         /// <param name="baseType">기준 데이터 Column 타입</param>
         /// <param name="baseValue">기준 데이터 값</param>
         /// <param name="checkType">확인할 데이터 Column 타입</param>
         /// <param name="checkValue">확인할 값</param>
         /// <returns>일치하면 true를 반환, 아니거나 오류가 있을 경우 false 반환</returns>
-        public static bool CheckValueByBase(EAccountInfoColumns baseType, string baseValue,
-            EAccountInfoColumns checkType, string checkValue)
+        public static bool CheckValueByBase(ECharacterColumns baseType, string baseValue,
+            ECharacterColumns checkType, string checkValue)
         {
-            return CheckValueByBase(ETableType.AccountInfoDB, baseType, baseValue, checkType, checkValue);
+            return CheckValueByBase(ETableType.CharacterDB, baseType, baseValue, checkType, checkValue);
         }
         /// <summary>
-        /// Account Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
+        /// AccountDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// ex. ID(baseType)가 aaa(baseValue)인 데이터의 Password(checkType)이 123(checkValue)인지 확인함
         /// </summary>
         /// <param name="baseType">기준 데이터 Column 타입</param>
@@ -346,7 +448,7 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// Account 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
+        /// AccountDB 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
         /// </summary>
         /// <param name="baseType">기준이 되는 값의 Column명</param>
         /// <param name="baseValue">기준이 되는 데이터</param>
@@ -394,7 +496,7 @@ namespace Asset.MySql
 
 
         /// <summary>
-        /// Account Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
+        /// AccountDB Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
         /// </summary>
         /// <param name="baseType">기준 값의 Column명</param>
         /// <param name="baseValue">기준 값의 데이터</param>
@@ -407,10 +509,10 @@ namespace Asset.MySql
             return UpdateValueByBase(ETableType.AccountDB, baseType, baseValue, targetType, targetValue);
         }
 
-        public static bool UpdateValueByBase(EAccountInfoColumns baseType, string baseValue,
-            EAccountInfoColumns targetType, int targetValue)
+        public static bool UpdateValueByBase(ECharacterColumns baseType, string baseValue,
+            ECharacterColumns targetType, int targetValue)
         {
-            return UpdateValueByBase(ETableType.AccountInfoDB, baseType, baseValue, targetType, targetValue);
+            return UpdateValueByBase(ETableType.CharacterDB, baseType, baseValue, targetType, targetValue);
         }
         private static bool UpdateValueByBase<T>(ETableType targetTable,
             T baseType, string baseValue,
@@ -439,71 +541,10 @@ namespace Asset.MySql
 
         }
 
-        /// <summary>
-        /// 유저의 캐릭터 데이터를 가진 Json을 불러옴.
-        /// </summary>
-        /// <param name="nickname"> 유저의 닉네임</param>
-        /// <returns>JsonData로 반환.</returns>
-        public static JsonData SelectCharacterData(string nickname)
+
+        public static bool DeleteRowByBase(ECharacterColumns baseType, string baseValue)
         {
-            try
-            {
-                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string selectString = $"Select * from AccountInfoDB where {nickname};";
-                    MySqlCommand selectCommand = new MySqlCommand(selectString, _sqlConnection);
-                    _sqlConnection.Open();
-                    MySqlDataReader dataReader = selectCommand.ExecuteReader();
-                    if (dataReader.Read())
-                    {
-                        _selectJsonString = dataReader["AccountData"].ToString();
-                    }
-                    JsonData resultData = JsonMapper.ToObject(_selectJsonString);
-                    _sqlConnection.Close();
-
-                    return resultData;
-                }
-            }
-            catch (System.Exception error)
-            {
-                Debug.LogError(error.Message);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 유저의 캐릭터 데이터 Json에서 특정 값을 바꿔줌
-        /// </summary>
-        /// <param name="nickname">유저의 닉네임</param>
-        /// <param name="targetColumn">값을 바꿔줄 Column명</param>
-        /// <param name="value">바꿔줄 값</param>
-        /// <returns>성공하면 true, 실패하면 false</returns>
-        public static bool ReplaceCharacterData(string nickname, string targetColumn, string value)
-        {
-            try
-            {
-                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string replaceString = $"Update AccountInfoDB set AccountData = json_replace(AccountData,'$.{targetColumn}', {value}) where {nickname};";
-
-                    MySqlCommand replaceCommand = new MySqlCommand(replaceString, _sqlConnection);
-                    _sqlConnection.Open();
-                    replaceCommand.ExecuteNonQuery();
-                    _sqlConnection.Close();
-
-                    return true;
-                }
-            }
-            catch (System.Exception error)
-            {
-                Debug.LogError(error.Message);
-                return false;
-            }
-        }
-
-        public static bool DeleteRowByBase(EAccountInfoColumns baseType, string baseValue)
-        {
-            return DeleteRowByBase(ETableType.AccountInfoDB, baseType, baseValue);
+            return DeleteRowByBase(ETableType.CharacterDB, baseType, baseValue);
         }
         private static bool DeleteRowByBase<T>(ETableType targetTable, T baseType, string baseValue) where T : System.Enum
         {
