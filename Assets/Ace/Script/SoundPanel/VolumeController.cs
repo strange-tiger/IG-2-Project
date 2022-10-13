@@ -4,10 +4,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class MasterVolume : MonoBehaviour
+public class VolumeController : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI _volumeValueText;
+    [SerializeField]
     private Slider _slider;
 
     [SerializeField]
@@ -20,28 +21,30 @@ public class MasterVolume : MonoBehaviour
     const string OUTPUT_VOLUME = "OutputVolume";
     private float _initVolume = 0.5f;
 
-    void Awake()
+    private void Awake()
     {
         _slider = GetComponentInChildren<Slider>();
 
-        SetNewValue(MASTER_VOLUME, _initVolume);
-        SetNewValue(EFFECT_VOLUME, _initVolume);
-        SetNewValue(BACKGROUND_VOLUME, _initVolume);
-        SetNewValue(INPUT_VOLUME, _initVolume);
-        SetNewValue(OUTPUT_VOLUME, _initVolume);
+        GetValue(MASTER_VOLUME);
+        //GetValue(EFFECT_VOLUME);
+        //GetValue(BACKGROUND_VOLUME);
+        //GetValue(INPUT_VOLUME);
+        //GetValue(OUTPUT_VOLUME);
     }
     
-    void SetNewValue(string key, float value)
+    private void GetValue(string key)
     {
         if (PlayerPrefs.HasKey(key) == false)
         {
-            PlayerPrefs.SetFloat(key, value);
+            PlayerPrefs.SetFloat(key, _initVolume);
         }
+        _slider.value = PlayerPrefs.GetFloat(key);
     }
 
-    public void ChangeValue(Slider slider)
+    public void MasterValueChanged(Slider slider)
     {
-        _volumeValueText.text = (int)(slider.value * 100) + "%";
-        //_audioSource.volume = slider.value;
+        PlayerPrefs.SetFloat(MASTER_VOLUME, slider.value);
+        _volumeValueText.text = (int)(PlayerPrefs.GetFloat(MASTER_VOLUME) * 100) + "%";
+        // _audioSource.volume = slider.value;
     }
 }

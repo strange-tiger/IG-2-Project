@@ -4991,6 +4991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _volumeValueText: {fileID: 413257203}
+  _slider: {fileID: 1232929995}
   _audioSource: {fileID: 0}
 --- !u!1 &974883426
 GameObject:
@@ -6628,8 +6629,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 955649119}
-        m_TargetAssemblyTypeName: MasterVolume, Assembly-CSharp
-        m_MethodName: ChangeValue
+        m_TargetAssemblyTypeName: VolumeController, Assembly-CSharp
+        m_MethodName: MasterValueChanged
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1232929995}

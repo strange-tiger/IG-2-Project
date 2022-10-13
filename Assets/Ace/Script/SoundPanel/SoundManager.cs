@@ -18,7 +18,5 @@ public class SoundManager : MonoBehaviour
             }
             return _instance;
         }
-    }
-
-    
+    }  
 }
