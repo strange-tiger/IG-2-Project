@@ -284,7 +284,7 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string insertSocialRequestString = _insertSocialRelationString + $"('{requestNickname}','{responseNickname}','{status}');";
+                    string insertSocialRequestString = _insertSocialRelationString + $"('{requestNickname}','{responseNickname}','{(int) status}');";
 
                     MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
 
@@ -358,7 +358,7 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string updateSocialStatusString = _updateSocialStatusString + $"'{status}' where Requester = '{requestNickname}' and Respondent = '{responseNickname}';";
+                    string updateSocialStatusString = _updateSocialStatusString + $"'{(int)status}' where Requester = '{requestNickname}' and Respondent = '{responseNickname}';";
 
                     MySqlCommand updateSocialStatusCommand = new MySqlCommand(updateSocialStatusString, _mysqlConnection);
 
@@ -375,7 +375,62 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// DataSet에 데이터를 저장함.
+        /// </summary>
+        /// <param name="selectString"> 저장할 데이터를 가져올 명령어</param>
+        /// <param name="nickname">명령어에 들어갈 닉네임</param>
+        /// <returns>데이터를 저장한 DataSet을 반환</returns>
+        public static DataSet GetUserData(string selectString, string nickname)
+        {
+            DataSet _dataSet = new DataSet();
 
+            using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString)) 
+            {
+                _sqlConnection.Open(); 
+
+                MySqlDataAdapter _dataAdapter = new MySqlDataAdapter(selectString, _sqlConnection);
+
+                _dataAdapter.Fill(_dataSet);
+            }
+            return _dataSet;
+        }
+
+        /// <summary>
+        /// 특정 유저의 특정 상태를 리스트로 만들어서 반환.
+        /// </summary>
+        /// <param name="nickname">리스트를 만들 유저</param>
+        /// <param name="status"> 리스트를 만들 상태</param>
+        /// <returns>Block이 아니면, 요청자와 대상자 Column을 모두 검사하여 반환, Block이면 요청자만 검사하여 반환.</returns>
+        public static List<string> CheckStatusList(string nickname, ESocialStatus status)
+        {
+
+             string selcetRequesterString = $"Select Respondent from RelationshipDB where Requester = '{nickname}' and Status = '{(int)status}';";
+
+
+            DataSet requesterData = GetUserData(selcetRequesterString, nickname);
+
+            List<string> resultList = new List<string>();
+
+            foreach (DataRow _dataRow in requesterData.Tables[0].Rows)
+            {
+                resultList.Add(_dataRow["Respondent"].ToString());
+            }
+
+            if(status != ESocialStatus.Block)
+            {
+                 string selcetRespondentString = $"Select Requester from RelationshipDB where Respondent = '{nickname}' and Status = '{(int)status}';";
+                DataSet respondentData = GetUserData(selcetRespondentString, nickname);
+                foreach (DataRow _dataRow in respondentData.Tables[0].Rows)
+                {
+                    resultList.Add(_dataRow["Requester"].ToString());
+                }
+            }
+
+             return resultList;
+            
+        }
+      
 
 
         /// <summary>
