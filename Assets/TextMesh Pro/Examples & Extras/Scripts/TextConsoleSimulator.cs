@@ -35,7 +35,7 @@ namespace TMPro.Examples
 
 
         // Event received when the text object has changed.
-        void ON_TEXT_CHANGED(Object obj)
+        void ON_TEXT_CHANGED(UnityEngine.Object obj)
         {
             hasTextChanged = true;
         }
