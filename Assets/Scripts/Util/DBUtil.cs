@@ -52,13 +52,14 @@ namespace Asset.MySql
 
         private static string _connectionString;
         private static string[] _insertStrings = new string[(int)ETableType.Max];
-        private static string _insertSocialRelationString;
+        private static string _insertSocialStateString;
+        private static string _insertSocialRequestString;
         private static string _selectAccountString;
         private static string _selectSocialStatusString;
         private static string _updateSocialStatusString;
 
         /// <summary>
-        ///  MySql ¼¼ÆÃ ÃÊ±âÈ­
+        ///  MySql ì„¸íŒ… ì´ˆê¸°í™”
         /// </summary>
         public static void Init()
         {
@@ -71,9 +72,9 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// MySql ¼¼ÆÃÀ» ÃÊ±âÈ­
+        /// MySql ì„¸íŒ…ì„ ì´ˆê¸°í™”
         /// </summary>
-        /// <param name="isNeedReset"> ÃÊ±âÈ­°¡ ÇÊ¿äÇÏ¸é true, ¾Æ´Ï¸é false</param>
+        /// <param name="isNeedReset"> ì´ˆê¸°í™”ê°€ í•„ìš”í•˜ë©´ true, ì•„ë‹ˆë©´ false</param>
         public static void Init(bool isNeedReset)
         {
             if (!isNeedReset)
@@ -83,13 +84,14 @@ namespace Asset.MySql
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
-            _insertSocialRelationString = Resources.Load<TextAsset>("InsertSocial").text;
+            _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
+            _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
             _selectSocialStatusString = Resources.Load<TextAsset>("SelectSocialStatus").text;
             _updateSocialStatusString = Resources.Load<TextAsset>("UpdateSocialStatus").text;
 
             SetEnum();
-            Debug.Log("Enum Setting ³¡");
+            Debug.Log("Enum Setting ë");
         }
 
         [MenuItem("Tools/GenerateEnum")]
@@ -104,12 +106,12 @@ namespace Asset.MySql
 
             try
             {
-                // DB¿¡¼­ Å×ÀÌºí°ú ÄÃ·³¸í °¡Á®¿À±â
+                // DBì—ì„œ í…Œì´ë¸”ê³¼ ì»¬ëŸ¼ëª… ê°€ì ¸ì˜¤ê¸°
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
                     _sqlConnection.Open();
 
-                    // Å×ÀÌºí ¸í °¡Á®¿À±â
+                    // í…Œì´ë¸” ëª… ê°€ì ¸ì˜¤ê¸°
                     MySqlCommand tableTypeCommand = new MySqlCommand(tableTypeString, _sqlConnection);
                     MySqlDataReader tableTypeReader = tableTypeCommand.ExecuteReader();
 
@@ -127,7 +129,7 @@ namespace Asset.MySql
 
                     tableTypeReader.Close();
 
-                    // Å×ÀÌºí ¸í¿¡ µû¶ó Column °ª °¡Á®¿À±â
+                    // í…Œì´ë¸” ëª…ì— ë”°ë¼ Column ê°’ ê°€ì ¸ì˜¤ê¸°
                     foreach (string table in tableNames)
                     {
                         string columnSelectString = columnTypeString + table + ";";
@@ -151,14 +153,14 @@ namespace Asset.MySql
                     _sqlConnection.Close();
                 }
 
-                // ÇØ´ç ³»¿ë¿¡ ¸Â´Â ÆÄÀÏ »ı¼ºÇÏ±â
+                // í•´ë‹¹ ë‚´ìš©ì— ë§ëŠ” íŒŒì¼ ìƒì„±í•˜ê¸°
                 using (StreamWriter streamWriter = new StreamWriter("./Assets/Scripts/Util/MySqlEnum.cs"))
                 {
-                    // ÀüÃ³¸®
+                    // ì „ì²˜ë¦¬
                     streamWriter.WriteLine("namespace Asset {");
 
-                    // enum »ı¼ºÇÏ±â
-                    //  1. Å×ÀÌºí Å¸ÀÔ 
+                    // enum ìƒì„±í•˜ê¸°
+                    //  1. í…Œì´ë¸” íƒ€ì… 
                     streamWriter.WriteLine("\tpublic enum ETableType {");
                     foreach (string table in tableNames)
                     {
@@ -166,7 +168,7 @@ namespace Asset.MySql
                     }
                     streamWriter.WriteLine("\t}");
 
-                    //  2. Å×ÀÌºíÀÇ ÄÃ·³ Å¸ÀÔ
+                    //  2. í…Œì´ë¸”ì˜ ì»¬ëŸ¼ íƒ€ì…
                     foreach (string table in tableNames)
                     {
                         streamWriter.WriteLine($"\tpublic enum E{table}Columns {{");
@@ -179,7 +181,7 @@ namespace Asset.MySql
                         streamWriter.WriteLine("\t}");
                     }
 
-                    // ÈÄÃ³¸®
+                    // í›„ì²˜ë¦¬
                     streamWriter.WriteLine("}");
                 }
                 AssetDatabase.Refresh();
@@ -192,24 +194,24 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// °èÁ¤ Ãß°¡ÇÏ±â
+        /// ê³„ì • ì¶”ê°€í•˜ê¸°
         /// </summary>
-        /// <param name="Email">°èÁ¤ Email</param>
-        /// <param name="Password">°èÁ¤ PW</param>
-        /// <param name="Nickname">°èÁ¤ Nickname</param>
-        /// <returns>Á¤»óÀûÀ¸·Î ÀÔ·ÂÀÌ µÇ¾úÀ» °æ¿ì true, ¾Æ´Ï¸é false
-        /// (´ëÇ¥ÀûÀ¸·Î email NicknameÀÌ °ãÄ¥ °æ¿ì false ¹İÈ¯)</returns>
+        /// <param name="Email">ê³„ì • Email</param>
+        /// <param name="Password">ê³„ì • PW</param>
+        /// <param name="Nickname">ê³„ì • Nickname</param>
+        /// <returns>ì •ìƒì ìœ¼ë¡œ ì…ë ¥ì´ ë˜ì—ˆì„ ê²½ìš° true, ì•„ë‹ˆë©´ false
+        /// (ëŒ€í‘œì ìœ¼ë¡œ email Nicknameì´ ê²¹ì¹  ê²½ìš° false ë°˜í™˜)</returns>
         public static bool AddNewAccount(string Email, string Password, string Nickname)
         {
             try
             {
                 if (HasValue(EAccountColumns.Email, Email))
                 {
-                    throw new System.Exception("Email Áßº¹µÊ");
+                    throw new System.Exception("Email ì¤‘ë³µë¨");
                 }
                 if (HasValue(EAccountColumns.Nickname, Nickname))
                 {
-                    throw new System.Exception("Nickname Áßº¹µÊ");
+                    throw new System.Exception("Nickname ì¤‘ë³µë¨");
                 }
 
 
@@ -272,19 +274,57 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// ¼Ò¼È °ü·Ã ¿äÃ»À» DB¿¡ µî·ÏÇÔ
+        /// ë‘ ì‚¬ìš©ì ê°„ì˜ ìš”ì²­ì´ RequestDBì— ì¡´ì¬í•˜ëŠ” ì§€ í™•ì¸.
         /// </summary>
-        /// <param name="requestNickname">¿äÃ»ÇÑ À¯ÀúÀÇ ´Ğ³×ÀÓ</param>
-        /// <param name="responseNickname">´ë»óÀÌ µÇ´Â À¯ÀúÀÇ ´Ğ³×ÀÓ</param>
-        /// <param name="status">µî·ÏÇÒ ¼Ò¼È ±â´É / »óÅÂ</param>
-        /// <returns>µî·Ï¿¡ ¼º°øÇÏ¸é true, ¾Æ´Ï¸é false </returns>
-        public static bool RequestSocialInteraction(string requestNickname, string responseNickname, ESocialStatus status)
+        /// <param name="userA"></param>
+        /// <param name="userB"></param>
+        /// <returns> ì¡´ì¬í•˜ë©´ true ì•„ë‹ˆë©´ false </returns>
+        public static bool CheckRequest(string userA, string userB)
         {
+            
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string selcetSocialRequestString = $"select * from RequestDB where Requester = '{userA}' and Repondent = '{userB}' or Requester = '{userB}' and Repondent = '{userA};";
+
+                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+                    if(selectSocialStatusData.Read())
+                    {
+                        _mysqlConnection.Close();
+
+                        return true;
+                    }
+
+                    _mysqlConnection.Close();
+                    return false;
+                }
+
+           
+            
+        }
+
+        /// <summary>
+        /// ì¹œêµ¬ ìš”ì²­ì„ RequestDBì— ì €ì¥í•¨.
+        /// </summary>
+        /// <param name="requester">ì‹ ì²­ì¸</param>
+        /// <param name="respondent">ëŒ€ìƒì</param>
+        /// <returns>ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ false ë°˜í™˜</returns>
+        public static bool RequestSocialInteraction(string requester, string respondent)
+        {
+            if (CheckRequest(requester, respondent))
+            {
+                Debug.LogError("ì´ë¯¸ ìš”ì²­ì´ ì¡´ì¬í•©ë‹ˆë‹¤.");
+                return false;
+            }
+
             try
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string insertSocialRequestString = _insertSocialRelationString + $"('{requestNickname}','{responseNickname}','{(int) status}');";
+                    string insertSocialRequestString = _insertSocialRequestString + $"('{requester}','{respondent}');";
 
                     MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
 
@@ -301,86 +341,131 @@ namespace Asset.MySql
             }
         }
 
-        public static ESocialStatus CheckRelationship(string requester, string respondent)
-        {
-            if (CheckSocialStatus(requester, respondent) == ESocialStatus.None)
-            {
-                return CheckSocialStatus(respondent, requester);
-            }
-
-            return CheckSocialStatus(requester, respondent);
-        }
 
 
         /// <summary>
-        /// Æ¯Á¤ ¿äÃ»¿¡ ´ëÇÑ Status¸¦ È®ÀÎÇÔ.
+        /// íŠ¹ì • ìš”ì²­ì— ëŒ€í•œ Statusë¥¼ í™•ì¸í•¨.
         /// </summary>
-        /// <param name="requestNickname"> ¿äÃ»À» È®ÀÎÇÒ À¯ÀúÀÇ ´Ğ³×ÀÓ </param>
-        /// <param name="responseNickname">È®ÀÎÇÒ ¿äÃ»ÀÇ ´ë»óÀÌ µÇ´Â À¯ÀúÀÇ ´Ğ³×ÀÓ</param>
-        /// <returns> ÀĞ¾î¿À¸é StatusÀÇ EnumÀ» ¹İÈ¯ÇÏ°í, °ªÀ» Ã£À» ¼ö ¾ø´Ù¸é ESocialStatus.NoneÀ» ¹İÈ¯ÇÔ. </returns>
-        public static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
+        /// <param name="userA">ìœ ì €ì˜ ë‹‰ë„¤ì„</param>
+        /// <param name="userB">ìœ ì €ì˜ ë‹‰ë„¤ì„</param>
+        /// <returns> ì½ì–´ì˜¤ë©´ Statusì˜ Enumì„ ë°˜í™˜í•˜ê³ , ê°’ì„ ì°¾ì„ ìˆ˜ ì—†ë‹¤ë©´ ESocialStatus.Noneì„ ë°˜í™˜í•¨. </returns>
+        public static ESocialStatus CheckSocialStatus(string userA, string userB)
         {
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
 
-                string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{requestNickname}' and Repondent = '{responseNickname}';";
+        private bool IsThereRelationship(string userA, string userB)
+        {
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{userA}' and UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
 
-                MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
                 _mysqlConnection.Open();
 
-                MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
 
-                if (!selectSocialStatusData.Read())
+
+                if(!reader.Read())
                 {
-                    return ESocialStatus.None;
+                    _mysqlConnection.Close();
+                    return false;
                 }
-
-                ESocialStatus resultStatus = (ESocialStatus)selectSocialStatusData.GetInt32("Status");
 
                 _mysqlConnection.Close();
-
-                return resultStatus;
+                return true;
+                
             }
-
         }
+
         /// <summary>
-        /// Æ¯Á¤ ¿äÃ»ÀÇ Status¸¦ ¹Ù²ãÁÜ.
+        /// ë‚´ê°€ UserAì¸ì§€, UserBì¸ì§€ íŒë‹¨í•¨.
         /// </summary>
-        /// <param name="requestNickname"> Status¸¦ ¹Ù²ãÁÙ ¿äÃ»À» ÇÑ À¯ÀúÀÇ ´Ğ³×ÀÓ</param>
-        /// <param name="responseNickname">¿äÃ»ÀÇ ´ë»óÀÌ µÇ´Â À¯ÀúÀÇ ´Ğ³×ÀÓ</param>
-        /// <param name="status"> ¹Ù²Ü »óÅÂ </param>
-        /// <returns>¼º°øÇÏ¸é true, ½ÇÆĞÇÏ¸é false </returns>
-        public static bool UpdateSocialStatus(string requestNickname, string responseNickname, ESocialStatus status)
+        /// <param name="myNickname"> ë‚˜ì˜ ë‹‰ë„¤ì„</param>
+        /// <param name="targetNickname"> ëŒ€ìƒì˜ ë‹‰ë„¤ì„ </param>
+        /// <param name="isLeft">ë‚´ê°€ UserAë¼ë©´ True, UserBë¼ë©´ false</param>
+        /// <returns>Rowê°€ ì¡´ì¬í•˜ë©´ True, ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ false </returns>
+        public bool CheckMyPositionInRelationShip(string myNickname, string targetNickname, out bool isLeft)
         {
-            try
+
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+
+                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if (reader.Read())
                 {
-                    string updateSocialStatusString = _updateSocialStatusString + $"'{(int)status}' where Requester = '{requestNickname}' and Respondent = '{responseNickname}';";
+                    isLeft = false;
 
-                    MySqlCommand updateSocialStatusCommand = new MySqlCommand(updateSocialStatusString, _mysqlConnection);
+                    if(reader["UserA"].ToString() == myNickname)
+                    {
+                        isLeft = true;
+                    }
+                    else if(reader["UserB"].ToString() == myNickname)
+                    {
+                        isLeft = false;
+                    }
 
-                    _mysqlConnection.Open();
-                    updateSocialStatusCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
+                    return true;
                 }
 
-                return true;
-            }
-            catch
-            {
+                isLeft = false;
                 return false;
+            }
+
+        }
+
+
+
+
+        public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
+        {
+            if(CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
+            {
+                return -1;
+            }
+
+            CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft);
+
+           using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+                int status = 0;
+
+                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+
+                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if (reader.Read())
+                {
+                    status = reader.GetInt32("Status");
+                    
+                }
+               _mysqlConnection.Close();
+
+                return status;
             }
         }
 
         /// <summary>
-        /// DataSet¿¡ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÔ.
+        /// DataSetì— ë°ì´í„°ë¥¼ ì €ì¥í•¨.
         /// </summary>
-        /// <param name="selectString"> ÀúÀåÇÒ µ¥ÀÌÅÍ¸¦ °¡Á®¿Ã ¸í·É¾î</param>
-        /// <param name="nickname">¸í·É¾î¿¡ µé¾î°¥ ´Ğ³×ÀÓ</param>
-        /// <returns>µ¥ÀÌÅÍ¸¦ ÀúÀåÇÑ DataSetÀ» ¹İÈ¯</returns>
+        /// <param name="selectString"> ì €ì¥í•  ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¬ ëª…ë ¹ì–´</param>
+        /// <param name="nickname">ëª…ë ¹ì–´ì— ë“¤ì–´ê°ˆ ë‹‰ë„¤ì„</param>
+        /// <returns>ë°ì´í„°ë¥¼ ì €ì¥í•œ DataSetì„ ë°˜í™˜</returns>
         private static DataSet GetUserData(string selectString)
         {
             DataSet _dataSet = new DataSet();
@@ -397,11 +482,11 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// Æ¯Á¤ À¯ÀúÀÇ Æ¯Á¤ »óÅÂ¸¦ ¸®½ºÆ®·Î ¸¸µé¾î¼­ ¹İÈ¯.
+        /// íŠ¹ì • ìœ ì €ì˜ íŠ¹ì • ìƒíƒœë¥¼ ë¦¬ìŠ¤íŠ¸ë¡œ ë§Œë“¤ì–´ì„œ ë°˜í™˜.
         /// </summary>
-        /// <param name="nickname">¸®½ºÆ®¸¦ ¸¸µé À¯Àú</param>
-        /// <param name="status"> ¸®½ºÆ®¸¦ ¸¸µé »óÅÂ</param>
-        /// <returns>BlockÀÌ ¾Æ´Ï¸é, ¿äÃ»ÀÚ¿Í ´ë»óÀÚ ColumnÀ» ¸ğµÎ °Ë»çÇÏ¿© ¹İÈ¯, BlockÀÌ¸é ¿äÃ»ÀÚ¸¸ °Ë»çÇÏ¿© ¹İÈ¯.</returns>
+        /// <param name="nickname">ë¦¬ìŠ¤íŠ¸ë¥¼ ë§Œë“¤ ìœ ì €</param>
+        /// <param name="status"> ë¦¬ìŠ¤íŠ¸ë¥¼ ë§Œë“¤ ìƒíƒœ</param>
+        /// <returns>Blockì´ ì•„ë‹ˆë©´, ìš”ì²­ìì™€ ëŒ€ìƒì Columnì„ ëª¨ë‘ ê²€ì‚¬í•˜ì—¬ ë°˜í™˜, Blockì´ë©´ ìš”ì²­ìë§Œ ê²€ì‚¬í•˜ì—¬ ë°˜í™˜.</returns>
         public static List<Dictionary<string, string>> CheckStatusList(string nickname, ESocialStatus status)
         {
 
@@ -444,11 +529,11 @@ namespace Asset.MySql
 
 
         /// <summary>
-        /// ÇØ´ç °ªÀÌ DB¿¡ ÀÖ´ÂÁö È®ÀÎÇÑ´Ù.
+        /// í•´ë‹¹ ê°’ì´ DBì— ìˆëŠ”ì§€ í™•ì¸í•œë‹¤.
         /// </summary>
-        /// <param name="columnType">Account ÅÂÀÌºí¿¡¼­ ºñ±³ÇÏ±â À§ÇÑ colum ¸í</param>
-        /// <param name="value">ºñ±³ÇÒ °ª</param>
-        /// <returns>°ªÀÌ ÀÖ´Ù¸é true, ¾Æ´Ï¸é false¸¦ ¹İÈ¯ÇÑ´Ù.</returns>
+        /// <param name="columnType">Account íƒœì´ë¸”ì—ì„œ ë¹„êµí•˜ê¸° ìœ„í•œ colum ëª…</param>
+        /// <param name="value">ë¹„êµí•  ê°’</param>
+        /// <returns>ê°’ì´ ìˆë‹¤ë©´ true, ì•„ë‹ˆë©´ falseë¥¼ ë°˜í™˜í•œë‹¤.</returns>
         public static bool HasValue(EAccountColumns columnType, string value)
         {
             try
@@ -473,34 +558,34 @@ namespace Asset.MySql
             }
             catch
             {
-                Debug.LogError("¿À·ù³²: Doublecheck");
+                Debug.LogError("ì˜¤ë¥˜ë‚¨: Doublecheck");
                 return false;
             }
 
         }
 
         /// <summary>
-        /// CharacterDB Table¿¡¼­ baseTypeÀÇ baseValue¸¦ ±âÁØÀ¸·Î checkTypeÀÇ checkValue°¡ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎÇÔ
+        /// CharacterDB Tableì—ì„œ baseTypeì˜ baseValueë¥¼ ê¸°ì¤€ìœ¼ë¡œ checkTypeì˜ checkValueê°€ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸í•¨
         /// </summary>
-        /// <param name="baseType">±âÁØ µ¥ÀÌÅÍ Column Å¸ÀÔ</param>
-        /// <param name="baseValue">±âÁØ µ¥ÀÌÅÍ °ª</param>
-        /// <param name="checkType">È®ÀÎÇÒ µ¥ÀÌÅÍ Column Å¸ÀÔ</param>
-        /// <param name="checkValue">È®ÀÎÇÒ °ª</param>
-        /// <returns>ÀÏÄ¡ÇÏ¸é true¸¦ ¹İÈ¯, ¾Æ´Ï°Å³ª ¿À·ù°¡ ÀÖÀ» °æ¿ì false ¹İÈ¯</returns>
+        /// <param name="baseType">ê¸°ì¤€ ë°ì´í„° Column íƒ€ì…</param>
+        /// <param name="baseValue">ê¸°ì¤€ ë°ì´í„° ê°’</param>
+        /// <param name="checkType">í™•ì¸í•  ë°ì´í„° Column íƒ€ì…</param>
+        /// <param name="checkValue">í™•ì¸í•  ê°’</param>
+        /// <returns>ì¼ì¹˜í•˜ë©´ trueë¥¼ ë°˜í™˜, ì•„ë‹ˆê±°ë‚˜ ì˜¤ë¥˜ê°€ ìˆì„ ê²½ìš° false ë°˜í™˜</returns>
         public static bool CheckValueByBase(ECharacterColumns baseType, string baseValue,
             ECharacterColumns checkType, string checkValue)
         {
             return CheckValueByBase(ETableType.CharacterDB, baseType, baseValue, checkType, checkValue);
         }
         /// <summary>
-        /// AccountDB Table¿¡¼­ baseTypeÀÇ baseValue¸¦ ±âÁØÀ¸·Î checkTypeÀÇ checkValue°¡ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎÇÔ
-        /// ex. ID(baseType)°¡ aaa(baseValue)ÀÎ µ¥ÀÌÅÍÀÇ Password(checkType)ÀÌ 123(checkValue)ÀÎÁö È®ÀÎÇÔ
+        /// AccountDB Tableì—ì„œ baseTypeì˜ baseValueë¥¼ ê¸°ì¤€ìœ¼ë¡œ checkTypeì˜ checkValueê°€ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸í•¨
+        /// ex. ID(baseType)ê°€ aaa(baseValue)ì¸ ë°ì´í„°ì˜ Password(checkType)ì´ 123(checkValue)ì¸ì§€ í™•ì¸í•¨
         /// </summary>
-        /// <param name="baseType">±âÁØ µ¥ÀÌÅÍ Column Å¸ÀÔ</param>
-        /// <param name="baseValue">±âÁØ µ¥ÀÌÅÍ °ª</param>
-        /// <param name="checkType">È®ÀÎÇÒ µ¥ÀÌÅÍ Column Å¸ÀÔ</param>
-        /// <param name="checkValue">È®ÀÎÇÒ °ª</param>
-        /// <returns>ÀÏÄ¡ÇÏ¸é true¸¦ ¹İÈ¯, ¾Æ´Ï°Å³ª ¿À·ù°¡ ÀÖÀ» °æ¿ì false ¹İÈ¯</returns>
+        /// <param name="baseType">ê¸°ì¤€ ë°ì´í„° Column íƒ€ì…</param>
+        /// <param name="baseValue">ê¸°ì¤€ ë°ì´í„° ê°’</param>
+        /// <param name="checkType">í™•ì¸í•  ë°ì´í„° Column íƒ€ì…</param>
+        /// <param name="checkValue">í™•ì¸í•  ê°’</param>
+        /// <returns>ì¼ì¹˜í•˜ë©´ trueë¥¼ ë°˜í™˜, ì•„ë‹ˆê±°ë‚˜ ì˜¤ë¥˜ê°€ ìˆì„ ê²½ìš° false ë°˜í™˜</returns>
         public static bool CheckValueByBase(EAccountColumns baseType, string baseValue,
             EAccountColumns checkType, string checkValue)
         {
@@ -521,12 +606,12 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// AccountDB Å×ÀÌºí¿¡¼­ baseTypeÀÇ baseValue¸¦ ±âÁØÀ¸·Î targetTypeÀÇ µ¥ÀÌÅÍ¸¦ °¡Á®¿È
+        /// AccountDB í…Œì´ë¸”ì—ì„œ baseTypeì˜ baseValueë¥¼ ê¸°ì¤€ìœ¼ë¡œ targetTypeì˜ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜´
         /// </summary>
-        /// <param name="baseType">±âÁØÀÌ µÇ´Â °ªÀÇ Column¸í</param>
-        /// <param name="baseValue">±âÁØÀÌ µÇ´Â µ¥ÀÌÅÍ</param>
-        /// <param name="targetType">°¡Á®¿À±â À§ÇÑ µ¥ÀÌÅÍ Column¸í</param>
-        /// <returns>ÇØ´ç µ¥ÀÌÅÍ¸¦ ¹İÈ¯. ¿À·ù ½Ã null ¹İÈ¯</returns>
+        /// <param name="baseType">ê¸°ì¤€ì´ ë˜ëŠ” ê°’ì˜ Columnëª…</param>
+        /// <param name="baseValue">ê¸°ì¤€ì´ ë˜ëŠ” ë°ì´í„°</param>
+        /// <param name="targetType">ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ë°ì´í„° Columnëª…</param>
+        /// <returns>í•´ë‹¹ ë°ì´í„°ë¥¼ ë°˜í™˜. ì˜¤ë¥˜ ì‹œ null ë°˜í™˜</returns>
         public static string GetValueByBase(EAccountColumns baseType, string baseValue, EAccountColumns targetType)
         {
             return GetValueByBase(ETableType.AccountDB, baseType, baseValue, targetType);
@@ -549,7 +634,7 @@ namespace Asset.MySql
 
                     if (!resultReader.Read())
                     {
-                        throw new System.Exception("base °ªÀÌ ¾øÀ½");
+                        throw new System.Exception("base ê°’ì´ ì—†ìŒ");
                     }
 
                     string result = resultReader[targetType.ToString()].ToString();
@@ -569,13 +654,13 @@ namespace Asset.MySql
 
 
         /// <summary>
-        /// AccountDB Table¿¡¼­ baseTypeÀÇ baseValue¸¦ ±âÁØÀ¸·Î TargetTypeÀ» TargetValue·Î º¯°æÇÔ
+        /// AccountDB Tableì—ì„œ baseTypeì˜ baseValueë¥¼ ê¸°ì¤€ìœ¼ë¡œ TargetTypeì„ TargetValueë¡œ ë³€ê²½í•¨
         /// </summary>
-        /// <param name="baseType">±âÁØ °ªÀÇ Column¸í</param>
-        /// <param name="baseValue">±âÁØ °ªÀÇ µ¥ÀÌÅÍ</param>
-        /// <param name="targetType">º¯°æÇÒ °ªÀÇ Column¸í</param>
-        /// <param name="targetValue">º¯°æÇÒ °ª</param>
-        /// <returns>Á¤»óÀûÀ¸·Î º¯°æµÇ¾ú´Ù¸é true, ¾Æ´Ï¸é false¸¦ ¹İÈ¯</returns>
+        /// <param name="baseType">ê¸°ì¤€ ê°’ì˜ Columnëª…</param>
+        /// <param name="baseValue">ê¸°ì¤€ ê°’ì˜ ë°ì´í„°</param>
+        /// <param name="targetType">ë³€ê²½í•  ê°’ì˜ Columnëª…</param>
+        /// <param name="targetValue">ë³€ê²½í•  ê°’</param>
+        /// <returns>ì •ìƒì ìœ¼ë¡œ ë³€ê²½ë˜ì—ˆë‹¤ë©´ true, ì•„ë‹ˆë©´ falseë¥¼ ë°˜í™˜</returns>
         public static bool UpdateValueByBase(EAccountColumns baseType, string baseValue,
             EAccountColumns targetType, int targetValue)
         {

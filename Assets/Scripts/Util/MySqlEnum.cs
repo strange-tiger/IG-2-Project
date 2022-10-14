@@ -5,6 +5,7 @@ namespace Asset
 		accountdb,
 		characterdb,
 		relationshipdb,
+		requestdb,
 		test,
 	}
 	public enum EaccountdbColumns
@@ -22,9 +23,14 @@ namespace Asset
 		OnOff,
 	}
 	public enum ErelationshipdbColumns {
+		UserA,
+		UserB,
+		Status,
+		Timestamp,
+	}
+	public enum ErequestdbColumns {
 		Requester,
 		Respondent,
-		Status,
 		Timestamp,
 	}
 	public enum EtestColumns {
