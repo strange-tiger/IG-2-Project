@@ -281,29 +281,29 @@ namespace Asset.MySql
         /// <returns> 존재하면 true 아니면 false </returns>
         public static bool CheckRequest(string userA, string userB)
         {
-            
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+                string selcetSocialRequestString = $"select * from RequestDB where Requester = '{userA}' and Repondent = '{userB}' or Requester = '{userB}' and Repondent = '{userA};";
+
+                MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+                if (selectSocialStatusData.Read())
                 {
-                    string selcetSocialRequestString = $"select * from RequestDB where Requester = '{userA}' and Repondent = '{userB}' or Requester = '{userB}' and Repondent = '{userA};";
-
-                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
-
-                    _mysqlConnection.Open();
-
-                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
-                    if(selectSocialStatusData.Read())
-                    {
-                        _mysqlConnection.Close();
-
-                        return true;
-                    }
-
                     _mysqlConnection.Close();
-                    return false;
+
+                    return true;
                 }
 
-           
-            
+                _mysqlConnection.Close();
+                return false;
+            }
+
+
+
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Asset.MySql
 
 
 
-       
+
 
         private bool IsThereRelationship(string userA, string userB)
         {
@@ -358,7 +358,7 @@ namespace Asset.MySql
                 MySqlDataReader reader = command.ExecuteReader();
 
 
-                if(!reader.Read())
+                if (!reader.Read())
                 {
                     _mysqlConnection.Close();
                     return false;
@@ -366,7 +366,7 @@ namespace Asset.MySql
 
                 _mysqlConnection.Close();
                 return true;
-                
+
             }
         }
 
@@ -395,11 +395,11 @@ namespace Asset.MySql
                 {
                     isLeft = false;
 
-                    if(reader["UserA"].ToString() == myNickname)
+                    if (reader["UserA"].ToString() == myNickname)
                     {
                         isLeft = true;
                     }
-                    else if(reader["UserB"].ToString() == myNickname)
+                    else if (reader["UserB"].ToString() == myNickname)
                     {
                         isLeft = false;
                     }
@@ -414,6 +414,15 @@ namespace Asset.MySql
 
         }
 
+        private const int _initBit = 0b_0001;
+
+        /// <summary>
+        /// 내가 상대에게 친구 요청을 한다.
+        /// 사전조건 판단은 외부에서 수행한다.
+        /// </summary>
+        /// <param name="myNickname"></param>
+        /// <param name="targetNickname"></param>
+        /// <returns></returns>
         public bool UpdateRelationshipToRequest(string myNickname, string targetNickname)
         {
             try
@@ -421,12 +430,7 @@ namespace Asset.MySql
                 bool isLeft;
                 int state = CheckRelationship(myNickname, targetNickname, out isLeft);
 
-                int changeState = 0b_0001;
-
-                if (isLeft)
-                {
-                    changeState = changeState << 2;
-                }
+                int changeState = UpdateRelationshipToRequestHelper(isLeft, _initBit);
 
                 state = state | changeState;
 
@@ -441,11 +445,20 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// 나와 상대의 관계를 친구로 업데이트한다.
+        /// 사전조건 판단은 외부에서 수행한다.
+        /// </summary>
+        /// <param name="myNickname"></param>
+        /// <param name="targetNickname"></param>
+        /// <returns></returns>
         public bool UpdateRelationshipToFriend(string myNickname, string targetNickname)
         {
+            int changeState = _initBit >> 1;
+
             try
             {
-                UpdateRelationship(myNickname, targetNickname, 0b_0000);
+                UpdateRelationship(myNickname, targetNickname, changeState);
                 return true;
             }
             catch
@@ -455,14 +468,24 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// 나와 상대의 친구 관계를 끊는다.
+        /// 사전조건 판단은 외부에서 수행한다.
+        /// </summary>
+        /// <param name="myNickname"></param>
+        /// <param name="targetNickname"></param>
+        /// <returns></returns>
         public bool UpdateRelationshipToUnFriend(string myNickname, string targetNickname)
         {
             try
             {
-                if (!DeleteRowByComparator(ErelationshipdbColumns.UserA, myNickname, ErelationshipdbColumns.UserB, targetNickname))
-                {
-                    DeleteRowByComparator(ErelationshipdbColumns.UserA, targetNickname, ErelationshipdbColumns.UserB, myNickname);
-                }
+                DeleteRowByComparator
+                (
+                    ErelationshipdbColumns.UserA,
+                    myNickname,
+                    ErelationshipdbColumns.UserB,
+                    targetNickname
+                );
 
                 return true;
             }
@@ -473,16 +496,32 @@ namespace Asset.MySql
             }
         }
 
+        private int UpdateRelationshipToRequestHelper(bool isLeft, int changeState)
+        {
+            if (isLeft)
+            {
+                return changeState << 2;
+            }
+            return changeState;
+        }
+
+        private int UpdateRelationshipToBlockHelper(bool isLeft, int changeState)
+        {
+            changeState = changeState | changeState << 1;
+
+            return UpdateRelationshipToRequestHelper(isLeft, changeState);
+        }
+
         public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
         {
-            if(CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
+            if (CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
             {
                 return -1;
             }
 
             CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft);
 
-           using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
                 int status = 0;
 
@@ -498,9 +537,9 @@ namespace Asset.MySql
                 if (reader.Read())
                 {
                     status = reader.GetInt32("Status");
-                    
+
                 }
-               _mysqlConnection.Close();
+                _mysqlConnection.Close();
 
                 return status;
             }
@@ -516,9 +555,9 @@ namespace Asset.MySql
         {
             DataSet _dataSet = new DataSet();
 
-            using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString)) 
+            using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
             {
-                _sqlConnection.Open(); 
+                _sqlConnection.Open();
 
                 MySqlDataAdapter _dataAdapter = new MySqlDataAdapter(selectString, _sqlConnection);
 
@@ -536,10 +575,10 @@ namespace Asset.MySql
         public static List<Dictionary<string, string>> CheckStatusList(string nickname, ESocialStatus status)
         {
 
-             string selcetRequesterString = $"SELECT CharacterDB.OnOff, RelationshipDB.Respondent FROM RelationshipDB " +
-                $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Respondent where Requester = '{nickname}' and Status = '{(int)status}'; ";
+            string selcetRequesterString = $"SELECT CharacterDB.OnOff, RelationshipDB.Respondent FROM RelationshipDB " +
+               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Respondent where Requester = '{nickname}' and Status = '{(int)status}'; ";
 
-            
+
 
             DataSet requesterData = GetUserData(selcetRequesterString);
 
@@ -552,7 +591,7 @@ namespace Asset.MySql
                 resultList.Add(dictionaryList);
             }
 
-            if(status != ESocialStatus.Block)
+            if (status != ESocialStatus.Block)
             {
                 string selcetRespondentString = $"SELECT CharacterDB.OnOff, RelationshipDB.Requester FROM RelationshipDB " +
                     $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Requester where Respondent = '{nickname}' and Status = '{(int)status}'; ";
@@ -569,9 +608,9 @@ namespace Asset.MySql
             }
 
             return resultList;
-            
+
         }
-      
+
 
 
         /// <summary>
@@ -753,10 +792,11 @@ namespace Asset.MySql
 
         #region DeleteRowByComparator-RelationshipDB
 
-        public static bool DeleteRowByComparator(ErelationshipdbColumns type_1, string condition_1,
-           ErelationshipdbColumns type_2, string condition_2,
-           ErelationshipdbColumns type_3, string condition_3,
-           string logicOperator = "and")
+        public static bool DeleteRowByComparator
+         (ErelationshipdbColumns type_1, string condition_1,
+          ErelationshipdbColumns type_2, string condition_2,
+          ErelationshipdbColumns type_3, string condition_3,
+          string logicOperator = "and")
         {
 
             return DeleteRowByComparator
@@ -781,9 +821,55 @@ namespace Asset.MySql
             );
         }
 
-        public static bool DeleteRowByComparator(ErelationshipdbColumns type_1, string condition_1, 
-           ErelationshipdbColumns type_2, string condition_2,
-           string logicOperator = "and")
+        public static bool DeleteRowByComparator
+        (ErelationshipdbColumns type_1, string condition_1,
+         ErelationshipdbColumns type_2, string condition_2,
+         string logicOperator = "and")
+        {
+            if 
+            (
+                DeleteRowByComparator
+                (
+                    Asset.ETableType.relationshipdb,
+                    logicOperator,
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_1,
+                        Value = condition_1
+                    },
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_2,
+                        Value = condition_2
+                    }
+                )
+            )
+            {
+                return true;
+            }
+            else
+            {
+                return DeleteRowByComparator
+                (
+                    Asset.ETableType.relationshipdb,
+                    logicOperator,
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_2,
+                        Value = condition_2
+                    },
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_1,
+                        Value = condition_1
+                    }
+                );
+            }
+        }
+
+        public static bool DeleteRowByComparator
+        (ErelationshipdbColumns type, string condition,
+        string logicOperator = "and")
         {
 
             return DeleteRowByComparator
@@ -792,27 +878,18 @@ namespace Asset.MySql
                 logicOperator,
                 new Comparator<ErelationshipdbColumns>() 
                 { 
-                    Column = type_1, 
-                    Value = condition_1 
-                },
-                new Comparator<ErelationshipdbColumns>()
-                {
-                    Column = type_2,
-                    Value = condition_2
+                    Column = type, 
+                    Value = condition 
                 }
             );
         }
 
-        public static bool DeleteRowByComparator(ErelationshipdbColumns type, string condition,
-           string logicOperator = "and")
-        {
-
-            return DeleteRowByComparator(Asset.ETableType.relationshipdb, logicOperator, new Comparator<ErelationshipdbColumns>() { Column = type, Value = condition });
-        }
-
         #endregion
 
-        public static bool DeleteRowByComparator<T>(Asset.ETableType targetTable, string logicOperator, params Comparator<T>[] comparators) where T : System.Enum
+        public static bool DeleteRowByComparator<T>
+        (Asset.ETableType targetTable, string logicOperator,
+        params Comparator<T>[] comparators) 
+            where T : System.Enum
         {
             try
             {
