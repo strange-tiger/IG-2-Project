@@ -468,7 +468,7 @@ namespace Asset.MySql
         /// <param name="userB"> UserB column에 들어가는 닉네임. </param>
         /// <param name="state">업데이트할 State </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public bool UpdateRalationship(string userA, string userB, int state)
+        public bool UpdateRelationship(string userA, string userB, int state)
         {
             if(IsThereRelationship(userA,userB) == false)
             {
@@ -530,7 +530,7 @@ namespace Asset.MySql
 
                 changeState = state | changeState;
 
-                UpdateRalationship(myNickname, targetNickname, changeState);
+                UpdateRelationship(myNickname, targetNickname, changeState);
 
                 return true;
             }
@@ -556,7 +556,7 @@ namespace Asset.MySql
 
                 changeState = state & ~changeState;
 
-                UpdateRalationship(myNickname, targetNickname, changeState);
+                UpdateRelationship(myNickname, targetNickname, changeState);
 
                 return true;
             }
@@ -590,7 +590,7 @@ namespace Asset.MySql
                 int changeState = UpdateRelationshipToRequestHelper(isLeft, _initBit);
 
                 state = state | changeState;
-
+                
                 UpdateRelationship(myNickname, targetNickname, state);
 
                 return true;
