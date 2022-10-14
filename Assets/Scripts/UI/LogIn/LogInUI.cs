@@ -8,6 +8,7 @@ using TMPro;
 using Column = Asset.MySql.EAccountColumns;
 using UI = Defines.ELogInUIIndex;
 using Sql = Asset.MySql.MySqlSetting;
+using Hash = Encryption.Hash256;
 
 public class LogInUI : MonoBehaviour
 {
@@ -52,7 +53,8 @@ public class LogInUI : MonoBehaviour
             return;
         }
 
-        if (!Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Password, _passwordInput.text))
+        if (!Sql.CheckValueByBase(Column.Email, _idInput.text, 
+            Column.Password, Hash.Compute(_passwordInput.text)))
         {
             return;
         }

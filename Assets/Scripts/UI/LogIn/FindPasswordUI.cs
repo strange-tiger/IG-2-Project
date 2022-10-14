@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,7 +41,8 @@ public class FindPasswordUI : MonoBehaviour
     }
 
     private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
-    
+
+    [Obsolete]
     private void FindPassword()
     {
         if (!Sql.HasValue(Column.Email, _idInput.text))
