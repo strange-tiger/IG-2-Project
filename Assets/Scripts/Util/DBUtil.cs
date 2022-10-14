@@ -301,6 +301,17 @@ namespace Asset.MySql
             }
         }
 
+        public static ESocialStatus CheckRelationship(string requester, string respondent)
+        {
+            if(CheckSocialStatus(requester,respondent) == ESocialStatus.None)
+            {
+                return CheckSocialStatus(respondent, requester);
+            }
+
+            return CheckSocialStatus(requester, respondent);
+        }
+
+
         /// <summary>
         /// 특정 요청에 대한 Status를 확인함.
         /// </summary>
@@ -334,7 +345,6 @@ namespace Asset.MySql
                 }
            
         }
-
         /// <summary>
         /// 특정 요청의 Status를 바꿔줌.
         /// </summary>
@@ -366,8 +376,6 @@ namespace Asset.MySql
         }
 
 
-
-      
 
 
         /// <summary>
