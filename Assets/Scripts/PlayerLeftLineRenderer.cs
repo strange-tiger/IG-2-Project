@@ -4,7 +4,7 @@ using UnityEngine;
 using EPOOutline;
 using System.Net.NetworkInformation;
 
-public class PlayerLineRenderer : MonoBehaviour
+public class PlayerLeftLineRenderer : MonoBehaviour
 {
     [SerializeField]
     private PlayerInput _playerInput;
@@ -33,7 +33,7 @@ public class PlayerLineRenderer : MonoBehaviour
 
     private void OnTriggerButton()
     {
-        if (_playerInput.IsRay)
+        if (_playerInput.IsLeftRay)
         {
             SetRayPosition();
 

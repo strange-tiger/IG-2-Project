@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 using Column = Asset.MySql.EAccountColumns;
 using UI = Defines.ELogInUIIndex;
 using Sql = Asset.MySql.MySqlSetting;
+using Hash = Encryption.Hash256;
 
 public class SignInUI : MonoBehaviour
 {
     [Header("Manager")]
     [SerializeField] LogInUIManager _logInUIManager;
-    
+
     [Header("Button")]
     [SerializeField] Button _signInButton;
     [SerializeField] Button _idDoubleCheckButton;
@@ -35,9 +36,9 @@ public class SignInUI : MonoBehaviour
     [SerializeField] GameObject _successPopup;
 
     private bool _hasNicknameCheck;
-    private bool _hasEmailCheck;
+    private bool _hasIdCheck;
     private bool _hasPasswordCheck;
-    
+
     private void OnEnable()
     {
         _signInButton.onClick.RemoveListener(SignIn);
@@ -55,7 +56,7 @@ public class SignInUI : MonoBehaviour
 
         _successPopup.SetActive(false);
 
-        _hasEmailCheck = false;
+        _hasIdCheck = false;
         _hasPasswordCheck = false;
         _hasNicknameCheck = false;
     }
@@ -66,12 +67,23 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     private void SignIn()
     {
-        if (!_hasEmailCheck || !_hasPasswordCheck || !_hasNicknameCheck)
+        if (!_hasIdCheck
+            || !_hasPasswordCheck
+            || !_hasNicknameCheck)
         {
             return;
         }
 
-        Debug.Assert(Sql.AddNewAccount(_idInput.text, _passwordInput.text, _nicknameInput.text), "계정 생성 실패!");
+        Debug.Assert
+        (
+            Sql.AddNewAccount
+            (
+                _idInput.text,
+                Hash.Compute(_passwordInput.text),
+                _nicknameInput.text
+            ),
+            "계정 생성 실패!"
+        );
 
         _successPopup.SetActive(true);
     }
@@ -83,16 +95,16 @@ public class SignInUI : MonoBehaviour
     {
         if (Sql.HasValue(Column.Email, _idInput.text))
         {
-            _hasEmailCheck = true;
+            _hasIdCheck = true;
             _idErrorText.SetActive(false);
         }
         else
         {
-            _hasEmailCheck = false;
+            _hasIdCheck = false;
             _idErrorText.SetActive(true);
         }
     }
-    
+
     /// <summary>
     /// 입력된 비밀번호와 비밀번호 체크용 입력을 비교해 일치하는지 확인
     /// </summary>
