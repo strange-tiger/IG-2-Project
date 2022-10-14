@@ -301,13 +301,24 @@ namespace Asset.MySql
             }
         }
 
+        public static ESocialStatus CheckRelationship(string requester, string respondent)
+        {
+            if(CheckSocialStatus(requester,respondent) == ESocialStatus.None)
+            {
+                return CheckSocialStatus(respondent, requester);
+            }
+
+            return CheckSocialStatus(requester, respondent);
+        }
+
+
         /// <summary>
         /// 특정 요청에 대한 Status를 확인함.
         /// </summary>
         /// <param name="requestNickname"> 요청을 확인할 유저의 닉네임 </param>
         /// <param name="responseNickname">확인할 요청의 대상이 되는 유저의 닉네임</param>
         /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
-        public static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
+        private static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
         {
            
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
@@ -334,7 +345,6 @@ namespace Asset.MySql
                 }
            
         }
-
         /// <summary>
         /// 특정 요청의 Status를 바꿔줌.
         /// </summary>
@@ -366,8 +376,6 @@ namespace Asset.MySql
         }
 
 
-
-      
 
 
         /// <summary>
