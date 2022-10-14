@@ -414,33 +414,62 @@ namespace Asset.MySql
 
         }
 
-        public void UpdateRelationshipToRequest(string myNickname, string targetNickname)
+        public bool UpdateRelationshipToRequest(string myNickname, string targetNickname)
         {
-            bool isLeft;
-            int state = CheckRelationship(myNickname, targetNickname, out isLeft);
-
-            int changeState = 0b_0001;
-
-            if (isLeft)
+            try
             {
-                changeState = changeState << 2;
+                bool isLeft;
+                int state = CheckRelationship(myNickname, targetNickname, out isLeft);
+
+                int changeState = 0b_0001;
+
+                if (isLeft)
+                {
+                    changeState = changeState << 2;
+                }
+
+                state = state | changeState;
+
+                UpdateRelationship(myNickname, targetNickname, state);
+
+                return true;
             }
-
-            state = state | changeState;
-
-            UpdateRelationship(myNickname, targetNickname, state);
-        }
-
-        public void UpdateRelationshipToFriend(string myNickname, string targetNickname)
-        {
-            UpdateRelationship(myNickname, targetNickname, 0b_0000);
-        }
-
-        public void UpdateRelationshipToUnFriend(string myNickname, string targetNickname)
-        {
-            if(!DeleteRowByComparator(ErelationshipdbColumns.UserA, myNickname, ErelationshipdbColumns.UserB, targetNickname))
+            catch
             {
-                DeleteRowByComparator(ErelationshipdbColumns.UserA, targetNickname, ErelationshipdbColumns.UserB, myNickname);
+                Debug.LogError("오류: Fail To Request Social Interaction");
+                return false;
+            }
+        }
+
+        public bool UpdateRelationshipToFriend(string myNickname, string targetNickname)
+        {
+            try
+            {
+                UpdateRelationship(myNickname, targetNickname, 0b_0000);
+                return true;
+            }
+            catch
+            {
+                Debug.LogError("오류: Fail To Be Friend");
+                return false;
+            }
+        }
+
+        public bool UpdateRelationshipToUnFriend(string myNickname, string targetNickname)
+        {
+            try
+            {
+                if (!DeleteRowByComparator(ErelationshipdbColumns.UserA, myNickname, ErelationshipdbColumns.UserB, targetNickname))
+                {
+                    DeleteRowByComparator(ErelationshipdbColumns.UserA, targetNickname, ErelationshipdbColumns.UserB, myNickname);
+                }
+
+                return true;
+            }
+            catch
+            {
+                Debug.LogError("오류: Fail To Undo Friend");
+                return false;
             }
         }
 
