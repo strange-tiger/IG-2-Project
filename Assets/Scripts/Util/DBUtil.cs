@@ -55,8 +55,8 @@ namespace Asset.MySql
         private static string _insertSocialStateString;
         private static string _insertSocialRequestString;
         private static string _selectAccountString;
-        private static string _selectSocialStatusString;
-        private static string _updateSocialStatusString;
+        private static string _selectSocialStateString;
+        private static string _updateSocialStateString;
 
         /// <summary>
         ///  MySql 세팅 초기화
@@ -87,8 +87,7 @@ namespace Asset.MySql
             _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
             _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
-            _selectSocialStatusString = Resources.Load<TextAsset>("SelectSocialStatus").text;
-            _updateSocialStatusString = Resources.Load<TextAsset>("UpdateSocialStatus").text;
+            _updateSocialStateString = Resources.Load<TextAsset>("UpdateRelationship").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -343,13 +342,18 @@ namespace Asset.MySql
 
 
 
-
-
+        /// <summary>
+        /// 유저간의 관계가 존재하는 지 확인함.
+        /// </summary>
+        /// <param name="userA"> UserA Column에 들어가는 유저 닉네임. </param>
+        /// <param name="userB"> UserB Column에 들어가는 유저 닉네임. </param>
+        /// <returns> 존재하면 true, 존재하지 않는다면 false 반환. </returns>
         private bool IsThereRelationship(string userA, string userB)
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{userA}' and UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{userA}' and UserB = '{userB}' " +
+                    $"or UserA = '{userB}' and UserB = '{userA}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -382,7 +386,8 @@ namespace Asset.MySql
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                    $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -414,7 +419,159 @@ namespace Asset.MySql
 
         }
 
+        /// <summary>
+        /// 나와 대상 유저간의 관계를 확인하고, 관계 값을 반환함.
+        /// </summary>
+        /// <param name="myNickname"> 나의 닉네임 </param>
+        /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
+        /// <param name="isLeft"> 내가 UserA Column이라면 true, UserB Column이라면 false. </param>
+        /// <returns> 나와 대상 유저간의 State를 int로 반환함. 관계가 존재하지 않는다면 -1 반환. </returns>
+        public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
+        {
+            if (CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
+            {
+                return -1;
+            }
+
+            CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft);
+
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+                int state = _initBit >> 1;
+
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                    $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+
+                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if (reader.Read())
+                {
+                    state = reader.GetInt32("State");
+                    
+                }
+                _mysqlConnection.Close();
+
+                return state;
+            }
+        }
+        
         private const int _initBit = 0b_0001;
+        /// <summary>
+        /// 연산된 State를 받아, RelationshipDB의 State를 업데이트 함. DB에 관계가 없다면, 새로 추가함.
+        /// </summary>
+        /// <param name="userA"> UserA column에 들어가는 닉네임. </param>
+        /// <param name="userB"> UserB column에 들어가는 닉네임. </param>
+        /// <param name="state">업데이트할 State </param>
+        /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
+        public bool UpdateRalationship(string userA, string userB, int state)
+        {
+            if(IsThereRelationship(userA,userB) == false)
+            {
+                try
+                {
+                    using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                    {
+                        string insertSocialStateString = _insertSocialStateString + $"('{userA}','{userB}',{state});";
+
+                        MySqlCommand insertSocialStateCommand = new MySqlCommand(insertSocialStateString, _mysqlConnection);
+
+                        _mysqlConnection.Open();
+                        insertSocialStateCommand.ExecuteNonQuery();
+                        _mysqlConnection.Close();
+                    }
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                
+                    string updateSocialStateString =  _updateSocialStateString += $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
+                        $"or UserA = '{userB}' and UserB = '{userA}';";
+ 
+                    MySqlCommand updateSocialStateCommand = new MySqlCommand(updateSocialStateString, _mysqlConnection);
+                    _mysqlConnection.Open();
+                    updateSocialStateCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// 나와 대상 유저의 관계에서 차단 State를 연산함.
+        /// </summary>
+        /// <param name="myNickname"> 나의 닉네임 </param>
+        /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
+        /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
+        public bool UpdateRelationshipToBlock(string myNickname,string targetNickname)
+        {
+            try
+            {
+                int state = CheckRelationship(myNickname, targetNickname, out bool isLeft);
+
+                int changeState = UpdateRelationshipToBlockHelper(isLeft, _initBit);
+
+                changeState = state | changeState;
+
+                UpdateRalationship(myNickname, targetNickname, changeState);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 나와 대상 유저의 관계에서 차단 해제 State를 연산함.
+        /// </summary>
+        /// <param name="myNickname"> 나의 닉네임 </param>
+        /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
+        /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
+        public bool UpdateRalationshipToUnblock(string myNickname, string targetNickname)
+        {
+            try
+            {
+                int state = CheckRelationship(myNickname, targetNickname, out bool isLeft);
+
+                int changeState = UpdateRelationshipToBlockHelper(isLeft, _initBit);
+
+                changeState = state & ~changeState;
+
+                UpdateRalationship(myNickname, targetNickname, changeState);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private int UpdateRelationshipToBlockHelper(bool isLeft, int changeState)
+        {
+            changeState = changeState | changeState << 1;
+
+            return UpdateRelationshipToRequestHelper(isLeft, changeState);
+        }
 
         /// <summary>
         /// 내가 상대에게 친구 요청을 한다.
@@ -505,45 +662,6 @@ namespace Asset.MySql
             return changeState;
         }
 
-        private int UpdateRelationshipToBlockHelper(bool isLeft, int changeState)
-        {
-            changeState = changeState | changeState << 1;
-
-            return UpdateRelationshipToRequestHelper(isLeft, changeState);
-        }
-
-        public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
-        {
-            if (CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
-            {
-                return -1;
-            }
-
-            CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft);
-
-            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
-            {
-                int status = 0;
-
-                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
-
-                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
-
-                _mysqlConnection.Open();
-
-                MySqlDataReader reader = command.ExecuteReader();
-
-
-                if (reader.Read())
-                {
-                    status = reader.GetInt32("Status");
-
-                }
-                _mysqlConnection.Close();
-
-                return status;
-            }
-        }
 
         /// <summary>
         /// DataSet에 데이터를 저장함.
