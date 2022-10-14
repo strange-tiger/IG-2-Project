@@ -352,7 +352,8 @@ namespace Asset.MySql
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{userA}' and UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{userA}' and UserB = '{userB}' " +
+                    $"or UserA = '{userB}' and UserB = '{userA}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -385,7 +386,8 @@ namespace Asset.MySql
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                    $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -439,7 +441,8 @@ namespace Asset.MySql
             {
                 int state = 0;
 
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                    $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -495,8 +498,8 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                 
-                    string updateSocialStateString =  _updateSocialStateString += $"{state} where UserA = '{userA}' and " +
-                        $"UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
+                    string updateSocialStateString =  _updateSocialStateString += $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
+                        $"or UserA = '{userB}' and UserB = '{userA}';";
  
                     MySqlCommand updateSocialStateCommand = new MySqlCommand(updateSocialStateString, _mysqlConnection);
                     _mysqlConnection.Open();
