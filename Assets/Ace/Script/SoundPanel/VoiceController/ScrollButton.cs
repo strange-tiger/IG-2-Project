@@ -29,18 +29,21 @@ public class ScrollButton : MonoBehaviour
     void Awake()
     {
         _voiceScrollUI = GetComponentInParent<VoiceScrollUI>();
-        Type = Defines.EVoiceType.None;
 
         _voiceTable.Add(Defines.EVoiceType.None, VoiceTypeNone);
         _voiceTable.Add(Defines.EVoiceType.Always, VoiceTypeAlways);
         _voiceTable.Add(Defines.EVoiceType.PushToTalk, VoiceTypePushToTalk);
+
+        Type = Defines.EVoiceType.None;
+        _voiceTable[Type].Invoke();
     }
 
     public void OnClickLeftButton()
     {
         if (Type - 1 < Defines.EVoiceType.None)
         {
-            return;
+            Type = Defines.EVoiceType.MaxCount;
+            //return;
         }
         --Type;
         _voiceTable[Type].Invoke();
@@ -49,7 +52,8 @@ public class ScrollButton : MonoBehaviour
     {
         if (Type + 1 >= Defines.EVoiceType.MaxCount)
         {
-            return;
+            Type = (Defines.EVoiceType)(-1);
+            //return;
         }
         ++Type;
         _voiceTable[Type].Invoke();

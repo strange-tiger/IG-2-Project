@@ -23,7 +23,7 @@ public class VolumeController : MonoBehaviour
         { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
 
-    private void Awake()
+    private void Start()
     {
         for (int i = 0; i < (int)UINum.MaxCount; i++)
         {
@@ -47,35 +47,35 @@ public class VolumeController : MonoBehaviour
     {
         string MasterVolume = VOLUME_CONTROLLER[(int)UINum.MasterVolume];
         PlayerPrefs.SetFloat(MasterVolume, slider.value);
-        _textDict[slider].text = slider.value * 100 + "%";
+        _textDict[slider].text = (int)(slider.value * 100) + "%";
         //_audioSource.volume = slider.value;
     }
     public void EffectValueChanged(Slider slider)
     {
         string EffectVolume = VOLUME_CONTROLLER[(int)UINum.EffectVolume];
         PlayerPrefs.SetFloat(EffectVolume, slider.value);
-        _textDict[slider].text = slider.value * 100 + "%";
+        _textDict[slider].text = (int)(slider.value * 100) + "%";
         //_audioSource.volume = slider.value;
     }
     public void BackGroundValueChanged(Slider slider)
     {
         string BackGroundVolume = VOLUME_CONTROLLER[(int)UINum.BackGroundVolume];
         PlayerPrefs.SetFloat(BackGroundVolume, slider.value);
-        _textDict[slider].text = slider.value * 100 + "%";
-        //_audioSource.volume = slider.value;
+        _textDict[slider].text = (int)(slider.value * 100) + "%";
+        _audioSource.volume = slider.value;
     }
     public void InputValueChanged(Slider slider)
     {
         string InputVolume = VOLUME_CONTROLLER[(int)UINum.InputVolume];
         PlayerPrefs.SetFloat(InputVolume, slider.value);
-        _textDict[slider].text = slider.value * 100 + "%";
+        _textDict[slider].text = (int)(slider.value * 100) + "%";
         //_audioSource.volume = slider.value;
     }
     public void OutputValueChanged(Slider slider)
     {
         string OutputVolume = VOLUME_CONTROLLER[(int)UINum.OutputVolume];
         PlayerPrefs.SetFloat(OutputVolume, slider.value);
-        _textDict[slider].text = slider.value * 100 + "%";
+        _textDict[slider].text = (int)(slider.value * 100) + "%";
         //_audioSource.volume = slider.value;
     }
 }
