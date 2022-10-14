@@ -23,7 +23,7 @@ public class InventoryUIManager : MonoBehaviour
     [SerializeField] private Button _socialButton;
 
     [Header("Inventory Panels")]
-    [SerializeField] private GameObject _InventoryUI;
+    [SerializeField] private GameObject _inventoryUI;
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private GameObject _settingPanel;
     [SerializeField] private GameObject _socialPanel;
@@ -31,12 +31,12 @@ public class InventoryUIManager : MonoBehaviour
     /// <summary>
     /// Inventory UI가 켜져있는지 여부
     /// </summary>
-    public bool IsInventoryUIOn { get { return _InventoryUI.activeSelf; } }
+    public bool IsInventoryUIOn { get { return _inventoryUI.activeSelf; } }
 
     [Header("Friend Panel")]
     [SerializeField] private GameObject _friendPanel;
-    private TextMeshProUGUI _targetFriendName;
 
+    private TextMeshProUGUI _targetFriendName;
     private GameObject _currentShownPanel;
 
     private void Awake()
@@ -70,7 +70,7 @@ public class InventoryUIManager : MonoBehaviour
     /// </summary>
     public void ShowInventoryUI()
     {
-        _InventoryUI.SetActive(true);
+        _inventoryUI.SetActive(true);
     }
     /// <summary>
     /// 친구 추가 패널을 보여줌

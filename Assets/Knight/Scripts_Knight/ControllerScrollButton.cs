@@ -1,17 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+
+using _Switch = Defines.ESwitchController;
 
 public class ControllerScrollButton : MonoBehaviour
 {
     public UnityEvent<bool> SwitchController = new UnityEvent<bool>();
 
     private SwitchControllerScrollUI _switchControllerScrollUI;
-    private Defines.ESwitchController _type = Defines.ESwitchController.Left;
-    private Dictionary<Defines.ESwitchController, VoiceTypeDelegate> _voiceTable = new Dictionary<Defines.ESwitchController, VoiceTypeDelegate>();
+    private _Switch _type = _Switch.Left;
+    // private Dictionary<_Switch, ControllerTypeDelegate> _controllerTable = new Dictionary<_Switch, ControllerTypeDelegate>();
 
-    public Defines.ESwitchController Type
+    public _Switch Type
     {
         get
         {
@@ -24,47 +27,68 @@ public class ControllerScrollButton : MonoBehaviour
         }
     }
 
-    private delegate void VoiceTypeDelegate();
+    private delegate void ControllerTypeDelegate();
 
     private void Awake()
     {
         _switchControllerScrollUI = GetComponent<SwitchControllerScrollUI>();
-        Type = Defines.ESwitchController.Left;
+        Type = _Switch.Left;
 
-        _voiceTable.Add(Defines.ESwitchController.Left, ControllerTypeLeft);
-        _voiceTable.Add(Defines.ESwitchController.Right, ControllerTypeRight);
+        //_controllerTable.Add(_Switch.Left, ControllerTypeLeft);
+        //_controllerTable.Add(_Switch.Right, ControllerTypeRight);
     }
 
     public void OnClickLeftButton()
     {
-        if (Type - 1 < Defines.ESwitchController.Left)
+        if (Type > _Switch.Left)
         {
-            return;
+            SwitchController.Invoke(true);
+            --Type;
         }
-        --Type;
-        _voiceTable[Type].Invoke();
     }
 
     public void OnClickRightButton()
     {
-        if (Type + 1 >= Defines.ESwitchController.End)
+        if (Type < _Switch.Right)
+        {
+            SwitchController.Invoke(false);
+            ++Type;
+        }
+    }
+
+    #region Legacy
+    /*
+    private void OnClickLeftButton()
+    {
+        if (Type - 1 < _Switch.Left)
+        {
+            return;
+        }
+        --Type;
+        _controllerTable[Type].Invoke();
+    }
+
+    private void OnClickRightButton()
+    {
+        if (Type + 1 >= _Switch.End)
         {
             return;
         }
         ++Type;
-        _voiceTable[Type].Invoke();
+        _controllerTable[Type].Invoke();
     }
 
     private void ControllerTypeLeft()
     {
         Debug.Log("왼쪽으로");
-        SwitchController.Invoke(true);
+        SwitchController.Invoke(false);
     }
 
     private void ControllerTypeRight()
     {
         Debug.Log("오른쪽으로");
-        SwitchController.Invoke(false);
+        SwitchController.Invoke(true);
     }
-
+    */
+    #endregion
 }

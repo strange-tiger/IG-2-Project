@@ -1,12 +1,15 @@
-namespace Asset {
-	public enum ETableType {
+namespace Asset
+{
+	public enum ETableType
+	{
 		accountdb,
 		characterdb,
 		relationshipdb,
 		requestdb,
 		test,
 	}
-	public enum EaccountdbColumns {
+	public enum EaccountdbColumns
+	{
 		Email,
 		Password,
 		Nickname,
