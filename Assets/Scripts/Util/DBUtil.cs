@@ -55,8 +55,8 @@ namespace Asset.MySql
         private static string _insertSocialStateString;
         private static string _insertSocialRequestString;
         private static string _selectAccountString;
-        private static string _selectSocialStatusString;
-        private static string _updateSocialStatusString;
+        private static string _selectSocialStateString;
+        private static string _updateSocialStateString;
 
         /// <summary>
         ///  MySql 세팅 초기화
@@ -87,8 +87,7 @@ namespace Asset.MySql
             _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
             _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
-            _selectSocialStatusString = Resources.Load<TextAsset>("SelectSocialStatus").text;
-            _updateSocialStatusString = Resources.Load<TextAsset>("UpdateSocialStatus").text;
+            _updateSocialStateString = Resources.Load<TextAsset>("UpdateRelationship").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -343,23 +342,12 @@ namespace Asset.MySql
 
 
 
-        /// <summary>
-        /// 특정 요청에 대한 Status를 확인함.
-        /// </summary>
-        /// <param name="userA">유저의 닉네임</param>
-        /// <param name="userB">유저의 닉네임</param>
-        /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
-        public static ESocialStatus CheckSocialStatus(string userA, string userB)
-        {
-
-            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
-            {
-
+        
         private bool IsThereRelationship(string userA, string userB)
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{userA}' and UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{userA}' and UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -392,7 +380,7 @@ namespace Asset.MySql
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -438,9 +426,9 @@ namespace Asset.MySql
 
            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                int status = 0;
+                int state = 0;
 
-                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
@@ -451,15 +439,119 @@ namespace Asset.MySql
 
                 if (reader.Read())
                 {
-                    status = reader.GetInt32("Status");
+                    state = reader.GetInt32("State");
                     
                 }
                _mysqlConnection.Close();
 
-                return status;
+                return state;
+            }
+        }
+        
+
+        public bool UpdateRalationship(string userA, string userB, int state)
+        {
+            if(IsThereRelationship(userA,userB) == false)
+            {
+                try
+                {
+                    using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                    {
+                        string insertSocialStateString = _insertSocialStateString + $"('{userA}','{userB}',{state});";
+
+                        MySqlCommand insertSocialStateCommand = new MySqlCommand(insertSocialStateString, _mysqlConnection);
+
+                        _mysqlConnection.Open();
+                        insertSocialStateCommand.ExecuteNonQuery();
+                        _mysqlConnection.Close();
+                    }
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                
+                    string updateSocialStateString =  _updateSocialStateString += $"{state} where UserA = '{userA}' and " +
+                        $"UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
+ 
+                    MySqlCommand updateSocialStateCommand = new MySqlCommand(updateSocialStateString, _mysqlConnection);
+                    _mysqlConnection.Open();
+                    updateSocialStateCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public bool UpdateRelationshipToBlock(string myNickname,string targetNickname)
+        {
+            try
+            {
+                int state = CheckRelationship(myNickname, targetNickname, out bool isLeft);
+
+                int changeState = 0b_0001;
+
+                if (isLeft)
+                {
+                    changeState = changeState << 3;
+                }
+                else
+                {
+                    changeState = changeState << 1;
+                }
+
+                changeState = state | changeState;
+
+                UpdateRalationship(myNickname, targetNickname, changeState);
+
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
+        public bool UpdateRalationshipToUnblock(string myNickname, string targetNickname)
+        {
+            try
+            {
+                int state = CheckRelationship(myNickname, targetNickname, out bool isLeft);
+
+                int changeState = 0b_0001;
+
+                if (isLeft)
+                {
+                    changeState = changeState << 3;
+                }
+                else
+                {
+                    changeState = changeState << 1;
+                }
+
+                changeState = state & ~changeState;
+
+                UpdateRalationship(myNickname, targetNickname, changeState);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// DataSet에 데이터를 저장함.
         /// </summary>
