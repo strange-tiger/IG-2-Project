@@ -51,7 +51,8 @@ namespace Asset.MySql
 
         private static string _connectionString;
         private static string[] _insertStrings = new string[(int)ETableType.Max];
-        private static string _insertSocialRelationString;
+        private static string _insertSocialStateString;
+        private static string _insertSocialRequestString;
         private static string _selectAccountString;
         private static string _selectSocialStatusString;
         private static string _updateSocialStatusString;
@@ -82,7 +83,8 @@ namespace Asset.MySql
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
-            _insertSocialRelationString = Resources.Load<TextAsset>("InsertSocial").text;
+            _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
+            _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
             _selectSocialStatusString = Resources.Load<TextAsset>("SelectSocialStatus").text;
             _updateSocialStatusString = Resources.Load<TextAsset>("UpdateSocialStatus").text;
@@ -271,19 +273,88 @@ namespace Asset.MySql
         }
 
         /// <summary>
+        /// 두 사용자 간의 요청이 RequestDB에 존재하는 지 확인.
+        /// </summary>
+        /// <param name="userA"></param>
+        /// <param name="userB"></param>
+        /// <returns> 존재하면 true 아니면 false </returns>
+        public static bool CheckRequest(string userA, string userB)
+        {
+            
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string selcetSocialRequestString = $"select * from RequestDB where Requester = '{userA}' and Repondent = '{userB}' or Requester = '{userB}' and Repondent = '{userA};";
+
+                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+                    if(selectSocialStatusData.Read())
+                    {
+                        _mysqlConnection.Close();
+
+                        return true;
+                    }
+
+                    _mysqlConnection.Close();
+                    return false;
+                }
+
+           
+            
+        }
+
+        /// <summary>
+        /// 친구 요청을 RequestDB에 저장함.
+        /// </summary>
+        /// <param name="requester">신청인</param>
+        /// <param name="respondent">대상자</param>
+        /// <returns>성공하면 true, 실패하면 false 반환</returns>
+        public static bool RequestSocialInteraction(string requester, string respondent)
+        {
+            if(CheckRequest(requester,respondent))
+            {
+                Debug.LogError("이미 요청이 존재합니다.");
+                return false;
+            }
+
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string insertSocialRequestString = _insertSocialRequestString + $"('{requester}','{respondent}');";
+
+                    MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    insertSocialRequestCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// 소셜 관련 요청을 DB에 등록함
         /// </summary>
         /// <param name="requestNickname">요청한 유저의 닉네임</param>
         /// <param name="responseNickname">대상이 되는 유저의 닉네임</param>
         /// <param name="status">등록할 소셜 기능 / 상태</param>
         /// <returns>등록에 성공하면 true, 아니면 false </returns>
-        public static bool RequestSocialInteraction(string requestNickname, string responseNickname, ESocialStatus status)
+        public static bool InsertSocialState(string requestNickname, string responseNickname, ESocialStatus status)
         {
             try
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string insertSocialRequestString = _insertSocialRelationString + $"('{requestNickname}','{responseNickname}','{(int) status}');";
+                    string insertSocialRequestString = _insertSocialStateString + $"('{requestNickname}','{responseNickname}','{(int) status}');";
 
                     MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
 
@@ -314,16 +385,16 @@ namespace Asset.MySql
         /// <summary>
         /// 특정 요청에 대한 Status를 확인함.
         /// </summary>
-        /// <param name="requestNickname"> 요청을 확인할 유저의 닉네임 </param>
-        /// <param name="responseNickname">확인할 요청의 대상이 되는 유저의 닉네임</param>
+        /// <param name="userA">유저의 닉네임</param>
+        /// <param name="userB">유저의 닉네임</param>
         /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
-        public static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
+        public static ESocialStatus CheckSocialStatus(string userA, string userB)
         {
            
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
 
-                    string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{requestNickname}' and Repondent = '{responseNickname}';";
+                    string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{userA}'  Repondent = '{userB}';";
 
                     MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
 
