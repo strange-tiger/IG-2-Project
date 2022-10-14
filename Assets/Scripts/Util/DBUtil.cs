@@ -313,7 +313,7 @@ namespace Asset.MySql
         /// <returns>성공하면 true, 실패하면 false 반환</returns>
         public static bool RequestSocialInteraction(string requester, string respondent)
         {
-            if(CheckRequest(requester,respondent))
+            if (CheckRequest(requester, respondent))
             {
                 Debug.LogError("이미 요청이 존재합니다.");
                 return false;
@@ -339,47 +339,45 @@ namespace Asset.MySql
                 return false;
             }
         }
+        ///// <summary>
+        ///// 현재 두 유저간의 관계를 RelationshipDB에 저장함.
+        ///// </summary>
+        ///// <param name="requestNickname">요청한 유저의 닉네임</param>
+        ///// <param name="responseNickname">대상이 되는 유저의 닉네임</param>
+        ///// <param name="status">등록할 소셜 기능 / 상태</param>
+        ///// <returns>등록에 성공하면 true, 아니면 false </returns>
+        //public static bool InsertSocialState(string requestNickname, string responseNickname, ESocialStatus status)
+        //{
+        //    try
+        //    {
+        //        using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+        //        {
+        //            string insertSocialRequestString = _insertSocialStateString + $"('{requestNickname}','{responseNickname}','{(int)status}');";
 
+        //            MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
 
-        /// <summary>
-        /// 소셜 관련 요청을 DB에 등록함
-        /// </summary>
-        /// <param name="requestNickname">요청한 유저의 닉네임</param>
-        /// <param name="responseNickname">대상이 되는 유저의 닉네임</param>
-        /// <param name="status">등록할 소셜 기능 / 상태</param>
-        /// <returns>등록에 성공하면 true, 아니면 false </returns>
-        public static bool InsertSocialState(string requestNickname, string responseNickname, ESocialStatus status)
-        {
-            try
-            {
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string insertSocialRequestString = _insertSocialStateString + $"('{requestNickname}','{responseNickname}','{(int) status}');";
+        //            _mysqlConnection.Open();
+        //            insertSocialRequestCommand.ExecuteNonQuery();
+        //            _mysqlConnection.Close();
+        //        }
 
-                    MySqlCommand insertSocialRequestCommand = new MySqlCommand(insertSocialRequestString, _mysqlConnection);
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
 
-                    _mysqlConnection.Open();
-                    insertSocialRequestCommand.ExecuteNonQuery();
-                    _mysqlConnection.Close();
-                }
+        //public static ESocialStatus CheckRelationship(string requester, string respondent)
+        //{
+        //    if (CheckSocialStatus(requester, respondent) == ESocialStatus.None)
+        //    {
+        //        return CheckSocialStatus(respondent, requester);
+        //    }
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public static ESocialStatus CheckRelationship(string requester, string respondent)
-        {
-            if(CheckSocialStatus(requester,respondent) == ESocialStatus.None)
-            {
-                return CheckSocialStatus(respondent, requester);
-            }
-
-            return CheckSocialStatus(requester, respondent);
-        }
+        //    return CheckSocialStatus(requester, respondent);
+        //}
 
 
         /// <summary>
@@ -390,30 +388,36 @@ namespace Asset.MySql
         /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
         public static ESocialStatus CheckSocialStatus(string userA, string userB)
         {
-           
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+
+                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{userA}' and UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
+
+
+                MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+
+                if (!selectSocialStatusData.Read())
                 {
-
-                    string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{userA}'  Repondent = '{userB}';";
-
-                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
-
-                    _mysqlConnection.Open();
-
-                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
-
-                    if(!selectSocialStatusData.Read())
-                    {
-                        return ESocialStatus.None;
-                    }
-
-                    ESocialStatus resultStatus = (ESocialStatus)selectSocialStatusData.GetInt32("Status");
-
-                    _mysqlConnection.Close();
-
-                    return resultStatus;
+                    return ESocialStatus.None;
                 }
-           
+                if(selectSocialStatusData.Read())
+                {
+                    Debug.Log(selectSocialStatusData.ToString());
+
+                }
+
+                ESocialStatus resultStatus = (ESocialStatus)selectSocialStatusData.GetInt32("Status");
+
+                _mysqlConnection.Close();
+
+                return resultStatus;
+            }
+
         }
         /// <summary>
         /// 특정 요청의 Status를 바꿔줌.
@@ -422,26 +426,133 @@ namespace Asset.MySql
         /// <param name="responseNickname">요청의 대상이 되는 유저의 닉네임</param>
         /// <param name="status"> 바꿀 상태 </param>
         /// <returns>성공하면 true, 실패하면 false </returns>
-        public static bool UpdateSocialStatus(string requestNickname, string responseNickname, ESocialStatus status)
+        //public static bool UpdateSocialStatus(string requestNickname, string responseNickname, ESocialStatus status)
+        //{
+        //    try
+        //    {
+        //        using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+        //        {
+        //            string updateSocialStatusString = _updateSocialStatusString + $"'{(int)status}' where Requester = '{requestNickname}' and Respondent = '{responseNickname}';";
+
+        //            MySqlCommand updateSocialStatusCommand = new MySqlCommand(updateSocialStatusString, _mysqlConnection);
+
+        //            _mysqlConnection.Open();
+        //            updateSocialStatusCommand.ExecuteNonQuery();
+        //            _mysqlConnection.Close();
+        //        }
+
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        
+        
+        private bool IsThereRelationship(string userA, string userB)
         {
-            try
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{userA}' and UserB = '{userB}' or UserA = '{userB}' and UserB = '{userA}';";
+
+                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if(!reader.Read())
                 {
-                    string updateSocialStatusString = _updateSocialStatusString + $"'{(int)status}' where Requester = '{requestNickname}' and Respondent = '{responseNickname}';";
-
-                    MySqlCommand updateSocialStatusCommand = new MySqlCommand(updateSocialStatusString, _mysqlConnection);
-
-                    _mysqlConnection.Open();
-                    updateSocialStatusCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
+                    return false;
                 }
 
+                _mysqlConnection.Close();
                 return true;
+                
             }
-            catch
+        }
+
+        /// <summary>
+        /// 내가 UserA인지, UserB인지 판단함.
+        /// </summary>
+        /// <param name="myNickname"> 나의 닉네임</param>
+        /// <param name="targetNickname"> 대상의 닉네임 </param>
+        /// <param name="isLeft">내가 UserA라면 True, UserB라면 false</param>
+        /// <returns>Row가 존재하면 True, 존재하지 않으면 false </returns>
+        public bool CheckMyPositionInRelationShip(string myNickname, string targetNickname, out bool isLeft)
+        {
+
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
+                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+
+                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if (reader.Read())
+                {
+                    isLeft = false;
+
+                    if(reader["UserA"].ToString() == myNickname)
+                    {
+                        isLeft = true;
+                    }
+                    else if(reader["UserB"].ToString() == myNickname)
+                    {
+                        isLeft = false;
+                    }
+
+                    _mysqlConnection.Close();
+                    return true;
+                }
+
+                isLeft = false;
                 return false;
+            }
+
+        }
+
+
+
+
+        public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
+        {
+            if(CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
+            {
+                return -1;
+            }
+
+            CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft);
+
+           using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+                int status = 0;
+
+                string selcetSocialRequestString = _selectSocialStatusString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+
+                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if (reader.Read())
+                {
+                    status = reader.GetInt32("Status");
+                    
+                }
+               _mysqlConnection.Close();
+
+                return status;
             }
         }
 
