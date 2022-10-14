@@ -343,17 +343,7 @@ namespace Asset.MySql
 
 
 
-        /// <summary>
-        /// 특정 요청에 대한 Status를 확인함.
-        /// </summary>
-        /// <param name="userA">유저의 닉네임</param>
-        /// <param name="userB">유저의 닉네임</param>
-        /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
-        public static ESocialStatus CheckSocialStatus(string userA, string userB)
-        {
-
-            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
-            {
+       
 
         private bool IsThereRelationship(string userA, string userB)
         {
@@ -424,8 +414,35 @@ namespace Asset.MySql
 
         }
 
+        public void UpdateRelationshipToRequest(string myNickname, string targetNickname)
+        {
+            bool isLeft;
+            int state = CheckRelationship(myNickname, targetNickname, out isLeft);
 
+            int changeState = 0b_0001;
 
+            if (isLeft)
+            {
+                changeState = changeState << 2;
+            }
+
+            state = state | changeState;
+
+            UpdateRelationship(myNickname, targetNickname, state);
+        }
+
+        public void UpdateRelationshipToFriend(string myNickname, string targetNickname)
+        {
+            UpdateRelationship(myNickname, targetNickname, 0b_0000);
+        }
+
+        public void UpdateRelationshipToUnFriend(string myNickname, string targetNickname)
+        {
+            if(!DeleteRowByComparator(ErelationshipdbColumns.UserA, myNickname, ErelationshipdbColumns.UserB, targetNickname))
+            {
+                DeleteRowByComparator(ErelationshipdbColumns.UserA, targetNickname, ErelationshipdbColumns.UserB, myNickname);
+            }
+        }
 
         public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
         {
