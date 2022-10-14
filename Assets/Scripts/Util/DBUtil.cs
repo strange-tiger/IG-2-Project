@@ -218,7 +218,7 @@ namespace Asset.MySql
                 {
                     string _insertAccountString = GetInsertString(ETableType.AccountDB, Nickname, Password, Email);
                     MySqlCommand _insertAccountCommand = new MySqlCommand(_insertAccountString, _mysqlConnection);
-    
+
 
                     _mysqlConnection.Open();
                     _insertAccountCommand.ExecuteNonQuery();
@@ -238,7 +238,7 @@ namespace Asset.MySql
         {
             try
             {
-                
+
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     string _insertCharacterString = GetInsertString(ETableType.CharacterDB, nickname, gender);
@@ -250,7 +250,7 @@ namespace Asset.MySql
                     _mysqlConnection.Close();
                 }
 
-                 return true;
+                return true;
             }
             catch (System.Exception error)
             {
@@ -304,7 +304,7 @@ namespace Asset.MySql
 
         public static ESocialStatus CheckRelationship(string requester, string respondent)
         {
-            if(CheckSocialStatus(requester,respondent) == ESocialStatus.None)
+            if (CheckSocialStatus(requester, respondent) == ESocialStatus.None)
             {
                 return CheckSocialStatus(respondent, requester);
             }
@@ -321,30 +321,30 @@ namespace Asset.MySql
         /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
         public static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
         {
-           
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+
+                string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{requestNickname}' and Repondent = '{responseNickname}';";
+
+                MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+
+                if (!selectSocialStatusData.Read())
                 {
-
-                    string selcetSocialRequestString = _selectSocialStatusString + $"where Requester = '{requestNickname}' and Repondent = '{responseNickname}';";
-
-                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
-
-                    _mysqlConnection.Open();
-
-                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
-
-                    if(!selectSocialStatusData.Read())
-                    {
-                        return ESocialStatus.None;
-                    }
-
-                    ESocialStatus resultStatus = (ESocialStatus)selectSocialStatusData.GetInt32("Status");
-
-                    _mysqlConnection.Close();
-
-                    return resultStatus;
+                    return ESocialStatus.None;
                 }
-           
+
+                ESocialStatus resultStatus = (ESocialStatus)selectSocialStatusData.GetInt32("Status");
+
+                _mysqlConnection.Close();
+
+                return resultStatus;
+            }
+
         }
         /// <summary>
         /// 특정 요청의 Status를 바꿔줌.
@@ -550,32 +550,87 @@ namespace Asset.MySql
 
         }
 
-        class Comparator<T> where T : System.Enum
+        public class Comparator<T> where T : System.Enum
         {
             public T Column;
             public string Value;
         }
 
-        public static bool DeleteRowByCompatator(ErelationshipdbColumns type, string condition)
+        #region DeleteRowByComparator-RelationshipDB
+
+        public static bool DeleteRowByComparator(ErelationshipdbColumns type_1, string condition_1,
+           ErelationshipdbColumns type_2, string condition_2,
+           ErelationshipdbColumns type_3, string condition_3,
+           string logicOperator = "and")
         {
-           
-            return DeleteRowByCompatator(Asset.ETableType.relationshipdb, "and", );
+
+            return DeleteRowByComparator
+            (
+                Asset.ETableType.relationshipdb,
+                logicOperator,
+                new Comparator<ErelationshipdbColumns>()
+                {
+                    Column = type_1,
+                    Value = condition_1
+                },
+                new Comparator<ErelationshipdbColumns>()
+                {
+                    Column = type_2,
+                    Value = condition_2
+                },
+                new Comparator<ErelationshipdbColumns>()
+                {
+                    Column = type_3,
+                    Value = condition_3
+                }
+            );
         }
 
-    private static bool DeleteRowByComparator<T>(ETableType targetTable, string logicOperator, params Comparator<T>[] comparators) where T : System.Enum
+        public static bool DeleteRowByComparator(ErelationshipdbColumns type_1, string condition_1, 
+           ErelationshipdbColumns type_2, string condition_2,
+           string logicOperator = "and")
+        {
+
+            return DeleteRowByComparator
+            (
+                Asset.ETableType.relationshipdb,
+                logicOperator,
+                new Comparator<ErelationshipdbColumns>() 
+                { 
+                    Column = type_1, 
+                    Value = condition_1 
+                },
+                new Comparator<ErelationshipdbColumns>()
+                {
+                    Column = type_2,
+                    Value = condition_2
+                }
+            );
+        }
+
+        public static bool DeleteRowByComparator(ErelationshipdbColumns type, string condition,
+           string logicOperator = "and")
+        {
+
+            return DeleteRowByComparator(Asset.ETableType.relationshipdb, logicOperator, new Comparator<ErelationshipdbColumns>() { Column = type, Value = condition });
+        }
+
+        #endregion
+
+        public static bool DeleteRowByComparator<T>(Asset.ETableType targetTable, string logicOperator, params Comparator<T>[] comparators) where T : System.Enum
         {
             try
             {
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string deleteString = $"Delete From {targetTable}";
-                    
+                    string deleteString = $"Delete From {targetTable} ";
+
                     for (int i = 0; i < comparators.Length - 1; ++i)
                     {
-                        deleteString += $" where {comparators[i].Column} = '{comparators[i].Value}' {logicOperator}";
+                        deleteString += $"where {comparators[i].Column} = '{comparators[i].Value}' {logicOperator} ";
                     }
 
-                    deleteString += $" where {comparators[comparators.Length - 1].Column} = '{comparators[comparators.Length - 1].Value}';";
+                    deleteString += $"where {comparators[comparators.Length - 1].Column} = '{comparators[comparators.Length - 1].Value}';";
 
                     MySqlCommand command = new MySqlCommand(deleteString, _sqlConnection);
 
@@ -593,38 +648,6 @@ namespace Asset.MySql
             }
         }
 
-        public static bool DeleteRowByRelation(string requesterValue, string respondentValue)
-        {
-            return DeleteRowByBase("Requester", requesterValue, "Respondent", respondentValue);
-        }
-
-        public static bool DeleteRowByBase(string baseType, string baseValue, string subType, string subValue)
-        {
-            return DeleteRowByBase(ETableType.RelationshipDB, baseType, baseValue, subType, subValue, "AND");
-        }
-
-        private static bool DeleteRowByBase<T1, T2>(ETableType targetTable, T1 baseType, string baseValue, T2 subType, string subValue, string logicOperator ) /*where T1 : System.Enum where T2 : System.Enum*/
-        {
-            try
-            {
-                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string deleteString = $"Delete From {targetTable} where {baseType} = '{baseValue}' {logicOperator} {subType} = '{subValue}';";
-                    MySqlCommand command = new MySqlCommand(deleteString, _sqlConnection);
-
-                    _sqlConnection.Open();
-                    command.ExecuteNonQuery();
-                    _sqlConnection.Close();
-
-                    return true;
-                }
-            }
-            catch (System.Exception error)
-            {
-                Debug.LogError(error.Message);
-                return false;
-            }
-        }
     }
 
 }
