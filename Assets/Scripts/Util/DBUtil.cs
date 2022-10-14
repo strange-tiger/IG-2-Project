@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using MySql.Data.MySqlClient;
-using LitJson;
 
 
 namespace Asset.MySql
@@ -381,7 +380,7 @@ namespace Asset.MySql
         /// <param name="selectString"> 저장할 데이터를 가져올 명령어</param>
         /// <param name="nickname">명령어에 들어갈 닉네임</param>
         /// <returns>데이터를 저장한 DataSet을 반환</returns>
-        public static DataSet GetUserData(string selectString, string nickname)
+        private static DataSet GetUserData(string selectString)
         {
             DataSet _dataSet = new DataSet();
 
@@ -402,32 +401,42 @@ namespace Asset.MySql
         /// <param name="nickname">리스트를 만들 유저</param>
         /// <param name="status"> 리스트를 만들 상태</param>
         /// <returns>Block이 아니면, 요청자와 대상자 Column을 모두 검사하여 반환, Block이면 요청자만 검사하여 반환.</returns>
-        public static List<string> CheckStatusList(string nickname, ESocialStatus status)
+        public static List<Dictionary<string, string>> CheckStatusList(string nickname, ESocialStatus status)
         {
 
-             string selcetRequesterString = $"Select Respondent from RelationshipDB where Requester = '{nickname}' and Status = '{(int)status}';";
+             string selcetRequesterString = $"SELECT CharacterDB.OnOff, RelationshipDB.Respondent FROM RelationshipDB " +
+                $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Respondent where Requester = '{nickname}' and Status = '{(int)status}'; ";
 
+            
 
-            DataSet requesterData = GetUserData(selcetRequesterString, nickname);
+            DataSet requesterData = GetUserData(selcetRequesterString);
 
-            List<string> resultList = new List<string>();
+            List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
 
             foreach (DataRow _dataRow in requesterData.Tables[0].Rows)
             {
-                resultList.Add(_dataRow["Respondent"].ToString());
+                Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
+                dictionaryList.Add(_dataRow["Respondent"].ToString(), _dataRow["OnOff"].ToString());
+                resultList.Add(dictionaryList);
             }
 
             if(status != ESocialStatus.Block)
             {
-                 string selcetRespondentString = $"Select Requester from RelationshipDB where Respondent = '{nickname}' and Status = '{(int)status}';";
-                DataSet respondentData = GetUserData(selcetRespondentString, nickname);
+                string selcetRespondentString = $"SELECT CharacterDB.OnOff, RelationshipDB.Requester FROM RelationshipDB " +
+                    $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Requester where Respondent = '{nickname}' and Status = '{(int)status}'; ";
+
+                DataSet respondentData = GetUserData(selcetRespondentString);
+
                 foreach (DataRow _dataRow in respondentData.Tables[0].Rows)
                 {
-                    resultList.Add(_dataRow["Requester"].ToString());
+                    Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
+                    dictionaryList.Add(_dataRow["Requester"].ToString(), _dataRow["OnOff"].ToString());
+                    resultList.Add(dictionaryList);
+
                 }
             }
 
-             return resultList;
+            return resultList;
             
         }
       

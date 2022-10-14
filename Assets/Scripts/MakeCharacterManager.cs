@@ -74,7 +74,6 @@ public class MakeCharacterManager : MonoBehaviour
 
     private void CreateCharacter()
     {
-       
     }
 
     private void OnDisable()
