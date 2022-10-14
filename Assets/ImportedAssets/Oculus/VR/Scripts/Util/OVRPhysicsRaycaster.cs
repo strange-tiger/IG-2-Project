@@ -100,30 +100,33 @@ namespace UnityEngine.EventSystems
 
             if (!eventData.IsVRPointer())
                 return;
-
-            var ray = eventData.GetRay();
-
-            float dist = eventCamera.farClipPlane - eventCamera.nearClipPlane;
-
-            var hits = Physics.RaycastAll(ray, dist, finalEventMask);
-
-            if (hits.Length > 1)
-                System.Array.Sort(hits, (r1, r2) => r1.distance.CompareTo(r2.distance));
-
-            if (hits.Length != 0)
+            // 트리거 입력으로 조절
+            if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
             {
-                for (int b = 0, bmax = hits.Length; b < bmax; ++b)
+                var ray = eventData.GetRay();
+
+                float dist = eventCamera.farClipPlane - eventCamera.nearClipPlane;
+
+                var hits = Physics.RaycastAll(ray, dist, finalEventMask);
+
+                if (hits.Length > 1)
+                    System.Array.Sort(hits, (r1, r2) => r1.distance.CompareTo(r2.distance));
+
+                if (hits.Length != 0)
                 {
-                    var result = new RaycastResult
+                    for (int b = 0, bmax = hits.Length; b < bmax; ++b)
                     {
-                        gameObject = hits[b].collider.gameObject,
-                        module = this,
-                        distance = hits[b].distance,
-                        index = resultAppendList.Count,
-                        worldPosition = hits[0].point,
-                        worldNormal = hits[0].normal,
-                    };
-                    resultAppendList.Add(result);
+                        var result = new RaycastResult
+                        {
+                            gameObject = hits[b].collider.gameObject,
+                            module = this,
+                            distance = hits[b].distance,
+                            index = resultAppendList.Count,
+                            worldPosition = hits[0].point,
+                            worldNormal = hits[0].normal,
+                        };
+                        resultAppendList.Add(result);
+                    }
                 }
             }
         }
