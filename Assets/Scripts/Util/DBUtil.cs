@@ -318,7 +318,7 @@ namespace Asset.MySql
         /// <param name="requestNickname"> 요청을 확인할 유저의 닉네임 </param>
         /// <param name="responseNickname">확인할 요청의 대상이 되는 유저의 닉네임</param>
         /// <returns> 읽어오면 Status의 Enum을 반환하고, 값을 찾을 수 없다면 ESocialStatus.None을 반환함. </returns>
-        private static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
+        public static ESocialStatus CheckSocialStatus(string requestNickname, string responseNickname)
         {
            
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
