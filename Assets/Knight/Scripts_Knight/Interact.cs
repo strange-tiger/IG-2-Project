@@ -5,7 +5,7 @@ using UnityEngine;
 public class Interact : SensingObject
 {
     [SerializeField]
-    private RaycastHitOutline _raycastHitOutline;
+    private RaycastHitLeftOutline _raycastHitOutline;
 
     private void Start()
     {

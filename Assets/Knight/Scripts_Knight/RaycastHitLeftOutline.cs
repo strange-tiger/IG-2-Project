@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RaycastHitOutline : MonoBehaviour
+public class RaycastHitLeftOutline : MonoBehaviour
 {
     [SerializeField]
     private PlayerInput _playerInput;
@@ -31,7 +31,7 @@ public class RaycastHitOutline : MonoBehaviour
 
     private void Update()
     {
-        if (_playerInput.IsRay)
+        if (_playerInput.IsLeftRay)
         {
             Ray ray;
             RaycastHit hit;
