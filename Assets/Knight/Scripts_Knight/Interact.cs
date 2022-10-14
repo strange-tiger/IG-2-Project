@@ -5,15 +5,24 @@ using UnityEngine;
 public class Interact : SensingObject
 {
     [SerializeField]
-    private RaycastHitLeftOutline _raycastHitOutline;
+    private RaycastHitLeftOutline _raycastHitLeftOutline;
+
+    [SerializeField]
+    private RaycastHitRightOutline _raycastHitRightOutline;
 
     private void Start()
     {
-        _raycastHitOutline.OnInteractObject.RemoveListener(OnFocus);
-        _raycastHitOutline.OnInteractObject.AddListener(OnFocus);
+        _raycastHitLeftOutline.OnLeftInteractObject.RemoveListener(OnFocus);
+        _raycastHitLeftOutline.OnLeftInteractObject.AddListener(OnFocus);
 
-        _raycastHitOutline.OutInteractObject.RemoveListener(OutFocus);
-        _raycastHitOutline.OutInteractObject.AddListener(OutFocus);
+        _raycastHitLeftOutline.OutLeftInteractObject.RemoveListener(OutFocus);
+        _raycastHitLeftOutline.OutLeftInteractObject.AddListener(OutFocus);
+
+        _raycastHitRightOutline.OnRightInteractObject.RemoveListener(OnFocus);
+        _raycastHitRightOutline.OnRightInteractObject.AddListener(OnFocus);
+
+        _raycastHitRightOutline.OutRightInteractObject.RemoveListener(OutFocus);
+        _raycastHitRightOutline.OutRightInteractObject.AddListener(OutFocus);
     }
 
     protected override void Awake()
