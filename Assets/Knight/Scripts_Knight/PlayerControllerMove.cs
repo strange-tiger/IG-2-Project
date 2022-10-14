@@ -36,11 +36,6 @@ public class PlayerControllerMove : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// Controls the player's movement in virtual reality.
-    /// </summary>
-
-
-    /// <summary>
     /// The rate acceleration during movement.
     /// </summary>
     [SerializeField] float _acceleration = 0.1f;
@@ -54,37 +49,6 @@ public class PlayerControllerMove : MonoBehaviour
     /// The rate of additional damping when moving sideways or backwards.
     /// </summary>
     [SerializeField] float _backAndSideDampen = 0.5f;
-
-    /// <summary>
-    /// The force applied to the character when jumping.
-    /// </summary>
-    [SerializeField] float _jumpForce = 0.3f;
-
-    /// <summary>
-    /// The rate of rotation when using a gamepad.
-    /// </summary>
-    [SerializeField] float _rotationAmount = 1.5f;
-
-    /// <summary>
-    /// The rate of rotation when using the keyboard.
-    /// </summary>
-    [SerializeField] float _rotationRatchet = 45.0f;
-
-    /// <summary>
-    /// The player will rotate in fixed steps if Snap Rotation is enabled.
-    /// </summary>
-    [Tooltip("The player will rotate in fixed steps if Snap Rotation is enabled.")]
-    [SerializeField] bool _snapRotation = true;
-
-    /// <summary>
-    /// [Deprecated] When enabled, snap rotation will happen about the guardian rather
-    /// than the player/camera viewpoint.
-    /// </summary>
-    [Tooltip("[Deprecated] When enabled, snap rotation will happen about the center of the " +
-        "guardian rather than the center of the player/camera viewpoint. This (legacy) " +
-        "option should be left off except for edge cases that require extreme behavioral " +
-        "backwards compatibility.")]
-    [SerializeField] bool _rotateAroundGuardianCenter = false;
 
     /// <summary>
     /// How many fixed speeds to use with linear movement? 0=linear control
@@ -154,7 +118,7 @@ public class PlayerControllerMove : MonoBehaviour
     /// <summary>
     /// When true, user input will be applied to rotation. Set this to false whenever the player controller needs to ignore input for rotation.
     /// </summary>
-    [SerializeField] bool _enableRotation = true;
+    [SerializeField] bool _enableRotation = false;
 
     /// <summary>
     /// Rotation defaults to secondary thumbstick. You can allow either here. Note that this won't behave well if EnableLinearMovement is true.
@@ -165,6 +129,7 @@ public class PlayerControllerMove : MonoBehaviour
     protected CharacterController _controller = null;
     protected OVRCameraRig _cameraRig = null;
 
+    private InventoryUIManager _inventoryUIManager = new InventoryUIManager();
     private Vector3 _moveThrottle = Vector3.zero;
     private OVRPose? _initialPose;
     private float _moveScale = 1.0f;

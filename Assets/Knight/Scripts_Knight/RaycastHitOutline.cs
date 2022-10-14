@@ -12,9 +12,22 @@ public class RaycastHitOutline : MonoBehaviour
     public UnityEvent OnInteractObject = new UnityEvent();
     public UnityEvent OutInteractObject = new UnityEvent();
 
+    private Color _OutlineColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
+
     private float _rayLength = 5.0f;
 
     private int _layerMask = 1 << 10;
+
+    private void Awake()
+    {
+        gameObject.AddComponent<Outlinable>();
+
+        Outlinable _outlinable;
+
+        _outlinable = GetComponent<Outlinable>();
+        _outlinable.AddAllChildRenderersToRenderingList();
+        _outlinable.OutlineParameters.Color = _OutlineColor;
+    }
 
     private void Update()
     {
@@ -34,6 +47,8 @@ public class RaycastHitOutline : MonoBehaviour
             {
                 OutInteractObject.Invoke();
             }
+
+            
         }
     }
 }

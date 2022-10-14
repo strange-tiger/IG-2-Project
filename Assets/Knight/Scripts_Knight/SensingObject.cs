@@ -34,8 +34,8 @@ public class SensingObject : MonoBehaviour
         }
 
         _outlinable.AddAllChildRenderersToRenderingList();
-
-        _outlinable.FrontParameters.Color = _OutlineColor;
+        _outlinable.OutlineParameters.Color = _OutlineColor;
+        //_outlinable.FrontParameters.Color = _OutlineColor;
 
         OutFocus();
     }
