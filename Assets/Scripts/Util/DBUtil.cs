@@ -14,6 +14,7 @@ namespace Asset.MySql
     {
         AccountDB,
         CharacterDB,
+        RelationshipDB,
         Max
     };
 
@@ -578,7 +579,17 @@ namespace Asset.MySql
             }
         }
 
-        private static bool DeleteRowByBase<T1, T2>(ETableType targetTable, T1 baseType, string baseValue, T2 subType, string subValue, string logicOperator ) where T1 : System.Enum where T2 : System.Enum
+        public static bool DeleteRowByRelation(string baseValue, string subValue)
+        {
+            return DeleteRowByBase("Requester", baseValue, "Respondent", subValue);
+        }
+
+        public static bool DeleteRowByBase(string baseType, string baseValue, string subType, string subValue)
+        {
+            return DeleteRowByBase(ETableType.RelationshipDB, baseType, baseValue, subType, subValue, "AND");
+        }
+
+        private static bool DeleteRowByBase<T1, T2>(ETableType targetTable, T1 baseType, string baseValue, T2 subType, string subValue, string logicOperator ) /*where T1 : System.Enum where T2 : System.Enum*/
         {
             try
             {
