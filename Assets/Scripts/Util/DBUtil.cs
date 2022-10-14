@@ -554,6 +554,7 @@ namespace Asset.MySql
         {
             return DeleteRowByBase(ETableType.CharacterDB, baseType, baseValue);
         }
+        
         private static bool DeleteRowByBase<T>(ETableType targetTable, T baseType, string baseValue) where T : System.Enum
         {
             try
@@ -561,6 +562,29 @@ namespace Asset.MySql
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
                     string deleteString = $"Delete From {targetTable} where {baseType} = '{baseValue}';";
+                    MySqlCommand command = new MySqlCommand(deleteString, _sqlConnection);
+
+                    _sqlConnection.Open();
+                    command.ExecuteNonQuery();
+                    _sqlConnection.Close();
+
+                    return true;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+
+        private static bool DeleteRowByBase<T1, T2>(ETableType targetTable, T1 baseType, string baseValue, T2 subType, string subValue, string logicOperator ) where T1 : System.Enum where T2 : System.Enum
+        {
+            try
+            {
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string deleteString = $"Delete From {targetTable} where {baseType} = '{baseValue}' {logicOperator} {subType} = '{subValue}';";
                     MySqlCommand command = new MySqlCommand(deleteString, _sqlConnection);
 
                     _sqlConnection.Open();
