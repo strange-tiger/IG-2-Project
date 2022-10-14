@@ -550,19 +550,33 @@ namespace Asset.MySql
 
         }
 
-
-        public static bool DeleteRowByBase(ECharacterColumns baseType, string baseValue)
+        class Comparator<T> where T : System.Enum
         {
-            return DeleteRowByBase(ETableType.CharacterDB, baseType, baseValue);
+            public T Column;
+            public string Value;
         }
-        
-        private static bool DeleteRowByBase<T>(ETableType targetTable, T baseType, string baseValue) where T : System.Enum
+
+        public static bool DeleteRowByCompatator(ErelationshipdbColumns type, string condition)
+        {
+           
+            return DeleteRowByCompatator(Asset.ETableType.relationshipdb, "and", );
+        }
+
+    private static bool DeleteRowByComparator<T>(ETableType targetTable, string logicOperator, params Comparator<T>[] comparators) where T : System.Enum
         {
             try
             {
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string deleteString = $"Delete From {targetTable} where {baseType} = '{baseValue}';";
+                    string deleteString = $"Delete From {targetTable}";
+                    
+                    for (int i = 0; i < comparators.Length - 1; ++i)
+                    {
+                        deleteString += $" where {comparators[i].Column} = '{comparators[i].Value}' {logicOperator}";
+                    }
+
+                    deleteString += $" where {comparators[comparators.Length - 1].Column} = '{comparators[comparators.Length - 1].Value}';";
+
                     MySqlCommand command = new MySqlCommand(deleteString, _sqlConnection);
 
                     _sqlConnection.Open();
@@ -579,9 +593,9 @@ namespace Asset.MySql
             }
         }
 
-        public static bool DeleteRowByRelation(string baseValue, string subValue)
+        public static bool DeleteRowByRelation(string requesterValue, string respondentValue)
         {
-            return DeleteRowByBase("Requester", baseValue, "Respondent", subValue);
+            return DeleteRowByBase("Requester", requesterValue, "Respondent", respondentValue);
         }
 
         public static bool DeleteRowByBase(string baseType, string baseValue, string subType, string subValue)
