@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-using Column = Asset.MySql.EAccountColumns;
+using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Sql = Asset.MySql.MySqlSetting;
 using Hash = Encryption.Hash256;
@@ -42,12 +42,15 @@ public class SignInUI : MonoBehaviour
     private void OnEnable()
     {
         _signInButton.onClick.RemoveListener(SignIn);
-        _passwordDoubleCheckButton.onClick.RemoveListener(PasswordDoubleCheck);
-        _nicknameDoubleCheckButton.onClick.RemoveListener(NicknameDoubleCheck);
-        _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
         _signInButton.onClick.AddListener(SignIn);
+        
+        _passwordDoubleCheckButton.onClick.RemoveListener(PasswordDoubleCheck);
         _passwordDoubleCheckButton.onClick.AddListener(PasswordDoubleCheck);
+        
+        _nicknameDoubleCheckButton.onClick.RemoveListener(NicknameDoubleCheck);
         _nicknameDoubleCheckButton.onClick.AddListener(NicknameDoubleCheck);
+        
+        _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
         _idDoubleCheckButton.onClick.AddListener(EmailDoubleCheck);
 
         _nicknameErrorText?.SetActive(false);

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 
-using Column = Asset.MySql.EAccountColumns;
+using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Sql = Asset.MySql.MySqlSetting;
 using Hash = Encryption.Hash256;
@@ -33,13 +33,18 @@ public class LogInUI : MonoBehaviour
     private void OnEnable()
     {
         _logInButton.onClick.RemoveListener(LogIn);
-        _signInButton.onClick.RemoveListener(LoadSignIn);
-        _findPasswordButton.onClick.RemoveListener(LoadFind);
-        _quitButton.onClick.RemoveListener(Quit);
         _logInButton.onClick.AddListener(LogIn);
+        
+        _signInButton.onClick.RemoveListener(LoadSignIn);
         _signInButton.onClick.AddListener(LoadSignIn);
+        
+        _findPasswordButton.onClick.RemoveListener(LoadFind);
         _findPasswordButton.onClick.AddListener(LoadFind);
+        
+        _quitButton.onClick.RemoveListener(Quit);
         _quitButton.onClick.AddListener(Quit);
+
+        Sql.Init();
     }
 
     /// <summary>

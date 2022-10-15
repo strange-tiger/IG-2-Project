@@ -9,33 +9,6 @@ using MySql.Data.MySqlClient;
 
 namespace Asset.MySql
 {
-    public enum ETableType
-    {
-        AccountDB,
-        CharacterDB,
-        RelationshipDB,
-        Max
-    };
-
-    public enum EAccountColumns
-    {
-        Email,
-        Password,
-        Nickname,
-        Qustion,
-        Answer,
-        Max
-    }
-
-    public enum ECharacterColumns
-    {
-        Nickname,
-        Gender,
-        Tutorial,
-        OnOff,
-        Max
-    }
-
     public enum ESocialStatus
     {
         None,
@@ -87,7 +60,7 @@ namespace Asset.MySql
             _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
             _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
-            _updateSocialStateString = Resources.Load<TextAsset>("UpdateRelationship").text;
+            _updateSocialStateString = Resources.Load<TextAsset>("UpdateRelation").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -165,6 +138,7 @@ namespace Asset.MySql
                     {
                         streamWriter.WriteLine($"\t\t{table},");
                     }
+                    streamWriter.WriteLine($"\t\tMax,");
                     streamWriter.WriteLine("\t}");
 
                     //  2. 테이블의 컬럼 타입
@@ -176,7 +150,7 @@ namespace Asset.MySql
                         {
                             streamWriter.WriteLine($"\t\t{column},");
                         }
-
+                        streamWriter.WriteLine($"\t\tMax,");
                         streamWriter.WriteLine("\t}");
                     }
 
@@ -192,6 +166,7 @@ namespace Asset.MySql
             }
         }
 
+    #region Add
         /// <summary>
         /// 계정 추가하기
         /// </summary>
@@ -204,11 +179,11 @@ namespace Asset.MySql
         {
             try
             {
-                if (HasValue(EAccountColumns.Email, Email))
+                if (HasValue(EaccountdbColumns.Email, Email))
                 {
                     throw new System.Exception("Email 중복됨");
                 }
-                if (HasValue(EAccountColumns.Nickname, Nickname))
+                if (HasValue(EaccountdbColumns.Nickname, Nickname))
                 {
                     throw new System.Exception("Nickname 중복됨");
                 }
@@ -216,7 +191,7 @@ namespace Asset.MySql
 
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string _insertAccountString = GetInsertString(ETableType.AccountDB, Nickname, Password, Email);
+                    string _insertAccountString = GetInsertString(ETableType.accountdb, Nickname, Password, Email);
                     MySqlCommand _insertAccountCommand = new MySqlCommand(_insertAccountString, _mysqlConnection);
 
 
@@ -241,7 +216,7 @@ namespace Asset.MySql
 
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string _insertCharacterString = GetInsertString(ETableType.CharacterDB, nickname, gender);
+                    string _insertCharacterString = GetInsertString(ETableType.characterdb, nickname, gender);
 
                     MySqlCommand _insertCharacterCommand = new MySqlCommand(_insertCharacterString, _mysqlConnection);
 
@@ -271,7 +246,9 @@ namespace Asset.MySql
 
             return insertString;
         }
+    #endregion
 
+    #region Request
         /// <summary>
         /// 두 사용자 간의 요청이 RequestDB에 존재하는 지 확인.
         /// </summary>
@@ -280,29 +257,29 @@ namespace Asset.MySql
         /// <returns> 존재하면 true 아니면 false </returns>
         public static bool CheckRequest(string userA, string userB)
         {
-            
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+                string selcetSocialRequestString = $"select * from RequestDB where Requester = '{userA}' and Repondent = '{userB}' or Requester = '{userB}' and Repondent = '{userA};";
+
+                MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
+                if (selectSocialStatusData.Read())
                 {
-                    string selcetSocialRequestString = $"select * from RequestDB where Requester = '{userA}' and Repondent = '{userB}' or Requester = '{userB}' and Repondent = '{userA};";
-
-                    MySqlCommand selectSocialRequestCommand = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
-
-                    _mysqlConnection.Open();
-
-                    MySqlDataReader selectSocialStatusData = selectSocialRequestCommand.ExecuteReader();
-                    if(selectSocialStatusData.Read())
-                    {
-                        _mysqlConnection.Close();
-
-                        return true;
-                    }
-
                     _mysqlConnection.Close();
-                    return false;
+
+                    return true;
                 }
 
-           
-            
+                _mysqlConnection.Close();
+                return false;
+            }
+
+
+
         }
 
         /// <summary>
@@ -339,8 +316,14 @@ namespace Asset.MySql
                 return false;
             }
         }
+    #endregion
 
-
+    #region Relationship
+        private const int _REQUEST_BIT = 0b_0001;
+        private const int _BLOCK_BIT = 0b_0011;
+        private const int _FRIEND_BIT = 0b_0000;
+        private const int _RESET_BIT = 0b_0000;
+        private const int _SHIFT_BIT = 0b_0010;
 
         /// <summary>
         /// 유저간의 관계가 존재하는 지 확인함.
@@ -348,7 +331,7 @@ namespace Asset.MySql
         /// <param name="userA"> UserA Column에 들어가는 유저 닉네임. </param>
         /// <param name="userB"> UserB Column에 들어가는 유저 닉네임. </param>
         /// <returns> 존재하면 true, 존재하지 않는다면 false 반환. </returns>
-        private static bool IsThereRelationship(string userA, string userB)
+        private bool IsThereRelationship(string userA, string userB)
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
@@ -362,7 +345,7 @@ namespace Asset.MySql
                 MySqlDataReader reader = command.ExecuteReader();
 
 
-                if(!reader.Read())
+                if (!reader.Read())
                 {
                     _mysqlConnection.Close();
                     return false;
@@ -370,7 +353,7 @@ namespace Asset.MySql
 
                 _mysqlConnection.Close();
                 return true;
-                
+
             }
         }
 
@@ -381,7 +364,7 @@ namespace Asset.MySql
         /// <param name="targetNickname"> 대상의 닉네임 </param>
         /// <param name="isLeft">내가 UserA라면 True, UserB라면 false</param>
         /// <returns>Row가 존재하면 True, 존재하지 않으면 false </returns>
-        public static bool CheckMyPositionInRelationShip(string myNickname, string targetNickname, out bool isLeft)
+        public bool CheckMyPositionInRelationShip(string myNickname, string targetNickname, out bool isLeft)
         {
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
@@ -400,11 +383,11 @@ namespace Asset.MySql
                 {
                     isLeft = false;
 
-                    if(reader["UserA"].ToString() == myNickname)
+                    if (reader["UserA"].ToString() == myNickname)
                     {
                         isLeft = true;
                     }
-                    else if(reader["UserB"].ToString() == myNickname)
+                    else if (reader["UserB"].ToString() == myNickname)
                     {
                         isLeft = false;
                     }
@@ -419,8 +402,6 @@ namespace Asset.MySql
 
         }
 
-
-
         /// <summary>
         /// 나와 대상 유저간의 관계를 확인하고, 관계 값을 반환함.
         /// </summary>
@@ -428,18 +409,18 @@ namespace Asset.MySql
         /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
         /// <param name="isLeft"> 내가 UserA Column이라면 true, UserB Column이라면 false. </param>
         /// <returns> 나와 대상 유저간의 State를 int로 반환함. 관계가 존재하지 않는다면 -1 반환. </returns>
-        public static int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
+        public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
         {
-            if(CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
+            if (CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
             {
                 return -1;
             }
 
             CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft);
 
-           using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                int state = 0;
+                int state = _RESET_BIT;
 
                 string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
                     $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
@@ -454,14 +435,14 @@ namespace Asset.MySql
                 if (reader.Read())
                 {
                     state = reader.GetInt32("State");
-                    
+
                 }
-               _mysqlConnection.Close();
+                _mysqlConnection.Close();
 
                 return state;
             }
         }
-        
+
         /// <summary>
         /// 연산된 State를 받아, RelationshipDB의 State를 업데이트 함. DB에 관계가 없다면, 새로 추가함.
         /// </summary>
@@ -469,9 +450,9 @@ namespace Asset.MySql
         /// <param name="userB"> UserB column에 들어가는 닉네임. </param>
         /// <param name="state">업데이트할 State </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public static bool UpdateRalationship(string userA, string userB, int state)
+        public bool UpdateRelationship(string userA, string userB, int state)
         {
-            if(IsThereRelationship(userA,userB) == false)
+            if (IsThereRelationship(userA, userB) == false)
             {
                 try
                 {
@@ -497,10 +478,10 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                
-                    string updateSocialStateString =  _updateSocialStateString += $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
+
+                    string updateSocialStateString = _updateSocialStateString += $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
                         $"or UserA = '{userB}' and UserB = '{userA}';";
- 
+
                     MySqlCommand updateSocialStateCommand = new MySqlCommand(updateSocialStateString, _mysqlConnection);
                     _mysqlConnection.Open();
                     updateSocialStateCommand.ExecuteNonQuery();
@@ -521,26 +502,15 @@ namespace Asset.MySql
         /// <param name="myNickname"> 나의 닉네임 </param>
         /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public static bool UpdateRelationshipToBlock(string myNickname,string targetNickname)
+        public bool UpdateRelationshipToBlock(string myNickname, string targetNickname)
         {
             try
             {
                 int state = CheckRelationship(myNickname, targetNickname, out bool isLeft);
 
-                int changeState = 0b_0001;
+                state = UpdateRelationshipToBlockHelper(isLeft, state);
 
-                if (isLeft)
-                {
-                    changeState = changeState << 3;
-                }
-                else
-                {
-                    changeState = changeState << 1;
-                }
-
-                changeState = state | changeState;
-
-                UpdateRalationship(myNickname, targetNickname, changeState);
+                UpdateRelationship(myNickname, targetNickname, state);
 
                 return true;
             }
@@ -556,26 +526,15 @@ namespace Asset.MySql
         /// <param name="myNickname"> 나의 닉네임 </param>
         /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public static bool UpdateRalationshipToUnblock(string myNickname, string targetNickname)
+        public bool UpdateRalationshipToUnblock(string myNickname, string targetNickname)
         {
             try
             {
                 int state = CheckRelationship(myNickname, targetNickname, out bool isLeft);
 
-                int changeState = 0b_0001;
+                state = UpdateRelationshipToUnblockHelper(isLeft, state);
 
-                if (isLeft)
-                {
-                    changeState = changeState << 3;
-                }
-                else
-                {
-                    changeState = changeState << 1;
-                }
-
-                changeState = state & ~changeState;
-
-                UpdateRalationship(myNickname, targetNickname, changeState);
+                UpdateRelationship(myNickname, targetNickname, state);
 
                 return true;
             }
@@ -584,6 +543,101 @@ namespace Asset.MySql
                 return false;
             }
         }
+
+        /// <summary>
+        /// 내가 상대에게 친구 요청을 한다.
+        /// 사전조건 판단은 외부에서 수행한다.
+        /// </summary>
+        /// <param name="myNickname"></param>
+        /// <param name="targetNickname"></param>
+        /// <returns></returns>
+        public bool UpdateRelationshipToRequest(string myNickname, string targetNickname)
+        {
+            try
+            {
+                bool isLeft;
+                int state = CheckRelationship(myNickname, targetNickname, out isLeft);
+
+                state = UpdateRelationshipToRequestHelper(isLeft, state);
+
+                UpdateRelationship(myNickname, targetNickname, state);
+
+                return true;
+            }
+            catch
+            {
+                Debug.LogError("오류: Fail To Request Social Interaction");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 나와 상대의 관계를 친구로 업데이트한다.
+        /// 사전조건 판단은 외부에서 수행한다.
+        /// </summary>
+        /// <param name="myNickname"></param>
+        /// <param name="targetNickname"></param>
+        /// <returns></returns>
+        public bool UpdateRelationshipToFriend(string myNickname, string targetNickname)
+        {
+            try
+            {
+                UpdateRelationship(myNickname, targetNickname, _FRIEND_BIT);
+                return true;
+            }
+            catch
+            {
+                Debug.LogError("오류: Fail To Be Friend");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 나와 상대의 친구 관계를 끊는다.
+        /// 사전조건 판단은 외부에서 수행한다.
+        /// </summary>
+        /// <param name="myNickname"></param>
+        /// <param name="targetNickname"></param>
+        /// <returns></returns>
+        public bool UpdateRelationshipToUnFriend(string myNickname, string targetNickname)
+        {
+            try
+            {
+                DeleteRowByComparator
+                (
+                    ErelationshipdbColumns.UserA,
+                    myNickname,
+                    ErelationshipdbColumns.UserB,
+                    targetNickname
+                );
+
+                return true;
+            }
+            catch
+            {
+                Debug.LogError("오류: Fail To Undo Friend");
+                return false;
+            }
+        }
+
+        private int UpdateRelationshipToBlockHelper(bool isLeft, int state)
+        {
+            int shiftBit = isLeft ? _SHIFT_BIT : _RESET_BIT;
+            return state ^ (_BLOCK_BIT << shiftBit);
+        }
+
+        private int UpdateRelationshipToUnblockHelper(bool isLeft, int state)
+        {
+            int shiftBit = isLeft ? _SHIFT_BIT : _RESET_BIT;
+            return state | _RESET_BIT << shiftBit;
+        }
+
+        private int UpdateRelationshipToRequestHelper(bool isLeft, int state)
+        {
+            int shiftBit = isLeft ? _SHIFT_BIT : _RESET_BIT;
+            return state | _REQUEST_BIT << shiftBit;
+        }
+
         /// <summary>
         /// DataSet에 데이터를 저장함.
         /// </summary>
@@ -594,9 +648,9 @@ namespace Asset.MySql
         {
             DataSet _dataSet = new DataSet();
 
-            using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString)) 
+            using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
             {
-                _sqlConnection.Open(); 
+                _sqlConnection.Open();
 
                 MySqlDataAdapter _dataAdapter = new MySqlDataAdapter(selectString, _sqlConnection);
 
@@ -614,10 +668,10 @@ namespace Asset.MySql
         public static List<Dictionary<string, string>> CheckStatusList(string nickname, ESocialStatus status)
         {
 
-             string selcetRequesterString = $"SELECT CharacterDB.OnOff, RelationshipDB.Respondent FROM RelationshipDB " +
-                $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Respondent where Requester = '{nickname}' and Status = '{(int)status}'; ";
+            string selcetRequesterString = $"SELECT CharacterDB.OnOff, RelationshipDB.Respondent FROM RelationshipDB " +
+               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Respondent where Requester = '{nickname}' and Status = '{(int)status}'; ";
 
-            
+
 
             DataSet requesterData = GetUserData(selcetRequesterString);
 
@@ -630,7 +684,7 @@ namespace Asset.MySql
                 resultList.Add(dictionaryList);
             }
 
-            if(status != ESocialStatus.Block)
+            if (status != ESocialStatus.Block)
             {
                 string selcetRespondentString = $"SELECT CharacterDB.OnOff, RelationshipDB.Requester FROM RelationshipDB " +
                     $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Requester where Respondent = '{nickname}' and Status = '{(int)status}'; ";
@@ -647,10 +701,9 @@ namespace Asset.MySql
             }
 
             return resultList;
-            
-        }
-      
 
+        }
+    #endregion
 
         /// <summary>
         /// 해당 값이 DB에 있는지 확인한다.
@@ -658,7 +711,7 @@ namespace Asset.MySql
         /// <param name="columnType">Account 태이블에서 비교하기 위한 colum 명</param>
         /// <param name="value">비교할 값</param>
         /// <returns>값이 있다면 true, 아니면 false를 반환한다.</returns>
-        public static bool HasValue(EAccountColumns columnType, string value)
+        public static bool HasValue(EaccountdbColumns columnType, string value)
         {
             try
             {
@@ -688,6 +741,7 @@ namespace Asset.MySql
 
         }
 
+    #region ValueByBase
         /// <summary>
         /// CharacterDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// </summary>
@@ -696,10 +750,10 @@ namespace Asset.MySql
         /// <param name="checkType">확인할 데이터 Column 타입</param>
         /// <param name="checkValue">확인할 값</param>
         /// <returns>일치하면 true를 반환, 아니거나 오류가 있을 경우 false 반환</returns>
-        public static bool CheckValueByBase(ECharacterColumns baseType, string baseValue,
-            ECharacterColumns checkType, string checkValue)
+        public static bool CheckValueByBase(EcharacterdbColumns baseType, string baseValue,
+            EcharacterdbColumns checkType, string checkValue)
         {
-            return CheckValueByBase(ETableType.CharacterDB, baseType, baseValue, checkType, checkValue);
+            return CheckValueByBase(ETableType.characterdb, baseType, baseValue, checkType, checkValue);
         }
         /// <summary>
         /// AccountDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
@@ -710,10 +764,10 @@ namespace Asset.MySql
         /// <param name="checkType">확인할 데이터 Column 타입</param>
         /// <param name="checkValue">확인할 값</param>
         /// <returns>일치하면 true를 반환, 아니거나 오류가 있을 경우 false 반환</returns>
-        public static bool CheckValueByBase(EAccountColumns baseType, string baseValue,
-            EAccountColumns checkType, string checkValue)
+        public static bool CheckValueByBase(EaccountdbColumns baseType, string baseValue,
+            EaccountdbColumns checkType, string checkValue)
         {
-            return CheckValueByBase(ETableType.AccountDB, baseType, baseValue, checkType, checkValue);
+            return CheckValueByBase(ETableType.accountdb, baseType, baseValue, checkType, checkValue);
         }
         private static bool CheckValueByBase<T>(ETableType targetTable, T baseType, string baseValue,
             T checkType, string checkValue) where T : System.Enum
@@ -736,9 +790,9 @@ namespace Asset.MySql
         /// <param name="baseValue">기준이 되는 데이터</param>
         /// <param name="targetType">가져오기 위한 데이터 Column명</param>
         /// <returns>해당 데이터를 반환. 오류 시 null 반환</returns>
-        public static string GetValueByBase(EAccountColumns baseType, string baseValue, EAccountColumns targetType)
+        public static string GetValueByBase(EaccountdbColumns baseType, string baseValue, EaccountdbColumns targetType)
         {
-            return GetValueByBase(ETableType.AccountDB, baseType, baseValue, targetType);
+            return GetValueByBase(ETableType.accountdb, baseType, baseValue, targetType);
         }
 
         private static string GetValueByBase<T>(ETableType targetTable,
@@ -785,16 +839,16 @@ namespace Asset.MySql
         /// <param name="targetType">변경할 값의 Column명</param>
         /// <param name="targetValue">변경할 값</param>
         /// <returns>정상적으로 변경되었다면 true, 아니면 false를 반환</returns>
-        public static bool UpdateValueByBase(EAccountColumns baseType, string baseValue,
-            EAccountColumns targetType, int targetValue)
+        public static bool UpdateValueByBase(EaccountdbColumns baseType, string baseValue,
+            EaccountdbColumns targetType, int targetValue)
         {
-            return UpdateValueByBase(ETableType.AccountDB, baseType, baseValue, targetType, targetValue);
+            return UpdateValueByBase(ETableType.accountdb, baseType, baseValue, targetType, targetValue);
         }
 
-        public static bool UpdateValueByBase(ECharacterColumns baseType, string baseValue,
-            ECharacterColumns targetType, int targetValue)
+        public static bool UpdateValueByBase(EcharacterdbColumns baseType, string baseValue,
+            EcharacterdbColumns targetType, int targetValue)
         {
-            return UpdateValueByBase(ETableType.CharacterDB, baseType, baseValue, targetType, targetValue);
+            return UpdateValueByBase(ETableType.characterdb, baseType, baseValue, targetType, targetValue);
         }
         private static bool UpdateValueByBase<T>(ETableType targetTable,
             T baseType, string baseValue,
@@ -819,10 +873,10 @@ namespace Asset.MySql
                 Debug.LogError(error.Message);
                 return false;
             }
-
-
         }
+    #endregion
 
+    #region DeleteRowByComparator
         public class Comparator<T> where T : System.Enum
         {
             public T Column;
@@ -831,10 +885,11 @@ namespace Asset.MySql
 
         #region DeleteRowByComparator-RelationshipDB
 
-        public static bool DeleteRowByComparator(ErelationshipdbColumns type_1, string condition_1,
-           ErelationshipdbColumns type_2, string condition_2,
-           ErelationshipdbColumns type_3, string condition_3,
-           string logicOperator = "and")
+        public static bool DeleteRowByComparator
+         (ErelationshipdbColumns type_1, string condition_1,
+          ErelationshipdbColumns type_2, string condition_2,
+          ErelationshipdbColumns type_3, string condition_3,
+          string logicOperator = "and")
         {
 
             return DeleteRowByComparator
@@ -859,38 +914,75 @@ namespace Asset.MySql
             );
         }
 
-        public static bool DeleteRowByComparator(ErelationshipdbColumns type_1, string condition_1, 
-           ErelationshipdbColumns type_2, string condition_2,
-           string logicOperator = "and")
+        public static bool DeleteRowByComparator
+        (ErelationshipdbColumns type_1, string condition_1,
+         ErelationshipdbColumns type_2, string condition_2,
+         string logicOperator = "and")
+        {
+            if
+            (
+                DeleteRowByComparator
+                (
+                    Asset.ETableType.relationshipdb,
+                    logicOperator,
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_1,
+                        Value = condition_1
+                    },
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_2,
+                        Value = condition_2
+                    }
+                )
+            )
+            {
+                return true;
+            }
+            else
+            {
+                return DeleteRowByComparator
+                (
+                    Asset.ETableType.relationshipdb,
+                    logicOperator,
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_2,
+                        Value = condition_2
+                    },
+                    new Comparator<ErelationshipdbColumns>()
+                    {
+                        Column = type_1,
+                        Value = condition_1
+                    }
+                );
+            }
+        }
+
+        public static bool DeleteRowByComparator
+        (ErelationshipdbColumns type, string condition,
+        string logicOperator = "and")
         {
 
             return DeleteRowByComparator
             (
                 Asset.ETableType.relationshipdb,
                 logicOperator,
-                new Comparator<ErelationshipdbColumns>() 
-                { 
-                    Column = type_1, 
-                    Value = condition_1 
-                },
                 new Comparator<ErelationshipdbColumns>()
                 {
-                    Column = type_2,
-                    Value = condition_2
+                    Column = type,
+                    Value = condition
                 }
             );
         }
 
-        public static bool DeleteRowByComparator(ErelationshipdbColumns type, string condition,
-           string logicOperator = "and")
-        {
-
-            return DeleteRowByComparator(Asset.ETableType.relationshipdb, logicOperator, new Comparator<ErelationshipdbColumns>() { Column = type, Value = condition });
-        }
-
         #endregion
 
-        public static bool DeleteRowByComparator<T>(Asset.ETableType targetTable, string logicOperator, params Comparator<T>[] comparators) where T : System.Enum
+        public static bool DeleteRowByComparator<T>
+        (Asset.ETableType targetTable, string logicOperator,
+        params Comparator<T>[] comparators)
+            where T : System.Enum
         {
             try
             {
@@ -920,6 +1012,7 @@ namespace Asset.MySql
                 return false;
             }
         }
+    #endregion
 
     }
 
