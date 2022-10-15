@@ -325,6 +325,20 @@ namespace Asset.MySql
         private const int _RESET_BIT = 0b_0000;
         private const int _SHIFT_BIT = 0b_0010;
 
+        /*
+         * Relationship Bit
+         * 
+         * 유저 A와 유저 B의 관계가 생기면, 
+         * A와 B의 관계 상태가 Relationship Bit 형태로 RelationshipDB에 저장된다.
+         * 
+         * Relationship Bit는 4비트로 구성된다.
+         * 
+         * _ _ _ _ : [A → B 친구 요청 여부] [A → B 차단 여부] [A ← B 친구 요청 여부] [A ← B 차단 여부]
+         * 
+         */
+
+
+
         /// <summary>
         /// 유저간의 관계가 존재하는 지 확인함.
         /// </summary>
