@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-using Column = Asset.MySql.EAccountColumns;
+using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Sql = Asset.MySql.MySqlSetting;
 using Hash = Encryption.Hash256;
