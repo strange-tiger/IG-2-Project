@@ -34,6 +34,7 @@ public class FindPasswordUI : MonoBehaviour
     {
         _logInButton.onClick.RemoveListener(LoadLogIn);
         _findPasswordButton.onClick.RemoveListener(FindPassword);
+        
         _logInButton.onClick.AddListener(LoadLogIn);
         _findPasswordButton.onClick.AddListener(FindPassword);
 

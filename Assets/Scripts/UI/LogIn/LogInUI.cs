@@ -33,12 +33,15 @@ public class LogInUI : MonoBehaviour
     private void OnEnable()
     {
         _logInButton.onClick.RemoveListener(LogIn);
-        _signInButton.onClick.RemoveListener(LoadSignIn);
-        _findPasswordButton.onClick.RemoveListener(LoadFind);
-        _quitButton.onClick.RemoveListener(Quit);
         _logInButton.onClick.AddListener(LogIn);
+        
+        _signInButton.onClick.RemoveListener(LoadSignIn);
         _signInButton.onClick.AddListener(LoadSignIn);
+        
+        _findPasswordButton.onClick.RemoveListener(LoadFind);
         _findPasswordButton.onClick.AddListener(LoadFind);
+        
+        _quitButton.onClick.RemoveListener(Quit);
         _quitButton.onClick.AddListener(Quit);
 
         Sql.Init();
