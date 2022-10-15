@@ -319,10 +319,13 @@ namespace Asset.MySql
     #endregion
 
     #region Relationship
-        private const int _REQUEST_BIT = 0b_0001;
-        private const int _BLOCK_BIT = 0b_0011;
         private const int _FRIEND_BIT = 0b_0000;
+        private const int _REQUEST_BIT = 0b_0001;
+        private const int _BLOCK_BIT = 0b_0010;
         private const int _RESET_BIT = 0b_0000;
+        private const int _RESET_RIGHT_BIT = 0b_0000;
+        private const int _RESET_LEFT_BIT = 0b_0000;
+        private const int _ERROR_BIT = 0b_0011;
         private const int _SHIFT_BIT = 0b_0010;
 
         /*
