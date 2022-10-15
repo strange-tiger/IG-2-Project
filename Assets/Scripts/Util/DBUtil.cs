@@ -319,11 +319,11 @@ namespace Asset.MySql
     #endregion
 
     #region Relationship
-        private const int _REQUEST_BIT = 0b_0001;
-        private const int _BLOCK_BIT = 0b_0011;
-        private const int _FRIEND_BIT = 0b_0000;
-        private const int _RESET_BIT = 0b_0000;
-        private const int _SHIFT_BIT = 0b_0010;
+        private static const int _REQUEST_BIT = 0b_0001;
+        private static const int _BLOCK_BIT = 0b_0011;
+        private static const int _FRIEND_BIT = 0b_0000;
+        private static const int _RESET_BIT = 0b_0000;
+        private static const int _SHIFT_BIT = 0b_0010;
 
         /// <summary>
         /// 유저간의 관계가 존재하는 지 확인함.
