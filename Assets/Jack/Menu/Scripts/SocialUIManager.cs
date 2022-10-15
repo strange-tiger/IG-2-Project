@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +34,7 @@ public class SocialUIManager : MonoBehaviour
 
     private string _myNickname;
     private string _targetUserNickname;
+    private bool _isTargetUserNicknameSet;
 
     private void Awake()
     {
@@ -48,148 +49,143 @@ public class SocialUIManager : MonoBehaviour
 
     private void InitializeButtons()
     {
-        // 1. µÑ »çÀÌÀÇ °ü°è¸¦ È®ÀÎÇÔ
+        // 0. ì‚¬ì „ ì¡°ê±´ íŒë³„: ëŒ€ìƒ ìœ ì €ì˜ Nicknameì„ ë°›ìŒ
+        Debug.Assert(_isTargetUserNicknameSet, "ìƒëŒ€ ë‹‰ë„¤ì„ ì—†ìŒ");
 
-        // 1-1. °ü°è°¡ ¾ø´Â °æ¿ì(¹İÈ¯°ªÀÌ -1)
-        OnClickRequestFriendButton();
-        OnClickBlockUserButton();
+        // 1. ë‘˜ ì‚¬ì´ì˜ ê´€ê³„ë¥¼ í™•ì¸í•¨
+        bool isLeft;
+        int relationship = MySqlSetting.CheckRelationship(_myNickname, _targetUserNickname, out isLeft);
 
-        // 1-2. Ä£±¸ÀÎ °æ¿ì(¹İÈ¯°ªÀÌ 0)
-        OnClickCancelFriendButton();
-        OnClickBlockUserButton();
+        // 1-1. ê´€ê³„ê°€ ì—†ëŠ” ê²½ìš°(ë°˜í™˜ê°’ì´ -1)
+        if(relationship == -1)
+        {
+            // ì¹œêµ¬ ìš”ì²­
+            _addFriendButton.interactable = true;
+            AddListenerToButton(_addFriendButton, OnClickRequestFriendButton, true);
 
-        // ....±×¿Ü
-        // 2. µÑ »çÀÌ¿¡¼­ ³ªÀÇ À§Ä¡(AÀÎÁö BÀÎÁö ¾Ë¾Æ³¿)¸¦ È®ÀÎÇÏ¿©
-        // À§Ä¡¿¡ µû¶ó È®ÀÎÇÒ ºñÆ® ÀÚ¸®¼ö¸¦ ±âÁØÀ» ¼³Á¤, ÇØ´ç °á°ú·Î ´ÙÀ½À» ÆÇº°
+            // ë¸”ë¡
+            _blockFriendButton.interactable = true;
+            AddListenerToButton(_blockFriendButton, OnClickBlockUserButton, true);
+        }
 
-        // 2-1. ³»°¡ ºí·ÏÇÑ »óÈ²
-        ;
-        OnClickUnblockUserButton();
+        // 1-2. ì¹œêµ¬ì¸ ê²½ìš°(ë°˜í™˜ê°’ì´ 0)
+        else if(relationship == 0)
+        {
+            // ì¹œêµ¬ ì·¨ì†Œ
+            _addFriendButton.interactable = true;
+            AddListenerToButton(_addFriendButton, OnClickCancelFriendButton, true);
 
-        // 2-2. ³»°¡ Ä£±¸ ¿äÃ»À» ÇÑ »óÈ²
-        OnClickCancelRequestButton();
-        OnClickBlockUserButton();
+            // ë¸”ë¡
+            _blockFriendButton.interactable = true;
+            AddListenerToButton(_blockFriendButton, OnClickBlockUserButton, true);
+        }
 
-        // 2-3. »óÅÂ°¡ ³ª¿¡°Ô Ä£±¸ ¿äÃ»À» ÇÑ »óÈ²
-        OnClickCheckFriendRequestButton();
-        OnClickBlockUserButton();
+        // ....ê·¸ì™¸
+        else
+        {
+            // 2. ë‘˜ ì‚¬ì´ì—ì„œ ë‚˜ì˜ ìœ„ì¹˜(Aì¸ì§€ Bì¸ì§€ ì•Œì•„ëƒ„)ë¥¼ í™•ì¸í•˜ì—¬
+            // ìœ„ì¹˜ì— ë”°ë¼ í™•ì¸í•  ë¹„íŠ¸ ìë¦¬ìˆ˜ë¥¼ ê¸°ì¤€ì„ ì„¤ì •, í•´ë‹¹ ê²°ê³¼ë¡œ ë‹¤ìŒì„ íŒë³„
+            int parseBinary = 0b_0011;
+
+            if (isLeft)
+            {
+                relationship = relationship >> 2;
+            }
+            int state = relationship & parseBinary;
+
+            // 2-1. ë‚´ê°€ ë¸”ë¡í•œ ìƒí™©
+            ;
+            OnClickUnblockUserButton();
+
+            // 2-2. ë‚´ê°€ ì¹œêµ¬ ìš”ì²­ì„ í•œ ìƒí™©
+            OnClickCancelRequestButton();
+            OnClickBlockUserButton();
+
+            // 2-3. ìƒíƒœê°€ ë‚˜ì—ê²Œ ì¹œêµ¬ ìš”ì²­ì„ í•œ ìƒí™©
+            OnClickCheckFriendRequestButton();
+            OnClickBlockUserButton();
+        }
     }
 
     /// <summary>
-    /// Ä£±¸ Ãß°¡ ÆĞ³ÎÀ» º¸¿©ÁÜ
+    /// ì¹œêµ¬ ì¶”ê°€ íŒ¨ë„ì„ ë³´ì—¬ì¤Œ
     /// </summary>
-    /// <param name="targetUserName"> Å¸°Ù À¯Àú ÀÌ¸§ </param>
+    /// <param name="targetUserName"> íƒ€ê²Ÿ ìœ ì € ì´ë¦„ </param>
     public void ShowFriendPanel(string targetUserName)
     {
         _targetUserNickname = targetUserName;
         _targetUserNicknameText.text = _targetUserNickname;
+        _isTargetUserNicknameSet = true;
         _socialUI.SetActive(true);
     }
 
-    private void AddListenerToButton(Button button, UnityEngine.Events.UnityAction newListener, bool isNeedButtonInitialize)
+    /// <summary>
+    /// ë²„íŠ¼ì— ë¦¬ìŠ¤ë„ˆë¥¼ ë¶€ì°©í•¨
+    /// </summary>
+    /// <param name="button">ë¶€ì°© ëŒ€ìƒ ë²„íŠ¼</param>
+    /// <param name="newListener">ë¶€ì°©í•  ë¦¬ìŠ¤ë„ˆ</param>
+    /// <param name="isNeedExitPanelListener">í´ë¦­ í›„ ë²„íŠ¼ ì´ˆê¸°í™”ê°€ í•„ìš”í•œì§€ ì—¬ë¶€</param>
+    private void AddListenerToButton(Button button, UnityEngine.Events.UnityAction newListener, bool isNeedExitPanelListener)
     {
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(newListener);
-        button.onClick.AddListener(() => { InitializeButtons(); });
+        if(isNeedExitPanelListener)
+        {
+            button.onClick.AddListener(() => { _socialUI.SetActive(false); });
+        }
     }
 
-    // Ä£±¸ Ãß°¡ ¿äÃ»
+    // ì¹œêµ¬ ì¶”ê°€ ìš”ì²­
     private void OnClickRequestFriendButton()
     {
-        // Ä£±¸ Ãß°¡ ¿äÃ»À» DB¿¡ ¿Ã¸²
+        // ì¹œêµ¬ ì¶”ê°€ ìš”ì²­ì„ DBì— ì˜¬ë¦¼
         _confirmPanelManager.ShowConfirmPanel(_requestFriendConfirmMessage);
     }
 
-    // Ä£±¸ Ãß°¡ ¿äÃ» Ãë¼Ò
+    // ì¹œêµ¬ ì¶”ê°€ ìš”ì²­ ì·¨ì†Œ
     private void OnClickCancelRequestButton()
     {
-        // Ä£±¸ Ãë¼Ò ¿äÃ»À» DB¿¡ ¿Ã¸²
+        // ì¹œêµ¬ ì·¨ì†Œ ìš”ì²­ì„ DBì— ì˜¬ë¦¼
         _confirmPanelManager.ShowConfirmPanel(_cancelRequestConfirmMessage);
     }
 
-    // Ä£±¸ »èÁ¦
+    // ì¹œêµ¬ ì‚­ì œ
     private void OnClickCancelFriendButton()
     {
-        // Ä£±¸ »èÁ¦ ¿äÃ»À» DB¿¡ ¿Ã¸²
+        // ì¹œêµ¬ ì‚­ì œ ìš”ì²­ì„ DBì— ì˜¬ë¦¼
         _confirmPanelManager.ShowConfirmPanel(_cancelFriendConfirmMessage);
     }
 
-    // »ó´ëÀÇ Ä£±¸ ¿äÃ» ÆÇ´Ü
+    // ìƒëŒ€ì˜ ì¹œêµ¬ ìš”ì²­ íŒë‹¨
     private void OnClickCheckFriendRequestButton()
     {
         _checkPanelManager.ShowCheckPanel(_targetUserNickname + _checkRequestMessage,
             () =>
             {
-                // Ä£±¸ Ãß°¡ ¿äÃ»À» DB¿¡ ¿Ã¸²
+                // ì¹œêµ¬ ì¶”ê°€ ìš”ì²­ì„ DBì— ì˜¬ë¦¼
                 _confirmPanelManager.ShowConfirmPanel(_acceptRequestMessage);
                 InitializeButtons();
             },
             () =>
             {
-                // Ä£±¸ »èÁ¦ ¿äÃ»À» DB¿¡ ¿Ã¸²
+                // ì¹œêµ¬ ì‚­ì œ ìš”ì²­ì„ DBì— ì˜¬ë¦¼
                 _confirmPanelManager.ShowConfirmPanel(_denyRequestMessage);
                 InitializeButtons();
             }
             );
     }
     
-    // »ó´ë Â÷´Ü
+    // ìƒëŒ€ ì°¨ë‹¨
     private void OnClickBlockUserButton()
     {
-
+        // ìƒëŒ€ ì°¨ë‹¨
+        _confirmPanelManager.ShowConfirmPanel(_blockConfirmMessage);
     }
 
-    // »ó´ë Â÷´Ü ÇØÁ¦
+    // ìƒëŒ€ ì°¨ë‹¨ í•´ì œ
     private void OnClickUnblockUserButton()
     {
-
+        // ì°¨ë‹¨ í•´ì œ
+        _confirmPanelManager.ShowConfirmPanel(_unblockConfirmMessage);
     }
-    /*
-    switch (MySqlSetting.CheckSocialStatus(_myNickname, _targetUserNickname))
-    {
-        // 1. Ä£±¸ ¿äÃ» »óÅÂÀÏ °æ¿ì
-        case ESocialStatus.Request:
-            {
-                // Ä£±¸ ¿äÃ» ´Ù½Ã ¸øÇÔ
-                _addFriendButton.interactable = false;
-
-                // ºí·Ï ±â´ÉÀº °¡´É
-                _blockFriendButton.onClick.AddListener(() =>
-               {
-                   MySqlSetting.UpdateSocialStatus(_myNickname, _targetUserNickname, ESocialStatus.Block);
-                   _blockedConfirmedPanel.SetActive(true);
-                   _socialUI.SetActive(false);
-               });
-            }
-            break;
-
-        // 2. ºí·Ï »óÅÂÀÏ °æ¿ì
-        case ESocialStatus.Block:
-            {
-                _addFriendButton.interactable = false;
-
-                // ºí·Ï ¹öÆ°Àº ºí·Ï ÇØÁ¦ ¹öÆ°À¸·Î º¯ÇÔ
-                _blockFriendText.text = _blockDissableInfoString;
-                _blockFriendButton.onClick.AddListener(() =>
-               {
-                   // ºí·Ï ÇØÁ¦(RelationshipDB¿¡¼­ ÇØ´ç °ü°è »èÁ¦) ±â´É Ãß°¡ ÇÊ¿ä
-                   Debug.Log("ºí·Ï ÇØÁ¦ÇÔ");
-                   _blockFriendText.text = _blockInfoString;
-
-                   // ¹öÆ° ÃÊ±âÈ­
-                   InitializeButtons();
-               });
-            }
-            break;
-
-        // 3. ±×³É »óÅÂÀÏ °æ¿ì
-        default:
-            {
-                _addFriendButton.interactable = true;
-
-                _blockFriendButton.interactable = true;
-            }
-            break;
-    }
-    */
 }

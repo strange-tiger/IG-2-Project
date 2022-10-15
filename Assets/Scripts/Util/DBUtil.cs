@@ -348,7 +348,7 @@ namespace Asset.MySql
         /// <param name="userA"> UserA Column에 들어가는 유저 닉네임. </param>
         /// <param name="userB"> UserB Column에 들어가는 유저 닉네임. </param>
         /// <returns> 존재하면 true, 존재하지 않는다면 false 반환. </returns>
-        private bool IsThereRelationship(string userA, string userB)
+        private static bool IsThereRelationship(string userA, string userB)
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
@@ -381,7 +381,7 @@ namespace Asset.MySql
         /// <param name="targetNickname"> 대상의 닉네임 </param>
         /// <param name="isLeft">내가 UserA라면 True, UserB라면 false</param>
         /// <returns>Row가 존재하면 True, 존재하지 않으면 false </returns>
-        public bool CheckMyPositionInRelationShip(string myNickname, string targetNickname, out bool isLeft)
+        public static bool CheckMyPositionInRelationShip(string myNickname, string targetNickname, out bool isLeft)
         {
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
@@ -428,7 +428,7 @@ namespace Asset.MySql
         /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
         /// <param name="isLeft"> 내가 UserA Column이라면 true, UserB Column이라면 false. </param>
         /// <returns> 나와 대상 유저간의 State를 int로 반환함. 관계가 존재하지 않는다면 -1 반환. </returns>
-        public int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
+        public static int CheckRelationship(string myNickname, string targetNickname, out bool isLeft)
         {
             if(CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft) == false)
             {
@@ -469,7 +469,7 @@ namespace Asset.MySql
         /// <param name="userB"> UserB column에 들어가는 닉네임. </param>
         /// <param name="state">업데이트할 State </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public bool UpdateRalationship(string userA, string userB, int state)
+        public static bool UpdateRalationship(string userA, string userB, int state)
         {
             if(IsThereRelationship(userA,userB) == false)
             {
@@ -521,7 +521,7 @@ namespace Asset.MySql
         /// <param name="myNickname"> 나의 닉네임 </param>
         /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public bool UpdateRelationshipToBlock(string myNickname,string targetNickname)
+        public static bool UpdateRelationshipToBlock(string myNickname,string targetNickname)
         {
             try
             {
@@ -556,7 +556,7 @@ namespace Asset.MySql
         /// <param name="myNickname"> 나의 닉네임 </param>
         /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public bool UpdateRalationshipToUnblock(string myNickname, string targetNickname)
+        public static bool UpdateRalationshipToUnblock(string myNickname, string targetNickname)
         {
             try
             {
