@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-using Column = Asset.MySql.EAccountColumns;
+using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Error = Defines.EFindPasswordErrorType;
 using Sql = Asset.MySql.MySqlSetting;
@@ -34,6 +34,7 @@ public class FindPasswordUI : MonoBehaviour
     {
         _logInButton.onClick.RemoveListener(LoadLogIn);
         _findPasswordButton.onClick.RemoveListener(FindPassword);
+        
         _logInButton.onClick.AddListener(LoadLogIn);
         _findPasswordButton.onClick.AddListener(FindPassword);
 
@@ -50,7 +51,7 @@ public class FindPasswordUI : MonoBehaviour
             _errorPopup.ErrorPopup(Error.ID);
             return;
         }
-        if (Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Qustion, _questionList.value.ToString()) ||
+        if (Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Question, _questionList.value.ToString()) ||
             Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
         {
             _errorPopup.ErrorPopup(Error.ANSWER);
