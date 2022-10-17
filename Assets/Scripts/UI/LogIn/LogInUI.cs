@@ -18,7 +18,7 @@ public class LogInUI : MonoBehaviour
     [Header("Button")]
     [SerializeField] Button _logInButton;
     [SerializeField] Button _signInButton;
-    [SerializeField] Button _findPasswordButton;
+    [SerializeField] Button _changePasswordButton;
     [SerializeField] Button _quitButton;
 
     [Header("Input Field")]
@@ -38,8 +38,8 @@ public class LogInUI : MonoBehaviour
         _signInButton.onClick.RemoveListener(LoadSignIn);
         _signInButton.onClick.AddListener(LoadSignIn);
         
-        _findPasswordButton.onClick.RemoveListener(LoadFind);
-        _findPasswordButton.onClick.AddListener(LoadFind);
+        _changePasswordButton.onClick.RemoveListener(LoadFind);
+        _changePasswordButton.onClick.AddListener(LoadFind);
         
         _quitButton.onClick.RemoveListener(Quit);
         _quitButton.onClick.AddListener(Quit);
@@ -91,7 +91,7 @@ public class LogInUI : MonoBehaviour
         
         _logInButton.onClick.RemoveListener(LogIn);
         _signInButton.onClick.RemoveListener(LoadSignIn);
-        _findPasswordButton.onClick.RemoveListener(LoadFind);
+        _changePasswordButton.onClick.RemoveListener(LoadFind);
         _quitButton.onClick.RemoveListener(Quit);
     }
 }

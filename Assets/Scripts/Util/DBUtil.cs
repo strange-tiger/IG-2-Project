@@ -894,6 +894,12 @@ namespace Asset.MySql
         /// <param name="targetValue">변경할 값</param>
         /// <returns>정상적으로 변경되었다면 true, 아니면 false를 반환</returns>
         public static bool UpdateValueByBase(EaccountdbColumns baseType, string baseValue,
+            EaccountdbColumns targetType, string targetValue)
+        {
+            return UpdateValueByBase(ETableType.accountdb, baseType, baseValue, targetType, targetValue);
+        }
+
+        public static bool UpdateValueByBase(EaccountdbColumns baseType, string baseValue,
             EaccountdbColumns targetType, int targetValue)
         {
             return UpdateValueByBase(ETableType.accountdb, baseType, baseValue, targetType, targetValue);
@@ -928,9 +934,34 @@ namespace Asset.MySql
                 return false;
             }
         }
-    #endregion
 
-    #region DeleteRowByComparator
+        private static bool UpdateValueByBase<T1, T2>(ETableType targetTable,
+            T1 baseType, string baseValue,
+            T1 targetType, T2 targetValue) where T1 : System.Enum
+        {
+            try
+            {
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string updateString = $"Update {targetTable} SET {targetType} = {targetValue} WHERE {baseType} = '{baseValue}';";
+                    MySqlCommand command = new MySqlCommand(updateString, _sqlConnection);
+
+                    _sqlConnection.Open();
+                    command.ExecuteNonQuery();
+                    _sqlConnection.Close();
+
+                    return true;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+        #endregion
+
+        #region DeleteRowByComparator
         public class Comparator<T> where T : System.Enum
         {
             public T Column;

@@ -5,8 +5,9 @@ using TMPro;
 
 using Error = Defines.EFindPasswordErrorType;
 
-public class FindPasswordErrorPopupUI : PopupUI
+public class ChangePasswordErrorPopupUI : PopupUI
 {
+    [Header("Message")]
     [SerializeField] TextMeshProUGUI _idErrorMessage;
     [SerializeField] TextMeshProUGUI _answerErrorMessage;
 
