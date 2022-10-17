@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using MySql.Data.MySqlClient;
-
+using Newtonsoft.Json.Linq;
+using UnityEngine.Assertions;
+using System;
 
 namespace Asset.MySql
 {
@@ -19,13 +21,28 @@ namespace Asset.MySql
         Max
     }
 
+    public static class MySqlStatement
+    {
+        private const string INSERT_ACCOUNT = "Insert Into AccountDB (Email,Password,Nickname) values ";
+        private const string INSERT_CHARACTER = "Insert Into CharacterDB (Nickname,Gender) values ";
+        private const string INSERT_RELATIONSHIP = "Insert Into RelationshipDB (UserA,UserB,State) values ";
+        public static readonly string[] INSERT =
+        {
+            INSERT_ACCOUNT,
+            INSERT_CHARACTER,
+            INSERT_RELATIONSHIP
+        };
+    }
+
     public class MySqlSetting
     {
         private static bool hasInit = false;
 
         private static string _connectionString;
-        private static string[] _insertStrings = new string[(int)ETableType.Max];
+        // private static string[] _insertStrings = new string[(int)ETableType.Max];
+        [Obsolete]
         private static string _insertSocialStateString;
+        [Obsolete]
         private static string _insertSocialRequestString;
         private static string _selectAccountString;
         private static string _selectSocialStateString;
@@ -56,7 +73,7 @@ namespace Asset.MySql
             }
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
-            _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
+            // _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
             _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
             _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
             _selectAccountString = Resources.Load<TextAsset>("Select").text;
@@ -235,7 +252,7 @@ namespace Asset.MySql
         }
         private static string GetInsertString(ETableType tableType, params string[] values)
         {
-            string insertString = _insertStrings[(int)tableType] + '(';
+            string insertString = MySqlStatement.INSERT[(int)tableType] + '(';
 
             foreach (string value in values)
             {
@@ -282,6 +299,7 @@ namespace Asset.MySql
 
         }
 
+        [Obsolete]
         /// <summary>
         /// 친구 요청을 RequestDB에 저장함.
         /// </summary>
