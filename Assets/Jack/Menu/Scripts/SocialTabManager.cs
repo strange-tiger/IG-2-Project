@@ -23,12 +23,11 @@ public class SocialTabManager : MonoBehaviour
     [SerializeField] private Color _onLineTextColor;
     [SerializeField] private Color _offLineTextColor;
 
-    private SocialUIManager _socialUIManager;
     private string _myNickname;
 
     private List<TextMeshProUGUI> _nicknameTextList = new List<TextMeshProUGUI>();
 
-    private delegate void AddListItem(string);
+    private delegate void AddListItem(string name);
 
     private void Awake()
     {
@@ -41,6 +40,29 @@ public class SocialTabManager : MonoBehaviour
         ShowFriendList();
     }
 
+
+    private IEnumerator OnOfflineSetting()
+    {
+        while(gameObject.activeSelf)
+        {
+            yield return _listUpdateWaitForSeconds;
+
+            // OnOffline 판단 처리
+            foreach(TextMeshProUGUI nicknameText in _nicknameTextList)
+            {
+                bool isOnline = true;
+                if(isOnline)
+                {
+                    nicknameText.color = _onLineTextColor;
+                }
+                else
+                {
+                    nicknameText.color = _offLineTextColor;
+                }
+            }
+        }
+    }
+
     private void setButtons()
     {
         _friendListButton.onClick.AddListener(ShowFriendList);
@@ -50,17 +72,23 @@ public class SocialTabManager : MonoBehaviour
 
     private void ShowFriendList()
     {
+        StopAllCoroutines();
+
         // 버튼 활성화 처리
         _friendListButton.interactable = false;
         _blockListButton.interactable = true;
         _requestListButton.interactable = true;
 
         // 리스트 세팅
+        _nicknameTextList.Clear();
         SetList(MySqlSetting._FRIEND_BIT, MySqlSetting._FRIEND_BIT, AddFriendListItem);
+        StartCoroutine(OnOfflineSetting());
     }
 
     private void ShowBlockList()
     {
+        StopAllCoroutines();
+
         // 버튼 활성화 처리
         _friendListButton.interactable = true;
         _blockListButton.interactable = false;
@@ -72,6 +100,8 @@ public class SocialTabManager : MonoBehaviour
     
     private void ShowRequestList()
     {
+        StopAllCoroutines();
+
         // 버튼 활성화 처리
         _friendListButton.interactable = true;
         _blockListButton.interactable = true;
@@ -107,7 +137,6 @@ public class SocialTabManager : MonoBehaviour
 
     private void ResetList()
     {
-        _nicknameTextList.Clear();
         foreach(Transform child in _listContent.GetComponentsInChildren<Transform>())
         {
             if(child.gameObject == _listContent)
@@ -138,9 +167,6 @@ public class SocialTabManager : MonoBehaviour
     {
         GameObject newFriendListItem = Instantiate(_friendListItem, _listContent.transform);
 
-        _nicknameTextList.Add(newFriendListItem.GetComponentInChildren<TextMeshProUGUI>());
-        _nicknameTextList[_nicknameTextList.Count - 1].text = targetNickname;
-
         // 차단 취소
         Button deleteButton = newFriendListItem.GetComponentInChildren<Button>();
         deleteButton.onClick.AddListener(() =>
@@ -152,9 +178,6 @@ public class SocialTabManager : MonoBehaviour
     private void AddRequestListItem(string targetNickname)
     {
         GameObject newFriendListItem = Instantiate(_requestListItem, _listContent.transform);
-
-        _nicknameTextList.Add(newFriendListItem.GetComponentInChildren<TextMeshProUGUI>());
-        _nicknameTextList[_nicknameTextList.Count - 1].text = targetNickname;
 
         // 친구 수락
         Button acceptButton = newFriendListItem.GetComponentsInChildren<Button>()[0];
