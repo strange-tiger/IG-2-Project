@@ -57,7 +57,7 @@ public class SocialUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        InitializeButtons();
+        //InitializeButtons();
     }
 
     private void InitializeButtons()
