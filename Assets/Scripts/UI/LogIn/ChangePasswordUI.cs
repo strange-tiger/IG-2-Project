@@ -27,18 +27,26 @@ public class ChangePasswordUI : MonoBehaviour
     [Header("Popup")]
     [SerializeField] ChangePasswordErrorPopupUI _errorPopup;
     [SerializeField] GameObject _changePopup;
+    [SerializeField] GameObject _successPopup;
 
     public Error ErrorType { get; private set; }
 
     private void OnEnable()
     {
         _logInButton.onClick.RemoveListener(LoadLogIn);
-        _changePasswordButton.onClick.RemoveListener(ChangePassword);
-        
         _logInButton.onClick.AddListener(LoadLogIn);
+        
+        _changePasswordButton.onClick.RemoveListener(ChangePassword);
         _changePasswordButton.onClick.AddListener(ChangePassword);
 
+        DeactivePopup();
+    }
+
+    private void DeactivePopup()
+    {
         _errorPopup.gameObject.SetActive(false);
+        _changePopup.gameObject.SetActive(false);
+        _successPopup.gameObject.SetActive(false);
     }
 
     private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
@@ -58,6 +66,16 @@ public class ChangePasswordUI : MonoBehaviour
         }
 
         _changePopup.SetActive(true);
+    }
+
+    public string GetID()
+    {
+        return _idInput.text;
+    }
+
+    public void LoadLogin()
+    {
+        _logInUIManager.LoadUI(UI.LOGIN);
     }
 
     private void OnDisable()
