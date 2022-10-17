@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 using UnityEngine.Assertions;
 using System;
+using UnityEngine.PlayerLoop;
 
 namespace Asset.MySql
 {
@@ -32,28 +33,29 @@ namespace Asset.MySql
             INSERT_CHARACTER,
             INSERT_RELATIONSHIP
         };
+        public const string SELECT = "Select * from ";
+        public const string UPDATE_RELATIONSHIP = "Update RelationshipDB Set State = ";
     }
 
     public class MySqlSetting
     {
-        private static bool hasInit = false;
+        private static bool _hasInit = false;
 
         private static string _connectionString;
         // private static string[] _insertStrings = new string[(int)ETableType.Max];
-        [Obsolete]
-        private static string _insertSocialStateString;
+        // private static string _insertSocialStateString;
         [Obsolete]
         private static string _insertSocialRequestString;
-        private static string _selectAccountString;
-        private static string _selectSocialStateString;
-        private static string _updateSocialStateString;
+        // private static string _selectAccountString;
+        // private static string _selectSocialStateString;
+        // private static string _updateSocialStateString;
 
         /// <summary>
         ///  MySql 세팅 초기화
         /// </summary>
         public static void Init()
         {
-            if (hasInit)
+            if (_hasInit)
             {
                 return;
             }
@@ -74,10 +76,10 @@ namespace Asset.MySql
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             // _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
-            _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
+            // _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
             _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
-            _selectAccountString = Resources.Load<TextAsset>("Select").text;
-            _updateSocialStateString = Resources.Load<TextAsset>("UpdateRelation").text;
+            // _selectAccountString = Resources.Load<TextAsset>("Select").text;
+            // _updateSocialStateString = Resources.Load<TextAsset>("UpdateRelation").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -370,7 +372,7 @@ namespace Asset.MySql
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{userA}' and UserB = '{userB}' " +
+                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $"where UserA = '{userA}' and UserB = '{userB}' " +
                     $"or UserA = '{userB}' and UserB = '{userA}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
@@ -404,7 +406,7 @@ namespace Asset.MySql
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
                     $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
@@ -457,7 +459,7 @@ namespace Asset.MySql
             {
                 int state = _ERROR_BIT;
 
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
                     $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
@@ -493,7 +495,7 @@ namespace Asset.MySql
                 {
                     using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                     {
-                        string insertSocialStateString = _insertSocialStateString + $"('{userA}','{userB}',{state});";
+                        string insertSocialStateString = GetInsertString(ETableType.relationshipdb, userA, userB, state.ToString());
 
                         MySqlCommand insertSocialStateCommand = new MySqlCommand(insertSocialStateString, _mysqlConnection);
 
@@ -514,7 +516,7 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
 
-                    string updateSocialStateString = _updateSocialStateString += $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
+                    string updateSocialStateString = MySqlStatement.UPDATE_RELATIONSHIP + $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
                         $"or UserA = '{userB}' and UserB = '{userA}';";
 
                     MySqlCommand updateSocialStateCommand = new MySqlCommand(updateSocialStateString, _mysqlConnection);
@@ -758,7 +760,7 @@ namespace Asset.MySql
                 {
                     bool result = false;
 
-                    string selectString = _selectAccountString + $" WHERE {columnType} = '{value}';";
+                    string selectString = SelectDBHelper(ETableType.accountdb) + ETableType.accountdb + $" WHERE {columnType} = '{value}';";
 
                     _sqlConnection.Open();
 
@@ -778,6 +780,11 @@ namespace Asset.MySql
                 return false;
             }
 
+        }
+
+        private static string SelectDBHelper(ETableType db)
+        {
+            return MySqlStatement.SELECT + db.ToString();
         }
 
     #region ValueByBase
