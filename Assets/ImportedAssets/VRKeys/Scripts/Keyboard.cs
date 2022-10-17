@@ -238,8 +238,10 @@ namespace VRKeys {
 			disabled = true;
 
 			_closeButton.onClick.RemoveListener(Disable);
+            OnSubmit.RemoveAllListeners ();
 
-			if (canvas != null) {
+
+            if (canvas != null) {
 				canvas.SetActive (false);
 			}
 

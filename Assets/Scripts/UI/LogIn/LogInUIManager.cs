@@ -18,10 +18,10 @@ public class LogInUIManager : UIManager
 
         foreach(TMP_InputField input in _inputFields)
         {
-            _keyboard.OnSubmit.RemoveListener(input.SetTextWithoutNotify);
-            _keyboard.OnSubmit.AddListener(input.SetTextWithoutNotify);
-            input.onSelect.RemoveListener(ActiveKeyboard);
-            input.onSelect.AddListener(ActiveKeyboard);
+            input.onSelect.AddListener((string temp) =>
+            {
+                ActiveKeyboard(input);
+            });
         }
     }
 
@@ -49,9 +49,11 @@ public class LogInUIManager : UIManager
         LoadUI((int)ui);
     }
 
-    private void ActiveKeyboard(string temp)
+    private void ActiveKeyboard(TMP_InputField inputField)
     {
         _keyboard.Enable();
+
+        inputField.text = _keyboard.displayText.text;
     }
 
     private void OnDisable()
@@ -59,7 +61,6 @@ public class LogInUIManager : UIManager
         foreach (TMP_InputField input in _inputFields)
         {
             _keyboard.OnSubmit.RemoveListener(input.SetTextWithoutNotify);
-            input.onSelect.RemoveListener(ActiveKeyboard);
         }
         _keyboard.Disable();
     }
