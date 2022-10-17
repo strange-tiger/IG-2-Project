@@ -762,6 +762,51 @@ namespace Asset.MySql
             }
         }
 
+        public static bool IsPlayerOnline(string nickname)
+        {
+            
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    bool isOnOff = false;
+
+                    string selcetOnOffString = SelectDBHelper(ETableType.characterdb) + $" where Nickname = '{nickname}';";
+
+                    MySqlCommand command = new MySqlCommand(selcetOnOffString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    
+
+                    if (reader.Read())
+                    {
+
+                        if (reader["OnOff"].ToString() == "1")
+                        {
+                            isOnOff = true;
+                        }
+                        else
+                        {
+                            isOnOff = false;
+                        }
+
+                    }
+                     
+                    _mysqlConnection.Close();
+
+                     return isOnOff;
+                }
+            }
+            catch
+            {
+                Debug.LogError("오류남: ");
+                return false;
+            }
+           
+        }
+
         /// <summary>
         /// 해당 값이 DB에 있는지 확인한다.
         /// </summary>
