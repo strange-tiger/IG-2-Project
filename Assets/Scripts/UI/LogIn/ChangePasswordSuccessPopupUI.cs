@@ -12,12 +12,4 @@ public class ChangePasswordSuccessPopupUI : PopupUI
         base.Close();
         _ui.LoadLogin();
     }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Close();
-        }
-    }
 }
