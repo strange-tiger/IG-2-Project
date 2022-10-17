@@ -196,13 +196,19 @@ public class SocialUIManager : MonoBehaviour
     private void OnClickRequestFriendButton()
     {
         // 친구 추가 요청을 DB에 올림
+        MySqlSetting.UpdateRelationshipToRequest(_myNickname, _targetUserNickname);
+
+        // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_requestFriendConfirmMessage);
     }
 
     // 친구 추가 요청 취소
     private void OnClickCancelRequestButton()
     {
-        // 친구 취소 요청을 DB에 올림
+        // 친구 요청 취소를 DB에 올림
+        //MySqlSetting.up(_myNickname, _targetUserNickname);
+
+        // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_cancelRequestConfirmMessage);
     }
 
@@ -210,23 +216,34 @@ public class SocialUIManager : MonoBehaviour
     private void OnClickCancelFriendButton()
     {
         // 친구 삭제 요청을 DB에 올림
+        MySqlSetting.UpdateRelationshipToUnFriend(_myNickname, _targetUserNickname);
+
+        // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_cancelFriendConfirmMessage);
     }
 
     // 상대의 친구 요청 판단
     private void OnClickCheckFriendRequestButton()
     {
+        // 판단 페널 출력
         _checkPanelManager.ShowCheckPanel(_targetUserNickname + _checkRequestMessage,
             () =>
             {
-                // 친구 추가 요청을 DB에 올림
+                // 친구 추가을 DB에 올림
+                MySqlSetting.UpdateRelationshipToFriend(_myNickname, _targetUserNickname);
+
+                // 확인 메시지 출력
                 _confirmPanelManager.ShowConfirmPanel(_acceptRequestMessage);
                 InitializeButtons();
             },
             () =>
             {
-                // 친구 삭제 요청을 DB에 올림
+                // 친구 요청 삭제을 DB에 올림
+                //MySqlSetting.up
+
+                // 확인 메시지 출력
                 _confirmPanelManager.ShowConfirmPanel(_denyRequestMessage);
+
                 InitializeButtons();
             }
             );
@@ -236,6 +253,9 @@ public class SocialUIManager : MonoBehaviour
     private void OnClickBlockUserButton()
     {
         // 상대 차단
+        MySqlSetting.UpdateRelationshipToBlock(_myNickname, _targetUserNickname);
+
+        // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_blockConfirmMessage);
     }
 
@@ -243,6 +263,11 @@ public class SocialUIManager : MonoBehaviour
     private void OnClickUnblockUserButton()
     {
         // 차단 해제
+        MySqlSetting.UpdateRelationshipToUnblock(_myNickname, _targetUserNickname);
+
+        // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_unblockConfirmMessage);
+
+        InitializeButtons();
     }
 }
