@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InventorController : MonoBehaviour
 {
-    [SerializeField]
     private PlayerInput _playerInput;
 
     [SerializeField]
@@ -12,7 +11,7 @@ public class InventorController : MonoBehaviour
 
     void Start()
     {
-        
+        _canvas = GameObject.Find("SettingCanvas");
     }
 
     void Update()
