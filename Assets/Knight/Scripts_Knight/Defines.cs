@@ -11,7 +11,7 @@ namespace Defines
     {
         Lobby,
         MainRoom,
-        TempSceen,
+        TempScene,
         End,
     }
 }
