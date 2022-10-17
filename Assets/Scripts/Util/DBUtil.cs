@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using MySql.Data.MySqlClient;
-
+using System;
 
 namespace Asset.MySql
 {
@@ -19,24 +19,36 @@ namespace Asset.MySql
         Max
     }
 
+    public static class MySqlStatement
+    {
+        private const string INSERT_ACCOUNT = "INSERT INTO AccountDB (Email,Password,Nickname) VALUES ";
+        private const string INSERT_CHARACTER = "INSERT INTO CharacterDB (Nickname,Gender) VALUES ";
+        private const string INSERT_RELATIONSHIP = "INSERT INTO RelationshipDB (UserA,UserB,State) VALUES ";
+        public static readonly string[] INSERT =
+        {
+            INSERT_ACCOUNT,
+            INSERT_CHARACTER,
+            INSERT_RELATIONSHIP
+        };
+        public const string SET_ENUM = "SHOW TABLES;\nDESC ";
+        public const string SELECT = "SELECT * from ";
+        public const string UPDATE_RELATIONSHIP = "UPDATE RelationshipDB SET State = ";
+    }
+
     public class MySqlSetting
     {
-        private static bool hasInit = false;
+        private static bool _hasInit = false;
 
         private static string _connectionString;
-        private static string[] _insertStrings = new string[(int)ETableType.Max];
-        private static string _insertSocialStateString;
+        [Obsolete]
         private static string _insertSocialRequestString;
-        private static string _selectAccountString;
-        private static string _selectSocialStateString;
-        private static string _updateSocialStateString;
 
         /// <summary>
         ///  MySql 세팅 초기화
         /// </summary>
         public static void Init()
         {
-            if (hasInit)
+            if (_hasInit)
             {
                 return;
             }
@@ -56,11 +68,7 @@ namespace Asset.MySql
             }
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
-            _insertStrings = Resources.Load<TextAsset>("Insert").text.Split('\n');
-            _insertSocialStateString = Resources.Load<TextAsset>("InsertSocial").text;
-            _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
-            _selectAccountString = Resources.Load<TextAsset>("Select").text;
-            _updateSocialStateString = Resources.Load<TextAsset>("UpdateRelation").text;
+            // _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
 
             SetEnum();
             Debug.Log("Enum Setting 끝");
@@ -69,9 +77,8 @@ namespace Asset.MySql
         [MenuItem("Tools/GenerateEnum")]
         private static void SetEnum()
         {
-            string settingString = Resources.Load<TextAsset>("SetEnum").text;
-            string tableTypeString = settingString.Split('\n')[0];
-            string columnTypeString = settingString.Split('\n')[1];
+            string tableTypeString = MySqlStatement.SET_ENUM.Split('\n')[0];
+            string columnTypeString = MySqlStatement.SET_ENUM.Split('\n')[1];
 
             List<string> tableNames = new List<string>();
             Dictionary<string, List<string>> columNames = new Dictionary<string, List<string>>();
@@ -235,7 +242,7 @@ namespace Asset.MySql
         }
         private static string GetInsertString(ETableType tableType, params string[] values)
         {
-            string insertString = _insertStrings[(int)tableType] + '(';
+            string insertString = MySqlStatement.INSERT[(int)tableType] + '(';
 
             foreach (string value in values)
             {
@@ -246,15 +253,16 @@ namespace Asset.MySql
 
             return insertString;
         }
-    #endregion
+        #endregion
 
-    #region Request
+        #region Request
         /// <summary>
         /// 두 사용자 간의 요청이 RequestDB에 존재하는 지 확인.
         /// </summary>
         /// <param name="userA"></param>
         /// <param name="userB"></param>
         /// <returns> 존재하면 true 아니면 false </returns>
+        [Obsolete]
         public static bool CheckRequest(string userA, string userB)
         {
 
@@ -282,6 +290,7 @@ namespace Asset.MySql
 
         }
 
+        [Obsolete]
         /// <summary>
         /// 친구 요청을 RequestDB에 저장함.
         /// </summary>
@@ -316,7 +325,7 @@ namespace Asset.MySql
                 return false;
             }
         }
-    #endregion
+        #endregion
 
     #region Relationship
         public const byte _FRIEND_BIT = 0b_0000;
@@ -352,7 +361,7 @@ namespace Asset.MySql
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{userA}' and UserB = '{userB}' " +
+                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $"where UserA = '{userA}' and UserB = '{userB}' " +
                     $"or UserA = '{userB}' and UserB = '{userA}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
@@ -386,7 +395,7 @@ namespace Asset.MySql
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
                     $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
@@ -439,7 +448,7 @@ namespace Asset.MySql
             {
                 int state = _ERROR_BIT;
 
-                string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
                     $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
@@ -475,7 +484,7 @@ namespace Asset.MySql
                 {
                     using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                     {
-                        string insertSocialStateString = _insertSocialStateString + $"('{userA}','{userB}',{state});";
+                        string insertSocialStateString = GetInsertString(ETableType.relationshipdb, userA, userB, state.ToString());
 
                         MySqlCommand insertSocialStateCommand = new MySqlCommand(insertSocialStateString, _mysqlConnection);
 
@@ -496,7 +505,7 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
 
-                    string updateSocialStateString = _updateSocialStateString += $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
+                    string updateSocialStateString = MySqlStatement.UPDATE_RELATIONSHIP + $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
                         $"or UserA = '{userB}' and UserB = '{userA}';";
 
                     MySqlCommand updateSocialStateCommand = new MySqlCommand(updateSocialStateString, _mysqlConnection);
@@ -686,8 +695,6 @@ namespace Asset.MySql
             }
             return _dataSet;
         }
-
-
         
         /// <summary>
         /// 유저의 닉네임을 받아 특정 State의 리스트를 가져옴.
@@ -698,37 +705,46 @@ namespace Asset.MySql
         /// <returns></returns>
         public static List<Dictionary<string, string>> CheckStateList(string nickname, byte leftStateByte, byte rightStateByte)
         {
+            List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
 
-            string selcetUserAString = $"SELECT RelationshipDB.UserB, CharacterDB.OnOff FROM RelationshipDB " +
-               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.UserB where UserA = '{nickname}' and State = '{leftStateByte}'; ";
+            // UserA 칼럼에 대한 State 검사 후 리스트 생성
+            CheckStateListHelper
+            (
+                ErelationshipdbColumns.UserA, 
+                ErelationshipdbColumns.UserB, 
+                nickname, 
+                leftStateByte, 
+                rightStateByte, 
+                ref resultList
+            );
+
+            // UserB 칼럼에 대한 State 검사 후 리스트 생성
+            CheckStateListHelper
+            (
+                ErelationshipdbColumns.UserB,
+                ErelationshipdbColumns.UserA,
+                nickname,
+                leftStateByte,
+                rightStateByte,
+                ref resultList
+            );
+
+            return resultList;
+        }
+
+        private static void CheckStateListHelper(ErelationshipdbColumns userA, ErelationshipdbColumns userB, string nickname, byte leftStateByte, byte rightStateByte, ref List<Dictionary<string, string>> resultList)
+        {
+            string selcetUserAString = $"SELECT RelationshipDB.{userB}, CharacterDB.OnOff FROM RelationshipDB " +
+               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.{userB} WHERE {userA} = '{nickname}' AND State = '{leftStateByte}'; ";
 
             DataSet userAData = GetUserData(selcetUserAString);
-
-            List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
 
             foreach (DataRow _dataRow in userAData.Tables[0].Rows)
             {
                 Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-                dictionaryList.Add(_dataRow[ErelationshipdbColumns.UserB.ToString()].ToString(), _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
+                dictionaryList.Add(_dataRow[userB.ToString()].ToString(), _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
                 resultList.Add(dictionaryList);
             }
-
-           
-            string selcetUserBString = $"SELECT RelationshipDB.UserA,CharacterDB.OnOff FROM RelationshipDB " +
-                $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.UserA where UserB = '{nickname}' and State = '{rightStateByte}'; ";
-
-            DataSet userBData = GetUserData(selcetUserBString);
-
-            foreach (DataRow _dataRow in userBData.Tables[0].Rows)
-            {
-                Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-                dictionaryList.Add(_dataRow[ErelationshipdbColumns.UserA.ToString()].ToString(), _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
-                resultList.Add(dictionaryList);
-
-            }
-
-            return resultList;
-
         }
 
         /// <summary>
@@ -745,7 +761,7 @@ namespace Asset.MySql
                 {
                     bool result = false;
 
-                    string selectString = _selectAccountString + $" WHERE {columnType} = '{value}';";
+                    string selectString = SelectDBHelper(ETableType.accountdb) + ETableType.accountdb + $" WHERE {columnType} = '{value}';";
 
                     _sqlConnection.Open();
 
@@ -765,6 +781,11 @@ namespace Asset.MySql
                 return false;
             }
 
+        }
+
+        private static string SelectDBHelper(ETableType db)
+        {
+            return MySqlStatement.SELECT + db.ToString();
         }
 
     #region ValueByBase
@@ -915,7 +936,7 @@ namespace Asset.MySql
          (ErelationshipdbColumns type_1, string condition_1,
           ErelationshipdbColumns type_2, string condition_2,
           ErelationshipdbColumns type_3, string condition_3,
-          string logicOperator = "and")
+          string logicOperator = "AND")
         {
 
             return DeleteRowByComparator
@@ -1014,14 +1035,14 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string deleteString = $"Delete From {targetTable} ";
+                    string deleteString = $"DELETE FROM {targetTable} ";
 
                     for (int i = 0; i < comparators.Length - 1; ++i)
                     {
-                        deleteString += $"where {comparators[i].Column} = '{comparators[i].Value}' {logicOperator} ";
+                        deleteString += $"WHERE {comparators[i].Column} = '{comparators[i].Value}' {logicOperator} ";
                     }
 
-                    deleteString += $"where {comparators[comparators.Length - 1].Column} = '{comparators[comparators.Length - 1].Value}';";
+                    deleteString += $"WHERE {comparators[comparators.Length - 1].Column} = '{comparators[comparators.Length - 1].Value}';";
 
                     MySqlCommand command = new MySqlCommand(deleteString, _sqlConnection);
 
