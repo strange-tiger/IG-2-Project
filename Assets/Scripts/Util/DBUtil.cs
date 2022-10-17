@@ -588,6 +588,12 @@ namespace Asset.MySql
             }
         }
 
+        public static bool UpdateRelationshipToUnrequest(string myNickname, string targetNickname)
+        {
+            return UpdateRelationshipToUnblock(myNickname,targetNickname);
+        }
+
+
         /// <summary>
         /// 나와 상대의 관계를 친구로 업데이트한다.
         /// 사전조건 판단은 외부에서 수행한다.
@@ -681,45 +687,44 @@ namespace Asset.MySql
             return _dataSet;
         }
 
+
+        
         /// <summary>
-        /// 특정 유저의 특정 상태를 리스트로 만들어서 반환.
+        /// 유저의 닉네임을 받아 특정 State의 리스트를 가져옴.
         /// </summary>
-        /// <param name="nickname">리스트를 만들 유저</param>
-        /// <param name="status"> 리스트를 만들 상태</param>
-        /// <returns>Block이 아니면, 요청자와 대상자 Column을 모두 검사하여 반환, Block이면 요청자만 검사하여 반환.</returns>
-        public static List<Dictionary<string, string>> CheckStatusList(string nickname, ESocialStatus status)
+        /// <param name="nickname"></param>
+        /// <param name="leftStateByte"></param>
+        /// <param name="rightStateByte"></param>
+        /// <returns></returns>
+        public static List<Dictionary<string, string>> CheckStateList(string nickname, byte leftStateByte, byte rightStateByte)
         {
 
-            string selcetRequesterString = $"SELECT CharacterDB.OnOff, RelationshipDB.Respondent FROM RelationshipDB " +
-               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Respondent where Requester = '{nickname}' and Status = '{(int)status}'; ";
+            string selcetUserAString = $"SELECT RelationshipDB.UserB, CharacterDB.OnOff FROM RelationshipDB " +
+               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.UserB where UserA = '{nickname}' and State = '{leftStateByte}'; ";
 
-
-
-            DataSet requesterData = GetUserData(selcetRequesterString);
+            DataSet userAData = GetUserData(selcetUserAString);
 
             List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
 
-            foreach (DataRow _dataRow in requesterData.Tables[0].Rows)
+            foreach (DataRow _dataRow in userAData.Tables[0].Rows)
             {
                 Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-                dictionaryList.Add(_dataRow["Respondent"].ToString(), _dataRow["OnOff"].ToString());
+                dictionaryList.Add(_dataRow[ErelationshipdbColumns.UserB.ToString()].ToString(), _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
                 resultList.Add(dictionaryList);
             }
 
-            if (status != ESocialStatus.Block)
+           
+            string selcetUserBString = $"SELECT RelationshipDB.UserA,CharacterDB.OnOff FROM RelationshipDB " +
+                $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.UserA where UserB = '{nickname}' and State = '{rightStateByte}'; ";
+
+            DataSet userBData = GetUserData(selcetUserBString);
+
+            foreach (DataRow _dataRow in userBData.Tables[0].Rows)
             {
-                string selcetRespondentString = $"SELECT CharacterDB.OnOff, RelationshipDB.Requester FROM RelationshipDB " +
-                    $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.Requester where Respondent = '{nickname}' and Status = '{(int)status}'; ";
+                Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
+                dictionaryList.Add(_dataRow[ErelationshipdbColumns.UserA.ToString()].ToString(), _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
+                resultList.Add(dictionaryList);
 
-                DataSet respondentData = GetUserData(selcetRespondentString);
-
-                foreach (DataRow _dataRow in respondentData.Tables[0].Rows)
-                {
-                    Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-                    dictionaryList.Add(_dataRow["Requester"].ToString(), _dataRow["OnOff"].ToString());
-                    resultList.Add(dictionaryList);
-
-                }
             }
 
             return resultList;
