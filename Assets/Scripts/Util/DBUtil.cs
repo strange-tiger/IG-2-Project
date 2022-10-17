@@ -597,6 +597,13 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// 상대에게서 온 친구 요청을 삭제한다.
+        /// 차단 해제와 동일하게 동작하므로, Unblock함수를 불러오게끔 만들었다.
+        /// </summary>
+        /// <param name="myNickname"></param>
+        /// <param name="targetNickname"></param>
+        /// <returns></returns>
         public static bool UpdateRelationshipToUnrequest(string myNickname, string targetNickname)
         {
             return UpdateRelationshipToUnblock(myNickname,targetNickname);
@@ -703,46 +710,46 @@ namespace Asset.MySql
         /// <param name="leftStateByte"></param>
         /// <param name="rightStateByte"></param>
         /// <returns></returns>
-        public static List<Dictionary<string, string>> CheckStateList(string nickname, byte leftStateByte, byte rightStateByte)
+        public static List<Dictionary<string, string>> GetRelationList(string nickname, byte leftStateByte, byte rightStateByte)
         {
             List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
 
             // UserA 칼럼에 대한 State 검사 후 리스트 생성
-            CheckStateListHelper
+            GetRelationListHelper
             (
                 ErelationshipdbColumns.UserA, 
                 ErelationshipdbColumns.UserB, 
                 nickname, 
-                leftStateByte, 
-                rightStateByte, 
                 ref resultList
             );
 
             // UserB 칼럼에 대한 State 검사 후 리스트 생성
-            CheckStateListHelper
+            GetRelationListHelper
             (
                 ErelationshipdbColumns.UserB,
                 ErelationshipdbColumns.UserA,
                 nickname,
-                leftStateByte,
-                rightStateByte,
                 ref resultList
             );
 
             return resultList;
         }
 
-        private static void CheckStateListHelper(ErelationshipdbColumns userA, ErelationshipdbColumns userB, string nickname, byte leftStateByte, byte rightStateByte, ref List<Dictionary<string, string>> resultList)
+        private static void GetRelationListHelper(ErelationshipdbColumns userA, ErelationshipdbColumns userB, string nickname, ref List<Dictionary<string, string>> resultList)
         {
-            string selcetUserAString = $"SELECT RelationshipDB.{userB}, CharacterDB.OnOff FROM RelationshipDB " +
-               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.{userB} WHERE {userA} = '{nickname}' AND State = '{leftStateByte}'; ";
+            string selcetUserAString = $"SELECT RelationshipDB.{userB}, RelationshipDB.State, CharacterDB.OnOff FROM RelationshipDB " +
+               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.{userB} WHERE {userA} = '{nickname}'; ";
 
             DataSet userAData = GetUserData(selcetUserAString);
 
             foreach (DataRow _dataRow in userAData.Tables[0].Rows)
             {
                 Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-                dictionaryList.Add(_dataRow[userB.ToString()].ToString(), _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
+
+                dictionaryList.Add("Nickname", _dataRow[userB.ToString()].ToString());
+                dictionaryList.Add("State", _dataRow[ErelationshipdbColumns.State.ToString()].ToString());
+                dictionaryList.Add("OnOff", _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
+
                 resultList.Add(dictionaryList);
             }
         }
