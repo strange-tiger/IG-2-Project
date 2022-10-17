@@ -11,22 +11,34 @@ public class SocialUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _targetUserNicknameText;
 
     [Header("Add Friend")]
-    [SerializeField] private Button _addFriendButton;
+    [SerializeField] private Button _friendButton;
+    private TextMeshProUGUI _friendButtonText;
+    
+    [SerializeField] private string _requestFriendText;
     [SerializeField] private string _requestFriendConfirmMessage;
+
+    [SerializeField] private string _cancelRequestText;
     [SerializeField] private string _cancelRequestConfirmMessage;
+    
+    [SerializeField] private string _cancelFriendText;
     [SerializeField] private string _cancelFriendConfirmMessage;
 
     [Header("Check Request")]
+    [SerializeField] private string _checkRequestText;
     [SerializeField] private string _checkRequestMessage;
+
     [SerializeField] private string _acceptRequestMessage;
     [SerializeField] private string _denyRequestMessage;
 
     [Header("Block User")]
-    [SerializeField] private Button _blockFriendButton;
+    [SerializeField] private Button _blockButton;
+    private TextMeshProUGUI _blockButtonText;
+    
+    [SerializeField] private string _blockFriendText;
     [SerializeField] private string _blockConfirmMessage;
+
+    [SerializeField] private string _unblockText;
     [SerializeField] private string _unblockConfirmMessage;
-    private TextMeshProUGUI _blockFriendText;
-    [SerializeField] private GameObject _blockedConfirmedPanel;
 
     [Header("Extra")]
     [SerializeField] private ConfirmPanelManager _confirmPanelManager;
@@ -39,7 +51,8 @@ public class SocialUIManager : MonoBehaviour
     private void Awake()
     {
         _myNickname = TempAccountDB.Nickname;
-        _blockFriendText = _blockFriendButton.GetComponentInChildren<TextMeshProUGUI>();
+        _blockButtonText = _blockButton.GetComponentInChildren<TextMeshProUGUI>();
+        _friendButtonText = _friendButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void OnEnable()
@@ -60,24 +73,24 @@ public class SocialUIManager : MonoBehaviour
         if(relationship == -1)
         {
             // 친구 요청
-            _addFriendButton.interactable = true;
-            AddListenerToButton(_addFriendButton, OnClickRequestFriendButton, true);
+            SetButton(_friendButton, true, _friendButtonText, _requestFriendText);
+            AddListenerToButton(_friendButton, OnClickRequestFriendButton, true);
 
-            // 블록
-            _blockFriendButton.interactable = true;
-            AddListenerToButton(_blockFriendButton, OnClickBlockUserButton, true);
+            // 차단
+            SetButton(_blockButton, true, _blockButtonText, _blockFriendText);
+            AddListenerToButton(_blockButton, OnClickBlockUserButton, true);
         }
 
         // 1-2. 친구인 경우(반환값이 0)
         else if(relationship == 0)
         {
             // 친구 취소
-            _addFriendButton.interactable = true;
-            AddListenerToButton(_addFriendButton, OnClickCancelFriendButton, true);
+            SetButton(_friendButton, true, _friendButtonText, _cancelFriendText);
+            AddListenerToButton(_friendButton, OnClickCancelFriendButton, true);
 
-            // 블록
-            _blockFriendButton.interactable = true;
-            AddListenerToButton(_blockFriendButton, OnClickBlockUserButton, true);
+            // 차단
+            SetButton(_blockButton, true, _blockButtonText, _blockFriendText);
+            AddListenerToButton(_blockButton, OnClickBlockUserButton, true);
         }
 
         // ....그외
@@ -85,25 +98,56 @@ public class SocialUIManager : MonoBehaviour
         {
             // 2. 둘 사이에서 나의 위치(A인지 B인지 알아냄)를 확인하여
             // 위치에 따라 확인할 비트 자리수를 기준을 설정, 해당 결과로 다음을 판별
-            int parseBinary = 0b_0011;
-
-            if (isLeft)
+            bool hasBlock; // 내가 블록했는지
+            bool hasRequest; // 내가 요청했는지
+            bool isFriendRequested; // 내가 요청받았는지
+            if(isLeft)
             {
-                relationship = relationship >> 2;
+                hasBlock = (relationship & MySqlSetting._BLOCK_LEFT_BIT) != 0;
+                hasRequest = (relationship & MySqlSetting._REQUEST_LEFT_BIT) != 0;
+                isFriendRequested = (relationship & MySqlSetting._REQUEST_RIGHT_BIT) != 0;
             }
-            int state = relationship & parseBinary;
+            else
+            {
+                hasBlock = (relationship & MySqlSetting._BLOCK_RIGHT_BIT) != 0;
+                hasRequest = (relationship & MySqlSetting._REQUEST_RIGHT_BIT) != 0;
+                isFriendRequested = (relationship & MySqlSetting._REQUEST_LEFT_BIT) != 0;
+            }
 
             // 2-1. 내가 블록한 상황
-            ;
-            OnClickUnblockUserButton();
+            if(hasBlock)
+            {
+                // 친구 추가 버튼이 interactable false(기능 없어도 됨)
+                SetButton(_friendButton, false, _friendButtonText, _requestFriendText);
+
+                // 차단 취소
+                SetButton(_blockButton, true, _blockButtonText, _unblockText);
+                AddListenerToButton(_blockButton, OnClickUnblockUserButton, false);
+            }
 
             // 2-2. 내가 친구 요청을 한 상황
-            OnClickCancelRequestButton();
-            OnClickBlockUserButton();
+            else if(hasRequest)
+            {
+                // 친구 추가 취소
+                SetButton(_friendButton, true, _friendButtonText, _cancelRequestText);
+                AddListenerToButton(_friendButton, OnClickCancelRequestButton, true);
+
+                // 차단
+                SetButton(_blockButton, true, _blockButtonText, _blockFriendText);
+                AddListenerToButton(_blockButton, OnClickBlockUserButton, true);
+            }
 
             // 2-3. 상태가 나에게 친구 요청을 한 상황
-            OnClickCheckFriendRequestButton();
-            OnClickBlockUserButton();
+            else if(isFriendRequested)
+            {
+                // 요청 판단
+                SetButton(_friendButton, true, _friendButtonText, _checkRequestText);
+                AddListenerToButton(_friendButton, OnClickCheckFriendRequestButton, true);
+
+                // 차단
+                SetButton(_blockButton, true, _blockButtonText, _blockFriendText);
+                AddListenerToButton(_blockButton, OnClickBlockUserButton, true);
+            }
         }
     }
 
@@ -128,11 +172,24 @@ public class SocialUIManager : MonoBehaviour
     private void AddListenerToButton(Button button, UnityEngine.Events.UnityAction newListener, bool isNeedExitPanelListener)
     {
         button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(newListener);
         if(isNeedExitPanelListener)
         {
             button.onClick.AddListener(() => { _socialUI.SetActive(false); });
         }
+        button.onClick.AddListener(newListener);
+    }
+
+    /// <summary>
+    /// 버튼 세팅
+    /// </summary>
+    /// <param name="button">버튼 본체</param>
+    /// <param name="interactable">버튼 interactable 설정</param>
+    /// <param name="buttonText">버튼의 TextMeshPro</param>
+    /// <param name="buttonInfoText">버튼의 안내 메시지</param>
+    private void SetButton(Button button, bool interactable, TextMeshProUGUI buttonText, string buttonInfoText)
+    {
+        button.interactable = interactable;
+        buttonText.text = buttonInfoText;
     }
 
     // 친구 추가 요청
