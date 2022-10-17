@@ -25,7 +25,7 @@ public abstract class NeedCheckButton : MonoBehaviour
         Button myButton = GetComponent<Button>();
         myButton.onClick.AddListener(() =>
         {
-            _checkPanelManager.SetActiveCheckPanel(_checkMessage, AcceptAction, RefuseAction);
+            _checkPanelManager.ShowCheckPanel(_checkMessage, AcceptAction, RefuseAction);
         });
     }
 

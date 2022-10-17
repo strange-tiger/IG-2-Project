@@ -319,14 +319,14 @@ namespace Asset.MySql
     #endregion
 
     #region Relationship
-        private const byte _FRIEND_BIT = 0b_0000;
-        private const byte _REQUEST_LEFT_BIT = 0b_0100;
-        private const byte _REQUEST_RIGHT_BIT = 0b_0001;
-        private const byte _BLOCK_LEFT_BIT = 0b_1000;
-        private const byte _BLOCK_RIGHT_BIT = 0b_0010;
-        private const byte _RESET_RIGHT_BIT = 0b_1100;
-        private const byte _RESET_LEFT_BIT = 0b_0011;
-        private const byte _ERROR_BIT = 0b_1111;
+        public const byte _FRIEND_BIT = 0b_0000;
+        public const byte _REQUEST_LEFT_BIT = 0b_0100;
+        public const byte _REQUEST_RIGHT_BIT = 0b_0001;
+        public const byte _BLOCK_LEFT_BIT = 0b_1000;
+        public const byte _BLOCK_RIGHT_BIT = 0b_0010;
+        public const byte _RESET_RIGHT_BIT = 0b_1100;
+        public const byte _RESET_LEFT_BIT = 0b_0011;
+        public const byte _ERROR_BIT = 0b_1111;
 
         /*
          * Relationship Bit
