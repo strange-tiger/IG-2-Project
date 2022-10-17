@@ -72,18 +72,4 @@ public class InventoryUIManager : MonoBehaviour
     {
         _inventoryUI.SetActive(true);
     }
-    /// <summary>
-    /// 친구 추가 패널을 보여줌
-    /// </summary>
-    /// <param name="targetUserName"> 타겟 유저 이름 </param>
-    public void ShowFriendPanel(string targetUserName)
-    {
-#if _DEV_MODE_
-        Debug.Assert(targetUserName != null, "유저명 없음");
-#else
-        targetUserName = "오류";
-#endif
-        _targetFriendName.text = targetUserName;
-        _friendPanel.SetActive(true);
-    }
 }

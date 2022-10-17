@@ -22,7 +22,7 @@ public class CheckPanelManager : MonoBehaviour
     /// <param name="informationMessage"> 확인 메시지 </param>
     /// <param name="acceptAction">확인 시 동작할 함수 void()</param>
     /// <param name="refuseAction">취소 시 동작할 함수 void()</param>
-    public void SetActiveCheckPanel(string informationMessage, 
+    public void ShowCheckPanel(string informationMessage, 
         CheckButtonAction acceptAction, CheckButtonAction refuseAction)
     {
         _informationText.text = informationMessage;
