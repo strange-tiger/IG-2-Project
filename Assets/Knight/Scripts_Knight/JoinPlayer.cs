@@ -6,15 +6,14 @@ using Photon.Realtime;
 
 public class JoinPlayer : MonoBehaviourPunCallbacks
 {
-    private bool _isOn;
-
-    private void Update()
+    private void Start()
     {
-        if (!_isOn)
-        {
-            PhotonNetwork.Instantiate("OVRPlayerController", Vector3.zero, Quaternion.identity);
-            Debug.Log("¾å");
-            _isOn = true;
-        }
+        Invoke("SettingController", 1f);
+    }
+
+    private void SettingController()
+    {
+        PhotonNetwork.Instantiate("OVRPlayerController", Vector3.zero, Quaternion.identity);
+        Debug.Log("¾å");
     }
 }

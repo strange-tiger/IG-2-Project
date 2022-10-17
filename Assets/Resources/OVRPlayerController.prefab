@@ -275,8 +275,8 @@ GameObject:
   - component: {fileID: 985985666519810347}
   - component: {fileID: 1956550270167129955}
   - component: {fileID: 7194770778149062864}
-  - component: {fileID: 6530331077806755789}
   - component: {fileID: 6945414368931534761}
+  - component: {fileID: 6506232950379927096}
   m_Layer: 0
   m_Name: OVRPlayerController
   m_TagString: Untagged
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985985666513151445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b71d1996d67004241a3b69960856ffcb, type: 3}
   m_Name: 
@@ -394,7 +394,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17b22abb52a8414a8e78a577c5cd706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6530331077806755789
+--- !u!114 &6945414368931534761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985985666513151445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e29779753c0a4c74cbcaae885af9d569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 0}
+--- !u!114 &6506232950379927096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,20 +431,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6945414368931534761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985985666513151445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e29779753c0a4c74cbcaae885af9d569, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerInput: {fileID: 0}
-  _canvas: {fileID: 0}
 --- !u!1 &985985666513151447
 GameObject:
   m_ObjectHideFlags: 0

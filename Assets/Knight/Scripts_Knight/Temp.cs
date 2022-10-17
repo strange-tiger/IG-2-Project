@@ -9,6 +9,11 @@ public class Temp : MonoBehaviour
 
     void Start()
     {
+        Invoke("SettingPanal", 1.2f);
+    }
+
+    private void SettingPanal()
+    {
         _canvas.SetActive(false);
     }
 }

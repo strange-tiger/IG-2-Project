@@ -44,7 +44,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         _stateText.text = "MainLobby";
-        PhotonNetwork.LoadLevel("MainLobby");
+        PhotonNetwork.LoadLevel("Lobby");
     }
 
     public void OnClickStartButton()
