@@ -707,21 +707,19 @@ namespace Asset.MySql
         /// 유저의 닉네임을 받아 특정 State의 리스트를 가져옴.
         /// </summary>
         /// <param name="nickname"></param>
-        /// <param name="leftStateByte"></param>
-        /// <param name="rightStateByte"></param>
         /// <returns></returns>
-        public static List<Dictionary<string, string>> GetRelationList(string nickname, byte leftStateByte, byte rightStateByte)
+        public static List<Dictionary<string, string>> GetRelationList(string nickname)
         {
             List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
 
             // UserA 칼럼에 대한 State 검사 후 리스트 생성
             GetRelationListHelper
             (
-                ErelationshipdbColumns.UserA, 
-                ErelationshipdbColumns.UserB, 
-                nickname, 
+                ErelationshipdbColumns.UserA,
+                ErelationshipdbColumns.UserB,
+                nickname,
                 ref resultList
-            );
+            ) ;
 
             // UserB 칼럼에 대한 State 검사 후 리스트 생성
             GetRelationListHelper
@@ -737,18 +735,28 @@ namespace Asset.MySql
 
         private static void GetRelationListHelper(ErelationshipdbColumns userA, ErelationshipdbColumns userB, string nickname, ref List<Dictionary<string, string>> resultList)
         {
-            string selcetUserAString = $"SELECT RelationshipDB.{userB}, RelationshipDB.State, CharacterDB.OnOff FROM RelationshipDB " +
-               $"INNER JOIN CharacterDB ON CharacterDB.Nickname = RelationshipDB.{userB} WHERE {userA} = '{nickname}'; ";
+            string selcetUserAString = $"SELECT RelationshipDB.{userB}, RelationshipDB.State " +
+                $"FROM RelationshipDB WHERE {userA} = '{nickname}'; ";
+
+            bool isLeft;
+
+            if (userA == ErelationshipdbColumns.UserA)
+            {
+                isLeft = true;
+            }
+            else
+            {
+                isLeft = false;
+            }
 
             DataSet userAData = GetUserData(selcetUserAString);
 
             foreach (DataRow _dataRow in userAData.Tables[0].Rows)
             {
                 Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-
                 dictionaryList.Add("Nickname", _dataRow[userB.ToString()].ToString());
                 dictionaryList.Add("State", _dataRow[ErelationshipdbColumns.State.ToString()].ToString());
-                dictionaryList.Add("OnOff", _dataRow[EcharacterdbColumns.OnOff.ToString()].ToString());
+                dictionaryList.Add("IsLeft", isLeft.ToString());
 
                 resultList.Add(dictionaryList);
             }
