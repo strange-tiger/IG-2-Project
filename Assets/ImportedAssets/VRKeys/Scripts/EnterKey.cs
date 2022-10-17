@@ -20,6 +20,7 @@ namespace VRKeys {
 
 		public override void HandleTriggerEnter (Collider other) {
 			keyboard.Submit ();
+			keyboard.Disable();
 		}
 
 		public override void UpdateLayout (Layout translation) {

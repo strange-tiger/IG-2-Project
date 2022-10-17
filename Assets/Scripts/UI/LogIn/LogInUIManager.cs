@@ -18,6 +18,8 @@ public class LogInUIManager : UIManager
 
         foreach(TMP_InputField input in _inputFields)
         {
+            _keyboard.OnSubmit.RemoveListener(input.SetTextWithoutNotify);
+            _keyboard.OnSubmit.AddListener(input.SetTextWithoutNotify);
             input.onSelect.RemoveListener(ActiveKeyboard);
             input.onSelect.AddListener(ActiveKeyboard);
         }
@@ -56,6 +58,7 @@ public class LogInUIManager : UIManager
     {
         foreach (TMP_InputField input in _inputFields)
         {
+            _keyboard.OnSubmit.RemoveListener(input.SetTextWithoutNotify);
             input.onSelect.RemoveListener(ActiveKeyboard);
         }
         _keyboard.Disable();

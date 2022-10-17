@@ -9,6 +9,7 @@
  */
 
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR;
 using UnityEngine.Events;
 using System;
@@ -125,6 +126,8 @@ namespace VRKeys {
 
 		private Layout layout;
 
+		[SerializeField] Button _closeButton;
+
 		/// <summary>
 		/// Initialization.
 		/// </summary>
@@ -214,6 +217,9 @@ namespace VRKeys {
 				keysParent.gameObject.SetActive (true);
 			}
 
+			_closeButton.onClick.RemoveListener(Disable);
+			_closeButton.onClick.AddListener(Disable);
+
 			EnableInput ();
 
 			PositionAndAttachMallets ();
@@ -230,6 +236,8 @@ namespace VRKeys {
 		/// </summary>
 		public void Disable () {
 			disabled = true;
+
+			_closeButton.onClick.RemoveListener(Disable);
 
 			if (canvas != null) {
 				canvas.SetActive (false);
