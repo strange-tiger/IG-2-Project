@@ -319,11 +319,14 @@ namespace Asset.MySql
     #endregion
 
     #region Relationship
-        private const int _REQUEST_BIT = 0b_0001;
-        private const int _BLOCK_BIT = 0b_0011;
-        private const int _FRIEND_BIT = 0b_0000;
-        private const int _RESET_BIT = 0b_0000;
-        private const int _SHIFT_BIT = 0b_0010;
+        private const byte _FRIEND_BIT = 0b_0000;
+        private const byte _REQUEST_LEFT_BIT = 0b_0100;
+        private const byte _REQUEST_RIGHT_BIT = 0b_0001;
+        private const byte _BLOCK_LEFT_BIT = 0b_1000;
+        private const byte _BLOCK_RIGHT_BIT = 0b_0010;
+        private const byte _RESET_RIGHT_BIT = 0b_1100;
+        private const byte _RESET_LEFT_BIT = 0b_0011;
+        private const byte _ERROR_BIT = 0b_1111;
 
         /*
          * Relationship Bit
@@ -335,7 +338,7 @@ namespace Asset.MySql
          * 
          * _ _ _ _ : [A → B 친구 요청 여부] [A → B 차단 여부] [A ← B 친구 요청 여부] [A ← B 차단 여부]
          * 
-         */
+        */
 
 
 
@@ -434,7 +437,7 @@ namespace Asset.MySql
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                int state = _RESET_BIT;
+                int state = _ERROR_BIT;
 
                 string selcetSocialRequestString = _selectSocialStateString + $"where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
                     $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
@@ -540,13 +543,13 @@ namespace Asset.MySql
         /// <param name="myNickname"> 나의 닉네임 </param>
         /// <param name="targetNickname"> 대상 유저의 닉네임 </param>
         /// <returns>성공하면 true, 실패하면 false를 반환함. </returns>
-        public static bool UpdateRalationshipToUnblock(string myNickname, string targetNickname)
+        public static bool UpdateRelationshipToUnblock(string myNickname, string targetNickname)
         {
             try
             {
                 int state = CheckRelationship(myNickname, targetNickname, out bool isLeft);
 
-                state = UpdateRelationshipToUnblockHelper(isLeft, state);
+                state = UpdateRelationshipToResetHelper(isLeft, state);
 
                 UpdateRelationship(myNickname, targetNickname, state);
 
@@ -634,23 +637,28 @@ namespace Asset.MySql
             }
         }
 
+        private static int UpdateRelationshipToResetHelper(bool isLeft, int state)
+        {
+            int resetBit = isLeft ? _RESET_LEFT_BIT : _RESET_RIGHT_BIT;
+            return state | resetBit;
+        }
+        
         private static int UpdateRelationshipToBlockHelper(bool isLeft, int state)
         {
-            int shiftBit = isLeft ? _SHIFT_BIT : _RESET_BIT;
-            return state ^ (_BLOCK_BIT << shiftBit);
-        }
+            state = UpdateRelationshipToResetHelper(isLeft, state);
 
-        private static int UpdateRelationshipToUnblockHelper(bool isLeft, int state)
-        {
-            int shiftBit = isLeft ? _SHIFT_BIT : _RESET_BIT;
-            return state | _RESET_BIT << shiftBit;
+            int blockBit = isLeft ? _BLOCK_LEFT_BIT : _BLOCK_RIGHT_BIT;
+            return state | blockBit;
         }
 
         private static int UpdateRelationshipToRequestHelper(bool isLeft, int state)
         {
-            int shiftBit = isLeft ? _SHIFT_BIT : _RESET_BIT;
-            return state | _REQUEST_BIT << shiftBit;
+            state = UpdateRelationshipToResetHelper(isLeft, state);
+
+            int requestBit = isLeft ? _REQUEST_LEFT_BIT : _REQUEST_RIGHT_BIT;
+            return state | requestBit;
         }
+    #endregion
 
         /// <summary>
         /// DataSet에 데이터를 저장함.
@@ -717,7 +725,6 @@ namespace Asset.MySql
             return resultList;
 
         }
-    #endregion
 
         /// <summary>
         /// 해당 값이 DB에 있는지 확인한다.
