@@ -50,7 +50,7 @@ public class SocialTabManager : MonoBehaviour
             // OnOffline 판단 처리
             foreach(TextMeshProUGUI nicknameText in _nicknameTextList)
             {
-                bool isOnline = true;
+                bool isOnline = MySqlSetting.IsPlayerOnline(nicknameText.text.ToString());
                 if(isOnline)
                 {
                     nicknameText.color = _onLineTextColor;
