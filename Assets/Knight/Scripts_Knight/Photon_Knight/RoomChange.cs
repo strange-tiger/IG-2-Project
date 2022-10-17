@@ -14,7 +14,7 @@ public class RoomChange : MonoBehaviourPunCallbacks
     /// 이동하고 싶은 씬넘버 입력
     /// </summary>
     [SerializeField]
-    private int _sceneNumber;
+    private Defines.ESceneNumder _sceneNumber;
 
     private void Start()
     {
@@ -38,6 +38,6 @@ public class RoomChange : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel(_sceneNumber);
+        PhotonNetwork.LoadLevel((int)_sceneNumber);
     }
 }
