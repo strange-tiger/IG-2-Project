@@ -32,7 +32,29 @@ public class SoundManager : MonoBehaviour
     private float _bgmVolume = 1f;
     public float BGMVolume { get { return _bgmVolume; } set { _bgmVolume = value; } }
 
-    // private AudioSource[] _audioSources = new AudioSource[(int)Defines.ESoundType.MaxCount];
     private Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
+
+    public void PlaySFXSound(string name, float volume = 1f)
+    {
+        if (_audioClips.ContainsKey(name) == false)
+        {
+            Debug.Log(name + " is not Contained audioClips");
+            return;
+        }
+        _sfxPlayer.PlayOneShot(_audioClips[name], volume * SFXVolume);
+    }
+    public void PlayBGMSound(float volume = 1f)
+    {
+        _bgmPlayer.loop = true;
+        _bgmPlayer.volume = volume * BGMVolume;
+
+        _bgmPlayer.clip = _bgmClip;
+        _bgmPlayer.Play();
+    }
+
+    public void StopBGMSound()
+    {
+        _bgmPlayer.Stop();
+    }
 }

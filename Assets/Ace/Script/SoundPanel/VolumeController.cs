@@ -51,6 +51,7 @@ public class VolumeController : MonoBehaviour
         string MasterVolume = VOLUME_CONTROLLER[(int)UINum.MasterVolume];
         PlayerPrefs.SetFloat(MasterVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
+        //오디오 리스너 볼륨 값 변화
         AudioListener.volume = (float)Math.Truncate(slider.value * 100) / 100;
     }
     public void EffectValueChanged(Slider slider)
@@ -81,6 +82,7 @@ public class VolumeController : MonoBehaviour
         string OutputVolume = VOLUME_CONTROLLER[(int)UINum.OutputVolume];
         PlayerPrefs.SetFloat(OutputVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
+        //
         _player.GetComponent<AudioSource>().volume = (float)Math.Truncate(slider.value * 100) / 100;
     }
 }
