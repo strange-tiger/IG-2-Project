@@ -453,6 +453,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71388007}
   m_CullTransparentMesh: 1
+--- !u!1 &74272104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 74272106}
+  - component: {fileID: 74272105}
+  m_Layer: 0
+  m_Name: ConfirmPanelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &74272105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74272104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33e322cb2ba6f04b81cc06b4efa27dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _confirmPanel: {fileID: 1979706318}
+--- !u!4 &74272106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74272104}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 303.2991, y: 234.91176, z: -63.811577}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &75996621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5742,6 +5786,69 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059233459}
   m_CullTransparentMesh: 1
+--- !u!1 &1076612887
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1076612889}
+  - component: {fileID: 1076612888}
+  m_Layer: 0
+  m_Name: SocialUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1076612888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076612887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f9ca12bec5eaa41a42a9295fc8c73d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _socialUI: {fileID: 1933393980}
+  _targetUserNicknameText: {fileID: 455719392}
+  _friendButton: {fileID: 1567299260}
+  _requestFriendText: Request Friend
+  _requestFriendConfirmMessage: Successfully Requested
+  _cancelRequestText: Cancel Request
+  _cancelRequestConfirmMessage: Successfully Canceled
+  _cancelFriendText: Cancel Friend
+  _cancelFriendConfirmMessage: Successfully Canceled
+  _checkRequestText: Check Request
+  _checkRequestMessage: ' want you to be friend'
+  _acceptRequestMessage: Accept Friend
+  _denyRequestMessage: Deny Friend
+  _blockButton: {fileID: 420923930}
+  _blockFriendText: Block
+  _blockConfirmMessage: Successfully Blocked
+  _unblockText: Unblock
+  _unblockConfirmMessage: Successfully Unblocked
+  _confirmPanelManager: {fileID: 74272105}
+  _checkPanelManager: {fileID: 603602094}
+--- !u!4 &1076612889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076612887}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 303.2991, y: 234.91176, z: -63.811577}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1086140821
 GameObject:
   m_ObjectHideFlags: 0
@@ -10428,7 +10535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1979706319
 RectTransform:
   m_ObjectHideFlags: 0
