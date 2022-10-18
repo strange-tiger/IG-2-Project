@@ -6,4 +6,12 @@ namespace Defines
         Right,
         End,
     }
+
+    public enum ESceneNumder
+    {
+        Lobby,
+        MainRoom,
+        TempScene,
+        End,
+    }
 }

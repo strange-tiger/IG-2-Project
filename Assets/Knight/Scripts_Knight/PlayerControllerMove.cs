@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
+using Photon.Realtime;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerControllerMove : MonoBehaviour
+public class PlayerControllerMove : MonoBehaviourPun
 {
     #region Obsoleted
     //private PlayerInput _playerInput;
@@ -156,6 +158,9 @@ public class PlayerControllerMove : MonoBehaviour
 
     private void Awake()
     {
+        // 이거 이렇게 써도 괜찮은가 모르겠슴다 ㅎㅎ
+        _controllerScrollButton = GameObject.Find("ChangeController").GetComponent<ControllerScrollButton>();
+
         _controller = gameObject.GetComponent<CharacterController>();
 
         if (_controller == null)
@@ -195,20 +200,23 @@ public class PlayerControllerMove : MonoBehaviour
 
     private void Update()
     {
-        if (!_playerControllerEnabled)
+        if (photonView.IsMine)
         {
-            if (OVRManager.OVRManagerinitialized)
+            if (!_playerControllerEnabled)
             {
-                OVRManager.display.RecenteredPose += ResetOrientation;
-
-                if (_cameraRig != null)
+                if (OVRManager.OVRManagerinitialized)
                 {
-                    _cameraRig.UpdatedAnchors += UpdateTransform;
+                    OVRManager.display.RecenteredPose += ResetOrientation;
+
+                    if (_cameraRig != null)
+                    {
+                        _cameraRig.UpdatedAnchors += UpdateTransform;
+                    }
+                    _playerControllerEnabled = true;
                 }
-                _playerControllerEnabled = true;
+                else
+                    return;
             }
-            else
-                return;
         }
     }
 

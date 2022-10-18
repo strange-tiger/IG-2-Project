@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class InventorController : MonoBehaviour
+public class InventorController : MonoBehaviourPun
 {
-    [SerializeField]
     private PlayerInput _playerInput;
 
     [SerializeField]
@@ -12,7 +13,8 @@ public class InventorController : MonoBehaviour
 
     void Start()
     {
-        
+        _canvas = GameObject.Find("SettingCanvas");
+        _playerInput = gameObject.GetComponent<PlayerInput>();
     }
 
     void Update()
