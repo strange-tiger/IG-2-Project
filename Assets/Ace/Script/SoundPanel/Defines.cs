@@ -27,7 +27,13 @@ namespace Defines
 
     public enum EColor
     {
-
-
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Purple,
+        Pink,
+        MaxCount,
     }
 }
