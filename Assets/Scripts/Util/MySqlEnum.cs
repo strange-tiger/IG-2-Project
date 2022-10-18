@@ -20,6 +20,8 @@ namespace Asset {
 		Gender,
 		Tutorial,
 		OnOff,
+		AvatarData,
+		AvatarColor,
 		Max,
 	}
 	public enum ErelationshipdbColumns {

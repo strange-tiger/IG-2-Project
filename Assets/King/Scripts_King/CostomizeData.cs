@@ -10,15 +10,8 @@ public class CostomizeData : ScriptableObject
     [SerializeField] Material[] avatarMaterial;
     public Material[] AvatarMaterial { get { return avatarMaterial; } }
 
-    [SerializeField] EAvartarState[] avatarState;
-    public EAvartarState[] AvatarState { get { return avatarState; } }
+
     
 
 }
 
-public enum EAvartarState
-{
-    NONE,
-    HAVE,
-    EQUIED
-};
