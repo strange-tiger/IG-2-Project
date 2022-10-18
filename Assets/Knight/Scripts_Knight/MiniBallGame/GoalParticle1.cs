@@ -8,12 +8,19 @@ public class GoalParticle1 : MonoBehaviourPunCallbacks
 {
     private void Start()
     {
-        Invoke("SelfDestroy", 1f);
+        Invoke("SelfOff", 1f);
     }
 
-    private void SelfDestroy()
+    private void SelfOff()
     {
-        PhotonNetwork.Destroy(gameObject);
+        // PhotonNetwork.Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    [PunRPC]
+    public void StartParticle()
+    {
+        gameObject.SetActive(true);
     }
 
 }

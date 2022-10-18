@@ -9,8 +9,12 @@ public class BallManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private Vector3 _ballSspawnVector;
 
+    //[SerializeField]
+    //private GameObject _ball;
+
     void Start()
     {
         PhotonNetwork.Instantiate("Ball", _ballSspawnVector, Quaternion.identity);
+        //Instantiate(_ball, _ballSspawnVector, Quaternion.identity);
     }
 }
