@@ -24,4 +24,10 @@ namespace Defines
         OutputVolume,
         MaxCount,
     }
+
+    public enum EColor
+    {
+
+
+    }
 }
