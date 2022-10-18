@@ -13,7 +13,7 @@ public class JoinPlayer : MonoBehaviourPunCallbacks
 
     private void SettingController()
     {
-        PhotonNetwork.Instantiate("OVRPlayerController", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
         Debug.Log("¾å");
     }
 }

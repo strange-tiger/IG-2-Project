@@ -11,7 +11,7 @@ public class RoomChange : MonoBehaviourPunCallbacks
     [SerializeField] private Button _room;
 
     /// <summary>
-    /// 이동하고 싶은 씬넘버 입력
+    /// 이동하고 싶은 씬넘버 선택
     /// </summary>
     [SerializeField]
     private Defines.ESceneNumder _sceneNumber;
