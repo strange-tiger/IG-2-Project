@@ -6,20 +6,11 @@ using Photon.Realtime;
 
 public class BallManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField]
     private Vector3 _ballSspawnVector;
-
-    private void Awake()
-    {
-        _ballSspawnVector = Vector3.zero;
-    }
 
     void Start()
     {
         PhotonNetwork.Instantiate("Ball", _ballSspawnVector, Quaternion.identity);
-    }
-
-    void Update()
-    {
-        
     }
 }

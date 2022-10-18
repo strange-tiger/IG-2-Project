@@ -7,21 +7,25 @@ using Photon.Realtime;
 public class Ball : MonoBehaviourPunCallbacks
 {
 
-    [SerializeField]
     private Vector3 _ballPosition;
 
     [SerializeField]
-    private float _resetBallTimer = 5.0f;
+    private float _resetBallTimer;
 
     private Rigidbody _rigidbody;
     private float _currentTime;
 
-    void Start()
+    private void Awake()
+    {
+        _ballPosition = transform.position;
+    }
+
+    private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    private void Update()
     {
         SetBall();
     }
