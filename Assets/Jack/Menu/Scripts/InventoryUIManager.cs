@@ -33,16 +33,11 @@ public class InventoryUIManager : MonoBehaviour
     /// </summary>
     public bool IsInventoryUIOn { get { return _inventoryUI.activeSelf; } }
 
-    [Header("Friend Panel")]
-    [SerializeField] private GameObject _friendPanel;
-
-    private TextMeshProUGUI _targetFriendName;
     private GameObject _currentShownPanel;
 
     private void Awake()
     {
         _currentShownPanel = _inventoryPanel;
-        _targetFriendName = _friendPanel.GetComponentInChildren<TextMeshProUGUI>();
 
         SettingButtons();
     }
