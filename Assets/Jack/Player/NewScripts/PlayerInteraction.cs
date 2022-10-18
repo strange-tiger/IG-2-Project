@@ -10,7 +10,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if(_input.IsRay || _input.InputA)
+        if(_input.IsRay && _input.InputA)
         {
             if(_input.PrimaryController == Defines.EPrimaryController.Left)
             {
