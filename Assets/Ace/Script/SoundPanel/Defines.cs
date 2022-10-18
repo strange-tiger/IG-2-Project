@@ -25,7 +25,7 @@ namespace Defines
         MaxCount,
     }
 
-    public enum EColor
+    public enum EPianoKeyColor
     {
         Red,
         Orange,
