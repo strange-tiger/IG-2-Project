@@ -88,7 +88,11 @@ namespace VRKeys {
 			} else if (Input.GetKeyDown (KeyCode.D)) {
 				keyboard.SetLayout (KeyboardLayout.Dvorak);
 			}
-		}
+            else if (Input.GetKeyDown(KeyCode.K))
+            {
+                keyboard.SetLayout(KeyboardLayout.Korean);
+            }
+        }
 
 		/// <summary>
 		/// Hide the validation message on update. Connect this to OnUpdate.

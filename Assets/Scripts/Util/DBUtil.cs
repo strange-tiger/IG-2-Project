@@ -961,7 +961,7 @@ namespace Asset.MySql
         }
         #endregion
 
-        #region DeleteRowByComparator
+    #region DeleteRowByComparator
         public class Comparator<T> where T : System.Enum
         {
             public T Column;

@@ -217,8 +217,8 @@ namespace VRKeys {
 				keysParent.gameObject.SetActive (true);
 			}
 
-			_closeButton.onClick.RemoveListener(Disable);
-			_closeButton.onClick.AddListener(Disable);
+			_closeButton?.onClick.RemoveListener(Disable);
+			_closeButton?.onClick.AddListener(Disable);
 
 			EnableInput ();
 

@@ -19,7 +19,8 @@ namespace VRKeys {
 	public enum KeyboardLayout {
 		Qwerty,
 		French,
-		Dvorak
+		Dvorak,
+		Korean
 	}
 
 	/// <summary>
@@ -40,6 +41,9 @@ namespace VRKeys {
 				case KeyboardLayout.Dvorak:
 					return new Dvorak ();
 
+                case KeyboardLayout.Korean:
+                    return new Korean();
+                
 				default:
 					return new Layout ();
 			}
