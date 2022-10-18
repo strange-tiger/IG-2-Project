@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EPOOutline;
@@ -9,6 +9,7 @@ public class PlayerFocus : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private bool isLeft;
 
+    // LineRenderer 관련
     private LineRenderer _lineRenderer;
 
     private Vector3[] _rayPositions = new Vector3[2];
@@ -17,7 +18,11 @@ public class PlayerFocus : MonoBehaviour
     private float _rayLength = 5.0f;
     private float _alpha = 1.0f;
 
+    // 조준한 오브젝트 관련
     private FocusableObjects _focusedObject;
+    /// <summary>
+    /// 조준한 오브젝트. null일 수 있음
+    /// </summary>
     public FocusableObjects FocusedObject
     {
         get => _focusedObject;
@@ -32,27 +37,21 @@ public class PlayerFocus : MonoBehaviour
                 _focusedObject = value;
                 _focusedObject.OnFocus();
 
-                IsFocusedObjectChanged = true;
-            }
-            else
-            {
-                IsFocusedObjectChanged = false;
+                HaveFocuseObject = true;
             }
         }
     }
-    public bool IsFocusedObjectChanged { get; private set; }
-
-    private LayerMask _offLayer;
+    /// <summary>
+    /// 조준한 오브젝트있는지 확인
+    /// </summary>
+    public bool HaveFocuseObject { get; private set; }
 
     private void Awake()
     {
+        // 라인렌더러 설정
         _lineRenderer = GetComponentInChildren<LineRenderer>();
-
         SetRayColor();
-
         _lineRenderer.enabled = false;
-
-        _offLayer = LayerMask.NameToLayer("Player");
     }
 
     private void Update()
@@ -105,11 +104,12 @@ public class PlayerFocus : MonoBehaviour
 
     private void FocusingNothing()
     {
-        if (FocusedObject)
+        if (HaveFocuseObject)
         {
             FocusedObject.OutFocus();
             _focusedObject = null;
         }
+        HaveFocuseObject = false;
         _rayPositions[1] = transform.position + transform.forward * _rayLength;
     }
 
