@@ -12,6 +12,7 @@ public class LogInUIManager : UIManager
 
     [SerializeField] TMP_InputField[] _inputFields;
 
+    private TMP_InputField _selectedInputField;
     private void Awake()
     {
         LoadUI(_UI.LOGIN);
@@ -20,24 +21,10 @@ public class LogInUIManager : UIManager
         {
             input.onSelect.AddListener((string temp) =>
             {
-                ActiveKeyboard(input);
+                ActivateKeyboard(input);
             });
         }
     }
-
-    // _keyboard 활성화 테스트
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Tab))
-    //    {
-    //        _inputFields[0].onSelect.Invoke("aa");
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.Backspace))
-    //    {
-    //        _keyboard.Disable();
-    //    }
-    //}
     
     /// <summary>
     /// ELogInUIIndex를 ui 매개변수로 받아, UIManager.LoadUI에 전달해 
@@ -49,19 +36,22 @@ public class LogInUIManager : UIManager
         LoadUI((int)ui);
     }
 
-    private void ActiveKeyboard(TMP_InputField inputField)
+    private void ActivateKeyboard(TMP_InputField inputField)
     {
         _keyboard.Enable();
 
-        inputField.text = _keyboard.displayText.text;
+        _selectedInputField = inputField;
+        _keyboard.OnSubmit.RemoveListener(SendText);
+        _keyboard.OnSubmit.AddListener(SendText);
+    }
+
+    private void SendText(string message)
+    {
+        _selectedInputField.text = message;
     }
 
     private void OnDisable()
     {
-        foreach (TMP_InputField input in _inputFields)
-        {
-            _keyboard.OnSubmit.RemoveListener(input.SetTextWithoutNotify);
-        }
         _keyboard.Disable();
     }
 }
