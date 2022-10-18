@@ -22,7 +22,7 @@ namespace Asset.MySql
     public static class MySqlStatement
     {
         private const string INSERT_ACCOUNT = "INSERT INTO AccountDB (Email,Password,Nickname) VALUES ";
-        private const string INSERT_CHARACTER = "INSERT INTO CharacterDB (Nickname,Gender,AvatarData) VALUES ";
+        private const string INSERT_CHARACTER = "INSERT INTO CharacterDB (Nickname,Gender) VALUES ";
         private const string INSERT_RELATIONSHIP = "INSERT INTO RelationshipDB (UserA,UserB,State) VALUES ";
         public static readonly string[] INSERT =
         {
@@ -38,9 +38,6 @@ namespace Asset.MySql
     public class MySqlSetting
     {
         private static bool _hasInit = false;
-        private static string _selectJsonstring;
-        private static string _initInsertAvatarstring;
-        private static string _resultAvatarData;
         private static string _connectionString;
         [Obsolete]
         private static string _insertSocialRequestString;
@@ -70,7 +67,6 @@ namespace Asset.MySql
             }
 
             _connectionString = Resources.Load<TextAsset>("Connection").text;
-            _initInsertAvatarstring = Resources.Load<TextAsset>("initAvatar").text;
             // _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
 
             SetEnum();
@@ -226,7 +222,7 @@ namespace Asset.MySql
 
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string _insertCharacterString = GetInsertString(ETableType.characterdb, nickname, gender, _initInsertAvatarstring);
+                    string _insertCharacterString = GetInsertString(ETableType.characterdb, nickname, gender);
 
                     MySqlCommand _insertCharacterCommand = new MySqlCommand(_insertCharacterString, _mysqlConnection);
 
