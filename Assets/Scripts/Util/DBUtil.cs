@@ -21,7 +21,7 @@ namespace Asset.MySql
 
     public static class MySqlStatement
     {
-        private const string INSERT_ACCOUNT = "INSERT INTO AccountDB (Email,Password,Nickname) VALUES ";
+        private const string INSERT_ACCOUNT = "INSERT INTO AccountDB (Email,Password,Nickname,Question,Answer) VALUES ";
         private const string INSERT_CHARACTER = "INSERT INTO CharacterDB (Nickname,Gender) VALUES ";
         private const string INSERT_RELATIONSHIP = "INSERT INTO RelationshipDB (UserA,UserB,State) VALUES ";
         public static readonly string[] INSERT =
@@ -819,7 +819,7 @@ namespace Asset.MySql
                 {
                     bool result = false;
 
-                    string selectString = SelectDBHelper(ETableType.accountdb) + ETableType.accountdb + $" WHERE {columnType} = '{value}';";
+                    string selectString = SelectDBHelper(ETableType.accountdb) + $" WHERE {columnType} = '{value}';";
 
                     _sqlConnection.Open();
 
