@@ -75,7 +75,7 @@ public class LogInUI : MonoBehaviour
 
         TempAccountDB.SetAccountData(_idInput.text, Sql.GetValueByBase(Column.Email, _idInput.text, Column.Nickname));
         Debug.Log("로그인 성공!");
-        // PhotonNetwork.LoadLevel() // 다음 씬으로 이어지는 부분 필요
+        PhotonNetwork.LoadLevel()
     }
 
     /// <summary>
