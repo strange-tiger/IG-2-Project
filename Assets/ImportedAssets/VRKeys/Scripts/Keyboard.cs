@@ -135,8 +135,8 @@ namespace VRKeys {
 			XRDevice.SetTrackingSpaceType (TrackingSpaceType.RoomScale);
 
 			playerSpace = new GameObject ("Play Space");
-			//playerSpace.transform.localPosition = InputTracking.GetLocalPosition (XRNode.TrackingReference);
-			//playerSpace.transform.localRotation = InputTracking.GetLocalRotation (XRNode.TrackingReference);
+			playerSpace.transform.localPosition = InputTracking.GetLocalPosition (XRNode.TrackingReference);
+			playerSpace.transform.localRotation = InputTracking.GetLocalRotation (XRNode.TrackingReference);
 
 			leftHand = new GameObject ("Left Hand");
 			rightHand = new GameObject ("Right Hand");
@@ -154,8 +154,8 @@ namespace VRKeys {
 		}
 
 		private void Update () {
-			//playerSpace.transform.localPosition = InputTracking.GetLocalPosition (XRNode.TrackingReference);
-			//playerSpace.transform.localRotation = InputTracking.GetLocalRotation (XRNode.TrackingReference);
+			playerSpace.transform.localPosition = InputTracking.GetLocalPosition (XRNode.TrackingReference);
+			playerSpace.transform.localRotation = InputTracking.GetLocalRotation (XRNode.TrackingReference);
 
 			leftHand.transform.localPosition = InputTracking.GetLocalPosition (XRNode.LeftHand);
 			leftHand.transform.localRotation = InputTracking.GetLocalRotation (XRNode.LeftHand);
@@ -362,6 +362,20 @@ namespace VRKeys {
 
 			OnUpdate.Invoke (text);
 		}
+
+		private bool _isKorean = false;
+		public void ChangeLanguage ()
+		{
+            if (_isKorean)
+			{
+				layout = LayoutList.GetLayout(KeyboardLayout.Korean);
+			}
+			else
+			{
+				layout = LayoutList.GetLayout(KeyboardLayout.Qwerty);
+            }
+			_isKorean = !_isKorean;
+        }
 
 		/// <summary>
 		/// Submit and close the keyboard.

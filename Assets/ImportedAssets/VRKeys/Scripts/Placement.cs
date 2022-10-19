@@ -73,6 +73,8 @@ namespace VRKeys {
 		}
 
 		void Update () {
+			if (Input.GetKeyDown(KeyCode.Q)) { keyboard.Enable(); }
+			
 			if (!leftHandCollider.inKeyboard && !rightHandCollider.inKeyboard) {
 				ResetState ();
 				return;
