@@ -38,7 +38,6 @@ namespace Asset.MySql
     public class MySqlSetting
     {
         private static bool _hasInit = false;
-
         private static string _connectionString;
         [Obsolete]
         private static string _insertSocialRequestString;
@@ -231,7 +230,6 @@ namespace Asset.MySql
                     _insertCharacterCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
-
                 return true;
             }
             catch (System.Exception error)
@@ -890,6 +888,19 @@ namespace Asset.MySql
             }
         }
 
+
+        /// <summary>
+        /// CharacterDB 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
+        /// </summary>
+        /// <param name="baseType">기준이 되는 값의 Column명</param>
+        /// <param name="baseValue">기준이 되는 데이터</param>
+        /// <param name="targetType">가져오기 위한 데이터 Column명</param>
+        /// <returns>해당 데이터를 반환. 오류 시 null 반환</returns>
+        public static string GetValueByBase(EcharacterdbColumns baseType, string baseValue, EcharacterdbColumns targetType)
+        {
+            return GetValueByBase(ETableType.characterdb, baseType, baseValue, targetType);
+        }
+
         /// <summary>
         /// AccountDB 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
         /// </summary>
@@ -937,7 +948,11 @@ namespace Asset.MySql
 
         }
 
-
+        public static bool UpdateValueByBase(EcharacterdbColumns baseType, string baseValue,
+           EcharacterdbColumns targetType, string targetValue)
+        {
+            return UpdateValueByBase(ETableType.characterdb, baseType, baseValue, targetType, targetValue);
+        }
         /// <summary>
         /// AccountDB Table에서 baseType의 baseValue를 기준으로 TargetType을 TargetValue로 변경함
         /// </summary>
@@ -971,7 +986,7 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string updateString = $"Update {targetTable} set {targetType} = {targetValue} where {baseType} = '{baseValue}';";
+                    string updateString = $"Update {targetTable} set {targetType} = '{targetValue}' where {baseType} = '{baseValue}';";
                     MySqlCommand command = new MySqlCommand(updateString, _sqlConnection);
 
                     _sqlConnection.Open();
@@ -996,7 +1011,7 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string updateString = $"Update {targetTable} SET {targetType} = {targetValue} WHERE {baseType} = '{baseValue}';";
+                    string updateString = $"Update {targetTable} SET {targetType} = '{targetValue}' WHERE {baseType} = '{baseValue}';";
                     MySqlCommand command = new MySqlCommand(updateString, _sqlConnection);
 
                     _sqlConnection.Open();
@@ -1152,6 +1167,8 @@ namespace Asset.MySql
         }
     #endregion
 
+
+        
     }
 
 }
