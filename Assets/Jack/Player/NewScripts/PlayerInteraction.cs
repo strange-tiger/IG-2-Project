@@ -18,6 +18,7 @@ public class PlayerInteraction : MonoBehaviourPun
         {
             _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
             _eventSystemInputModule.m_Cursor = _pointer;
+            _eventSystemInputModule.rayTransform = _playerFocus[0].gameObject.transform;
         }
     }
 
