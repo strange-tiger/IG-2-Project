@@ -18,6 +18,8 @@ namespace Defines
         WesternLobby,
         VikingLobby,
 
+        LogIn,
+
         End,
     }
 

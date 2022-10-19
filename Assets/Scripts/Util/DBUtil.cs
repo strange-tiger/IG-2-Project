@@ -1,3 +1,4 @@
+#define _DEV_MODE_
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -69,10 +70,13 @@ namespace Asset.MySql
             _connectionString = Resources.Load<TextAsset>("Connection").text;
             // _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
 
+#if _DEV_MODE_
             SetEnum();
+#endif
             Debug.Log("Enum Setting 끝");
         }
 
+#if _DEV_MODE_
         [MenuItem("Tools/GenerateEnum")]
         private static void SetEnum()
         {
@@ -171,8 +175,9 @@ namespace Asset.MySql
                 return;
             }
         }
+#endif
 
-    #region Add
+#region Add
         /// <summary>
         /// 계정 추가하기
         /// </summary>
@@ -251,9 +256,9 @@ namespace Asset.MySql
 
             return insertString;
         }
-        #endregion
+#endregion
 
-        #region Request
+#region Request
         /// <summary>
         /// 두 사용자 간의 요청이 RequestDB에 존재하는 지 확인.
         /// </summary>
@@ -323,9 +328,9 @@ namespace Asset.MySql
                 return false;
             }
         }
-        #endregion
+#endregion
 
-    #region Relationship
+#region Relationship
         public const byte _FRIEND_BIT = 0b_0000;
         public const byte _REQUEST_LEFT_BIT = 0b_0100;
         public const byte _REQUEST_RIGHT_BIT = 0b_0001;
@@ -678,7 +683,7 @@ namespace Asset.MySql
             int requestBit = isLeft ? _REQUEST_LEFT_BIT : _REQUEST_RIGHT_BIT;
             return state | requestBit;
         }
-    #endregion
+#endregion
 
         /// <summary>
         /// DataSet에 데이터를 저장함.
@@ -846,7 +851,7 @@ namespace Asset.MySql
             return MySqlStatement.SELECT + db.ToString();
         }
 
-    #region ValueByBase
+#region ValueByBase
         /// <summary>
         /// CharacterDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// </summary>
@@ -1027,16 +1032,16 @@ namespace Asset.MySql
                 return false;
             }
         }
-        #endregion
+#endregion
 
-    #region DeleteRowByComparator
+#region DeleteRowByComparator
         public class Comparator<T> where T : System.Enum
         {
             public T Column;
             public string Value;
         }
 
-        #region DeleteRowByComparator-RelationshipDB
+#region DeleteRowByComparator-RelationshipDB
 
         public static bool DeleteRowByComparator
          (ErelationshipdbColumns type_1, string condition_1,
@@ -1130,7 +1135,7 @@ namespace Asset.MySql
             );
         }
 
-        #endregion
+#endregion
 
         public static bool DeleteRowByComparator<T>
         (Asset.ETableType targetTable, string logicOperator,
@@ -1165,7 +1170,7 @@ namespace Asset.MySql
                 return false;
             }
         }
-    #endregion
+#endregion
 
 
         
