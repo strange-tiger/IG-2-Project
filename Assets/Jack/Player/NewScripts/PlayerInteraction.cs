@@ -12,7 +12,6 @@ public class PlayerInteraction : MonoBehaviourPun
     [SerializeField] private OVRGazePointer _pointer;
     private OVRInputModule _eventSystemInputModule;
     private OVRRaycaster _ovrRaycaster;
-    private Canvas _canvas;
 
     private void OnEnable()
     {
