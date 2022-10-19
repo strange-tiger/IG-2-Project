@@ -28,7 +28,7 @@ public class MagicWand : MonoBehaviour
     {
 
 
-        if (OVRInput.Get(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
+        if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
         {
             int RandomNumber = Random.Range(0, 101);
             GetMagic(RandomNumber);
