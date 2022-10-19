@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoalParticle2 : MonoBehaviourPunCallbacks
+public class GoalParticle2 : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        Invoke("SelfOff", 3f);
+    }
+
     private void Start()
     {
-        Invoke("SelfOff", 2f);
+
     }
 
     private void SelfOff()
     {
-        // PhotonNetwork.Destroy(gameObject);
         gameObject.SetActive(false);
     }
 
-    [PunRPC]
-    public void StartParticle()
+    private void OnDisable()
     {
-        gameObject.SetActive(true);
+        
     }
 }

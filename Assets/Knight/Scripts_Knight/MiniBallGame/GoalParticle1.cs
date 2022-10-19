@@ -1,26 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 using Photon.Realtime;
 
-public class GoalParticle1 : MonoBehaviourPunCallbacks
+public class GoalParticle1 : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        Invoke("SelfOff", 2f);
+    }
+
     private void Start()
     {
-        Invoke("SelfOff", 1f);
+        
     }
 
     private void SelfOff()
     {
-        // PhotonNetwork.Destroy(gameObject);
         gameObject.SetActive(false);
     }
 
-    [PunRPC]
-    public void StartParticle()
+    private void OnDisable()
     {
-        gameObject.SetActive(true);
+        
+
     }
+
+
 
 }

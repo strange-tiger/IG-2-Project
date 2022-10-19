@@ -6,22 +6,26 @@ using Photon.Pun;
 
 public class GoalInBall : MonoBehaviourPunCallbacks
 {
+    [SerializeField]
+    private Collider _goalLine;
+
     //[SerializeField]
     //private GameObject _particle1Position;
 
     //[SerializeField]
     //private GameObject _particle2Position;
 
-    //[SerializeField]
-    //private GameObject _particle1;
+    [SerializeField]
+    private GameObject _particle1;
 
-    //[SerializeField]
-    //private GameObject _particle2;
+    [SerializeField]
+    private GameObject _particle2;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider _goalLine)
     {
-        if (other.gameObject.tag == "Ball" && other.gameObject.transform.position.y > gameObject.transform.position.y)
+        if (_goalLine.gameObject.tag == "Ball" && _goalLine.gameObject.transform.position.y > gameObject.transform.position.y)
         {
+            Debug.Log("Goal In!");
             photonView.RPC("StartParticle", RpcTarget.All);
 
             // PhotonNetwork.Instantiate("GoalParticle1", _particle1Position.transform.position, Quaternion.identity);
@@ -32,5 +36,11 @@ public class GoalInBall : MonoBehaviourPunCallbacks
         }
     }
 
-    
+    [PunRPC]
+    public void StartParticle()
+    {
+        _particle1.SetActive(true);
+        _particle2.SetActive(true);
+    }
+
 }
