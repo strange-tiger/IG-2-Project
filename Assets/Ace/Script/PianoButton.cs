@@ -13,16 +13,19 @@ public class PianoButton : MonoBehaviour
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        _audioSource.clip = _myAudioClip;
         _audioSource.spatialBlend = 1;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("´©±¸ µé¾î¿È");
         ++_steppedCount;
         if (_steppedCount == 1)
         {
             _audioSource.PlayOneShot(_myAudioClip, _audioSource.volume
                 * PlayerPrefs.GetFloat("EffectVolume"));
+            Debug.Log(_myAudioClip);
         }
     }
 

@@ -7,7 +7,6 @@ public class TestInput : MonoBehaviour
     private Vector3 curDir;
     [SerializeField]
     private float _speed = 0.5f;
-    public bool IsMoving { get; set; }
 
     private void Awake()
     {
@@ -16,11 +15,6 @@ public class TestInput : MonoBehaviour
 
     void Update()
     {
-        if (IsMoving == false)
-        {
-            return;
-        }
-
         Move();
     }
     private void Move()
