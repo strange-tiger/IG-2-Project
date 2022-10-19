@@ -25,23 +25,27 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     private void Start()
     {
         _typedText = transform.GetChild(0).GetComponent<TMP_InputField>();
+        _typedText.gameObject.SetActive(false);
 
         for (int i = 1; i < transform.childCount; ++i)
         {
             _layouts[i] = transform.GetChild(i).gameObject;
+            _layouts[i].SetActive(false);
         }
     }
 
     public static void OpenKeyboard()
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
-        
+        _typedText.gameObject.SetActive(true);
+
         ChangeLayout(EKeyboardLayout.QWERTY);
     }
 
     public static void OpenKeyboard(EKeyboardLayout type)
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+        _typedText.gameObject.SetActive(true);
 
         ChangeLayout(type);
     }
@@ -58,6 +62,7 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     {
         CloseLayout();
         _inputField = null;
+        _typedText.gameObject.SetActive(false);
     }
 
     private static void CloseLayout()
