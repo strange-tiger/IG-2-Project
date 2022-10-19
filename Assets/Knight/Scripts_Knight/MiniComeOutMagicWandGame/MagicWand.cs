@@ -28,7 +28,7 @@ public class MagicWand : MonoBehaviour
     {
 
 
-        if (Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
+        if (OVRInput.Get(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
         {
             int RandomNumber = Random.Range(0, 101);
             GetMagic(RandomNumber);
@@ -56,26 +56,6 @@ public class MagicWand : MonoBehaviour
             {
                 _magic[i].gameObject.SetActive(true);
                 //_magic[i].gameObject.transform.rotation = transform.rotation * Quaternion.Euler(-90f, 90f, 0f); 
-                break;
-            }
-            else if (num < _useMagicChance[i])
-            {
-                _magic[i].gameObject.SetActive(true);
-                break;
-            }
-            else if (num < _useMagicChance[i])
-            {
-                _magic[i].gameObject.SetActive(true);
-                break;
-            }
-            else if (num < _useMagicChance[i])
-            {
-                _magic[i].gameObject.SetActive(true);
-                break;
-            }
-            else if (num < _useMagicChance[i])
-            {
-                _magic[i].gameObject.SetActive(true);
                 break;
             }
         }
