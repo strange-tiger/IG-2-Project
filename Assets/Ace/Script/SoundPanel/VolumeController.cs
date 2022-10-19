@@ -15,6 +15,7 @@ public class VolumeController : MonoBehaviour
     private Slider[] _slider;
 
     private Dictionary<string, Slider> _sliderDict = new Dictionary<string, Slider>();
+    public Dictionary<string, Slider> SliderDict { get { return _sliderDict; } }
     private Dictionary<Slider, TextMeshProUGUI> _textDict = new Dictionary<Slider, TextMeshProUGUI>();
 
     [SerializeField]
