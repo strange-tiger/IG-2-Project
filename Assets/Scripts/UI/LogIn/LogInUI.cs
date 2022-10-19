@@ -7,6 +7,7 @@ using TMPro;
 
 using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
+using Error = Defines.ELogInErrorType;
 using Sql = Asset.MySql.MySqlSetting;
 using Hash = Encryption.Hash256;
 
@@ -27,8 +28,6 @@ public class LogInUI : MonoBehaviour
 
     [Header("Popup")]
     [SerializeField] LogInErrorPopupUI _errorPopup;
-
-    public Defines.ELogInErrorType ErrorType { get; private set; }
 
     private void OnEnable()
     {
@@ -55,12 +54,14 @@ public class LogInUI : MonoBehaviour
     {
         if (!Sql.HasValue(Column.Email, _idInput.text))
         {
+            _errorPopup.ErrorPopup(Error.ID);
             return;
         }
 
         if (!Sql.CheckValueByBase(Column.Email, _idInput.text, 
             Column.Password, Hash.Compute(_passwordInput.text)))
         {
+            _errorPopup.ErrorPopup(Error.PASSWORD);
             return;
         }
 

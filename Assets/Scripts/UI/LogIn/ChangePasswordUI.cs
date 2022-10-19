@@ -7,7 +7,7 @@ using TMPro;
 
 using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
-using Error = Defines.EFindPasswordErrorType;
+using Error = Defines.EChangePasswordErrorType;
 using Sql = Asset.MySql.MySqlSetting;
 
 public class ChangePasswordUI : MonoBehaviour
