@@ -1,114 +1,113 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class RadialMenu : MonoBehaviour
 {
+
+
     [SerializeField] GameObject _radialMenu;
-    [SerializeField] Button _upButton;
-    [SerializeField] Button _downButton;
-    [SerializeField] Button _leftButton;
-    [SerializeField] Button _rightButton;
-    [SerializeField] Button _defaultButton;
+    [SerializeField] Image _cursor;
     [SerializeField] Image _feelingImage;
-    [SerializeField] Image _upButtonImage;
-    [SerializeField] Image _downButtonImage;
-    [SerializeField] Image _leftButtonImage;
-    [SerializeField] Image _rightButtonImage;
-    [SerializeField] Image _defaultButtonImage;
-
-    private static readonly YieldInstruction _waitSecond = new WaitForSeconds(3f);
+    [SerializeField] CircleCollider2D _cursorMovementLimit;
+    public static Button _buttonOne;
+    public static Image _buttonOneImage;
     private static Color _activeColor = new Color(1, 1, 1, 1);
-    private static Color _deactiveColor = new Color(0,0,0,0);
-    private void OnEnable()
+    private static Color _deactiveColor = new Color(1, 1, 1, 0);
+    private static readonly YieldInstruction _waitSecond = new WaitForSeconds(1f);
+
+    private Vector2 _cursorInitPosition;
+    private float _cursorSpeed = 100f;
+    private float _coolTime = 4f;
+
+    private void Start()
     {
-        _upButton.onClick.RemoveListener(UpMenu);
-        _upButton.onClick.AddListener(UpMenu);
+        _cursorInitPosition = _cursor.rectTransform.localPosition;
 
-        _downButton.onClick.RemoveListener(DownMenu);
-        _downButton.onClick.AddListener(DownMenu);
-
-        _leftButton.onClick.RemoveListener(LeftMenu);
-        _leftButton.onClick.AddListener(LeftMenu);
-
-        _rightButton.onClick.RemoveListener(RightMenu);
-        _rightButton.onClick.AddListener(RightMenu);
-
-        _defaultButton.onClick.RemoveListener(DefaultMenu);
-        _defaultButton.onClick.AddListener(DefaultMenu);
     }
 
-   
-    void Update()
+    void FadeOut()
     {
-        if(Input.GetKeyDown(KeyCode.LeftAlt))
+        
+
+    }
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
             _radialMenu.SetActive(true);
         }
+        else if (Input.GetKeyUp(KeyCode.LeftAlt))
+        {
+            ButtonOneMenu();
+        }
+        else
+        {
+            _radialMenu.SetActive(false);
+        }
     }
-    IEnumerator OffFeelingImage()
+    IEnumerator Fade(float startAlpha, float endAlpha)
     {
-
         yield return _waitSecond;
 
-        _feelingImage.color = _deactiveColor;
+        float elapsedTime = 0.0f;
+        while (elapsedTime < _coolTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / _coolTime));
+            _feelingImage.color = new Color(1, 1, 1, animatedFadeAlpha);
+            
+            yield return new WaitForEndOfFrame();
+        }
+        _feelingImage.color = new Color(1, 1, 1, endAlpha);
 
         yield return null;
+
     }
 
-    private void UpMenu()
+
+    private void ButtonOneMenu()
     {
-        StopCoroutine(OffFeelingImage());
-        _feelingImage.color = _activeColor;
-        _feelingImage.sprite = _upButtonImage.sprite;
-        _radialMenu.SetActive(false);
-        StartCoroutine(OffFeelingImage());
+        if(_buttonOne != null)
+        {
+            StopCoroutine(Fade(1,0));
+            _feelingImage.color = _activeColor;
+            _feelingImage.sprite = _buttonOneImage.sprite;
+            _radialMenu.SetActive(false);
+            StartCoroutine(Fade(1,0));
+        }
     }
 
-    private void DownMenu()
+    void FixedUpdate()
     {
-        StopCoroutine(OffFeelingImage());
-        _feelingImage.color = _activeColor;
-        _feelingImage.sprite = _downButtonImage.sprite;
-        _radialMenu.SetActive(false);
-        StartCoroutine(OffFeelingImage());
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        {
+            MoveCursor();
+
+        }
+        else
+        {
+            ResetCursor();
+        }
     }
 
-    private void LeftMenu()
+
+    void MoveCursor()
     {
-        StopCoroutine(OffFeelingImage());
-        _feelingImage.color = _activeColor;
-        _feelingImage.sprite = _leftButtonImage.sprite;
-        _radialMenu.SetActive(false);
-        StartCoroutine(OffFeelingImage());
+        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        direction.Normalize();
+
+
+        _cursor.rectTransform.localPosition = Vector3.ClampMagnitude(_cursor.rectTransform.localPosition + direction * _cursorSpeed * Time.deltaTime, _cursorMovementLimit.radius);
+
     }
 
-    private void RightMenu()
+    void ResetCursor()
     {
-        StopCoroutine(OffFeelingImage());
-        _feelingImage.color = _activeColor;
-        _feelingImage.sprite = _rightButtonImage.sprite;
-        _radialMenu.SetActive(false);
-        StartCoroutine(OffFeelingImage());
+        _cursor.rectTransform.localPosition = _cursorInitPosition;
     }
-
-    private void DefaultMenu()
-    {
-        StopCoroutine(OffFeelingImage());
-        _feelingImage.color = _activeColor;
-        _feelingImage.sprite = _defaultButtonImage.sprite;
-        _radialMenu.SetActive(false);
-        StartCoroutine(OffFeelingImage());
-    }
-
-    private void OnDisable()
-    {
-        _upButton.onClick.RemoveListener(UpMenu);
-        _downButton.onClick.RemoveListener(DownMenu);
-        _leftButton.onClick.RemoveListener(LeftMenu);
-        _rightButton.onClick.RemoveListener(RightMenu);
-        _defaultButton.onClick.RemoveListener(DefaultMenu);
-
-    }
+    
 }
