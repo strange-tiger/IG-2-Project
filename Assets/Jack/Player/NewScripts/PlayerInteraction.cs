@@ -11,11 +11,16 @@ public class PlayerInteraction : MonoBehaviourPun
 
     [SerializeField] private OVRGazePointer _pointer;
     private OVRInputModule _eventSystemInputModule;
+    private OVRRaycaster _ovrRaycaster;
+    private Canvas _canvas;
 
-    private void Awake()
+    private void OnEnable()
     {
         if(photonView.IsMine)
         {
+            _ovrRaycaster = FindObjectOfType<OVRRaycaster>();
+            _ovrRaycaster.pointer = _pointer.gameObject;
+
             _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
             _eventSystemInputModule.m_Cursor = _pointer;
             _eventSystemInputModule.rayTransform = _playerFocus[0].gameObject.transform;

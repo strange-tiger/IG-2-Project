@@ -73,7 +73,7 @@ public class ChangePasswordUI : MonoBehaviour
             return;
         }
         if (!Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Question, _questionList.value.ToString()) ||
-            Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
+            !Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
         {
             _errorPopup.ErrorPopup(Error.ANSWER);
             return;
