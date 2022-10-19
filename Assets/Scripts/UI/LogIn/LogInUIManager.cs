@@ -8,8 +8,7 @@ using _UI = Defines.ELogInUIIndex;
 
 public class LogInUIManager : UIManager
 {
-    //[SerializeField] Keyboard _keyboard;
-
+    [SerializeField] KeyboardManager _keyboard;
     [SerializeField] TMP_InputField[] _inputFields;
 
     private TMP_InputField _selectedInputField;
@@ -17,13 +16,13 @@ public class LogInUIManager : UIManager
     {
         LoadUI(_UI.LOGIN);
 
-        //foreach(TMP_InputField input in _inputFields)
-        //{
-        //    input.onSelect.AddListener((string temp) =>
-        //    {
-        //        ActivateKeyboard(input);
-        //    });
-        //}
+        foreach (TMP_InputField input in _inputFields)
+        {
+            input.onSelect.AddListener((string temp) =>
+            {
+                KeyboardManager.OpenKeyboard();
+            });
+        }
     }
     
     /// <summary>
@@ -49,9 +48,4 @@ public class LogInUIManager : UIManager
     {
         _selectedInputField.text = message;
     }
-
-    //private void OnDisable()
-    //{
-    //    _keyboard.Disable();
-    //}
 }

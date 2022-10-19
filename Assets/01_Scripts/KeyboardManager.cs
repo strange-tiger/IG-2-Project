@@ -6,45 +6,121 @@ using TMPro;
 
 public class KeyboardManager : SingletonBehaviour<KeyboardManager>
 {
-    TMP_InputField inputField;
-
-    [SerializeField] GameObject qwerty;
-    [SerializeField] GameObject numpad;
-
-    public void OpenKeyboard(int _type)
+    public enum EKeyboardLayout
     {
-        CloseKeyboard();
+        QWERTY,
+        QWERTY_SHIFTED,
+        KOREAN,
+        KOREAN_SHIFTED,
+        NUMPAD,
+        MAX
+    }
 
-        inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+    private static TMP_InputField _inputField;
+    private static EKeyboardLayout _currentLayout;
 
-        switch (_type)
+    private static TMP_InputField _typedText;
+    private static GameObject[] _layouts;
+
+    private void Start()
+    {
+        _typedText = transform.GetChild(0).GetComponent<TMP_InputField>();
+
+        for (int i = 1; i < transform.childCount; ++i)
         {
-            case 0: // qwerty + numpad
-                qwerty.SetActive(true);
-                numpad.SetActive(true);
-                break;
-            case 1: // only numpad
-                numpad.SetActive(true);
-                break;
-            default:
-                break;
+            _layouts[i] = transform.GetChild(i).gameObject;
         }
     }
 
-    public void CloseKeyboard()
+    public static void OpenKeyboard()
     {
-        qwerty.SetActive(false);
-        numpad.SetActive(false);
+        _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+        
+        ChangeLayout(EKeyboardLayout.QWERTY);
     }
 
-    public void PressKey()
+    public static void OpenKeyboard(EKeyboardLayout type)
     {
-        inputField.text += EventSystem.current.currentSelectedGameObject.name;
+        _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+
+        ChangeLayout(type);
     }
 
-    public void PressBackspace()
+    private static void ChangeLayout(EKeyboardLayout type)
     {
-        if (inputField.text.Length == 0) return;
-        inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
+        CloseLayout();
+
+        _currentLayout = type;
+        _layouts[(int)_currentLayout].SetActive(true);
+    }
+
+    public static void CloseKeyboard()
+    {
+        CloseLayout();
+        _inputField = null;
+    }
+
+    private static void CloseLayout()
+    {
+        foreach (GameObject layout in _layouts)
+        {
+            layout.SetActive(false);
+        }
+    }
+
+    public static void PressKey()
+    {
+        _typedText.text += EventSystem.current.currentSelectedGameObject.name;
+    }
+
+    public static void PressSpace()
+    {
+        _typedText.text += " ";
+    }
+
+    public static void PressBackspace()
+    {
+        if (_inputField.text.Length == 0) return;
+        _typedText.text = _inputField.text.Substring(0, _inputField.text.Length - 1);
+    }
+
+    public static void Clear()
+    {
+        if (_inputField.text.Length == 0) return;
+        _typedText.text = "";
+    }
+
+    public static void Shift()
+    {
+        if (_currentLayout == EKeyboardLayout.QWERTY
+            || _currentLayout == EKeyboardLayout.KOREAN)
+        {
+            ChangeLayout(_currentLayout + 1);
+        }
+        else if (_currentLayout == EKeyboardLayout.QWERTY_SHIFTED
+            || _currentLayout == EKeyboardLayout.KOREAN_SHIFTED)
+        {
+            ChangeLayout(_currentLayout - 1);
+        }
+    }
+
+    public static void Submit()
+    {
+        _inputField.text = _typedText.text;
+        CloseKeyboard();
+    }
+
+    public static void ChangeLanguage()
+    {
+        if (_currentLayout == EKeyboardLayout.QWERTY
+            || _currentLayout == EKeyboardLayout.QWERTY_SHIFTED)
+        {
+            ChangeLayout(EKeyboardLayout.KOREAN);
+        }
+        else if (_currentLayout == EKeyboardLayout.KOREAN
+            || _currentLayout == EKeyboardLayout.KOREAN_SHIFTED)
+        {
+            ChangeLayout(EKeyboardLayout.QWERTY);
+        }
     }
 }
