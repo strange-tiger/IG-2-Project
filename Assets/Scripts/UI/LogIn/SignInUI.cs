@@ -28,6 +28,9 @@ public class SignInUI : MonoBehaviour
     [SerializeField] TMP_InputField _nicknameInput;
     [SerializeField] TMP_InputField _answerInput;
 
+    [Space(15)]
+    [SerializeField] TMP_Dropdown _questionList;
+
     [Header("Error Text")]
     [SerializeField] GameObject _idErrorText;
     [SerializeField] GameObject _passwordErrorText;
@@ -95,7 +98,9 @@ public class SignInUI : MonoBehaviour
             (
                 _idInput.text,
                 Hash.Compute(_passwordInput.text),
-                _nicknameInput.text
+                _nicknameInput.text,
+                _questionList.value,
+                _answerInput.text
             ),
             "계정 생성 실패!"
         );
@@ -108,7 +113,7 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     private void EmailDoubleCheck()
     {
-        if (Sql.HasValue(Column.Email, _idInput.text))
+        if (!Sql.HasValue(Column.Email, _idInput.text))
         {
             _hasIdCheck = true;
             _idErrorText.SetActive(false);
@@ -142,7 +147,7 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     private void NicknameDoubleCheck()
     {
-        if (Sql.HasValue(Column.Nickname, _nicknameInput.text))
+        if (!Sql.HasValue(Column.Nickname, _nicknameInput.text))
         {
             _hasNicknameCheck = true;
             _nicknameErrorText.SetActive(false);
