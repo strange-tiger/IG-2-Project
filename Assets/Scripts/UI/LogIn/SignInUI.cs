@@ -19,6 +19,7 @@ public class SignInUI : MonoBehaviour
     [SerializeField] Button _idDoubleCheckButton;
     [SerializeField] Button _passwordDoubleCheckButton;
     [SerializeField] Button _nicknameDoubleCheckButton;
+    [SerializeField] Button _logInButton;
 
     [Header("Input Field")]
     [SerializeField] TMP_InputField _idInput;
@@ -53,6 +54,9 @@ public class SignInUI : MonoBehaviour
         _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
         _idDoubleCheckButton.onClick.AddListener(EmailDoubleCheck);
 
+        _logInButton.onClick.RemoveListener(LoadLogIn);
+        _logInButton.onClick.AddListener(LoadLogIn);
+
         _nicknameErrorText?.SetActive(false);
         _passwordErrorText?.SetActive(false);
         _idErrorText?.SetActive(false);
@@ -62,6 +66,14 @@ public class SignInUI : MonoBehaviour
         _hasIdCheck = false;
         _hasPasswordCheck = false;
         _hasNicknameCheck = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _successPopup.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -142,6 +154,11 @@ public class SignInUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 회원가입 UI 로드
+    /// </summary>
+    private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
+
     private void OnDisable()
     {
         _nicknameInput.text = "";
@@ -154,5 +171,6 @@ public class SignInUI : MonoBehaviour
         _passwordDoubleCheckButton.onClick.RemoveListener(PasswordDoubleCheck);
         _nicknameDoubleCheckButton.onClick.RemoveListener(NicknameDoubleCheck);
         _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
+        _logInButton.onClick.RemoveListener(LoadLogIn);
     }
 }
