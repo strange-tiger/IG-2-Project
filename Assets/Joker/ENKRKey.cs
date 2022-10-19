@@ -5,7 +5,7 @@ namespace VRKeys
 {
 
     /// <summary>
-    /// Backspace key.
+    /// ChangeLanguage key.
     /// </summary>
     public class ENKRKey : Key
     {
