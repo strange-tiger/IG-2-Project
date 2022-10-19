@@ -16,6 +16,7 @@ public class LogInUI : MonoBehaviour
 {
     [Header("Manager")]
     [SerializeField] LogInUIManager _logInUIManager;
+    [SerializeField] LogInServerManager _logInServerManager;
 
     [Header("Button")]
     [SerializeField] Button _logInButton;
@@ -76,7 +77,8 @@ public class LogInUI : MonoBehaviour
 
         TempAccountDB.SetAccountData(_idInput.text, Sql.GetValueByBase(Column.Email, _idInput.text, Column.Nickname));
         Debug.Log("로그인 성공!");
-        PhotonNetwork.LoadLevel((int)Scene.StartRoom);
+        //PhotonNetwork.LoadLevel((int)Scene.StartRoom);
+        _logInServerManager.LogIn();
     }
 
     /// <summary>
