@@ -126,7 +126,7 @@ public class PhotonCreateRoom : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("입장 하기~");
-        PhotonNetwork.LoadLevel("MainRoom");
+        PhotonNetwork.LoadLevel("MiniBallGame");
     }
 
     public override void OnCreatedRoom()

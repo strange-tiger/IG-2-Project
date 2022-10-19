@@ -14,4 +14,21 @@ namespace Defines
         TempScene,
         End,
     }
+
+    public enum EParticleInvokeTime
+    {
+        Now,
+        One,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        
+
+    }
 }
