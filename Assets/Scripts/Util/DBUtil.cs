@@ -181,7 +181,7 @@ namespace Asset.MySql
         /// <param name="Nickname">계정 Nickname</param>
         /// <returns>정상적으로 입력이 되었을 경우 true, 아니면 false
         /// (대표적으로 email Nickname이 겹칠 경우 false 반환)</returns>
-        public static bool AddNewAccount(string Email, string Password, string Nickname)
+        public static bool AddNewAccount(string Email, string Password, string Nickname, int QuestionNum, string Answer)
         {
             try
             {
@@ -197,7 +197,7 @@ namespace Asset.MySql
 
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string _insertAccountString = GetInsertString(ETableType.accountdb, Nickname, Password, Email);
+                    string _insertAccountString = GetInsertString(ETableType.accountdb, Email, Password, Nickname, QuestionNum.ToString(), Answer);
                     MySqlCommand _insertAccountCommand = new MySqlCommand(_insertAccountString, _mysqlConnection);
 
 
@@ -1029,7 +1029,7 @@ namespace Asset.MySql
         }
         #endregion
 
-        #region DeleteRowByComparator
+    #region DeleteRowByComparator
         public class Comparator<T> where T : System.Enum
         {
             public T Column;

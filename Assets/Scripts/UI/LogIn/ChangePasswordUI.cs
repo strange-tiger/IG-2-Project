@@ -7,7 +7,7 @@ using TMPro;
 
 using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
-using Error = Defines.EFindPasswordErrorType;
+using Error = Defines.EChangePasswordErrorType;
 using Sql = Asset.MySql.MySqlSetting;
 
 public class ChangePasswordUI : MonoBehaviour
@@ -29,8 +29,6 @@ public class ChangePasswordUI : MonoBehaviour
     [SerializeField] GameObject _changePopup;
     [SerializeField] GameObject _successPopup;
 
-    public Error ErrorType { get; private set; }
-
     private void OnEnable()
     {
         _logInButton.onClick.RemoveListener(LoadLogIn);
@@ -40,6 +38,22 @@ public class ChangePasswordUI : MonoBehaviour
         _changePasswordButton.onClick.AddListener(ChangePassword);
 
         DeactivePopup();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _successPopup.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            _changePopup.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _errorPopup.ErrorPopup(Error.ID);
+        }
     }
 
     private void DeactivePopup()
