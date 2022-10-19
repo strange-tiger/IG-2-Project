@@ -151,7 +151,7 @@ public class PlayerControllerMove : MonoBehaviourPun
         p.z = OVRManager.profile.eyeDepth;
         _cameraRig.transform.localPosition = p;
 
-        _controllerScrollButton.SwitchController.AddListener(SwitchController);
+        //_controllerScrollButton.SwitchController.AddListener(SwitchController);
     }
 
 
@@ -159,7 +159,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     private void Awake()
     {
         // 이거 이렇게 써도 괜찮은가 모르겠슴다 ㅎㅎ
-        _controllerScrollButton = GameObject.Find("ChangeController").GetComponent<ControllerScrollButton>();
+        //_controllerScrollButton = GameObject.Find("ChangeController").GetComponent<ControllerScrollButton>();
 
         _controller = gameObject.GetComponent<CharacterController>();
 

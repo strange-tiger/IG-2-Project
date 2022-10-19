@@ -6,7 +6,6 @@ using Photon.Realtime;
 
 public class Ball : MonoBehaviourPunCallbacks
 {
-
     private Vector3 _ballPosition;
 
     [SerializeField]
