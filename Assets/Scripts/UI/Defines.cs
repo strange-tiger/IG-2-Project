@@ -16,7 +16,7 @@ namespace Defines
         MAX
     }
 
-    public enum EFindPasswordErrorType
+    public enum EChangePasswordErrorType
     {
         NONE,
         ID,

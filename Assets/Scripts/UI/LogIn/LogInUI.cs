@@ -7,6 +7,8 @@ using TMPro;
 
 using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
+using Error = Defines.ELogInErrorType;
+using Scene = Defines.ESceneNumder;
 using Sql = Asset.MySql.MySqlSetting;
 using Hash = Encryption.Hash256;
 
@@ -14,6 +16,7 @@ public class LogInUI : MonoBehaviour
 {
     [Header("Manager")]
     [SerializeField] LogInUIManager _logInUIManager;
+    [SerializeField] LogInServerManager _logInServerManager;
 
     [Header("Button")]
     [SerializeField] Button _logInButton;
@@ -27,8 +30,6 @@ public class LogInUI : MonoBehaviour
 
     [Header("Popup")]
     [SerializeField] LogInErrorPopupUI _errorPopup;
-
-    public Defines.ELogInErrorType ErrorType { get; private set; }
 
     private void OnEnable()
     {
@@ -47,6 +48,14 @@ public class LogInUI : MonoBehaviour
         Sql.Init();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            _errorPopup.ErrorPopup(Error.ID);
+        }
+    }
+
     /// <summary>
     /// 입력된 계정 정보(Email, Password)를 계정 DB와 비교해
     /// 일치하면 다음 씬을 로드한다.
@@ -55,18 +64,21 @@ public class LogInUI : MonoBehaviour
     {
         if (!Sql.HasValue(Column.Email, _idInput.text))
         {
+            _errorPopup.ErrorPopup(Error.ID);
             return;
         }
 
         if (!Sql.CheckValueByBase(Column.Email, _idInput.text, 
             Column.Password, Hash.Compute(_passwordInput.text)))
         {
+            _errorPopup.ErrorPopup(Error.PASSWORD);
             return;
         }
 
         TempAccountDB.SetAccountData(_idInput.text, Sql.GetValueByBase(Column.Email, _idInput.text, Column.Nickname));
         Debug.Log("로그인 성공!");
-        // PhotonNetwork.LoadLevel() // 다음 씬으로 이어지는 부분 필요
+        //PhotonNetwork.LoadLevel((int)Scene.StartRoom);
+        _logInServerManager.LogIn();
     }
 
     /// <summary>
