@@ -26,10 +26,11 @@ public class MagicWand : MonoBehaviour
 
     void Update()
     {
+
+
         if (Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
         {
             int RandomNumber = Random.Range(0, 101);
-            Debug.Log(RandomNumber);
             GetMagic(RandomNumber);
 
             _checkCoolTime = true;
@@ -52,6 +53,17 @@ public class MagicWand : MonoBehaviour
         for (int i = 0; i < transform.childCount; ++i)
         {
             if (num < _useMagicChance[i])
+            {
+                _magic[i].gameObject.SetActive(true);
+                //_magic[i].gameObject.transform.rotation = transform.rotation * Quaternion.Euler(-90f, 90f, 0f); 
+                break;
+            }
+            else if (num < _useMagicChance[i])
+            {
+                _magic[i].gameObject.SetActive(true);
+                break;
+            }
+            else if (num < _useMagicChance[i])
             {
                 _magic[i].gameObject.SetActive(true);
                 break;

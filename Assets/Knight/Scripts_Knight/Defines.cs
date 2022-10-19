@@ -42,6 +42,7 @@ namespace Defines
 
     public enum CoolTime
     {
+        NoCool = 0,
         Sixty = 60,
         TwentyFive = 25,
         Ten = 10,
