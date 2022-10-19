@@ -24,4 +24,16 @@ namespace Defines
         OutputVolume,
         MaxCount,
     }
+
+    public enum EPianoKeyColor
+    {
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Purple,
+        Pink,
+        MaxCount,
+    }
 }

@@ -9,8 +9,8 @@ public class RaycastHitLeftOutline : MonoBehaviour
     [SerializeField]
     private PlayerInput _playerInput;
 
-    public UnityEvent OnInteractObject = new UnityEvent();
-    public UnityEvent OutInteractObject = new UnityEvent();
+    public UnityEvent OnLeftInteractObject = new UnityEvent();
+    public UnityEvent OutLeftInteractObject = new UnityEvent();
 
     private Color _OutlineColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
 
@@ -41,11 +41,11 @@ public class RaycastHitLeftOutline : MonoBehaviour
 
             if (hit.collider.gameObject.layer == _layerMask)
             {
-                OnInteractObject.Invoke();
+                OnLeftInteractObject.Invoke();
             }
             else
             {
-                OutInteractObject.Invoke();
+                OutLeftInteractObject.Invoke();
             }
 
             
