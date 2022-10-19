@@ -12,6 +12,12 @@ namespace Defines
         Lobby,
         MainRoom,
         TempScene,
+
+        StartRoom,
+        FantasyLobby,
+        WesternLobby,
+        VikingLobby,
+
         End,
     }
 

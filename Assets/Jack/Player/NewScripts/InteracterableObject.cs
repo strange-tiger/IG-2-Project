@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteracterableObject : FocusableObjects
 {
-    public void Interact()
+    public virtual void Interact()
     {
         Debug.Log(gameObject.name + ": interact");
     }
