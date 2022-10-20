@@ -1,13 +1,16 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MagicWand : MonoBehaviour
 {
-    [Header("¼ø¼­¿¡ ¸Â°Ô È®·üÀ» Àû¾îÁÖ¼¼¿ä")]
+    [Header("í™•ë¥ ì— í•´ë‹¹í•˜ëŠ” ìˆ«ìë¥¼ ëˆ„ì ì‹œì¼œ ì ì–´ì£¼ì„¸ìš”")]
     [SerializeField] private int[] _useMagicChance;
 
-    [Header("ÄğÅ¸ÀÓÀ» °ñ¶óÁÖ¼¼¿ä")]
+    private int _totalProbability = 100;
+    private int _probability;
+
+    [Header("ì¿¨íƒ€ì„ì„ ê³¨ë¼ì£¼ì„¸ìš”")]
     [SerializeField] private Defines.CoolTime _coolTime;
 
     private ParticleSystem[] _magic;
@@ -20,7 +23,13 @@ public class MagicWand : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; ++i)
         {
+            _probability += _useMagicChance[i];
             _magic[i] = gameObject.transform.GetChild(i).GetComponentInChildren<ParticleSystem>();
+        }
+
+        if (_probability != _totalProbability)
+        {
+
         }
     }
 
@@ -30,7 +39,7 @@ public class MagicWand : MonoBehaviour
 
         if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
         {
-            int RandomNumber = Random.Range(0, 101);
+            int RandomNumber = Random.Range(0, _totalProbability + 1);
             GetMagic(RandomNumber);
 
             _checkCoolTime = true;
@@ -55,7 +64,6 @@ public class MagicWand : MonoBehaviour
             if (num < _useMagicChance[i])
             {
                 _magic[i].gameObject.SetActive(true);
-                //_magic[i].gameObject.transform.rotation = transform.rotation * Quaternion.Euler(-90f, 90f, 0f); 
                 break;
             }
         }
