@@ -27,9 +27,10 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _typedText = transform.GetChild(0).GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(false);
 
+        int j;
         for (int i = 1; i < transform.childCount; ++i)
         {
-            int j = i - 1;
+            j = i - 1;
             _layouts[j] = transform.GetChild(i).gameObject;
             Debug.Log(_layouts[j].name);
             _layouts[j].SetActive(false);
@@ -63,6 +64,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     public static void CloseKeyboard()
     {
         CloseLayout();
+
         _inputField = null;
         _typedText.gameObject.SetActive(false);
     }
@@ -77,23 +79,29 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
     public static void PressKey()
     {
+        if (EventSystem.current.alreadySelecting) return;
+
         _typedText.text += EventSystem.current.currentSelectedGameObject.name;
     }
 
     public static void PressSpace()
     {
+        if (EventSystem.current.alreadySelecting) return;
+
         _typedText.text += " ";
     }
 
     public static void PressBackspace()
     {
-        if (_inputField.text.Length == 0) return;
+        if (_typedText.text.Length == 0) return;
+
         _typedText.text = _inputField.text.Substring(0, _inputField.text.Length - 1);
     }
 
     public static void Clear()
     {
-        if (_inputField.text.Length == 0) return;
+        if (_typedText.text.Length == 0) return;
+
         _typedText.text = "";
     }
 
