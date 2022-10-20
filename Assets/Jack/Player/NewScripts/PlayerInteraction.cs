@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Photon.Pun;
 
-public class PlayerInteraction : MonoBehaviourPun
+public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] private PlayerInput _input;
     [SerializeField] private PlayerFocus[] _playerFocus = new PlayerFocus[2];
@@ -16,30 +15,15 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void OnEnable()
     {
-        if(photonView.IsMine)
+        _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
+        if (_eventSystemInputModule)
         {
-            _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
-            if(_eventSystemInputModule)
-            {
-                _eventSystemInputModule.m_Cursor = _pointer;
-                _eventSystemInputModule.rayTransform = _playerFocus[0].gameObject.transform;
+            _eventSystemInputModule.m_Cursor = _pointer;
+            _eventSystemInputModule.rayTransform = _playerFocus[0].gameObject.transform;
 
-                _ovrRaycaster = FindObjectOfType<OVRRaycaster>();
-                _ovrRaycaster.pointer = _pointer.gameObject;
-                _isThereUI = true;
-            }
-        }
-        else
-        {
-            foreach(PlayerFocus playerFocus in _playerFocus)
-            {
-                Destroy(playerFocus.gameObject);
-            }
-
-            foreach(Camera eye in GetComponentsInChildren<Camera>())
-            {
-                eye.gameObject.SetActive(false);
-            }
+            _ovrRaycaster = FindObjectOfType<OVRRaycaster>();
+            _ovrRaycaster.pointer = _pointer.gameObject;
+            _isThereUI = true;
         }
     }
 
