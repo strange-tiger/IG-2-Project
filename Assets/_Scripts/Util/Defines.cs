@@ -9,16 +9,11 @@ namespace Defines
 
     public enum ESceneNumder
     {
-        Lobby,
-        MainRoom,
-        TempScene,
-
+        LogIn,
         StartRoom,
         FantasyLobby,
         WesternLobby,
         VikingLobby,
-
-        LogIn,
 
         End,
     }

@@ -67,7 +67,7 @@ namespace Asset.MySql
                 return;
             }
 
-            _connectionString = Resources.Load<TextAsset>("Connection").text;
+            _connectionString = Resources.Load<TextAsset>("DBText/Connection").text;
             // _insertSocialRequestString = Resources.Load<TextAsset>("InsertRequest").text;
 
 #if _DEV_MODE_
