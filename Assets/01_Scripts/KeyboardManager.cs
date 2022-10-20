@@ -83,6 +83,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         if (EventSystem.current.alreadySelecting) return;
 
         _typedText.text += EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log(_typedText.text);
     }
 
     public static void PressSpace()
