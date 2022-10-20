@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class FoodInteration : MonoBehaviour
+public class FoodInteraction : MonoBehaviour
 {
-    public static int SatietyStack { private get; set; }
 
     [SerializeField] Image _stomachImage;
     [SerializeField] Image _currentSatietyStackImage;
@@ -20,6 +19,7 @@ public class FoodInteration : MonoBehaviour
     private float _fatterCharacter = 0.1f;
     private float _walkCount;
     private int _dietWalkCount = 20;
+    private int _satietyStack;
     private int _maxSatietyStack = 6;
     private int _interativeLayer = 1 << 10;
 
@@ -28,6 +28,13 @@ public class FoodInteration : MonoBehaviour
         _stomachImage.gameObject.SetActive(false);
         _currentSatietyStackImage.gameObject.SetActive(false);
     }
+
+    private void OnEnable()
+    {
+        Food.OnEated.RemoveListener(EatFood);
+        Food.OnEated.AddListener(EatFood);
+    }
+
 
     void Update()
     {
@@ -40,11 +47,11 @@ public class FoodInteration : MonoBehaviour
         Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"),0, Input.GetAxisRaw("Vertical"));
 
         transform.position += direction * _moveSpeed;
-        if(SatietyStack != 0)
+        if(_satietyStack != 0)
         {
             Diet();
         }
-        Debug.Log(SatietyStack);
+        Debug.Log(_satietyStack);
 
     }
 
@@ -62,10 +69,13 @@ public class FoodInteration : MonoBehaviour
 
         if (_walkCount == _dietWalkCount)
         {
-            SatietyStack--;
+            _satietyStack--;
             _walkCount = 0;
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - _fatterCharacter);
+            _moveSpeed += _speedSlower;
 
-            if (SatietyStack == 0)
+
+            if (_satietyStack == 0)
             {
                 _currentSatietyStackImage.gameObject.SetActive(false);
                 _stomachImage.gameObject.SetActive(false);
@@ -75,7 +85,7 @@ public class FoodInteration : MonoBehaviour
             }
             else
             {
-                _currentSatietyStackImage.sprite = _satietyStackImage[SatietyStack - 1];
+                _currentSatietyStackImage.sprite = _satietyStackImage[_satietyStack - 1];
             }
         }
     }
@@ -90,15 +100,14 @@ public class FoodInteration : MonoBehaviour
         {
             if(hit.collider.CompareTag("Food") && Input.GetKeyDown(KeyCode.E))
             {
-                if(SatietyStack < _maxSatietyStack)
+                if(_satietyStack < _maxSatietyStack)
                 {
                     hit.collider.GetComponentInParent<Food>().Eated();
 
-                    EatFood();
 
-                    if(SatietyStack > _maxSatietyStack)
+                    if(_satietyStack > _maxSatietyStack)
                     {
-                        SatietyStack = _maxSatietyStack;
+                        _satietyStack = _maxSatietyStack;
                     }
                 }
                 
@@ -106,24 +115,31 @@ public class FoodInteration : MonoBehaviour
         }
     }
 
-    void EatFood()
+    public void EatFood(EFoodSatietyLevel foodSatietyLevel)
     {
 
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
 
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + _fatterCharacter);
+        _moveSpeed -= _speedSlower * (int)foodSatietyLevel;
 
-        _moveSpeed -= _speedSlower;
 
-        if(SatietyStack == 0)
+        if (_satietyStack == 0)
         {
             _currentSatietyStackImage.gameObject.SetActive(true);
 
             _stomachImage.gameObject.SetActive(true);
         }
 
-        _currentSatietyStackImage.sprite = _satietyStackImage[SatietyStack - 1];
+        _satietyStack += (int)foodSatietyLevel;
+
+        _currentSatietyStackImage.sprite = _satietyStackImage[_satietyStack - 1];
         
     }
 
-   
+
+    private void OnDisable()
+    {
+        Food.OnEated.RemoveListener(EatFood);
+    }
+
 }

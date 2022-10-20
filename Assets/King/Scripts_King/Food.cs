@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-enum EFoodSatietyLevel
+public enum EFoodSatietyLevel
 {
     None,
     Small,
@@ -13,25 +14,16 @@ enum EFoodSatietyLevel
 
 public class Food : MonoBehaviour
 {
-    [SerializeField] bool _isBigFood;
+    public static UnityEvent<EFoodSatietyLevel> OnEated = new UnityEvent<EFoodSatietyLevel>();
+
+    [SerializeField] EFoodSatietyLevel _foodSatietyLevel;
     [SerializeField] GameObject _food;
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
-
-    private void Start()
-    {
-    }
 
 
     public void Eated()
     {
-        if(_isBigFood)
-        {
-            FoodInteraction.SatietyStack += (int)EFoodSatietyLevel.Big;
-        }
-        else
-        {
-            FoodInteraction.SatietyStack += (int)EFoodSatietyLevel.Small;
-        }
+        OnEated.Invoke(_foodSatietyLevel);
 
         _food.SetActive(false);
 
@@ -47,8 +39,5 @@ public class Food : MonoBehaviour
         yield return null;
     }
 
-    private void OnDisable()
-    {
 
-    }
 }
