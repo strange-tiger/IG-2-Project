@@ -17,9 +17,10 @@ public class PlayerControllTest : MonoBehaviour
     private float _interactDiastance = 5f;
     private float _fatterCharacter = 0.1f;
     private float _walkCount;
-    private int _interativeLayer = 1 << 10;
-    private int _satietyStack;
     private int _dietWalkCount = 20;
+    private int _satietyStack;
+    private int _maxSatietyStack = 6;
+    private int _interativeLayer = 1 << 10;
 
     void Start()
     {
@@ -87,15 +88,15 @@ public class PlayerControllTest : MonoBehaviour
         {
             if(hit.collider.CompareTag("Food") && Input.GetKeyDown(KeyCode.E))
             {
-                if(_satietyStack < 6)
+                if(_satietyStack < _maxSatietyStack)
                 {
                     hit.collider.GetComponentInParent<Food>().Eated();
 
                     EatFood();
 
-                    if(_satietyStack > 6)
+                    if(_satietyStack > _maxSatietyStack)
                     {
-                        _satietyStack = 6;
+                        _satietyStack = _maxSatietyStack;
                     }
                 }
                 
