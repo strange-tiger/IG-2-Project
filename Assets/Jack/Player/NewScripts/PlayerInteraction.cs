@@ -29,6 +29,18 @@ public class PlayerInteraction : MonoBehaviourPun
                 _isThereUI = true;
             }
         }
+        else
+        {
+            foreach(PlayerFocus playerFocus in _playerFocus)
+            {
+                Destroy(playerFocus.gameObject);
+            }
+
+            foreach(Camera eye in GetComponentsInChildren<Camera>())
+            {
+                eye.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void Update()
