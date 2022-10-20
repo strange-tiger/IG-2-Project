@@ -7,15 +7,20 @@ using Photon.Realtime;
 public class LobbyChanger : MonoBehaviourPunCallbacks
 {
     private Defines.ESceneNumder _nextScene;
+    [SerializeField] private bool _hasPlayer;
     private void Awake()
     {
-        PhotonNetwork.Instantiate("NewPlayer",new Vector3(0f, 1f, 3f),
-            Quaternion.Euler(0f, 0f, 0f), 0, null);
+        if(!_hasPlayer)
+        {
+            PhotonNetwork.Instantiate("NewPlayer",new Vector3(0f, 1f, 3f),
+                Quaternion.Euler(0f, 0f, 0f), 0, null);
+        }
     }
 
     public void ChangeLobby(Defines.ESceneNumder sceneNumber)
     {
         _nextScene = sceneNumber;
+        OVRScreenFade.instance.FadeOut();
         PhotonNetwork.LeaveRoom();
     }
 
