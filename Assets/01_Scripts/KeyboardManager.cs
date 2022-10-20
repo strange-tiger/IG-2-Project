@@ -16,11 +16,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         MAX
     }
 
-    private static TMP_InputField _inputField;
-    private static EKeyboardLayout _currentLayout;
+    private TMP_InputField _inputField;
+    private EKeyboardLayout _currentLayout;
 
-    private static TMP_InputField _typedText;
-    private static GameObject[] _layouts = new GameObject[(int)EKeyboardLayout.MAX];
+    private TMP_InputField _typedText;
+    private GameObject[] _layouts = new GameObject[(int)EKeyboardLayout.MAX];
 
     private void Start()
     {
@@ -37,7 +37,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
-    public static void OpenKeyboard()
+    public void OpenKeyboard()
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(true);
@@ -45,7 +45,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ChangeLayout(EKeyboardLayout.QWERTY);
     }
 
-    public static void OpenKeyboard(EKeyboardLayout type)
+    public void OpenKeyboard(EKeyboardLayout type)
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(true);
@@ -53,7 +53,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ChangeLayout(type);
     }
 
-    private static void ChangeLayout(EKeyboardLayout type)
+    private void ChangeLayout(EKeyboardLayout type)
     {
         CloseLayout();
 
@@ -61,7 +61,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _layouts[(int)_currentLayout].SetActive(true);
     }
 
-    public static void CloseKeyboard()
+    public void CloseKeyboard()
     {
         CloseLayout();
 
@@ -70,7 +70,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _typedText.gameObject.SetActive(false);
     }
 
-    private static void CloseLayout()
+    private void CloseLayout()
     {
         foreach (GameObject layout in _layouts)
         {
@@ -78,35 +78,32 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
-    public static void PressKey()
+    public void PressKey()
     {
-        if (EventSystem.current.alreadySelecting) return;
-
-        _typedText.text += EventSystem.current.currentSelectedGameObject.name;
+        _typedText.text += EventSystem.current.currentSelectedGameObject?.name;
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public static void PressSpace()
+    public void PressSpace()
     {
-        if (EventSystem.current.alreadySelecting) return;
-
         _typedText.text += " ";
     }
 
-    public static void PressBackspace()
+    public void PressBackspace()
     {
         if (_typedText.text.Length == 0) return;
 
         _typedText.text = _typedText.text.Substring(0, _typedText.text.Length - 1);
     }
 
-    public static void Clear()
+    public void Clear()
     {
         if (_typedText.text.Length == 0) return;
 
         _typedText.text = "";
     }
 
-    public static void Shift()
+    public void Shift()
     {
         if (_currentLayout == EKeyboardLayout.QWERTY
             || _currentLayout == EKeyboardLayout.KOREAN)
@@ -120,13 +117,13 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
-    public static void Submit()
+    public void Submit()
     {
         _inputField.text = _typedText.text;
         CloseKeyboard();
     }
 
-    public static void ChangeLanguage()
+    public void ChangeLanguage()
     {
         if (_currentLayout == EKeyboardLayout.QWERTY
             || _currentLayout == EKeyboardLayout.QWERTY_SHIFTED)
