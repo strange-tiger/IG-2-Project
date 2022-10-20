@@ -27,11 +27,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _typedText = transform.GetChild(0).GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(false);
 
-        for (int i = 1; i < transform.childCount - 1; ++i)
+        for (int i = 1; i < transform.childCount; ++i)
         {
-            _layouts[i] = transform.GetChild(i).gameObject;
-            Debug.Log(_layouts[i].name);
-            _layouts[i].SetActive(false);
+            int j = i - 1;
+            _layouts[j] = transform.GetChild(i).gameObject;
+            Debug.Log(_layouts[j].name);
+            _layouts[j].SetActive(false);
         }
     }
 
