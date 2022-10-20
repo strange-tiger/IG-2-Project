@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-using Error = Defines.EFindPasswordErrorType;
+using Error = Defines.EChangePasswordErrorType;
 
 public class ChangePasswordErrorPopupUI : PopupUI
 {
