@@ -13,6 +13,7 @@ public class PlayerControllTest : MonoBehaviour
     
     private Vector3 _initPosition;
     private float _moveSpeed = 0.01f;
+    private float _speedSlower = 0.0001f;
     private float _interactDiastance = 5f;
     private float _fatterCharacter = 0.1f;
     private float _walkCount;
@@ -108,7 +109,7 @@ public class PlayerControllTest : MonoBehaviour
 
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + _fatterCharacter);
 
-        _moveSpeed -= 0.00001f;
+        _moveSpeed -= _speedSlower;
 
         if(_satietyStack == 0)
         {
