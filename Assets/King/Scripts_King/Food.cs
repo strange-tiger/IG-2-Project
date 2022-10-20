@@ -12,7 +12,7 @@ public enum EFoodSatietyLevel
 
 
 
-public class Food : MonoBehaviour
+public class Food : InteracterableObject
 {
     public static UnityEvent<EFoodSatietyLevel> OnEated = new UnityEvent<EFoodSatietyLevel>();
 
@@ -21,8 +21,10 @@ public class Food : MonoBehaviour
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
 
 
-    public void Eated()
+    public override void Interact()
     {
+        base.Interact();
+
         OnEated.Invoke(_foodSatietyLevel);
 
         _food.SetActive(false);

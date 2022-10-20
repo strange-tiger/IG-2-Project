@@ -1,33 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class FoodInteraction : MonoBehaviour
 {
 
-    [SerializeField] Image _stomachImage;
-    [SerializeField] Image _currentSatietyStackImage;
-    [SerializeField] Sprite[] _satietyStackImage;
+    public UnityEvent OnActivateSatietyUI = new UnityEvent();
+    public UnityEvent OnChangeSatietyUI = new UnityEvent();
+    public UnityEvent OnDeactivateSatietyUI = new UnityEvent();
+    public int SatietyStack { get; private set; }
+
     private AudioSource _audioSource;
     private Vector3 _initPosition;
     private Vector3 _nullPosition = new Vector3(0,0,0);
     private float _moveSpeed = 0.01f;
     private float _speedSlower = 0.0001f;
-    private float _interactDiastance = 5f;
     private float _fatterCharacter = 0.1f;
     private float _walkCount;
     private int _dietWalkCount = 20;
-    private int _satietyStack;
     private int _maxSatietyStack = 6;
-    private int _interativeLayer = 1 << 10;
-
-    void Start()
-    {
-        _stomachImage.gameObject.SetActive(false);
-        _currentSatietyStackImage.gameObject.SetActive(false);
-    }
 
     private void OnEnable()
     {
@@ -38,22 +30,13 @@ public class FoodInteraction : MonoBehaviour
 
     void Update()
     {
-        TestMove();
-        TestRayCast();
-    }
-
-    void TestMove()
-    {
-        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"),0, Input.GetAxisRaw("Vertical"));
-
-        transform.position += direction * _moveSpeed;
-        if(_satietyStack != 0)
+        if (SatietyStack != 0)
         {
             Diet();
         }
-        Debug.Log(_satietyStack);
-
     }
+
+  
 
     void Diet()
     {
@@ -69,71 +52,47 @@ public class FoodInteraction : MonoBehaviour
 
         if (_walkCount == _dietWalkCount)
         {
-            _satietyStack--;
+            SatietyStack--;
             _walkCount = 0;
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - _fatterCharacter);
             _moveSpeed += _speedSlower;
 
 
-            if (_satietyStack == 0)
+            if (SatietyStack == 0)
             {
-                _currentSatietyStackImage.gameObject.SetActive(false);
-                _stomachImage.gameObject.SetActive(false);
-                _currentSatietyStackImage.sprite = null;
-
+                
+                OnDeactivateSatietyUI.Invoke();
                 _initPosition = _nullPosition;
             }
             else
             {
-                _currentSatietyStackImage.sprite = _satietyStackImage[_satietyStack - 1];
+                OnChangeSatietyUI.Invoke();
             }
         }
     }
 
-    void TestRayCast()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Debug.DrawRay(ray.origin,ray.direction, Color.red);
-
-        if (Physics.Raycast(ray, out hit, _interactDiastance, _interativeLayer))
-        {
-            if(hit.collider.CompareTag("Food") && Input.GetKeyDown(KeyCode.E))
-            {
-                if(_satietyStack < _maxSatietyStack)
-                {
-                    hit.collider.GetComponentInParent<Food>().Eated();
-
-
-                    if(_satietyStack > _maxSatietyStack)
-                    {
-                        _satietyStack = _maxSatietyStack;
-                    }
-                }
-                
-            }
-        }
-    }
 
     public void EatFood(EFoodSatietyLevel foodSatietyLevel)
     {
-
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
-
-        _moveSpeed -= _speedSlower * (int)foodSatietyLevel;
-
-
-        if (_satietyStack == 0)
+        if(SatietyStack < 6)
         {
-            _currentSatietyStackImage.gameObject.SetActive(true);
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
 
-            _stomachImage.gameObject.SetActive(true);
+            _moveSpeed -= _speedSlower * (int)foodSatietyLevel;
+
+
+            if (SatietyStack == 0)
+            {
+                OnActivateSatietyUI.Invoke();
+
+
+            }
+
+            SatietyStack += (int)foodSatietyLevel;
+
+            OnChangeSatietyUI.Invoke();
         }
 
-        _satietyStack += (int)foodSatietyLevel;
-
-        _currentSatietyStackImage.sprite = _satietyStackImage[_satietyStack - 1];
-        
     }
 
 

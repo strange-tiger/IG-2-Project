@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7056397504284333942}
   - component: {fileID: 5302928899630654287}
+  - component: {fileID: 56737721278157148}
   m_Layer: 10
   m_Name: Turkey_Cooked_Dish
   m_TagString: Food
@@ -45,8 +46,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
   _foodSatietyLevel: 2
   _food: {fileID: 2594775019043961571}
+--- !u!65 &56737721278157148
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5294337276658325998}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7, y: 0.2, z: 0.7}
+  m_Center: {x: 0, y: 0.12, z: 0}
 --- !u!1001 &2596103726973502625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,7 +79,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1487314635128386, guid: 4fd173864c3f0cb47861de81a212e11d, type: 3}
       propertyPath: m_TagString
-      value: Food
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4042181438906952, guid: 4fd173864c3f0cb47861de81a212e11d, type: 3}
       propertyPath: m_RootOrder
@@ -114,7 +129,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e3d8c45c9df90aa4d8a6a4a1dc5a3b95, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64720363247597104, guid: 4fd173864c3f0cb47861de81a212e11d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4fd173864c3f0cb47861de81a212e11d, type: 3}
 --- !u!1 &2594775019043961571 stripped
 GameObject:
