@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class KeyboardManager : SingletonBehaviour<KeyboardManager>
+public class KeyboardManager : GlobalInstance<KeyboardManager>
 {
     public enum EKeyboardLayout
     {
@@ -20,16 +20,17 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     private static EKeyboardLayout _currentLayout;
 
     private static TMP_InputField _typedText;
-    private static GameObject[] _layouts;
+    private static GameObject[] _layouts = new GameObject[(int)EKeyboardLayout.MAX];
 
     private void Start()
     {
         _typedText = transform.GetChild(0).GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(false);
 
-        for (int i = 1; i < transform.childCount; ++i)
+        for (int i = 1; i < transform.childCount - 1; ++i)
         {
             _layouts[i] = transform.GetChild(i).gameObject;
+            Debug.Log(_layouts[i].name);
             _layouts[i].SetActive(false);
         }
     }
