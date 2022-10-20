@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class MagicWandGrabManager : MonoBehaviour
+public class MagicWandGrabManager : MonoBehaviourPun
 {
     private MagicWand _magicWand;
 
@@ -15,7 +16,10 @@ public class MagicWandGrabManager : MonoBehaviour
 
     private void Start()
     {
-        _magicWand.enabled = false;
+        if (photonView.IsMine)
+        {
+            _magicWand.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

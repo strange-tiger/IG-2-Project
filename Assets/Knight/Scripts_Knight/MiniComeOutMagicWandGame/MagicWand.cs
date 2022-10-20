@@ -43,36 +43,43 @@ public class MagicWand : MonoBehaviourPun
 
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
+        if (photonView.IsMine)
         {
-            int RandomNumber = Random.Range(0, _totalProbability + 1);
-            GetMagic(RandomNumber);
 
-            _magicWandPanel.SetActive(true);
-            _magicNameText.text = gameObject.name;
-
-            _checkCoolTime = true;
-        }
-
-        if (_checkCoolTime)
-        {
-            _currentTime += Time.deltaTime;
-
-            int _coolTimeText = (int)_coolTime;
-
-            _coolTimeText -= (int)_currentTime;
-            _magicCoolTimeText.text = _coolTimeText.ToString();
-
-            if (_currentTime > (float)_coolTime)
+            if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
             {
-                _currentTime -= _currentTime;
-                _checkCoolTime = false;
-                _magicWandPanel.SetActive(false);
+                int RandomNumber = Random.Range(0, _totalProbability + 1);
+
+                photonView.RPC("GetMagic", RpcTarget.Others, RandomNumber);
+                // GetMagic(RandomNumber);
+
+                _magicWandPanel.SetActive(true);
+                _magicNameText.text = gameObject.name;
+
+                _checkCoolTime = true;
+            }
+
+            if (_checkCoolTime)
+            {
+                _currentTime += Time.deltaTime;
+
+                int _coolTimeText = (int)_coolTime;
+
+                _coolTimeText -= (int)_currentTime;
+                _magicCoolTimeText.text = _coolTimeText.ToString();
+
+                if (_currentTime > (float)_coolTime)
+                {
+                    _currentTime -= _currentTime;
+                    _checkCoolTime = false;
+                    _magicWandPanel.SetActive(false);
+                }
             }
         }
     }
 
-    private void GetMagic(int num)
+    [PunRPC]
+    public void GetMagic(int num)
     {
         for (int i = 0; i < transform.childCount; ++i)
         {
