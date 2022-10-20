@@ -29,7 +29,7 @@ public class UseParticle : MonoBehaviour
 
     private void OnDisable()
     {
-        gameObject.transform.position = GetComponentInParent<Transform>().gameObject.transform.position;
+        gameObject.transform.position = GetComponentInParent<Transform>().position;
     }
 
 }
