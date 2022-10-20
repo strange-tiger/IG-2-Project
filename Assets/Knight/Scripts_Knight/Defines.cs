@@ -23,7 +23,7 @@ namespace Defines
         End,
     }
 
-    public enum EParticleInvokeTime
+    public enum EParticleDurationTime
     {
         Now,
         One,
@@ -36,7 +36,17 @@ namespace Defines
         Eight,
         Nine,
         Ten,
-        
 
+        TwentyFive = 25,
+        Sixty = 60,
+
+    }
+
+    public enum CoolTime
+    {
+        NoCool = 0,
+        Sixty = 60,
+        TwentyFive = 25,
+        Ten = 10,
     }
 }
