@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Photon.Pun;
 
-public class PlayerInteraction : MonoBehaviourPun
+public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] private PlayerInput _input;
     [SerializeField] private PlayerFocus[] _playerFocus = new PlayerFocus[2];
@@ -12,17 +11,19 @@ public class PlayerInteraction : MonoBehaviourPun
     [SerializeField] private OVRGazePointer _pointer;
     private OVRInputModule _eventSystemInputModule;
     private OVRRaycaster _ovrRaycaster;
+    private bool _isThereUI;
 
     private void OnEnable()
     {
-        if(photonView.IsMine)
+        _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
+        if (_eventSystemInputModule)
         {
-            _ovrRaycaster = FindObjectOfType<OVRRaycaster>();
-            _ovrRaycaster.pointer = _pointer.gameObject;
-
-            _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
             _eventSystemInputModule.m_Cursor = _pointer;
             _eventSystemInputModule.rayTransform = _playerFocus[0].gameObject.transform;
+
+            _ovrRaycaster = FindObjectOfType<OVRRaycaster>();
+            _ovrRaycaster.pointer = _pointer.gameObject;
+            _isThereUI = true;
         }
     }
 
@@ -41,6 +42,11 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void SettingUIInteraction()
     {
+        if(!_isThereUI)
+        {
+            return;
+        }
+
         if(_input.PrimaryController == Defines.EPrimaryController.Left)
         {
             if(_input.IsLeftRay)
