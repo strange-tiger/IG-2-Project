@@ -4,15 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class FoodInteraction : MonoBehaviour
+public class PlayerControllTest : MonoBehaviour
 {
-    public static int SatietyStack;
+    public static int SatietyStack { private get; set; }
 
     [SerializeField] Image _stomachImage;
     [SerializeField] Image _currentSatietyStackImage;
     [SerializeField] Sprite[] _satietyStackImage;
     private AudioSource _audioSource;
     private Vector3 _initPosition;
+    private Vector3 _nullPosition = new Vector3(0,0,0);
     private float _moveSpeed = 0.01f;
     private float _speedSlower = 0.0001f;
     private float _interactDiastance = 5f;
@@ -49,7 +50,7 @@ public class FoodInteraction : MonoBehaviour
 
     void Diet()
     {
-        if (_initPosition == null)
+        if (_initPosition == _nullPosition)
             _initPosition = transform.position;
         
 
@@ -64,15 +65,17 @@ public class FoodInteraction : MonoBehaviour
             SatietyStack--;
             _walkCount = 0;
 
-            if (SatietyStack != 0)
-            {
-                _currentSatietyStackImage.sprite = _satietyStackImage[SatietyStack - 1];
-            }
-            else
+            if (SatietyStack == 0)
             {
                 _currentSatietyStackImage.gameObject.SetActive(false);
                 _stomachImage.gameObject.SetActive(false);
                 _currentSatietyStackImage.sprite = null;
+
+                _initPosition = _nullPosition;
+            }
+            else
+            {
+                _currentSatietyStackImage.sprite = _satietyStackImage[SatietyStack - 1];
             }
         }
     }
