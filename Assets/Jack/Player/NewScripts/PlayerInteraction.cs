@@ -19,14 +19,14 @@ public class PlayerInteraction : MonoBehaviourPun
         if(photonView.IsMine)
         {
             _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
-            if(_eventSystemInputModule)
-            {
-                _eventSystemInputModule.m_Cursor = _pointer;
-                _eventSystemInputModule.rayTransform = _playerFocus[0].gameObject.transform;
-                _isThereUI = true;
+            _eventSystemInputModule.m_Cursor = _pointer;
+            _eventSystemInputModule.rayTransform = _playerFocus[0].gameObject.transform;
 
-                _ovrRaycaster = FindObjectOfType<OVRRaycaster>();
+            _ovrRaycaster = FindObjectOfType<OVRRaycaster>();
+            if(_ovrRaycaster)
+            {
                 _ovrRaycaster.pointer = _pointer.gameObject;
+                _isThereUI = true;
             }
         }
     }
