@@ -65,6 +65,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     {
         CloseLayout();
 
+        Clear();
         _inputField = null;
         _typedText.gameObject.SetActive(false);
     }
@@ -95,7 +96,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     {
         if (_typedText.text.Length == 0) return;
 
-        _typedText.text = _inputField.text.Substring(0, _inputField.text.Length - 1);
+        _typedText.text = _typedText.text.Substring(0, _typedText.text.Length - 1);
     }
 
     public static void Clear()
