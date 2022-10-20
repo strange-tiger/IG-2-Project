@@ -80,7 +80,7 @@ public class SignInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 입력된 계정 정보(Email, Password, Nickname)를 바탕으로ㄴ
+    /// 입력된 계정 정보(Email, Password, Nickname)를 바탕으
     /// 각 정보의 중복체크가 완료되었다면 계정 DB에 저장한다.
     /// </summary>
     private void SignIn()
