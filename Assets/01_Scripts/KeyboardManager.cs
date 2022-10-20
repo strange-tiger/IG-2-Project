@@ -80,16 +80,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
     public void PressKey()
     {
-        if (EventSystem.current.alreadySelecting) return;
-
-        _typedText.text += EventSystem.current.currentSelectedGameObject.name;
-        Debug.Log(_typedText.text);
+        _typedText.text += EventSystem.current.currentSelectedGameObject?.name;
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void PressSpace()
     {
-        if (EventSystem.current.alreadySelecting) return;
-
         _typedText.text += " ";
     }
 
