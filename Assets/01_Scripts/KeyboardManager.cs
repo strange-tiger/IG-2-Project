@@ -64,6 +64,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     public static void CloseKeyboard()
     {
         CloseLayout();
+
         _inputField = null;
         _typedText.gameObject.SetActive(false);
     }
@@ -78,23 +79,29 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
     public static void PressKey()
     {
+        if (EventSystem.current.alreadySelecting) return;
+
         _typedText.text += EventSystem.current.currentSelectedGameObject.name;
     }
 
     public static void PressSpace()
     {
+        if (EventSystem.current.alreadySelecting) return;
+
         _typedText.text += " ";
     }
 
     public static void PressBackspace()
     {
-        if (_inputField.text.Length == 0) return;
+        if (_typedText.text.Length == 0) return;
+
         _typedText.text = _inputField.text.Substring(0, _inputField.text.Length - 1);
     }
 
     public static void Clear()
     {
-        if (_inputField.text.Length == 0) return;
+        if (_typedText.text.Length == 0) return;
+
         _typedText.text = "";
     }
 
