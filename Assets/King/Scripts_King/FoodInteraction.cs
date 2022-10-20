@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class PlayerControllTest : MonoBehaviour
+public class FoodInteration : MonoBehaviour
 {
     public static int SatietyStack { private get; set; }
 
