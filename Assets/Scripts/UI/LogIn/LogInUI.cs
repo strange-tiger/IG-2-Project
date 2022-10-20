@@ -48,6 +48,14 @@ public class LogInUI : MonoBehaviour
         Sql.Init();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            _errorPopup.ErrorPopup(Error.ID);
+        }
+    }
+
     /// <summary>
     /// 입력된 계정 정보(Email, Password)를 계정 DB와 비교해
     /// 일치하면 다음 씬을 로드한다.

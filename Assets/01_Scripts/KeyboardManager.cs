@@ -16,28 +16,26 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         MAX
     }
 
-    private TMP_InputField _inputField;
-    private EKeyboardLayout _currentLayout;
+    private static TMP_InputField _inputField;
+    private static EKeyboardLayout _currentLayout;
 
-    private TMP_InputField _typedText;
-    private GameObject[] _layouts = new GameObject[(int)EKeyboardLayout.MAX];
+    private static TMP_InputField _typedText;
+    private static GameObject[] _layouts = new GameObject[(int)EKeyboardLayout.MAX];
 
     private void Start()
     {
         _typedText = transform.GetChild(0).GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(false);
 
-        int j;
-        for (int i = 1; i < transform.childCount; ++i)
+        for (int i = 1; i < transform.childCount - 1; ++i)
         {
-            j = i - 1;
-            _layouts[j] = transform.GetChild(i).gameObject;
-            Debug.Log(_layouts[j].name);
-            _layouts[j].SetActive(false);
+            _layouts[i] = transform.GetChild(i).gameObject;
+            Debug.Log(_layouts[i].name);
+            _layouts[i].SetActive(false);
         }
     }
 
-    public void OpenKeyboard()
+    public static void OpenKeyboard()
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(true);
@@ -45,7 +43,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ChangeLayout(EKeyboardLayout.QWERTY);
     }
 
-    public void OpenKeyboard(EKeyboardLayout type)
+    public static void OpenKeyboard(EKeyboardLayout type)
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(true);
@@ -53,7 +51,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ChangeLayout(type);
     }
 
-    private void ChangeLayout(EKeyboardLayout type)
+    private static void ChangeLayout(EKeyboardLayout type)
     {
         CloseLayout();
 
@@ -61,16 +59,14 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _layouts[(int)_currentLayout].SetActive(true);
     }
 
-    public void CloseKeyboard()
+    public static void CloseKeyboard()
     {
         CloseLayout();
-
-        Clear();
         _inputField = null;
         _typedText.gameObject.SetActive(false);
     }
 
-    private void CloseLayout()
+    private static void CloseLayout()
     {
         foreach (GameObject layout in _layouts)
         {
@@ -78,32 +74,29 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
-    public void PressKey()
+    public static void PressKey()
     {
-        _typedText.text += EventSystem.current.currentSelectedGameObject?.name;
-        EventSystem.current.SetSelectedGameObject(null);
+        _typedText.text += EventSystem.current.currentSelectedGameObject.name;
     }
 
-    public void PressSpace()
+    public static void PressSpace()
     {
         _typedText.text += " ";
     }
 
-    public void PressBackspace()
+    public static void PressBackspace()
     {
-        if (_typedText.text.Length == 0) return;
-
-        _typedText.text = _typedText.text.Substring(0, _typedText.text.Length - 1);
+        if (_inputField.text.Length == 0) return;
+        _typedText.text = _inputField.text.Substring(0, _inputField.text.Length - 1);
     }
 
-    public void Clear()
+    public static void Clear()
     {
-        if (_typedText.text.Length == 0) return;
-
+        if (_inputField.text.Length == 0) return;
         _typedText.text = "";
     }
 
-    public void Shift()
+    public static void Shift()
     {
         if (_currentLayout == EKeyboardLayout.QWERTY
             || _currentLayout == EKeyboardLayout.KOREAN)
@@ -117,13 +110,13 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
-    public void Submit()
+    public static void Submit()
     {
         _inputField.text = _typedText.text;
         CloseKeyboard();
     }
 
-    public void ChangeLanguage()
+    public static void ChangeLanguage()
     {
         if (_currentLayout == EKeyboardLayout.QWERTY
             || _currentLayout == EKeyboardLayout.QWERTY_SHIFTED)
