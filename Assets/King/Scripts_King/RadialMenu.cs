@@ -21,7 +21,6 @@ public class RadialMenu : MonoBehaviour
     private Vector2 _cursorInitPosition;
     private float _cursorSpeed = 100f;
     private float _coolTime = 4f;
-
     private void Start()
     {
         _cursorInitPosition = _cursor.rectTransform.localPosition;
@@ -30,11 +29,12 @@ public class RadialMenu : MonoBehaviour
 
     void FadeOut()
     {
-        
+
 
     }
     private void Update()
     {
+        Debug.Log(_elapsedTime);
         if (Input.GetKey(KeyCode.LeftAlt))
         {
             _radialMenu.SetActive(true);
@@ -48,21 +48,22 @@ public class RadialMenu : MonoBehaviour
             _radialMenu.SetActive(false);
         }
     }
+
+    private bool _isFadeRunning;
+    float _elapsedTime = 0.0f;
     IEnumerator Fade(float startAlpha, float endAlpha)
     {
-        yield return _waitSecond;
-
-        float elapsedTime = 0.0f;
-        while (elapsedTime < _coolTime)
+        _isFadeRunning = true;
+        while (_elapsedTime < _coolTime)
         {
-            elapsedTime += Time.deltaTime;
-            float animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / _coolTime));
+            _elapsedTime += Time.deltaTime;
+            float animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(_elapsedTime / _coolTime));
             _feelingImage.color = new Color(1, 1, 1, animatedFadeAlpha);
-            
-            yield return new WaitForEndOfFrame();
+
+            yield return new WaitForSeconds(0.0001f);
         }
         _feelingImage.color = new Color(1, 1, 1, endAlpha);
-
+        _isFadeRunning = false;
         yield return null;
 
     }
@@ -70,13 +71,19 @@ public class RadialMenu : MonoBehaviour
 
     private void ButtonOneMenu()
     {
-        if(_buttonOne != null)
+        if (_buttonOne != null)
         {
-            StopCoroutine(Fade(1,0));
             _feelingImage.color = _activeColor;
             _feelingImage.sprite = _buttonOneImage.sprite;
             _radialMenu.SetActive(false);
-            StartCoroutine(Fade(1,0));
+
+
+            _elapsedTime = 0f;
+
+            if (_isFadeRunning == false)
+            {
+                StartCoroutine(Fade(1, 0));
+            }
         }
     }
 
@@ -109,5 +116,5 @@ public class RadialMenu : MonoBehaviour
     {
         _cursor.rectTransform.localPosition = _cursorInitPosition;
     }
-    
+
 }
