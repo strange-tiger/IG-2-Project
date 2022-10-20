@@ -29,7 +29,7 @@ public class MagicWand : MonoBehaviour
 
         if (_probability != _totalProbability)
         {
-
+            Debug.Log("총 확률이 100이 되지 않습니다. 확인 바랍니다.");
         }
     }
 
