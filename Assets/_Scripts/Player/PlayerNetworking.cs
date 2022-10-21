@@ -9,11 +9,11 @@ public class PlayerNetworking : MonoBehaviourPun
 
     private void Awake()
     {
-        //if(photonView.IsMine)
-        //{
-            //GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
-            //PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
-            //playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
-        //}
+        if (photonView.IsMine)
+        {
+            GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
+            PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
+            playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
+        }
     }
 }
