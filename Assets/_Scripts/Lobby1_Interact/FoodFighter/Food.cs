@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
 public enum EFoodSatietyLevel
 {
@@ -19,27 +20,50 @@ public class Food : InteracterableObject
     [SerializeField] EFoodSatietyLevel _foodSatietyLevel;
     [SerializeField] GameObject _food;
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
+  
 
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            OnEated.Invoke(_foodSatietyLevel);
+
+            photonView.RPC("EatFoodState", RpcTarget.All);
+
+            StartCoroutine(RegenerateFood());
+        }
+    }
     public override void Interact()
     {
         base.Interact();
 
         OnEated.Invoke(_foodSatietyLevel);
 
-        _food.SetActive(false);
+        photonView.RPC("EatFoodState", RpcTarget.All);
 
         StartCoroutine(RegenerateFood());
     }
 
-    IEnumerator RegenerateFood()
+    
+    public IEnumerator RegenerateFood()
     {
         yield return _waitSecondRegenerate;
 
-        _food.SetActive(true);
+        photonView.RPC("RegenerateFoodState", RpcTarget.All);
 
         yield return null;
     }
 
+    [PunRPC]
+    public void EatFoodState()
+    {
+        _food.SetActive(false);
+    }
 
+    [PunRPC]
+    public void RegenerateFoodState()
+    {
+        _food.SetActive(true);
+    }
 }
