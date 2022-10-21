@@ -39,11 +39,11 @@ public class PlayerInput : MonoBehaviourPun
         InputZ = Input.GetAxis("Vertical");
 
         InputA = OVRInput.GetDown(OVRInput.Button.One);
-    
+
         IsLeftRay = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
         IsRightRay = OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger);
         IsRay = IsLeftRay || IsRightRay;
-        
+
         IsMove = OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
         IsInventoryOn = (OVRInput.Get(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
     }
