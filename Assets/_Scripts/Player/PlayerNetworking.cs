@@ -15,5 +15,9 @@ public class PlayerNetworking : MonoBehaviourPun
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
             playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
         }
+        else
+        {
+            gameObject.AddComponent<CapsuleCollider>();
+        }
     }
 }
