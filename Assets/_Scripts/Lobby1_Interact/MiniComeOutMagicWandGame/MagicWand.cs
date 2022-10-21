@@ -50,8 +50,7 @@ public class MagicWand : MonoBehaviourPun
             {
                 int RandomNumber = Random.Range(0, _totalProbability + 1);
 
-                photonView.RPC("GetMagic", RpcTarget.Others, RandomNumber);
-                // GetMagic(RandomNumber);
+                photonView.RPC("GetMagic", RpcTarget.All, RandomNumber);
 
                 _magicWandPanel.SetActive(true);
                 _magicNameText.text = gameObject.name;
