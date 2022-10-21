@@ -84,23 +84,25 @@ public class FoodInteraction : MonoBehaviourPun
 
     public void EatFood(EFoodSatietyLevel foodSatietyLevel)
     {
-        if(SatietyStack < _maxSatietyStack)
+        if(photonView.IsMine)
         {
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
-
-            _playerContollerMove.MoveScale -= _speedSlower * (int)foodSatietyLevel;
-
-
-            if (SatietyStack == 0)
+            if(SatietyStack < _maxSatietyStack)
             {
-                OnActivateSatietyUI.Invoke();
+                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
+
+                _playerContollerMove.MoveScale -= _speedSlower * (int)foodSatietyLevel;
+
+
+                if (SatietyStack == 0)
+                {
+                    OnActivateSatietyUI.Invoke();
+                }
+
+                SatietyStack += (int)foodSatietyLevel;
+
+                OnChangeSatietyUI.Invoke();
             }
-
-            SatietyStack += (int)foodSatietyLevel;
-
-            OnChangeSatietyUI.Invoke();
         }
-
     }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
+using Photon.Realtime;
 
 public enum EFoodSatietyLevel
 {
@@ -13,14 +14,13 @@ public enum EFoodSatietyLevel
 
 
 
-public class Food : InteracterableObject
+public class Food : InteracterableObject, IPunObservable
 {
     public static UnityEvent<EFoodSatietyLevel> OnEated = new UnityEvent<EFoodSatietyLevel>();
 
     [SerializeField] EFoodSatietyLevel _foodSatietyLevel;
     [SerializeField] GameObject _food;
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
-  
 
 
     private void Update()
@@ -65,5 +65,34 @@ public class Food : InteracterableObject
     public void RegenerateFoodState()
     {
         _food.SetActive(true);
+    }
+
+
+    [PunRPC]
+    public void CheckFoodState()
+    {
+        if(photonView.IsMine)
+        {
+            if (photonView.isActiveAndEnabled)
+            {
+                _food.SetActive(true);
+            }
+            else
+            {
+                _food.SetActive(false);
+            }
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_food.activeSelf);
+        }
+        else if (stream.IsReading)
+        {
+            _food.SetActive((bool)stream.ReceiveNext());
+        }
     }
 }
