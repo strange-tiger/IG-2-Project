@@ -15,8 +15,7 @@ public class RadialMenu : MonoBehaviourPun,IPunObservable
     public static Button _buttonOne;
     public static Image _buttonOneImage;
     private static Color _activeColor = new Color(1, 1, 1, 1);
-    private static Color _deactiveColor = new Color(1, 1, 1, 0);
-    private static readonly YieldInstruction _waitSecond = new WaitForSeconds(1f);
+    private static readonly YieldInstruction _waitSecond = new WaitForSeconds(0.0001f);
 
     private Vector2 _cursorInitPosition;
     private float _cursorMovementLimit = 45f;
@@ -69,7 +68,7 @@ public class RadialMenu : MonoBehaviourPun,IPunObservable
             float animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(_elapsedTime / _coolTime));
             _feelingImage.color = new Color(1, 1, 1, animatedFadeAlpha);
 
-            yield return new WaitForSeconds(0.0001f);
+            yield return _waitSecond;
         }
         _feelingImage.color = new Color(1, 1, 1, endAlpha);
         _isFadeRunning = false;
