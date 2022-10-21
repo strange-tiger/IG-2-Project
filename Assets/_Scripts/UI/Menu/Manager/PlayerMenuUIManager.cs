@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMenuUIManager : MonoBehaviour
+public class PlayerMenuUIManager : GlobalInstance<PlayerMenuUIManager>
 {
     [Header("Managers")]
     [SerializeField] InventoryUIManager _inventoryUIManager;
@@ -19,11 +19,6 @@ public class PlayerMenuUIManager : MonoBehaviour
                 _checkPanelManager.gameObject.activeSelf ||
                 _confirmPanelManager.gameObject.activeSelf;
         }
-    }
-
-    private void Awake()
-    {
-        
     }
 
     public void ShowMenu()

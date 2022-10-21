@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OtherPlayerInteraction : MonoBehaviour
+public class OtherPlayerInteraction : InteracterableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    public string MyNickname { private get; set; }
+
+    private void OnEnable()
     {
-        
+        MyNickname = GetComponent<PlayerNetworking>().MyNickname;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Interact()
     {
-        
+        PlayerMenuUIManager.Instance.ShowSocial(MyNickname);
     }
 }
