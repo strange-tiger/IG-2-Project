@@ -21,7 +21,14 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         _nextScene = sceneNumber;
         OVRScreenFade.instance.FadeOut();
-        PhotonNetwork.LeaveRoom();
+        if(!_hasPlayer)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+        else
+        {
+            PhotonNetwork.JoinOrCreateRoom(_nextScene.ToString(), _roomOptions, TypedLobby.Default);
+        }
     }
 
     public override void OnConnectedToMaster()
