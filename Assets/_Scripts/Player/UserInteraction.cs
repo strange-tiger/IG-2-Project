@@ -5,17 +5,19 @@ using UnityEngine;
 public class UserInteraction : InteracterableObject
 {
     private PlayerNetworking _playerInfo;
+    private string _nickname;
 
-    private string nickname;
-
-    private void OnEnable()
-    {
-        _playerInfo = GetComponent<PlayerNetworking>();
-        nickname = _playerInfo.MyNickname;
-    }
+    private bool _hasNickname;
 
     public override void Interact()
     {
-        MenuUIManager.Instance.ShowSocialUI(nickname);
+        if(!_hasNickname)
+        {
+            _playerInfo = GetComponent<PlayerNetworking>();
+            _nickname = _playerInfo.MyNickname;
+            _hasNickname = true;
+        }
+        Debug.Log("[UI] " + _nickname);
+        MenuUIManager.Instance.ShowSocialUI(_nickname);
     }
 }

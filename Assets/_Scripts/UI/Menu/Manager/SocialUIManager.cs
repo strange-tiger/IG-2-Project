@@ -157,6 +157,7 @@ public class SocialUIManager : MonoBehaviour
     /// <param name="targetUserName"> 타겟 유저 이름 </param>
     public void ShowFriendPanel(string targetUserName)
     {
+        Debug.Log("[UI] " + targetUserName);
         _targetUserNickname = targetUserName;
         _targetUserNicknameText.text = _targetUserNickname;
         _isTargetUserNicknameSet = true;
