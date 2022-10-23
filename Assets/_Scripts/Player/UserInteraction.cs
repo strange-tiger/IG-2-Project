@@ -17,7 +17,6 @@ public class UserInteraction : InteracterableObject
             _nickname = _playerInfo.MyNickname;
             _hasNickname = true;
         }
-        Debug.Log("[UI] " + _nickname);
         MenuUIManager.Instance.ShowSocialUI(_nickname);
     }
 }

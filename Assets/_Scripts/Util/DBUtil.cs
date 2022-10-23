@@ -395,36 +395,44 @@ namespace Asset.MySql
         /// <returns>Row가 존재하면 True, 존재하지 않으면 false </returns>
         public static bool CheckMyPositionInRelationShip(string myNickname, string targetNickname, out bool isLeft)
         {
-
-            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            try
             {
-                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
-                    $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
-
-                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
-
-                _mysqlConnection.Open();
-
-                MySqlDataReader reader = command.ExecuteReader();
-
-
-                if (reader.Read())
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    isLeft = false;
+                    string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                        $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
 
-                    if (reader["UserA"].ToString() == myNickname)
-                    {
-                        isLeft = true;
-                    }
-                    else if (reader["UserB"].ToString() == myNickname)
+                    MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+
+
+                    if (reader.Read())
                     {
                         isLeft = false;
+
+                        if (reader["UserA"].ToString() == myNickname)
+                        {
+                            isLeft = true;
+                        }
+                        else if (reader["UserB"].ToString() == myNickname)
+                        {
+                            isLeft = false;
+                        }
+
+                        _mysqlConnection.Close();
+                        return true;
                     }
 
-                    _mysqlConnection.Close();
-                    return true;
+                    isLeft = false;
+                    return false;
                 }
-
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError("오류!! CheckMyPositionInRelationShip에서 오류남 \n" + error.Message);
                 isLeft = false;
                 return false;
             }
@@ -447,28 +455,36 @@ namespace Asset.MySql
 
             CheckMyPositionInRelationShip(myNickname, targetNickname, out isLeft);
 
-            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            try
             {
-                int state = _ERROR_BIT;
-
-                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
-                    $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
-
-                MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
-
-                _mysqlConnection.Open();
-
-                MySqlDataReader reader = command.ExecuteReader();
-
-
-                if (reader.Read())
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    state = reader.GetInt32("State");
+                    int state = _ERROR_BIT;
 
+                    string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{myNickname}' and UserB = '{targetNickname}' " +
+                        $"or UserA = '{targetNickname}' and UserB = '{myNickname}';";
+
+                    MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+
+
+                    if (reader.Read())
+                    {
+                        state = reader.GetInt32("State");
+
+                    }
+                    _mysqlConnection.Close();
+
+                    return state;
                 }
-                _mysqlConnection.Close();
-
-                return state;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError("오류!! CheckRelationship에서 오류남 \n" + error.Message);
+                return -1;
             }
         }
 
@@ -593,9 +609,9 @@ namespace Asset.MySql
 
                 return true;
             }
-            catch
+            catch(System.Exception error)
             {
-                Debug.LogError("오류: Fail To Request Social Interaction");
+                Debug.LogError("오류: Fail To Request Social Interaction + \n" + error.Message);
                 return false;
             }
         }
