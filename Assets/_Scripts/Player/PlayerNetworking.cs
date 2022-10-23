@@ -11,6 +11,7 @@ public class PlayerNetworking : MonoBehaviourPun
     [SerializeField] private TextMeshProUGUI _nicknameText;
 
     public string MyNickname { get; private set; }
+    public string MyUserId { get; private set; }
 
     private void Awake()
     {
@@ -24,14 +25,19 @@ public class PlayerNetworking : MonoBehaviourPun
         }
         else
         {
+            CapsuleCollider collider = gameObject.AddComponent<CapsuleCollider>();
+            collider.height = 2f;
 
+            gameObject.AddComponent<UserInteraction>();
         }
     }
 
     [PunRPC]
-    public void SetNickname(string nickname)
+    public void SetNickname(string id, string nickname)
     {
         MyNickname = nickname;
         _nicknameText.text = nickname;
+
+        MyUserId = id;
     }
 }

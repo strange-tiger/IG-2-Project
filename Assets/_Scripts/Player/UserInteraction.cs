@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UserInteraction : MonoBehaviour
+public class UserInteraction : InteracterableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerNetworking _playerInfo;
+
+    private string nickname;
+
+    private void OnEnable()
     {
-        
+        _playerInfo = GetComponent<PlayerNetworking>();
+        nickname = _playerInfo.MyNickname;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Interact()
     {
-        
+        MenuUIManager.Instance.ShowSocialUI(nickname);
     }
 }
