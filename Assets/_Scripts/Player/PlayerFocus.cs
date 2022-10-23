@@ -92,6 +92,14 @@ public class PlayerFocus : MonoBehaviour
             {
                 FocusedObject = focusObject;
             }
+            else
+            {
+                focusObject = hit.collider.transform.root.GetComponent<FocusableObjects>();
+                if(focusObject)
+                {
+                    FocusedObject = focusObject;
+                }
+            }
         }
         else
         {
