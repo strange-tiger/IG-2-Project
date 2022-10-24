@@ -16,4 +16,6 @@ public class JoinRoomUI : MonoBehaviour
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI[] _roomInfoText;
+
+
 }
