@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7265380920706198346}
-  - component: {fileID: 2980794612660346574}
-  - component: {fileID: 4287589612662951136}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Fish_Cooked_Dish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,40 +26,13 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2314235026628367438}
   - {fileID: 2314031602292816406}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2980794612660346574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5676414703864687021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _foodSatietyLevel: 1
-  _food: {fileID: 2309988683637469176}
---- !u!65 &4287589612662951136
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5676414703864687021}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.06, z: 1}
-  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1001 &2309635906173342212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,14 +43,6 @@ PrefabInstance:
     - target: {fileID: 1059820368117244, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
       propertyPath: m_Name
       value: SM_Item_Meat_Fish_05
-      objectReference: {fileID: 0}
-    - target: {fileID: 1059820368117244, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1059820368117244, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4690381094536778, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
       propertyPath: m_RootOrder
@@ -125,18 +88,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 23873956787188200, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e3d8c45c9df90aa4d8a6a4a1dc5a3b95, type: 2}
-    m_RemovedComponents:
-    - {fileID: 64512848279497490, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
---- !u!1 &2309988683637469176 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1059820368117244, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
-  m_PrefabInstance: {fileID: 2309635906173342212}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2314235026628367438 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4690381094536778, guid: 1bbb3fb4b5006014da5b34f49d1a0551, type: 3}
@@ -152,14 +105,6 @@ PrefabInstance:
     - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
       propertyPath: m_Name
       value: SM_Item_Dish_03 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4625532936735016, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
       propertyPath: m_RootOrder
@@ -217,10 +162,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 23862735932666148, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e3d8c45c9df90aa4d8a6a4a1dc5a3b95, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
 --- !u!4 &2314031602292816406 stripped
