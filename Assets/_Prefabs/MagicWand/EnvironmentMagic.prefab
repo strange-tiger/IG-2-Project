@@ -14223,11 +14223,11 @@ GameObject:
   - component: {fileID: 7459632908672490199}
   - component: {fileID: 7459632908672490198}
   - component: {fileID: 7459632908672490197}
+  - component: {fileID: 7459632908672490195}
   - component: {fileID: 7459632908672490196}
   - component: {fileID: 7459632908672490194}
   - component: {fileID: 7459632908672490192}
   - component: {fileID: 7459632908672490193}
-  - component: {fileID: 6865490904567290325}
   m_Layer: 0
   m_Name: EnvironmentMagic
   m_TagString: Untagged
@@ -14378,6 +14378,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7459632908672490195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7459632908672490200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4b886fa81536a43b3ed45e90c6785b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
 --- !u!65 &7459632908672490196
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14442,19 +14455,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &6865490904567290325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7459632908672490200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
 --- !u!1 &8044916959493875297
 GameObject:
   m_ObjectHideFlags: 0

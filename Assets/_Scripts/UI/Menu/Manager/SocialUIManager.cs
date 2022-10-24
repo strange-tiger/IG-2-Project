@@ -43,7 +43,6 @@ public class SocialUIManager : MonoBehaviour
     [Header("Extra")]
     [SerializeField] private ConfirmPanelManager _confirmPanelManager;
     [SerializeField] private CheckPanelManager _checkPanelManager;
-    [SerializeField]
 
     private string _myNickname;
     private string _targetUserNickname;

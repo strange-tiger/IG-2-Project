@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Photon.Pun;
 
-public class RadialMenu : MonoBehaviourPun,IPunObservable
+public class RadialMenu : MonoBehaviour
 {
 
 
     [SerializeField] GameObject _radialMenu;
     [SerializeField] Image _cursor;
     [SerializeField] Image _feelingImage;
+    [SerializeField] CircleCollider2D _cursorMovementLimit;
     public static Button _buttonOne;
     public static Image _buttonOneImage;
     private static Color _activeColor = new Color(1, 1, 1, 1);
@@ -19,7 +19,6 @@ public class RadialMenu : MonoBehaviourPun,IPunObservable
     private static readonly YieldInstruction _waitSecond = new WaitForSeconds(1f);
 
     private Vector2 _cursorInitPosition;
-    private float _cursorMovementLimit = 45f;
     private float _cursorSpeed = 100f;
     private float _coolTime = 4f;
     private void Start()
@@ -28,33 +27,25 @@ public class RadialMenu : MonoBehaviourPun,IPunObservable
 
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    void FadeOut()
     {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(_feelingImage.color);
-        }
-        else if (stream.IsReading)
-        {
-            _feelingImage.color = (Color) stream.ReceiveNext();
-        }
+
+
     }
     private void Update()
     {
-        if(photonView.IsMine)
+        Debug.Log(_elapsedTime);
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
-            if (Input.GetKey(KeyCode.LeftAlt))
-            {
-                _radialMenu.SetActive(true);
-            }
-            else if (Input.GetKeyUp(KeyCode.LeftAlt))
-            {
-               photonView.RPC("ButtonOneMenu",RpcTarget.All);
-            }
-            else
-            {
-                _radialMenu.SetActive(false);
-            }
+            _radialMenu.SetActive(true);
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftAlt))
+        {
+            ButtonOneMenu();
+        }
+        else
+        {
+            _radialMenu.SetActive(false);
         }
     }
 
@@ -77,8 +68,8 @@ public class RadialMenu : MonoBehaviourPun,IPunObservable
 
     }
 
-    [PunRPC]
-    public void ButtonOneMenu()
+
+    private void ButtonOneMenu()
     {
         if (_buttonOne != null)
         {
@@ -117,7 +108,7 @@ public class RadialMenu : MonoBehaviourPun,IPunObservable
         direction.Normalize();
 
 
-        _cursor.rectTransform.localPosition = Vector3.ClampMagnitude(_cursor.rectTransform.localPosition + direction * _cursorSpeed * Time.deltaTime, _cursorMovementLimit);
+        _cursor.rectTransform.localPosition = Vector3.ClampMagnitude(_cursor.rectTransform.localPosition + direction * _cursorSpeed * Time.deltaTime, _cursorMovementLimit.radius);
 
     }
 
