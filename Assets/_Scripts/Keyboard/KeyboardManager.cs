@@ -37,6 +37,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
+    private void OnDisable()
+    {
+        _typedText.text = "";
+    }
+
     public static void OpenKeyboard()
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();

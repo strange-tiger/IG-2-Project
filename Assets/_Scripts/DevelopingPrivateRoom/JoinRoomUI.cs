@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -152,7 +152,14 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
     private void RandomJoin()
     {
-        PhotonNetwork.JoinRandomRoom();
+        try
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
+        catch
+        {
+            Debug.LogError("랜덤 매칭 실패");
+        }
     }
 
     public override void OnDisable()

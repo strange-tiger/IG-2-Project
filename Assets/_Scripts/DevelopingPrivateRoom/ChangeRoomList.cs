@@ -6,6 +6,19 @@ public class ChangeRoomList : SpinnerUI
 {
     [SerializeField] JoinRoomUI _ui;
 
+    public override string Type
+    {
+        get
+        {
+            return _type;
+        }
+        protected set
+        {
+            _type = value;
+            _currentStateText.text = _type;
+        }
+    }
+
     protected override void OnEnable()
     {
         _leftButton.onClick.RemoveListener(OnClickLeftButton);
@@ -32,7 +45,7 @@ public class ChangeRoomList : SpinnerUI
 
     public void UpdateStates()
     {
-        _states = new string[JoinRoomUI.PageCount];
+        _states = new string[JoinRoomUI.PageCount + 1];
         _stateFunctionTable.Clear();
 
         for (int i = 0; i < JoinRoomUI.PageCount; ++i)

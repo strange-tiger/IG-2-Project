@@ -7,8 +7,9 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
+using UnityEngine.EventSystems;
 
-public class MakeRoomUI : MonoBehaviour
+public class MakeRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("Manager")]
     [SerializeField] PrivateRoomUIManager _uiManager;
@@ -25,7 +26,7 @@ public class MakeRoomUI : MonoBehaviour
     [Space(15)]
     [SerializeField] Toggle _passwordToggle;
 
-    private Photon.Realtime.RoomOptions _roomOptions;
+    private RoomOptions _roomOptions = new RoomOptions();
     private string _userId;
 
     private void Awake()
@@ -35,8 +36,10 @@ public class MakeRoomUI : MonoBehaviour
         _roomOptions.PublishUserId = true;
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         _makeRoomButton.onClick.RemoveListener(RequestMakeRoom);
         _makeRoomButton.onClick.AddListener(RequestMakeRoom);
 
@@ -95,17 +98,22 @@ public class MakeRoomUI : MonoBehaviour
     private void ActivePasswordInput(bool isOn)
     {
         _passwordInput.interactable = isOn;
-        
+        Debug.Log(isOn);
         if(!_passwordInput.IsInteractable())
         {
+            Debug.Log(_passwordInput.text);
             _passwordInput.text = "";
         }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void Close() => _uiManager.LoadUI(_UI.JOIN);
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+
         _roomNameInput.text = "";
         _passwordInput.text = "";
         _roomNumberInput.text = "";
