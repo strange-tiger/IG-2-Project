@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
-public class FoodInteraction : MonoBehaviour
+public class FoodInteraction : MonoBehaviourPun, IPunObservable
 {
 
     public UnityEvent OnActivateSatietyUI = new UnityEvent();
@@ -11,16 +12,27 @@ public class FoodInteraction : MonoBehaviour
     public UnityEvent OnDeactivateSatietyUI = new UnityEvent();
     public int SatietyStack { get; private set; }
 
+    private PlayerControllerMove _playerContollerMove;
     private AudioSource _audioSource;
     private Vector3 _initPosition;
-    private Vector3 _nullPosition = new Vector3(0,0,0);
-    private float _moveSpeed = 0.01f;
+    private Vector3 _nullPosition = new Vector3(0, 0, 0);
     private float _speedSlower = 0.0001f;
     private float _fatterCharacter = 0.1f;
     private float _walkCount;
-    private int _dietWalkCount = 20;
+    private int _dietWalkCount = 100;
     private int _maxSatietyStack = 6;
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.GetChild(2).localScale);
+        }
+        else if (stream.IsReading)
+        {
+            transform.GetChild(2).localScale = (Vector3)stream.ReceiveNext();
+        }
+    }
     private void OnEnable()
     {
         Food.OnEated.RemoveListener(EatFood);
@@ -28,21 +40,29 @@ public class FoodInteraction : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
+    }
+
     void Update()
     {
-        if (SatietyStack != 0)
+        if (photonView.IsMine)
         {
-            Diet();
+            if (SatietyStack != 0)
+            {
+                Diet();
+            }
         }
     }
 
-  
+
 
     void Diet()
     {
         if (_initPosition == _nullPosition)
             _initPosition = transform.position;
-        
+
 
         if (Vector3.Distance(_initPosition, transform.position) >= 1)
         {
@@ -53,14 +73,16 @@ public class FoodInteraction : MonoBehaviour
         if (_walkCount == _dietWalkCount)
         {
             SatietyStack--;
+
             _walkCount = 0;
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - _fatterCharacter);
-            _moveSpeed += _speedSlower;
+
+            _playerContollerMove.MoveScale += _speedSlower;
+
+            photonView.RPC("CharacterScaleDecrease", RpcTarget.All);
 
 
             if (SatietyStack == 0)
             {
-                
                 OnDeactivateSatietyUI.Invoke();
                 _initPosition = _nullPosition;
             }
@@ -74,27 +96,38 @@ public class FoodInteraction : MonoBehaviour
 
     public void EatFood(EFoodSatietyLevel foodSatietyLevel)
     {
-        if(SatietyStack < 6)
+        if (photonView.IsMine)
         {
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
-
-            _moveSpeed -= _speedSlower * (int)foodSatietyLevel;
-
-
-            if (SatietyStack == 0)
+            if (SatietyStack < _maxSatietyStack)
             {
-                OnActivateSatietyUI.Invoke();
 
+                _playerContollerMove.MoveScale -= _speedSlower * (int)foodSatietyLevel;
 
+                photonView.RPC("CharacterScaleIncrease", RpcTarget.All, (int)foodSatietyLevel);
+
+                if (SatietyStack == 0)
+                {
+                    OnActivateSatietyUI.Invoke();
+                }
+
+                SatietyStack += (int)foodSatietyLevel;
+
+                OnChangeSatietyUI.Invoke();
             }
-
-            SatietyStack += (int)foodSatietyLevel;
-
-            OnChangeSatietyUI.Invoke();
         }
-
     }
 
+    [PunRPC]
+    public void CharacterScaleIncrease(EFoodSatietyLevel foodSatietyLevel)
+    {
+        transform.GetChild(2).localScale = new Vector3(transform.GetChild(2).localScale.x, transform.GetChild(2).localScale.y, transform.GetChild(2).localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
+    }
+
+    [PunRPC]
+    public void CharacterScaleDecrease()
+    {
+        transform.GetChild(2).localScale = new Vector3(transform.GetChild(2).localScale.x, transform.GetChild(2).localScale.y, transform.GetChild(2).localScale.z - _fatterCharacter);
+    }
 
     private void OnDisable()
     {
