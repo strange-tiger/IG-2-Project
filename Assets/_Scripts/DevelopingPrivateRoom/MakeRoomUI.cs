@@ -7,6 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
+using UnityEngine.EventSystems;
 
 public class MakeRoomUI : MonoBehaviourPunCallbacks
 {
@@ -103,6 +104,8 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
             Debug.Log(_passwordInput.text);
             _passwordInput.text = "";
         }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     //private void Update()
