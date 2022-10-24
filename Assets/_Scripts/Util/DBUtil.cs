@@ -364,7 +364,7 @@ namespace Asset.MySql
         {
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $"where UserA = '{userA}' and UserB = '{userB}' " +
+                string selcetSocialRequestString = SelectDBHelper(ETableType.relationshipdb) + $" where UserA = '{userA}' and UserB = '{userB}' " +
                     $"or UserA = '{userB}' and UserB = '{userA}';";
 
                 MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
@@ -864,6 +864,7 @@ namespace Asset.MySql
 
         private static string SelectDBHelper(ETableType db)
         {
+
             return MySqlStatement.SELECT + db.ToString();
         }
 

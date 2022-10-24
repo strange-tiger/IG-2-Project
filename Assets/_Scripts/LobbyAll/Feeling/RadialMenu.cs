@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Photon.Pun;
-
 public class RadialMenu : MonoBehaviourPun, IPunObservable
 {
 
