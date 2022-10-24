@@ -524,7 +524,7 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
 
-                    string updateSocialStateString = MySqlStatement.UPDATE_RELATIONSHIP + $"{state} where UserA = '{userA}' and UserB = '{userB}' " +
+                    string updateSocialStateString = MySqlStatement.UPDATE_RELATIONSHIP + $"'{state}' where UserA = '{userA}' and UserB = '{userB}' " +
                         $"or UserA = '{userB}' and UserB = '{userA}';";
 
                     MySqlCommand updateSocialStateCommand = new MySqlCommand(updateSocialStateString, _mysqlConnection);

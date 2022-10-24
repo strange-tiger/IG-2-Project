@@ -127,6 +127,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     /// </summary>
     [SerializeField] bool _rotationEitherThumbstick = false;
     public float InitialYRotation { get; private set; }
+    public float MoveScale = 1.0f;
 
     protected CharacterController _controller = null;
     protected OVRCameraRig _cameraRig = null;
@@ -135,7 +136,6 @@ public class PlayerControllerMove : MonoBehaviourPun
     private InventoryUIManager _inventoryUIManager = new InventoryUIManager();
     private Vector3 _moveThrottle = Vector3.zero;
     private OVRPose? _initialPose;
-    private float _moveScale = 1.0f;
     private float _fallSpeed = 0.0f;
     private float _moveScaleMultiplier = 1.0f;
     private float _simulationRate = 60f;
@@ -332,20 +332,20 @@ public class PlayerControllerMove : MonoBehaviourPun
                 dpad_move = true;
             }
 
-            _moveScale = 1.0f;
+            MoveScale = 1.0f;
 
             if ((moveForward && moveLeft) || (moveForward && moveRight) ||
                 (moveBack && moveLeft) || (moveBack && moveRight))
-                _moveScale = 0.70710678f;
+                MoveScale = 0.70710678f;
 
             // No positional movement if we are in the air
             if (!_controller.isGrounded)
-                _moveScale = 0.0f;
+                MoveScale = 0.0f;
 
-            _moveScale *= _simulationRate * Time.deltaTime;
+            MoveScale *= _simulationRate * Time.deltaTime;
 
             // Compute this for key movement
-            float moveInfluence = _acceleration * 0.1f * _moveScale * _moveScaleMultiplier;
+            float moveInfluence = _acceleration * 0.1f * MoveScale * _moveScaleMultiplier;
 
             // Run!
             if (dpad_move || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -365,7 +365,7 @@ public class PlayerControllerMove : MonoBehaviourPun
             if (moveRight)
                 _moveThrottle += ort * (transform.lossyScale.x * moveInfluence * _backAndSideDampen * Vector3.right);
 
-            moveInfluence = _acceleration * 0.1f * _moveScale * _moveScaleMultiplier;
+            moveInfluence = _acceleration * 0.1f * MoveScale * _moveScaleMultiplier;
 
 #if !UNITY_ANDROID // LeftTrigger not avail on Android game pad
 
