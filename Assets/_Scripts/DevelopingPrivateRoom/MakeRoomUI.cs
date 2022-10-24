@@ -26,6 +26,7 @@ public class MakeRoomUI : MonoBehaviour
     [SerializeField] Toggle _passwordToggle;
 
     private Photon.Realtime.RoomOptions _roomOptions;
+    private string _userId;
 
     private void Awake()
     {
@@ -51,7 +52,8 @@ public class MakeRoomUI : MonoBehaviour
     {
         try
         {
-            // 방 생성을 호스트에 요청?
+            // 방 생성을 호스트에 요청
+            _userId = PhotonNetwork.LocalPlayer.UserId;
 
             MakeRoom();
             // PhotonNetwork.JoinRoom("방 이름");
@@ -64,7 +66,7 @@ public class MakeRoomUI : MonoBehaviour
 
     private void MakeRoom()
     {
-        string roomName = _roomNameInput.text + "_" + _passwordInput.text;
+        string roomName = _userId + "_" + _passwordInput.text;
 
         try
         {
@@ -72,7 +74,7 @@ public class MakeRoomUI : MonoBehaviour
 
             _roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
             {
-                { "roomname", _roomNameInput.text },
+                { "roomname", _userId },
                 { "password", _passwordInput.text },
                 { "displayname", _roomNameInput.text }
             };
