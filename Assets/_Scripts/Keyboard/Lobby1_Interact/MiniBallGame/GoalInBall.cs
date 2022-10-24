@@ -6,41 +6,33 @@ using Photon.Pun;
 
 public class GoalInBall : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private Collider _goalLine;
+    private ParticleSystem[] _goalIn;
 
-    //[SerializeField]
-    //private GameObject _particle1Position;
+    private void Awake()
+    {
+        _goalIn = new ParticleSystem[transform.childCount];
 
-    //[SerializeField]
-    //private GameObject _particle2Position;
-
-    [SerializeField]
-    private GameObject _particle1;
-
-    [SerializeField]
-    private GameObject _particle2;
+        for (int i = 0; i < transform.childCount; ++i)
+        {
+            _goalIn[i] = gameObject.transform.GetChild(i).GetComponentInChildren<ParticleSystem>();
+        }
+    }
 
     private void OnTriggerEnter(Collider _goalLine)
     {
         if (_goalLine.gameObject.tag == "Ball" && _goalLine.gameObject.transform.position.y > gameObject.transform.position.y)
         {
-            Debug.Log("Goal In!");
-            photonView.RPC("StartParticle", RpcTarget.All);
-
-            // PhotonNetwork.Instantiate("GoalParticle1", _particle1Position.transform.position, Quaternion.identity);
-            // PhotonNetwork.Instantiate("GoalParticle2", _particle2Position.transform.position, Quaternion.identity);
-
-            // Instantiate(_particle1, _particle1Position.transform.position, Quaternion.identity);
-            // Instantiate(_particle2, _particle2Position.transform.position, Quaternion.identity);
+            photonView.RPC("PlayGoalInParticle", RpcTarget.All);
         }
     }
 
     [PunRPC]
-    public void StartParticle()
+    public void PlayGoalInParticle()
     {
-        _particle1.SetActive(true);
-        _particle2.SetActive(true);
+        for (int i = 0; i < transform.childCount; ++i)
+        {
+            _goalIn[i].gameObject.SetActive(true);
+        }
     }
 
 }
