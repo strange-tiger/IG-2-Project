@@ -29,7 +29,7 @@ public class HitPoint : MonoBehaviour
             if (_checkPoint.Angle >= _currentDegree && _currentDegree >= _checkPoint.Angle - (_checkPointImage.fillAmount * 360))
             {
                 // 슬라이더 변환시킬거임!
-                Debug.Log("슬라이더 변환!");
+                _miningSlider.value += 0.1f;
             }
             ResetPoint();
         }

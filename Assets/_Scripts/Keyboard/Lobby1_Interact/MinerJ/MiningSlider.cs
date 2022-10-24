@@ -21,14 +21,15 @@ public class MiningSlider : MonoBehaviour
     {
         _elapsedTime += Time.deltaTime;
 
-        _slider.value = Mathf.Lerp(0, 1, _elapsedTime /_delay);
-
         if(_slider.value >= 1 )
         {
             _slider.value = 0;
             _elapsedTime = 0;
             GetChildTrans();
-
+        }
+        else
+        {
+            _slider.value = Mathf.Lerp(0, 1, _elapsedTime /_delay);
         }
     }
     public void GetChildTrans()
