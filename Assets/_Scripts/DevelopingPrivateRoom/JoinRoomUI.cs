@@ -7,6 +7,8 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
+using Oculus.Platform.Models;
+using System;
 
 public class JoinRoomUI : MonoBehaviourPunCallbacks
 {
@@ -21,10 +23,22 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
     [Header("Text")]
     [SerializeField] RoomInfoTextUI[] _roomInfoTexts;
 
-    private Dictionary<string, RoomInfo> _cachedRoomList = new Dictionary<string, RoomInfo>();
+    public static event Action OnPageCountChanged;
+    public static int PageCount
+    {
+        get => _pageCount;
+        set
+        {
+            _pageCount = value;
+            OnPageCountChanged.Invoke();
+        }
+    }
+    private static int _pageCount = 0;
     
     private const int PAGE_ROOM_COUNT = 4;
-    private int _pageCount = 0;
+
+    private Dictionary<string, RoomInfo> _cachedRoomList = new Dictionary<string, RoomInfo>();
+    private List<RoomInfo[]> _roomPageList = new List<RoomInfo[]>();
 
     private void Awake()
     {
@@ -55,8 +69,17 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
     private void RoomListUpdate(List<RoomInfo> roomList)
     {
-        _pageCount = roomList.Count / PAGE_ROOM_COUNT + 1;
+        PageCount = roomList.Count / PAGE_ROOM_COUNT + 1;
 
+        UpdateCachedRoomList(roomList);
+
+        UpdateRoomPageList();
+
+        ShowRoomList(0);
+    }
+
+    private void UpdateCachedRoomList(List<RoomInfo> roomList)
+    {
         foreach (RoomInfo room in roomList)
         {
             if (room.RemovedFromList)
@@ -68,37 +91,68 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
                 _cachedRoomList[room.Name] = room;
             }
         }
-
-        SetRoomList();
     }
 
-    private void SetRoomList()
+    private void UpdateRoomPageList()
+    {
+        _roomPageList.Clear();
+
+        for (int i = 0; i < _pageCount; ++i)
+        {
+            _roomPageList.Add(new RoomInfo[PAGE_ROOM_COUNT]);
+        }
+
+        int pageCount = 0;
+        int roomCount = 0;
+        
+        foreach (KeyValuePair<string, RoomInfo> room in _cachedRoomList)
+        {
+            if (roomCount == PAGE_ROOM_COUNT)
+            {
+                roomCount = 0;
+                ++pageCount;
+            }
+            _roomPageList[pageCount][roomCount] = room.Value;
+
+            ++roomCount;
+        }
+        
+    }
+
+    private void ShowRoomList(int page)
     {
         foreach (RoomInfoTextUI info in _roomInfoTexts)
         {
+            info.SetRoom("");
             info.SetInfo("");
             info.SetLock(false);
         }
 
-        foreach (KeyValuePair<string, RoomInfo> room in _cachedRoomList)
+        for (int i = 0; i < PAGE_ROOM_COUNT; ++i)
         {
-            
-        }
+            RoomInfo room = _roomPageList[page][i];
 
-        //for(int i = 0; i < PAGE_ROOM_COUNT; ++i)
-        //{
-        //    _roomInfoTexts[i].SetInfo(_cachedRoomList.);
-        //}
+            _roomInfoTexts[i].SetRoom(room.Name);
+            _roomInfoTexts[i].SetInfo($"{room.Name}\t{room.PlayerCount} / {room.MaxPlayers}");
+            _roomInfoTexts[i].SetLock(room.CustomProperties["password"] != null);
+
+            _roomInfoTexts[i].UpdateRoomInfo();
+        }
+    }
+
+    public void ChangeRoomPage(int page)
+    {
+        ShowRoomList(page);
     }
 
     private void RefreshRoomList()
     {
-
+        ShowRoomList(0);
     }
 
     private void RandomJoin()
     {
-
+        PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnDisable()

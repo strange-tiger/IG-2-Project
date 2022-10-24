@@ -4,8 +4,56 @@ using UnityEngine;
 
 public class ChangeRoomList : SpinnerUI
 {
-    protected override void Awake()
+    [SerializeField] JoinRoomUI _ui;
+
+    protected override void OnEnable()
     {
-        base.Awake();
+        _leftButton.onClick.RemoveListener(OnClickLeftButton);
+        _leftButton.onClick.AddListener(OnClickLeftButton);
+
+        _rightButton.onClick.RemoveListener(OnClickRightButton);
+        _rightButton.onClick.AddListener(OnClickRightButton);
+
+        JoinRoomUI.OnPageCountChanged -= UpdateStates;
+        JoinRoomUI.OnPageCountChanged += UpdateStates;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        JoinRoomUI.OnPageCountChanged -= UpdateStates;
+    }
+
+    private void Start()
+    {
+        UpdateStates();
+    }
+
+    public void UpdateStates()
+    {
+        _states = new string[JoinRoomUI.PageCount];
+        _stateFunctionTable.Clear();
+
+        for (int i = 0; i < JoinRoomUI.PageCount; ++i)
+        {
+            _states[i] = $"{i + 1} / {JoinRoomUI.PageCount}";
+        }
+
+        Type = _states[0];
+    }
+
+    public override void OnClickLeftButton()
+    {
+        base .OnClickLeftButton();
+
+        _ui.ChangeRoomPage(_index);
+    }
+
+    public override void OnClickRightButton()
+    {
+        base.OnClickRightButton();
+
+        _ui.ChangeRoomPage(_index);
     }
 }

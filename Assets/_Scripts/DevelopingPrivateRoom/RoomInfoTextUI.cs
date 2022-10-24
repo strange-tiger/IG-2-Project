@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public class RoomInfoTextUI : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class RoomInfoTextUI : MonoBehaviour
     [Header("Lock")]
     [SerializeField] GameObject _lockImage;
 
+    [Header("Button")]
+    [SerializeField] UnityEngine.UI.Button _button;
+
+    private string _roomName = "";
     private string _roomInfo = "";
     private bool _isLocked = false;
 
@@ -21,7 +26,15 @@ public class RoomInfoTextUI : MonoBehaviour
 
     private void OnEnable()
     {
+        _button.onClick.RemoveListener(JoinRoom);
+        _button.onClick.AddListener(JoinRoom);
+
         UpdateRoomInfo();
+    }
+
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(JoinRoom);
     }
 
     public void UpdateRoomInfo()
@@ -29,6 +42,11 @@ public class RoomInfoTextUI : MonoBehaviour
         _text.gameObject.SetActive(true);
         _text.text = _roomInfo;
         _lockImage.SetActive(_isLocked);
+    }
+
+    public void SetRoom(string room)
+    {
+        _roomName = room;
     }
 
     public void SetInfo(string info)
@@ -39,5 +57,10 @@ public class RoomInfoTextUI : MonoBehaviour
     public void SetLock(bool isLocked)
     {
         _isLocked = isLocked;
+    }
+
+    public void JoinRoom()
+    {
+        PhotonNetwork.JoinRoom(_roomName);
     }
 }

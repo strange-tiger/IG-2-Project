@@ -19,11 +19,11 @@ public class SpinnerUI : MonoBehaviour
         {
             return _type;
         }
-        private set
+        protected set
         {
             _type = value;
-            _currentStateText.text = Type;
-            _stateFunctionTable[_type].Invoke();
+            _currentStateText.text = _type;
+            _stateFunctionTable[_type]?.Invoke();
         }
     }
     protected string _type;
@@ -31,7 +31,7 @@ public class SpinnerUI : MonoBehaviour
 
     protected delegate void TypeDelegate();
 
-    protected virtual void Awake()
+    protected virtual void OnEnable()
     {
         _leftButton.onClick.RemoveListener(OnClickLeftButton);
         _leftButton.onClick.AddListener(OnClickLeftButton);
@@ -41,7 +41,12 @@ public class SpinnerUI : MonoBehaviour
 
         Type = _states[0];
         _stateFunctionTable.Clear();
+    }
 
+    protected virtual void OnDisable()
+    {
+        _leftButton.onClick.RemoveListener(OnClickLeftButton);
+        _rightButton.onClick.RemoveListener(OnClickRightButton);
     }
 
     public virtual void OnClickLeftButton()
