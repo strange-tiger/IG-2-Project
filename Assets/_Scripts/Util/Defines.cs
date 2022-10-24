@@ -14,6 +14,7 @@ namespace Defines
         FantasyLobby,
         WesternLobby,
         VikingLobby,
+        ArenaRoom,
 
         End,
     }
@@ -43,5 +44,11 @@ namespace Defines
         Sixty = 60,
         TwentyFive = 25,
         Ten = 10,
+    }
+
+    public enum EDegrees
+    {
+        RightAngle = 90,
+        TurnAround = 180,
     }
 }
