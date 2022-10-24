@@ -1147,8 +1147,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
-  m_sharedMaterial: {fileID: 3811850410889673149, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
+  m_sharedMaterial: {fileID: -6311795966102851171, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2500,8 +2500,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
-  m_sharedMaterial: {fileID: 3811850410889673149, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
+  m_sharedMaterial: {fileID: -6311795966102851171, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3707,6 +3707,7 @@ GameObject:
   - component: {fileID: 613615992}
   - component: {fileID: 613615994}
   - component: {fileID: 613615993}
+  - component: {fileID: 613615995}
   m_Layer: 5
   m_Name: RoomInfo4
   m_TagString: Untagged
@@ -3773,6 +3774,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613615991}
   m_CullTransparentMesh: 1
+--- !u!114 &613615995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613615991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be94eaecd9974343849dbaf3ae84f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 525362407}
+  _lockImage: {fileID: 187942883}
 --- !u!1 &790345836
 GameObject:
   m_ObjectHideFlags: 0
@@ -4411,6 +4426,7 @@ GameObject:
   - component: {fileID: 1067054419}
   - component: {fileID: 1067054421}
   - component: {fileID: 1067054420}
+  - component: {fileID: 1067054422}
   m_Layer: 5
   m_Name: RoomInfo3
   m_TagString: Untagged
@@ -4477,6 +4493,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067054418}
   m_CullTransparentMesh: 1
+--- !u!114 &1067054422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067054418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be94eaecd9974343849dbaf3ae84f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 1981692135}
+  _lockImage: {fileID: 91687265}
 --- !u!1 &1136056316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4787,11 +4817,7 @@ MonoBehaviour:
   _makeRoomButton: {fileID: 986094848}
   _refreshButton: {fileID: 1864767235}
   _randomJoinButton: {fileID: 1047416391}
-  _roomInfoText:
-  - {fileID: 236522953}
-  - {fileID: 2055257973}
-  - {fileID: 1981692135}
-  - {fileID: 525362407}
+  _roomInfoTexts: []
 --- !u!1 &1351128552
 GameObject:
   m_ObjectHideFlags: 0
@@ -5779,6 +5805,7 @@ GameObject:
   - component: {fileID: 1706470022}
   - component: {fileID: 1706470024}
   - component: {fileID: 1706470023}
+  - component: {fileID: 1706470025}
   m_Layer: 5
   m_Name: RoomInfo2
   m_TagString: Untagged
@@ -5845,6 +5872,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706470021}
   m_CullTransparentMesh: 1
+--- !u!114 &1706470025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706470021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be94eaecd9974343849dbaf3ae84f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 2055257973}
+  _lockImage: {fileID: 401963379}
 --- !u!1 &1739417815
 GameObject:
   m_ObjectHideFlags: 0
@@ -6029,6 +6070,7 @@ GameObject:
   - component: {fileID: 1815580999}
   - component: {fileID: 1815581001}
   - component: {fileID: 1815581000}
+  - component: {fileID: 1815581002}
   m_Layer: 5
   m_Name: RoomInfo1
   m_TagString: Untagged
@@ -6095,6 +6137,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815580998}
   m_CullTransparentMesh: 1
+--- !u!114 &1815581002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815580998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be94eaecd9974343849dbaf3ae84f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 236522953}
+  _lockImage: {fileID: 39836963}
 --- !u!1 &1860606318
 GameObject:
   m_ObjectHideFlags: 0
@@ -6598,8 +6654,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
-  m_sharedMaterial: {fileID: 3811850410889673149, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
+  m_sharedMaterial: {fileID: -6311795966102851171, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6943,8 +6999,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
-  m_sharedMaterial: {fileID: 3811850410889673149, guid: 0b706de4e386d59498ec0ceffcb43afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
+  m_sharedMaterial: {fileID: -6311795966102851171, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

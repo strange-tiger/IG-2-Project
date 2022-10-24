@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Realtime;
-using Oculus.Platform;
 using Photon.Pun;
-using UnityEditor.XR;
-using OculusSampleFramework;
+using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
 
