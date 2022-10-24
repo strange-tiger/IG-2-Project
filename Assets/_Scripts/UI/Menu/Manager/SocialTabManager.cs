@@ -33,6 +33,7 @@ public class SocialTabManager : MonoBehaviour
     {
         _myNickname = TempAccountDB.Nickname;
         _listUpdateWaitForSeconds = new WaitForSeconds(_listUpdateOffsetTime);
+        setButtons();
     }
 
     private void OnEnable()

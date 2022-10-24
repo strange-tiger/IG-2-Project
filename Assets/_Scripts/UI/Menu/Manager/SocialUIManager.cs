@@ -57,7 +57,7 @@ public class SocialUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //InitializeButtons();
+        InitializeButtons();
     }
 
     private void InitializeButtons()
@@ -68,6 +68,7 @@ public class SocialUIManager : MonoBehaviour
         // 1. 둘 사이의 관계를 확인함
         bool isLeft;
         int relationship = MySqlSetting.CheckRelationship(_myNickname, _targetUserNickname, out isLeft);
+        Debug.LogError(relationship);
 
         // 1-1. 관계가 없는 경우(반환값이 -1)
         if(relationship == -1)
@@ -122,7 +123,7 @@ public class SocialUIManager : MonoBehaviour
 
                 // 차단 취소
                 SetButton(_blockButton, true, _blockButtonText, _unblockText);
-                AddListenerToButton(_blockButton, OnClickUnblockUserButton, false);
+                AddListenerToButton(_blockButton, OnClickUnblockUserButton, true);
             }
 
             // 2-2. 내가 친구 요청을 한 상황
@@ -160,6 +161,7 @@ public class SocialUIManager : MonoBehaviour
         _targetUserNickname = targetUserName;
         _targetUserNicknameText.text = _targetUserNickname;
         _isTargetUserNicknameSet = true;
+        InitializeButtons();
         _socialUI.SetActive(true);
     }
 
@@ -206,7 +208,7 @@ public class SocialUIManager : MonoBehaviour
     private void OnClickCancelRequestButton()
     {
         // 친구 요청 취소를 DB에 올림
-        //MySqlSetting.up(_myNickname, _targetUserNickname);
+        MySqlSetting.UpdateRelationshipToUnrequest(_myNickname, _targetUserNickname);
 
         // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_cancelRequestConfirmMessage);
@@ -239,7 +241,7 @@ public class SocialUIManager : MonoBehaviour
             () =>
             {
                 // 친구 요청 삭제을 DB에 올림
-                //MySqlSetting.up
+                MySqlSetting.UpdateRelationshipToUnrequest(_targetUserNickname, _myNickname);
 
                 // 확인 메시지 출력
                 _confirmPanelManager.ShowConfirmPanel(_denyRequestMessage);
@@ -267,7 +269,5 @@ public class SocialUIManager : MonoBehaviour
 
         // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_unblockConfirmMessage);
-
-        InitializeButtons();
     }
 }
