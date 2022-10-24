@@ -108,15 +108,6 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    //private void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.V))
-    //    {
-    //        _passwordToggle.isOn = !_passwordToggle.isOn;
-    //        Debug.Log(_passwordToggle.isOn);
-    //    }
-    //}
-
     private void Close() => _uiManager.LoadUI(_UI.JOIN);
 
     public override void OnDisable()
