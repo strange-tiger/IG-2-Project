@@ -10,7 +10,7 @@ public class HitPoint : MonoBehaviour
     [SerializeField]
     private CheckPoint _checkPoint;
     [SerializeField]
-    private Slider _miningSlider;
+    private MiningSlider _miningSlider;
 
     private Image _checkPointImage;
     private float _elapsedTime;
@@ -28,8 +28,8 @@ public class HitPoint : MonoBehaviour
             _currentDegree = (int)Mathf.Lerp(0f, 360f, _elapsedTime / _delay);
             if (_checkPoint.Angle >= _currentDegree && _currentDegree >= _checkPoint.Angle - (_checkPointImage.fillAmount * 360))
             {
-                // 슬라이더 변환시킬거임!
-                _miningSlider.value += 0.1f;
+                Debug.Log("슬라이더 변환시킬거임!");
+                _miningSlider.ElapsedTime += 1f;
             }
             ResetPoint();
         }

@@ -8,7 +8,7 @@ public class MiningSlider : MonoBehaviour
     private Slider _slider;
     private HitPoint _hitPoint;
     private float _elapsedTime;
-
+    public float ElapsedTime { get { return _elapsedTime; } set { _elapsedTime = value; } }
     [SerializeField]
     private float _delay = 10;
 
