@@ -1,72 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EAIState = Defines.Estate;
 
 public class AIFSM : MonoBehaviour
-{
-    private Animator _animator;
-    private Collider _collider;
+{ 
+    private Dictionary<EAIState, AIState> _dictionaryAIState;
+    AIState curState = null;
 
-    private int a;
-    private int z;
-    private float c;
-    private bool b;
-
-    void Start()
+    public void Init()
     {
-        _collider = GetComponent<Collider>();
-        _animator = GetComponent<Animator>();
-
-        _animator.SetBool(AIAnimatorID.Run, true);
-
+        _dictionaryAIState = new Dictionary<EAIState, AIState>();
     }
 
-    void Update()
+    public void Update()
     {
-        c += Time.deltaTime;
-        if (!b)
+        curState.OnUpdate();
+    }
+
+    public void AddState(EAIState tag, AIState aiState)
+    {
+        if (aiState == null)
         {
-            if (c >= 2f)
-            {
-                a = Random.Range(0, 361);
-                transform.Rotate(new Vector3(0, a, 0));
-                c -= c;
-            }
+            Debug.LogError("FSM ¿À·ù");
         }
+
+        aiState.Initialize(this);
+        _dictionaryAIState[tag] = aiState;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void ChangeState(EAIState tag)
     {
-        if (other.gameObject.tag == "AI")
+        if (curState != null)
         {
-            b = true;
-            z = Random.Range(0, 3);
-
-            switch (z)
-            {
-                case 0:
-                    _animator.SetInteger(AIAnimatorID.Attack1, 1);
-                    transform.LookAt(other.gameObject.transform);
-                    _collider.enabled = false;
-                    break;
-
-                case 1:
-                    _animator.SetInteger(AIAnimatorID.Attack2, 5);
-                    transform.LookAt(other.gameObject.transform);
-                    _collider.enabled = false;
-                    break;
-
-                case 2:
-                    _animator.SetInteger(AIAnimatorID.Skill, 0);
-                    transform.LookAt(other.gameObject.transform);
-                    _collider.enabled = false;
-                    break;
-            }
-
-
+            curState.OnExit();
         }
+
+        curState = _dictionaryAIState[tag];
+        curState.OnEnter();
     }
-
-
-
 }

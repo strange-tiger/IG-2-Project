@@ -7,7 +7,7 @@ public class AIManager : MonoBehaviour
 {
     [Header("참가자들을 넣어주세요")]
     [SerializeField]
-    private GameObject[] Soldier;
+    private GameObject[] _soldier;
 
     [Header("소환할 범위를 입력 해 주세요")]
     [SerializeField]
@@ -24,11 +24,11 @@ public class AIManager : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < Soldier.Length; ++i)
+        for (int i = 0; i < _soldier.Length; ++i)
         {
             SetSoldierPositionAndRotation(i);
 
-            Instantiate(Soldier[i], _spawnTransform[i].position, _spawnTransform[i].rotation);
+            Instantiate(_soldier[i], _spawnTransform[i].position, _spawnTransform[i].rotation);
         }
     }
 
