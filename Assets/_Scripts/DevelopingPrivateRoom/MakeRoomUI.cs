@@ -8,7 +8,7 @@ using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
 
-public class MakeRoomUI : MonoBehaviour
+public class MakeRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("Manager")]
     [SerializeField] PrivateRoomUIManager _uiManager;
@@ -35,8 +35,10 @@ public class MakeRoomUI : MonoBehaviour
         _roomOptions.PublishUserId = true;
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         _makeRoomButton.onClick.RemoveListener(RequestMakeRoom);
         _makeRoomButton.onClick.AddListener(RequestMakeRoom);
 
@@ -104,8 +106,10 @@ public class MakeRoomUI : MonoBehaviour
 
     private void Close() => _uiManager.LoadUI(_UI.JOIN);
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+
         _roomNameInput.text = "";
         _passwordInput.text = "";
         _roomNumberInput.text = "";
