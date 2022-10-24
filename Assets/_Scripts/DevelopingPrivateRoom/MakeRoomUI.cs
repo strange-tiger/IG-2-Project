@@ -25,7 +25,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     [Space(15)]
     [SerializeField] Toggle _passwordToggle;
 
-    private Photon.Realtime.RoomOptions _roomOptions;
+    private RoomOptions _roomOptions = new RoomOptions();
     private string _userId;
 
     private void Awake()
