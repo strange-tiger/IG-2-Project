@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EPOOutline;
+using Photon.Pun;
 
-public class FocusableObjects : MonoBehaviour
+public class FocusableObjects : MonoBehaviourPun
 {
     protected Outlinable _outlineable;
 
