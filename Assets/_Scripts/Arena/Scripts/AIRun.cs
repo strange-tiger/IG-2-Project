@@ -6,6 +6,8 @@ using EAIState = Defines.Estate;
 public class AIRun : AIState
 {
     private Animator _animator;
+
+    [SerializeField]
     private TriggerDetector _triggerDetector;
 
     private float curTime;

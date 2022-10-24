@@ -1584,7 +1584,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.1
+  m_Radius: 1.8
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5227641091037134776
 GameObject:
@@ -2186,6 +2186,7 @@ GameObject:
   - component: {fileID: 5228430527853374125}
   - component: {fileID: 5228430527853374124}
   - component: {fileID: 5228430527853374123}
+  - component: {fileID: 5228430527853374132}
   m_Layer: 0
   m_Name: Soldier_Male_01
   m_TagString: Untagged
@@ -2238,6 +2239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58acf6eade76c4043bedd6f18d188d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _triggerDetector: {fileID: 0}
 --- !u!114 &5228430527853374126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2287,6 +2289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6818b47270bbfe5419989d8556def30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _triggerDetector: {fileID: 5228430527853374123}
 --- !u!114 &5228430527853374130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2312,6 +2315,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c85b91b864cab64083a49714d5ba5ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &5228430527853374132
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5228430527853374122}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &5228457632266309080
 GameObject:
   m_ObjectHideFlags: 0
@@ -3645,6 +3664,7 @@ GameObject:
   - component: {fileID: 7991923611657359653}
   - component: {fileID: 7991923611657359652}
   - component: {fileID: 7991923611657359651}
+  - component: {fileID: 7991923611657359660}
   m_Layer: 0
   m_Name: Soldier_Female_01
   m_TagString: AI
@@ -3697,6 +3717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58acf6eade76c4043bedd6f18d188d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _triggerDetector: {fileID: 0}
 --- !u!114 &7991923611657359654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3746,6 +3767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6818b47270bbfe5419989d8556def30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _triggerDetector: {fileID: 7991923611657359651}
 --- !u!114 &7991923611657359658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3771,6 +3793,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c85b91b864cab64083a49714d5ba5ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &7991923611657359660
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7991923611657359650}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &7991931495027014612
 GameObject:
   m_ObjectHideFlags: 0
@@ -4557,7 +4595,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.1
+  m_Radius: 1.8
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7993783977628785026
 GameObject:
