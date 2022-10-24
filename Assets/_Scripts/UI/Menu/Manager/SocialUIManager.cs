@@ -57,7 +57,7 @@ public class SocialUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //InitializeButtons();
+        InitializeButtons();
     }
 
     private void InitializeButtons()
@@ -68,6 +68,7 @@ public class SocialUIManager : MonoBehaviour
         // 1. 둘 사이의 관계를 확인함
         bool isLeft;
         int relationship = MySqlSetting.CheckRelationship(_myNickname, _targetUserNickname, out isLeft);
+        Debug.LogError(relationship);
 
         // 1-1. 관계가 없는 경우(반환값이 -1)
         if(relationship == -1)
