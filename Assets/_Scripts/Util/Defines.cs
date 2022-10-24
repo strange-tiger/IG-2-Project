@@ -57,6 +57,7 @@ namespace Defines
         IDLE,
         Run,
         Attack,
+        Skill,
         Damage,
         Death,
     }

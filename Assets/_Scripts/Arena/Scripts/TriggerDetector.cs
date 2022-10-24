@@ -2,32 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class TriggerDetector : MonoBehaviour
 {
-    Action<Collider> _onEnter;
-    Action<Collider> _onStay;
-    Action<Collider> _onExit;
+    public UnityEvent _onSword = new UnityEvent();
+    public UnityEvent _onStay = new UnityEvent();
+    public UnityEvent _onExit = new UnityEvent();
 
-    public void Init(Action<Collider> onEnter = null, Action<Collider> onStay = null, Action<Collider> onExit = null)
+    public void Init()
     {
-        _onEnter = onEnter;
-        _onStay = onStay;
-        _onExit = onExit;
+        Debug.Log("Init");
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        _onEnter?.Invoke(other);
+        if (other.gameObject.tag == "AISword")
+        {
+            Debug.Log("À¸¾Ç!");
+            _onSword.Invoke();
+        }
+
+        if (other.gameObject.tag == "AI")
+        {
+            Debug.Log("Àû¹ß°ß");
+            _onExit.Invoke();
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        _onStay?.Invoke(other);
+        _onStay.Invoke();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _onExit?.Invoke(other);
+        _onExit.Invoke();
     }
 }

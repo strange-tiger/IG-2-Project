@@ -2,20 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum EAttackOrder
+{
+    Attack1_First,
+    Attack2_First,
+}
+
 public class AIAttack : AIState
 {
-    public override void OnEnter()
+    [SerializeField]
+    private EAttackOrder _eAttackOrder;
+
+    private Animator _animator;
+
+    private void Start()
     {
-        throw new System.NotImplementedException();
+        _animator = GetComponent<Animator>();
     }
 
-    public override void OnExit()
+    public override void OnEnter()
     {
-        throw new System.NotImplementedException();
+        if (_eAttackOrder == EAttackOrder.Attack1_First)
+        {
+            _animator.SetBool(AIAnimatorID.isAttack1, true);
+        }
+
+        else if (_eAttackOrder == EAttackOrder.Attack2_First)
+        {
+            _animator.SetBool(AIAnimatorID.isAttack2, true);
+        }
     }
 
     public override void OnUpdate()
     {
-        throw new System.NotImplementedException();
+
     }
+
+    public override void OnExit()
+    {
+        _animator.SetBool(AIAnimatorID.isAttack1, false);
+        _animator.SetBool(AIAnimatorID.isAttack2, false);
+    }
+
+    
 }

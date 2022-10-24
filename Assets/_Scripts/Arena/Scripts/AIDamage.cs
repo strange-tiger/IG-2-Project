@@ -1,21 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EAIState = Defines.Estate;
 
 public class AIDamage : AIState
 {
-    public override void OnEnter()
+    private AI _ai;
+
+    private Animator _animator;
+
+    [SerializeField]
+    private TriggerDetector _triggerDetector;
+
+    private int _damage = 10;
+
+    private void Start()
     {
-        throw new System.NotImplementedException();
+        _ai = GetComponent<AI>();
+        _animator = GetComponent<Animator>();
+        _triggerDetector._onSword.AddListener(SwordTouchMyBody);
     }
 
-    public override void OnExit()
+    public override void OnEnter()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnUpdate()
     {
-        throw new System.NotImplementedException();
+
+    }
+
+    public override void OnExit()
+    {
+
+    }
+    
+    private void SwordTouchMyBody()
+    {
+        _animator.SetTrigger(AIAnimatorID.onDamage);
+        _ai.HP -= _damage;
+
+        if (_ai.HP <= 0)
+        {
+            aiFSM.ChangeState(EAIState.Death);
+        }
     }
 }

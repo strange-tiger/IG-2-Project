@@ -2,13 +2,11 @@ using UnityEngine;
 
 public static class AIAnimatorID
 {
-    public static readonly int Run = Animator.StringToHash("Run");
-    public static readonly int Attack1 = Animator.StringToHash("Attack1");
-    public static readonly int AttackB1 = Animator.StringToHash("AttackB1");
-    public static readonly int Attack2 = Animator.StringToHash("Attack2");
-    public static readonly int AttackB2 = Animator.StringToHash("AttackB2");
-    public static readonly int Skill = Animator.StringToHash("Skill");
-    public static readonly int SkillB = Animator.StringToHash("SkillB");
-    public static readonly int Damage = Animator.StringToHash("Damage");
-    public static readonly int Death = Animator.StringToHash("Death");
+    public static readonly int isIdel = Animator.StringToHash("isIdel");
+    public static readonly int isRun = Animator.StringToHash("isRun");
+    public static readonly int isAttack1 = Animator.StringToHash("isAttack1");
+    public static readonly int isAttack2 = Animator.StringToHash("isAttack2");
+    public static readonly int isSkill = Animator.StringToHash("isSkill");
+    public static readonly int onDamage = Animator.StringToHash("onDamage");
+    public static readonly int isDeath = Animator.StringToHash("isDeath");
 }

@@ -2,13 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIDeath : AIState
+public class AISkill : AIState
 {
-    [SerializeField]
-    private Collider _collider;
-
     private Animator _animator;
-
 
     private void Start()
     {
@@ -17,18 +13,16 @@ public class AIDeath : AIState
 
     public override void OnEnter()
     {
-        _animator.SetBool(AIAnimatorID.isDeath, true);
-        _collider.enabled = false;
-    }
 
-    public override void OnUpdate()
-    {
-        
     }
 
     public override void OnExit()
     {
-        
+
     }
-    
+
+    public override void OnUpdate()
+    {
+
+    }
 }
