@@ -122,7 +122,7 @@ public class SocialUIManager : MonoBehaviour
 
                 // 차단 취소
                 SetButton(_blockButton, true, _blockButtonText, _unblockText);
-                AddListenerToButton(_blockButton, OnClickUnblockUserButton, false);
+                AddListenerToButton(_blockButton, OnClickUnblockUserButton, true);
             }
 
             // 2-2. 내가 친구 요청을 한 상황
@@ -207,7 +207,7 @@ public class SocialUIManager : MonoBehaviour
     private void OnClickCancelRequestButton()
     {
         // 친구 요청 취소를 DB에 올림
-        //MySqlSetting.up(_myNickname, _targetUserNickname);
+        MySqlSetting.UpdateRelationshipToUnrequest(_myNickname, _targetUserNickname);
 
         // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_cancelRequestConfirmMessage);
@@ -240,7 +240,7 @@ public class SocialUIManager : MonoBehaviour
             () =>
             {
                 // 친구 요청 삭제을 DB에 올림
-                //MySqlSetting.up
+                MySqlSetting.UpdateRelationshipToUnrequest(_targetUserNickname, _myNickname);
 
                 // 확인 메시지 출력
                 _confirmPanelManager.ShowConfirmPanel(_denyRequestMessage);
@@ -268,7 +268,5 @@ public class SocialUIManager : MonoBehaviour
 
         // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_unblockConfirmMessage);
-
-        InitializeButtons();
     }
 }
