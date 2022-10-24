@@ -3751,6 +3751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 236522953}
   _lockImage: {fileID: 39836963}
+  _button: {fileID: 0}
 --- !u!114 &659794118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4811,6 +4812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 1981692135}
   _lockImage: {fileID: 91687265}
+  _button: {fileID: 0}
 --- !u!1 &1282860905
 GameObject:
   m_ObjectHideFlags: 0
@@ -4907,7 +4909,6 @@ MonoBehaviour:
   _makeRoomButton: {fileID: 986094848}
   _refreshButton: {fileID: 1864767235}
   _randomJoinButton: {fileID: 1047416391}
-  _joinRoomButtons: []
   _roomInfoTexts:
   - {fileID: 0}
   - {fileID: 0}
@@ -6199,6 +6200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 2055257973}
   _lockImage: {fileID: 401963379}
+  _button: {fileID: 0}
 --- !u!1 &1779397989
 GameObject:
   m_ObjectHideFlags: 0
@@ -6336,6 +6338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 525362407}
   _lockImage: {fileID: 187942883}
+  _button: {fileID: 0}
 --- !u!1 &1860606318
 GameObject:
   m_ObjectHideFlags: 0
@@ -7290,13 +7293,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1351128553}
     m_Modifications:
+    - target: {fileID: 6506199107967902219, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
+      propertyPath: _ui
+      value: 
+      objectReference: {fileID: 1282860909}
     - target: {fileID: 7798444769875118770, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
       propertyPath: m_Name
       value: ChangeRoomList
-      objectReference: {fileID: 0}
-    - target: {fileID: 7798444769875118770, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7798444769875118771, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
       propertyPath: m_Pivot.x
@@ -7308,7 +7311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798444769875118771, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7798444769875118771, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7381,42 +7384,6 @@ PrefabInstance:
     - target: {fileID: 7798444769875118771, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7798444770059455945, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_text
-      value: 1 / 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852340401309097358, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 17.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3d04a802c64a57458adf8b64e81d3c3, type: 3}
