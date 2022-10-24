@@ -1,17 +1,17 @@
-ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using _UI = Defines.ELogInUIIndex;
 
-public class LogInUIManager : UIManager
+using _UI = Defines.EPrivateRoomUIIndex;
+
+public class PrivateRoomUIManager : UIManager
 {
     [SerializeField] TMP_InputField[] _inputFields;
 
     private void Awake()
     {
-        LoadUI(_UI.LOGIN);
+        LoadUI(_UI.JOIN);
 
         foreach (TMP_InputField input in _inputFields)
         {
@@ -21,10 +21,10 @@ public class LogInUIManager : UIManager
             });
         }
     }
-    
+
     /// <summary>
-    /// ELogInUIIndexë¥¼ ui ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„, UIManager.LoadUIì— ì „ë‹¬í•´ 
-    /// UI ì˜¤ë¸Œì íŠ¸ë¥¼ ëª¨ë‘ ë¹„í™œì„±í™”í•œ í›„ ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” UI ì˜¤ë¸Œì íŠ¸ë¥¼ í™œì„±í™”í•œë‹¤.
+    /// EPrivateRoomUIIndex¸¦ ui ¸Å°³º¯¼ö·Î ¹Ş¾Æ, UIManager.LoadUI¿¡ Àü´ŞÇØ 
+    /// UI ¿ÀºêÁ§Æ®¸¦ ¸ğµÎ ºñÈ°¼ºÈ­ÇÑ ÈÄ ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â UI ¿ÀºêÁ§Æ®¸¦ È°¼ºÈ­ÇÑ´Ù.
     /// </summary>
     /// <param name="ui"></param>
     public void LoadUI(_UI ui)

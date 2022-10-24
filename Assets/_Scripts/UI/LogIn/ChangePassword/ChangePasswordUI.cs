@@ -40,22 +40,6 @@ public class ChangePasswordUI : MonoBehaviour
         DeactivePopup();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            _successPopup.SetActive(true);
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            _changePopup.SetActive(true);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _errorPopup.ErrorPopup(Error.ID);
-        }
-    }
-
     private void DeactivePopup()
     {
         _errorPopup.gameObject.SetActive(false);
