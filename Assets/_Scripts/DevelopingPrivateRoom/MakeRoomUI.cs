@@ -97,10 +97,20 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     private void ActivePasswordInput(bool isOn)
     {
         _passwordInput.interactable = isOn;
-        
+        Debug.Log(isOn);
         if(!_passwordInput.IsInteractable())
         {
+            Debug.Log(_passwordInput.text);
             _passwordInput.text = "";
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            _passwordToggle.isOn = !_passwordToggle.isOn;
+            Debug.Log(_passwordToggle.isOn);
         }
     }
 
