@@ -44,7 +44,6 @@ public class AIManager : MonoBehaviour
             case 0 :
                 _spawnTransform[index].position = transform.position + new Vector3(_size, 0f, 0f);
                 _spawnTransform[index].rotation = Quaternion.Euler(new Vector3(0, -(int)Angle.RightAngle, 0));
-                _spawnTransform[index] = GetComponent<Transform>();
                 break;
             case 1:
                 _spawnTransform[index].position = transform.position + new Vector3(-_size * 2, 0f, 0f);

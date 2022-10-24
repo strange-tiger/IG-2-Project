@@ -51,4 +51,14 @@ namespace Defines
         RightAngle = 90,
         TurnAround = 180,
     }
+
+    public enum Estate
+    {
+        IDLE,
+        Run,
+        Attack,
+        Damage,
+        Death,
+    }
+
 }
