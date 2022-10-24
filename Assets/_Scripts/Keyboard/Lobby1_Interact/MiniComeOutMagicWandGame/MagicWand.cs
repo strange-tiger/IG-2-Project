@@ -79,8 +79,20 @@ public class MagicWand : MonoBehaviourPun
     [PunRPC]
     public void GetMagic(int num)
     {
+        // int _getMagic = 0;
+
         for (int i = 0; i < transform.childCount; ++i)
         {
+            //if (num - _useMagicChance[i] >= 0)
+            //{
+            //    _getMagic += _useMagicChance[i];
+            //}
+            //else
+            //{
+            //    _magic[i].gameObject.SetActive(true);
+            //    break;
+            //}
+
             if (num < _useMagicChance[i])
             {
                 _magic[i].gameObject.SetActive(true);
