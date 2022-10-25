@@ -13,8 +13,10 @@ public class Coin : MonoBehaviour
     private Button _miningButton;
     [SerializeField]
     private AudioClip[] _clips;
-    [SerializeField]
-    private float _delay = 3;
+
+    private float _delay = 5f;
+
+    private float _elapsedTime = 0;
 
     private void Awake()
     {
@@ -51,30 +53,24 @@ public class Coin : MonoBehaviour
     public void InitCoin()
     {
         gameObject.SetActive(true);
-        Color color = _coinImage.color;
-        color.a = 1;
-        _coinImage.color = color;
+        _elapsedTime = 0;
+        _coinImage.color = Color.white;
     }
     IEnumerator GetCoinEffect()
     {
-        Debug.Log("코인 효과");
-        float _elapsedTime = 0;
-
         while(true)
         {
             _elapsedTime += Time.deltaTime;
 
             if(_elapsedTime > _delay)
             {
-                Debug.Log($"{_delay}초 지남");
-                _coinImage.color = new Color(1, 1, 1, 0);
                 gameObject.SetActive(false);
                 _miningButton.gameObject.SetActive(true);
                 break;
             }
             else
             {
-                _coinImage.color = new Color(1, 1, 1, 1f - _elapsedTime / _delay);
+                _coinImage.color = new Color( 1, 1, 1, 1f - _elapsedTime / _delay);
             }
             yield return null;
         }

@@ -28,7 +28,6 @@ public class HitPoint : MonoBehaviour
             _currentDegree = (int)Mathf.Lerp(0f, 360f, _elapsedTime / _delay);
             if (_checkPoint.Angle >= _currentDegree && _currentDegree >= _checkPoint.Angle - (_checkPointImage.fillAmount * 360))
             {
-                Debug.Log("µé¾î¿È");
                 _miningSlider.ElapsedTime += 1f;
             }
             ResetPoint();

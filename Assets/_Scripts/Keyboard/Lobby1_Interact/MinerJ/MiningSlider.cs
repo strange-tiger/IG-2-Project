@@ -28,10 +28,10 @@ public class MiningSlider : MonoBehaviour
 
         if(_slider.value >= 1 )
         {
-            _coin.GetCoin();
             _slider.value = 0;
             _elapsedTime = 0;
             GetChildTrans();
+            _coin.GetCoin();
         }
         else
         {
