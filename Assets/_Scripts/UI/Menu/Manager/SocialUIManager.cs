@@ -45,6 +45,8 @@ public class SocialUIManager : MonoBehaviour
     [SerializeField] private CheckPanelManager _checkPanelManager;
 
     private string _myNickname;
+
+    private UserInteraction _targetUser;
     private string _targetUserNickname;
     private bool _isTargetUserNicknameSet;
 
@@ -154,10 +156,11 @@ public class SocialUIManager : MonoBehaviour
     /// <summary>
     /// 친구 추가 패널을 보여줌
     /// </summary>
-    /// <param name="targetUserName"> 타겟 유저 이름 </param>
-    public void ShowFriendPanel(string targetUserName)
+    /// <param name="targetUser"> 타겟 유저 이름 </param>
+    public void ShowFriendPanel(UserInteraction targetUser)
     {
-        _targetUserNickname = targetUserName;
+        _targetUser = targetUser;
+        _targetUserNickname = targetUser.Nickname;
         _targetUserNicknameText.text = _targetUserNickname;
         _isTargetUserNicknameSet = true;
         InitializeButtons();

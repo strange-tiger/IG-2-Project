@@ -7,6 +7,8 @@ using Asset.MySql;
 
 public class SocialTabManager : MonoBehaviour
 {
+    public GameObject RequestAlarmImage { private get; set; }
+
     [Header("List View")]
     [SerializeField] private GameObject _friendListItem;
     [SerializeField] private GameObject _requestListItem;
@@ -102,6 +104,11 @@ public class SocialTabManager : MonoBehaviour
     private void ShowRequestList()
     {
         //StopAllCoroutines();
+
+        if(RequestAlarmImage.activeSelf)
+        {
+            RequestAlarmImage.SetActive(false);
+        }
 
         // 버튼 활성화 처리
         _friendListButton.interactable = true;
