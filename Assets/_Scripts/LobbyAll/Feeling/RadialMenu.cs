@@ -32,6 +32,7 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
     private void Start()
     {
         _cursorInitPosition = _cursor.rectTransform.localPosition;
+        _feelingImage = GameObject.Find("ExpressionImage").GetComponent<Image>();
     }
    
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

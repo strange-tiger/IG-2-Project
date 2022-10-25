@@ -45,13 +45,11 @@ public class MagicWand : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-
             if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
             {
                 int RandomNumber = Random.Range(0, _totalProbability + 1);
 
-                photonView.RPC("GetMagic", RpcTarget.Others, RandomNumber);
-                // GetMagic(RandomNumber);
+                photonView.RPC("GetMagic", RpcTarget.All, RandomNumber);
 
                 _magicWandPanel.SetActive(true);
                 _magicNameText.text = gameObject.name;
@@ -81,8 +79,20 @@ public class MagicWand : MonoBehaviourPun
     [PunRPC]
     public void GetMagic(int num)
     {
+        // int _getMagic = 0;
+
         for (int i = 0; i < transform.childCount; ++i)
         {
+            //if (num - _useMagicChance[i] >= 0)
+            //{
+            //    _getMagic += _useMagicChance[i];
+            //}
+            //else
+            //{
+            //    _magic[i].gameObject.SetActive(true);
+            //    break;
+            //}
+
             if (num < _useMagicChance[i])
             {
                 _magic[i].gameObject.SetActive(true);

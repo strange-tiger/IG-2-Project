@@ -14,6 +14,7 @@ namespace Defines
         FantasyLobby,
         WesternLobby,
         VikingLobby,
+        ArenaRoom,
 
         End,
     }
@@ -44,4 +45,21 @@ namespace Defines
         TwentyFive = 25,
         Ten = 10,
     }
+
+    public enum EDegrees
+    {
+        RightAngle = 90,
+        TurnAround = 180,
+    }
+
+    public enum Estate
+    {
+        IDLE,
+        Run,
+        Attack,
+        Skill,
+        Damage,
+        Death,
+    }
+
 }
