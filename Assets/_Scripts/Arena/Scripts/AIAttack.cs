@@ -2,18 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EAIState = Defines.Estate;
-
-
-enum EAttackOrder
-{
-    Attack1_First,
-    Attack2_First,
-}
+using EAttack = Defines.EAttackKind;
 
 public class AIAttack : AIState
 {
     [SerializeField]
-    private EAttackOrder _eAttackOrder;
+    private EAttack _eAttack;
 
     [SerializeField]
     private TriggerDetector _attackAI;
@@ -35,20 +29,20 @@ public class AIAttack : AIState
 
     public override void OnEnter()
     {
-
-        if (_eAttackOrder == EAttackOrder.Attack1_First)
+        if ((int)_eAttack == 0)
         {
             _animator.SetBool(AIAnimatorID.isAttack1, true);
-            Debug.Log("OnEnter AIAIAttack1");
         }
 
-        else if (_eAttackOrder == EAttackOrder.Attack2_First)
+        else if ((int)_eAttack == 1)
         {
             _animator.SetBool(AIAnimatorID.isAttack2, true);
-            Debug.Log("OnEnter AIAIAttack2");
         }
 
         _isAttackTime = true;
+
+        _curTime -= _curTime;
+
     }
 
     public override void OnUpdate()
@@ -58,36 +52,23 @@ public class AIAttack : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 5f)
-        {
-            aiFSM.ChangeState(EAIState.Skill);
-            _curTime -= _curTime;
-        }
-
-        if (_ai.HP <= 0)
-        {
-            aiFSM.ChangeState(EAIState.Death);
-        }
-
+        //if (_curTime >= 5f)
+        //{
+        //    aiFSM.ChangeState(EAIState.Skill);
+        //    _curTime -= _curTime;
+        //}
     }
 
     public override void OnExit()
     {
-        if (_ai.HP <= 0)
-        {
-            _animator.SetBool(AIAnimatorID.isAttack1, false);
-            _animator.SetBool(AIAnimatorID.isAttack2, false);
-            Debug.Log("Á×À½");
-        }
-
+        _animator.SetBool(AIAnimatorID.isAttack1, false);
+        _animator.SetBool(AIAnimatorID.isAttack2, false);
         _isAttackTime = false;
         _curTime -= _curTime;
-        Debug.Log("¾îÅÃ Å»Ãâ");
     }
 
     private void StateChangeAttackToDamage()
     {
-        Debug.Log("StateChangeAttackToDamage");
         aiFSM.ChangeState(EAIState.Damage);
     }
 }

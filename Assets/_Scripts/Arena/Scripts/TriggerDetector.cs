@@ -15,7 +15,6 @@ public class TriggerDetector : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("Init");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,14 +22,13 @@ public class TriggerDetector : MonoBehaviour
         if (other.gameObject.tag == "AISword")
         {
             _attackAI.Invoke();
-            Debug.Log("칼맞음");
         }
 
         if (other.gameObject.tag == "AI")
         {
             _hiAI.Invoke();
+            transform.LookAt(other.gameObject.transform);
             _playerCollider.enabled = false;
-            Debug.Log("적발견");
         }
     }
 

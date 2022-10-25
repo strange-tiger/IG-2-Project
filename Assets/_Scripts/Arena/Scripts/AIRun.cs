@@ -23,7 +23,6 @@ public class AIRun : AIState
 
     public override void OnEnter()
     {
-        Debug.Log("OnEnter AIRun");
         _isRunTime = true;
         _animator.SetBool(AIAnimatorID.isRun, true);
     }
@@ -35,7 +34,7 @@ public class AIRun : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 5f)
+        if (_curTime >= 7f)
         {
             int a = Random.Range(0, 361);
             transform.Rotate(new Vector3(0, a, 0));
@@ -45,15 +44,12 @@ public class AIRun : AIState
 
     public override void OnExit()
     {
-        Debug.Log("OnExit AIRun");
-        _animator.SetBool(AIAnimatorID.isRun, false);
         _isRunTime = false;
         _curTime -= _curTime;
     }
 
     private void StateChangeRunToAttack()
     {
-        Debug.Log("StateChangeRunToAttack");
         aiFSM.ChangeState(EAIState.Attack);
     }
 }

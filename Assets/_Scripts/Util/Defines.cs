@@ -66,4 +66,10 @@ namespace Defines
     {
         Prototype,
     }
+
+    public enum EAttackKind
+    {
+        Attack1,
+        Attack2,
+    }
 }

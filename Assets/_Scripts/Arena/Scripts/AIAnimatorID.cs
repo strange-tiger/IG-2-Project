@@ -9,4 +9,5 @@ public static class AIAnimatorID
     public static readonly int isSkill = Animator.StringToHash("isSkill");
     public static readonly int isDamage = Animator.StringToHash("isDamage");
     public static readonly int isDeath = Animator.StringToHash("isDeath");
+    public static readonly int Death = Animator.StringToHash("Death");
 }

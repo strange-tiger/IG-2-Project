@@ -9,13 +9,11 @@ public class AISword : MonoBehaviour
 
     public void OnHitBox()
     {
-        Debug.Log("응애");
         _swordHitBox.enabled = true;
     }
 
     public void OffHitBox()
     {
-        Debug.Log("애응");
         _swordHitBox.enabled = false;
     }
 }

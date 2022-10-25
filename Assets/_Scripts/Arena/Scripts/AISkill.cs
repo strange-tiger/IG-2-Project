@@ -21,14 +21,7 @@ public class AISkill : AIState
 
     public override void OnUpdate()
     {
-        if (_ai.HP <= 0)
-        {
-            aiFSM.ChangeState(EAIState.Attack);
-        }
-        else
-        {
-            aiFSM.ChangeState(EAIState.Death);
-        }
+        aiFSM.ChangeState(EAIState.Attack);
     }
 
     public override void OnExit()

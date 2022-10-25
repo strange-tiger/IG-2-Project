@@ -10,6 +10,7 @@ public class AI : MonoBehaviour
     private EJob _eJob;
 
     AIFSM _aiFSM;
+    private Animator _animator;
 
     private int hp;
     public int HP
@@ -26,6 +27,9 @@ public class AI : MonoBehaviour
 
     private void Awake()
     {
+        
+        _animator = GetComponent<Animator>();
+
         // 캐릭터 HP 추가
         switch ((int)_eJob)
         {
@@ -33,7 +37,8 @@ public class AI : MonoBehaviour
                 hp = 100;
                 break;
         }
-       
+
+        _animator.SetInteger(AIAnimatorID.Death, HP);
 
         _aiFSM = GetComponent<AIFSM>();
         _aiFSM.Init();
