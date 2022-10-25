@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,8 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
-using Oculus.Platform.Models;
-using System;
+using _PH = ExitGames.Client.Photon;
 
 public class JoinRoomUI : MonoBehaviourPunCallbacks
 {
@@ -150,11 +150,16 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
         ShowRoomList(0);
     }
 
+    private static readonly _PH.Hashtable CUSTOM_ROOM_PROPERTIES_UNLOCKED = 
+        new _PH.Hashtable() { { "password", "" } };
+    private const int ANY_MAX_PLAYER = 0;
     private void RandomJoin()
     {
+        
+        
         try
         {
-            PhotonNetwork.JoinRandomRoom();
+            PhotonNetwork.JoinRandomRoom(CUSTOM_ROOM_PROPERTIES_UNLOCKED, ANY_MAX_PLAYER);
         }
         catch
         {
