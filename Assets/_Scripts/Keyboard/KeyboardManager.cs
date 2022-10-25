@@ -73,7 +73,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     {
         CloseLayout();
         _inputField = null;
-        _typedText.text = "";
+        Clear();
         _typedText.gameObject.SetActive(false);
     }
 
