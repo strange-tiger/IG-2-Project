@@ -5,6 +5,8 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
+using _PH = ExitGames.Client.Photon;
+
 public class RoomInfoTextUI : MonoBehaviourPunCallbacks
 {
     [Header("Text")]
@@ -69,6 +71,7 @@ public class RoomInfoTextUI : MonoBehaviourPunCallbacks
         _isLocked = isLocked;
     }
 
+    private const int ANY_MAX_PLAYER = 0;
     public void JoinRoom()
     {
         if (_isLocked)
@@ -77,9 +80,12 @@ public class RoomInfoTextUI : MonoBehaviourPunCallbacks
             return;
         }
 
+        // _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _roomName } };
+
         try
         {
             PhotonNetwork.JoinRoom(_roomName);
+            // PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, ANY_MAX_PLAYER);
         }
         catch
         {

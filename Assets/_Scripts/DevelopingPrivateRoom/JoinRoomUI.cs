@@ -9,6 +9,7 @@ using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
 using _PH = ExitGames.Client.Photon;
+using _DB = Asset.MySql.MySqlSetting;
 
 public class JoinRoomUI : MonoBehaviourPunCallbacks
 {
@@ -40,6 +41,9 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
     private Dictionary<string, RoomInfo> _cachedRoomList = new Dictionary<string, RoomInfo>();
     private List<RoomInfo[]> _roomPageList = new List<RoomInfo[]>();
 
+    private List<Dictionary<string, string>> _roomList = new List<Dictionary<string, string>>();
+    private List<Dictionary<string, string>[]> _roomPage = new List<Dictionary<string, string>[]>();
+
     private void Awake()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -61,6 +65,7 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
     private void LoadMakeRoom() => _uiManager.LoadUI(_UI.MAKE);
 
+#region Legacy
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         Debug.Log("Room List Update");
@@ -130,13 +135,49 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < PAGE_ROOM_COUNT; ++i)
         {
-            RoomInfo room = _roomPageList[page][i];
+            Dictionary<string, string> room = _roomPage[page][i];
 
-            _roomInfoTexts[i].SetRoom(room.Name);
-            _roomInfoTexts[i].SetInfo($"{room.Name}\t{room.PlayerCount} / {room.MaxPlayers}");
-            _roomInfoTexts[i].SetLock(room.CustomProperties["password"] != null);
+            _roomInfoTexts[i].SetRoom(room["UserID"]);
+            _roomInfoTexts[i].SetInfo($"{room["DisplayName"]}\t{room["RoomNumber"]}");
+            _roomInfoTexts[i].SetLock(room["Password"] != "");
 
             _roomInfoTexts[i].UpdateRoomInfo();
+        }
+    }
+    
+#endregion
+
+    private void RoomListUpdate()
+    {
+        _roomList = _DB.GetRoomList();
+
+        PageCount = _roomList.Count / PAGE_ROOM_COUNT + 1;
+
+        UpdateRoomPageList(_roomList);
+    }
+
+    private void UpdateRoomPageList(List<Dictionary<string, string>> roomList)
+    {
+        _roomPage.Clear();
+
+        for (int i = 0; i < _pageCount; ++i)
+        {
+            _roomPage.Add(new Dictionary<string, string>[PAGE_ROOM_COUNT]);
+        }
+
+        int pageCount = 0;
+        int roomCount = 0;
+
+        foreach (Dictionary<string, string> roomInfo in _roomList)
+        {
+            if (roomCount == PAGE_ROOM_COUNT)
+            {
+                roomCount = 0;
+                ++pageCount;
+            }
+            _roomPage[pageCount][roomCount] = roomInfo;
+
+            ++roomCount;
         }
     }
 
@@ -147,6 +188,7 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
     private void RefreshRoomList()
     {
+        RoomListUpdate();
         ShowRoomList(0);
     }
 
@@ -155,8 +197,6 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
     private const int ANY_MAX_PLAYER = 0;
     private void RandomJoin()
     {
-        
-        
         try
         {
             PhotonNetwork.JoinRandomRoom(CUSTOM_ROOM_PROPERTIES_UNLOCKED, ANY_MAX_PLAYER);
@@ -165,6 +205,12 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
         {
             Debug.LogError("랜덤 매칭 실패");
         }
+    }
+
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+        _DB.AddNewRoomInfo("", "", "", 0);
     }
 
     public override void OnDisable()

@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
+using _DB = Asset.MySql.MySqlSetting;
 
 public class MakeRoomUI : MonoBehaviourPunCallbacks
 {
@@ -99,6 +100,8 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
                 "password",
                 "displayname"
             };
+
+            _DB.AddNewRoomInfo(_userId, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
             PhotonNetwork.CreateRoom(roomName, _roomOptions, null);
             Debug.Log("号 持失 失因");
         }
