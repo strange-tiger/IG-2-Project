@@ -52,11 +52,11 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
-            if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickDown))
+            if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick))
             {
                 _radialMenu.SetActive(true);
             }
-            else if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp))
+            else if (OVRInput.GetUp(OVRInput.Button.PrimaryThumbstick))
             {
                 photonView.RPC("ButtonOneMenu", RpcTarget.All);
             }

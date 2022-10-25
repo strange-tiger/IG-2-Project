@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4884807718529108578}
+  - component: {fileID: 4556701131216317053}
+  - component: {fileID: 4742785813688180916}
+  - component: {fileID: 8780938460027292882}
   m_Layer: 0
   m_Name: Pie_Dish_01
   m_TagString: Untagged
@@ -26,13 +29,63 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4404480373597462101}
   - {fileID: 4404176786442485954}
+  - {fileID: 4404480373597462101}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4556701131216317053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791893569924701036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _foodSatietyLevel: 1
+  _food: {fileID: 4399291461458050792}
+--- !u!114 &4742785813688180916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791893569924701036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 4556701131216317053}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!65 &8780938460027292882
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791893569924701036}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.1, z: 0.3}
+  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!1001 &4399687651241241995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,7 +99,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4801618526401502, guid: 5bf71b0a1448e0e4594d89102439d273, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4801618526401502, guid: 5bf71b0a1448e0e4594d89102439d273, type: 3}
       propertyPath: m_LocalPosition.x
@@ -88,7 +141,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64461892204573284, guid: 5bf71b0a1448e0e4594d89102439d273, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5bf71b0a1448e0e4594d89102439d273, type: 3}
 --- !u!4 &4404480373597462101 stripped
 Transform:
@@ -108,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4525487849573842, guid: 7cc4832def3b5a2469b0b020b797d26a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4525487849573842, guid: 7cc4832def3b5a2469b0b020b797d26a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -152,6 +206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cc4832def3b5a2469b0b020b797d26a, type: 3}
+--- !u!1 &4399291461458050792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1047685797065720, guid: 7cc4832def3b5a2469b0b020b797d26a, type: 3}
+  m_PrefabInstance: {fileID: 4399687651600928016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4404176786442485954 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4525487849573842, guid: 7cc4832def3b5a2469b0b020b797d26a, type: 3}
