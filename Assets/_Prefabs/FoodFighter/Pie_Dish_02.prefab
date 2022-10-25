@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8503878434655260353}
+  - component: {fileID: 23275248121321}
+  - component: {fileID: 2600941696496166208}
+  - component: {fileID: 6806334061622426061}
   m_Layer: 0
   m_Name: Pie_Dish_02
   m_TagString: Untagged
@@ -26,13 +29,63 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5574914356013441791}
   - {fileID: 5566809307548304930}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &23275248121321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777849460816220091}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.1, z: 0.3}
+  m_Center: {x: 0, y: 0.05, z: 0}
+--- !u!114 &2600941696496166208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777849460816220091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _foodSatietyLevel: 1
+  _food: {fileID: 5572413334838731965}
+--- !u!114 &6806334061622426061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777849460816220091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2600941696496166208}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &5571032564285421052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150,8 +203,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64925695561880528, guid: 1bede1038e1bcad4782cbd94796561a7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1bede1038e1bcad4782cbd94796561a7, type: 3}
+--- !u!1 &5572413334838731965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1540410277651384, guid: 1bede1038e1bcad4782cbd94796561a7, type: 3}
+  m_PrefabInstance: {fileID: 5571032564310607621}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5574914356013441791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4041289628001786, guid: 1bede1038e1bcad4782cbd94796561a7, type: 3}
