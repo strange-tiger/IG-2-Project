@@ -20,6 +20,10 @@ public class HitPoint : MonoBehaviour
     {
         _checkPointImage = _checkPoint.gameObject.GetComponent<Image>();
     }
+    private void OnEnable()
+    {
+        HitPointInit();
+    }
     void Update()
     {
         _elapsedTime += Time.deltaTime;
@@ -30,17 +34,17 @@ public class HitPoint : MonoBehaviour
             {
                 _miningSlider.ElapsedTime += 1f;
             }
-            ResetPoint();
+            HitPointInit();
         }
         else if (_elapsedTime > _delay)
         {
-            ResetPoint();
+            HitPointInit();
         }
         else
         transform.rotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, _elapsedTime / _delay));
     }
 
-    public void ResetPoint()
+    public void HitPointInit()
     {
         transform.rotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, 1f));
         _currentDegree = 0;

@@ -22,14 +22,17 @@ public class MiningSlider : MonoBehaviour
         _slider = gameObject.GetComponent<Slider>();
         _hitPoint = transform.parent.GetComponentInChildren<HitPoint>();
     }
+    private void OnEnable()
+    {
+        SliderInit();
+    }
     private void Update()
     {
         _elapsedTime += Time.deltaTime;
 
         if(_slider.value >= 1 )
         {
-            _slider.value = 0;
-            _elapsedTime = 0;
+            SliderInit();
             GetChildTrans();
             _coin.GetCoin();
         }
@@ -37,6 +40,12 @@ public class MiningSlider : MonoBehaviour
         {
             _slider.value = Mathf.Lerp(0, 1, _elapsedTime /_delay);
         }
+    }
+
+    private void SliderInit()
+    {
+        _slider.value = 0;
+        _elapsedTime = 0;
     }
     public void GetChildTrans()
     {
