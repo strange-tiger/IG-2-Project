@@ -54,7 +54,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
 
-        _keyboard.position = _inputField.transform.root.position + _moveKeyboard;
+        _keyboard.localPosition = _inputField.transform.root.localPosition + _moveKeyboard;
 
         _typedText.gameObject.SetActive(true);
 
