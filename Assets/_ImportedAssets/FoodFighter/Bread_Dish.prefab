@@ -9,10 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5440368780815714985}
-  - component: {fileID: 3943852122564286694}
-  - component: {fileID: 4975722285801852554}
-  - component: {fileID: 3705429423598584748}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Bread_Dish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,63 +26,13 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7671904263711513326}
   - {fileID: 7667003277871937744}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3943852122564286694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5923320022609438542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _foodSatietyLevel: 1
-  _food: {fileID: 7670405588590223128}
---- !u!65 &4975722285801852554
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5923320022609438542}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.25, z: 0.65}
-  m_Center: {x: 0, y: 0.15, z: 0}
---- !u!114 &3705429423598584748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5923320022609438542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 3943852122564286694}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1001 &7671534767632150924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,14 +43,6 @@ PrefabInstance:
     - target: {fileID: 1131429774929556, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
       propertyPath: m_Name
       value: SM_Item_Bread_02
-      objectReference: {fileID: 0}
-    - target: {fileID: 1131429774929556, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1131429774929556, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4169889385392994, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
       propertyPath: m_RootOrder
@@ -149,22 +88,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 23268871079533606, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 04216b5eace822e4399b0481013eed0d, type: 2}
-    - target: {fileID: 64931962506855680, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 64931962506855680, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
---- !u!1 &7670405588590223128 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1131429774929556, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
-  m_PrefabInstance: {fileID: 7671534767632150924}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7671904263711513326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4169889385392994, guid: 84e4c8146d27c4644a3f80d2087c93a2, type: 3}
@@ -180,14 +105,6 @@ PrefabInstance:
     - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
       propertyPath: m_Name
       value: SM_Item_Dish_03 (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4625532936735016, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
       propertyPath: m_RootOrder
@@ -245,10 +162,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 23862735932666148, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 04216b5eace822e4399b0481013eed0d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
 --- !u!4 &7667003277871937744 stripped

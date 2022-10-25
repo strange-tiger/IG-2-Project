@@ -8,6 +8,7 @@ using _UI = Defines.EPrivateRoomUIIndex;
 public class PrivateRoomUIManager : UIManager
 {
     [SerializeField] TMP_InputField[] _inputFields;
+    [SerializeField] TMP_InputField[] _inputNumField;
 
     private void Awake()
     {
@@ -18,6 +19,14 @@ public class PrivateRoomUIManager : UIManager
             input.onSelect.AddListener((string temp) =>
             {
                 KeyboardManager.OpenKeyboard();
+            });
+        }
+
+        foreach (TMP_InputField input in _inputNumField)
+        {
+            input.onSelect.AddListener((string temp) =>
+            {
+                KeyboardManager.OpenKeyboard(KeyboardManager.EKeyboardLayout.NUMPAD);
             });
         }
     }
