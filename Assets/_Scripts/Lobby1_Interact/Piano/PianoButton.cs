@@ -18,6 +18,11 @@ public class PianoButton : MonoBehaviourPun
     }
     private void Awake()
     {
+        if(!PlayerPrefs.HasKey("EffectVolume"))
+        {
+            PlayerPrefs.SetFloat("EffectVolume", 50f);
+        }
+
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _myAudioClip;
         _audioSource.spatialBlend = 1;
@@ -32,8 +37,9 @@ public class PianoButton : MonoBehaviourPun
                 photonView.RPC("AddSteppedCount", RpcTarget.All);
                 Debug.Log("들어오라고!");
             }
-
-            if (PhotonNetwork.IsMasterClient)
+            Debug.Log(_steppedCount);            
+            
+            //if (PhotonNetwork.IsMasterClient)
             {
                 if (SteppedCount == 1)
                 {
