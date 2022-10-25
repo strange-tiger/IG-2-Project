@@ -5,8 +5,14 @@ using System;
 using UnityEngine.Events;
 using EAIState = Defines.Estate;
 
-public class TriggerDetector : AIState
+public class TriggerDetector : MonoBehaviour
 {
+    [SerializeField]
+    private Collider _playerCollider;
+
+    public UnityEvent _hiAI = new UnityEvent();
+    public UnityEvent _attackAI = new UnityEvent();
+
     public void Init()
     {
         Debug.Log("Init");
@@ -14,15 +20,16 @@ public class TriggerDetector : AIState
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.gameObject.tag == "AISword")
-        //{
-        //    aiFSM.ChangeState(EAIState.Damage);
-        //    Debug.Log("Ä®¸ÂÀ½");
-        //}
+        if (other.gameObject.tag == "AISword")
+        {
+            _attackAI.Invoke();
+            Debug.Log("Ä®¸ÂÀ½");
+        }
 
         if (other.gameObject.tag == "AI")
         {
-            aiFSM.ChangeState(EAIState.Attack);
+            _hiAI.Invoke();
+            _playerCollider.enabled = false;
             Debug.Log("Àû¹ß°ß");
         }
     }
@@ -35,17 +42,5 @@ public class TriggerDetector : AIState
     private void OnTriggerExit(Collider other)
     {
 
-    }
-
-    public override void OnEnter()
-    {
-    }
-
-    public override void OnUpdate()
-    {
-    }
-
-    public override void OnExit()
-    {
     }
 }

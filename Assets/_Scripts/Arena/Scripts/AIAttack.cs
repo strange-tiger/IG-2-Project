@@ -15,6 +15,9 @@ public class AIAttack : AIState
     [SerializeField]
     private EAttackOrder _eAttackOrder;
 
+    [SerializeField]
+    private TriggerDetector _attackAI;
+
     private Animator _animator;
     private AI _ai;
 
@@ -26,7 +29,8 @@ public class AIAttack : AIState
         _animator = GetComponent<Animator>();
         _ai = GetComponent<AI>();
 
-
+        _attackAI._attackAI.RemoveListener(StateChangeAttackToDamage);
+        _attackAI._attackAI.AddListener(StateChangeAttackToDamage);
     }
 
     public override void OnEnter()
@@ -69,11 +73,21 @@ public class AIAttack : AIState
 
     public override void OnExit()
     {
-        _animator.SetBool(AIAnimatorID.isAttack1, false);
-        _animator.SetBool(AIAnimatorID.isAttack2, false);
+        if (_ai.HP <= 0)
+        {
+            _animator.SetBool(AIAnimatorID.isAttack1, false);
+            _animator.SetBool(AIAnimatorID.isAttack2, false);
+            Debug.Log("Á×À½");
+        }
+
         _isAttackTime = false;
         _curTime -= _curTime;
+        Debug.Log("¾îÅÃ Å»Ãâ");
     }
 
-
+    private void StateChangeAttackToDamage()
+    {
+        Debug.Log("StateChangeAttackToDamage");
+        aiFSM.ChangeState(EAIState.Damage);
+    }
 }

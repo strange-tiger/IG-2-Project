@@ -6,13 +6,9 @@ using EAIState = Defines.Estate;
 public class AIDamage : AIState
 {
     private AI _ai;
-
     private Animator _animator;
 
-    [SerializeField]
-    private TriggerDetector _triggerDetector;
-
-    private int _damage = 10;
+    private int _damage = 5;
 
     private void Start()
     {
@@ -22,6 +18,7 @@ public class AIDamage : AIState
 
     public override void OnEnter()
     {
+        Debug.Log("OnEnter Damage");
         _animator.SetBool(AIAnimatorID.isDamage, true);
         _ai.HP -= _damage;
     }
@@ -34,6 +31,7 @@ public class AIDamage : AIState
         }
         else
         {
+            Debug.Log("OnUpdate Attack");
             aiFSM.ChangeState(EAIState.Attack);
         }
     }
@@ -41,10 +39,6 @@ public class AIDamage : AIState
     public override void OnExit()
     {
         _animator.SetBool(AIAnimatorID.isDamage, false);
-    }
-    
-    private void SwordTouchMyBody()
-    {
-        aiFSM.ChangeState(EAIState.Damage);
+        Debug.Log("OnExit Damage");
     }
 }

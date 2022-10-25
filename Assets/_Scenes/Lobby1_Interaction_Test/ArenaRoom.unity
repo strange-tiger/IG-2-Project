@@ -979,20 +979,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 2, z: 0.25}
   m_Center: {x: 0, y: 1, z: 0}
---- !u!64 &5218858938602890450
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5227719219266412096}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43386942233899264, guid: d165fe04f72c74b468e783d722b3ed8b, type: 2}
 --- !u!4 &5225865998199727560
 Transform:
   m_ObjectHideFlags: 0
@@ -1709,7 +1695,7 @@ GameObject:
   - component: {fileID: 5231042265855130362}
   - component: {fileID: 5256248273755430088}
   - component: {fileID: 5249835785347943464}
-  - component: {fileID: 5218858938602890450}
+  - component: {fileID: 5227719219266412097}
   m_Layer: 0
   m_Name: SM_Wep_Sword_01
   m_TagString: AISword
@@ -1717,6 +1703,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &5227719219266412097
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5227719219266412096}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.041618958, y: 1.2, z: 0.07}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &5227735978148919964
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,6 +2186,7 @@ GameObject:
   - component: {fileID: 5228430527853374124}
   - component: {fileID: 5228430527853374123}
   - component: {fileID: 5228430527853374132}
+  - component: {fileID: 5228430527853374133}
   m_Layer: 0
   m_Name: Soldier_Male_01
   m_TagString: Untagged
@@ -2206,6 +2206,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5faeb0a42f7cb1642b4057b40746fbed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerCollider: {fileID: 5227626537340424723}
+  _hiAI:
+    m_PersistentCalls:
+      m_Calls: []
+  _attackAI:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5228430527853374124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2230,6 +2237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58acf6eade76c4043bedd6f18d188d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hiAI: {fileID: 5228430527853374123}
 --- !u!114 &5228430527853374126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2279,7 +2287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6818b47270bbfe5419989d8556def30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _triggerDetector: {fileID: 5228430527853374123}
 --- !u!114 &5228430527853374130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2293,6 +2300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eAttackOrder: 1
+  _attackAI: {fileID: 5228430527853374123}
 --- !u!114 &5228430527853374131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2322,6 +2330,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &5228430527853374133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5228430527853374122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31a1e3cb8f677d4e9b8327b18861163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swordHitBox: {fileID: 7993733022492965441}
 --- !u!1 &5228457632266309080
 GameObject:
   m_ObjectHideFlags: 0
@@ -3089,20 +3110,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 2, z: 0.25}
   m_Center: {x: 0, y: 1, z: 0}
---- !u!64 &7930552760105681106
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7993733022492965440}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43386942233899264, guid: d165fe04f72c74b468e783d722b3ed8b, type: 2}
 --- !u!33 &7967455767788271816
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3656,6 +3663,7 @@ GameObject:
   - component: {fileID: 7991923611657359652}
   - component: {fileID: 7991923611657359651}
   - component: {fileID: 7991923611657359660}
+  - component: {fileID: 7991923611657359661}
   m_Layer: 0
   m_Name: Soldier_Female_01
   m_TagString: AI
@@ -3675,6 +3683,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5faeb0a42f7cb1642b4057b40746fbed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerCollider: {fileID: 7993775407430823095}
+  _hiAI:
+    m_PersistentCalls:
+      m_Calls: []
+  _attackAI:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7991923611657359652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3699,6 +3714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58acf6eade76c4043bedd6f18d188d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hiAI: {fileID: 7991923611657359651}
 --- !u!114 &7991923611657359654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3748,7 +3764,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6818b47270bbfe5419989d8556def30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _triggerDetector: {fileID: 7991923611657359651}
 --- !u!114 &7991923611657359658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3762,6 +3777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eAttackOrder: 0
+  _attackAI: {fileID: 7991923611657359651}
 --- !u!114 &7991923611657359659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3791,6 +3807,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &7991923611657359661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7991923611657359650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31a1e3cb8f677d4e9b8327b18861163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swordHitBox: {fileID: 7993733022492965441}
 --- !u!1 &7991931495027014612
 GameObject:
   m_ObjectHideFlags: 0
@@ -4493,7 +4522,7 @@ GameObject:
   - component: {fileID: 7997128516070186746}
   - component: {fileID: 7967455767788271816}
   - component: {fileID: 7978354263633405992}
-  - component: {fileID: 7930552760105681106}
+  - component: {fileID: 7993733022492965441}
   m_Layer: 0
   m_Name: SM_Wep_Sword_01 (1)
   m_TagString: AISword
@@ -4501,6 +4530,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &7993733022492965441
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993733022492965440}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.041618958, y: 1.2, z: 0.07}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &7993750250545867622
 GameObject:
   m_ObjectHideFlags: 0

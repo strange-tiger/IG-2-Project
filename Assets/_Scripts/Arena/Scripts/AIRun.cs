@@ -5,6 +5,9 @@ using EAIState = Defines.Estate;
 
 public class AIRun : AIState
 {
+    [SerializeField]
+    private TriggerDetector _hiAI;
+
     private Animator _animator;
 
     private float _curTime;
@@ -13,6 +16,9 @@ public class AIRun : AIState
     private void Start()
     {
         _animator = GetComponent<Animator>();
+
+        _hiAI._hiAI.RemoveListener(StateChangeRunToAttack);
+        _hiAI._hiAI.AddListener(StateChangeRunToAttack);
     }
 
     public override void OnEnter()
@@ -29,7 +35,7 @@ public class AIRun : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 3f)
+        if (_curTime >= 5f)
         {
             int a = Random.Range(0, 361);
             transform.Rotate(new Vector3(0, a, 0));
@@ -43,5 +49,11 @@ public class AIRun : AIState
         _animator.SetBool(AIAnimatorID.isRun, false);
         _isRunTime = false;
         _curTime -= _curTime;
+    }
+
+    private void StateChangeRunToAttack()
+    {
+        Debug.Log("StateChangeRunToAttack");
+        aiFSM.ChangeState(EAIState.Attack);
     }
 }
