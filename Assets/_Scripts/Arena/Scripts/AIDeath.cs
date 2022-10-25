@@ -5,7 +5,7 @@ using UnityEngine;
 public class AIDeath : AIState
 {
     [SerializeField]
-    private Collider _collider;
+    private Collider[] _collider;
 
     private Animator _animator;
 
@@ -19,11 +19,10 @@ public class AIDeath : AIState
 
     public override void OnEnter()
     {
-        _animator.SetBool(AIAnimatorID.isAttack1, false);
-        _animator.SetBool(AIAnimatorID.isAttack2, false);
         _animator.SetBool(AIAnimatorID.isDeath, true);
 
-        _collider.enabled = false;
+        _collider[0].enabled = false;
+        _collider[1].enabled = false;
 
         _curTime -= _curTime;
         _isDie = true;
@@ -36,9 +35,9 @@ public class AIDeath : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 1.5f)
+        if (_curTime > 2f)
         {
-            _animator.SetBool(AIAnimatorID.isDeath, false);
+            OnExit();
             _curTime -= _curTime;
             _isDie = false;
         }
@@ -46,6 +45,6 @@ public class AIDeath : AIState
 
     public override void OnExit()
     {
-        
+        _animator.SetBool(AIAnimatorID.isDeath, false);
     }
 }

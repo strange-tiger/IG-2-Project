@@ -24,6 +24,9 @@ public class AIAttack : AIState
         _attackAI._attackAI.RemoveListener(StateChangeAttackToDamage);
         _attackAI._attackAI.AddListener(StateChangeAttackToDamage);
 
+        _attackAI._killAI.RemoveListener(StateChangeAttackToRun);
+        _attackAI._killAI.AddListener(StateChangeAttackToRun);
+
     }
 
     public override void OnEnter()
@@ -71,4 +74,8 @@ public class AIAttack : AIState
         aiFSM.ChangeState(EAIState.Damage);
     }
 
+    private void StateChangeAttackToRun()
+    {
+        aiFSM.ChangeState(EAIState.IDLE);
+    }
 }

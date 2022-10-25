@@ -11,8 +11,8 @@ public class AIDamage : AIState
 
     private Animator _animator;
     private AI _ai;
-
-    private int _damage = 10;
+    
+    public int _damage = 10;
 
     private bool _isDamageTime;
     private float _curTime;
@@ -20,6 +20,18 @@ public class AIDamage : AIState
     [Header("체력을 입력 해 주세요")]
     [SerializeField]
     private int _hp;
+
+    public int Hp
+    {
+        get
+        {
+            return _hp;
+        }
+        private set
+        {
+            _hp = value;
+        }
+    }
 
     private void Start()
     {
@@ -32,7 +44,7 @@ public class AIDamage : AIState
         _animator.SetBool(AIAnimatorID.isDamage, true);
 
         _hp -= _damage;
-        Debug.Log(_hp);
+        //Debug.Log(_hp);
         _isDamageTime = true;
     }
 
@@ -50,7 +62,7 @@ public class AIDamage : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 1f)
+        if (_curTime > 1f)
         {
             _isDamageTime = false;
             _curTime -= _curTime;

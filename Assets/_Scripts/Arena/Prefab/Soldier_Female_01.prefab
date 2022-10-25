@@ -178,7 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b41d7a6f90f2ed41881e8b8c884b364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 5293959862813602182}
+  _collider:
+  - {fileID: 5293959862813602182}
+  - {fileID: 8892400526544561410}
 --- !u!114 &7764374381803638915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e548066c7606284fb9e2d7cc9d8da50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aiCollider: {fileID: 5293959862813602182}
+  _aiCollider: {fileID: 7765900187620519196}
 --- !u!114 &7764374381803638913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,10 +244,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aiCollider: {fileID: 7765900187620519196}
+  _aIDamage: {fileID: 7764374381803638925}
   _hiAI:
     m_PersistentCalls:
       m_Calls: []
   _attackAI:
+    m_PersistentCalls:
+      m_Calls: []
+  _killAI:
     m_PersistentCalls:
       m_Calls: []
 --- !u!54 &7764374381803638920
@@ -262,7 +268,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &7764374381803638921
 MonoBehaviour:
@@ -288,7 +294,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 2, z: 0.8}
+  m_Size: {x: 0.5, y: 2, z: 0.5}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7764386676684369504
 GameObject:
@@ -882,9 +888,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7769793522774981806}
   - component: {fileID: 7650222328934686790}
+  - component: {fileID: 8892400526544561410}
   m_Layer: 0
   m_Name: SM_Chr_Soldier_Female_01
-  m_TagString: AIBody
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1005,6 +1012,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00000011920929, y: 0.8463429, z: -0.00820592}
     m_Extent: {x: 1.0221847, y: 0.95032346, z: 0.23555896}
   m_DirtyAABB: 0
+--- !u!136 &8892400526544561410
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765824648892970530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.15
+  m_Height: 1.68
+  m_Direction: 1
+  m_Center: {x: -0.000000059604645, y: 0.8429994, z: -0.0064426064}
 --- !u!1 &7765882177404602078
 GameObject:
   m_ObjectHideFlags: 0

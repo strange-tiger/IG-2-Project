@@ -12,9 +12,6 @@ public class AI : MonoBehaviour
     AIFSM _aiFSM;
     private Animator _animator;
 
-    
-    
-
     private void Awake()
     {
         _animator = GetComponent<Animator>();
