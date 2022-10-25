@@ -17,10 +17,7 @@ public class AIIdel : AIState
 
     private void Update()
     {
-        if (isRunTime)
-        {
-            curTime += Time.deltaTime;
-        }
+        
     }
 
     public override void OnEnter()
@@ -30,10 +27,16 @@ public class AIIdel : AIState
 
     public override void OnUpdate()
     {
+        if (isRunTime)
+        {
+            curTime += Time.deltaTime;
+        }
+
         if (curTime >= 2f)
         {
             Debug.Log("2√ ¡ˆ≥≤");
             aiFSM.ChangeState(EAIState.Run);
+            curTime -= curTime;
         }
     }
 

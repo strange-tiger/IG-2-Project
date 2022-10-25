@@ -7,57 +7,41 @@ public class AIRun : AIState
 {
     private Animator _animator;
 
-    [SerializeField]
-    private TriggerDetector _triggerDetector;
-
-    private float curTime;
-    private bool isRunTime;
+    private float _curTime;
+    private bool _isRunTime;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _triggerDetector = GetComponent<TriggerDetector>();
-        _triggerDetector._onExit.AddListener(StopRun);
-
-        isRunTime = true;
-    }
-
-    private void Update()
-    {
-        if (isRunTime)
-        {
-            curTime += Time.deltaTime;
-        }
-
-        if (curTime >= 3f)
-        {
-            int a = Random.Range(0, 361);
-            transform.Rotate(new Vector3(0, a, 0));
-            curTime -= curTime;
-        }
     }
 
     public override void OnEnter()
     {
         Debug.Log("OnEnter AIRun");
+        _isRunTime = true;
         _animator.SetBool(AIAnimatorID.isRun, true);
     }
 
     public override void OnUpdate()
     {
-        //aiFSM.ChangeState(EAIState.Attack);
+        if (_isRunTime)
+        {
+            _curTime += Time.deltaTime;
+        }
 
-        isRunTime = false;
+        if (_curTime >= 3f)
+        {
+            int a = Random.Range(0, 361);
+            transform.Rotate(new Vector3(0, a, 0));
+            _curTime -= _curTime;
+        }
     }
 
     public override void OnExit()
     {
+        Debug.Log("OnExit AIRun");
         _animator.SetBool(AIAnimatorID.isRun, false);
-        isRunTime = false;
-    }
-
-    private void StopRun()
-    {
-        _animator.SetBool(AIAnimatorID.isRun, false);
+        _isRunTime = false;
+        _curTime -= _curTime;
     }
 }

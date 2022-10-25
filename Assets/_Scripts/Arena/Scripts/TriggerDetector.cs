@@ -3,41 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
+using EAIState = Defines.Estate;
 
-public class TriggerDetector : MonoBehaviour
+public class TriggerDetector : AIState
 {
-    public UnityEvent _onSword = new UnityEvent();
-    public UnityEvent _onStay = new UnityEvent();
-    public UnityEvent _onExit = new UnityEvent();
-
     public void Init()
     {
         Debug.Log("Init");
-        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "AISword")
-        {
-            Debug.Log("À¸¾Ç!");
-            _onSword.Invoke();
-        }
+        //if (other.gameObject.tag == "AISword")
+        //{
+        //    aiFSM.ChangeState(EAIState.Damage);
+        //    Debug.Log("Ä®¸ÂÀ½");
+        //}
 
         if (other.gameObject.tag == "AI")
         {
+            aiFSM.ChangeState(EAIState.Attack);
             Debug.Log("Àû¹ß°ß");
-            _onExit.Invoke();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        _onStay.Invoke();
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _onExit.Invoke();
+
+    }
+
+    public override void OnEnter()
+    {
+    }
+
+    public override void OnUpdate()
+    {
+    }
+
+    public override void OnExit()
+    {
     }
 }

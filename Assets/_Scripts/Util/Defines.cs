@@ -61,5 +61,9 @@ namespace Defines
         Damage,
         Death,
     }
-
+    
+    public enum EJobClass
+    {
+        Prototype,
+    }
 }

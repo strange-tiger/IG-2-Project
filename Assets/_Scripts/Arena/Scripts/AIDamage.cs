@@ -18,32 +18,33 @@ public class AIDamage : AIState
     {
         _ai = GetComponent<AI>();
         _animator = GetComponent<Animator>();
-        _triggerDetector._onSword.AddListener(SwordTouchMyBody);
     }
 
     public override void OnEnter()
     {
-        
+        _animator.SetBool(AIAnimatorID.isDamage, true);
+        _ai.HP -= _damage;
     }
 
     public override void OnUpdate()
     {
-
-    }
-
-    public override void OnExit()
-    {
-
-    }
-    
-    private void SwordTouchMyBody()
-    {
-        _animator.SetTrigger(AIAnimatorID.onDamage);
-        _ai.HP -= _damage;
-
         if (_ai.HP <= 0)
         {
             aiFSM.ChangeState(EAIState.Death);
         }
+        else
+        {
+            aiFSM.ChangeState(EAIState.Attack);
+        }
+    }
+
+    public override void OnExit()
+    {
+        _animator.SetBool(AIAnimatorID.isDamage, false);
+    }
+    
+    private void SwordTouchMyBody()
+    {
+        aiFSM.ChangeState(EAIState.Damage);
     }
 }

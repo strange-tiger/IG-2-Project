@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EAIState = Defines.Estate;
+using EJob = Defines.EJobClass;
 
 public class AI : MonoBehaviour
 {
+    [SerializeField]
+    private EJob _eJob;
+
     AIFSM _aiFSM;
 
     private int hp;
@@ -22,7 +26,14 @@ public class AI : MonoBehaviour
 
     private void Awake()
     {
-        hp = 100;
+        // 캐릭터 HP 추가
+        switch ((int)_eJob)
+        {
+            case 0 :
+                hp = 100;
+                break;
+        }
+       
 
         _aiFSM = GetComponent<AIFSM>();
         _aiFSM.Init();

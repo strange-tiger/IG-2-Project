@@ -25,7 +25,7 @@ public class AIFSM : MonoBehaviour
         {
             Debug.LogError("FSM 오류");
         }
-        Debug.Log("AddState 실행");
+        
         aiState.Initialize(this);
         _dictionaryAIState[tag] = aiState;
     }
@@ -36,7 +36,7 @@ public class AIFSM : MonoBehaviour
         {
             curState.OnExit();
         }
-        Debug.Log("ChangeState 실행");
+        
         curState = _dictionaryAIState[tag];
         curState.OnEnter();
     }

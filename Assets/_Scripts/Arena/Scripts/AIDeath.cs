@@ -9,6 +9,7 @@ public class AIDeath : AIState
 
     private Animator _animator;
 
+    
 
     private void Start()
     {
@@ -23,12 +24,12 @@ public class AIDeath : AIState
 
     public override void OnUpdate()
     {
-        
+        // 경기가 끝날때까지 
     }
 
     public override void OnExit()
     {
-        
+        // 
     }
     
 }
