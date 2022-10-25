@@ -72,6 +72,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         try
         {
             PhotonNetwork.JoinLobby();
+            Debug.Log("로비 임시 입장 성공");
         }
         catch
         {
@@ -100,6 +101,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
                 "displayname"
             };
             PhotonNetwork.CreateRoom(roomName, _roomOptions, null);
+            Debug.Log("방 생성 성공");
         }
         catch
         {
