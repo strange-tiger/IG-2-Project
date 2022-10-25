@@ -4,10 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.EventSystems;
 using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
-using UnityEngine.EventSystems;
 
 public class MakeRoomUI : MonoBehaviourPunCallbacks
 {
@@ -69,6 +69,18 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
 
     private void MakeRoom()
     {
+        try
+        {
+            PhotonNetwork.JoinLobby();
+        }
+        catch
+        {
+            Debug.LogError("로비 입장 실패");
+        }
+    }
+
+    public override void OnJoinedLobby()
+    {
         string roomName = _userId + "_" + _passwordInput.text;
 
         try
@@ -89,7 +101,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
             };
             PhotonNetwork.CreateRoom(roomName, _roomOptions, null);
         }
-        catch 
+        catch
         {
             Debug.LogError("방 생성 실패");
         }
