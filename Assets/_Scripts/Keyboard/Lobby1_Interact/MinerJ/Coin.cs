@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField]
     private AudioSource _audioSource;
+    private float _height = 5;
+    private float _elapsedTime;
     [SerializeField]
     private AudioClip[] _clips;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
 
     public void GetCoin()
     {
@@ -16,7 +23,7 @@ public class Coin : MonoBehaviour
         {
             _audioSource.PlayOneShot(_clips[2]);
         }
-        else if(_randNum <=969)
+        else if(_randNum >=969)
         {
             _audioSource.PlayOneShot(_clips[1]);
         }
@@ -25,4 +32,9 @@ public class Coin : MonoBehaviour
             _audioSource.PlayOneShot(_clips[0]);
         }
     }
+    public void GetCoinEffect()
+    {
+        transform.position = 
+            new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, transform.position.y + _height, 0));
+    }    
 }

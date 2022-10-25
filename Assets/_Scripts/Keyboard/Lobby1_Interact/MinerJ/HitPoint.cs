@@ -28,7 +28,7 @@ public class HitPoint : MonoBehaviour
             _currentDegree = (int)Mathf.Lerp(0f, 360f, _elapsedTime / _delay);
             if (_checkPoint.Angle >= _currentDegree && _currentDegree >= _checkPoint.Angle - (_checkPointImage.fillAmount * 360))
             {
-                Debug.Log("슬라이더 변환시킬거임!");
+                Debug.Log("들어옴");
                 _miningSlider.ElapsedTime += 1f;
             }
             ResetPoint();

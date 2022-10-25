@@ -7,6 +7,7 @@ public class MiningSlider : MonoBehaviour
 {
     private Slider _slider;
     private HitPoint _hitPoint;
+    private Coin _coin;
     private float _elapsedTime;
     public float ElapsedTime { get { return _elapsedTime; } set { _elapsedTime = value; } }
     [SerializeField]
@@ -16,6 +17,7 @@ public class MiningSlider : MonoBehaviour
     {
         _slider = gameObject.GetComponent<Slider>();
         _hitPoint = transform.parent.GetComponentInChildren<HitPoint>();
+        _coin = transform.parent.GetComponentInChildren<Coin>();
     }
     private void Update()
     {
@@ -26,6 +28,7 @@ public class MiningSlider : MonoBehaviour
             _slider.value = 0;
             _elapsedTime = 0;
             GetChildTrans();
+            _coin.GetCoinEffect();
         }
         else
         {
