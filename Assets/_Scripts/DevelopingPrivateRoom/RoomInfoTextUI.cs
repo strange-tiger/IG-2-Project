@@ -1,10 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class RoomInfoTextUI : MonoBehaviour
+public class RoomInfoTextUI : MonoBehaviourPunCallbacks
 {
     [Header("Text")]
     [SerializeField] TextMeshProUGUI _text;
@@ -15,6 +16,10 @@ public class RoomInfoTextUI : MonoBehaviour
     [Header("Button")]
     [SerializeField] UnityEngine.UI.Button _button;
 
+    [Header("Popup")]
+    [SerializeField] UnlockPopupUI _popup;
+    [SerializeField] GameObject _errorPopup;
+
     private string _roomName = "";
     private string _roomInfo = "";
     private bool _isLocked = false;
@@ -24,16 +29,21 @@ public class RoomInfoTextUI : MonoBehaviour
         _lockImage.SetActive(false);
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         _button.onClick.RemoveListener(JoinRoom);
         _button.onClick.AddListener(JoinRoom);
+
+        _popup.gameObject.SetActive(false);
+        _errorPopup.SetActive(false);
 
         UpdateRoomInfo();
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
         _button.onClick.RemoveListener(JoinRoom);
     }
 
@@ -61,6 +71,20 @@ public class RoomInfoTextUI : MonoBehaviour
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(_roomName);
+        if (_isLocked)
+        {
+            _popup.PopupUnlock(_roomName);
+            return;
+        }
+
+        try
+        {
+            PhotonNetwork.JoinRoom(_roomName);
+        }
+        catch
+        {
+            _errorPopup.SetActive(true);
+            Debug.LogError("암호 없는 방 입장 실패");
+        }
     }
 }
