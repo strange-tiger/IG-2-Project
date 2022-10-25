@@ -11,7 +11,10 @@ public class SatietyUI : MonoBehaviour
     [SerializeField] Image _currentSatietyStackImage;
     [SerializeField] Sprite[] _satietyStackImage;
 
-
+    private void Awake()
+    {
+        _foodInteraction = GameObject.Find("NewPlayer").GetComponent<FoodInteraction>();
+    }
     private void OnEnable()
     {
         _foodInteraction.OnActivateSatietyUI.RemoveListener(ActivateUI);
