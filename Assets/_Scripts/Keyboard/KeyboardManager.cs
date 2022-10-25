@@ -20,10 +20,14 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     private static EKeyboardLayout _currentLayout;
 
     private static TMP_InputField _typedText;
-    private static GameObject[] _layouts = new GameObject[(int)EKeyboardLayout.MAX];
+    private static Transform _keyboard;
+    private static GameObject[] _layouts = 
+        new GameObject[(int)EKeyboardLayout.MAX];
 
     private void Start()
     {
+        _keyboard = transform;
+
         _typedText = transform.GetChild(0).GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(false);
 
@@ -45,9 +49,13 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ChangeLayout(EKeyboardLayout.QWERTY);
     }
 
+    private static readonly Vector3 _moveKeyboard = new Vector3(0f, -90f, -10f);
     public static void OpenKeyboard(EKeyboardLayout type)
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+
+        _keyboard.position = _inputField.transform.root.position + _moveKeyboard;
+
         _typedText.gameObject.SetActive(true);
 
         ChangeLayout(type);
