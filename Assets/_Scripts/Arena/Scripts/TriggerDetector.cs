@@ -8,7 +8,7 @@ using EAIState = Defines.Estate;
 public class TriggerDetector : MonoBehaviour
 {
     [SerializeField]
-    private Collider _playerCollider;
+    private Collider _aiCollider;
 
     public UnityEvent _hiAI = new UnityEvent();
     public UnityEvent _attackAI = new UnityEvent();
@@ -28,7 +28,7 @@ public class TriggerDetector : MonoBehaviour
         {
             _hiAI.Invoke();
             transform.LookAt(other.gameObject.transform);
-            _playerCollider.enabled = false;
+            _aiCollider.enabled = false;
         }
     }
 
@@ -39,6 +39,6 @@ public class TriggerDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-
+          
     }
 }

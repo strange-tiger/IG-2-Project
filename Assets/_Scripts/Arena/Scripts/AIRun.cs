@@ -34,7 +34,7 @@ public class AIRun : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 7f)
+        if (_curTime >= 6f)
         {
             int a = Random.Range(0, 361);
             transform.Rotate(new Vector3(0, a, 0));
@@ -46,6 +46,7 @@ public class AIRun : AIState
     {
         _isRunTime = false;
         _curTime -= _curTime;
+        _animator.SetBool(AIAnimatorID.isRun, false);
     }
 
     private void StateChangeRunToAttack()

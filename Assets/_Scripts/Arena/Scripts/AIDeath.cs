@@ -5,27 +5,27 @@ using UnityEngine;
 public class AIDeath : AIState
 {
     [SerializeField]
-    private Collider[] _collider;
+    private Collider _collider;
 
     private Animator _animator;
 
-    private AI _ai;
     private bool _isDie;
+    private float _curTime;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _ai = GetComponent<AI>();
     }
 
     public override void OnEnter()
     {
-        
+        _animator.SetBool(AIAnimatorID.isAttack1, false);
+        _animator.SetBool(AIAnimatorID.isAttack2, false);
         _animator.SetBool(AIAnimatorID.isDeath, true);
 
-        _collider[0].enabled = false;
-        _collider[1].enabled = false;
+        _collider.enabled = false;
 
+        _curTime -= _curTime;
         _isDie = true;
     }
 
@@ -33,7 +33,13 @@ public class AIDeath : AIState
     {
         if (_isDie)
         {
+            _curTime += Time.deltaTime;
+        }
+
+        if (_curTime >= 1.5f)
+        {
             _animator.SetBool(AIAnimatorID.isDeath, false);
+            _curTime -= _curTime;
             _isDie = false;
         }
     }
@@ -42,5 +48,4 @@ public class AIDeath : AIState
     {
         
     }
-    
 }

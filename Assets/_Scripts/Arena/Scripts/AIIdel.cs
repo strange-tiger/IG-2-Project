@@ -6,7 +6,7 @@ using EAIState = Defines.Estate;
 public class AIIdel : AIState
 {
     [SerializeField]
-    private Collider[] _playerCollider;
+    private Collider _aiCollider;
 
     private Animator _animator;
     private float curTime;
@@ -21,11 +21,11 @@ public class AIIdel : AIState
     {
         isRunTime = true;
 
-        if (_playerCollider[0].enabled == false && _playerCollider[1].enabled == false)
+        if (_aiCollider.enabled == false)
         {
-            _playerCollider[0].enabled = true;
-            _playerCollider[1].enabled = true;
+            _aiCollider.enabled = true;
         }
+        
     }
 
     public override void OnUpdate()

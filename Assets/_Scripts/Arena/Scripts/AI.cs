@@ -12,33 +12,12 @@ public class AI : MonoBehaviour
     AIFSM _aiFSM;
     private Animator _animator;
 
-    private int hp;
-    public int HP
-    {
-        get
-        {
-            return hp;
-        }
-        set
-        {
-            hp = value;
-        }    
-    }
+    
+    
 
     private void Awake()
     {
-        
         _animator = GetComponent<Animator>();
-
-        // 캐릭터 HP 추가
-        switch ((int)_eJob)
-        {
-            case 0 :
-                hp = 100;
-                break;
-        }
-
-        _animator.SetInteger(AIAnimatorID.Death, HP);
 
         _aiFSM = GetComponent<AIFSM>();
         _aiFSM.Init();

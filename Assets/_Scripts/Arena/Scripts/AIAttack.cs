@@ -13,7 +13,6 @@ public class AIAttack : AIState
     private TriggerDetector _attackAI;
 
     private Animator _animator;
-    private AI _ai;
 
     private bool _isAttackTime;
     private float _curTime;
@@ -21,10 +20,10 @@ public class AIAttack : AIState
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _ai = GetComponent<AI>();
 
         _attackAI._attackAI.RemoveListener(StateChangeAttackToDamage);
         _attackAI._attackAI.AddListener(StateChangeAttackToDamage);
+
     }
 
     public override void OnEnter()
@@ -71,4 +70,5 @@ public class AIAttack : AIState
     {
         aiFSM.ChangeState(EAIState.Damage);
     }
+
 }

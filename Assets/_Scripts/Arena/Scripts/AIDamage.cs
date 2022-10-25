@@ -17,6 +17,10 @@ public class AIDamage : AIState
     private bool _isDamageTime;
     private float _curTime;
 
+    [Header("체력을 입력 해 주세요")]
+    [SerializeField]
+    private int _hp;
+
     private void Start()
     {
         _ai = GetComponent<AI>();
@@ -27,19 +31,18 @@ public class AIDamage : AIState
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
 
-        _ai.HP -= _damage;
-
+        _hp -= _damage;
+        Debug.Log(_hp);
         _isDamageTime = true;
     }
 
     public override void OnUpdate()
     {
-        if (_ai.HP <= 0)
+        if (_hp <= 0)
         {
             _isDamageTime = false;
             _curTime -= _curTime;
             aiFSM.ChangeState(EAIState.Death);
-            Debug.Log("17 AIDamage Die // 죽어랏");
         }
 
         if (_isDamageTime)
@@ -47,7 +50,7 @@ public class AIDamage : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 0.2f)
+        if (_curTime >= 1f)
         {
             _isDamageTime = false;
             _curTime -= _curTime;
