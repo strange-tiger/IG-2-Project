@@ -30,7 +30,7 @@ public class PianoButton : MonoBehaviourPun
             ++_steppedCount;
         }
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             if (SteppedCount == 1)
             {
@@ -47,6 +47,7 @@ public class PianoButton : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void PlayPianoSound()
     {
         _audioSource.PlayOneShot(_myAudioClip, _audioSource.volume

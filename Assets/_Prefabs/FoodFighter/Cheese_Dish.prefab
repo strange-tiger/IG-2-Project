@@ -9,10 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8465189544497907371}
-  - component: {fileID: -8938786046918743073}
-  - component: {fileID: 3822584512329296921}
-  - component: {fileID: 7092012623855171054}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cheese_Dish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,62 +26,13 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9012047801433319569}
   - {fileID: 9011966657665341951}
+  - {fileID: 9012047801433319569}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8938786046918743073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189181641731488901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _foodSatietyLevel: 1
-  _food: {fileID: 9009035406926610441}
---- !u!65 &3822584512329296921
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189181641731488901}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.1, z: 0.3}
-  m_Center: {x: 0, y: 0.06, z: 0}
---- !u!114 &7092012623855171054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189181641731488901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1001 &9007341128614019761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,17 +44,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Item_Cheese_Wheel_01
       objectReference: {fileID: 0}
-    - target: {fileID: 1694282642162360, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1694282642162360, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     - target: {fileID: 4988152109066784, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4988152109066784, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -148,18 +88,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 23579758588803764, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 04216b5eace822e4399b0481013eed0d, type: 2}
-    m_RemovedComponents:
-    - {fileID: 64128816156045860, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
---- !u!1 &9009035406926610441 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1694282642162360, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
-  m_PrefabInstance: {fileID: 9007341128614019761}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9012047801433319569 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4988152109066784, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
@@ -176,17 +106,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Item_Dish_03 (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     - target: {fileID: 4625532936735016, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4625532936735016, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
       propertyPath: m_LocalScale.x
@@ -240,10 +162,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 23862735932666148, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 04216b5eace822e4399b0481013eed0d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
 --- !u!4 &9011966657665341951 stripped
