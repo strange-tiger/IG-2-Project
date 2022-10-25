@@ -201,6 +201,7 @@ public class SocialUIManager : MonoBehaviour
     {
         // 친구 추가 요청을 DB에 올림
         MySqlSetting.UpdateRelationshipToRequest(_myNickname, _targetUserNickname);
+        _targetUser.photonView.RPC("SendRequest", Photon.Pun.RpcTarget.All);
 
         // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_requestFriendConfirmMessage);

@@ -26,6 +26,7 @@ public class UserInteraction : InteracterableObject
     [PunRPC]
     public void SendRequest()
     {
+        Debug.Log("¿Ö");
         if(photonView.IsMine)
         {
             if(RequestAlarmImage.activeSelf)

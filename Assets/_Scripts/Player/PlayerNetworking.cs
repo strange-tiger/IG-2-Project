@@ -27,14 +27,16 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
             socialTabManager.RequestAlarmImage = _requestAlarmImage;
+            socialTabManager.gameObject.SetActive(false);
+            socialTabManager.transform.parent.gameObject.SetActive(false);
         }
         else
         {
             CapsuleCollider collider = gameObject.AddComponent<CapsuleCollider>();
             collider.height = 2f;
 
-            gameObject.AddComponent<UserInteraction>().RequestAlarmImage = _requestAlarmImage;
         }
+        gameObject.AddComponent<UserInteraction>().RequestAlarmImage = _requestAlarmImage;
     }
 
     [PunRPC]
