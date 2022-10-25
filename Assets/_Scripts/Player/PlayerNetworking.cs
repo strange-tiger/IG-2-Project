@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 public class PlayerNetworking : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Vector3 _ovrCameraPosition;
+    [SerializeField] private Vector3 _ovrCameraPosition = new Vector3(0f, 0.7f, 0.8f);
     [SerializeField] private GameObject _ovrCameraRigPrefab;
     [SerializeField] private TextMeshProUGUI _nicknameText;
 

@@ -11,9 +11,14 @@ public class SatietyUI : MonoBehaviour
     [SerializeField] Image _currentSatietyStackImage;
     [SerializeField] Sprite[] _satietyStackImage;
 
+    private void Awake()
+    {
+        _foodInteraction = transform.root.GetComponent<FoodInteraction>();
 
+    }
     private void OnEnable()
     {
+
         _foodInteraction.OnActivateSatietyUI.RemoveListener(ActivateUI);
         _foodInteraction.OnActivateSatietyUI.AddListener(ActivateUI);
 
