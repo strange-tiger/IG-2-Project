@@ -25,25 +25,33 @@ public class PianoButton : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (photonView.IsMine)
+        if(collision.gameObject.tag == "Player")
         {
-            ++_steppedCount;
-        }
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            if (SteppedCount == 1)
+            if (photonView.IsMine)
             {
-                photonView.RPC("PlayPianoSound", RpcTarget.All);
+                photonView.RPC("AddSteppedCount", RpcTarget.All);
+                Debug.Log("들어오라고!");
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (SteppedCount == 1)
+                {
+                   photonView.RPC("PlayPianoSound", RpcTarget.All);
+                    //PlayPianoSound();
+                }
             }
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (photonView.IsMine)
+        if(collision.gameObject.tag == "Player")
         {
-            --_steppedCount;
+            if (photonView.IsMine)
+            {
+                photonView.RPC("SubtractSteppedCount", RpcTarget.All);
+            }
         }
     }
 
@@ -52,5 +60,16 @@ public class PianoButton : MonoBehaviourPun
     {
         _audioSource.PlayOneShot(_myAudioClip, _audioSource.volume
                     * PlayerPrefs.GetFloat("EffectVolume"));
+    }
+
+    [PunRPC]
+    public void AddSteppedCount()
+    {
+        ++_steppedCount;
+    }
+    [PunRPC]
+    public void SubtractSteppedCount()
+    {
+        --_steppedCount;
     }
 }
