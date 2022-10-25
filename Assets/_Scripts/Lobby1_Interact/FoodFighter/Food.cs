@@ -23,17 +23,7 @@ public class Food : InteracterableObject, IPunObservable
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            OnEated.Invoke(_foodSatietyLevel);
 
-            photonView.RPC("EatFoodState", RpcTarget.All);
-
-            StartCoroutine(RegenerateFood());
-        }
-    }
     public override void Interact()
     {
         base.Interact();

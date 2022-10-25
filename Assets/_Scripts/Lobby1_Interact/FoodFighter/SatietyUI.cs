@@ -13,10 +13,12 @@ public class SatietyUI : MonoBehaviour
 
     private void Awake()
     {
-        _foodInteraction = GameObject.Find("NewPlayer").GetComponent<FoodInteraction>();
+        _foodInteraction = transform.root.GetComponent<FoodInteraction>();
+
     }
     private void OnEnable()
     {
+
         _foodInteraction.OnActivateSatietyUI.RemoveListener(ActivateUI);
         _foodInteraction.OnActivateSatietyUI.AddListener(ActivateUI);
 
