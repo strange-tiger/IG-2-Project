@@ -17,8 +17,8 @@ public class AIRun : AIState
     {
         _animator = GetComponent<Animator>();
 
-        _hiAI._hiAI.RemoveListener(StateChangeRunToAttack);
-        _hiAI._hiAI.AddListener(StateChangeRunToAttack);
+        _hiAI.HiAI.RemoveListener(StateChangeRunToAttack);
+        _hiAI.HiAI.AddListener(StateChangeRunToAttack);
     }
 
     public override void OnEnter()
@@ -33,8 +33,8 @@ public class AIRun : AIState
         {
             _curTime += Time.deltaTime;
         }
-
-        if (_curTime >= 6f)
+        
+        if (_curTime >= 4f)
         {
             int a = Random.Range(0, 361);
             transform.Rotate(new Vector3(0, a, 0));

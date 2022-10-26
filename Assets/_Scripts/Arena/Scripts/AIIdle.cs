@@ -3,48 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using EAIState = Defines.Estate;
 
-public class AIIdel : AIState
+public class AIIdle : AIState
 {
     [SerializeField]
     private Collider _aiCollider;
 
     private Animator _animator;
-    private float curTime;
-    private bool isRunTime;
+    private float _curTime;
+    private bool _isRunTime;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _isRunTime = true;
     }
 
     public override void OnEnter()
     {
-        isRunTime = true;
+        Debug.Log("살인성공");
 
         if (_aiCollider.enabled == false)
         {
             _aiCollider.enabled = true;
         }
-        
     }
 
     public override void OnUpdate()
     {
-        if (isRunTime)
+        if (_isRunTime)
         {
-            curTime += Time.deltaTime;
+            _curTime += Time.deltaTime;
         }
 
-        if (curTime >= 2f)
+        if (_curTime >= 2f)
         {
             aiFSM.ChangeState(EAIState.Run);
-            curTime -= curTime;
+            _curTime -= _curTime;
         }
     }
 
     public override void OnExit()
     {
-        _animator.SetBool(AIAnimatorID.isIdel, false);
-        isRunTime = false;
+        _animator.SetBool(AIAnimatorID.isIdle, false);
+        _isRunTime = false;
     }
 }

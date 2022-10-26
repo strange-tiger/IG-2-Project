@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public class AIDeath : AIState
 {
@@ -8,6 +10,7 @@ public class AIDeath : AIState
     private Collider[] _collider;
 
     private Animator _animator;
+    public UnityEvent KillAI = new UnityEvent();
 
     private bool _isDie;
     private float _curTime;
@@ -19,11 +22,19 @@ public class AIDeath : AIState
 
     public override void OnEnter()
     {
+        Debug.Log(gameObject.name);
+
         _animator.SetBool(AIAnimatorID.isDeath, true);
+
+        _animator.SetBool(AIAnimatorID.isIdle, false);
+        _animator.SetBool(AIAnimatorID.isAttack1, false);
+        _animator.SetBool(AIAnimatorID.isAttack2, false);
+        _animator.SetBool(AIAnimatorID.isRun, false);
 
         _collider[0].enabled = false;
         _collider[1].enabled = false;
 
+        KillAI.Invoke();
         _curTime -= _curTime;
         _isDie = true;
     }

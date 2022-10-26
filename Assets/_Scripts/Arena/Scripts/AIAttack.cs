@@ -12,6 +12,9 @@ public class AIAttack : AIState
     [SerializeField]
     private TriggerDetector _attackAI;
 
+    [SerializeField]
+    private AIDeath _killAI;
+
     private Animator _animator;
 
     private bool _isAttackTime;
@@ -21,11 +24,11 @@ public class AIAttack : AIState
     {
         _animator = GetComponent<Animator>();
 
-        _attackAI._attackAI.RemoveListener(StateChangeAttackToDamage);
-        _attackAI._attackAI.AddListener(StateChangeAttackToDamage);
+        _attackAI.AttackAI.RemoveListener(StateChangeAttackToDamage);
+        _attackAI.AttackAI.AddListener(StateChangeAttackToDamage);
 
-        _attackAI._killAI.RemoveListener(StateChangeAttackToRun);
-        _attackAI._killAI.AddListener(StateChangeAttackToRun);
+        _killAI.KillAI.RemoveListener(StateChangeAttackToRun);
+        _killAI.KillAI.AddListener(StateChangeAttackToRun);
 
     }
 
@@ -67,6 +70,7 @@ public class AIAttack : AIState
         _animator.SetBool(AIAnimatorID.isAttack2, false);
         _isAttackTime = false;
         _curTime -= _curTime;
+        Debug.Log("Attack Exit");
     }
 
     private void StateChangeAttackToDamage()
@@ -76,6 +80,8 @@ public class AIAttack : AIState
 
     private void StateChangeAttackToRun()
     {
+        Debug.Log("StateChangeAttackToRun");
+
         aiFSM.ChangeState(EAIState.IDLE);
     }
 }

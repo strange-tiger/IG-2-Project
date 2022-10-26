@@ -18,7 +18,7 @@ public class AI : MonoBehaviour
 
         _aiFSM = GetComponent<AIFSM>();
         _aiFSM.Init();
-        _aiFSM.AddState(EAIState.IDLE, GetComponent<AIIdel>());
+        _aiFSM.AddState(EAIState.IDLE, GetComponent<AIIdle>());
         _aiFSM.AddState(EAIState.Run, GetComponent<AIRun>());
         _aiFSM.AddState(EAIState.Attack, GetComponent<AIAttack>());
         _aiFSM.AddState(EAIState.Skill, GetComponent<AISkill>());

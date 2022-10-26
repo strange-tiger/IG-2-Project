@@ -10,9 +10,8 @@ public class AIDamage : AIState
     private EAttack _eAttack;
 
     private Animator _animator;
-    private AI _ai;
     
-    public int _damage = 10;
+    private int Damage = 35;
 
     private bool _isDamageTime;
     private float _curTime;
@@ -35,7 +34,6 @@ public class AIDamage : AIState
 
     private void Start()
     {
-        _ai = GetComponent<AI>();
         _animator = GetComponent<Animator>();
     }
 
@@ -43,9 +41,11 @@ public class AIDamage : AIState
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
 
-        _hp -= _damage;
-        //Debug.Log(_hp);
+        _hp -= Damage;
+        Debug.Log($"Damage : {_hp}" );
         _isDamageTime = true;
+
+        
     }
 
     public override void OnUpdate()
@@ -54,6 +54,7 @@ public class AIDamage : AIState
         {
             _isDamageTime = false;
             _curTime -= _curTime;
+
             aiFSM.ChangeState(EAIState.Death);
         }
 

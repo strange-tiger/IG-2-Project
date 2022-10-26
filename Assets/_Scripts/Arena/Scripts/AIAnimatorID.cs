@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class AIAnimatorID
 {
-    public static readonly int isIdel = Animator.StringToHash("isIdel");
+    public static readonly int isIdle = Animator.StringToHash("isIdle");
     public static readonly int isRun = Animator.StringToHash("isRun");
     public static readonly int isAttack1 = Animator.StringToHash("isAttack1");
     public static readonly int isAttack2 = Animator.StringToHash("isAttack2");

@@ -13,9 +13,12 @@ public class AIManager : MonoBehaviour
     [SerializeField]
     private float _size;
 
-    private Transform[] _spawnTransform = new Transform[4];
+    private bool[] _isAlive = new bool[4];
 
+    private Transform[] _spawnTransform = new Transform[4];
     private Transform _transform;
+
+
 
     private void Awake()
     {
