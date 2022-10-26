@@ -11,6 +11,7 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _ovrCameraRigPrefab;
     [SerializeField] private TextMeshProUGUI _nicknameText;
     [SerializeField] private GameObject _requestAlarmImage;
+    [SerializeField] private AudioSource _newPlayerAudioSource;
 
     public string MyNickname { get; private set; }
     public string MyUserId { get; private set; }
@@ -28,6 +29,11 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
             socialTabManager.RequestAlarmImage = _requestAlarmImage;
             socialTabManager.gameObject.SetActive(false);
+
+            VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
+            volumeController.PlayerAudioSource = _newPlayerAudioSource;
+
+
             socialTabManager.transform.parent.gameObject.SetActive(false);
         }
         else
