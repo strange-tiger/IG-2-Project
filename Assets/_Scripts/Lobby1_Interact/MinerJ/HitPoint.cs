@@ -35,8 +35,13 @@ public class HitPoint : MonoBehaviour
             if (_checkPoint.Angle >= _currentDegree && _currentDegree >= _checkPoint.Angle - (_checkPointImage.fillAmount * 360))
             {
                 _miningSlider.ElapsedTime += 1f;
+                HitPointInit();
             }
-            HitPointInit();
+            else
+            {
+                _miningSlider.GetChildTrans();
+                _button.gameObject.SetActive(true);
+            }
         }
         else if (_elapsedTime > _delay)
         {
@@ -54,4 +59,5 @@ public class HitPoint : MonoBehaviour
         _elapsedTime = 0f;
         _checkPoint.RandNum();
     }
+
 }
