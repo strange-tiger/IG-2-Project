@@ -10,6 +10,7 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
     [SerializeField] private Vector3 _ovrCameraPosition = new Vector3(0f, 0.7f, 0.8f);
     [SerializeField] private GameObject _ovrCameraRigPrefab;
     [SerializeField] private TextMeshProUGUI _nicknameText;
+    [SerializeField] private GameObject _requestAlarmImage;
 
     public string MyNickname { get; private set; }
     public string MyUserId { get; private set; }
@@ -23,14 +24,19 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
             playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
+
+            SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
+            socialTabManager.RequestAlarmImage = _requestAlarmImage;
+            socialTabManager.gameObject.SetActive(false);
+            socialTabManager.transform.parent.gameObject.SetActive(false);
         }
         else
         {
             CapsuleCollider collider = gameObject.AddComponent<CapsuleCollider>();
             collider.height = 2f;
 
-            gameObject.AddComponent<UserInteraction>();
         }
+        gameObject.AddComponent<UserInteraction>().RequestAlarmImage = _requestAlarmImage;
     }
 
     [PunRPC]
