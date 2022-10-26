@@ -12,18 +12,13 @@ public class AIRun : AIState
 
     //private float _curTime;
     //private bool _isRunTime;
-
-    private void Start()
+    
+    private void OnEnable()
     {
         _animator = GetComponent<Animator>();
 
         _hiAI.HiAI.RemoveListener(StateChangeRunToAttack);
         _hiAI.HiAI.AddListener(StateChangeRunToAttack);
-    }
-
-    private void OnEnable()
-    {
-        
     }
 
     public override void OnEnter()
@@ -57,5 +52,10 @@ public class AIRun : AIState
     private void StateChangeRunToAttack()
     {
         aiFSM.ChangeState(EAIState.Attack);
+    }
+
+    private void OnDisable()
+    {
+        _hiAI.HiAI.RemoveListener(StateChangeRunToAttack);
     }
 }

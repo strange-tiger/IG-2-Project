@@ -34,6 +34,11 @@ public class AIDamage : AIState
 
     private void Start()
     {
+        
+    }
+
+    private void OnEnable()
+    {
         _animator = GetComponent<Animator>();
     }
 

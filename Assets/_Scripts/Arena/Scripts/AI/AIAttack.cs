@@ -20,7 +20,7 @@ public class AIAttack : AIState
     private bool _isAttackTime;
     private float _curTime;
 
-    private void Start()
+    private void OnEnable()
     {
         _animator = GetComponent<Animator>();
 
@@ -29,7 +29,6 @@ public class AIAttack : AIState
 
         _killAI.KillAI.RemoveListener(StateChangeAttackToRun);
         _killAI.KillAI.AddListener(StateChangeAttackToRun);
-
     }
 
     public override void OnEnter()
@@ -80,5 +79,11 @@ public class AIAttack : AIState
     private void StateChangeAttackToRun()
     {
         aiFSM.ChangeState(EAIState.IDLE);
+    }
+
+    private void OnDisable()
+    {
+        _attackAI.AttackAI.RemoveListener(StateChangeAttackToDamage);
+        _killAI.KillAI.RemoveListener(StateChangeAttackToRun);
     }
 }

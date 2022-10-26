@@ -12,7 +12,7 @@ public class AIIdle : AIState
     private float _curTime;
     private bool _isRunTime;
 
-    private void Start()
+    private void OnEnable()
     {
         _animator = GetComponent<Animator>();
         _isRunTime = true;

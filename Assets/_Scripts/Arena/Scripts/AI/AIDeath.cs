@@ -18,6 +18,11 @@ public class AIDeath : AIState
 
     private void Start()
     {
+        
+    }
+
+    private void OnEnable()
+    {
         _animator = GetComponent<Animator>();
     }
 
