@@ -24,6 +24,8 @@ public class AIIdle : AIState
         {
             _aiCollider.enabled = true;
         }
+        _isRunTime = true;
+        _curTime -= _curTime;
     }
 
     public override void OnUpdate()
