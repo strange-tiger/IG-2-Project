@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 using _PH = ExitGames.Client.Photon;
 
-public class RoomInfoTextUI : MonoBehaviourPunCallbacks
+public class RoomInfoTextUI : MonoBehaviour
 {
     [Header("Text")]
     [SerializeField] TextMeshProUGUI _text;
@@ -31,9 +31,8 @@ public class RoomInfoTextUI : MonoBehaviourPunCallbacks
         _lockImage.SetActive(false);
     }
 
-    public override void OnEnable()
+    private void OnEnable()
     {
-        base.OnEnable();
         _button.onClick.RemoveListener(JoinRoom);
         _button.onClick.AddListener(JoinRoom);
 
@@ -43,9 +42,8 @@ public class RoomInfoTextUI : MonoBehaviourPunCallbacks
         UpdateRoomInfo();
     }
 
-    public override void OnDisable()
+    private void OnDisable()
     {
-        base.OnDisable();
         _button.onClick.RemoveListener(JoinRoom);
     }
 
@@ -71,8 +69,7 @@ public class RoomInfoTextUI : MonoBehaviourPunCallbacks
         _isLocked = isLocked;
     }
 
-    private const int ANY_MAX_PLAYER = 0;
-    public void JoinRoom()
+    private void JoinRoom()
     {
         if (_isLocked)
         {
@@ -84,8 +81,7 @@ public class RoomInfoTextUI : MonoBehaviourPunCallbacks
 
         try
         {
-            // PhotonNetwork.JoinRoom(_roomName);
-            PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, ANY_MAX_PLAYER);
+            JoinRoomUI.JoinRoom(expectedCustomRoomProperties);
         }
         catch
         {

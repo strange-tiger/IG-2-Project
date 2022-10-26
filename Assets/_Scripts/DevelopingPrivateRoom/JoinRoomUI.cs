@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
@@ -43,6 +42,8 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
     private List<Dictionary<string, string>> _roomList = new List<Dictionary<string, string>>();
     private List<Dictionary<string, string>[]> _roomPage = new List<Dictionary<string, string>[]>();
+
+    private static _PH.Hashtable _currentJoinRoom = new _PH.Hashtable();
 
     private void Awake()
     {
@@ -197,15 +198,41 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
     private static readonly _PH.Hashtable CUSTOM_ROOM_PROPERTIES_UNLOCKED = 
         new _PH.Hashtable() { { "password", "" } };
     private const int ANY_MAX_PLAYER = 0;
-    private void RandomJoin()
+    private static void RandomJoin()
     {
         try
         {
-            PhotonNetwork.JoinRandomRoom(CUSTOM_ROOM_PROPERTIES_UNLOCKED, ANY_MAX_PLAYER);
+            _currentJoinRoom = CUSTOM_ROOM_PROPERTIES_UNLOCKED;
+            PhotonNetwork.JoinLobby();
         }
         catch
         {
-            Debug.LogError("랜덤 매칭 실패");
+            Debug.LogError("로비 입장 실패");
+        }
+    }
+
+    public static void JoinRoom(_PH.Hashtable roomInfo)
+    {
+        try
+        {
+            _currentJoinRoom = roomInfo;
+            PhotonNetwork.JoinLobby();
+        }
+        catch
+        {
+            Debug.LogError("로비 입장 실패");
+        }
+    }
+
+    public override void OnJoinedLobby()
+    {
+        try
+        {
+            PhotonNetwork.JoinRandomRoom(_currentJoinRoom, ANY_MAX_PLAYER);
+        }
+        catch
+        {
+            Debug.LogError("방 입장 실패");
         }
     }
 
@@ -213,6 +240,11 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
     {
         base.OnCreatedRoom();
         _DB.AddNewRoomInfo("", "", "", 0);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
     }
 
     public override void OnDisable()
