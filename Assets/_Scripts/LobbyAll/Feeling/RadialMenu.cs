@@ -3,50 +3,80 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Photon.Pun;
+using System;
 
-public class RadialMenu : MonoBehaviour
+
+public class RadialMenu : MonoBehaviourPun, IPunObservable
 {
 
 
-    [SerializeField] GameObject _radialMenu;
+    [SerializeField] RectTransform _radialMenu;
     [SerializeField] Image _cursor;
     [SerializeField] Image _feelingImage;
-    [SerializeField] CircleCollider2D _cursorMovementLimit;
+    [SerializeField] Sprite[] _buttonOneImages;
+    [SerializeField] Button[] _buttonOnes;
     public static Button _buttonOne;
     public static Image _buttonOneImage;
-    private static Color _activeColor = new Color(1, 1, 1, 1);
-    private static Color _deactiveColor = new Color(1, 1, 1, 0);
-    private static readonly YieldInstruction _waitSecond = new WaitForSeconds(1f);
 
+    private static readonly YieldInstruction _waitSecond = new WaitForSeconds(0.0001f);
     private Vector2 _cursorInitPosition;
+    private float _cursorMovementLimit = 45f;
     private float _cursorSpeed = 100f;
     private float _coolTime = 4f;
+    private float _colorData;
+    private int _buttonIndex;
+
     private void Start()
     {
-        _cursorInitPosition = _cursor.rectTransform.localPosition;
-
+        if(photonView.IsMine)
+        {
+            _radialMenu = GameObject.Find("RadialMenu").GetComponent<RectTransform>();
+            for(int i = 0; i < _radialMenu.childCount - 1; ++i)
+            {
+                _buttonOnes[i] = _radialMenu.GetChild(i).GetComponent<Button>();
+            }
+            _cursor = _radialMenu.GetChild(_radialMenu.childCount - 1).GetChild(0).GetComponent<Image>();
+            _cursorInitPosition = _cursor.rectTransform.localPosition;
+            _radialMenu.gameObject.SetActive(false);
+        }
     }
-
-    void FadeOut()
+   
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-
-
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_colorData);
+            stream.SendNext(_buttonIndex);
+        }
+        else if (stream.IsReading)
+        {
+            _feelingImage.color = new Color(1,1,1,(float)stream.ReceiveNext());
+            _feelingImage.sprite = _buttonOneImages[(int)stream.ReceiveNext()];
+        }
     }
     private void Update()
     {
-        Debug.Log(_elapsedTime);
-        if (Input.GetKey(KeyCode.LeftAlt))
+        if (photonView.IsMine)
         {
-            _radialMenu.SetActive(true);
+            if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick))
+            {
+                _radialMenu.gameObject.SetActive(true);
+            }
+            else if (OVRInput.GetUp(OVRInput.Button.PrimaryThumbstick))
+            {
+                photonView.RPC("ButtonOneMenu", RpcTarget.All);
+                
+            }
+            else
+            {
+                _radialMenu.gameObject.SetActive(false);
+            }
+
         }
-        else if (Input.GetKeyUp(KeyCode.LeftAlt))
-        {
-            ButtonOneMenu();
-        }
-        else
-        {
-            _radialMenu.SetActive(false);
-        }
+
+        
+        
     }
 
     private bool _isFadeRunning;
@@ -58,57 +88,78 @@ public class RadialMenu : MonoBehaviour
         {
             _elapsedTime += Time.deltaTime;
             float animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(_elapsedTime / _coolTime));
-            _feelingImage.color = new Color(1, 1, 1, animatedFadeAlpha);
-
-            yield return new WaitForSeconds(0.0001f);
+            _colorData = animatedFadeAlpha;
+            _feelingImage.color = new Color(1, 1, 1, _colorData);
+            yield return _waitSecond;
         }
-        _feelingImage.color = new Color(1, 1, 1, endAlpha);
+        _colorData = endAlpha;
+        _feelingImage.color = new Color(1, 1, 1, _colorData);
+
         _isFadeRunning = false;
         yield return null;
 
     }
 
-
-    private void ButtonOneMenu()
+    [PunRPC]
+    public void ButtonOneMenu()
     {
-        if (_buttonOne != null)
-        {
-            _feelingImage.color = _activeColor;
-            _feelingImage.sprite = _buttonOneImage.sprite;
-            _radialMenu.SetActive(false);
-
-
-            _elapsedTime = 0f;
-
-            if (_isFadeRunning == false)
+       
+            if (_buttonOne != null)
             {
-                StartCoroutine(Fade(1, 0));
+
+                _colorData = 1;
+                _feelingImage.color = new Color(1, 1, 1, _colorData);
+                if (photonView.IsMine)
+                {
+                    for (int i = 0; i < _buttonOnes.Length - 1; ++i)
+                    {
+                        if (_buttonOnes[i].name == _buttonOne.name)
+                        {
+                            _buttonIndex = i;
+                        }
+                    }
+                }
+                _feelingImage.sprite = _buttonOneImages[_buttonIndex];
+
+                _radialMenu.gameObject.SetActive(false);
+
+
+                _elapsedTime = 0f;
+
+                if (_isFadeRunning == false)
+                {
+                    StartCoroutine(Fade(1, 0));
+                }
             }
-        }
+        
+
     }
 
     void FixedUpdate()
     {
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        if(photonView.IsMine)
         {
-            MoveCursor();
+            if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
+            {
+                MoveCursor();
 
-        }
-        else
-        {
-            ResetCursor();
+            }
+            else
+            {
+                ResetCursor();
+            }
         }
     }
 
 
     void MoveCursor()
     {
-        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector3 direction = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
 
         direction.Normalize();
 
 
-        _cursor.rectTransform.localPosition = Vector3.ClampMagnitude(_cursor.rectTransform.localPosition + direction * _cursorSpeed * Time.deltaTime, _cursorMovementLimit.radius);
+        _cursor.rectTransform.localPosition = Vector3.ClampMagnitude(_cursor.rectTransform.localPosition + direction * _cursorSpeed * Time.deltaTime, _cursorMovementLimit);
 
     }
 

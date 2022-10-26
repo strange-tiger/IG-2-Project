@@ -30,4 +30,11 @@ namespace Defines
         MAKE,
         MAX
     }
+
+    public enum EPrivateRoomUIIndex
+    {
+        JOIN,
+        MAKE,
+        MAX
+    }
 }
