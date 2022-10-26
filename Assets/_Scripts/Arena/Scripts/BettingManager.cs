@@ -1,17 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BettingManager : MonoBehaviour
 {
-    public Dictionary<string, float> BettingOneList = new Dictionary<string, float>();
-    public Dictionary<string, float> BettingTwoList = new Dictionary<string, float>();
-    public Dictionary<string, float> BettingThreeList = new Dictionary<string, float>();
-    public Dictionary<string, float> BettingFourList = new Dictionary<string, float>();
+    public Dictionary<string, double> BettingOneList = new Dictionary<string, double>();
+    public Dictionary<string, double> BettingTwoList = new Dictionary<string, double>();
+    public Dictionary<string, double> BettingThreeList = new Dictionary<string, double>();
+    public Dictionary<string, double> BettingFourList = new Dictionary<string, double>();
 
-    public float BetAmount;
-    public float[] BetRate;
-    public float[] ChampionBetAmounts;
+    public double BetAmount;
+    public double[] BetRate;
+    public double[] ChampionBetAmounts;
 
     //분배(DB에 등록), 베팅 시작,종료 알림, 금액 수정시, Dictionary에서 값을 찾아서 반환.
 
