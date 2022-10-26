@@ -11,6 +11,8 @@ public class HitPoint : MonoBehaviour
     private CheckPoint _checkPoint;
     [SerializeField]
     private MiningSlider _miningSlider;
+    [SerializeField]
+    private Button _button;
 
     private Image _checkPointImage;
     private float _elapsedTime;
@@ -38,7 +40,8 @@ public class HitPoint : MonoBehaviour
         }
         else if (_elapsedTime > _delay)
         {
-            HitPointInit();
+            _miningSlider.GetChildTrans();
+            _button.gameObject.SetActive(true);
         }
         else
         transform.rotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, _elapsedTime / _delay));

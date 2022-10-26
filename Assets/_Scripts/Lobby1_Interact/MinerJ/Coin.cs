@@ -36,17 +36,14 @@ public class Coin : MonoBehaviour
         int _randNum = Random.Range(1,1000);
         if(_randNum == 1000)
         {
-            Debug.Log("100°ñµå");
             _audioSource.PlayOneShot(_clips[2]);
         }
         else if(_randNum >=969)
         {
-            Debug.Log("10°ñµå");
             _audioSource.PlayOneShot(_clips[1]);
         }
         else
         {
-            Debug.Log("1°ñµå");
             _audioSource.PlayOneShot(_clips[0]);
         }
     }

@@ -11,11 +11,17 @@ public class Rock : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _miningButton.SetActive(true);
+        if(other.gameObject.tag == "Player")
+        {
+            _miningButton.SetActive(true);
+        }
     }
     private void OnTriggerExit(Collider other)
     {
-        GetChildTrans();
+        if(other.gameObject.tag == "Player")
+        {
+            GetChildTrans();
+        }
     }
     public void GetChildTrans()
     {
