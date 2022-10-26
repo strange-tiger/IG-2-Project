@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class BettingManager : MonoBehaviour
 {
@@ -14,27 +16,55 @@ public class BettingManager : MonoBehaviour
     public double[] BetRates;
     public double[] ChampionBetAmounts;
 
+    public UnityEvent OnBettingStart = new UnityEvent();
+    public UnityEvent OnBettingEnd = new UnityEvent();
+
+    private bool _isBettingStart;
+    private int[] _startTime = { 55, 60, 25, 30 };
+
     //분배(DB에 등록), 베팅 시작, 종료 알림, 금액 수정시, Dictionary에서 값을 찾아서 반환.
 
-    private void Awake()
+    private void Start()
     {
-        
+        if ((DateTime.Now.Minute >= _startTime[0] && DateTime.Now.Minute < _startTime[1]) || (DateTime.Now.Minute >= _startTime[2] && DateTime.Now.Minute < _startTime[3]))
+        {
+            BettingStart();
+        }
     }
+    private void Update()
+    {
+        if(!_isBettingStart)
+        {
+            if(DateTime.Now.Minute == _startTime[0] || DateTime.Now.Minute == _startTime[1])
+            {
+                BettingStart();
+            }
+        }
+        else
+        {
+            if ((DateTime.Now.Minute == 59 || DateTime.Now.Minute == 29) && DateTime.Now.Second >= 30)
+            {
+                BettingEnd();
+            }
+        }
 
+    }
     private void DistributeGold()
     {
-
+        Debug.Log("골드분배");
+        ResetAllBetting();
     }
 
     private void BettingStart()
     {
-
+        _isBettingStart = true;
+        OnBettingStart.Invoke();
     }
 
-  
     private void BettingEnd()
     {
-        ResetAllBetting();
+        _isBettingStart = false;
+        OnBettingEnd.Invoke();
     }
 
 
