@@ -52,12 +52,12 @@ public class UnlockPopupUI : PopupUI
     private const int ANY_MAX_PLAYER = 0;
     private void JoinLockedRoom()
     {
-        // _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _currentRoomName + "_" + _passwordInput.text } { "password", _passwordInput.text } };
+        _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _currentRoomName + "_" + _passwordInput.text }, { "password", _passwordInput.text } };
 
         try
         {
-            PhotonNetwork.JoinRoom(_currentRoomName + "_" + _passwordInput.text);
-            // PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, ANY_MAX_PLAYER);
+            // PhotonNetwork.JoinRoom(_currentRoomName + "_" + _passwordInput.text);
+            PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, ANY_MAX_PLAYER);
 
             _passwordInput.text = "";
             gameObject.SetActive(false);

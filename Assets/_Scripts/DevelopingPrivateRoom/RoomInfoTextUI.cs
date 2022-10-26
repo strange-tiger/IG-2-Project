@@ -80,12 +80,12 @@ public class RoomInfoTextUI : MonoBehaviourPunCallbacks
             return;
         }
 
-        // _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _roomName } };
+        _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _roomName } };
 
         try
         {
-            PhotonNetwork.JoinRoom(_roomName);
-            // PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, ANY_MAX_PLAYER);
+            // PhotonNetwork.JoinRoom(_roomName);
+            PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, ANY_MAX_PLAYER);
         }
         catch
         {

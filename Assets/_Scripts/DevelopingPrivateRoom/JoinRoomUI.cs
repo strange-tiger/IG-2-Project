@@ -61,6 +61,8 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
         _randomJoinButton.onClick.RemoveListener(RandomJoin);
         _randomJoinButton.onClick.AddListener(RandomJoin);
+
+        RoomListUpdate();
     }
 
     private void LoadMakeRoom() => _uiManager.LoadUI(_UI.MAKE);
