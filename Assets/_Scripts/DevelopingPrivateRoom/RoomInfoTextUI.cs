@@ -33,8 +33,8 @@ public class RoomInfoTextUI : MonoBehaviour
 
     private void OnEnable()
     {
-        _button.onClick.RemoveListener(JoinRoom);
-        _button.onClick.AddListener(JoinRoom);
+        _button.onClick.RemoveListener(JoinInRoom);
+        _button.onClick.AddListener(JoinInRoom);
 
         _popup.gameObject.SetActive(false);
         _errorPopup.SetActive(false);
@@ -44,7 +44,7 @@ public class RoomInfoTextUI : MonoBehaviour
 
     private void OnDisable()
     {
-        _button.onClick.RemoveListener(JoinRoom);
+        _button.onClick.RemoveListener(JoinInRoom);
     }
 
     public void UpdateRoomInfo()
@@ -69,7 +69,7 @@ public class RoomInfoTextUI : MonoBehaviour
         _isLocked = isLocked;
     }
 
-    private void JoinRoom()
+    private void JoinInRoom()
     {
         if (_isLocked)
         {
@@ -81,7 +81,7 @@ public class RoomInfoTextUI : MonoBehaviour
 
         try
         {
-            JoinRoomUI.JoinRoom(expectedCustomRoomProperties);
+            JoinRoom.JoinInRoom(expectedCustomRoomProperties);
         }
         catch
         {

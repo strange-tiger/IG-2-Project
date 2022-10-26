@@ -54,7 +54,7 @@ public class UnlockPopupUI : PopupUI
 
         try
         {
-            JoinRoomUI.JoinRoom(expectedCustomRoomProperties);
+            JoinRoom.JoinInRoom(expectedCustomRoomProperties);
 
             _passwordInput.text = "";
             gameObject.SetActive(false);

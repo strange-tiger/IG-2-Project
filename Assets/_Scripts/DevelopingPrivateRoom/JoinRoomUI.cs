@@ -10,7 +10,7 @@ using _UI = Defines.EPrivateRoomUIIndex;
 using _PH = ExitGames.Client.Photon;
 using _DB = Asset.MySql.MySqlSetting;
 
-public class JoinRoomUI : MonoBehaviourPunCallbacks
+public class JoinRoomUI : MonoBehaviour
 {
     [Header("Manager")]
     [SerializeField] PrivateRoomUIManager _uiManager;
@@ -37,23 +37,19 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
     
     private const int PAGE_ROOM_COUNT = 4;
 
-    private Dictionary<string, RoomInfo> _cachedRoomList = new Dictionary<string, RoomInfo>();
-    private List<RoomInfo[]> _roomPageList = new List<RoomInfo[]>();
-
     private List<Dictionary<string, string>> _roomList = new List<Dictionary<string, string>>();
     private List<Dictionary<string, string>[]> _roomPage = new List<Dictionary<string, string>[]>();
 
-    private static _PH.Hashtable _currentJoinRoom = new _PH.Hashtable();
+    // private Dictionary<string, RoomInfo> _cachedRoomList = new Dictionary<string, RoomInfo>();
+    // private List<RoomInfo[]> _roomPageList = new List<RoomInfo[]>();
+    //
+    //private void Awake()
+    //{
+    //    PhotonNetwork.ConnectUsingSettings();
+    //}
 
-    private void Awake()
+    private void OnEnable()
     {
-        PhotonNetwork.ConnectUsingSettings();
-    }
-
-    public override void OnEnable()
-    {
-        base.OnEnable();
-
         _makeRoomButton.onClick.RemoveListener(LoadMakeRoom);
         _makeRoomButton.onClick.AddListener(LoadMakeRoom);
 
@@ -68,7 +64,79 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
 
     private void LoadMakeRoom() => _uiManager.LoadUI(_UI.MAKE);
 
-#region Legacy
+    private void ShowRoomList(int page)
+    {
+        foreach (RoomInfoTextUI info in _roomInfoTexts)
+        {
+            info.SetRoom("");
+            info.SetInfo("");
+            info.SetLock(false);
+        }
+
+        for (int i = 0; i < PAGE_ROOM_COUNT; ++i)
+        {
+            Dictionary<string, string> room = _roomPage[page][i];
+
+            _roomInfoTexts[i].SetRoom(room["UserID"]);
+            _roomInfoTexts[i].SetInfo($"{room["DisplayName"]}\t{room["RoomNumber"]}");
+            _roomInfoTexts[i].SetLock(room["Password"] != "");
+
+            _roomInfoTexts[i].UpdateRoomInfo();
+        }
+    }
+
+    private void RoomListUpdate()
+    {
+        _roomList = _DB.GetRoomList();
+
+        PageCount = _roomList.Count / PAGE_ROOM_COUNT + 1;
+
+        UpdateRoomPageList(_roomList);
+    }
+
+    private void UpdateRoomPageList(List<Dictionary<string, string>> roomList)
+    {
+        _roomPage.Clear();
+
+        for (int i = 0; i < _pageCount; ++i)
+        {
+            _roomPage.Add(new Dictionary<string, string>[PAGE_ROOM_COUNT]);
+        }
+
+        int pageCount = 0;
+        int roomCount = 0;
+
+        foreach (Dictionary<string, string> roomInfo in _roomList)
+        {
+            if (roomCount == PAGE_ROOM_COUNT)
+            {
+                roomCount = 0;
+                ++pageCount;
+            }
+            _roomPage[pageCount][roomCount] = roomInfo;
+
+            ++roomCount;
+        }
+    }
+
+    public void ChangeRoomPage(int page)
+    {
+        ShowRoomList(page);
+    }
+
+    private void RefreshRoomList()
+    {
+        RoomListUpdate();
+        ShowRoomList(0);
+    }
+
+    private void RandomJoin()
+    {
+        JoinRoom.JoinRandom();
+    }
+
+    #region Legacy
+    /*
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         Debug.Log("Room List Update");
@@ -126,75 +194,11 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
         }
         
     }
-
-    private void ShowRoomList(int page)
-    {
-        foreach (RoomInfoTextUI info in _roomInfoTexts)
-        {
-            info.SetRoom("");
-            info.SetInfo("");
-            info.SetLock(false);
-        }
-
-        for (int i = 0; i < PAGE_ROOM_COUNT; ++i)
-        {
-            Dictionary<string, string> room = _roomPage[page][i];
-
-            _roomInfoTexts[i].SetRoom(room["UserID"]);
-            _roomInfoTexts[i].SetInfo($"{room["DisplayName"]}\t{room["RoomNumber"]}");
-            _roomInfoTexts[i].SetLock(room["Password"] != "");
-
-            _roomInfoTexts[i].UpdateRoomInfo();
-        }
-    }
-    
+    */
 #endregion
 
-    private void RoomListUpdate()
-    {
-        _roomList = _DB.GetRoomList();
-
-        PageCount = _roomList.Count / PAGE_ROOM_COUNT + 1;
-
-        UpdateRoomPageList(_roomList);
-    }
-
-    private void UpdateRoomPageList(List<Dictionary<string, string>> roomList)
-    {
-        _roomPage.Clear();
-
-        for (int i = 0; i < _pageCount; ++i)
-        {
-            _roomPage.Add(new Dictionary<string, string>[PAGE_ROOM_COUNT]);
-        }
-
-        int pageCount = 0;
-        int roomCount = 0;
-
-        foreach (Dictionary<string, string> roomInfo in _roomList)
-        {
-            if (roomCount == PAGE_ROOM_COUNT)
-            {
-                roomCount = 0;
-                ++pageCount;
-            }
-            _roomPage[pageCount][roomCount] = roomInfo;
-
-            ++roomCount;
-        }
-    }
-
-    public void ChangeRoomPage(int page)
-    {
-        ShowRoomList(page);
-    }
-
-    private void RefreshRoomList()
-    {
-        RoomListUpdate();
-        ShowRoomList(0);
-    }
-
+    #region Legacy_JoinRoom
+    /*
     private static readonly _PH.Hashtable CUSTOM_ROOM_PROPERTIES_UNLOCKED = 
         new _PH.Hashtable() { { "password", "" } };
     private const int ANY_MAX_PLAYER = 0;
@@ -211,6 +215,7 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
         }
     }
 
+    private static _PH.Hashtable _currentJoinRoom = new _PH.Hashtable();
     public static void JoinRoom(_PH.Hashtable roomInfo)
     {
         try
@@ -246,11 +251,11 @@ public class JoinRoomUI : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
     }
+    */
+    #endregion
 
-    public override void OnDisable()
+    private void OnDisable()
     {
-        base.OnDisable();
-
         _makeRoomButton.onClick.RemoveListener(LoadMakeRoom);
         _refreshButton.onClick.RemoveListener(RefreshRoomList);
         _randomJoinButton.onClick.RemoveListener(RandomJoin);
