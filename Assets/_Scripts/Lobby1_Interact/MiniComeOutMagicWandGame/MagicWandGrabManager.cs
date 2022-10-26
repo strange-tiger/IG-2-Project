@@ -5,13 +5,14 @@ using Photon.Pun;
 
 public class MagicWandGrabManager : MonoBehaviourPun
 {
+    [SerializeField]
     private MagicWand _magicWand;
 
 
     // Start is called before the first frame update
     private void Awake()
     {
-        _magicWand = GetComponent<MagicWand>();
+        
     }
 
     private void Start()

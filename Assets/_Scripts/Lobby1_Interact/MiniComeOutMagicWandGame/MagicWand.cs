@@ -22,6 +22,7 @@ public class MagicWand : MonoBehaviourPun
     private TextMeshProUGUI _magicNameText;
     private TextMeshProUGUI _magicCoolTimeText;
 
+    [SerializeField]
     private ParticleSystem[] _magic;
     private float _currentTime;
     private bool _checkCoolTime;
@@ -35,7 +36,7 @@ public class MagicWand : MonoBehaviourPun
 
         _magic = new ParticleSystem[transform.childCount];
 
-        for (int i = 0; i < transform.childCount; ++i)
+        for (int i = 0; i < transform.childCount -1; ++i)
         {
             _magic[i] = gameObject.transform.GetChild(i).GetComponentInChildren<ParticleSystem>();
         }
@@ -45,7 +46,7 @@ public class MagicWand : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.K) && !_checkCoolTime)
+            if (OVRInput.GetDown(OVRInput.Button.Two) && !_checkCoolTime)
             {
                 int RandomNumber = Random.Range(0, _totalProbability + 1);
 

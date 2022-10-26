@@ -5,6 +5,9 @@ using EAIState = Defines.Estate;
 
 public class AIIdel : AIState
 {
+    [SerializeField]
+    private Collider _aiCollider;
+
     private Animator _animator;
     private float curTime;
     private bool isRunTime;
@@ -12,28 +15,30 @@ public class AIIdel : AIState
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        isRunTime = true;
     }
 
-    private void Update()
+    public override void OnEnter()
+    {
+        isRunTime = true;
+
+        if (_aiCollider.enabled == false)
+        {
+            _aiCollider.enabled = true;
+        }
+        
+    }
+
+    public override void OnUpdate()
     {
         if (isRunTime)
         {
             curTime += Time.deltaTime;
         }
-    }
 
-    public override void OnEnter()
-    {
-
-    }
-
-    public override void OnUpdate()
-    {
         if (curTime >= 2f)
         {
-            Debug.Log("2√ ¡ˆ≥≤");
             aiFSM.ChangeState(EAIState.Run);
+            curTime -= curTime;
         }
     }
 

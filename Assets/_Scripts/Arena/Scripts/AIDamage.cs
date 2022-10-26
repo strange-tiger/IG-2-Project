@@ -2,48 +2,76 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EAIState = Defines.Estate;
+using EAttack = Defines.EAttackKind;
 
 public class AIDamage : AIState
 {
-    private AI _ai;
+    [SerializeField]
+    private EAttack _eAttack;
 
     private Animator _animator;
+    private AI _ai;
+    
+    public int _damage = 10;
 
+    private bool _isDamageTime;
+    private float _curTime;
+
+    [Header("체력을 입력 해 주세요")]
     [SerializeField]
-    private TriggerDetector _triggerDetector;
+    private int _hp;
 
-    private int _damage = 10;
+    public int Hp
+    {
+        get
+        {
+            return _hp;
+        }
+        private set
+        {
+            _hp = value;
+        }
+    }
 
     private void Start()
     {
         _ai = GetComponent<AI>();
         _animator = GetComponent<Animator>();
-        _triggerDetector._onSword.AddListener(SwordTouchMyBody);
     }
 
     public override void OnEnter()
     {
-        
+        _animator.SetBool(AIAnimatorID.isDamage, true);
+
+        _hp -= _damage;
+        //Debug.Log(_hp);
+        _isDamageTime = true;
     }
 
     public override void OnUpdate()
     {
+        if (_hp <= 0)
+        {
+            _isDamageTime = false;
+            _curTime -= _curTime;
+            aiFSM.ChangeState(EAIState.Death);
+        }
 
+        if (_isDamageTime)
+        {
+            _curTime += Time.deltaTime;
+        }
+
+        if (_curTime > 1f)
+        {
+            _isDamageTime = false;
+            _curTime -= _curTime;
+            aiFSM.ChangeState(EAIState.Attack);
+        }
     }
 
     public override void OnExit()
     {
-
-    }
-    
-    private void SwordTouchMyBody()
-    {
-        _animator.SetTrigger(AIAnimatorID.onDamage);
-        _ai.HP -= _damage;
-
-        if (_ai.HP <= 0)
-        {
-            aiFSM.ChangeState(EAIState.Death);
-        }
+        _animator.SetBool(AIAnimatorID.isDamage, false);
     }
 }

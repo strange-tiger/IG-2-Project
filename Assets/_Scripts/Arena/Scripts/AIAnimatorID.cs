@@ -7,6 +7,7 @@ public static class AIAnimatorID
     public static readonly int isAttack1 = Animator.StringToHash("isAttack1");
     public static readonly int isAttack2 = Animator.StringToHash("isAttack2");
     public static readonly int isSkill = Animator.StringToHash("isSkill");
-    public static readonly int onDamage = Animator.StringToHash("onDamage");
+    public static readonly int isDamage = Animator.StringToHash("isDamage");
     public static readonly int isDeath = Animator.StringToHash("isDeath");
+    public static readonly int Death = Animator.StringToHash("Death");
 }

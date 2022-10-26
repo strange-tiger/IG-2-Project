@@ -2,27 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EAIState = Defines.Estate;
+using EJob = Defines.EJobClass;
 
 public class AI : MonoBehaviour
 {
-    AIFSM _aiFSM;
+    [SerializeField]
+    private EJob _eJob;
 
-    private int hp;
-    public int HP
-    {
-        get
-        {
-            return hp;
-        }
-        set
-        {
-            hp = value;
-        }    
-    }
+    AIFSM _aiFSM;
+    private Animator _animator;
 
     private void Awake()
     {
-        hp = 100;
+        _animator = GetComponent<Animator>();
 
         _aiFSM = GetComponent<AIFSM>();
         _aiFSM.Init();

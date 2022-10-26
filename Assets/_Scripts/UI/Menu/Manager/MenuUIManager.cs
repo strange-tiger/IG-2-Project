@@ -24,7 +24,7 @@ public class MenuUIManager : GlobalInstance<MenuUIManager>
     {
         _inventoryUIManager.ShowInventoryUI();
     }
-    public void ShowSocialUI(string targetUserNickname)
+    public void ShowSocialUI(UserInteraction targetUserNickname)
     {
         _socialUIManager.ShowFriendPanel(targetUserNickname);
     }
