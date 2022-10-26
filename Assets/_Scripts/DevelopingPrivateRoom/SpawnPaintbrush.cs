@@ -22,7 +22,7 @@ public class SpawnPaintbrush : MonoBehaviourPunCallbacks
     [PunRPC]
     public void Spawn()
     {
-        if(!_isPaintbrushSpawned)
+        if(_isPaintbrushSpawned)
         {
             return;
         }
@@ -39,7 +39,7 @@ public class SpawnPaintbrush : MonoBehaviourPunCallbacks
     [PunRPC]
     public void Despawn()
     {
-        if (_isPaintbrushSpawned)
+        if (!_isPaintbrushSpawned)
         {
             return;
         }
