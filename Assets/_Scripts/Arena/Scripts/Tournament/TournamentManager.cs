@@ -9,7 +9,7 @@ public class TournamentManager : MonoBehaviour
 
     private int _selectGroup;
     private int _finalWinnerIndex;
-    
+
     public int FinalWinnerIndex
     {
         get

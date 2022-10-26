@@ -11,6 +11,7 @@ public class AI : MonoBehaviour
 
     AIFSM _aiFSM;
     private Animator _animator;
+    private Transform _transform;
 
     private void Awake()
     {

@@ -11,6 +11,7 @@ public class AIDeath : AIState
 
     private Animator _animator;
     public UnityEvent KillAI = new UnityEvent();
+    public UnityEvent<GameObject> DeathAI = new UnityEvent<GameObject>();
 
     private bool _isDie;
     private float _curTime;
@@ -35,6 +36,7 @@ public class AIDeath : AIState
         KillAI.Invoke();
         _curTime -= _curTime;
         _isDie = true;
+        
     }
 
     public override void OnUpdate()
@@ -49,7 +51,8 @@ public class AIDeath : AIState
             OnExit();
             _curTime -= _curTime;
             _isDie = false;
-            gameObject.SetActive(false);
+            DeathAI.Invoke(gameObject);
+            Debug.Log("µé¾î¿Ô");
         }
     }
 

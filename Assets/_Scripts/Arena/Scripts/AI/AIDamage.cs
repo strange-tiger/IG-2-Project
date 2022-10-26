@@ -11,7 +11,7 @@ public class AIDamage : AIState
 
     private Animator _animator;
     
-    private int Damage = 10;
+    private int Damage = 40;
 
     private bool _isDamageTime;
     private float _curTime;

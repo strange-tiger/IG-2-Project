@@ -11,46 +11,87 @@ public class GroupManager : MonoBehaviour
     [SerializeField]
     private int _setPosition;
 
-    private GameObject[] _firstBattle = new GameObject[2];
-    private GameObject[] _secondBattle = new GameObject[2];
+    [SerializeField]
+    private AIDeath[] _aIDeath;
+
     private GameObject[] _finalBattle = new GameObject[2];
 
+    private bool _isFirstBattle;
+    private bool _isSecondBattle;
+    private bool _isFinelBattle;
+
+    
+    
     private void OnEnable()
     {
         _member[0].transform.position = new Vector3(-_setPosition, 0, 0);
-
         _member[1].transform.position = new Vector3(_setPosition, 0, 0);
-
         _member[2].transform.position = new Vector3(-_setPosition, 0, 0);
         _member[3].transform.position = new Vector3(_setPosition, 0, 0);
-
-        _firstBattle[0] = _member[0];
-        _firstBattle[1] = _member[1];
-        _secondBattle[0] = _member[2];
-        _secondBattle[1] = _member[3];
     }
 
     void Start()
     {
-        for (int i = 0; i < _firstBattle.Length; i++)
+        for (int i = 0; i < 2; i++)
         {
-            _firstBattle[i].SetActive(true);
+            _member[i].SetActive(true);
+        }
+
+        for (int i = 0; i < _aIDeath.Length; i++)
+        {
+            _aIDeath[i].DeathAI.RemoveListener(SomeAIDied);
+            _aIDeath[i].DeathAI.AddListener(SomeAIDied);
         }
     }
 
     void Update()
     {
-        if (_firstBattle[0].activeSelf == false)
+        if ((_member[0].activeSelf == false || _member[1].activeSelf == false) && !_isFirstBattle)
         {
-            _firstBattle[0] = _firstBattle[1];
+            if (_member[0].activeSelf)
+            {
+                _finalBattle[0] = _member[0];
+                _member[0].transform.position = new Vector3(-_setPosition, 0, 0);
+                _member[0].SetActive(false);
+            }
+            else if (_member[1].activeSelf)
+            {
+                _finalBattle[0] = _member[1];
+                _member[1].transform.position = new Vector3(_setPosition, 0, 0);
+                _member[1].SetActive(false);
+            }
 
-
+            Invoke("SecondBattle", 2f);
         }
-        if (_firstBattle[1].activeSelf == false)
+
+        if ((_member[2].activeSelf == false || _member[3].activeSelf == false) && _member[0].activeSelf == false && _member[1].activeSelf == false && _isSecondBattle)
         {
-            _firstBattle[0] = _firstBattle[0];
+            if (_member[2].activeSelf)
+            {
+                _finalBattle[1] = _member[2];
+                _member[2].transform.position = new Vector3(-_setPosition, 0, 0);
+                _member[2].SetActive(false);
+            }
+            else if (_member[3].activeSelf)
+            {
+                _finalBattle[1] = _member[3];
+                _member[3].transform.position = new Vector3(_setPosition, 0, 0);
+                _member[3].SetActive(false);
+            }
+            _isFinelBattle = true;
+        }
 
+        if (_member[0].activeSelf == false && _member[1].activeSelf == false && _member[2].activeSelf == false && _member[3].activeSelf == false && _isFinelBattle)
+        {
+            for (int i = 0; i < 2; ++i)
+            {
+                _finalBattle[i].SetActive(true);
 
+                if (i == 1)
+                {
+                    _isFirstBattle = true;
+                }
+            }
         }
     }
 
@@ -60,5 +101,24 @@ public class GroupManager : MonoBehaviour
         _member[1].transform.position = Vector3.zero;
         _member[2].transform.position = Vector3.zero;
         _member[3].transform.position = Vector3.zero;
+    }
+
+    private void SomeAIDied(GameObject obj)
+    {
+        obj.SetActive(false);
+    }
+
+    private void SecondBattle()
+    {
+        for (int i = 2; i < 4; ++i)
+        {
+            _member[i].SetActive(true);
+
+            if (i == 3)
+            {
+                _isFirstBattle = true;
+                _isSecondBattle = true;
+            }
+        }
     }
 }
