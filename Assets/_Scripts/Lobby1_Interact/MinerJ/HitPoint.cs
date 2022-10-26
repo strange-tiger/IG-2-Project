@@ -35,18 +35,17 @@ public class HitPoint : MonoBehaviour
             if (_checkPoint.Angle >= _currentDegree && _currentDegree >= _checkPoint.Angle - (_checkPointImage.fillAmount * 360))
             {
                 _miningSlider.ElapsedTime += 1f;
-                HitPointInit();
+                _miningSlider.IsHitCircleEnable = false;
+                _miningSlider.HitCircleDisable();
             }
             else
             {
-                _miningSlider.GetChildTrans();
-                _button.gameObject.SetActive(true);
+                FailedHitCircle();
             }
         }
         else if (_elapsedTime > _delay)
         {
-            _miningSlider.GetChildTrans();
-            _button.gameObject.SetActive(true);
+            FailedHitCircle();
         }
         else
         transform.rotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, _elapsedTime / _delay));
@@ -58,6 +57,12 @@ public class HitPoint : MonoBehaviour
         _currentDegree = 0;
         _elapsedTime = 0f;
         _checkPoint.RandNum();
+    }
+    public void FailedHitCircle()
+    {
+        _miningSlider.gameObject.SetActive(false);
+        _miningSlider.HitCircleDisable();
+        _button.gameObject.SetActive(true);
     }
 
 }
