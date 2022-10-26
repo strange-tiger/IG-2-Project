@@ -10,10 +10,22 @@ public class AIAttack : AIState
     private EAttack _eAttack;
 
     [SerializeField]
-    private TriggerDetector _attackAI;
+    private TriggerDetector _attackOne;
 
     [SerializeField]
-    private AIDeath _killAI;
+    private TriggerDetector _attackTwo;
+
+    [SerializeField]
+    private TriggerDetector _attackThree;
+
+    [SerializeField]
+    private AIDeath _killAIOne;
+
+    [SerializeField]
+    private AIDeath _killAITwo;
+
+    [SerializeField]
+    private AIDeath _killAIThree;
 
     private Animator _animator;
 
@@ -24,11 +36,23 @@ public class AIAttack : AIState
     {
         _animator = GetComponent<Animator>();
 
-        _attackAI.AttackAI.RemoveListener(StateChangeAttackToDamage);
-        _attackAI.AttackAI.AddListener(StateChangeAttackToDamage);
+        _attackOne.AttackAI.RemoveListener(StateChangeAttackToDamage);
+        _attackOne.AttackAI.AddListener(StateChangeAttackToDamage);
 
-        _killAI.KillAI.RemoveListener(StateChangeAttackToRun);
-        _killAI.KillAI.AddListener(StateChangeAttackToRun);
+        _attackTwo.AttackAI.RemoveListener(StateChangeAttackToDamage);
+        _attackTwo.AttackAI.AddListener(StateChangeAttackToDamage);
+
+        _attackThree.AttackAI.RemoveListener(StateChangeAttackToDamage);
+        _attackThree.AttackAI.AddListener(StateChangeAttackToDamage);
+
+        _killAIOne.KillAI.RemoveListener(StateChangeAttackToRun);
+        _killAIOne.KillAI.AddListener(StateChangeAttackToRun);
+
+        _killAITwo.KillAI.RemoveListener(StateChangeAttackToRun);
+        _killAITwo.KillAI.AddListener(StateChangeAttackToRun);
+
+        _killAIThree.KillAI.RemoveListener(StateChangeAttackToRun);
+        _killAIThree.KillAI.AddListener(StateChangeAttackToRun);
     }
 
     public override void OnEnter()
@@ -83,7 +107,12 @@ public class AIAttack : AIState
 
     private void OnDisable()
     {
-        _attackAI.AttackAI.RemoveListener(StateChangeAttackToDamage);
-        _killAI.KillAI.RemoveListener(StateChangeAttackToRun);
+        _attackOne.AttackAI.RemoveListener(StateChangeAttackToDamage);
+        _attackTwo.AttackAI.RemoveListener(StateChangeAttackToDamage);
+        _attackThree.AttackAI.RemoveListener(StateChangeAttackToDamage);
+
+        _killAIOne.KillAI.RemoveListener(StateChangeAttackToRun);
+        _killAITwo.KillAI.RemoveListener(StateChangeAttackToRun);
+        _killAIThree.KillAI.RemoveListener(StateChangeAttackToRun);
     }
 }

@@ -20,18 +20,14 @@ public class GroupManager : MonoBehaviour
     private bool _isSecondBattle;
     private bool _isFinelBattle;
 
-    
-    
-    private void OnEnable()
-    {
-        _member[0].transform.position = new Vector3(-_setPosition, 0, 0);
-        _member[1].transform.position = new Vector3(_setPosition, 0, 0);
-        _member[2].transform.position = new Vector3(-_setPosition, 0, 0);
-        _member[3].transform.position = new Vector3(_setPosition, 0, 0);
-    }
-
     void Start()
     {
+        // ÁØ°á½Â 1 À§Ä¡ ¼ÂÆÃ
+        _member[0].transform.position = new Vector3(-_setPosition, 0, 0);
+        _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
+        _member[1].transform.position = new Vector3(_setPosition, 0, 0);
+        _member[1].transform.rotation = Quaternion.Euler(0, -90, 0);
+        Debug.Log("ÁØ°á½Â1");
         for (int i = 0; i < 2; i++)
         {
             _member[i].SetActive(true);
@@ -46,8 +42,10 @@ public class GroupManager : MonoBehaviour
 
     void Update()
     {
+        // ÁØ°á½Â 1
         if ((_member[0].activeSelf == false || _member[1].activeSelf == false) && !_isFirstBattle)
         {
+            
             if (_member[0].activeSelf)
             {
                 _finalBattle[0] = _member[0];
@@ -57,19 +55,21 @@ public class GroupManager : MonoBehaviour
             else if (_member[1].activeSelf)
             {
                 _finalBattle[0] = _member[1];
-                _member[1].transform.position = new Vector3(_setPosition, 0, 0);
+                _member[1].transform.position = new Vector3(-_setPosition, 0, 0);
                 _member[1].SetActive(false);
             }
 
             Invoke("SecondBattle", 2f);
         }
 
+        // ÁØ°á½Â 2
         if ((_member[2].activeSelf == false || _member[3].activeSelf == false) && _member[0].activeSelf == false && _member[1].activeSelf == false && _isSecondBattle)
         {
+            
             if (_member[2].activeSelf)
             {
                 _finalBattle[1] = _member[2];
-                _member[2].transform.position = new Vector3(-_setPosition, 0, 0);
+                _member[2].transform.position = new Vector3(_setPosition, 0, 0);
                 _member[2].SetActive(false);
             }
             else if (_member[3].activeSelf)
@@ -81,8 +81,12 @@ public class GroupManager : MonoBehaviour
             _isFinelBattle = true;
         }
 
+        // °á½ÂÀü
         if (_member[0].activeSelf == false && _member[1].activeSelf == false && _member[2].activeSelf == false && _member[3].activeSelf == false && _isFinelBattle)
         {
+            Debug.Log("°á½Â");
+            _finalBattle[0].transform.rotation = Quaternion.Euler(0, 90, 0);
+            _finalBattle[1].transform.rotation = Quaternion.Euler(0, -90, 0);
             for (int i = 0; i < 2; ++i)
             {
                 _finalBattle[i].SetActive(true);
@@ -95,21 +99,20 @@ public class GroupManager : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        _member[0].transform.position = Vector3.zero;
-        _member[1].transform.position = Vector3.zero;
-        _member[2].transform.position = Vector3.zero;
-        _member[3].transform.position = Vector3.zero;
-    }
-
+    // Á×Àº AI
     private void SomeAIDied(GameObject obj)
     {
         obj.SetActive(false);
     }
 
+    // ÁØ°á½Â 2 À§Ä¡ ¼ÂÆÃ
     private void SecondBattle()
     {
+        Debug.Log("ÁØ°á½Â2");
+        _member[2].transform.position = new Vector3(-_setPosition, 0, 0);
+        _member[2].transform.rotation = Quaternion.Euler(0, 90, 0);
+        _member[3].transform.position = new Vector3(_setPosition, 0, 0);
+        _member[3].transform.rotation = Quaternion.Euler(0, -90, 0);
         for (int i = 2; i < 4; ++i)
         {
             _member[i].SetActive(true);
@@ -120,5 +123,13 @@ public class GroupManager : MonoBehaviour
                 _isSecondBattle = true;
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        _member[0].transform.position = Vector3.zero;
+        _member[1].transform.position = Vector3.zero;
+        _member[2].transform.position = Vector3.zero;
+        _member[3].transform.position = Vector3.zero;
     }
 }

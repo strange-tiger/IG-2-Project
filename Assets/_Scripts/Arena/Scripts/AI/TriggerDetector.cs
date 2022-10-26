@@ -10,9 +10,6 @@ public class TriggerDetector : MonoBehaviour
     [SerializeField]
     private Collider _aiCollider;
 
-    [SerializeField]
-    private AIDamage _aIDamage;
-
     public UnityEvent HiAI = new UnityEvent();
     public UnityEvent AttackAI = new UnityEvent();
 
@@ -29,6 +26,7 @@ public class TriggerDetector : MonoBehaviour
 
         if (other.gameObject.tag == "AI")
         {
+            Debug.Log("a");
             HiAI.Invoke();
             transform.LookAt(other.gameObject.transform);
             _aiCollider.enabled = false;

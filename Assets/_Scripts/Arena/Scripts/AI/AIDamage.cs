@@ -11,7 +11,8 @@ public class AIDamage : AIState
 
     private Animator _animator;
     
-    private int Damage = 40;
+    [SerializeField]
+    private AIDamageNum _aiDamage;
 
     private bool _isDamageTime;
     private float _curTime;
@@ -26,7 +27,7 @@ public class AIDamage : AIState
         {
             return _hp;
         }
-        private set
+        set
         {
             _hp = value;
         }
@@ -46,7 +47,7 @@ public class AIDamage : AIState
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
 
-        _hp -= Damage;
+        _hp -= _aiDamage.Damage;
         
         _isDamageTime = true;
 
