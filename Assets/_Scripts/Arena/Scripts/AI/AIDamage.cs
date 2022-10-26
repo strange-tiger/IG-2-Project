@@ -11,7 +11,7 @@ public class AIDamage : AIState
 
     private Animator _animator;
     
-    private int Damage = 35;
+    private int Damage = 10;
 
     private bool _isDamageTime;
     private float _curTime;
@@ -42,7 +42,7 @@ public class AIDamage : AIState
         _animator.SetBool(AIAnimatorID.isDamage, true);
 
         _hp -= Damage;
-        Debug.Log($"Damage : {_hp}" );
+        
         _isDamageTime = true;
 
         

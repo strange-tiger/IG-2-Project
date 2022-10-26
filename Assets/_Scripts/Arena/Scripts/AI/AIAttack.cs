@@ -70,7 +70,6 @@ public class AIAttack : AIState
         _animator.SetBool(AIAnimatorID.isAttack2, false);
         _isAttackTime = false;
         _curTime -= _curTime;
-        Debug.Log("Attack Exit");
     }
 
     private void StateChangeAttackToDamage()
@@ -80,8 +79,6 @@ public class AIAttack : AIState
 
     private void StateChangeAttackToRun()
     {
-        Debug.Log("StateChangeAttackToRun");
-
         aiFSM.ChangeState(EAIState.IDLE);
     }
 }

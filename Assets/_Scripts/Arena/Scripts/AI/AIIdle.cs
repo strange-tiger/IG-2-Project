@@ -20,8 +20,6 @@ public class AIIdle : AIState
 
     public override void OnEnter()
     {
-        Debug.Log("살인성공");
-
         if (_aiCollider.enabled == false)
         {
             _aiCollider.enabled = true;

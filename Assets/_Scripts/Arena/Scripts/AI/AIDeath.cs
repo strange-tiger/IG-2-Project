@@ -22,8 +22,6 @@ public class AIDeath : AIState
 
     public override void OnEnter()
     {
-        Debug.Log(gameObject.name);
-
         _animator.SetBool(AIAnimatorID.isDeath, true);
 
         _animator.SetBool(AIAnimatorID.isIdle, false);
@@ -51,6 +49,7 @@ public class AIDeath : AIState
             OnExit();
             _curTime -= _curTime;
             _isDie = false;
+            gameObject.SetActive(false);
         }
     }
 
