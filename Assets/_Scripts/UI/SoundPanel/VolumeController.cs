@@ -17,11 +17,7 @@ public class VolumeController : MonoBehaviour
     private Dictionary<string, Slider> _sliderDict = new Dictionary<string, Slider>();
     public Dictionary<string, Slider> SliderDict { get { return _sliderDict; } }
     private Dictionary<Slider, TextMeshProUGUI> _textDict = new Dictionary<Slider, TextMeshProUGUI>();
-
-    [SerializeField]
-    private AudioSource _audioSource;
-    [SerializeField]
-    private GameObject _player;
+    public AudioSource PlayerAudioSource { private get; set; }
 
     private readonly string[] VOLUME_CONTROLLER = 
         { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
@@ -60,30 +56,26 @@ public class VolumeController : MonoBehaviour
         string EffectVolume = VOLUME_CONTROLLER[(int)UINum.EffectVolume];
         PlayerPrefs.SetFloat(EffectVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
-        //SoundManager의 사운드 값 변화시키기
-        SoundManager.Instance.SFXVolume = (float)Math.Truncate(slider.value * 100) / 100;
     }
     public void BackGroundValueChanged(Slider slider)
     {
         string BackGroundVolume = VOLUME_CONTROLLER[(int)UINum.BackGroundVolume];
         PlayerPrefs.SetFloat(BackGroundVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
-        //SoundManager의 사운드 값 변화시키기
-        SoundManager.Instance.BGMVolume = (float)Math.Truncate(slider.value * 100) / 100;
     }
     public void InputValueChanged(Slider slider)
     {
         string InputVolume = VOLUME_CONTROLLER[(int)UINum.InputVolume];
         PlayerPrefs.SetFloat(InputVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
-        //_audioSource.volume = slider.value;
+        // player voice
+        PlayerAudioSource.volume = (float)Math.Truncate(slider.value * 100) / 100;
     }
     public void OutputValueChanged(Slider slider)
     {
         string OutputVolume = VOLUME_CONTROLLER[(int)UINum.OutputVolume];
         PlayerPrefs.SetFloat(OutputVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
-        //
-        _player.GetComponent<AudioSource>().volume = (float)Math.Truncate(slider.value * 100) / 100;
+        // 미구현
     }
 }
