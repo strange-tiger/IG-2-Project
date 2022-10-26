@@ -44,24 +44,23 @@ public class BettingUI : MonoBehaviour
 
     private int BetChampion(int index)
     {
-        _bettingManager.BetAmount += float.Parse(_betChampionInputField[index].text);
-        _bettingManager.ChampionBetAmounts[index] += float.Parse(_betChampionInputField[index].text);
-        Debug.Log("µé¾î°¨");
+        _bettingManager.BetAmount += double.Parse(_betChampionInputField[index].text);
+        _bettingManager.ChampionBetAmounts[index] += double.Parse(_betChampionInputField[index].text);
         for(int i = 0; i < _bettingManager.BetRate.Length; ++i)
         {
-             _bettingManager.BetRate[i] = _bettingManager.ChampionBetAmounts[i] / _bettingManager.BetAmount;
-            _betRateText[i].text = $"{_bettingManager.BetRate[i] * 100}";
+            _bettingManager.BetRate[i] = (_bettingManager.ChampionBetAmounts[i] / _bettingManager.BetAmount) * 100;
+            _betRateText[i].text = $"{Math.Round(_bettingManager.BetRate[i])}";
         }
         return index;
     }
 
-    private void BetChampionOne() =>  _bettingManager.BettingOneList.Add(_playerNickname, float.Parse(_betChampionInputField[BetChampion(0)].text));
+    private void BetChampionOne() =>  _bettingManager.BettingOneList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(0)].text));
 
-    private void BetChampionTwo() => _bettingManager.BettingTwoList.Add(_playerNickname, float.Parse(_betChampionInputField[BetChampion(1)].text));
+    private void BetChampionTwo() => _bettingManager.BettingTwoList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(1)].text));
 
-    private void BetChampionThree() => _bettingManager.BettingThreeList.Add(_playerNickname, float.Parse(_betChampionInputField[BetChampion(2)].text));
+    private void BetChampionThree() => _bettingManager.BettingThreeList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(2)].text));
 
-    private void BetChampionFour() => _bettingManager.BettingFourList.Add(_playerNickname, float.Parse(_betChampionInputField[BetChampion(3)].text));
+    private void BetChampionFour() => _bettingManager.BettingFourList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(3)].text));
 
     private void OnDisable()
     {
