@@ -21,7 +21,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
     private static TMP_InputField _typedText;
     private static Transform _keyboard;
-    private static GameObject[] _layouts = 
+    private static GameObject[] _layouts =
         new GameObject[(int)EKeyboardLayout.MAX];
 
     private void Start()
@@ -36,7 +36,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         {
             j = i - 1;
             _layouts[j] = transform.GetChild(i).gameObject;
-            
+
             _layouts[j].SetActive(false);
         }
     }

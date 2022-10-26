@@ -19,7 +19,7 @@ public class SpawnDice : MonoBehaviourPunCallbacks
     {
         _isDiceSpawned = !_isDiceSpawned;
 
-        if(_isDiceSpawned)
+        if (_isDiceSpawned)
         {
             Spawn();
         }

@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 3178488053240751641}
   - component: {fileID: 3185990886479014613}
   - component: {fileID: 6169974096778370540}
+  - component: {fileID: 7066480806980831493}
+  - component: {fileID: 1655136620481167}
+  - component: {fileID: 1655136620481172}
   m_Layer: 0
   m_Name: Pencil
   m_TagString: Untagged
@@ -100,3 +103,44 @@ MonoBehaviour:
   _oneGrabTransformer: {fileID: 0}
   _twoGrabTransformer: {fileID: 0}
   _maxGrabPoints: -1
+--- !u!65 &7066480806980831493
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197848565091038601}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.03, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1655136620481167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197848565091038601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9054a433ac4da2a4197af4ac017c6863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1655136620481172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197848565091038601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a8657bb63622364cb90c700b9ea9714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lineMaterial: {fileID: 2100000, guid: a07ace94f3b553343b442785a494ff3a, type: 2}
+  _eraseMaterial: {fileID: 2100000, guid: 3373971df422dcc4286a569639a0f68a, type: 2}
+  _pad: {fileID: 0}
+  _brush: 0
