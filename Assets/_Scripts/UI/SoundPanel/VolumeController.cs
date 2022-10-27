@@ -19,7 +19,7 @@ public class VolumeController : MonoBehaviour
     private Dictionary<Slider, TextMeshProUGUI> _textDict = new Dictionary<Slider, TextMeshProUGUI>();
     public AudioSource PlayerAudioSource { private get; set; }
 
-    private readonly string[] VOLUME_CONTROLLER = 
+    public readonly static string[] VOLUME_CONTROLLER = 
         { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
 
