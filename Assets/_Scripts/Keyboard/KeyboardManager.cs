@@ -90,18 +90,23 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     public static void PressKey()
     {
         _typedText.text += EventSystem.current.currentSelectedGameObject.name;
+
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     public static void PressSpace()
     {
         _typedText.text += " ";
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public static void PressBackspace()
     {
         if (_typedText.text.Length == 0) return;
         _typedText.text = _typedText.text.Substring(0, _typedText.text.Length - 1);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public static void Clear()
