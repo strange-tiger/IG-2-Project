@@ -4,10 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.EventSystems;
 using Photon.Realtime;
 
 using _UI = Defines.EPrivateRoomUIIndex;
-using UnityEngine.EventSystems;
+using _DB = Asset.MySql.MySqlSetting;
 
 public class MakeRoomUI : MonoBehaviourPunCallbacks
 {
@@ -69,6 +70,18 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
 
     private void MakeRoom()
     {
+        try
+        {
+            PhotonNetwork.JoinLobby();
+        }
+        catch
+        {
+            Debug.LogError("로비 입장 실패");
+        }
+    }
+
+    public override void OnJoinedLobby()
+    {
         string roomName = _userId + "_" + _passwordInput.text;
 
         try
@@ -87,12 +100,26 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
                 "password",
                 "displayname"
             };
+
+            _DB.AddNewRoomInfo(_userId, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
             PhotonNetwork.CreateRoom(roomName, _roomOptions, null);
+            Debug.Log("방 생성 성공");
         }
-        catch 
+        catch
         {
             Debug.LogError("방 생성 실패");
         }
+    }
+
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        //PhotonNetwork.LoadLevel("PrivateRoom");
     }
 
     private void ActivePasswordInput(bool isOn)

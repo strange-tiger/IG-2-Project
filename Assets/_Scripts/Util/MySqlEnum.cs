@@ -4,6 +4,7 @@ namespace Asset {
 		characterdb,
 		relationshipdb,
 		requestdb,
+		roomlistdb,
 		test,
 		Max,
 	}
@@ -35,6 +36,13 @@ namespace Asset {
 		Requester,
 		Respondent,
 		Timestamp,
+		Max,
+	}
+	public enum EroomlistdbColumns {
+		UserID,
+		Password,
+		DisplayName,
+		RoomNumber,
 		Max,
 	}
 	public enum EtestColumns {

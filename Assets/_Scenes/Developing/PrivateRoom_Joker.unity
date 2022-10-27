@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2876,6 +2876,22 @@ PrefabInstance:
     - target: {fileID: 670272919619542550, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
       propertyPath: m_Name
       value: VRUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327417988297097662, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710643700959954980, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710643700959954984, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710643701075361302, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4449215289536650735, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
       propertyPath: m_RootOrder
@@ -5717,7 +5733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1146915334
 Light:
   m_ObjectHideFlags: 0
@@ -5794,6 +5810,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1163316856 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3710643701075361306, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
+  m_PrefabInstance: {fileID: 504852404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1163316858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163316856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &1185778396
 GameObject:
   m_ObjectHideFlags: 0
@@ -6025,6 +6065,7 @@ GameObject:
   - component: {fileID: 1282860908}
   - component: {fileID: 1282860907}
   - component: {fileID: 1282860909}
+  - component: {fileID: 1282860910}
   m_Layer: 5
   m_Name: JoinRoom
   m_TagString: Untagged
@@ -6116,6 +6157,18 @@ MonoBehaviour:
   - {fileID: 1751647737}
   - {fileID: 1185778401}
   - {fileID: 1779397994}
+--- !u!114 &1282860910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282860905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1903553405c048b47857633e1453af47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1351128552
 GameObject:
   m_ObjectHideFlags: 0
@@ -9031,7 +9084,9 @@ MonoBehaviour:
   - {fileID: 1013794457}
   _inputFields:
   - {fileID: 3594987}
+  - {fileID: 382554297}
   - {fileID: 1860606320}
+  _inputNumField:
   - {fileID: 493195649}
 --- !u!1 &2145548763
 GameObject:
