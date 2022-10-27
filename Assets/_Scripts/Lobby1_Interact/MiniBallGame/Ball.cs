@@ -15,7 +15,7 @@ public class Ball : MonoBehaviourPunCallbacks
     private Transform _transform;
 
     private float _currentTime;
-    private readonly float _thrust = 1.5f;
+    private readonly float _thrust = 1.15f;
 
     private bool _isGrabBall;
 
