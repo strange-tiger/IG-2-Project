@@ -50,9 +50,8 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
         */
         if (Input.GetKeyDown(KeyCode.W))
         {
-                Debug.Log(ClickButton.name); 
-                CallMethod();
-
+            Debug.Log(ClickButton.name); 
+            CallMethod();
         }
     }
 
