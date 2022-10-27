@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class BettingUI : MonoBehaviour
+using Photon.Pun;
+using Asset.MySql;
+
+public class BettingUI : MonoBehaviourPun
 {
 
     [Header("Betting Panel")]
@@ -43,12 +46,8 @@ public class BettingUI : MonoBehaviour
     [SerializeField] BettingManager _bettingManager;
 
     private bool[] _isBetting = { false, false, false, false };
-    private string _playerNickname;
+    public string _playerNickname;
 
-    private void Start()
-    {
-        _playerNickname = "dd";
-    }
 
     private void OnEnable()
     {
@@ -102,6 +101,7 @@ public class BettingUI : MonoBehaviour
                 }
             );
         }
+        MySqlSetting.Init();
     }
 
     private void PopUpPanelOff() => _popUpPanel.SetActive(false);
@@ -142,46 +142,76 @@ public class BettingUI : MonoBehaviour
         return false;
     }
 
-    private int BetChampion(int index)
+    [PunRPC]
+    public void BetChampionAmount(int index)
     {
- 
-        if (!BettingExist())
+       if(photonView.IsMine)
         {
-            _isBetting[index] = true;
-            _bettingManager.BetAmount += double.Parse(_betChampionInputField[index].text);
-            _bettingManager.ChampionBetAmounts[index] += double.Parse(_betChampionInputField[index].text);
-            for(int i = 0; i < _bettingManager.BetRates.Length; ++i)
+            if (!BettingExist())
             {
-                _bettingManager.BetRates[i] = (_bettingManager.ChampionBetAmounts[i] / _bettingManager.BetAmount) * 100;
-                _betRateText[i].text = $"{Math.Round(_bettingManager.BetRates[i])}";
+                _bettingManager.BetAmount += double.Parse(_betChampionInputField[index].text);
+
+                _bettingManager.ChampionBetAmounts[index] += double.Parse(_betChampionInputField[index].text);
+
+                for(int i = 0; i < _bettingManager.BetRates.Length; ++i)
+                {
+                    _bettingManager.BetRates[i] = (_bettingManager.ChampionBetAmounts[i] / _bettingManager.BetAmount) * 100;
+                    _betRateText[i].text = $"{Math.Round(_bettingManager.BetRates[i])}";
+                }
+
             }
-            _betChampionInputField[index].text = null;
-            _popUpPanel.SetActive(true);
-            _popUpMessage.text = "베팅이 완료되었습니다.";
-            return index;
         }
-            return -1;
     }
-    private void BetCancel(int index, double cancelGold)
+
+    private void BetChampion(int index)
     {
-        _isBetting[index] = false;
+        MySqlSetting.InsertBetting(_playerNickname, double.Parse(_betChampionInputField[index].text), index);
+
+        _isBetting[index] = true;
+
+        _betChampionInputField[index].text = null;
+
+        _popUpPanel.SetActive(true);
+
+        _popUpMessage.text = "베팅이 완료되었습니다.";
+
+    }
+
+
+    [PunRPC]
+    public void BetCancelAmount(int index, double cancelGold)
+    {
+
         _bettingManager.BetAmount -= cancelGold;
+
         _bettingManager.ChampionBetAmounts[index] -= cancelGold;
-        
+
+
         for (int i = 0; i < _bettingManager.BetRates.Length; ++i)
         {
             _bettingManager.BetRates[i] = (_bettingManager.ChampionBetAmounts[i] / _bettingManager.BetAmount) * 100;
             _betRateText[i].text = $"{Math.Round(_bettingManager.BetRates[i])}";
         }
         
+       
+
+    }
+
+    private void BetCancel(int index)
+    {
+        _isBetting[index] = false;
+
         _popUpPanel.SetActive(true);
+
         _popUpMessage.text = "베팅 취소가 완료되었습니다.";
     }
+
     private void BetChampionOne()
     {
         if(BettingExist() == false)
         {
-            _bettingManager.BettingOneList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(0)].text));
+            photonView.RPC("BetChampionAmount",RpcTarget.All,0);
+            BetChampion(0);
         }
         else
         {
@@ -194,7 +224,8 @@ public class BettingUI : MonoBehaviour
     {
         if(BettingExist() == false)
         {
-            _bettingManager.BettingTwoList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(1)].text));
+            photonView.RPC("BetChampionAmount", RpcTarget.All, 1);
+            BetChampion(1);
         }
         else
         {
@@ -207,7 +238,8 @@ public class BettingUI : MonoBehaviour
     {
         if (BettingExist() == false)
         {
-            _bettingManager.BettingTwoList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(2)].text));
+            photonView.RPC("BetChampionAmount", RpcTarget.All, 2);
+            BetChampion(2);
         }
         else
         {
@@ -219,7 +251,8 @@ public class BettingUI : MonoBehaviour
     {
         if (BettingExist() == false)
         {
-            _bettingManager.BettingTwoList.Add(_playerNickname, double.Parse(_betChampionInputField[BetChampion(3)].text));
+            photonView.RPC("BetChampionAmount", RpcTarget.All, 3);
+            BetChampion(3);
         }
         else
         {
@@ -231,8 +264,8 @@ public class BettingUI : MonoBehaviour
     {
         if (BettingExist())
         {
-            BetCancel(0, _bettingManager.BettingOneList[_playerNickname]);
-            _bettingManager.BettingOneList.Remove(_playerNickname);
+            photonView.RPC("BetCancelAmount", RpcTarget.All, 0, MySqlSetting.CancelBetting(_playerNickname));
+            BetCancel(0);
         }
         else
         {
@@ -245,8 +278,8 @@ public class BettingUI : MonoBehaviour
     {
         if (BettingExist())
         {
-            BetCancel(1, _bettingManager.BettingTwoList[_playerNickname]);
-            _bettingManager.BettingOneList.Remove(_playerNickname);
+            photonView.RPC("BetCancelAmount", RpcTarget.All, 1, MySqlSetting.CancelBetting(_playerNickname));
+            BetCancel(1);
         }
         else
         {
@@ -259,8 +292,8 @@ public class BettingUI : MonoBehaviour
     {
         if (BettingExist())
         {
-            BetCancel(2, _bettingManager.BettingThreeList[_playerNickname]);
-            _bettingManager.BettingOneList.Remove(_playerNickname);
+            photonView.RPC("BetCancelAmount", RpcTarget.All, 2, MySqlSetting.CancelBetting(_playerNickname));
+            BetCancel(2);
         }
         else
         {
@@ -273,8 +306,8 @@ public class BettingUI : MonoBehaviour
     {
         if (BettingExist())
         {
-            BetCancel(3, _bettingManager.BettingFourList[_playerNickname]);
-            _bettingManager.BettingOneList.Remove(_playerNickname);
+            photonView.RPC("BetCancelAmount", RpcTarget.All, 3, MySqlSetting.CancelBetting(_playerNickname));
+            BetCancel(3);
         }
         else
         {

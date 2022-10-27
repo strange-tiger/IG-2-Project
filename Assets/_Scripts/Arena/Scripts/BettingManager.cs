@@ -4,13 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-
+using Asset.MySql;
 public class BettingManager : MonoBehaviour
 {
-    public Dictionary<string, double> BettingOneList = new Dictionary<string, double>();
-    public Dictionary<string, double> BettingTwoList = new Dictionary<string, double>();
-    public Dictionary<string, double> BettingThreeList = new Dictionary<string, double>();
-    public Dictionary<string, double> BettingFourList = new Dictionary<string, double>();
 
     public double BetAmount;
     public double[] BetRates;
@@ -19,6 +15,7 @@ public class BettingManager : MonoBehaviour
     public UnityEvent OnBettingStart = new UnityEvent();
     public UnityEvent OnBettingEnd = new UnityEvent();
 
+    private int winChampionNum;
     private bool _isBettingStart;
     private int[] _startTime = { 55, 60, 25, 30 };
 
@@ -26,6 +23,7 @@ public class BettingManager : MonoBehaviour
 
     private void Start()
     {
+        MySqlSetting.Init();
         if ((DateTime.Now.Minute >= _startTime[0] && DateTime.Now.Minute < _startTime[1]) || (DateTime.Now.Minute >= _startTime[2] && DateTime.Now.Minute < _startTime[3]))
         {
             BettingStart();
@@ -51,7 +49,8 @@ public class BettingManager : MonoBehaviour
     }
     private void DistributeGold()
     {
-        Debug.Log("°ñµåºÐ¹è");
+        MySqlSetting.DistributeBet(winChampionNum, BetAmount, ChampionBetAmounts[winChampionNum]);
+
         ResetAllBetting();
     }
 
@@ -71,10 +70,6 @@ public class BettingManager : MonoBehaviour
     private void ResetAllBetting()
     {
         BetAmount = 0;
-        BettingOneList.Clear();
-        BettingTwoList.Clear();
-        BettingThreeList.Clear();
-        BettingFourList.Clear();
 
         for(int i = 0; i < BetRates.Length; ++i)
         {
