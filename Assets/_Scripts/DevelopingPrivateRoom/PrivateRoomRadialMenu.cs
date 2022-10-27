@@ -48,8 +48,12 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
             _privateRoomRadialMenu.SetActive(false);
         }
         */
-        if(Input.GetKeyDown(KeyCode.W))
-            CallMethod();
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+                Debug.Log(ClickButton.name); 
+                CallMethod();
+
+        }
     }
 
     [PunRPC]
