@@ -72,4 +72,17 @@ namespace Defines
         Attack1,
         Attack2,
     }
+
+    public enum EDamage
+    {
+        Damage10 = 10,
+        Damage20 = 20,
+        Damage30 = 30,
+        Damage40 = 40,
+    }
+
+    public enum EHp
+    {
+        Hp100 = 100,
+    }
 }

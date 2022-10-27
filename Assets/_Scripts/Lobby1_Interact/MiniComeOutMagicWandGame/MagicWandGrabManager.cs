@@ -8,13 +8,6 @@ public class MagicWandGrabManager : MonoBehaviourPun
     [SerializeField]
     private MagicWand _magicWand;
 
-
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        
-    }
-
     private void Start()
     {
         if (photonView.IsMine)
