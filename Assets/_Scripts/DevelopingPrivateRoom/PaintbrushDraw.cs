@@ -4,39 +4,60 @@ using UnityEngine;
 
 public class PaintbrushDraw : MonoBehaviour
 {
-    public enum EBrush
-    {
-        PENCIL,
-        ERASER,
-        MAX
-    }
-
     [SerializeField] Material _lineMaterial;
-    [SerializeField] Material _eraseMaterial;
-    [SerializeField] GameObject _pad;
-    [SerializeField] EBrush _brush;
+    [SerializeField] PaintbrushReset _pad;
+    [SerializeField] LayerMask _padMask;
 
+    private const float RAY_LENGTH = 0.2f;
     private const float DEFAULT_WIDTH = 0.01f;
+    private const float POINTS_DISTANCE = 0.001f;
+    private static readonly Vector3 RAY_ORIGIN = new Vector3(0f, 0f, 0.1f);
 
     private LineRenderer _currentLineRenderer;
-    private Vector3 _prevPos = Vector3.zero;
+
+    private RaycastHit _hit;
+    private Ray _ray;
+
+    private Vector3 _currentPoint = Vector3.zero;
+    private Vector3 _prevPoint = Vector3.zero;
+
+    private bool _isDraw = false;
     private int _positionCount = 2;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnEnable()
     {
-        if (collision.gameObject == _pad)
+        _pad.OnReset -= StopDraw;
+        _pad.OnReset += StopDraw;
+        _ray = new Ray(transform.position + RAY_ORIGIN, transform.forward);
+    }
+
+    private void OnDisable()
+    {
+        _pad.OnReset -= StopDraw;
+    }
+
+    private void Update()
+    {
+        _ray.origin = transform.position + RAY_ORIGIN;
+        Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
+        
+        if (Physics.Raycast(_ray, out _hit, RAY_LENGTH, _padMask.value))
         {
-            CreateLine(collision.GetContact(0).point);
-            Debug.Log("1");
+            _currentPoint = _hit.point;
+            DrawLine();
+        }
+        else
+        {
+            _isDraw = false;
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void DrawLine()
     {
-        if (collision.gameObject == _pad)
+        if (!_isDraw)
         {
-            ConnectLine(collision.GetContact(0).point);
-            Debug.Log("2");
+            _isDraw = true;
+            CreateLine(_currentPoint);
         }
     }
 
@@ -49,40 +70,33 @@ public class PaintbrushDraw : MonoBehaviour
         line.transform.parent = _pad.transform;
         line.transform.position = startPos;
 
-        float width;
-        switch(_brush)
-        {
-            case EBrush.PENCIL:
-                width = DEFAULT_WIDTH;
-                lineRenderer.material = _lineMaterial;
-                break;
-            case EBrush.ERASER:
-                width = DEFAULT_WIDTH * 5f;
-                lineRenderer.material = _eraseMaterial;
-                break;
-            default:
-                Debug.LogError("연필 종류 잘못 설정했다.");
-                return;
-        }
-
-        lineRenderer.startWidth = width;
-        lineRenderer.endWidth = width;
+        lineRenderer.startWidth = DEFAULT_WIDTH;
+        lineRenderer.endWidth = DEFAULT_WIDTH;
         lineRenderer.numCornerVertices = 5;
         lineRenderer.numCapVertices = 5;
+        lineRenderer.material = _lineMaterial;
         lineRenderer.SetPosition(0, startPos);
         lineRenderer.SetPosition(1, startPos);
 
         _currentLineRenderer = lineRenderer;
+
+        StartCoroutine(ConnectLine());
     }
 
-    private void ConnectLine(Vector3 endPos)
+    private IEnumerator ConnectLine()
     {
-        if (_prevPos != null && Mathf.Abs(Vector3.Distance(_prevPos, endPos)) >= 0.001f)
+        while (_isDraw)
         {
-            _prevPos = endPos;
-            _positionCount++;
-            _currentLineRenderer.positionCount = _positionCount;
-            _currentLineRenderer.SetPosition(_positionCount - 1, endPos);
+            if (_prevPoint != null && Mathf.Abs(Vector3.Distance(_prevPoint, _currentPoint)) >= POINTS_DISTANCE)
+            {
+                _prevPoint = _currentPoint;
+                _positionCount++;
+                _currentLineRenderer.positionCount = _positionCount;
+                _currentLineRenderer.SetPosition(_positionCount - 1, _currentPoint);
+            }
+            yield return null;
         }
     }
+
+    private void StopDraw() => _isDraw = false;
 }

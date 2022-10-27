@@ -6,6 +6,6 @@ public class TestPencilMove : MonoBehaviour
 {
     private void Update()
     {
-        transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.4f));
+        transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.28f));
     }
 }

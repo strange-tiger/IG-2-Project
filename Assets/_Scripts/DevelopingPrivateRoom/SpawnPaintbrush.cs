@@ -6,8 +6,7 @@ using Photon.Realtime;
 
 public class SpawnPaintbrush : MonoBehaviourPunCallbacks
 {
-    [SerializeField] GameObject _legalPad;
-    [SerializeField] GameObject _pencil;
+    [SerializeField] GameObject _paintbrush;
 
     private bool _isPaintbrushSpawned = false;
 
@@ -17,8 +16,6 @@ public class SpawnPaintbrush : MonoBehaviourPunCallbacks
     }
 
     private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 1f);
-    private static readonly Quaternion SPAWN_ROTATION = Quaternion.Euler(-90f, 0f, 0f);
-    private static readonly Vector3 SPAWN_PENCIL_POSITION = new Vector3(0.2f, 1.5f, 1f);
     [PunRPC]
     public void Spawn()
     {
@@ -27,13 +24,9 @@ public class SpawnPaintbrush : MonoBehaviourPunCallbacks
             return;
         }
 
-        _legalPad.transform.position = SPAWN_PAD_POSITION;
-        _legalPad.transform.rotation = SPAWN_ROTATION;
-        _legalPad.SetActive(true);
+        _paintbrush.transform.position = SPAWN_PAD_POSITION;
+        _paintbrush.SetActive(true);
 
-        _pencil.transform.position = SPAWN_PENCIL_POSITION;
-        _pencil.transform.rotation = SPAWN_ROTATION;
-        _pencil.SetActive(true);
     }
 
     [PunRPC]
@@ -44,7 +37,6 @@ public class SpawnPaintbrush : MonoBehaviourPunCallbacks
             return;
         }
 
-        _legalPad.SetActive(false);
-        _pencil.SetActive(false);
+        _paintbrush.SetActive(false);
     }
 }
