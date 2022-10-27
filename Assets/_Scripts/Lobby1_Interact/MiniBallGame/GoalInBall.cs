@@ -14,15 +14,20 @@ public class GoalInBall : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < transform.childCount; ++i)
         {
-            _goalIn[i] = gameObject.transform.GetChild(i).GetComponentInChildren<ParticleSystem>();
+            _goalIn[i] = gameObject.transform.GetChild(i).GetComponent<ParticleSystem>();
+            _goalIn[i].gameObject.SetActive(false);
         }
     }
 
     private void OnTriggerEnter(Collider _goalLine)
     {
-        if (_goalLine.gameObject.tag == "Ball" && _goalLine.gameObject.transform.position.y > gameObject.transform.position.y)
+        if (photonView.IsMine)
         {
-            photonView.RPC("PlayGoalInParticle", RpcTarget.All);
+            if (_goalLine.gameObject.tag == "Ball" && _goalLine.gameObject.transform.position.y > gameObject.transform.position.y)
+            {
+                photonView.RPC("PlayGoalInParticle", RpcTarget.All);
+            }
+
         }
     }
 

@@ -152,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eAttack: 0
   _attackAI: {fileID: 7764374381803638919}
+  _killAI: {fileID: 7764374381803638924}
 --- !u!114 &7764374381803638925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eAttack: 0
+  _damage: 10
   _hp: 100
 --- !u!114 &7764374381803638924
 MonoBehaviour:
@@ -181,6 +183,9 @@ MonoBehaviour:
   _collider:
   - {fileID: 5293959862813602182}
   - {fileID: 8892400526544561410}
+  KillAI:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7764374381803638915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,13 +250,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _aiCollider: {fileID: 7765900187620519196}
   _aIDamage: {fileID: 7764374381803638925}
-  _hiAI:
+  HiAI:
     m_PersistentCalls:
       m_Calls: []
-  _attackAI:
-    m_PersistentCalls:
-      m_Calls: []
-  _killAI:
+  AttackAI:
     m_PersistentCalls:
       m_Calls: []
 --- !u!54 &7764374381803638920
