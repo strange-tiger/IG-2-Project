@@ -942,40 +942,63 @@ namespace Asset.MySql
         }
 
         /// <summary>
-        /// DataSet에 BettingDB의 정보를 불러오고, 배당율을 계산하여 CharacterDB의 골드에 추가하고, BettingDB를 리셋한다.
+        /// DataSet에 BettingDB의 정보를 불러오고, 배당율을 계산하여 CharacterDB의 골드에 추가하고, BettingDB를 리셋한다. 무승부일 경우, 베팅한 금액 그대로를 다시 반환하고 BettingUI를 리셋한다.
         /// </summary>
-        /// <param name="winChampionNumber">이긴 참가자의 Index, ZeroBase</param>
-        /// <param name="betAmount">총 베팅금액</param>
-        /// <param name="championBetAmount"> 이긴 참가자에게 베팅된 총 금액</param>
+        /// <param name="winChampionNumber"> 베팅한 참가자의 인덱스 </param>
+        /// <param name="betAmount"> 총 베팅 금액 </param>
+        /// <param name="championBetAmount"> 베팅한 참가자에게 베팅한 총 금액</param>
+        /// <param name="isDraw"> 무승부 여부 </param>
         /// <returns></returns>
-        public static bool DistributeBet(int winChampionNumber, double betAmount, double championBetAmount)
+        public static bool DistributeBet(int winChampionNumber, double betAmount, double championBetAmount, bool isDraw)
         {
 
             try
             {
                 string selectAllBettingData = SelectDBHelper(ETableType.bettingdb) + $" where BettingChampionNumber = '{winChampionNumber}'";
 
+                string selectDrawBettingData = SelectDBHelper(ETableType.bettingdb);
+
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     _mysqlConnection.Open();
-                    
-                    DataSet bettingDBdata = GetUserData(selectAllBettingData);
-                    
-                    foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
+
+                    if(isDraw)
                     {
-                        int betGold = (int)Math.Round((betAmount * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / championBetAmount)));
+                        DataSet bettingDBdata = GetUserData(selectDrawBettingData);
 
-                        int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
-                        Debug.Log(haveGold);
-                        Debug.Log(betGold);
-                        string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.NickName.ToString()]}';";
+                        foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
+                        {
+                            int betGold = (int)double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString());
 
-                        MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
-                        command.ExecuteNonQuery();
+                            int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
+
+                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.NickName.ToString()]}';";
+
+                            MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
+
+                            command.ExecuteNonQuery();
+                        }
+
+                        ResetBettingDB();
                     }
+                    else
+                    {
+                        DataSet bettingDBdata = GetUserData(selectAllBettingData);
+                    
+                        foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
+                        {
+                            int betGold = (int)Math.Round((betAmount * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / championBetAmount)));
 
-                    ResetBettingDB();
+                            int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 
+                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.NickName.ToString()]}';";
+
+                            MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
+                            command.ExecuteNonQuery();
+                        }
+
+                        ResetBettingDB();
+                    }
                     _mysqlConnection.Close();
                 }
 

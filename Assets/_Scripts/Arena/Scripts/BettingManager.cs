@@ -15,11 +15,11 @@ public class BettingManager : MonoBehaviour
     public UnityEvent OnBettingStart = new UnityEvent();
     public UnityEvent OnBettingEnd = new UnityEvent();
 
-    private int winChampionNum;
     private bool _isBettingStart;
     private int[] _startTime = { 55, 60, 25, 30 };
+    private bool _isDraw;
 
-    //분배(DB에 등록), 베팅 시작, 종료 알림, 금액 수정시, Dictionary에서 값을 찾아서 반환.
+    [SerializeField] GroupManager _groupManager;
 
     private void Start()
     {
@@ -49,7 +49,7 @@ public class BettingManager : MonoBehaviour
     }
     private void DistributeGold()
     {
-        MySqlSetting.DistributeBet(winChampionNum, BetAmount, ChampionBetAmounts[winChampionNum]);
+        MySqlSetting.DistributeBet(_groupManager.WinnerIndex, BetAmount, ChampionBetAmounts[_groupManager.WinnerIndex], _isDraw);
 
         ResetAllBetting();
     }
