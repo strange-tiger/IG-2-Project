@@ -7,8 +7,6 @@ using UnityEditor;
 using System.IO;
 using MySql.Data.MySqlClient;
 using System;
-using UnityEngine.Analytics;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace Asset.MySql
 {
