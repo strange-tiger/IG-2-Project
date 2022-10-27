@@ -10,9 +10,9 @@ public class AIDamage : AIState
     private EAttack _eAttack;
 
     private Animator _animator;
-    
+
     [SerializeField]
-    private AIDamageNum _aiDamage;
+    private TriggerDetector[] _triggerDetector;
 
     private bool _isDamageTime;
     private float _curTime;
@@ -47,11 +47,9 @@ public class AIDamage : AIState
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
 
-        _hp -= _aiDamage.Damage;
+        _hp -= _triggerDetector[0].Damage;
         
         _isDamageTime = true;
-
-        
     }
 
     public override void OnUpdate()

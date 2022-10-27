@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4387,7 +4387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eAttack: 1
-  _aiDamage: {fileID: 0}
+  _triggerDetector: {fileID: 0}
   _hp: 100
 --- !u!65 &1805357376
 BoxCollider:
@@ -4450,6 +4450,7 @@ MonoBehaviour:
   AttackAI:
     m_PersistentCalls:
       m_Calls: []
+  _selectDamage: 0
 --- !u!114 &1805357380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4603,7 +4604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2651a601738534b9442235cfb82d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 45
 --- !u!1 &1816057204
 GameObject:
   m_ObjectHideFlags: 0
@@ -4742,6 +4742,7 @@ MonoBehaviour:
   AttackAI:
     m_PersistentCalls:
       m_Calls: []
+  _selectDamage: 0
 --- !u!114 &1854024546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4829,7 +4830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eAttack: 0
-  _aiDamage: {fileID: 0}
+  _triggerDetector: {fileID: 0}
   _hp: 100
 --- !u!114 &1854024552
 MonoBehaviour:
@@ -4894,7 +4895,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2651a601738534b9442235cfb82d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 100
 --- !u!1 &1858232594
 GameObject:
   m_ObjectHideFlags: 0
@@ -6343,7 +6343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eAttack: 0
-  _aiDamage: {fileID: 0}
+  _triggerDetector: {fileID: 0}
   _hp: 100
 --- !u!114 &4186324299524219233
 MonoBehaviour:
@@ -6446,6 +6446,7 @@ MonoBehaviour:
   AttackAI:
     m_PersistentCalls:
       m_Calls: []
+  _selectDamage: 10
 --- !u!1 &4186324299524219243
 GameObject:
   m_ObjectHideFlags: 0
@@ -6541,7 +6542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2651a601738534b9442235cfb82d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 10
 --- !u!1 &4186326658265493939
 GameObject:
   m_ObjectHideFlags: 0
@@ -8095,6 +8095,7 @@ MonoBehaviour:
   AttackAI:
     m_PersistentCalls:
       m_Calls: []
+  _selectDamage: 0
 --- !u!1 &8984746532972136835
 GameObject:
   m_ObjectHideFlags: 0
@@ -8190,7 +8191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2651a601738534b9442235cfb82d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 20
 --- !u!114 &8984746532972136856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8204,7 +8204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eAttack: 1
-  _aiDamage: {fileID: 0}
+  _triggerDetector: {fileID: 0}
   _hp: 100
 --- !u!114 &8984746532972136857
 MonoBehaviour:

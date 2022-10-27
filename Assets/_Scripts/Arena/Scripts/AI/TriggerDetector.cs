@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 using EAIState = Defines.Estate;
+using EDamage = Defines.EDamage;
 
 public class TriggerDetector : MonoBehaviour
 {
@@ -11,10 +12,33 @@ public class TriggerDetector : MonoBehaviour
     private Collider _aiCollider;
 
     public UnityEvent HiAI = new UnityEvent();
-    public UnityEvent AttackAI = new UnityEvent();
+    public UnityEvent<int> AttackAI = new UnityEvent<int>();
+
+    [SerializeField]
+    private EDamage _selectDamage;
+
+    private int _damage;
+
+    public int Damage
+    {
+        get
+        {
+            return (int)_damage;
+        }
+
+        set
+        {
+            _damage = value;
+        }
+    }
 
     public void Init()
     {
+    }
+
+    private void OnEnable()
+    {
+        _damage = (int)_selectDamage;
     }
 
     private void OnTriggerEnter(Collider other)
