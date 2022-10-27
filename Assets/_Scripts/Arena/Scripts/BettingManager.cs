@@ -17,6 +17,7 @@ public class BettingManager : MonoBehaviour
 
     private bool _isBettingStart;
     private int[] _startTime = { 55, 60, 25, 30 };
+    private bool _isDraw;
 
     [SerializeField] GroupManager _groupManager;
 
@@ -48,7 +49,7 @@ public class BettingManager : MonoBehaviour
     }
     private void DistributeGold()
     {
-        MySqlSetting.DistributeBet(_groupManager.WinnerIndex, BetAmount, ChampionBetAmounts[_groupManager.WinnerIndex]);
+        MySqlSetting.DistributeBet(_groupManager.WinnerIndex, BetAmount, ChampionBetAmounts[_groupManager.WinnerIndex], _isDraw);
 
         ResetAllBetting();
     }
