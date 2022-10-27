@@ -29,7 +29,7 @@ public class HitPoint : MonoBehaviour
     void Update()
     {
         _elapsedTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (OVRInput.GetDown(OVRInput.Button.One))
         {
             _currentDegree = (int)Mathf.Lerp(0f, 360f, _elapsedTime / _delay);
             if (_checkPoint.Angle >= _currentDegree && _currentDegree >= _checkPoint.Angle - (_checkPointImage.fillAmount * 360))
