@@ -698,8 +698,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff9a2ce375ba04478675e14fe852881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _legalPad: {fileID: 0}
-  _pencil: {fileID: 0}
+  _paintbrush: {fileID: 1118202546}
+--- !u!1 &1118202546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8417325164426541866, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
+  m_PrefabInstance: {fileID: 1266623242427457112}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1213535538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,18 +1156,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PaintbrushDraw, Assembly-CSharp
-        m_MethodName: DestroyLine
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1864420049
 MonoBehaviour:
@@ -1318,7 +1310,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2897960153422722466, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2897960153422722466, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1351,6 +1343,14 @@ PrefabInstance:
     - target: {fileID: 2897960153422722466, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858683987768604182, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858683987768604186, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8417325164426541866, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
       propertyPath: m_Name
