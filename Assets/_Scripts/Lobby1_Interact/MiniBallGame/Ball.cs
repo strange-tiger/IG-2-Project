@@ -12,7 +12,12 @@ public class Ball : MonoBehaviourPunCallbacks
     private float _resetBallTimer;
 
     private Rigidbody _rigidbody;
+    private Transform _transform;
+
     private float _currentTime;
+    private readonly float _thrust = 1.5f;
+
+    private bool _isGrabBall;
 
     private void Awake()
     {
@@ -27,6 +32,11 @@ public class Ball : MonoBehaviourPunCallbacks
     private void Update()
     {
         SetBall();
+
+        if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && _isGrabBall == true)
+        {
+            _rigidbody.AddForce(0, _thrust, 0, ForceMode.Impulse);
+        }
     }
 
     private void SetBall()
@@ -47,6 +57,21 @@ public class Ball : MonoBehaviourPunCallbacks
             {
                 _currentTime -= _currentTime;
             }
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            _isGrabBall = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            _isGrabBall = false;
         }
     }
 }
