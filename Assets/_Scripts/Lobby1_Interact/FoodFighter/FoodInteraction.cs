@@ -105,7 +105,6 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
         {
             if (SatietyStack < _maxSatietyStack)
             {
-                _audioSource.PlayOneShot(_eatingSound);
 
                 _playerContollerMove.MoveScale -= _speedSlower * (int)foodSatietyLevel;
 
@@ -126,6 +125,7 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void CharacterScaleIncrease(EFoodSatietyLevel foodSatietyLevel)
     {
+        _audioSource.PlayOneShot(_eatingSound);
         transform.GetChild(2).localScale = new Vector3(transform.GetChild(2).localScale.x, transform.GetChild(2).localScale.y, transform.GetChild(2).localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
     }
 
