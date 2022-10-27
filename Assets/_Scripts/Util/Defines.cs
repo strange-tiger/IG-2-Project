@@ -61,5 +61,15 @@ namespace Defines
         Damage,
         Death,
     }
+    
+    public enum EJobClass
+    {
+        Prototype,
+    }
 
+    public enum EAttackKind
+    {
+        Attack1,
+        Attack2,
+    }
 }
