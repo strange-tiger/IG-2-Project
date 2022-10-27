@@ -4,7 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using System.Runtime.CompilerServices;
+
+using _PH = ExitGames.Client.Photon;
+using _DB = Asset.MySql.MySqlSetting;
 
 public class UnlockPopupUI : PopupUI
 {
@@ -45,12 +47,14 @@ public class UnlockPopupUI : PopupUI
     {
         _currentRoomName = room;
     }
-    
+
     private void JoinLockedRoom()
     {
+        _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _currentRoomName + "_" + _passwordInput.text }, { "password", _passwordInput.text } };
+
         try
         {
-            PhotonNetwork.JoinRoom(_currentRoomName + "_" + _passwordInput.text);
+            JoinRoom.JoinInRoom(expectedCustomRoomProperties);
 
             _passwordInput.text = "";
             gameObject.SetActive(false);

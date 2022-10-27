@@ -7,6 +7,8 @@ using UnityEditor;
 using System.IO;
 using MySql.Data.MySqlClient;
 using System;
+using UnityEngine.Analytics;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace Asset.MySql
 {
@@ -235,6 +237,37 @@ namespace Asset.MySql
 
                     _mysqlConnection.Open();
                     _insertCharacterCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// roomlistdb에 새로운 방 추가
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="password"></param>
+        /// <param name="displayName"></param>
+        /// <param name="roomNumber"></param>
+        /// <returns>추가 성공 true, 실패 false 반환</returns>
+        public static bool AddNewRoomInfo(string userId, string password, string displayName, int roomNumber)
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string _insertRoomInfoString = GetInsertString(ETableType.roomlistdb, userId, password, displayName, roomNumber.ToString());
+
+                    MySqlCommand _insertRoomInfoCommand = new MySqlCommand(_insertRoomInfoString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    _insertRoomInfoCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
                 return true;
@@ -1039,6 +1072,32 @@ namespace Asset.MySql
         }
 
         /// <summary>
+        /// roomlistdb의 데이터를 List<Dictionary>의 형태로 반환, roomList 생성
+        /// </summary>
+        /// <returns></returns>
+        public static List<Dictionary<string, string>> GetRoomList()
+        {
+            List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
+
+            string selectString = MySqlStatement.SELECT + $"{ETableType.roomlistdb};";
+
+            DataSet roomData = GetUserData(selectString);
+            Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
+            foreach (DataRow _dataRow in roomData.Tables[0].Rows)
+            {
+                dictionaryList.Clear();
+                dictionaryList.Add("UserID", _dataRow[EroomlistdbColumns.UserID.ToString()].ToString());
+                dictionaryList.Add("Password", _dataRow[EroomlistdbColumns.Password.ToString()].ToString());
+                dictionaryList.Add("DisplayName", _dataRow[EroomlistdbColumns.DisplayName.ToString()].ToString());
+                dictionaryList.Add("RoomNumber", _dataRow[EroomlistdbColumns.RoomNumber.ToString()].ToString());
+
+                resultList.Add(dictionaryList);
+            }
+
+            return resultList;
+        }
+
+        /// <summary>
         /// 해당 값이 DB에 있는지 확인한다.
         /// </summary>
         /// <param name="columnType">Account 태이블에서 비교하기 위한 colum 명</param>
@@ -1378,6 +1437,9 @@ namespace Asset.MySql
         #endregion
 
 
+
+
+         
 #region DeleteRowByComparator-BettingDB
 
         public static bool DeleteRowByComparator
@@ -1396,7 +1458,35 @@ namespace Asset.MySql
 
             ) ;
         }
+        
 #endregion
+
+        /// <summary>
+        /// roomlistdb의 Row를 삭제
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="condition"></param>
+        /// <param name="logicOperator"></param>
+        /// <returns></returns>
+        public static bool DeleteRowByComparator
+        (EroomlistdbColumns type, string condition,
+        string logicOperator = "and")
+
+        {
+
+            return DeleteRowByComparator
+            (
+                Asset.ETableType.roomlistdb,
+                logicOperator,
+                new Comparator<EroomlistdbColumns>()
+
+                {
+                    Column = type,
+                    Value = condition
+                }
+
+            ) ;
+        }
 
         public static bool DeleteRowByComparator<T>
         (Asset.ETableType targetTable, string logicOperator,

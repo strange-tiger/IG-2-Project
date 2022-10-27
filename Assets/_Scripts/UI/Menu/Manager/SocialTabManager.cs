@@ -7,6 +7,8 @@ using Asset.MySql;
 
 public class SocialTabManager : MonoBehaviour
 {
+    public GameObject RequestAlarmImage { private get; set; }
+
     [Header("List View")]
     [SerializeField] private GameObject _friendListItem;
     [SerializeField] private GameObject _requestListItem;
@@ -73,7 +75,7 @@ public class SocialTabManager : MonoBehaviour
 
     private void ShowFriendList()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
 
         // 버튼 활성화 처리
         _friendListButton.interactable = false;
@@ -83,12 +85,12 @@ public class SocialTabManager : MonoBehaviour
         // 리스트 세팅
         _nicknameTextList.Clear();
         SetList(MySqlSetting._FRIEND_BIT, MySqlSetting._FRIEND_BIT, AddFriendListItem);
-        StartCoroutine(OnOfflineSetting());
+        //StartCoroutine(OnOfflineSetting());
     }
 
     private void ShowBlockList()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
 
         // 버튼 활성화 처리
         _friendListButton.interactable = true;
@@ -101,7 +103,12 @@ public class SocialTabManager : MonoBehaviour
     
     private void ShowRequestList()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
+
+        if(RequestAlarmImage.activeSelf)
+        {
+            RequestAlarmImage.SetActive(false);
+        }
 
         // 버튼 활성화 처리
         _friendListButton.interactable = true;
@@ -109,7 +116,7 @@ public class SocialTabManager : MonoBehaviour
         _requestListButton.interactable = false;
 
         // 리스트 세팅
-        SetList(MySqlSetting._REQUEST_LEFT_BIT, MySqlSetting._REQUEST_RIGHT_BIT, AddRequestListItem);
+        SetList(MySqlSetting._REQUEST_RIGHT_BIT, MySqlSetting._REQUEST_LEFT_BIT, AddRequestListItem);
     }
 
     private void SetList(byte leftListOptionByte, byte rightListOptionByte, AddListItem addListItem)
@@ -119,19 +126,29 @@ public class SocialTabManager : MonoBehaviour
 
         foreach(Dictionary<string, string> relationship in relationShipList)
         {
-            byte optionByte;
-            if(bool.Parse(relationship["IsLeft"]))
+            if(leftListOptionByte == MySqlSetting._FRIEND_BIT)
             {
-                optionByte = leftListOptionByte;
+                if(byte.Parse(relationship["State"]) == MySqlSetting._FRIEND_BIT)
+                {
+                    addListItem.Invoke(relationship["Nickname"]);
+                }
             }
             else
             {
-                optionByte = rightListOptionByte;
-            }
+                byte optionByte;
+                if (bool.Parse(relationship["IsLeft"]))
+                {
+                    optionByte = leftListOptionByte;
+                }
+                else
+                {
+                    optionByte = rightListOptionByte;
+                }
 
-            if((byte.Parse(relationship["State"]) & optionByte) == optionByte)
-            {
-                addListItem.Invoke(relationship["Nickname"]);
+                if ((byte.Parse(relationship["State"]) & optionByte) == optionByte)
+                {
+                    addListItem.Invoke(relationship["Nickname"]);
+                }
             }
         }
     }
@@ -145,7 +162,7 @@ public class SocialTabManager : MonoBehaviour
                 continue;
             }
 
-            Destroy(child);
+            Destroy(child.gameObject);
         }
     }
 
@@ -155,45 +172,60 @@ public class SocialTabManager : MonoBehaviour
 
         _nicknameTextList.Add(newFriendListItem.GetComponentInChildren<TextMeshProUGUI>());
         _nicknameTextList[_nicknameTextList.Count - 1].text = targetNickname;
-        
+
+        string targetName = targetNickname;
         // 친구 삭제
         Button deleteButton = newFriendListItem.GetComponentInChildren<Button>();
         deleteButton.onClick.AddListener(() =>
         {
             // 친구 삭제 기능 연결
-            MySqlSetting.UpdateRelationshipToUnFriend(_myNickname, targetNickname);
+            MySqlSetting.UpdateRelationshipToUnFriend(_myNickname, targetName);
+            Destroy(newFriendListItem);
         });
     }
     private void AddBlockListItem(string targetNickname)
     {
         GameObject newFriendListItem = Instantiate(_friendListItem, _listContent.transform);
 
+        TextMeshProUGUI friendNicknameText = newFriendListItem.GetComponentInChildren<TextMeshProUGUI>();
+        friendNicknameText.text = targetNickname;
+
+        string targetName = targetNickname;
         // 차단 취소
         Button deleteButton = newFriendListItem.GetComponentInChildren<Button>();
         deleteButton.onClick.AddListener(() =>
         {
             // 차단 취소 기능 연결
-            MySqlSetting.UpdateRelationshipToUnblock(_myNickname, targetNickname);
+            MySqlSetting.UpdateRelationshipToUnblock(_myNickname, targetName);
+            Destroy(newFriendListItem);
         });
     }
     private void AddRequestListItem(string targetNickname)
     {
         GameObject newFriendListItem = Instantiate(_requestListItem, _listContent.transform);
 
+        TextMeshProUGUI nicknameText = newFriendListItem.GetComponentInChildren<TextMeshProUGUI>();
+        nicknameText.text = targetNickname;
+
+        string targetName = targetNickname;
         // 친구 수락
         Button acceptButton = newFriendListItem.GetComponentsInChildren<Button>()[0];
         acceptButton.onClick.AddListener(() =>
         {
+            Debug.Log("[UI] 친구 수락 연결됨");
             // 친구 추가 기능 연결
-            MySqlSetting.UpdateRelationshipToFriend(targetNickname, _myNickname);
+            MySqlSetting.UpdateRelationshipToFriend(targetName, _myNickname);
+            Destroy(newFriendListItem);
         });
 
         // 친구 거절
         Button denyButton = newFriendListItem.GetComponentsInChildren<Button>()[1];
-        acceptButton.onClick.AddListener(() =>
+        denyButton.onClick.AddListener(() =>
         {
+            Debug.Log("[UI] 친구 거절 연결됨");
             // 친구 거절 기능 연결
-            MySqlSetting.UpdateRelationshipToUnrequest(targetNickname, _myNickname);
+            MySqlSetting.UpdateRelationshipToUnrequest(targetName, _myNickname);
+            Destroy(newFriendListItem);
         });
     }
 }
