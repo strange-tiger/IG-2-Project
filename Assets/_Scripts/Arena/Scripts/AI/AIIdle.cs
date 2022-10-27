@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EAIState = Defines.Estate;
+using EHI = Defines.EHp;
 
 public class AIIdle : AIState
 {
     [SerializeField]
     private Collider _aiCollider;
 
+    [SerializeField]
     private AIDamage _aiHP;
 
     private Animator _animator;
@@ -31,6 +33,7 @@ public class AIIdle : AIState
         {
             _aiCollider.enabled = true;
         }
+        
         _isRunTime = true;
     }
 

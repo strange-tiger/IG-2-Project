@@ -80,4 +80,9 @@ namespace Defines
         Damage30 = 30,
         Damage40 = 40,
     }
+
+    public enum EHp
+    {
+        Hp100 = 100,
+    }
 }

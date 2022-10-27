@@ -57,7 +57,6 @@ public class AIDeath : AIState
             _curTime -= _curTime;
             _isDie = false;
             DeathAI.Invoke(gameObject);
-            Debug.Log("µé¾î¿Ô");
         }
     }
 

@@ -27,7 +27,7 @@ public class GroupManager : MonoBehaviour
         _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
         _member[1].transform.position = new Vector3(_setPosition, 0, 0);
         _member[1].transform.rotation = Quaternion.Euler(0, -90, 0);
-        Debug.Log("ÁØ°á½Â1");
+
         for (int i = 0; i < 2; i++)
         {
             _member[i].SetActive(true);
@@ -45,7 +45,7 @@ public class GroupManager : MonoBehaviour
         // ÁØ°á½Â 1
         if ((_member[0].activeSelf == false || _member[1].activeSelf == false) && !_isFirstBattle)
         {
-            
+
             if (_member[0].activeSelf)
             {
                 _finalBattle[0] = _member[0];
@@ -65,7 +65,7 @@ public class GroupManager : MonoBehaviour
         // ÁØ°á½Â 2
         if ((_member[2].activeSelf == false || _member[3].activeSelf == false) && _member[0].activeSelf == false && _member[1].activeSelf == false && _isSecondBattle)
         {
-            
+
             if (_member[2].activeSelf)
             {
                 _finalBattle[1] = _member[2];
@@ -79,24 +79,12 @@ public class GroupManager : MonoBehaviour
                 _member[3].SetActive(false);
             }
             _isFinelBattle = true;
+
+            Invoke("FinalBattle", 3f);
         }
 
-        // °á½ÂÀü
-        if (_member[0].activeSelf == false && _member[1].activeSelf == false && _member[2].activeSelf == false && _member[3].activeSelf == false && _isFinelBattle)
-        {
-            Debug.Log("°á½Â");
-            _finalBattle[0].transform.rotation = Quaternion.Euler(0, 90, 0);
-            _finalBattle[1].transform.rotation = Quaternion.Euler(0, -90, 0);
-            for (int i = 0; i < 2; ++i)
-            {
-                _finalBattle[i].SetActive(true);
 
-                if (i == 1)
-                {
-                    _isFirstBattle = true;
-                }
-            }
-        }
+
     }
 
     // Á×Àº AI
@@ -108,21 +96,33 @@ public class GroupManager : MonoBehaviour
     // ÁØ°á½Â 2 À§Ä¡ ¼ÂÆÃ
     private void SecondBattle()
     {
-        Debug.Log("ÁØ°á½Â2");
         _member[2].transform.position = new Vector3(-_setPosition, 0, 0);
         _member[2].transform.rotation = Quaternion.Euler(0, 90, 0);
         _member[3].transform.position = new Vector3(_setPosition, 0, 0);
         _member[3].transform.rotation = Quaternion.Euler(0, -90, 0);
-        for (int i = 2; i < 4; ++i)
-        {
-            _member[i].SetActive(true);
 
-            if (i == 3)
-            {
-                _isFirstBattle = true;
-                _isSecondBattle = true;
-            }
+        _member[2].SetActive(true);
+        _member[3].SetActive(true);
+
+        _isFirstBattle = true;
+        _isSecondBattle = true;
+    }
+
+    // °á½ÂÀü
+    private void FinalBattle()
+    {
+        if (_member[0].activeSelf == false && _member[1].activeSelf == false && _member[2].activeSelf == false && _member[3].activeSelf == false && _isFinelBattle)
+        {
+            _finalBattle[0].transform.rotation = Quaternion.Euler(0, 90, 0);
+            _finalBattle[1].transform.rotation = Quaternion.Euler(0, -90, 0);
+
+            _finalBattle[0].SetActive(true);
+            _finalBattle[1].SetActive(true);
+
+
+            _isFirstBattle = false;
         }
+
     }
 
     private void OnDisable()

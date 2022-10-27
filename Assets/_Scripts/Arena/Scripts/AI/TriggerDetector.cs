@@ -16,21 +16,8 @@ public class TriggerDetector : MonoBehaviour
 
     [SerializeField]
     private EDamage _selectDamage;
-
+    
     private int _damage;
-
-    public int Damage
-    {
-        get
-        {
-            return (int)_damage;
-        }
-
-        set
-        {
-            _damage = value;
-        }
-    }
 
     public void Init()
     {
@@ -45,12 +32,11 @@ public class TriggerDetector : MonoBehaviour
     {
         if (other.gameObject.tag == "AISword")
         {
-            AttackAI.Invoke();
+            AttackAI.Invoke(_damage);
         }
 
         if (other.gameObject.tag == "AI")
         {
-            Debug.Log("a");
             HiAI.Invoke();
             transform.LookAt(other.gameObject.transform);
             _aiCollider.enabled = false;

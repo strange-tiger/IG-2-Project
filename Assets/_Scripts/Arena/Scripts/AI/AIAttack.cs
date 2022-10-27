@@ -31,6 +31,8 @@ public class AIAttack : AIState
 
     private bool _isAttackTime;
     private float _curTime;
+    private int _damage;
+    public int Damage { get { return _damage; } set { _damage = value; } }
 
     private void OnEnable()
     {
@@ -95,8 +97,9 @@ public class AIAttack : AIState
         _curTime -= _curTime;
     }
 
-    private void StateChangeAttackToDamage()
+    private void StateChangeAttackToDamage(int damage)
     {
+        _damage = damage;
         aiFSM.ChangeState(EAIState.Damage);
     }
 

@@ -12,7 +12,7 @@ public class AIDamage : AIState
     private Animator _animator;
 
     [SerializeField]
-    private TriggerDetector[] _triggerDetector;
+    private AIAttack _hitDamage;
 
     private bool _isDamageTime;
     private float _curTime;
@@ -46,8 +46,8 @@ public class AIDamage : AIState
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
-
-        _hp -= _triggerDetector[0].Damage;
+        
+        _hp -= _hitDamage.Damage;
         
         _isDamageTime = true;
     }
@@ -56,9 +56,6 @@ public class AIDamage : AIState
     {
         if (_hp <= 0)
         {
-            _isDamageTime = false;
-            _curTime -= _curTime;
-
             aiFSM.ChangeState(EAIState.Death);
         }
 

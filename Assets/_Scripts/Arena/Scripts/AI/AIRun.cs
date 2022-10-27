@@ -48,7 +48,6 @@ public class AIRun : AIState
     private void StateChangeRunToAttack()
     {
         aiFSM.ChangeState(EAIState.Attack);
-        Debug.Log("StateChangeRunToAttack");
     }
 
     private void OnDisable()
