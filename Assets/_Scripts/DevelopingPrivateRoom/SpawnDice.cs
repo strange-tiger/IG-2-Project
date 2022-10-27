@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnDice : MonoBehaviourPunCallbacks
+public class SpawnDice : MonoBehaviourPun
 {
     [SerializeField] GameObject _dice;
 
@@ -33,7 +33,7 @@ public class SpawnDice : MonoBehaviourPunCallbacks
     [PunRPC]
     private void Spawn()
     {
-        _dice.transform.position = SPAWN_POSITION;
+        _dice.transform.position = transform.position + SPAWN_POSITION;
         _dice.SetActive(true);
     }
 

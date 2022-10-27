@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class PaintbrushReset : MonoBehaviour
+public class PaintbrushReset : MonoBehaviourPun
 {
     [SerializeField] Button _resetButton;
 
@@ -21,6 +22,7 @@ public class PaintbrushReset : MonoBehaviour
         _resetButton.onClick.RemoveListener(ResetDraw);
     }
 
+    [PunRPC]
     private void ResetDraw()
     {
         for(int i = 1; i < transform.childCount; ++i)

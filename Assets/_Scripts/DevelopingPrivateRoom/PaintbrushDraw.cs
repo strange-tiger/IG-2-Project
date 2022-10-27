@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PaintbrushDraw : MonoBehaviour
+public class PaintbrushDraw : MonoBehaviourPun
 {
     [SerializeField] Material _lineMaterial;
     [SerializeField] PaintbrushReset _pad;
@@ -61,6 +62,7 @@ public class PaintbrushDraw : MonoBehaviour
         }
     }
 
+    [PunRPC]
     private void CreateLine(Vector3 startPos)
     {
         _positionCount = 2;
@@ -83,6 +85,7 @@ public class PaintbrushDraw : MonoBehaviour
         StartCoroutine(ConnectLine());
     }
 
+    [PunRPC]
     private IEnumerator ConnectLine()
     {
         while (_isDraw)

@@ -11,39 +11,51 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
     public static Button ClickButton;
 
     private Vector2 _priavteRoomRadialCursorInitPosition;
-    private float _privateRoomRadialCursorMovementLimit = 45f;
+    private float _privateRoomRadialCursorMovementLimit = 25f;
     private float _privateRoomRadialCursorSpeed = 100f;
 
-
+    private SpawnDice _dice;
+    //private 
+    private SpawnPaintbrush _paintbrush;
 
     private void Start()
     {
         _priavteRoomRadialCursorInitPosition = _privateRoomRadialCursor.rectTransform.localPosition;
-    }
 
+        _dice = GetComponent<SpawnDice>();
+        //
+        _paintbrush = GetComponent<SpawnPaintbrush>();
+    }
 
     private void Update()
     {
-        if (photonView.IsMine)
+        /*
+        if (!photonView.IsMine)
         {
-            if (OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
-            {
-                _privateRoomRadialMenu.SetActive(true);
-            }
-            else if (OVRInput.GetUp(OVRInput.Button.SecondaryThumbstick))
-            {
-                photonView.RPC("CallMethod", RpcTarget.All);
-            }
-            else
-            {
-                _privateRoomRadialMenu.SetActive(false);
-            }
+            return;
         }
+
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
+        {
+            _privateRoomRadialMenu.SetActive(true);
+        }
+        else if (OVRInput.GetUp(OVRInput.Button.SecondaryThumbstick))
+        {
+            photonView.RPC("CallMethod", RpcTarget.All);
+        }
+        else
+        {
+            _privateRoomRadialMenu.SetActive(false);
+        }
+        */
+        if(Input.GetKeyDown(KeyCode.W))
+            CallMethod();
     }
 
     [PunRPC]
     private void CallMethod()
     {
+        Debug.Log("Call");
         if(ClickButton.name == "ButtonA")
         {
             ButtonAMethod();
@@ -60,7 +72,12 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
 
     private void ButtonAMethod()
     {
-
+        //if(!PhotonNetwork.IsMasterClient)
+        //{
+        //    return;
+        //}
+        Debug.Log("dice");
+        _dice.ToggleDice();
     }
 
     private void ButtonBMethod()
@@ -70,7 +87,8 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
 
     private void ButtonCMethod()
     {
-
+        Debug.Log("paint");
+        _paintbrush.Spawn();
     }
 
     void FixedUpdate()

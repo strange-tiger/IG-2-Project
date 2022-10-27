@@ -301,10 +301,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1790689229464585380, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 988630768, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
+      propertyPath: _paintbrush
+      value: 
+      objectReference: {fileID: 1118202546}
+    - target: {fileID: 988630769, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
+      propertyPath: _dice
+      value: 
+      objectReference: {fileID: 1492292928}
     - target: {fileID: 1821098447534144912, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
       propertyPath: m_Name
       value: PrivateRoomRadialMenuCanvas
@@ -344,18 +348,6 @@ PrefabInstance:
     - target: {fileID: 6313571024741961359, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
       propertyPath: m_SizeDelta.y
       value: 411
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313571024741961359, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.28094903
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313571024741961359, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.28094903
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313571024741961359, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.28094903
       objectReference: {fileID: 0}
     - target: {fileID: 6313571024741961359, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -405,15 +397,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7699762638346711614, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7699762638346711614, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
-      propertyPath: m_RenderMode
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7979633166533963377, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64a78e32df28e054095c6576b388ed95, type: 3}
 --- !u!1 &732359267
 GameObject:
@@ -703,8 +688,6 @@ GameObject:
   - component: {fileID: 1080889079}
   - component: {fileID: 1080889078}
   - component: {fileID: 1080889077}
-  - component: {fileID: 1080889076}
-  - component: {fileID: 1080889081}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -712,19 +695,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1080889076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080889075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14391af88a02a5b40af7f7697ec31216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dice: {fileID: 1492292928}
 --- !u!114 &1080889077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,19 +777,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1080889081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080889075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cff9a2ce375ba04478675e14fe852881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _paintbrush: {fileID: 1118202546}
 --- !u!1 &1118202546 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8417325164426541866, guid: 2a777fc17159cf44398b291042b5eafa, type: 3}
@@ -1266,7 +1223,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1080889081}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SpawnPaintbrush, Assembly-CSharp
         m_MethodName: Spawn
         m_Mode: 1
@@ -1401,7 +1358,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1080889076}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SpawnDice, Assembly-CSharp
         m_MethodName: ToggleDice
         m_Mode: 1
