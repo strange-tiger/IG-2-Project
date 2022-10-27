@@ -23,7 +23,7 @@ public class VolumeController : MonoBehaviour
         { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
 
-    private void Start()
+    private void Awake()
     {
         for (int i = 0; i < (int)UINum.MaxCount; i++)
         {
