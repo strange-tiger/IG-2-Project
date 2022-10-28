@@ -1105,6 +1105,11 @@ namespace Asset.MySql
                 int haveGold = CheckHaveGold(nickname);
 
                 int updateGold = haveGold + earnGold;
+                
+                if(maxGold < haveGold)
+                {
+                    return false;
+                }
 
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
@@ -1112,7 +1117,6 @@ namespace Asset.MySql
                     {
                         updateGold = maxGold;
                     }
-
                     UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, updateGold);
 
                     return true;
