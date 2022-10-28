@@ -1048,6 +1048,92 @@ namespace Asset.MySql
 
         #endregion
 
+#region GoldSystem
+
+        /// <summary>
+        /// 현재 가진 골드를 확인함.
+        /// </summary>
+        /// <param name="nickname"> 골드를 확인하는 유저의 닉네임</param>
+        /// <returns> 가진 골드를 반환함. </returns>
+        public static int CheckHaveGold(string nickname)
+        {
+            return int.Parse(GetValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold));
+        }
+
+        /// <summary>
+        /// 사용한 골드를 소지 골드에서 빼고 다시 업데이트함.
+        /// </summary>
+        /// <param name="nickname">유저의 닉네임</param>
+        /// <param name="useGold">사용할 골드의 양</param>
+        /// <returns>사용할 골드보다 소지 골드가 적으면 False를 반환.</returns>
+        public static bool UseGold(string nickname, int useGold)
+        {
+            try
+            {
+                int haveGold = CheckHaveGold(nickname);
+
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    if(useGold > haveGold)
+                    {
+                        Debug.LogError("돈이 부족함.");
+                        return false;
+                    }
+
+                    UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, (haveGold - useGold));
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 추가된 골드를 소지 골드에 추가함.
+        /// </summary>
+        /// <param name="nickname"> 골드를 번 유저의 닉네임. </param>
+        /// <param name="earnGold"> 번 골드의 양 </param>
+        /// <returns> 최대 골드를 넘으면 false를 반환. </returns>
+        public static bool EarnGold(string nickname, int earnGold)
+        {
+            int maxGold = 99999999;
+
+            try
+            {
+                int haveGold = CheckHaveGold(nickname);
+
+                int updateGold = haveGold + earnGold;
+                
+                if(maxGold < haveGold)
+                {
+                    return false;
+                }
+
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    if (maxGold < updateGold)
+                    {
+                        updateGold = maxGold;
+                    }
+                    UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, updateGold);
+
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+#endregion
+
+
+
+
+
 
         public static bool IsPlayerOnline(string nickname)
         {
