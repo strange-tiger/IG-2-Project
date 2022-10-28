@@ -11,6 +11,7 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
 {
 
 
+
     [SerializeField] RectTransform _radialMenu;
     [SerializeField] Image _cursor;
     [SerializeField] Image _feelingImage;
@@ -79,7 +80,9 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
         
     }
 
+    private bool _isFadeRestart;
     private bool _isFadeRunning;
+    float animatedFadeAlpha;
     float _elapsedTime = 0.0f;
     IEnumerator Fade(float startAlpha, float endAlpha)
     {
@@ -87,9 +90,14 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
         while (_elapsedTime < _coolTime)
         {
             _elapsedTime += Time.deltaTime;
-            float animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(_elapsedTime / _coolTime));
+            animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(_elapsedTime / _coolTime));
             _colorData = animatedFadeAlpha;
             _feelingImage.color = new Color(1, 1, 1, _colorData);
+            if(!_isFadeRestart)
+            {
+                animatedFadeAlpha = 1f;
+                _isFadeRestart = false;
+            }
             yield return _waitSecond;
         }
         _colorData = endAlpha;
@@ -123,12 +131,15 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
 
                 _radialMenu.gameObject.SetActive(false);
 
-
                 _elapsedTime = 0f;
 
                 if (_isFadeRunning == false)
                 {
                     StartCoroutine(Fade(1, 0));
+                }
+                else
+                {
+                    _isFadeRestart = true;
                 }
             }
         
