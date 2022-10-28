@@ -9,21 +9,22 @@ public class Rock : MonoBehaviour
     [SerializeField]
     private GameObject _miningButton;
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.CompareTag("Player"))
         {
             _miningButton.SetActive(true);
         }
     }
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.CompareTag("Player"))
         {
-            GetChildTrans();
+            MiningUIDisable();
         }
     }
-    public void GetChildTrans()
+
+    public void MiningUIDisable()
     {
         for(int i = 0; i < _miningUI.childCount; i++)
         {
