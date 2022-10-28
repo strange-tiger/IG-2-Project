@@ -13,7 +13,10 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
     public int SatietyStack { get; private set; }
 
     private PlayerControllerMove _playerContollerMove;
+
     private AudioSource _audioSource;
+    [SerializeField] private AudioClip _eatingSound;
+    
     private Vector3 _initPosition;
     private Vector3 _nullPosition = new Vector3(0, 0, 0);
     private float _speedSlower = 0.0001f;
@@ -37,6 +40,8 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
     {
         Food.OnEated.RemoveListener(EatFood);
         Food.OnEated.AddListener(EatFood);
+
+        _audioSource = GetComponentInChildren<AudioSource>();
     }
 
 
@@ -120,6 +125,7 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void CharacterScaleIncrease(EFoodSatietyLevel foodSatietyLevel)
     {
+        _audioSource.PlayOneShot(_eatingSound);
         transform.GetChild(2).localScale = new Vector3(transform.GetChild(2).localScale.x, transform.GetChild(2).localScale.y, transform.GetChild(2).localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
     }
 

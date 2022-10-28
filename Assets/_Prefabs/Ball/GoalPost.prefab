@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 8763244136075483031}
   - component: {fileID: 521639076221379837}
   - component: {fileID: 776440548218938686}
+  - component: {fileID: 5768574027373889777}
   m_Layer: 0
   m_Name: GoalCollider
   m_TagString: Untagged
@@ -495,9 +496,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2271a9b155e52de40bbc01b656860672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _goalLine: {fileID: 521639076221379837}
-  _particle1: {fileID: 7345306631373541152}
-  _particle2: {fileID: 2587774607372131070}
+--- !u!114 &5768574027373889777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369948569955596006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &8581201618534283162
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6348262243157490913, guid: ec5a721b0612c8048b895569a09479e0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec5a721b0612c8048b895569a09479e0, type: 3}
@@ -719,7 +739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7345801183349532042, guid: fc0cff4750ee03c46bed037eab8e20b6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7348210826330416946, guid: fc0cff4750ee03c46bed037eab8e20b6, type: 3}
       propertyPath: m_RootOrder

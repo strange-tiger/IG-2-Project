@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using UINum = Defines.EVoiceUIType;
 
 public class Coin : MonoBehaviour
 {
@@ -36,6 +36,9 @@ public class Coin : MonoBehaviour
 
     public void RandomGetCoin()
     {
+        _audioSource.volume =
+            PlayerPrefs.GetFloat(VolumeController.VOLUME_CONTROLLER[(int)UINum.EffectVolume]);
+
         int _randNum = Random.Range(1,1000);
         if(_randNum == 1000)
         {

@@ -8,13 +8,17 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 {
     private Defines.ESceneNumder _nextScene;
     [SerializeField] private bool _hasPlayer;
+    [SerializeField] private OVRRaycaster[] _canvases;
+
     private void Awake()
     {
         if(!_hasPlayer)
         {
             GameObject player = PhotonNetwork.Instantiate("NewPlayer",new Vector3(0f, 1f, 3f),
                 Quaternion.Euler(0f, 0f, 0f), 0, null);
-            player.GetComponent<PlayerNetworking>().photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
+            PlayerNetworking playerNetworking = player.GetComponent<PlayerNetworking>();
+            playerNetworking.photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
+            playerNetworking.CanvasSetting(_canvases);
         }
     }
 
