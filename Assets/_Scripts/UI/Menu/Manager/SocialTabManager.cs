@@ -7,7 +7,7 @@ using Asset.MySql;
 
 public class SocialTabManager : MonoBehaviour
 {
-    public GameObject RequestAlarmImage { private get; set; }
+    public GameObject RequestAlarmImage { get; set; }
 
     [Header("List View")]
     [SerializeField] private GameObject _friendListItem;
@@ -29,8 +29,6 @@ public class SocialTabManager : MonoBehaviour
 
     private List<TextMeshProUGUI> _nicknameTextList = new List<TextMeshProUGUI>();
 
-    private delegate void AddListItem(string name);
-
     private void Awake()
     {
         _myNickname = TempAccountDB.Nickname;
@@ -42,7 +40,6 @@ public class SocialTabManager : MonoBehaviour
     {
         ShowFriendList();
     }
-
 
     private IEnumerator OnOfflineSetting()
     {
@@ -84,7 +81,17 @@ public class SocialTabManager : MonoBehaviour
 
         // 리스트 세팅
         _nicknameTextList.Clear();
-        SetList(MySqlSetting._FRIEND_BIT, MySqlSetting._FRIEND_BIT, AddFriendListItem);
+        ResetList();
+        List<Dictionary<string, string>> relationshipList = MySqlSetting.GetRelationList(_myNickname);
+
+        foreach(Dictionary<string, string> relationship in relationshipList)
+        {
+            if(byte.Parse(relationship["State"]) == MySqlSetting._FRIEND_BIT)
+            {
+                AddFriendListItem(relationship["Nickname"]);
+            }
+        }
+
         //StartCoroutine(OnOfflineSetting());
     }
 
@@ -98,7 +105,26 @@ public class SocialTabManager : MonoBehaviour
         _requestListButton.interactable = true;
 
         // 리스트 세팅
-        SetList(MySqlSetting._BLOCK_LEFT_BIT, MySqlSetting._BLOCK_RIGHT_BIT, AddBlockListItem);
+        ResetList();
+        List<Dictionary<string, string>> relationshipList = MySqlSetting.GetRelationList(_myNickname);
+
+        foreach (Dictionary<string, string> relationship in relationshipList)
+        {
+            byte optionBit;
+            if (bool.Parse(relationship["IsLeft"]))
+            {
+                optionBit = MySqlSetting._BLOCK_LEFT_BIT;
+            }
+            else
+            {
+                optionBit = MySqlSetting._BLOCK_RIGHT_BIT;
+            }
+
+            if ((byte.Parse(relationship["State"]) & optionBit) == optionBit)
+            {
+                AddBlockListItem(relationship["Nickname"]);
+            }
+        }
     }
     
     private void ShowRequestList()
@@ -116,41 +142,30 @@ public class SocialTabManager : MonoBehaviour
         _requestListButton.interactable = false;
 
         // 리스트 세팅
-        SetList(MySqlSetting._REQUEST_RIGHT_BIT, MySqlSetting._REQUEST_LEFT_BIT, AddRequestListItem);
-    }
-
-    private void SetList(byte leftListOptionByte, byte rightListOptionByte, AddListItem addListItem)
-    {
         ResetList();
-        List<Dictionary<string, string>> relationShipList = MySqlSetting.GetRelationList(_myNickname);
+        List<Dictionary<string, string>> relationshipList = MySqlSetting.GetRelationList(_myNickname);
 
-        foreach(Dictionary<string, string> relationship in relationShipList)
+        foreach (Dictionary<string, string> relationship in relationshipList)
         {
-            if(leftListOptionByte == MySqlSetting._FRIEND_BIT)
+            byte requestBit, blockBit;
+            if(bool.Parse(relationship["IsLeft"]))
             {
-                if(byte.Parse(relationship["State"]) == MySqlSetting._FRIEND_BIT)
-                {
-                    addListItem.Invoke(relationship["Nickname"]);
-                }
+                requestBit = MySqlSetting._REQUEST_RIGHT_BIT;
+                blockBit = MySqlSetting._BLOCK_LEFT_BIT;
             }
             else
             {
-                byte optionByte;
-                if (bool.Parse(relationship["IsLeft"]))
-                {
-                    optionByte = leftListOptionByte;
-                }
-                else
-                {
-                    optionByte = rightListOptionByte;
-                }
+                requestBit = MySqlSetting._REQUEST_LEFT_BIT;
+                blockBit = MySqlSetting._BLOCK_RIGHT_BIT;
+            }
 
-                if ((byte.Parse(relationship["State"]) & optionByte) == optionByte)
-                {
-                    addListItem.Invoke(relationship["Nickname"]);
-                }
+            if((byte.Parse(relationship["State"]) & requestBit) == requestBit && 
+                (byte.Parse(relationship["State"]) & blockBit) != blockBit)
+            {
+                AddRequestListItem(relationship["Nickname"]);
             }
         }
+
     }
 
     private void ResetList()
