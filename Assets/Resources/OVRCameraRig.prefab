@@ -9261,6 +9261,11 @@ MonoBehaviour:
   _socialUIManager: {fileID: 2708797380896576397}
   _checkPanelManager: {fileID: 1306074693838851084}
   _confirmPanelManager: {fileID: 2623469183517224932}
+  _moveStopUIs:
+  - {fileID: 7188495349540282598}
+  - {fileID: 307250622681693413}
+  - {fileID: 3699664493678280121}
+  - {fileID: 1187238058394674936}
 --- !u!1 &6092311941633342723
 GameObject:
   m_ObjectHideFlags: 0
@@ -11297,6 +11302,7 @@ GameObject:
   - component: {fileID: 1893914564186621608}
   - component: {fileID: 2295469588244863799}
   - component: {fileID: 2239460397685541160}
+  - component: {fileID: 345021402353419095}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Player
@@ -11506,6 +11512,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &345021402353419095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8195805791958106615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a5c0964bb2ad242ad97bf328961e96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8195805791958106617
 GameObject:
   m_ObjectHideFlags: 0
@@ -14192,6 +14210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc68e83e2a504b469393da3b84b31ad, type: 3}
+--- !u!1 &1187238058394674936 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4856652145321687391, guid: acc68e83e2a504b469393da3b84b31ad, type: 3}
+  m_PrefabInstance: {fileID: 5989684002971836327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5161505960465187915 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1494908719248382956, guid: acc68e83e2a504b469393da3b84b31ad, type: 3}

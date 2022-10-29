@@ -48,6 +48,8 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
     public void LogIn()
     {
         LogOut("LogIn");
+        PlayerControlManager.Instance.IsRayable = false;
+        PlayerControlManager.Instance.IsMoveable = false;
         SceneManager.LoadScene((int)SceneType.StartRoom);
     }
 }

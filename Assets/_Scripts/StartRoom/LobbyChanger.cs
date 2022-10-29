@@ -27,7 +27,12 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         _nextScene = sceneNumber;
         _needSceneChange = true;
+
         OVRScreenFade.instance.FadeOut();
+
+        PlayerControlManager.Instance.IsRayable = false;
+        PlayerControlManager.Instance.IsMoveable = false;
+        
         if(!_isStartRoom)
         {
             PhotonNetwork.LeaveRoom();

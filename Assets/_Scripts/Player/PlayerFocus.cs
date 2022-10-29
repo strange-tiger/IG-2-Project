@@ -56,7 +56,16 @@ public class PlayerFocus : MonoBehaviour
 
     private void Update()
     {
-        OnTriggerButton();
+        if(PlayerControlManager.Instance.IsRayable)
+        {
+            OnTriggerButton();
+        }
+        else
+        {
+            FocusingNothing();
+
+            _lineRenderer.enabled = false;
+        }
     }
 
     private void OnTriggerButton()
