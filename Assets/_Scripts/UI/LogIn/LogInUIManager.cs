@@ -13,6 +13,8 @@ public class LogInUIManager : UIManager
     {
         LoadUI(_UI.LOGIN);
 
+        //_inputFields = gameObject.GetComponents<TMP_InputField>();
+
         foreach (TMP_InputField input in _inputFields)
         {
             input.onSelect.AddListener((string temp) =>

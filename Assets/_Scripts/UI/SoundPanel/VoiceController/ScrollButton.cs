@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Voice;
+using Photon.Voice.Unity;
 
 public class ScrollButton : MonoBehaviour
 {
-    //[SerializeField]
-    //private Recorder photonVoice;
+    public Recorder PhotonVoice { get; set; }
     private VoiceScrollUI _voiceScrollUI;
 
     private Dictionary<Defines.EVoiceType, VoiceTypeDelegate> _voiceTable =
@@ -62,17 +63,17 @@ public class ScrollButton : MonoBehaviour
 
     private void VoiceTypeNone()
     {
-        // photonVoice.TransmitEnabled = false;
+        PhotonVoice.TransmitEnabled = false;
     }
     private void VoiceTypeAlways()
     {
-        // photonVoice.TransmitEnabled = ture;
+        PhotonVoice.TransmitEnabled = true;
     }
     private void VoiceTypePushToTalk()
     {
-        // if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger))
-        // {
-        //     //photonVoice.TransmitEnabled = true;
-        // }
+        if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger))
+        {
+             PhotonVoice.TransmitEnabled = true;
+        }
     }
 }

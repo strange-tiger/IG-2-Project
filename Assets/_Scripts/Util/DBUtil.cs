@@ -25,9 +25,11 @@ namespace Asset.MySql
         private const string INSERT_ACCOUNT = "INSERT INTO AccountDB (Email,Password,Nickname,Question,Answer) VALUES ";
         private const string INSERT_CHARACTER = "INSERT INTO CharacterDB (Nickname,Gender) VALUES ";
         private const string INSERT_RELATIONSHIP = "INSERT INTO RelationshipDB (UserA,UserB,State) VALUES ";
+        private const string INSERT_BETTING = "INSERT INTO BettingDB (Nickname,BettingGold,BettingChampionNumber,HaveGold) VALUES ";
         public static readonly string[] INSERT =
         {
             INSERT_ACCOUNT,
+            INSERT_BETTING,
             INSERT_CHARACTER,
             INSERT_RELATIONSHIP
         };
@@ -136,7 +138,7 @@ namespace Asset.MySql
                 }
 
                 // 해당 내용에 맞는 파일 생성하기
-                using (StreamWriter streamWriter = new StreamWriter("./Assets/Scripts/Util/MySqlEnum.cs"))
+                using (StreamWriter streamWriter = new StreamWriter("./Assets/_Scripts/Util/MySqlEnum.cs"))
                 {
                     // 전처리
                     streamWriter.WriteLine("namespace Asset {");
@@ -243,6 +245,37 @@ namespace Asset.MySql
                 return false;
             }
         }
+
+        /// <summary>
+        /// roomlistdb에 새로운 방 추가
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="password"></param>
+        /// <param name="displayName"></param>
+        /// <param name="roomNumber"></param>
+        /// <returns>추가 성공 true, 실패 false 반환</returns>
+        public static bool AddNewRoomInfo(string userId, string password, string displayName, int roomNumber)
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string _insertRoomInfoString = GetInsertString(ETableType.roomlistdb, userId, password, displayName, roomNumber.ToString());
+
+                    MySqlCommand _insertRoomInfoCommand = new MySqlCommand(_insertRoomInfoString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+                    _insertRoomInfoCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
         private static string GetInsertString(ETableType tableType, params string[] values)
         {
             string insertString = MySqlStatement.INSERT[(int)tableType] + '(';
@@ -257,6 +290,7 @@ namespace Asset.MySql
             return insertString;
         }
 #endregion
+
 
 #region Request
         /// <summary>
@@ -757,10 +791,12 @@ namespace Asset.MySql
         private static DataSet GetUserData(string selectString)
         {
             DataSet _dataSet = new DataSet();
-
             using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
             {
-                _sqlConnection.Open();
+                if(_sqlConnection.State == ConnectionState.Closed)
+                {
+                    _sqlConnection.Open();
+                }
 
                 MySqlDataAdapter _dataAdapter = new MySqlDataAdapter(selectString, _sqlConnection);
 
@@ -768,7 +804,8 @@ namespace Asset.MySql
             }
             return _dataSet;
         }
-        
+
+#region RelationshipList        
         /// <summary>
         /// 유저의 닉네임을 받아 특정 State의 리스트를 가져옴.
         /// </summary>
@@ -799,6 +836,7 @@ namespace Asset.MySql
             return resultList;
         }
 
+
         private static void GetRelationListHelper(ErelationshipdbColumns userA, ErelationshipdbColumns userB, string nickname, ref List<Dictionary<string, string>> resultList)
         {
             string selcetUserAString = $"SELECT RelationshipDB.{userB}, RelationshipDB.State " +
@@ -827,6 +865,274 @@ namespace Asset.MySql
                 resultList.Add(dictionaryList);
             }
         }
+
+#endregion
+
+
+#region Betting
+
+        /// <summary>
+        /// BettingDB에 닉네임과 베팅금액, 베팅한 참가자의 인덱스 그리고 현재가지고 있는 금액이 저장된다. 이때, 현재 가지고있는 금액에서 베팅한 금액만큼 빼고 다시 업데이트해준다.
+        /// </summary>
+        /// <param name="nickname">베팅한 유저의 닉네임</param>
+        /// <param name="betGold">베팅 금액</param>
+        /// <param name="championNum"> 베팅한 참가자의 인덱스 ZeroBase</param>
+        /// <returns></returns>
+        public static bool InsertBetting(string nickname, double betGold, int championNum)
+        {
+           
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+
+                    int haveGold;
+
+
+                    haveGold = int.Parse(GetValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold)) - (int)betGold;
+
+
+                    string insertBettingString = GetInsertString(ETableType.bettingdb, nickname, betGold.ToString(), championNum.ToString(),haveGold.ToString());
+                    string updateCharacterGoldString = $"Update {ETableType.characterdb} set Gold = '{haveGold}' where Nickname = '{nickname}'";
+
+                    MySqlCommand insertBettingCommand = new MySqlCommand(insertBettingString, _mysqlConnection);
+                    MySqlCommand updateCharacterGoldCommand = new MySqlCommand(updateCharacterGoldString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    insertBettingCommand.ExecuteNonQuery();
+                    updateCharacterGoldCommand.ExecuteNonQuery();
+
+                    _mysqlConnection.Close();
+
+                }
+
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError("못넣음" + error.Message);
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// BettingDB에서 취소한 유저의 정보를 지우고, 취소된 베팅금액을 다시 CharacterDB로 업데이트해줌.
+        /// </summary>
+        /// <param name="nickname">취소한 유저의 닉네임</param>
+        /// <returns>취소된 베팅금액을 반환하고, BettingDB에서 정보를 찾을수 없다면 -1을 반환한다.</returns>
+        public static double CancelBetting(string nickname)
+        {
+            try
+            {
+                double result = double.Parse(GetValueByBase(EbettingdbColumns.NickName, nickname, EbettingdbColumns.BettingGold));
+
+                DeleteRowByComparator(EbettingdbColumns.NickName, nickname);
+
+                UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, result.ToString());
+
+                return result;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// DataSet에 BettingDB의 정보를 불러오고, 배당율을 계산하여 CharacterDB의 골드에 추가하고, BettingDB를 리셋한다. 무승부일 경우, 베팅한 금액 그대로를 다시 반환하고 BettingUI를 리셋한다.
+        /// </summary>
+        /// <param name="winChampionNumber"> 베팅한 참가자의 인덱스 </param>
+        /// <param name="betAmount"> 총 베팅 금액 </param>
+        /// <param name="championBetAmount"> 베팅한 참가자에게 베팅한 총 금액</param>
+        /// <param name="isDraw"> 무승부 여부 </param>
+        /// <returns></returns>
+        public static bool DistributeBet(int winChampionNumber, double betAmount, double championBetAmount, bool isDraw)
+        {
+
+            try
+            {
+                string selectAllBettingData = SelectDBHelper(ETableType.bettingdb) + $" where BettingChampionNumber = '{winChampionNumber}'";
+
+                string selectDrawBettingData = SelectDBHelper(ETableType.bettingdb);
+
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    _mysqlConnection.Open();
+
+                    if(isDraw)
+                    {
+                        DataSet bettingDBdata = GetUserData(selectDrawBettingData);
+
+                        foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
+                        {
+                            int betGold = (int)double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString());
+
+                            int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
+
+                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.NickName.ToString()]}';";
+
+                            MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
+
+                            command.ExecuteNonQuery();
+                        }
+
+                        ResetBettingDB();
+                    }
+                    else
+                    {
+                        DataSet bettingDBdata = GetUserData(selectAllBettingData);
+                    
+                        foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
+                        {
+                            int betGold = (int)Math.Round((betAmount * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / championBetAmount)));
+
+                            int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
+
+                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.NickName.ToString()]}';";
+
+                            MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
+                            command.ExecuteNonQuery();
+                        }
+
+                        ResetBettingDB();
+                    }
+                    _mysqlConnection.Close();
+                }
+
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false; 
+
+            }
+        }
+
+        /// <summary>
+        /// BettingDB를 리셋한다. DistributeGold에서 호출된다.
+        /// </summary>
+        /// <returns></returns>
+        private static bool ResetBettingDB()
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string dropBettingDBString = $"Delete from {ETableType.bettingdb};";
+
+                    MySqlCommand dropBettingDBCommand = new MySqlCommand(dropBettingDBString, _mysqlConnection);
+
+                    if(_mysqlConnection.State == ConnectionState.Closed)
+                    {
+                        _mysqlConnection.Open();
+                        dropBettingDBCommand.ExecuteNonQuery();
+                        _mysqlConnection.Close();
+                    }
+                    else
+                    {
+                        dropBettingDBCommand.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+
+        #endregion
+
+#region GoldSystem
+
+        /// <summary>
+        /// 현재 가진 골드를 확인함.
+        /// </summary>
+        /// <param name="nickname"> 골드를 확인하는 유저의 닉네임</param>
+        /// <returns> 가진 골드를 반환함. </returns>
+        public static int CheckHaveGold(string nickname)
+        {
+            return int.Parse(GetValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold));
+        }
+
+        /// <summary>
+        /// 사용한 골드를 소지 골드에서 빼고 다시 업데이트함.
+        /// </summary>
+        /// <param name="nickname">유저의 닉네임</param>
+        /// <param name="useGold">사용할 골드의 양</param>
+        /// <returns>사용할 골드보다 소지 골드가 적으면 False를 반환.</returns>
+        public static bool UseGold(string nickname, int useGold)
+        {
+            try
+            {
+                int haveGold = CheckHaveGold(nickname);
+
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    if(useGold > haveGold)
+                    {
+                        Debug.LogError("돈이 부족함.");
+                        return false;
+                    }
+
+                    UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, (haveGold - useGold));
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 추가된 골드를 소지 골드에 추가함.
+        /// </summary>
+        /// <param name="nickname"> 골드를 번 유저의 닉네임. </param>
+        /// <param name="earnGold"> 번 골드의 양 </param>
+        /// <returns> 최대 골드를 넘으면 false를 반환. </returns>
+        public static bool EarnGold(string nickname, int earnGold)
+        {
+            int maxGold = 99999999;
+
+            try
+            {
+                int haveGold = CheckHaveGold(nickname);
+
+                int updateGold = haveGold + earnGold;
+                
+                if(maxGold < haveGold)
+                {
+                    return false;
+                }
+
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    if (maxGold < updateGold)
+                    {
+                        updateGold = maxGold;
+                    }
+                    UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, updateGold);
+
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+#endregion
+
+
+
+
+
 
         public static bool IsPlayerOnline(string nickname)
         {
@@ -871,6 +1177,32 @@ namespace Asset.MySql
                 return false;
             }
            
+        }
+
+        /// <summary>
+        /// roomlistdb의 데이터를 List<Dictionary>의 형태로 반환, roomList 생성
+        /// </summary>
+        /// <returns></returns>
+        public static List<Dictionary<string, string>> GetRoomList()
+        {
+            List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
+
+            string selectString = MySqlStatement.SELECT + $"{ETableType.roomlistdb};";
+
+            DataSet roomData = GetUserData(selectString);
+            Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
+            foreach (DataRow _dataRow in roomData.Tables[0].Rows)
+            {
+                dictionaryList.Clear();
+                dictionaryList.Add("UserID", _dataRow[EroomlistdbColumns.UserID.ToString()].ToString());
+                dictionaryList.Add("Password", _dataRow[EroomlistdbColumns.Password.ToString()].ToString());
+                dictionaryList.Add("DisplayName", _dataRow[EroomlistdbColumns.DisplayName.ToString()].ToString());
+                dictionaryList.Add("RoomNumber", _dataRow[EroomlistdbColumns.RoomNumber.ToString()].ToString());
+
+                resultList.Add(dictionaryList);
+            }
+
+            return resultList;
         }
 
         /// <summary>
@@ -957,6 +1289,11 @@ namespace Asset.MySql
             }
         }
 
+
+        public static string GetValueByBase(EbettingdbColumns baseType, string baseValue, EbettingdbColumns targetType)
+        {
+             return GetValueByBase(ETableType.bettingdb, baseType, baseValue, targetType);
+        }
 
         /// <summary>
         /// CharacterDB 테이블에서 baseType의 baseValue를 기준으로 targetType의 데이터를 가져옴
@@ -1098,6 +1435,12 @@ namespace Asset.MySql
         }
 #endregion
 
+
+
+
+
+
+
 #region DeleteRowByComparator
         public class Comparator<T> where T : System.Enum
         {
@@ -1199,7 +1542,59 @@ namespace Asset.MySql
             );
         }
 
+        #endregion
+
+
+
+
+         
+#region DeleteRowByComparator-BettingDB
+
+        public static bool DeleteRowByComparator
+         (EbettingdbColumns type, string condition, string logicOperator = "and")
+        {
+
+            return DeleteRowByComparator
+            (
+                Asset.ETableType.bettingdb,
+                logicOperator,
+                new Comparator<EbettingdbColumns>()
+                {
+                    Column = type,
+                    Value = condition
+                }
+
+            ) ;
+        }
+        
 #endregion
+
+        /// <summary>
+        /// roomlistdb의 Row를 삭제
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="condition"></param>
+        /// <param name="logicOperator"></param>
+        /// <returns></returns>
+        public static bool DeleteRowByComparator
+        (EroomlistdbColumns type, string condition,
+        string logicOperator = "and")
+
+        {
+
+            return DeleteRowByComparator
+            (
+                Asset.ETableType.roomlistdb,
+                logicOperator,
+                new Comparator<EroomlistdbColumns>()
+
+                {
+                    Column = type,
+                    Value = condition
+                }
+
+            ) ;
+        }
 
         public static bool DeleteRowByComparator<T>
         (Asset.ETableType targetTable, string logicOperator,
@@ -1210,11 +1605,11 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string deleteString = $"DELETE FROM {targetTable} ";
+                    string deleteString = $"DELETE FROM {targetTable} where ";
 
                     for (int i = 0; i < comparators.Length - 1; ++i)
                     {
-                        deleteString += $"WHERE {comparators[i].Column} = '{comparators[i].Value}' {logicOperator} ";
+                        deleteString += $"{comparators[i].Column} = '{comparators[i].Value}' {logicOperator} ";
                     }
 
                     deleteString += $"{comparators[comparators.Length - 1].Column} = '{comparators[comparators.Length - 1].Value}';";

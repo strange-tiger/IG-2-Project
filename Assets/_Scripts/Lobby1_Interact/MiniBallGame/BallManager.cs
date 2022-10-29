@@ -14,7 +14,10 @@ public class BallManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        PhotonNetwork.Instantiate("Ball", _ballSspawnVector, Quaternion.identity);
+        if(photonView.AmOwner)
+        {
+            PhotonNetwork.Instantiate("Ball", transform.position + _ballSspawnVector, Quaternion.identity);
+        }
         //Instantiate(_ball, _ballSspawnVector, Quaternion.identity);
     }
 }

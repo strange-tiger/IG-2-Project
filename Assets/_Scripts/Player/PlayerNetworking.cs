@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using Photon.Voice.Unity;
 
 public class PlayerNetworking : MonoBehaviourPunCallbacks
 {
@@ -11,6 +12,10 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _ovrCameraRigPrefab;
     [SerializeField] private TextMeshProUGUI _nicknameText;
     [SerializeField] private GameObject _requestAlarmImage;
+    [SerializeField] private AudioSource _newPlayerAudioSource;
+    private Recorder _recorder;
+
+    private GameObject _pointer;
 
     public string MyNickname { get; private set; }
     public string MyUserId { get; private set; }
@@ -28,7 +33,19 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
             socialTabManager.RequestAlarmImage = _requestAlarmImage;
             socialTabManager.gameObject.SetActive(false);
+
+            VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
+            volumeController.PlayerAudioSource = _newPlayerAudioSource;
+
+            _recorder = GetComponentInChildren<Recorder>();
+            ScrollButton scrollButton = cameraRig.GetComponentInChildren<ScrollButton>();
+            scrollButton.PhotonVoice = _recorder;
+
+            volumeController.transform.parent.gameObject.SetActive(false);
+
             socialTabManager.transform.parent.gameObject.SetActive(false);
+
+            _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
         }
         else
         {
@@ -51,5 +68,13 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         photonView.RPC("SetNickname", newPlayer, MyUserId, MyNickname);
+    }
+
+    public void CanvasSetting(OVRRaycaster[] ovrRaycasters)
+    {
+        foreach(OVRRaycaster canvas in ovrRaycasters)
+        {
+            canvas.pointer = _pointer;
+        }
     }
 }
