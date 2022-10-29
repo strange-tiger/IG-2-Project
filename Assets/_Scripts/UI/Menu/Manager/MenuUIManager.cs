@@ -8,16 +8,22 @@ public class MenuUIManager : GlobalInstance<MenuUIManager>
     [SerializeField] private SocialUIManager _socialUIManager;
     [SerializeField] private CheckPanelManager _checkPanelManager;
     [SerializeField] private ConfirmPanelManager _confirmPanelManager;
+    [SerializeField] private GameObject[] _moveStopUIs;
 
-    public bool IsUIOn 
-    { 
-        get 
+    public bool IsUIOn
+    {
+        get
         {
-            return _inventoryUIManager.gameObject.activeSelf ||
-                _socialUIManager.gameObject.activeSelf ||
-                _checkPanelManager.gameObject.activeSelf ||
-                _confirmPanelManager.gameObject.activeSelf;
-        } 
+            foreach (GameObject ui in _moveStopUIs)
+            {
+                if (ui.activeSelf)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     public void ShowInventory()
