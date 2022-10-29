@@ -59,14 +59,24 @@ public class AIAttack : AIState
 
     public override void OnEnter()
     {
-        if ((int)_eAttack == 0)
+        switch ((int)_eAttack)
         {
-            _animator.SetBool(AIAnimatorID.isAttack1, true);
-        }
+            case 0:
+                _animator.SetBool(AIAnimatorID.isAttack1, true);
+                break;
 
-        else if ((int)_eAttack == 1)
-        {
-            _animator.SetBool(AIAnimatorID.isAttack2, true);
+            case 1:
+                _animator.SetBool(AIAnimatorID.isAttack2, true);
+                break;
+
+            case 2:
+                _animator.SetBool(AIAnimatorID.isHighClassKnightAttack, true);
+                break;
+
+            
+
+            default:
+                break;
         }
 
         _isAttackTime = true;
@@ -91,8 +101,26 @@ public class AIAttack : AIState
 
     public override void OnExit()
     {
-        _animator.SetBool(AIAnimatorID.isAttack1, false);
-        _animator.SetBool(AIAnimatorID.isAttack2, false);
+        switch ((int)_eAttack)
+        {
+            case 0:
+                _animator.SetBool(AIAnimatorID.isAttack1, true);
+                break;
+
+            case 1:
+                _animator.SetBool(AIAnimatorID.isAttack2, true);
+                break;
+
+            case 2:
+                _animator.SetBool(AIAnimatorID.isHighClassKnightAttack, true);
+                break;
+
+
+
+            default:
+                break;
+        }
+
         _isAttackTime = false;
         _curTime -= _curTime;
     }

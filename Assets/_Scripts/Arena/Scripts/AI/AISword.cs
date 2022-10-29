@@ -16,12 +16,4 @@ public class AISword : MonoBehaviour
     {
         _swordHitBox.enabled = false;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "AI")
-        {
-
-        }
-    }
 }

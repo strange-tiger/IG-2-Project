@@ -7,12 +7,24 @@ using EJob = Defines.EJobClass;
 public class AI : MonoBehaviour
 {
     [SerializeField]
-    private EJob _eJob;
+    private EJob _eClass;
 
     AIFSM _aiFSM;
     private Animator _animator;
     private Transform _transform;
 
+    private int _classNumber;
+    public int ClassNumber
+    {
+        get
+        {
+            return _classNumber;
+        }
+        set
+        {
+            _classNumber = value;
+        }
+    }
     private void Awake()
     {
         

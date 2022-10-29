@@ -47,6 +47,7 @@ public class AIIdle : AIState
         if (_curTime >= 2f)
         {
             aiFSM.ChangeState(EAIState.Run);
+            Debug.Log("가주세요");
             _curTime -= _curTime;
         }
     }

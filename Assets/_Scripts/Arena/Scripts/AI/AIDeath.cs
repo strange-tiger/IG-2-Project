@@ -29,7 +29,6 @@ public class AIDeath : AIState
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isDeath, true);
-
         _animator.SetBool(AIAnimatorID.isIdle, false);
         _animator.SetBool(AIAnimatorID.isAttack1, false);
         _animator.SetBool(AIAnimatorID.isAttack2, false);
