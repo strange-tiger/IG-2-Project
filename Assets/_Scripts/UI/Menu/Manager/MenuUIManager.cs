@@ -10,7 +10,7 @@ public class MenuUIManager : GlobalInstance<MenuUIManager>
     [SerializeField] private ConfirmPanelManager _confirmPanelManager;
     [SerializeField] private GameObject[] _moveStopUIs;
 
-    public bool IsUIOn 
+    public bool IsUIOn
     {
         get
         {

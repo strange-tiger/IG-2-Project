@@ -257,7 +257,10 @@ public class PlayerControllerMove : MonoBehaviourPun
             CameraUpdated();
         }
 
-        UpdateMovement();
+        if(PlayerControlManager.Instance.IsMoveable && !MenuUIManager.Instance.IsUIOn)
+        {
+            UpdateMovement();
+        }
 
         Vector3 moveDirection = Vector3.zero;
 
