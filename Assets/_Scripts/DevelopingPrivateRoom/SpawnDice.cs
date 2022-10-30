@@ -8,24 +8,24 @@ public class SpawnDice : MonoBehaviourPun
 {
     [SerializeField] GameObject _dice;
 
-    private bool _isDiceSpawned = false;
-
     private void Awake()
     {
+        //if(!PhotonNetwork.IsMasterClient)
+        //{
+        //    return;
+        //}
         Despawn();
     }
 
     public void ToggleDice()
     {
-        _isDiceSpawned = !_isDiceSpawned;
-
-        if (_isDiceSpawned)
+        if (!photonView.isActiveAndEnabled)
         {
-            Spawn();
+            photonView.RPC("Spawn", RpcTarget.All);
         }
         else
         {
-            Despawn();
+            photonView.RPC("Despawn", RpcTarget.All);
         }
     }
 

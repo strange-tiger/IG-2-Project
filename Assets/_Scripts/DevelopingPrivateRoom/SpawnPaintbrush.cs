@@ -8,35 +8,51 @@ public class SpawnPaintbrush : MonoBehaviourPun
 {
     [SerializeField] GameObject _paintbrush;
 
-    private bool _isPaintbrushSpawned = false;
-
     private void Awake()
     {
         Despawn();
     }
 
-    private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 1f);
-    [PunRPC]
-    public void Spawn()
+    private void OnDestroy()
     {
-        if (_isPaintbrushSpawned)
+        if (!photonView.IsMine)
         {
             return;
         }
 
-        _paintbrush.transform.position = SPAWN_PAD_POSITION;
-        _paintbrush.SetActive(true);
+        if (!photonView.isRuntimeInstantiated)
+        {
+            return;
+        }
 
+        photonView.RPC("Despawn", RpcTarget.All);
+    }
+
+    public void SpawnHelper()
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
+        if (photonView.isRuntimeInstantiated)
+        {
+            return;
+        }
+
+        photonView.RPC("Spawn", RpcTarget.All);
+    }
+
+    private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 1f);
+    [PunRPC]
+    private void Spawn()
+    {
+        _paintbrush = PhotonNetwork.Instantiate("Paintbrush", transform.position + SPAWN_PAD_POSITION, transform.rotation);
     }
 
     [PunRPC]
-    public void Despawn()
+    private void Despawn()
     {
-        if (!_isPaintbrushSpawned)
-        {
-            return;
-        }
-
-        _paintbrush.SetActive(false);
+        Destroy(_paintbrush);
     }
 }
