@@ -8,6 +8,7 @@ public class SpawnDice : MonoBehaviourPun
 {
     [SerializeField] GameObject _dice;
 
+    private PhotonView _photonView;
     private void Awake()
     {
         //if(!PhotonNetwork.IsMasterClient)
@@ -15,17 +16,19 @@ public class SpawnDice : MonoBehaviourPun
         //    return;
         //}
         Despawn();
+        _photonView = _dice.GetPhotonView();
     }
 
     public void ToggleDice()
     {
-        if (!photonView.isActiveAndEnabled)
+        Debug.Log("spawn dice");
+        if (!_photonView.isActiveAndEnabled)
         {
-            photonView.RPC("Spawn", RpcTarget.All);
+            _photonView.RPC("Spawn", RpcTarget.All);
         }
         else
         {
-            photonView.RPC("Despawn", RpcTarget.All);
+            _photonView.RPC("Despawn", RpcTarget.All);
         }
     }
 

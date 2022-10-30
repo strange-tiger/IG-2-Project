@@ -8,39 +8,41 @@ public class SpawnPaintbrush : MonoBehaviourPun
 {
     [SerializeField] GameObject _paintbrush;
 
+    private PhotonView _photonView;
     private void Awake()
     {
-        Despawn();
+        //Despawn();
+        _photonView = _paintbrush.GetPhotonView();
     }
 
     private void OnDestroy()
     {
-        if (!photonView.IsMine)
+        if (!_photonView.IsMine)
         {
             return;
         }
 
-        if (!photonView.isRuntimeInstantiated)
+        if (!_photonView.isRuntimeInstantiated)
         {
             return;
         }
 
-        photonView.RPC("Despawn", RpcTarget.All);
+        _photonView.RPC("Despawn", RpcTarget.All);
     }
 
     public void SpawnHelper()
     {
-        if (!photonView.IsMine)
+        if (!_photonView.IsMine)
         {
             return;
         }
 
-        if (photonView.isRuntimeInstantiated)
+        if (_photonView.isRuntimeInstantiated)
         {
             return;
         }
 
-        photonView.RPC("Spawn", RpcTarget.All);
+        _photonView.RPC("Spawn", RpcTarget.All);
     }
 
     private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 1f);
@@ -53,6 +55,6 @@ public class SpawnPaintbrush : MonoBehaviourPun
     [PunRPC]
     private void Despawn()
     {
-        Destroy(_paintbrush);
+        PhotonNetwork.Destroy(_paintbrush);
     }
 }
