@@ -46,6 +46,13 @@ public class AIHighClassAdventurerRun : AIState
             _changeStateRunToAttack = true;
         }
 
+        else if (other.gameObject.tag == "HighClassAdventurer")
+        {
+            _myCollider.enabled = false;
+            _changeStateRunToAttack = true;
+
+        }
+
         else if (other.gameObject.tag == "FireWizard")
         {
             _myCollider.enabled = false;

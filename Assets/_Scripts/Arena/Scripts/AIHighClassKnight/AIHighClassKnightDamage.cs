@@ -18,9 +18,14 @@ public class AIHighClassKnightDamage : AIState
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
-        _curHP = _aIInfo.HP;
+        //_curHP = _aIInfo.HP;
         _damage = _enemyAIInfo[0].Damage;
 
+        Debug.Log(_curHP);
+    }
+
+    private void Start()
+    {
         Debug.Log(_curHP);
     }
 
@@ -35,7 +40,7 @@ public class AIHighClassKnightDamage : AIState
 
     public override void OnUpdate()
     {
-        if (_aIInfo.HP <= 0)
+        if (_curHP <= 0)
         {
             aiFSM.ChangeState(EAIState.Death);
         }

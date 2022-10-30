@@ -26,10 +26,6 @@ public class AIHighClassAdventurer : MonoBehaviour
             _classNumber = value;
         }
     }
-    private void Awake()
-    {
-
-    }
 
     private void OnEnable()
     {

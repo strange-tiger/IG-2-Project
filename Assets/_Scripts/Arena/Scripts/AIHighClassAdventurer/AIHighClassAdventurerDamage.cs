@@ -5,11 +5,10 @@ using EAIState = Defines.Estate;
 
 public class AIHighClassAdventurerDamage : AIState
 {
-    [Header("내 AI~~를 넣어주세요")]
-    [SerializeField] private AIInfo _aIInfo;
+    [SerializeField] private AIHighClassAdventurerAttack _aIHighClassAdventurerAttack;
 
-    [Header("적 AI~~를 넣어주세요")]
-    [SerializeField] private AIInfo[] _enemyAIInfo;
+    [Header("HP를 입력 해 주세요")]
+    [SerializeField] private int _hp;
 
     private Animator _animator;
     private int _curHP;
@@ -18,10 +17,8 @@ public class AIHighClassAdventurerDamage : AIState
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
-        _curHP = _aIInfo.HP;
-        _damage = _enemyAIInfo[0].Damage;
 
-        Debug.Log(_curHP);
+        _aIHighClassAdventurerAttack.EnemyDamage.AddListener(Hit);
     }
 
     public override void OnEnter()
@@ -30,12 +27,11 @@ public class AIHighClassAdventurerDamage : AIState
 
         _curHP -= _damage;
 
-        Debug.Log(_curHP);
     }
 
     public override void OnUpdate()
     {
-        if (_aIInfo.HP <= 0)
+        if (_curHP <= 0)
         {
             aiFSM.ChangeState(EAIState.Death);
         }
@@ -49,4 +45,10 @@ public class AIHighClassAdventurerDamage : AIState
     {
         _animator.SetBool(AIAnimatorID.isHighClassAdventurerDamage, false);
     }
+
+    private void Hit(int damage)
+    {
+        _hp -= damage;
+    }
+
 }
