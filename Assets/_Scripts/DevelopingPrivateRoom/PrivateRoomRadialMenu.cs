@@ -91,7 +91,7 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
     private void ButtonCMethod()
     {
         Debug.Log("paint");
-        _paintbrush.Spawn();
+        _paintbrush.SpawnHelper();
     }
 
     void FixedUpdate()
