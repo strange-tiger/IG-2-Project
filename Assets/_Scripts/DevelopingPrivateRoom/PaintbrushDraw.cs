@@ -9,7 +9,7 @@ public class PaintbrushDraw : MonoBehaviourPun
     [SerializeField] PaintbrushReset _pad;
     [SerializeField] LayerMask _padMask;
 
-    private const float RAY_LENGTH = 0.5f;
+    private const float RAY_LENGTH = 0.2f;
     private const float DEFAULT_WIDTH = 0.01f;
     private const float POINTS_DISTANCE = 0.001f;
     private static readonly Vector3 RAY_ORIGIN = new Vector3(0f, 0f, 0.1f);
@@ -37,8 +37,8 @@ public class PaintbrushDraw : MonoBehaviourPun
     {
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
 
-        photonView.RPC("RaycastOnClients", RpcTarget.All);
-        //RaycastOnClients();
+        //photonView.RPC("RaycastOnClients", RpcTarget.All);
+        RaycastOnClients();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -77,7 +77,8 @@ public class PaintbrushDraw : MonoBehaviourPun
         {
             _isDraw = true;
 
-            photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
+            //photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
+            CreateLine(_currentPoint);
         }
     }
 
@@ -89,8 +90,9 @@ public class PaintbrushDraw : MonoBehaviourPun
         LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
         
         line.transform.parent = _pad.transform;
-        line.transform.position = startPos;
+        line.transform.position = Vector3.zero;
 
+        lineRenderer.useWorldSpace = false;
         lineRenderer.startWidth = DEFAULT_WIDTH;
         lineRenderer.endWidth = DEFAULT_WIDTH;
         lineRenderer.numCornerVertices = 5;
@@ -101,7 +103,8 @@ public class PaintbrushDraw : MonoBehaviourPun
 
         _currentLineRenderer = lineRenderer;
 
-        photonView.RPC("ConnectLineOnClients", RpcTarget.All);
+        //photonView.RPC("ConnectLineOnClients", RpcTarget.All);
+        StartCoroutine(ConnectLine());
     }
 
     [PunRPC]

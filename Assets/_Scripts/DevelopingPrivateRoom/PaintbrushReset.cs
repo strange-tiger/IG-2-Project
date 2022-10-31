@@ -29,7 +29,6 @@ public class PaintbrushReset : MonoBehaviourPun
             stream.SendNext(gameObject.activeSelf);
             stream.SendNext(transform.childCount);
 
-
             for (int i = 1; i < transform.childCount; ++i)
             {
                 stream.SendNext(transform.GetChild(i).gameObject);
@@ -42,10 +41,15 @@ public class PaintbrushReset : MonoBehaviourPun
 
             for (int i = 1; i < count; ++i)
             {
-                Instantiate((GameObject)stream.ReceiveNext()).transform.parent = this.transform;
+                Instantiate((GameObject)stream.ReceiveNext()).transform.parent = transform;
             }
         }
     }
+
+    //private void Update()
+    //{
+    //    transform.position += new Vector3(0f, 0f, 0.1f * Time.deltaTime);
+    //}
 
     private void ResetPad()
     {
