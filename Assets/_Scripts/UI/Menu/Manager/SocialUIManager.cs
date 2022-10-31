@@ -105,13 +105,13 @@ public class SocialUIManager : MonoBehaviour
             bool isFriendRequested; // 내가 요청받았는지
             if(isLeft)
             {
-                hasBlock = (relationship & MySqlSetting._BLOCK_LEFT_BIT) != 0;
+                hasBlock = (relationship & MySqlSetting._BLOCK_LEFT_BIT) == MySqlSetting._BLOCK_LEFT_BIT;
                 hasRequest = (relationship & MySqlSetting._REQUEST_LEFT_BIT) != 0;
                 isFriendRequested = (relationship & MySqlSetting._REQUEST_RIGHT_BIT) != 0;
             }
             else
             {
-                hasBlock = (relationship & MySqlSetting._BLOCK_RIGHT_BIT) != 0;
+                hasBlock = (relationship & MySqlSetting._BLOCK_RIGHT_BIT) == MySqlSetting._BLOCK_RIGHT_BIT;
                 hasRequest = (relationship & MySqlSetting._REQUEST_RIGHT_BIT) != 0;
                 isFriendRequested = (relationship & MySqlSetting._REQUEST_LEFT_BIT) != 0;
             }
@@ -201,7 +201,7 @@ public class SocialUIManager : MonoBehaviour
     {
         // 친구 추가 요청을 DB에 올림
         MySqlSetting.UpdateRelationshipToRequest(_myNickname, _targetUserNickname);
-        _targetUser.photonView.RPC("SendRequest", Photon.Pun.RpcTarget.All);
+        _targetUser.photonView.RPC("SendRequest", Photon.Pun.RpcTarget.All, _myNickname);
 
         // 확인 메시지 출력
         _confirmPanelManager.ShowConfirmPanel(_requestFriendConfirmMessage);

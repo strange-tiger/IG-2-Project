@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using Photon.Voice.Unity;
 
 public class PlayerNetworking : MonoBehaviourPunCallbacks
 {
@@ -12,6 +13,7 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _nicknameText;
     [SerializeField] private GameObject _requestAlarmImage;
     [SerializeField] private AudioSource _newPlayerAudioSource;
+    private Recorder _recorder;
 
     private GameObject _pointer;
 
@@ -34,6 +36,11 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 
             VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
             volumeController.PlayerAudioSource = _newPlayerAudioSource;
+
+            _recorder = GetComponentInChildren<Recorder>();
+            ScrollButton scrollButton = cameraRig.GetComponentInChildren<ScrollButton>();
+            scrollButton.PhotonVoice = _recorder;
+
             volumeController.transform.parent.gameObject.SetActive(false);
 
             socialTabManager.transform.parent.gameObject.SetActive(false);

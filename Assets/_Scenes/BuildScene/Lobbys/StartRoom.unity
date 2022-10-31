@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
-  m_SkyboxMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: a07fadb24ea940240afba3afc1a692cc, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.99999946, g: 0.99999946, b: 0.99999946, a: 1}
+  m_IndirectSpecularColor: {r: 0.051441513, g: 0.1500552, b: 0.19368404, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hasPlayer: 1
+  _isStartRoom: 1
+  _canvases: []
 --- !u!4 &16103459
 Transform:
   m_ObjectHideFlags: 0
@@ -325,6 +326,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 2438714895072723839, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3057901382185151897, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -352,6 +357,10 @@ PrefabInstance:
     - target: {fileID: 3867784664884509072, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_SizeDelta.y
       value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024865877965884624, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4147793840507363478, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: sceneViewId
@@ -396,6 +405,14 @@ PrefabInstance:
     - target: {fileID: 6404900184481156788, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_SizeDelta.y
       value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682450791410103411, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: isStartRoom
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682450791410103411, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: _isStartRoom
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7188495349540282598, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_IsActive
@@ -1195,6 +1212,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2135040989342771931, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3669648705763040211, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1742,7 +1763,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uB9C8\uCC28\n<\uC911\uC138 \uD310\uD0C0\uC9C0 \uC655\uAD6D \uC774\uB3D9
-    NPC"
+    NPC>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
   m_sharedMaterial: {fileID: -6311795966102851171, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
@@ -2018,7 +2039,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8207156521027552005, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Name
-      value: VRCanvas
+      value: LobbyCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 8207156521027552009, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Pivot.x
