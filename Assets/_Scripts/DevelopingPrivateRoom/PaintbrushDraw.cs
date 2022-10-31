@@ -1,3 +1,4 @@
+//#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,9 +37,11 @@ public class PaintbrushDraw : MonoBehaviourPun
     private void Update()
     {
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
-
-        //photonView.RPC("RaycastOnClients", RpcTarget.All);
+#if _Photon
+        photonView.RPC("RaycastOnClients", RpcTarget.All);
+#else
         RaycastOnClients();
+#endif
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -76,9 +79,11 @@ public class PaintbrushDraw : MonoBehaviourPun
         if (!_isDraw)
         {
             _isDraw = true;
-
-            //photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
+#if _Photon
+            photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
+#else
             CreateLine(_currentPoint);
+#endif
         }
     }
 
@@ -103,8 +108,11 @@ public class PaintbrushDraw : MonoBehaviourPun
 
         _currentLineRenderer = lineRenderer;
 
-        //photonView.RPC("ConnectLineOnClients", RpcTarget.All);
+#if _Photon
+        photonView.RPC("ConnectLineOnClients", RpcTarget.All);
+#else
         StartCoroutine(ConnectLine());
+#endif
     }
 
     [PunRPC]

@@ -1,3 +1,4 @@
+//#define _Photon
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,14 +47,13 @@ public class PaintbrushReset : MonoBehaviourPun
         }
     }
 
-    //private void Update()
-    //{
-    //    transform.position += new Vector3(0f, 0f, 0.1f * Time.deltaTime);
-    //}
-
     private void ResetPad()
     {
+#if _Photon
         photonView.RPC("ResetDraw", RpcTarget.All);
+#else
+        ResetDraw();
+#endif
     }
 
     [PunRPC]
