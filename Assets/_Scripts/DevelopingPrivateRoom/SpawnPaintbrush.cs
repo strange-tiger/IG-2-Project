@@ -6,6 +6,8 @@ using Photon.Realtime;
 
 public class SpawnPaintbrush : MonoBehaviourPun
 {
+    private Transform _clientPlayer;
+    
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)

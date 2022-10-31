@@ -6,6 +6,8 @@ using Photon.Realtime;
 
 public class SpawnDice : MonoBehaviourPun
 {
+    private Transform _hostPlayer;
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -20,7 +22,6 @@ public class SpawnDice : MonoBehaviourPun
 
     public void ToggleDice()
     {
-        Debug.Log("spawn dice");
         if (!gameObject.activeSelf)
         {
             photonView.RPC("Spawn", RpcTarget.All);
@@ -35,7 +36,6 @@ public class SpawnDice : MonoBehaviourPun
     [PunRPC]
     private void Spawn()
     {
-        Debug.Log("spawn dice rpc");
         transform.position = SPAWN_POSITION;
         gameObject.SetActive(true);
     }

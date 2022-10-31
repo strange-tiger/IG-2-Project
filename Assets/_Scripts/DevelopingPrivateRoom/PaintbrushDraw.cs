@@ -9,15 +9,12 @@ public class PaintbrushDraw : MonoBehaviourPun
     [SerializeField] PaintbrushReset _pad;
     [SerializeField] LayerMask _padMask;
 
-    private const float RAY_LENGTH = 1f;
+    private const float RAY_LENGTH = 0.5f;
     private const float DEFAULT_WIDTH = 0.01f;
     private const float POINTS_DISTANCE = 0.001f;
     private static readonly Vector3 RAY_ORIGIN = new Vector3(0f, 0f, 0.1f);
 
     private LineRenderer _currentLineRenderer;
-
-    private RaycastHit _hit;
-    private Ray _ray;
 
     private Vector3 _currentPoint = Vector3.zero;
     private Vector3 _prevPoint = Vector3.zero;
@@ -29,7 +26,6 @@ public class PaintbrushDraw : MonoBehaviourPun
     {
         _pad.OnReset -= StopDraw;
         _pad.OnReset += StopDraw;
-        _ray = new Ray(transform.position + RAY_ORIGIN, transform.forward);
     }
 
     private void OnDisable()
@@ -39,18 +35,28 @@ public class PaintbrushDraw : MonoBehaviourPun
 
     private void Update()
     {
-        _ray.origin = transform.position + RAY_ORIGIN;
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
 
-        if (Physics.Raycast(_ray, out _hit, RAY_LENGTH, _padMask.value))
+        photonView.RPC("RaycastOnClients", RpcTarget.All);
+        //Raycasting();
+    }
+
+    [PunRPC]
+    private void RaycastOnClients()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + RAY_ORIGIN, transform.forward);
+
+        if (Physics.Raycast(ray, out hit, RAY_LENGTH, _padMask.value))
         {
-            _currentPoint = _hit.point;
+            _currentPoint = hit.point;
             DrawLine();
             Debug.Log(_currentPoint);
         }
         else
         {
             _isDraw = false;
+            Debug.Log(_isDraw);
         }
     }
 
@@ -61,7 +67,6 @@ public class PaintbrushDraw : MonoBehaviourPun
             _isDraw = true;
 
             photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
-            //CreateLine(_currentPoint);
         }
     }
 

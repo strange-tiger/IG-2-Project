@@ -53,10 +53,10 @@ public class JoinRoom : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
+        base.OnJoinedLobby();
         try
         {
-            //PhotonNetwork.JoinRandomRoom(_currentJoinRoom, ANY_MAX_PLAYER);
-            PhotonNetwork.JoinRandomOrCreateRoom();
+            PhotonNetwork.JoinRandomRoom(_currentJoinRoom, ANY_MAX_PLAYER);
         }
         catch
         {
@@ -67,9 +67,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        //_DB.AddNewRoomInfo("", "", "", 0);
-        PhotonNetwork.LoadLevel("PrivateRoom_Interaction_Joker");
-        Debug.Log(PhotonNetwork.CurrentRoom.Name);
+        _DB.AddNewRoomInfo("", "", "", 0);
     }
 
     public override void OnJoinedRoom()

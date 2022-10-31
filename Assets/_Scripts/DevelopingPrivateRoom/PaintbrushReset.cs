@@ -13,13 +13,18 @@ public class PaintbrushReset : MonoBehaviourPun
 
     private void OnEnable()
     {
-        _resetButton.onClick.RemoveListener(ResetDraw);
-        _resetButton.onClick.AddListener(ResetDraw);
+        _resetButton.onClick.RemoveListener(ResetPad);
+        _resetButton.onClick.AddListener(ResetPad);
     }
 
     private void OnDisable()
     {
-        _resetButton.onClick.RemoveListener(ResetDraw);
+        _resetButton.onClick.RemoveListener(ResetPad);
+    }
+    
+    private void ResetPad()
+    {
+        photonView.RPC("ResetDraw", RpcTarget.All);
     }
 
     [PunRPC]
@@ -27,7 +32,7 @@ public class PaintbrushReset : MonoBehaviourPun
     {
         for(int i = 1; i < transform.childCount; ++i)
         {
-            Destroy(transform.GetChild(i).gameObject);
+            PhotonNetwork.Destroy(transform.GetChild(i).gameObject);
         }
         OnReset.Invoke();
     }

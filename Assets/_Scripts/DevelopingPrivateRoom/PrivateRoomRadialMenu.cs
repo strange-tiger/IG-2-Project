@@ -31,6 +31,8 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
+        Debug.Log("¼º°ø");
+
         if (PhotonNetwork.IsMasterClient)
         {
             _dice = PhotonNetwork.Instantiate("Dice", transform.position, transform.rotation);
