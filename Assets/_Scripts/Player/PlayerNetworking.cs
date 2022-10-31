@@ -24,16 +24,28 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
     {
         if(photonView.IsMine)
         {
+            // CameraRig 부착
             GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
             cameraRig.transform.position = _ovrCameraPosition;
 
+            // 플레이어 컨트롤러 부착
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
             playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
 
+            // 플레이어 모델 연결
+            GameObject modelGameObject = gameObject.GetComponentInChildren<Animator>().gameObject;
+            PlayerModelAnimation playerModelAniamtion = modelGameObject.GetComponent<PlayerModelAnimation>();
+            // 손을 받아와 연결함
+            PlayerFocus[] hands = cameraRig.GetComponentsInChildren<PlayerFocus>();
+            playerModelAniamtion.LeftHand = hands[0].transform.parent.GetChild(0);
+            playerModelAniamtion.RightHand = hands[1].transform.parent.GetChild(0);
+
+            // 소셜 알림기능 연결
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
             socialTabManager.RequestAlarmImage = _requestAlarmImage;
             socialTabManager.gameObject.SetActive(false);
 
+            // 사운드 세팅 스크립트 연결
             VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
             volumeController.PlayerAudioSource = _newPlayerAudioSource;
 
@@ -41,10 +53,12 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             ScrollButton scrollButton = cameraRig.GetComponentInChildren<ScrollButton>();
             scrollButton.PhotonVoice = _recorder;
 
+            // UI 다시 비활성화
             volumeController.transform.parent.gameObject.SetActive(false);
 
             socialTabManager.transform.parent.gameObject.SetActive(false);
 
+            // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
         }
         else
