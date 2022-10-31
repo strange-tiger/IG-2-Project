@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2897960153422722466}
   - component: {fileID: 589168506843708096}
   - component: {fileID: 3795502068644096185}
-  - component: {fileID: 4231263246094362210}
+  - component: {fileID: 1369586764}
   m_Layer: 0
   m_Name: Paintbrush
   m_TagString: Untagged
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &4231263246094362210
+--- !u!114 &1369586764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,14 +83,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8417325164426541866}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d61468f8b77ae4b92c344bc9a600fb, type: 3}
+  m_Script: {fileID: 11500000, guid: cff9a2ce375ba04478675e14fe852881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints: []
 --- !u!1001 &2593934008670238899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,10 +174,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2897960153422722466}
     m_Modifications:
-    - target: {fileID: 1655136620481167, guid: 7e73c2cec9a75214589cf7b48381d982, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1655136620481172, guid: 7e73c2cec9a75214589cf7b48381d982, type: 3}
       propertyPath: _pad
       value: 

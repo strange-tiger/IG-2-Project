@@ -9,7 +9,7 @@ public class PaintbrushDraw : MonoBehaviourPun
     [SerializeField] PaintbrushReset _pad;
     [SerializeField] LayerMask _padMask;
 
-    private const float RAY_LENGTH = 0.2f;
+    private const float RAY_LENGTH = 1f;
     private const float DEFAULT_WIDTH = 0.01f;
     private const float POINTS_DISTANCE = 0.001f;
     private static readonly Vector3 RAY_ORIGIN = new Vector3(0f, 0f, 0.1f);
@@ -41,11 +41,12 @@ public class PaintbrushDraw : MonoBehaviourPun
     {
         _ray.origin = transform.position + RAY_ORIGIN;
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
-        
+
         if (Physics.Raycast(_ray, out _hit, RAY_LENGTH, _padMask.value))
         {
             _currentPoint = _hit.point;
             DrawLine();
+            Debug.Log(_currentPoint);
         }
         else
         {
@@ -58,7 +59,9 @@ public class PaintbrushDraw : MonoBehaviourPun
         if (!_isDraw)
         {
             _isDraw = true;
-            CreateLine(_currentPoint);
+
+            photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
+            //CreateLine(_currentPoint);
         }
     }
 
@@ -68,7 +71,7 @@ public class PaintbrushDraw : MonoBehaviourPun
         _positionCount = 2;
         GameObject line = new GameObject("Line");
         LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
-
+        
         line.transform.parent = _pad.transform;
         line.transform.position = startPos;
 
@@ -82,14 +85,20 @@ public class PaintbrushDraw : MonoBehaviourPun
 
         _currentLineRenderer = lineRenderer;
 
-        StartCoroutine(ConnectLine());
+        photonView.RPC("ConnectLineOnClients", RpcTarget.All);
     }
 
     [PunRPC]
+    private void ConnectLineOnClients()
+    {
+        StartCoroutine(ConnectLine());
+    }
+
     private IEnumerator ConnectLine()
     {
         while (_isDraw)
         {
+            Debug.Log("Drawing");
             if (_prevPoint != null && Mathf.Abs(Vector3.Distance(_prevPoint, _currentPoint)) >= POINTS_DISTANCE)
             {
                 _prevPoint = _currentPoint;

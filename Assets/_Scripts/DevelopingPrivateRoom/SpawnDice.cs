@@ -6,29 +6,28 @@ using Photon.Realtime;
 
 public class SpawnDice : MonoBehaviourPun
 {
-    [SerializeField] GameObject _dice;
-
-    private PhotonView _photonView;
-    private void Awake()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //if(!PhotonNetwork.IsMasterClient)
-        //{
-        //    return;
-        //}
-        Despawn();
-        _photonView = _dice.GetPhotonView();
+        if (stream.IsWriting)
+        {
+            stream.SendNext(gameObject.activeSelf);
+        }
+        else if (stream.IsReading)
+        {
+            gameObject.SetActive((bool)stream.ReceiveNext());
+        }
     }
 
     public void ToggleDice()
     {
         Debug.Log("spawn dice");
-        if (!_photonView.isActiveAndEnabled)
+        if (!gameObject.activeSelf)
         {
-            _photonView.RPC("Spawn", RpcTarget.All);
+            photonView.RPC("Spawn", RpcTarget.All);
         }
         else
         {
-            _photonView.RPC("Despawn", RpcTarget.All);
+            photonView.RPC("Despawn", RpcTarget.All);
         }
     }
 
@@ -36,13 +35,14 @@ public class SpawnDice : MonoBehaviourPun
     [PunRPC]
     private void Spawn()
     {
-        _dice.transform.position = transform.position + SPAWN_POSITION;
-        _dice.SetActive(true);
+        Debug.Log("spawn dice rpc");
+        transform.position = SPAWN_POSITION;
+        gameObject.SetActive(true);
     }
 
     [PunRPC]
     private void Despawn()
     {
-        _dice.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

@@ -4,27 +4,51 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PrivateRoomRadialMenu : MonoBehaviourPun
+public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject _privateRoomRadialMenu;
     [SerializeField] Image _privateRoomRadialCursor;
+    [SerializeField] GameObject _dice;
+    //[SerializeField] 
+    [SerializeField] GameObject _paintbrush;
+    [SerializeField] Button _buttonDice;
+
     public static Button ClickButton;
+
+    private SpawnDice _spawnDice;
+    private SpawnPaintbrush _spawnPaintbrush;
 
     private Vector2 _priavteRoomRadialCursorInitPosition;
     private float _privateRoomRadialCursorMovementLimit = 25f;
     private float _privateRoomRadialCursorSpeed = 100f;
 
-    private SpawnDice _dice;
-    //private 
-    private SpawnPaintbrush _paintbrush;
-
     private void Start()
     {
         _priavteRoomRadialCursorInitPosition = _privateRoomRadialCursor.rectTransform.localPosition;
+    }
 
-        _dice = GetComponent<SpawnDice>();
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _dice = PhotonNetwork.Instantiate("Dice", transform.position, transform.rotation);
+            _dice.SetActive(false);
+        }
+        else
+        {
+            _buttonDice.interactable = false;
+        }
+
         //
-        _paintbrush = GetComponent<SpawnPaintbrush>();
+
+        _paintbrush = PhotonNetwork.Instantiate("Paintbrush", transform.position, transform.rotation);
+        _paintbrush.SetActive(false);
+
+        _spawnDice = _dice.GetComponent<SpawnDice>();
+        //
+        _spawnPaintbrush = _paintbrush.GetComponent<SpawnPaintbrush>();
     }
 
     private void Update()
@@ -80,7 +104,7 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
         //    return;
         //}
         Debug.Log("dice");
-        _dice.ToggleDice();
+        _spawnDice.ToggleDice();
     }
 
     private void ButtonBMethod()
@@ -91,7 +115,7 @@ public class PrivateRoomRadialMenu : MonoBehaviourPun
     private void ButtonCMethod()
     {
         Debug.Log("paint");
-        _paintbrush.SpawnHelper();
+        _spawnPaintbrush.SpawnHelper();
     }
 
     void FixedUpdate()
