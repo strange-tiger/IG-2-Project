@@ -38,7 +38,19 @@ public class PaintbrushDraw : MonoBehaviourPun
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
 
         photonView.RPC("RaycastOnClients", RpcTarget.All);
-        //Raycasting();
+        //RaycastOnClients();
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(gameObject.activeSelf);
+        }
+        else if (stream.IsReading)
+        {
+            gameObject.SetActive((bool)stream.ReceiveNext());
+        }
     }
 
     [PunRPC]
@@ -51,7 +63,6 @@ public class PaintbrushDraw : MonoBehaviourPun
         {
             _currentPoint = hit.point;
             DrawLine();
-            Debug.Log(_currentPoint);
         }
         else
         {
