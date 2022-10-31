@@ -20,8 +20,14 @@ public class Food : InteracterableObject, IPunObservable
 
     [SerializeField] EFoodSatietyLevel _foodSatietyLevel;
     [SerializeField] GameObject _food;
-    private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
 
+    private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
+    private BoxCollider _foodCollider;
+
+    public void Start()
+    {
+        _foodCollider = GetComponentInParent<BoxCollider>();
+    }
 
 
     public override void Interact()
@@ -49,12 +55,14 @@ public class Food : InteracterableObject, IPunObservable
     public void EatFoodState()
     {
         _food.SetActive(false);
+        _foodCollider.gameObject.SetActive(false);
     }
 
     [PunRPC]
     public void RegenerateFoodState()
     {
         _food.SetActive(true);
+        _foodCollider.gameObject.SetActive(true);
     }
 
 
@@ -79,10 +87,12 @@ public class Food : InteracterableObject, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(_food.activeSelf);
+            stream.SendNext(_foodCollider.gameObject.activeSelf);
         }
         else if (stream.IsReading)
         {
             _food.SetActive((bool)stream.ReceiveNext());
+            _foodCollider.gameObject.SetActive((bool)stream.ReceiveNext());
         }
     }
 }

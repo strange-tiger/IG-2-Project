@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public abstract class NeedCheckButton : MonoBehaviour
+public abstract class NeedCheckButton : MonoBehaviourPunCallbacks
 {
     /// <summary>
     /// 확인 시 나올 메시지
