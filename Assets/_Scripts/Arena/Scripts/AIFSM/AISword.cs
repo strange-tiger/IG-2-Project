@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class AISword : MonoBehaviour
 {
-    [SerializeField] private Collider _swordHitBox;
+    [SerializeField] private Collider[] _swordHitBox;
 
     [Header("기본공격 이펙트를 넣어주세요")]
     [SerializeField] private GameObject _attackEffect;
 
     public void OnHitBox()
     {
-        _swordHitBox.enabled = true;
+        for (int i = 0; i < _swordHitBox.Length; ++i)
+        {
+            _swordHitBox[i].enabled = true;
+        }
 
         if (_attackEffect != null)
         {
@@ -25,7 +28,10 @@ public class AISword : MonoBehaviour
 
     public void OffHitBox()
     {
-        _swordHitBox.enabled = false;
+        for (int i = 0; i < _swordHitBox.Length; ++i)
+        {
+            _swordHitBox[i].enabled = false;
+        }
 
         if (_attackEffect != null)
         {

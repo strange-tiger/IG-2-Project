@@ -64,5 +64,18 @@ public class AIRun : AIState
             _myCollider.enabled = false;
             _changeStateRunToAttack = true;
         }
+
+        else if (other.gameObject.tag == "Rock_Golem")
+        {
+            _myCollider.enabled = false;
+            _changeStateRunToAttack = true;
+        }
+
+        else if (other.gameObject.tag == "Serpent_Warrior")
+        {
+            _myCollider.enabled = false;
+            _changeStateRunToAttack = true;
+        }
+
     }
 }

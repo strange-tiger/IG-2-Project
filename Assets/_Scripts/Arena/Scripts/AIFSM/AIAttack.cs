@@ -41,7 +41,7 @@ public class AIAttack : AIState
             _changeStateAttackToDamage = false;
         }
 
-        if (_isSkillCoolTime == true)
+        if (_isSkillCoolTime == true && _skillCoolTime != 0)
         {
             _curTime += Time.deltaTime;
         }

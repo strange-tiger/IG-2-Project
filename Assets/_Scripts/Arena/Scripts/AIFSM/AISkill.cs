@@ -22,7 +22,11 @@ public class AISkill : AIState
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isSkill, true);
-        _skillEffect.SetActive(true);
+        if (_skillEffect != null)
+        {
+            _skillEffect.SetActive(true);
+        }
+        
         _isSkill = true;
     }
 
@@ -44,6 +48,10 @@ public class AISkill : AIState
     public override void OnExit()
     {
         _animator.SetBool(AIAnimatorID.isSkill, false);
-        _skillEffect.SetActive(false);
+        if (_skillEffect != null)
+        {
+            _skillEffect.SetActive(false);
+        }
+        
     }
 }
