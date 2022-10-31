@@ -4,28 +4,31 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnDice : MonoBehaviourPunCallbacks
+public class SpawnDice : MonoBehaviourPun
 {
-    [SerializeField] GameObject _dice;
+    private Transform _hostPlayer;
 
-    private bool _isDiceSpawned = false;
-
-    private void Awake()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Despawn();
+        if (stream.IsWriting)
+        {
+            stream.SendNext(gameObject.activeSelf);
+        }
+        else if (stream.IsReading)
+        {
+            gameObject.SetActive((bool)stream.ReceiveNext());
+        }
     }
 
     public void ToggleDice()
     {
-        _isDiceSpawned = !_isDiceSpawned;
-
-        if (_isDiceSpawned)
+        if (!gameObject.activeSelf)
         {
-            Spawn();
+            photonView.RPC("Spawn", RpcTarget.All);
         }
         else
         {
-            Despawn();
+            photonView.RPC("Despawn", RpcTarget.All);
         }
     }
 
@@ -33,13 +36,13 @@ public class SpawnDice : MonoBehaviourPunCallbacks
     [PunRPC]
     private void Spawn()
     {
-        _dice.transform.position = SPAWN_POSITION;
-        _dice.SetActive(true);
+        transform.position = SPAWN_POSITION;
+        gameObject.SetActive(true);
     }
 
     [PunRPC]
     private void Despawn()
     {
-        _dice.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
