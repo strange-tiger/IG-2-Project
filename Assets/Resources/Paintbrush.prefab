@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2897960153422722466}
+  - component: {fileID: 614872632220740502}
+  - component: {fileID: 6204353619818997255}
+  - component: {fileID: 1369586764}
   m_Layer: 0
   m_Name: Paintbrush
   m_TagString: Untagged
@@ -32,6 +35,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &614872632220740502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8417325164426541866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 6204353619818997255}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &6204353619818997255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8417325164426541866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &1369586764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8417325164426541866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cff9a2ce375ba04478675e14fe852881, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2593934008670238899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,14 +141,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Legal_pad
       objectReference: {fileID: 0}
-    - target: {fileID: 5688088454163287717, guid: 280f01527454a364c9e00d3135f5c193, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5688088454163287721, guid: 280f01527454a364c9e00d3135f5c193, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 280f01527454a364c9e00d3135f5c193, type: 3}
 --- !u!4 &2088439457549246048 stripped
@@ -120,10 +166,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2897960153422722466}
     m_Modifications:
-    - target: {fileID: 1655136620481167, guid: 7e73c2cec9a75214589cf7b48381d982, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1655136620481172, guid: 7e73c2cec9a75214589cf7b48381d982, type: 3}
       propertyPath: _pad
       value: 

@@ -45,8 +45,15 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnConnectedToMaster()
+    {
+        base.OnConnectedToMaster();
+        PhotonNetwork.JoinLobby();
+    }
+
     public override void OnJoinedLobby()
     {
+        base.OnJoinedLobby();
         try
         {
             PhotonNetwork.JoinRandomRoom(_currentJoinRoom, ANY_MAX_PLAYER);

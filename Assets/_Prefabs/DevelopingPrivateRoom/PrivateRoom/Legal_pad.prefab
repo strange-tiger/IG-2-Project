@@ -269,6 +269,8 @@ GameObject:
   - component: {fileID: 7200694423063242042}
   - component: {fileID: 938538803988470165}
   - component: {fileID: 1173738455349061}
+  - component: {fileID: 5022949476607137144}
+  - component: {fileID: 661101001352017641}
   m_Layer: 5
   m_Name: Legal_pad
   m_TagString: Untagged
@@ -384,6 +386,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resetButton: {fileID: 1231342844}
+--- !u!114 &5022949476607137144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544590051026324813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 661101001352017641}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &661101001352017641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544590051026324813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1001 &4545692302597131693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -393,7 +434,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8207156521027552004, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8207156521027552005, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Name
@@ -401,7 +442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8207156521027552008, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8207156521027552009, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Pivot.x
