@@ -9,8 +9,16 @@ using Photon.Pun;
 public class PaintbrushReset : MonoBehaviourPun
 {
     [SerializeField] Button _resetButton;
+    [SerializeField] Material _lineMaterial;
 
     public event Action OnReset;
+
+    private const float DEFAULT_WIDTH = 0.01f;
+
+    private int _memoryChildCount;
+    //private List<int> _memoryLinePointNums;
+    private List<Vector3[]> _memoryLinePoints;
+    private List<LineRenderer> _memoryLines;
 
     private void OnEnable()
     {
@@ -32,18 +40,78 @@ public class PaintbrushReset : MonoBehaviourPun
 
             for (int i = 1; i < transform.childCount; ++i)
             {
-                stream.SendNext(transform.GetChild(i).gameObject);
+                LineRenderer childLineRenderer = transform.GetChild(i).GetComponent<LineRenderer>();
+                int pointCount = childLineRenderer.positionCount;
+
+                //stream.SendNext(pointCount);
+
+                Vector3[] linePoints = new Vector3[pointCount];
+                childLineRenderer.GetPositions(linePoints);
+
+                stream.SendNext(linePoints);
             }
         }
         else if (stream.IsReading)
         {
             gameObject.SetActive((bool)stream.ReceiveNext());
-            int count = (int)stream.ReceiveNext();
+            _memoryChildCount = (int)stream.ReceiveNext();
 
-            for (int i = 1; i < count; ++i)
+            MatchChildNum();
+
+            for (int i = 1; i < _memoryChildCount; ++i)
             {
-                Instantiate((GameObject)stream.ReceiveNext()).transform.parent = transform;
+                //_memoryLinePointNums[i] = (int)stream.ReceiveNext();
+
+                _memoryLinePoints[i] = (Vector3[])stream.ReceiveNext();
             }
+
+            StopCoroutine(ReceiveLines());
+            StartCoroutine(ReceiveLines());
+        }
+    }
+
+    private void MatchChildNum()
+    {
+        for (int i = transform.childCount; i < _memoryChildCount; ++i)
+        {
+            _memoryLines.Add(GenerateLineRenderer());
+        }
+
+        for (int i = transform.childCount - 1; i > _memoryChildCount; --i)
+        {
+            Destroy(transform.GetChild(i));
+        }
+    }
+
+    private LineRenderer GenerateLineRenderer()
+    {
+        GameObject line = new GameObject("Line");
+        LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
+
+        line.transform.parent = transform;
+        line.transform.position = Vector3.zero;
+
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.startWidth = DEFAULT_WIDTH;
+        lineRenderer.endWidth = DEFAULT_WIDTH;
+        lineRenderer.numCornerVertices = 5;
+        lineRenderer.numCapVertices = 5;
+        lineRenderer.material = _lineMaterial;
+        
+        return lineRenderer;
+    }
+
+    private IEnumerator ReceiveLines()
+    {
+        int count = _memoryLines.Count;
+
+        while(count >= 0)
+        {
+            --count;
+
+            _memoryLines[count].SetPositions(_memoryLinePoints[count]);
+
+            yield return null;
         }
     }
 

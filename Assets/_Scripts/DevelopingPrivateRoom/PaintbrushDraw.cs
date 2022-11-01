@@ -12,7 +12,7 @@ public class PaintbrushDraw : MonoBehaviourPun
 
     private const float RAY_LENGTH = 0.2f;
     private const float DEFAULT_WIDTH = 0.01f;
-    private const float POINTS_DISTANCE = 0.001f;
+    private const float POINTS_DISTANCE = 0.01f;
     private static readonly Vector3 RAY_ORIGIN = new Vector3(0f, 0f, 0.1f);
 
     private LineRenderer _currentLineRenderer;
@@ -70,7 +70,6 @@ public class PaintbrushDraw : MonoBehaviourPun
         else
         {
             _isDraw = false;
-            Debug.Log(_isDraw);
         }
     }
 
@@ -91,9 +90,21 @@ public class PaintbrushDraw : MonoBehaviourPun
     private void CreateLine(Vector3 startPos)
     {
         _positionCount = 2;
+
+        _currentLineRenderer = GenerateLineRenderer(startPos);
+
+#if _Photon
+        photonView.RPC("ConnectLineOnClients", RpcTarget.All);
+#else
+        StartCoroutine(ConnectLine());
+#endif
+    }
+
+    private LineRenderer GenerateLineRenderer(Vector3 startPos)
+    {
         GameObject line = new GameObject("Line");
         LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
-        
+
         line.transform.parent = _pad.transform;
         line.transform.position = Vector3.zero;
 
@@ -106,13 +117,7 @@ public class PaintbrushDraw : MonoBehaviourPun
         lineRenderer.SetPosition(0, startPos);
         lineRenderer.SetPosition(1, startPos);
 
-        _currentLineRenderer = lineRenderer;
-
-#if _Photon
-        photonView.RPC("ConnectLineOnClients", RpcTarget.All);
-#else
-        StartCoroutine(ConnectLine());
-#endif
+        return lineRenderer;
     }
 
     [PunRPC]
@@ -125,7 +130,6 @@ public class PaintbrushDraw : MonoBehaviourPun
     {
         while (_isDraw)
         {
-            Debug.Log("Drawing");
             if (_prevPoint != null && Mathf.Abs(Vector3.Distance(_prevPoint, _currentPoint)) >= POINTS_DISTANCE)
             {
                 _prevPoint = _currentPoint;
