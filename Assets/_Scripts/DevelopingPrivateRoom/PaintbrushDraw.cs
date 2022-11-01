@@ -1,8 +1,10 @@
+//#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PaintbrushDraw : MonoBehaviour
+public class PaintbrushDraw : MonoBehaviourPun
 {
     [SerializeField] Material _lineMaterial;
     [SerializeField] PaintbrushReset _pad;
@@ -15,9 +17,6 @@ public class PaintbrushDraw : MonoBehaviour
 
     private LineRenderer _currentLineRenderer;
 
-    private RaycastHit _hit;
-    private Ray _ray;
-
     private Vector3 _currentPoint = Vector3.zero;
     private Vector3 _prevPoint = Vector3.zero;
 
@@ -28,7 +27,6 @@ public class PaintbrushDraw : MonoBehaviour
     {
         _pad.OnReset -= StopDraw;
         _pad.OnReset += StopDraw;
-        _ray = new Ray(transform.position + RAY_ORIGIN, transform.forward);
     }
 
     private void OnDisable()
@@ -38,17 +36,41 @@ public class PaintbrushDraw : MonoBehaviour
 
     private void Update()
     {
-        _ray.origin = transform.position + RAY_ORIGIN;
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
-        
-        if (Physics.Raycast(_ray, out _hit, RAY_LENGTH, _padMask.value))
+#if _Photon
+        photonView.RPC("RaycastOnClients", RpcTarget.All);
+#else
+        RaycastOnClients();
+#endif
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
         {
-            _currentPoint = _hit.point;
+            stream.SendNext(gameObject.activeSelf);
+        }
+        else if (stream.IsReading)
+        {
+            gameObject.SetActive((bool)stream.ReceiveNext());
+        }
+    }
+
+    [PunRPC]
+    private void RaycastOnClients()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + RAY_ORIGIN, transform.forward);
+
+        if (Physics.Raycast(ray, out hit, RAY_LENGTH, _padMask.value))
+        {
+            _currentPoint = hit.point;
             DrawLine();
         }
         else
         {
             _isDraw = false;
+            Debug.Log(_isDraw);
         }
     }
 
@@ -57,19 +79,25 @@ public class PaintbrushDraw : MonoBehaviour
         if (!_isDraw)
         {
             _isDraw = true;
+#if _Photon
+            photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
+#else
             CreateLine(_currentPoint);
+#endif
         }
     }
 
+    [PunRPC]
     private void CreateLine(Vector3 startPos)
     {
         _positionCount = 2;
         GameObject line = new GameObject("Line");
         LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
-
+        
         line.transform.parent = _pad.transform;
-        line.transform.position = startPos;
+        line.transform.position = Vector3.zero;
 
+        lineRenderer.useWorldSpace = false;
         lineRenderer.startWidth = DEFAULT_WIDTH;
         lineRenderer.endWidth = DEFAULT_WIDTH;
         lineRenderer.numCornerVertices = 5;
@@ -80,6 +108,16 @@ public class PaintbrushDraw : MonoBehaviour
 
         _currentLineRenderer = lineRenderer;
 
+#if _Photon
+        photonView.RPC("ConnectLineOnClients", RpcTarget.All);
+#else
+        StartCoroutine(ConnectLine());
+#endif
+    }
+
+    [PunRPC]
+    private void ConnectLineOnClients()
+    {
         StartCoroutine(ConnectLine());
     }
 
@@ -87,6 +125,7 @@ public class PaintbrushDraw : MonoBehaviour
     {
         while (_isDraw)
         {
+            Debug.Log("Drawing");
             if (_prevPoint != null && Mathf.Abs(Vector3.Distance(_prevPoint, _currentPoint)) >= POINTS_DISTANCE)
             {
                 _prevPoint = _currentPoint;

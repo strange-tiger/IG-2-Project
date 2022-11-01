@@ -4,39 +4,37 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnPaintbrush : MonoBehaviourPunCallbacks
+public class SpawnPaintbrush : MonoBehaviourPun
 {
-    [SerializeField] GameObject _paintbrush;
-
-    private bool _isPaintbrushSpawned = false;
-
-    private void Awake()
+    private Transform _clientPlayer;
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Despawn();
+        if (stream.IsWriting)
+        {
+            stream.SendNext(gameObject.activeSelf);
+        }
+        else if (stream.IsReading)
+        {
+            gameObject.SetActive((bool)stream.ReceiveNext());
+        }
+    }
+
+    public void SpawnHelper()
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
+        photonView.RPC("Spawn", RpcTarget.All);
     }
 
     private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 1f);
     [PunRPC]
-    public void Spawn()
+    private void Spawn()
     {
-        if (_isPaintbrushSpawned)
-        {
-            return;
-        }
-
-        _paintbrush.transform.position = SPAWN_PAD_POSITION;
-        _paintbrush.SetActive(true);
-
-    }
-
-    [PunRPC]
-    public void Despawn()
-    {
-        if (!_isPaintbrushSpawned)
-        {
-            return;
-        }
-
-        _paintbrush.SetActive(false);
+        transform.position = SPAWN_PAD_POSITION;
+        gameObject.SetActive(true);
     }
 }
