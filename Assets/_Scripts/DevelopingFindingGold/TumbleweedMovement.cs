@@ -14,7 +14,8 @@ public class TumbleweedMovement : MonoBehaviour
     private Outlinable _outline;
 
     [SerializeField] private Transform _slider;
-    private Transform _player;
+    private Transform _playerTransfrom;
+    private PlayerTumbleweedInteraction _playerInteraction;
     private bool _isTherePlayer;
 
     private TumbleweedSpawner _spawner;
@@ -55,32 +56,45 @@ public class TumbleweedMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if(_isTherePlayer)
         {
             _slider.rotation = Quaternion.Euler(0f, _slider.rotation.y, _slider.rotation.z);
-            _slider.transform.LookAt(_player);
+            _slider.transform.LookAt(_playerTransfrom);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(!other.CompareTag("Player"))
+        {
+            return;
+        }
+
+        PlayerTumbleweedInteraction playerInteraction = other.gameObject.GetComponent<PlayerTumbleweedInteraction>();
+        if (_playerInteraction)
         {
             _outline.enabled = true;
-            _player = other.transform;
+            _playerTransfrom = other.transform;
+            _playerInteraction = playerInteraction;
             _isTherePlayer = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Player")
+        if(!other.CompareTag("Player"))
         {
-            _outline.enabled = false;
-            _isTherePlayer = false;
-            _slider.gameObject.SetActive(false);
+            return;
         }
+
+        if(_playerTransfrom.gameObject != other.gameObject)
+        {
+            return;
+        }
+
+        _outline.enabled = false;
+        _isTherePlayer = false;
+        _slider.gameObject.SetActive(false);
     }
 
     private void OnDisable()

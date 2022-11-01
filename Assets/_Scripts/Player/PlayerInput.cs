@@ -26,6 +26,10 @@ public class PlayerInput : MonoBehaviourPun
     public bool IsMove { get; private set; }
     public bool IsInventoryOn { get; private set; }
 
+    public bool IsGrab { get; private set; }
+    public bool IsLeftGrab { get; private set; }
+    public bool IsRightGrab { get; private set; }
+
     public Defines.EPrimaryController PrimaryController { get; private set; }
 
     private void Awake()
@@ -43,6 +47,10 @@ public class PlayerInput : MonoBehaviourPun
         IsLeftRay = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
         IsRightRay = OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger);
         IsRay = IsLeftRay || IsRightRay;
+
+        IsLeftGrab = OVRInput.Get(OVRInput.Button.PrimaryHandTrigger);
+        IsRightGrab = OVRInput.Get(OVRInput.Button.SecondaryHandTrigger);
+        IsGrab = IsLeftGrab || IsRightGrab;
         
         IsMove = OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
         IsInventoryOn = (OVRInput.Get(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
