@@ -10,7 +10,6 @@ public class Beer : InteracterableObject, IPunObservable
 
     public static UnityEvent OnDrinkBeer = new UnityEvent();
 
-
     [SerializeField] GameObject _fullBeer;
     private PlayerFocus _leftRay;
     private PlayerFocus _rightRay;
@@ -18,6 +17,7 @@ public class Beer : InteracterableObject, IPunObservable
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
     private BeerInteraction _beerInteraction;
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -50,8 +50,6 @@ public class Beer : InteracterableObject, IPunObservable
     }
     public override void Interact()
     {
-
-        
         //if(_grabbable.isGrabbed)
         //{
         //    if(!_leftRay.FocusedObject.CompareTag("Player") && !_rightRay.FocusedObject.CompareTag("Player"))

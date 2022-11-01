@@ -16,6 +16,8 @@ public class BeerInteraction : MonoBehaviourPun
     private PlayerControllerMove _playerContollerMove;
     private PlayerInput _playerInput;
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
+    private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
+    private YieldInstruction _stunTime = new WaitForSeconds(5f);
     private int _drinkStack = -1;
     private float _soberUpElapsedTime;
     private float _tremblingElapsedTime;
@@ -23,6 +25,7 @@ public class BeerInteraction : MonoBehaviourPun
     private bool _isTrembling;
     private float[] _tremblingSpeed;
     private Color _initUIColor = new Color(1f, 1f, 0.28f, 1f);
+    private float _animatedFadeAlpha;
     private void OnEnable()
     {
         Beer.OnDrinkBeer.RemoveListener(CallDrinkBeer);
@@ -74,7 +77,44 @@ public class BeerInteraction : MonoBehaviourPun
             DrinkBeer();
         }
     }
+    IEnumerator Fade(float startAlpha, float endAlpha)
+    {
+        float elapsedTime = 0.0f;
+        float fadeTime = 3f;
+        
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
 
+            _animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
+
+            _drunkenUI.color = new Color(0, 0, 0, _animatedFadeAlpha);
+
+            yield return _fadeTime;
+        }
+
+        _animatedFadeAlpha = endAlpha;
+
+        _playerInput.enabled = false;
+
+        yield return _stunTime;
+
+        _playerInput.enabled = true;
+
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            _animatedFadeAlpha = Mathf.Lerp(endAlpha, startAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
+
+            _drunkenUI.color = new Color(0, 0, 0, _animatedFadeAlpha);
+
+            yield return _fadeTime;
+        }
+
+        _animatedFadeAlpha = startAlpha;
+
+    }
     private void DrinkBeer()
     {
         IsCoolTime = true;
@@ -89,6 +129,7 @@ public class BeerInteraction : MonoBehaviourPun
 
         if(_drinkStack == 5)
         {
+            Fade(0, 1);
 
             _drinkStack = -1;
 
