@@ -55,10 +55,10 @@ public class TumbleweedMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _slider.rotation = Quaternion.Euler(0f, _slider.rotation.y, _slider.rotation.z);
 
         if(_isTherePlayer)
         {
+            _slider.rotation = Quaternion.Euler(0f, _slider.rotation.y, _slider.rotation.z);
             _slider.transform.LookAt(_player);
         }
     }

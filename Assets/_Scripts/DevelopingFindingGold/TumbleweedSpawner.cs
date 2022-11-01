@@ -5,6 +5,8 @@ using UnityEngine;
 public class TumbleweedSpawner : MonoBehaviour
 {
     [SerializeField] private float _tumbleweedSpawnOffsetTime = 5f;
+
+    [SerializeField] private float _spawnPositionOffset;
     [SerializeField] private Transform _spawnPosition;
     private float _elapsedTime = 0f;
 
@@ -14,11 +16,12 @@ public class TumbleweedSpawner : MonoBehaviour
 
     private void Awake()
     {
-        TumbleweedMovement[] _tumbleweeds = GetComponentsInChildren<TumbleweedMovement>();
-        foreach(TumbleweedMovement tumbleweed in _tumbleweeds)
+        Rigidbody[] _tumbleweeds = GetComponentsInChildren<Rigidbody>();
+        foreach(Rigidbody tumbleweed in _tumbleweeds)
         {
             tumbleweed.gameObject.SetActive(false);
             _tumbleweedStack.Push(tumbleweed.gameObject);
+            tumbleweed.GetComponent<TumbleweedMovement>().enabled = true;
         }
     }
 
@@ -27,6 +30,8 @@ public class TumbleweedSpawner : MonoBehaviour
         _elapsedTime += Time.fixedDeltaTime;
         if(_elapsedTime >= _tumbleweedSpawnOffsetTime)
         {
+            SetRandomSpawnPosition();
+
             GameObject tumbleweed = _tumbleweedStack.Pop();
             tumbleweed.transform.position = _spawnPosition.position;
             tumbleweed.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
@@ -34,6 +39,14 @@ public class TumbleweedSpawner : MonoBehaviour
 
             _elapsedTime -= _tumbleweedSpawnOffsetTime;
         }
+    }
+
+    private void SetRandomSpawnPosition()
+    {
+        float randomXOffset = Random.Range(-_spawnPositionOffset, _spawnPositionOffset);
+        float randomZOffset = Random.Range(-_spawnPositionOffset, _spawnPositionOffset);
+        _spawnPosition.position = new Vector3(transform.position.x + randomXOffset, 
+            _spawnPosition.position.y, transform.position.z + randomZOffset);
     }
 
     public void ReturnToTumbleweedStack(GameObject tumbleweed)
