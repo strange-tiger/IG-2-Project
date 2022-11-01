@@ -37,14 +37,17 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("SoundManager Awake");
         _lobbyRecoder = GetComponent<Recorder>();
+        _lobbyRecoder.TransmitEnabled = false;
 
         for (int i = 0; i < VOLUME_CONTROLLER.Length; i++)
         {
             InitValue(VOLUME_CONTROLLER[i]);
         }
         SoundManager.Instance.Refresh();
+
+        _bgmPlayer.volume = BGMVolume;
+        _bgmPlayer.Play();
     }
 
     private float _initVolume = 0.5f;
@@ -78,7 +81,7 @@ public class SoundManager : MonoBehaviour
             Debug.Log(name + " is not Contained audioClips");
             return;
         }
-        _sfxPlayer.PlayOneShot(_audioClips[name], volume * _sfxPlayer.volume);
+        _sfxPlayer.PlayOneShot(_audioClips[name], SFXVolume);
     }
 
     public void StopBGMSound()
