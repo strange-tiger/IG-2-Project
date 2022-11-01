@@ -71,7 +71,7 @@ public class AIAttack : AIState
             _changeStateAttackToDamage = true;
             
         }
-        if (Input.GetKeyDown(KeyCode.))
+        
         if (other.gameObject.tag == "AIMagic")
         {
             int _enemySkillDamage;
