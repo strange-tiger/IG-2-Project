@@ -9,6 +9,8 @@ public class WoodPile : InteracterableObject
 {
     [SerializeField] GameObject _wood;
     private static readonly YieldInstruction INTERACT_COOLTIME = new WaitForSeconds(5f);
+    private static readonly Vector3[] SPAWN_DIRECTION = new Vector3[4] { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
+    private const float SPAWN_WOOD_FORCE = 1.5f;
     private bool _onCooltime = false;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -36,7 +38,12 @@ public class WoodPile : InteracterableObject
 #if _Photon
         photonView.RPC("SpawnWood", RpcTarget.All);
 #else
-        Instantiate(_wood, new Vector3(0f, 2f, 0f), Quaternion.Euler(0f, 0f, 0f));
+        Vector3 spawnDirection = Vector3.up + SPAWN_DIRECTION[Random.Range(0, 4)];
+
+        GameObject wood = Instantiate(_wood, Vector3.zero, Quaternion.identity);
+
+        wood?.GetComponent<Rigidbody>().AddForce(SPAWN_WOOD_FORCE * spawnDirection, ForceMode.Impulse);
+
         StartCoroutine(CalculateCooltime());
 #endif
     }
@@ -44,7 +51,12 @@ public class WoodPile : InteracterableObject
     [PunRPC]
     private void SpawnWood()
     {
-        PhotonNetwork.Instantiate("Wood", transform.position, transform.rotation);
+        Vector3 spawnDirection = 2f * Vector3.up + SPAWN_DIRECTION[Random.Range(0, 4)];
+
+        GameObject wood = PhotonNetwork.Instantiate("Wood", transform.position, transform.rotation);
+
+        wood?.GetComponent<Rigidbody>().AddForce(SPAWN_WOOD_FORCE * spawnDirection, ForceMode.Impulse);
+
         StartCoroutine(CalculateCooltime());
     }
 
