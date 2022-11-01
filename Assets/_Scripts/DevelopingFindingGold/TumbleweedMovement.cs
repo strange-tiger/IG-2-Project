@@ -5,6 +5,8 @@ using EPOOutline;
 
 public class TumbleweedMovement : MonoBehaviour
 {
+    [SerializeField] private float _lifeTime = 20f;
+
     [SerializeField] private float _bounceForce = 2f;
     private Rigidbody _rigidbody;
 
@@ -15,17 +17,40 @@ public class TumbleweedMovement : MonoBehaviour
     private Transform _player;
     private bool _isTherePlayer;
 
+    private TumbleweedSpawner _spawner;
+
+    private readonly static Vector3 ZERO_VECTOR = Vector3.zero;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.AddForce(transform.forward * _bounceForce, ForceMode.Impulse);
 
         _outline = GetComponent<Outlinable>();
         _outline.AddAllChildRenderersToRenderingList();
         _outline.OutlineParameters.Color = _outlineColor;
-        _outline.enabled = false;
 
-        Destroy(gameObject, 20f);
+        _spawner = GetComponentInParent<TumbleweedSpawner>();
+    }
+
+    private void OnEnable()
+    {
+        ResetTumbleweed();
+    }
+
+    private void ResetTumbleweed()
+    {
+        _rigidbody.velocity = ZERO_VECTOR;
+        _rigidbody.AddForce(transform.forward * _bounceForce, ForceMode.Impulse);
+
+        _outline.enabled = false;
+        _slider.gameObject.SetActive(false);
+
+        Invoke("DisableSelf", _lifeTime);
+    }
+
+    private void DisableSelf()
+    {
+        gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -40,7 +65,7 @@ public class TumbleweedMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.CompareTag("Player"))
         {
             _outline.enabled = true;
             _player = other.transform;
@@ -56,5 +81,10 @@ public class TumbleweedMovement : MonoBehaviour
             _isTherePlayer = false;
             _slider.gameObject.SetActive(false);
         }
+    }
+
+    private void OnDisable()
+    {
+        _spawner.ReturnToTumbleweedStack(gameObject);
     }
 }
