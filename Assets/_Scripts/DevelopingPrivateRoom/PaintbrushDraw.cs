@@ -103,6 +103,7 @@ public class PaintbrushDraw : MonoBehaviourPun
     private LineRenderer GenerateLineRenderer(Vector3 startPos)
     {
         GameObject line = new GameObject("Line");
+        line.AddComponent<PhotonView>();
         LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
 
         line.transform.parent = _pad.transform;
@@ -120,11 +121,13 @@ public class PaintbrushDraw : MonoBehaviourPun
         return lineRenderer;
     }
 
+#if _Photon
     [PunRPC]
     private void ConnectLineOnClients()
     {
         StartCoroutine(ConnectLine());
     }
+#endif
 
     private IEnumerator ConnectLine()
     {

@@ -1,4 +1,4 @@
-//#define _Photon
+#define _Photon
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,13 +79,14 @@ public class PaintbrushReset : MonoBehaviourPun
 
         for (int i = transform.childCount - 1; i > _memoryChildCount; --i)
         {
-            Destroy(transform.GetChild(i));
+            PhotonNetwork.Destroy(transform.GetChild(i).gameObject);
         }
     }
 
     private LineRenderer GenerateLineRenderer()
     {
         GameObject line = new GameObject("Line");
+        line.AddComponent<PhotonView>();
         LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
 
         line.transform.parent = transform;
