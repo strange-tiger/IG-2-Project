@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class TumbleweedSpawner : MonoBehaviour
+public class TumbleweedSpawner : MonoBehaviourPun
 {
     [SerializeField] private float _tumbleweedSpawnOffsetTime = 5f;
 
@@ -16,28 +17,34 @@ public class TumbleweedSpawner : MonoBehaviour
 
     private void Awake()
     {
-        Rigidbody[] _tumbleweeds = GetComponentsInChildren<Rigidbody>();
-        foreach(Rigidbody tumbleweed in _tumbleweeds)
+        if(photonView.IsMine)
         {
-            tumbleweed.gameObject.SetActive(false);
-            _tumbleweedStack.Push(tumbleweed.gameObject);
-            tumbleweed.GetComponent<TumbleweedMovement>().enabled = true;
+            Rigidbody[] _tumbleweeds = GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody tumbleweed in _tumbleweeds)
+            {
+                tumbleweed.gameObject.SetActive(false);
+                _tumbleweedStack.Push(tumbleweed.gameObject);
+                tumbleweed.GetComponent<TumbleweedMovement>().enabled = true;
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        _elapsedTime += Time.fixedDeltaTime;
-        if(_elapsedTime >= _tumbleweedSpawnOffsetTime)
+        if(photonView.IsMine)
         {
-            SetRandomSpawnPosition();
+            _elapsedTime += Time.fixedDeltaTime;
+            if (_elapsedTime >= _tumbleweedSpawnOffsetTime)
+            {
+                SetRandomSpawnPosition();
 
-            GameObject tumbleweed = _tumbleweedStack.Pop();
-            tumbleweed.transform.position = _spawnPosition.position;
-            tumbleweed.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
-            tumbleweed.SetActive(true);
+                GameObject tumbleweed = _tumbleweedStack.Pop();
+                tumbleweed.transform.position = _spawnPosition.position;
+                tumbleweed.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
+                tumbleweed.SetActive(true);
 
-            _elapsedTime -= _tumbleweedSpawnOffsetTime;
+                _elapsedTime -= _tumbleweedSpawnOffsetTime;
+            }
         }
     }
 
@@ -51,6 +58,9 @@ public class TumbleweedSpawner : MonoBehaviour
 
     public void ReturnToTumbleweedStack(GameObject tumbleweed)
     {
-        _tumbleweedStack.Push(tumbleweed);
+        if(photonView.IsMine)
+        {
+            _tumbleweedStack.Push(tumbleweed);
+        }
     }
 }
