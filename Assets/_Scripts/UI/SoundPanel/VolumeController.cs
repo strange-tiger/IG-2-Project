@@ -56,14 +56,14 @@ public class VolumeController : MonoBehaviour
         string EffectVolume = VOLUME_CONTROLLER[(int)UINum.EffectVolume];
         PlayerPrefs.SetFloat(EffectVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
+        //
     }
     public void BackGroundValueChanged(Slider slider)
     {
         string BackGroundVolume = VOLUME_CONTROLLER[(int)UINum.BackGroundVolume];
         PlayerPrefs.SetFloat(BackGroundVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
-        //
-
+        // SoundManager의 update에서 확인중, 더 좋은 방법이 있다면 수정하는게 좋아보임
     }
     public void InputValueChanged(Slider slider)
     {
