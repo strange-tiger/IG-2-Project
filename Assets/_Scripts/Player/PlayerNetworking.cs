@@ -10,8 +10,15 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Vector3 _ovrCameraPosition = new Vector3(0f, 0.7f, 0.8f);
     [SerializeField] private GameObject _ovrCameraRigPrefab;
+
+    private const int HAND_COUNT = 2;
+    [SerializeField] private Transform[] _modelHandTransforms;
+    private Transform[] _ovrCameraHandTransforms = new Transform[2];
+    
     [SerializeField] private TextMeshProUGUI _nicknameText;
+    
     [SerializeField] private GameObject _requestAlarmImage;
+
     [SerializeField] private AudioSource _newPlayerAudioSource;
     private Recorder _recorder;
 
@@ -33,12 +40,10 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
 
             // 플레이어 모델 연결
-            GameObject modelGameObject = gameObject.GetComponentInChildren<Animator>().gameObject;
-            PlayerModelAnimation playerModelAniamtion = modelGameObject.GetComponent<PlayerModelAnimation>();
             // 손을 받아와 연결함
             PlayerFocus[] hands = cameraRig.GetComponentsInChildren<PlayerFocus>();
-            playerModelAniamtion.LeftHand = hands[0].transform.parent.GetChild(0);
-            playerModelAniamtion.RightHand = hands[1].transform.parent.GetChild(0);
+            _ovrCameraHandTransforms[0] = hands[0].transform.parent.GetChild(0);
+            _ovrCameraHandTransforms[1] = hands[1].transform.parent.GetChild(0);
 
             // 소셜 알림기능 연결
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
@@ -68,6 +73,20 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 
         }
         gameObject.AddComponent<UserInteraction>().RequestAlarmImage = _requestAlarmImage;
+    }
+
+    private void FixedUpdate()
+    {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
+        
+        for (int i = 0; i < HAND_COUNT; ++i)
+        {
+            _modelHandTransforms[i].position = _ovrCameraHandTransforms[i].position;
+            _modelHandTransforms[i].rotation = _ovrCameraHandTransforms[i].rotation;
+        }
     }
 
     [PunRPC]

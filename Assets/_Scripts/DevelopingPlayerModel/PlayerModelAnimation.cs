@@ -27,21 +27,15 @@ public class PlayerModelAnimation : MonoBehaviourPun
 
     private void Awake()
     {
-        if(photonView.IsMine)
-        {
-            _animator = GetComponent<Animator>();
-        }
+        _animator = GetComponent<Animator>();
     }
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if(photonView.IsMine)
-        {
-            _animator.SetIKPositionAndRotation(AvatarIKGoal.LeftHand, LeftHand);
-            _animator.SetIKRotation(AvatarIKGoal.LeftHand, LeftHand.rotation * Quaternion.Euler(0f, 0f, 90f));
+        _animator.SetIKPositionAndRotation(AvatarIKGoal.LeftHand, LeftHand);
+        _animator.SetIKRotation(AvatarIKGoal.LeftHand, LeftHand.rotation * Quaternion.Euler(0f, 0f, 90f));
 
-            _animator.SetIKPositionAndRotation(AvatarIKGoal.RightHand, RightHand);
-            _animator.SetIKRotation(AvatarIKGoal.RightHand, RightHand.rotation * Quaternion.Euler(0f, 0f, -90f));
-        }
+        _animator.SetIKPositionAndRotation(AvatarIKGoal.RightHand, RightHand);
+        _animator.SetIKRotation(AvatarIKGoal.RightHand, RightHand.rotation * Quaternion.Euler(0f, 0f, -90f));
     }
 }
