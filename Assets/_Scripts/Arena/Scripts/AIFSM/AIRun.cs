@@ -26,7 +26,6 @@ public class AIRun : AIState
     {
         if (_changeStateRunToAttack == true)
         {
-            Debug.Log("æÓ≈√¿∏∑Œ ∞©¥œ¥Ÿ");
             aiFSM.ChangeState(EAIState.Attack);
 
             _changeStateRunToAttack = false;
@@ -42,7 +41,6 @@ public class AIRun : AIState
     {
         if (other.gameObject.tag == "AIRange")
         {
-            Debug.Log("æÂ");
             // _myCollider.enabled = false;
             _changeStateRunToAttack = true;
         }

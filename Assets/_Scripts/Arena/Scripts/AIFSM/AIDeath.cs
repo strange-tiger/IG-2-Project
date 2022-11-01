@@ -35,10 +35,10 @@ public class AIDeath : AIState
             _deathTime += Time.deltaTime;
         }
 
-        if (_deathTime >= 3.5f)
+        if (_deathTime >= 1f)
         {
             _isDeath = false;
-            
+            _animator.SetBool(AIAnimatorID.isDeath, false);
             gameObject.SetActive(false);
             _deathTime -= _deathTime;
         }
