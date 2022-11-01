@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Asset.MySql;
 
 public class MakeCharacterManager : MonoBehaviour
 {
+    private PlayerCustomize _playerCustomize;
 
-    [SerializeField] private Button _maleSelectButton;
-    [SerializeField] private Button _femaleSelectButton;
-    [SerializeField] private Button _makeCharacterButton;
-
-    private int _isFemaleCharacter;
+    [SerializeField] Button _maleSelectButton;
+    [SerializeField] Button _femaleSelectButton;
+    [SerializeField] Button _makeCharacterButton;
+    [SerializeField] GameObject _femalePanel;
+    [SerializeField] GameObject _malePanel;
 
     void Start()
     {
+        _playerCustomize = GameObject.Find("CharacterModel").GetComponent<PlayerCustomize>();
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _maleSelectButton.onClick.AddListener(SelectMale);
 
@@ -29,17 +32,23 @@ public class MakeCharacterManager : MonoBehaviour
 
     private void SelectMale()
     {
-        _isFemaleCharacter = 0;
+        PlayerCustomize.IsFemale = 0;
+        _playerCustomize.AvatarInit();
+        _malePanel.SetActive(true);
+        _femalePanel.SetActive(false);
     }
     private void SelectFemale()
     {
-        _isFemaleCharacter = 1;
+        PlayerCustomize.IsFemale = 1;
+        _playerCustomize.AvatarInit();
+        _malePanel.SetActive(false);
+        _femalePanel.SetActive(true);
     }
 
 
     private void CreateCharacter()
     {
-        MySqlSetting.AddNewCharacter(name, $"{_isFemaleCharacter}");
+        MySqlSetting.AddNewCharacter(name, $"{PlayerCustomize.IsFemale}");
     }
 
     private void OnDisable()
