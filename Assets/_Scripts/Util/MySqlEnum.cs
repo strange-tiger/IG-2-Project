@@ -15,6 +15,7 @@ namespace Asset {
 		Nickname,
 		Question,
 		Answer,
+		HaveCharacter,
 		Max,
 	}
 	public enum EbettingdbColumns {

@@ -143,6 +143,9 @@ public class PlayerControllerMove : MonoBehaviourPun
     private bool _playerControllerEnabled = false;
     private bool _isControllerRight;
 
+    // 플레이어 애니메이션
+    private Animator _animator;
+
     private void Start()
     {
         // Add eye-depth as a camera offset from the player controller
@@ -157,9 +160,6 @@ public class PlayerControllerMove : MonoBehaviourPun
 
     private void Awake()
     {
-        // 이거 이렇게 써도 괜찮은가 모르겠슴다 ㅎㅎ
-        //_controllerScrollButton = GameObject.Find("ChangeController").GetComponent<ControllerScrollButton>();
-
         _controller = gameObject.GetComponent<CharacterController>();
 
         if (_controller == null)
@@ -177,6 +177,8 @@ public class PlayerControllerMove : MonoBehaviourPun
             _cameraRig = CameraRigs[0];
 
         InitialYRotation = transform.rotation.eulerAngles.y;
+
+        _animator = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -260,7 +262,14 @@ public class PlayerControllerMove : MonoBehaviourPun
             CameraUpdated();
         }
 
-        UpdateMovement();
+        if(PlayerControlManager.Instance.IsMoveable && !MenuUIManager.Instance.IsUIOn)
+        {
+            UpdateMovement();
+        }
+        else
+        {
+            _animator.SetBool(AniamtionHash.IsWalking, false);
+        }
 
         Vector3 moveDirection = Vector3.zero;
 
@@ -336,7 +345,9 @@ public class PlayerControllerMove : MonoBehaviourPun
 
             if ((moveForward && moveLeft) || (moveForward && moveRight) ||
                 (moveBack && moveLeft) || (moveBack && moveRight))
+            {
                 MoveScale = 0.70710678f;
+            }
 
             // No positional movement if we are in the air
             if (!_controller.isGrounded)
@@ -389,6 +400,8 @@ public class PlayerControllerMove : MonoBehaviourPun
                     primaryAxis.y = Mathf.Round(primaryAxis.y * _fixedSpeedSteps) / _fixedSpeedSteps;
                     primaryAxis.x = Mathf.Round(primaryAxis.x * _fixedSpeedSteps) / _fixedSpeedSteps;
                 }
+
+                _animator.SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
 
                 if (primaryAxis.y > 0.0f)
                     _moveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);

@@ -13,7 +13,7 @@ public class PlayerUIManger : MonoBehaviour
 
     private void Update()
     {
-        if(_input.InputStart)
+        if(_input.IsInventoryOn)
         {
             MenuUIManager.Instance.ShowInventory();
         }
