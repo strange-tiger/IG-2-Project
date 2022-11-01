@@ -1,0 +1,94 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Asset.MySql;
+using System;
+
+public class PlayerCustomize : MonoBehaviour
+{
+    public static int IsFemale = 0;
+
+    [SerializeField] UserCustomizeData _femaleData;
+    [SerializeField] UserCustomizeData _maleData;
+    [SerializeField] UserCustomizeData _userData;
+    private int _equipNum;
+    private SkinnedMeshRenderer _skinnedMeshRenderer;
+    void Start()
+    {
+        _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+
+        AvatarInit();
+
+        //if(bool.Parse(MySqlSetting.GetValueByBase(Asset.EaccountdbColumns.Nickname,name,Asset.EaccountdbColumns.HaveCharacter)))
+        //{
+        //    AvatarSetting();
+        //}
+        //else
+        //{
+
+        //    AvatarInit();
+        //}
+    }
+
+
+    public void AvatarInit()
+    {
+
+        if(IsFemale == 0)
+        {
+            _userData = _maleData;
+           
+        }
+        else
+        {
+            _userData = _femaleData;
+            
+        }
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[0];
+
+    }
+
+    private void AvatarSetting()
+    {
+        
+        bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.Gender));
+
+        // 성별에 맞는 데이터를 불러옴
+        if (_isFemale)
+        {
+            _userData = _femaleData;
+        }
+        else
+        {
+            _userData = _maleData;
+        }
+
+        // DB에 저장되어 있던 아바타 데이터를 불러옴
+        string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.AvatarData).Split(',');
+
+        // 불러온 데이터를 스크립터블 오브젝트에 넣어줌
+        for (int i = 0; i < avatarData.Length - 1; ++i)
+        {
+            _userData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
+        }
+        // DB에 저장되어 있던 아바타의 Material을 불러옴
+        _userData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.AvatarColor));
+
+        // 아바타의 정보를 돌면서 장착중이던 아바타를 찾아냄.
+        for (int i = 0; i < _userData.AvatarState.Length - 1; ++i)
+        {
+            if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
+            {
+                _equipNum = i;
+                break;
+            }
+        }
+
+        // 장착중이던 아이템과 Material을 적용시킴.
+        float _setMaterialNum = _userData.UserMaterial[0];
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_equipNum];
+    }
+    
+
+
+}
