@@ -9,7 +9,6 @@ public class AIIdle : AIState
 
     [Header("내 인식범위 콜라이더를 넣어주세요")]
     [SerializeField] private Collider _myCollider;
-    
 
     private float _curTime;
     private bool _isRunTime;

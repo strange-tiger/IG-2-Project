@@ -33,9 +33,9 @@ public class GroupManager : MonoBehaviour
     void Start()
     {
         // 준결승 1 위치 셋팅
-        _member[0].transform.position = new Vector3(-_setPosition, -1.5f, 0);
+        _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
         _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
-        _member[1].transform.position = new Vector3(_setPosition, -1.5f, 0);
+        _member[1].transform.position = new Vector3(_setPosition, -2f, 0);
         _member[1].transform.rotation = Quaternion.Euler(0, -90, 0);
 
         for (int i = 0; i < 2; i++)
@@ -66,7 +66,7 @@ public class GroupManager : MonoBehaviour
                 {
                     _firstWinnerIndex = 0;
                     _finalBattle[0] = _member[0];
-                    _member[0].transform.position = new Vector3(-_setPosition, -1.5f, 0);
+                    _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
                     _member[0].SetActive(false);
                 }
 
@@ -74,7 +74,7 @@ public class GroupManager : MonoBehaviour
                 {
                     _firstWinnerIndex = 1;
                     _finalBattle[0] = _member[1];
-                    _member[1].transform.position = new Vector3(-_setPosition, -1.5f, 0);
+                    _member[1].transform.position = new Vector3(-_setPosition, -2f, 0);
                     _member[1].SetActive(false);
                 }
 
@@ -95,7 +95,7 @@ public class GroupManager : MonoBehaviour
                 {
                     _secondWinnerIndex = 2;
                     _finalBattle[1] = _member[2];
-                    _member[2].transform.position = new Vector3(_setPosition, -1.5f, 0);
+                    _member[2].transform.position = new Vector3(_setPosition, -2f, 0);
                     _member[2].SetActive(false);
                 }
 
@@ -103,7 +103,7 @@ public class GroupManager : MonoBehaviour
                 {
                     _secondWinnerIndex = 3;
                     _finalBattle[1] = _member[3];
-                    _member[3].transform.position = new Vector3(_setPosition, -1.5f, 0);
+                    _member[3].transform.position = new Vector3(_setPosition, -2f, 0);
                     _member[3].SetActive(false);
                 }
 

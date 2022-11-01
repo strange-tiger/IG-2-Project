@@ -26,8 +26,7 @@ public class AIRun : AIState
     {
         if (_changeStateRunToAttack == true)
         {
-
-
+            Debug.Log("æÓ≈√¿∏∑Œ ∞©¥œ¥Ÿ");
             aiFSM.ChangeState(EAIState.Attack);
 
             _changeStateRunToAttack = false;
@@ -41,41 +40,11 @@ public class AIRun : AIState
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "HighClassKnight")
+        if (other.gameObject.tag == "AIRange")
         {
-            _myCollider.enabled = false;
+            Debug.Log("æÂ");
+            // _myCollider.enabled = false;
             _changeStateRunToAttack = true;
         }
-
-        else if (other.gameObject.tag == "HighClassAdventurer")
-        {
-            _myCollider.enabled = false;
-            _changeStateRunToAttack = true;
-        }
-
-        else if (other.gameObject.tag == "FireWizard")
-        {
-            _myCollider.enabled = false;
-            _changeStateRunToAttack = true;
-        }
-
-        else if (other.gameObject.tag == "IceWizard")
-        {
-            _myCollider.enabled = false;
-            _changeStateRunToAttack = true;
-        }
-
-        else if (other.gameObject.tag == "Rock_Golem")
-        {
-            _myCollider.enabled = false;
-            _changeStateRunToAttack = true;
-        }
-
-        else if (other.gameObject.tag == "Serpent_Warrior")
-        {
-            _myCollider.enabled = false;
-            _changeStateRunToAttack = true;
-        }
-
     }
 }
