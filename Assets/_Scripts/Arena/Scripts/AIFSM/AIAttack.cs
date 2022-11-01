@@ -69,8 +69,9 @@ public class AIAttack : AIState
             EnemyDamage.Invoke(_enemyDamage);
 
             _changeStateAttackToDamage = true;
+            
         }
-
+        if (Input.GetKeyDown(KeyCode.))
         if (other.gameObject.tag == "AIMagic")
         {
             int _enemySkillDamage;
@@ -78,6 +79,7 @@ public class AIAttack : AIState
             EnemyDamage.Invoke(_enemySkillDamage);
 
             _changeStateAttackToDamage = true;
+            
         }
     }
 }

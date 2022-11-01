@@ -11,35 +11,43 @@ public class AISword : MonoBehaviour
 
     public void OnHitBox()
     {
-        for (int i = 0; i < _swordHitBox.Length; ++i)
-        {
-            _swordHitBox[i].enabled = true;
-        }
-
         if (_attackEffect != null)
         {
             _attackEffect.SetActive(true);
+
+            for (int i = 0; i < _swordHitBox.Length; ++i)
+            {
+                _swordHitBox[i].enabled = true;
+            }
         }
+
         else
         {
-            return;
+            for (int i = 0; i < _swordHitBox.Length; ++i)
+            {
+                _swordHitBox[i].enabled = true;
+            }
         }
     }
 
     public void OffHitBox()
     {
-        for (int i = 0; i < _swordHitBox.Length; ++i)
-        {
-            _swordHitBox[i].enabled = false;
-        }
-
         if (_attackEffect != null)
         {
             _attackEffect.SetActive(false);
+
+            for (int i = 0; i < _swordHitBox.Length; ++i)
+            {
+                _swordHitBox[i].enabled = false;
+            }
         }
+
         else
         {
-            return;
+            for (int i = 0; i < _swordHitBox.Length; ++i)
+            {
+                _swordHitBox[i].enabled = false;
+            }
         }
     }
 }
