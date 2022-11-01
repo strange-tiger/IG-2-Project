@@ -14,6 +14,7 @@ public class VolumeController : MonoBehaviour
     [SerializeField]
     private Slider[] _slider;
 
+
     private Dictionary<string, Slider> _sliderDict = new Dictionary<string, Slider>();
     public Dictionary<string, Slider> SliderDict { get { return _sliderDict; } }
     private Dictionary<Slider, TextMeshProUGUI> _textDict = new Dictionary<Slider, TextMeshProUGUI>();
@@ -22,8 +23,7 @@ public class VolumeController : MonoBehaviour
     public readonly static string[] VOLUME_CONTROLLER = 
         { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
-
-    private void Start()
+    private void OnEnable()
     {
         for (int i = 0; i < (int)UINum.MaxCount; i++)
         {
@@ -49,7 +49,7 @@ public class VolumeController : MonoBehaviour
         PlayerPrefs.SetFloat(MasterVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
         //오디오 리스너 볼륨 값 변화
-        AudioListener.volume = (float)Math.Truncate(slider.value * 100) * 0.01f;
+        AudioListener.volume = slider.value;
     }
     public void EffectValueChanged(Slider slider)
     {
@@ -71,7 +71,7 @@ public class VolumeController : MonoBehaviour
         PlayerPrefs.SetFloat(InputVolume, slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
         // player voice
-        PlayerAudioSource.volume = (float)Math.Truncate(slider.value * 100) * 0.01f;
+        PlayerAudioSource.volume = slider.value;
     }
     public void OutputValueChanged(Slider slider)
     {
