@@ -1,3 +1,4 @@
+using Photon.Voice.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,9 +22,6 @@ public class SoundManager : MonoBehaviour
     private AudioSource _sfxPlayer;
     [SerializeField]
     private AudioSource _bgmPlayer;
-
-    [SerializeField]
-    private AudioClip _bgmClip;
     [SerializeField]
     private AudioClip[] _sfxClip;
 
@@ -33,7 +31,25 @@ public class SoundManager : MonoBehaviour
     public float BGMVolume { get { return _bgmVolume; } set { _bgmVolume = value; } }
 
     private Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
+    private Recorder _lobbyRecoder;
+    public Recorder LobbyRecorder { get { return _lobbyRecoder; } }
 
+    private void Awake()
+    {
+        _lobbyRecoder = GetComponent<Recorder>();
+    }
+
+    private void OnEnable()
+    {
+        PlayBGMSound(PlayerPrefs.GetFloat
+            (VolumeController.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]));
+    }
+
+    private void Update()
+    {
+        _bgmPlayer.volume = PlayerPrefs.GetFloat
+            (VolumeController.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]);
+    }
 
     public void PlaySFXSound(string name, float volume = 1f)
     {
@@ -47,9 +63,7 @@ public class SoundManager : MonoBehaviour
     public void PlayBGMSound(float volume = 1f)
     {
         _bgmPlayer.loop = true;
-        _bgmPlayer.volume = volume * BGMVolume;
-
-        _bgmPlayer.clip = _bgmClip;
+        _bgmPlayer.volume = volume;
         _bgmPlayer.Play();
     }
 
