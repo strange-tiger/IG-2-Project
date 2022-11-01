@@ -100,11 +100,13 @@ public class BeerInteraction : MonoBehaviourPun
 
         _animatedFadeAlpha = endAlpha;
 
-        _playerInput.enabled = false;
+        PlayerControlManager.Instance.IsMoveable = false;
+        PlayerControlManager.Instance.IsRayable = false;
 
         yield return _stunTime;
 
-        _playerInput.enabled = true;
+        PlayerControlManager.Instance.IsMoveable = true;
+        PlayerControlManager.Instance.IsRayable = true;
 
         elapsedTime = 0.0f;
 
