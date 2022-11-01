@@ -3,16 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using Asset.MySql;
 using System;
+using Photon.Pun;
 
-public class PlayerCustomize : MonoBehaviour
+public class PlayerCustomize : MonoBehaviourPun,IPunObservable
 {
     public static int IsFemale = 0;
 
     [SerializeField] UserCustomizeData _femaleData;
     [SerializeField] UserCustomizeData _maleData;
     [SerializeField] UserCustomizeData _userData;
-    private int _equipNum;
+    private int _setAvatarNum;
+    private float _setMaterialNum;
     private SkinnedMeshRenderer _skinnedMeshRenderer;
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(IsFemale);
+            stream.SendNext(_setAvatarNum);
+        }
+        else if(stream.IsReading)
+        {
+            IsFemale = (int)stream.ReceiveNext();
+            _setAvatarNum = (int)stream.ReceiveNext();
+        }
+    }
     void Start()
     {
         _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
@@ -79,14 +94,14 @@ public class PlayerCustomize : MonoBehaviour
         {
             if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
             {
-                _equipNum = i;
+                _setAvatarNum = i;
                 break;
             }
         }
 
         // 장착중이던 아이템과 Material을 적용시킴.
-        float _setMaterialNum = _userData.UserMaterial[0];
-        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_equipNum];
+        _setMaterialNum = _userData.UserMaterial[0];
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
     }
     
 
