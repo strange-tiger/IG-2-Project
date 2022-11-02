@@ -80,7 +80,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Interact()
     {
-        if(!_input.InputA)
+        if(!_input.InputADown)
         {
             return;
         }

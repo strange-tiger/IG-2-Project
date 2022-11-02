@@ -9,6 +9,8 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
     private bool _isGrabbing;
     public float GrabbingTime { get; private set; }
 
+    [SerializeField] private OVRGrabber[] _grabbers;
+
     private PlayerInput _input;
 
     private void Awake()
@@ -18,23 +20,21 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(IsNearTumbleweed)
-        {
-            _isGrabbing = _input.PrimaryController == Defines.EPrimaryController.Left ?
-                    _input.IsLeftGrab : _input.IsRightGrab;
-
-            if (_isGrabbing)
-            {
-                GrabbingTime += Time.fixedDeltaTime;
-            }
-            else
-            {
-                GrabbingTime = 0f;
-            }
-        }
-        else
+        if(!IsNearTumbleweed || !_input.InputA)
         {
             GrabbingTime = 0f;
+            return;
         }
+
+        foreach(OVRGrabber grabber in _grabbers)
+        {
+            if(grabber.grabbedObject)
+            {
+                GrabbingTime = 0f;
+                return;
+            }
+        }
+
+        GrabbingTime += Time.fixedDeltaTime;
     }
 }

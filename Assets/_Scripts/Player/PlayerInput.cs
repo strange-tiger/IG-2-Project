@@ -17,6 +17,7 @@ public class PlayerInput : MonoBehaviourPun
     public float InputX { get; private set; }
     public float InputZ { get; private set; }
 
+    public bool InputADown { get; private set; }
     public bool InputA { get; private set; }
 
     public bool IsRay { get; private set; }
@@ -42,7 +43,8 @@ public class PlayerInput : MonoBehaviourPun
         InputX = Input.GetAxis("Horizontal");
         InputZ = Input.GetAxis("Vertical");
 
-        InputA = OVRInput.GetDown(OVRInput.Button.One);
+        InputADown = OVRInput.GetDown(OVRInput.Button.One);
+        InputA = OVRInput.Get(OVRInput.Button.One);
     
         IsLeftRay = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
         IsRightRay = OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger);

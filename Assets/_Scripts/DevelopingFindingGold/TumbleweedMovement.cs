@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EPOOutline;
+using UnityEngine.UI;
 
 public class TumbleweedMovement : MonoBehaviour
 {
     [SerializeField] private float _lifeTime = 20f;
+    [SerializeField] private float _getGoldTime = 3f;
 
     [SerializeField] private float _bounceForce = 2f;
     private Rigidbody _rigidbody;
@@ -13,8 +15,9 @@ public class TumbleweedMovement : MonoBehaviour
     [SerializeField] private Color _outlineColor = new Color(1f, 0.9f, 0.01f);
     private Outlinable _outline;
 
-    [SerializeField] private Transform _slider;
-    private Transform _playerTransfrom;
+    [SerializeField] private Transform _sliderTransform;
+    [SerializeField] private Slider _slider;
+    private Transform _playerTransform;
     private PlayerTumbleweedInteraction _playerInteraction;
     private bool _isTherePlayer;
 
@@ -44,7 +47,7 @@ public class TumbleweedMovement : MonoBehaviour
         _rigidbody.AddForce(transform.forward * _bounceForce, ForceMode.Impulse);
 
         _outline.enabled = false;
-        _slider.gameObject.SetActive(false);
+        _sliderTransform.gameObject.SetActive(false);
 
         Invoke("DisableSelf", _lifeTime);
     }
@@ -58,8 +61,8 @@ public class TumbleweedMovement : MonoBehaviour
     {
         if(_isTherePlayer)
         {
-            _slider.rotation = Quaternion.Euler(0f, _slider.rotation.y, _slider.rotation.z);
-            _slider.transform.LookAt(_playerTransfrom);
+            _sliderTransform.rotation = Quaternion.Euler(0f, _sliderTransform.rotation.y, _sliderTransform.rotation.z);
+            _sliderTransform.transform.LookAt(_playerTransform);
         }
     }
 
@@ -70,12 +73,13 @@ public class TumbleweedMovement : MonoBehaviour
             return;
         }
 
-        PlayerTumbleweedInteraction playerInteraction = other.gameObject.GetComponent<PlayerTumbleweedInteraction>();
-        if (_playerInteraction)
+        PlayerTumbleweedInteraction playerInteraction = other.transform.root.GetComponentInChildren<PlayerTumbleweedInteraction>();
+        if (playerInteraction)
         {
             _outline.enabled = true;
-            _playerTransfrom = other.transform;
+            _playerTransform = other.transform.root;
             _playerInteraction = playerInteraction;
+            _playerInteraction.IsNearTumbleweed = true;
             _isTherePlayer = true;
         }
     }
@@ -87,18 +91,38 @@ public class TumbleweedMovement : MonoBehaviour
             return;
         }
 
-        if(_playerTransfrom.gameObject != other.gameObject)
+        if(_isTherePlayer && _playerTransform.gameObject != other.transform.root)
         {
             return;
         }
 
         _outline.enabled = false;
         _isTherePlayer = false;
-        _slider.gameObject.SetActive(false);
+        _playerInteraction.IsNearTumbleweed = false;
+        _sliderTransform.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(!_isTherePlayer || _playerInteraction.GrabbingTime <= 0f)
+        {
+            _sliderTransform.gameObject.SetActive(false);
+            _slider.value = 0f;
+            return;
+        }
+
+        _sliderTransform.gameObject.SetActive(true);
+        _slider.value = _playerInteraction.GrabbingTime / _getGoldTime;
+        
+        if(_slider.value >= 1f)
+        {
+            Debug.Log("±Ý È¹µæ");
+            DisableSelf();
+        }
     }
 
     private void OnDisable()
     {
-        _spawner.ReturnToTumbleweedStack(gameObject);
+        //_spawner.ReturnToTumbleweedStack(gameObject);
     }
 }
