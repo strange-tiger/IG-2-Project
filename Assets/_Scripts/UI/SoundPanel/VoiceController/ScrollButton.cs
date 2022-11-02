@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Voice;
-using Photon.Voice.Unity;
 
 public class ScrollButton : MonoBehaviour
 {
-    public Recorder PhotonVoice { get; set; }
     private VoiceScrollUI _voiceScrollUI;
 
     private Dictionary<Defines.EVoiceType, VoiceTypeDelegate> _voiceTable =
@@ -33,47 +30,60 @@ public class ScrollButton : MonoBehaviour
 
         _voiceTable.Add(Defines.EVoiceType.None, VoiceTypeNone);
         _voiceTable.Add(Defines.EVoiceType.Always, VoiceTypeAlways);
-        _voiceTable.Add(Defines.EVoiceType.PushToTalk, VoiceTypePushToTalk);
+        _voiceTable.Add(Defines.EVoiceType.PushToTalk, null);
 
         Type = Defines.EVoiceType.None;
-        _voiceTable[Type].Invoke();
+        VoiceTypeNone();
     }
 
     public void OnClickLeftButton()
     {
-        if (Type - 1 < Defines.EVoiceType.None)
+        if (Type == Defines.EVoiceType.None)
         {
-            Type = Defines.EVoiceType.MaxCount;
-            //return;
+            return;
         }
         --Type;
-        _voiceTable[Type].Invoke();
+        _voiceTable[Type]?.Invoke();
     }
     public void OnClickRightButton()
     {
-        if (Type + 1 >= Defines.EVoiceType.MaxCount)
+        if (Type == Defines.EVoiceType.MaxCount - 1)
         {
-            Type = (Defines.EVoiceType)(-1);
-            //return;
+            return;
         }
+        SoundManager.Instance.LobbyRecorder.TransmitEnabled = false;
         ++Type;
-        _voiceTable[Type].Invoke();
+        _voiceTable[Type]?.Invoke();
     }
-
 
     private void VoiceTypeNone()
     {
-        PhotonVoice.TransmitEnabled = false;
+        SoundManager.Instance.LobbyRecorder.TransmitEnabled = false;
     }
     private void VoiceTypeAlways()
     {
-        PhotonVoice.TransmitEnabled = true;
+        SoundManager.Instance.LobbyRecorder.TransmitEnabled = true;
     }
-    private void VoiceTypePushToTalk()
+
+    //cameraRig가 살아있을때 돌아감
+    private void CheckPushToTalkInput()
     {
-        if (OVRInput.Get(OVRInput.Button.PrimaryHandTrigger))
+        if (Type != Defines.EVoiceType.PushToTalk)
         {
-             PhotonVoice.TransmitEnabled = true;
+            return;
         }
+
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger))
+        {
+            SoundManager.Instance.LobbyRecorder.TransmitEnabled = true;
+        }
+        else if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger))
+        {
+            SoundManager.Instance.LobbyRecorder.TransmitEnabled = false;
+        }
+    }
+    private void Update()
+    {
+        CheckPushToTalkInput();
     }
 }
