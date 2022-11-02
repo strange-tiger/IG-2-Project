@@ -94,6 +94,8 @@ public class CustomizeMenu : MonoBehaviour
         // 장착중이던 아이템과 Material을 적용시킴.
         _setMaterialNum = _userCustomizeData.UserMaterial[0];
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+        _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+
     }
 
 

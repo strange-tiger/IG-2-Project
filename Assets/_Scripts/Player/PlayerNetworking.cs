@@ -43,6 +43,11 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             _ovrCameraHandTransforms[0] = hands[0].transform.parent.GetChild(0);
             _ovrCameraHandTransforms[1] = hands[1].transform.parent.GetChild(0);
 
+            //OVRGrabber[] grabber = cameraRig.GetComponentsInChildren<OVRGrabber>();
+            //grabber[0].ParentTransform = _modelHandTransforms[0];
+            //grabber[1].ParentTransform = _modelHandTransforms[1];
+
+
             // 소셜 알림기능 연결
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
             socialTabManager.RequestAlarmImage = _requestAlarmImage;
