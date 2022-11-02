@@ -17,6 +17,7 @@ public class AIDamage : AIState
     private Animator _animator;
 
     private int _damage;
+    private int _skillDamage;
 
     private float _damageTime;
     private bool _isdamage;
@@ -31,7 +32,11 @@ public class AIDamage : AIState
         _animator = GetComponent<Animator>();
 
         _hp = _setHp;
+        _enemyDamage.EnemyDamage.RemoveListener(Hit);
         _enemyDamage.EnemyDamage.AddListener(Hit);
+
+        _enemyDamage.EnemySkillDamage.RemoveListener(SkillHit);
+        _enemyDamage.EnemySkillDamage.AddListener(SkillHit);
     }
 
     public override void OnEnter()
@@ -39,10 +44,17 @@ public class AIDamage : AIState
         _animator.SetBool(AIAnimatorID.isDamage, true);
 
         _hp -= _damage;
+        _hp -= _skillDamage;
 
         _damageTime -= _damageTime;
 
         _isdamage = true;
+
+
+        Debug.Log($"Me : {gameObject.name}, Damage : {_damage}, SkillDamage : {_skillDamage}");
+        
+        _damage = 0;
+        _skillDamage = 0;
     }
 
     public override void OnUpdate()
@@ -59,12 +71,11 @@ public class AIDamage : AIState
             _animator.SetBool(AIAnimatorID.isDamage, false);
             aiFSM.ChangeState(EAIState.Attack);
         }
-        //if (_hp <= 0)
-        //{
-        //    aiFSM.ChangeState(EAIState.Death);
-        //}
-
-
+        if (_hp <= 0)
+        {
+            Debug.Log($"{gameObject.name} : 이제 죽습니다.");
+            aiFSM.ChangeState(EAIState.Death);
+        }
     }
 
     public override void OnExit()
@@ -75,10 +86,16 @@ public class AIDamage : AIState
     private void OnDisable()
     {
         _enemyDamage.EnemyDamage.RemoveListener(Hit);
+        _enemyDamage.EnemySkillDamage.RemoveListener(SkillHit);
     }
 
     private void Hit(int damage)
     {
         _damage = damage;
+    }
+
+    private void SkillHit(int skillDamage)
+    {
+        _skillDamage = skillDamage;
     }
 }

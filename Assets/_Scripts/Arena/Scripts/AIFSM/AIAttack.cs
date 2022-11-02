@@ -12,7 +12,7 @@ public class AIAttack : AIState
     [SerializeField] int _skillCoolTime;
 
     public UnityEvent<int> EnemyDamage;
-
+    public UnityEvent<int> EnemySkillDamage;
 
     private Animator _animator;
 
@@ -21,10 +21,17 @@ public class AIAttack : AIState
     private bool _isAnd;
     private float _curTime;
 
+    private int _myDamage;
+    private int _enemyDamage;
+
+    private int _mySkillDamage;
+    private int _enemySkillDamage;
+
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
         EnemyDamage = new UnityEvent<int>();
+        EnemySkillDamage = new UnityEvent<int>();
     }
 
     public override void OnEnter()
@@ -76,82 +83,38 @@ public class AIAttack : AIState
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "AIRange")
+        {
+            int _enemyHp;
+            _enemyHp = other.gameObject.GetComponentInParent<AIDamage>().Hp;
+
+            Debug.Log($"_enemyHp : {_enemyHp}, Me : {gameObject.name}");
+
+            if (_enemyHp <= 0)
+            {
+                _animator.SetBool(AIAnimatorID.isAttack, false);
+                _animator.SetBool(AIAnimatorID.isIdle, true);
+                _isAnd = true;
+
+                Debug.Log($"{gameObject.name} : ½Â¸®!");
+            }
+        }
+    }
+
     private void AttackProcess(Collider other)
     {
-        int _enemyDamage;
         _enemyDamage = other.gameObject.GetComponentInParent<AIInfo>().Damage;
         EnemyDamage.Invoke(_enemyDamage);
-
-        int _myHp;
-        _myHp = GetComponent<AIDamage>().Hp;
-        //Debug.Log($"³ª : {gameObject.name} Àû : {other.gameObject.name} ³» Hp : {_myHp}");
-
-        int _myDamage;
-        _myDamage = GetComponent<AIInfo>().Damage;
-
-        int _enemyHp;
-        _enemyHp = other.gameObject.GetComponentInParent<AIDamage>().Hp;
-
-        if (_myHp <= _enemyDamage)
-        {
-            aiFSM.ChangeState(EAIState.Death);
-
-            Destroy(_characterController);
-            
-            // gameObject.SetActive(false);
-
-            Debug.Log($"{gameObject.name} : ÀüÀÌÁ¦ Á×½À´Ï´Ù");
-        }
-
-        if (_enemyHp <= _myDamage)
-        {
-            _animator.SetBool(AIAnimatorID.isAttack, false);
-            _animator.SetBool(AIAnimatorID.isIdle, true);
-            _isAnd = true;
-            // aiFSM.ChangeState(EAIState.IDLE);
-
-            Debug.Log($"{gameObject.name} : ½Â¸®!");
-        }
 
         _changeStateAttackToDamage = true;
     }
 
     private void SkillProcess(Collider other)
     {
-        int _enemyDamage;
-        _enemyDamage = other.gameObject.GetComponentInParent<AIInfo>().SkillDamage;
-        EnemyDamage.Invoke(_enemyDamage);
-
-        int _myHp;
-        _myHp = GetComponent<AIDamage>().Hp;
-        //Debug.Log($"³ª : {gameObject.name} Àû : {other.gameObject.name} ³» Hp : {_myHp}");
-
-        int _myDamage;
-        _myDamage = GetComponent<AIInfo>().SkillDamage;
-
-        int _enemyHp;
-        _enemyHp = other.gameObject.GetComponentInParent<AIDamage>().Hp;
-
-        if (_myHp <= _enemyDamage)
-        {
-            aiFSM.ChangeState(EAIState.Death);
-
-            Destroy(_characterController);
-
-            // gameObject.SetActive(false);
-
-            Debug.Log($"{gameObject.name} : ÀüÀÌÁ¦ Á×½À´Ï´Ù");
-        }
-
-        if (_enemyHp <= _myDamage)
-        {
-            _animator.SetBool(AIAnimatorID.isAttack, false);
-            _animator.SetBool(AIAnimatorID.isIdle, true);
-            _isAnd = true;
-            // aiFSM.ChangeState(EAIState.IDLE);
-
-            Debug.Log($"{gameObject.name} : ½Â¸®!");
-        }
+        _enemySkillDamage = other.gameObject.GetComponentInParent<AIInfo>().SkillDamage;
+        EnemySkillDamage.Invoke(_enemySkillDamage);
 
         _changeStateAttackToDamage = true;
     }
