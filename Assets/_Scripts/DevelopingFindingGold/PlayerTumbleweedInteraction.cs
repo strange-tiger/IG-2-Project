@@ -46,5 +46,6 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
     public void GetGold(int gold)
     {
         Debug.Log("Gold ¹ÞÀ½ " + gold);
+        IsNearTumbleweed = false;
     }
 }

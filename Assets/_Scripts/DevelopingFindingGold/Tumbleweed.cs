@@ -57,6 +57,7 @@ public class Tumbleweed : MonoBehaviour
 
     private void Awake()
     {
+        // 자주 사용하는 WaitForSeconds 생성
         _waitForLifeTime = new WaitForSeconds(_lifeTime);
 
         _rigidbody = GetComponent<Rigidbody>();
@@ -71,6 +72,7 @@ public class Tumbleweed : MonoBehaviour
 
         _meshRenderer = GetComponent<MeshRenderer>();
 
+        // 확률 계산을 위한 총 확률 구하기
         _maxGoldCoinRate = 0f;
         foreach(float rate in _goldCoinRate)
         {
@@ -84,23 +86,30 @@ public class Tumbleweed : MonoBehaviour
         ResetTumbleweed();
     }
 
+    // 회전초 초기화
     private void ResetTumbleweed()
     {
+        // 물리 초기화 후 다시 던지기
         _rigidbody.velocity = ZERO_VECTOR;
         _rigidbody.AddForce(transform.forward * _bounceForce, ForceMode.Impulse);
 
         _outline.enabled = false;
+        
         _meshRenderer.enabled = true;
+
+        // UI 초기화
         _slider.gameObject.SetActive(false);
         _slider.value = 0f;
         _getGoldPanel.SetActive(false);
 
+        // 조건 초기화
         _isTherePlayer = false;
         _isGetCoin = false;
 
         StartCoroutine(CoDisableSelf());
     }
 
+    // 일정 수명 후 자기 자신을 Disable 함
     private IEnumerator CoDisableSelf()
     {
         yield return _waitForLifeTime;
@@ -111,6 +120,7 @@ public class Tumbleweed : MonoBehaviour
     {
         if(_isTherePlayer)
         {
+            // UI 위치 고정
             _UITransform.rotation = Quaternion.Euler(0f, _UITransform.rotation.y, _UITransform.rotation.z);
             _UITransform.transform.LookAt(_playerTransform);
         }
@@ -118,21 +128,35 @@ public class Tumbleweed : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.CompareTag("Player"))
+        GetPlayer(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        GetPlayer(other);
+    }
+
+    private void GetPlayer(Collider other)
+    {
+        if (!other.CompareTag("Player"))
         {
             return;
         }
 
-        PlayerTumbleweedInteraction playerInteraction = other.transform.root.GetComponentInChildren<PlayerTumbleweedInteraction>();
-        if(!playerInteraction || playerInteraction.IsNearTumbleweed)
+        PlayerTumbleweedInteraction playerInteraction =
+            other.transform.root.GetComponentInChildren<PlayerTumbleweedInteraction>();
+        if (!playerInteraction || playerInteraction.IsNearTumbleweed)
         {
             return;
         }
 
         _outline.enabled = true;
+
         _playerTransform = other.transform.root;
+
         _playerInteraction = playerInteraction;
         _playerInteraction.IsNearTumbleweed = true;
+
         _isTherePlayer = true;
     }
 
@@ -149,9 +173,12 @@ public class Tumbleweed : MonoBehaviour
         }
 
         _outline.enabled = false;
-        _isTherePlayer = false;
+        
         _playerInteraction.IsNearTumbleweed = false;
+        
         _slider.gameObject.SetActive(false);
+        
+        _isTherePlayer = false;
     }
 
     private void Update()
@@ -163,24 +190,26 @@ public class Tumbleweed : MonoBehaviour
 
         if(!_isTherePlayer || _playerInteraction.GrabbingTime <= 0f)
         {
-            _slider.gameObject.SetActive(false);
             _slider.value = 0f;
+            _slider.gameObject.SetActive(false);
+
             return;
         }
 
-        _slider.gameObject.SetActive(true);
         _slider.value = _playerInteraction.GrabbingTime / _getGoldTime;
+        _slider.gameObject.SetActive(true);
         
         if(_slider.value >= 1f)
         {
             _isGetCoin = true;
 
+            // 성공하면 재자리에 멈추기
             _rigidbody.velocity = ZERO_VECTOR;
 
             StopAllCoroutines();
             
+            // 골드 전달
             _playerInteraction.GetGold(GiveRandomGold());
-            _playerInteraction.IsNearTumbleweed = false;
             
             _meshRenderer.enabled = false;
             
@@ -191,7 +220,6 @@ public class Tumbleweed : MonoBehaviour
     private int GiveRandomGold()
     {
         float randomInt = Random.Range(0f, _maxGoldCoinRate);
-        Debug.LogError(randomInt);
 
         float coinRate = 0f;
         for(int i = 0; i < (int) ECoinGrade.Max; ++i)
