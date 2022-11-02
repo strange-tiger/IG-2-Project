@@ -24,9 +24,12 @@ public class TumbleweedMovement : MonoBehaviour
     private TumbleweedSpawner _spawner;
 
     private readonly static Vector3 ZERO_VECTOR = Vector3.zero;
+    private WaitForSeconds _waitForLifeTime;
 
     private void Awake()
     {
+        _waitForLifeTime = new WaitForSeconds(_lifeTime);
+
         _rigidbody = GetComponent<Rigidbody>();
 
         _outline = GetComponent<Outlinable>();
@@ -38,6 +41,7 @@ public class TumbleweedMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        ActiveSelf();
         ResetTumbleweed();
     }
 
@@ -49,12 +53,13 @@ public class TumbleweedMovement : MonoBehaviour
         _outline.enabled = false;
         _sliderTransform.gameObject.SetActive(false);
 
-        Invoke("DisableSelf", _lifeTime);
+        StartCoroutine(CoDisableSelf());
     }
 
-    private void DisableSelf()
+    private IEnumerator CoDisableSelf()
     {
-        gameObject.SetActive(false);
+        yield return _waitForLifeTime;
+        DisableSelf();
     }
 
     private void FixedUpdate()
@@ -118,6 +123,7 @@ public class TumbleweedMovement : MonoBehaviour
         
         if(_slider.value >= 1f)
         {
+            StopAllCoroutines();
             _playerInteraction.GetGold(GiveRandomGold());
             DisableSelf();
         }
@@ -143,5 +149,14 @@ public class TumbleweedMovement : MonoBehaviour
     private void OnDisable()
     {
         _spawner.ReturnToTumbleweedStack(gameObject);
+    }
+
+    private void DisableSelf()
+    {
+        gameObject.SetActive(false);
+    }
+    private void ActiveSelf()
+    {
+        //gameObject.SetActive(true);
     }
 }
