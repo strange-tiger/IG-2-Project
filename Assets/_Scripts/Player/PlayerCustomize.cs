@@ -13,7 +13,8 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
     [SerializeField] UserCustomizeData _maleData;
     [SerializeField] UserCustomizeData _userData;
     private int _setAvatarNum;
-    private float _setMaterialNum;
+    private int _setMaterialNum = 0;
+    private CustomizeData _materialData;
     private SkinnedMeshRenderer _skinnedMeshRenderer;
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -21,17 +22,26 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
         {
             stream.SendNext(IsFemale);
             stream.SendNext(_setAvatarNum);
+            stream.SendNext(_setMaterialNum);
         }
         else if(stream.IsReading)
         {
-            IsFemale = (int)stream.ReceiveNext();
-            _setAvatarNum = (int)stream.ReceiveNext();
+            if ((int)stream.ReceiveNext() == 0)
+            {
+                _userData = _maleData;
+            }
+            else
+            {
+                _userData = _femaleData;
+            }
+            _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[(int)stream.ReceiveNext()];
+            _skinnedMeshRenderer.material = _materialData.AvatarMaterial[(int)stream.ReceiveNext()];
+
         }
     }
     void Start()
     {
         _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-
         AvatarInit();
 
         //if(bool.Parse(MySqlSetting.GetValueByBase(Asset.EaccountdbColumns.Nickname,name,Asset.EaccountdbColumns.HaveCharacter)))
@@ -60,6 +70,8 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
             
         }
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[0];
+        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
+
 
     }
 
@@ -102,8 +114,10 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
         // 장착중이던 아이템과 Material을 적용시킴.
         _setMaterialNum = _userData.UserMaterial[0];
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
+        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
+
     }
-    
+
 
 
 }
