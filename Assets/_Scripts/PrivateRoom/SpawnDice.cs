@@ -8,17 +8,17 @@ public class SpawnDice : MonoBehaviourPun
 {
     private Transform _hostPlayer;
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(gameObject.activeSelf);
-        }
-        else if (stream.IsReading)
-        {
-            gameObject.SetActive((bool)stream.ReceiveNext());
-        }
-    }
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        stream.SendNext(gameObject.activeSelf);
+    //    }
+    //    else if (stream.IsReading)
+    //    {
+    //        gameObject.SetActive((bool)stream.ReceiveNext());
+    //    }
+    //}
 
     public void ToggleDice()
     {
@@ -32,7 +32,7 @@ public class SpawnDice : MonoBehaviourPun
         }
     }
 
-    private static readonly Vector3 SPAWN_POSITION = new Vector3(0f, 1.5f, 1f);
+    private static readonly Vector3 SPAWN_POSITION = new Vector3(0f, 1.5f, 5f);
     [PunRPC]
     private void Spawn()
     {
