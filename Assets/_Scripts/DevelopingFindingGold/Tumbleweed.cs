@@ -128,24 +128,27 @@ public class Tumbleweed : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GetPlayer(other);
+        GetPlayer(other, "TriggerEnter");
     }
 
     private void OnTriggerStay(Collider other)
+    {
+        GetPlayer(other, "TriggerStay");
+    }
+
+    private void GetPlayer(Collider other, string debugMessage)
     {
         if(_isTherePlayer)
         {
             return;
         }
-        GetPlayer(other);
-    }
 
-    private void GetPlayer(Collider other)
-    {
-        if (!other.CompareTag("Player"))
+        if (!other.CompareTag("PlayerBody"))
         {
             return;
         }
+
+        Debug.Log("[Player] " + other.gameObject.name);
 
         PlayerTumbleweedInteraction playerInteraction =
             other.transform.root.GetComponentInChildren<PlayerTumbleweedInteraction>();
@@ -153,6 +156,8 @@ public class Tumbleweed : MonoBehaviour
         {
             return;
         }
+
+        Debug.LogError(gameObject.name + " " + debugMessage);
 
         _outline.enabled = true;
 
@@ -166,7 +171,7 @@ public class Tumbleweed : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(!other.CompareTag("Player"))
+        if(!other.CompareTag("PlayerBody") || !_isTherePlayer)
         {
             return;
         }
@@ -175,6 +180,8 @@ public class Tumbleweed : MonoBehaviour
         {
             return;
         }
+
+        Debug.LogError(gameObject.name + " TriggerExit");
 
         _outline.enabled = false;
         
