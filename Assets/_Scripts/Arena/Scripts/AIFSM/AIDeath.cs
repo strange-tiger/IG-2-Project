@@ -18,10 +18,7 @@ public class AIDeath : AIState
 
     public override void OnEnter()
     {
-        for (int i = 0; i < _isDeathOffCollider.Length; ++i)
-        {
-            _isDeathOffCollider[i].enabled = false;
-        }
+        Invoke("OffCollider", 1f);
 
         _animator.SetTrigger(AIAnimatorID.onDeath);
 
@@ -43,5 +40,12 @@ public class AIDeath : AIState
     private void Delete()
     {
         gameObject.SetActive(false);
+    }
+    private void OffCollider()
+    {
+        for (int i = 0; i < _isDeathOffCollider.Length; ++i)
+        {
+            _isDeathOffCollider[i].enabled = false;
+        }
     }
 }

@@ -6,8 +6,6 @@ using EAIState = Defines.Estate;
 
 public class AIAttack : AIState
 {
-    [SerializeField] private  CharacterController _characterController;
-
     [Header("내 스킬 쿨타임을 넣어주세요")]
     [SerializeField] int _skillCoolTime;
 
