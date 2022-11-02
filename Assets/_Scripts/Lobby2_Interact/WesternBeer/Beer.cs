@@ -12,73 +12,59 @@ public class Beer : InteracterableObject, IPunObservable
 
     [SerializeField] GameObject _fullBeer;
     private MeshCollider _meshCollider;
-    private PlayerFocus _leftRay;
-    private PlayerFocus _rightRay;
     private OVRGrabbable _grabbable;
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
     private BeerInteraction _beerInteraction;
+    private Rigidbody _rigidbody;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(_fullBeer.activeSelf);
-            stream.SendNext(_meshCollider.gameObject.activeSelf);
+            stream.SendNext(_meshCollider.enabled);
         }
         else if (stream.IsReading)
         {
             _fullBeer.SetActive((bool)stream.ReceiveNext());
-            _meshCollider.gameObject.SetActive((bool)stream.ReceiveNext());
+            _meshCollider.enabled = (bool)stream.ReceiveNext();
         }
     }
 
     public void Start()
     {
-        _initBeerPosition = transform.position;
-        _beerInteraction = transform.root.GetComponent<BeerInteraction>();
+        _initBeerPosition = transform.localPosition;
+        _meshCollider = GetComponent<MeshCollider>();
         _grabbable = GetComponent<OVRGrabbable>();
-        _leftRay = GameObject.Find("LeftRay").GetComponent<PlayerFocus>();
-        _rightRay = GameObject.Find("rightRay").GetComponent<PlayerFocus>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
+ 
+    
 
-    private void Update()
-    {
-
-    }
     public override void Interact()
     {
         if (_grabbable.isGrabbed)
         {
             _beerInteraction = transform.root.GetComponent<BeerInteraction>();
 
-            if (!_leftRay.FocusedObject.CompareTag("Player") && !_rightRay.FocusedObject.CompareTag("Player"))
+            if(!_beerInteraction.IsCoolTime)
             {
                 base.Interact();
                 OnDrinkBeer.Invoke();
                 photonView.RPC("DrinkBeer", RpcTarget.All);
             }
-            else if (_leftRay.FocusedObject.CompareTag("Player"))
-            {
-                base.Interact();
-                _leftRay.FocusedObject.gameObject.GetComponent<BeerInteraction>().CallDrinkBeer();
-                photonView.RPC("DrinkBeer", RpcTarget.All);
-            }
-            else if (_rightRay.FocusedObject.CompareTag("Player"))
-            {
-                base.Interact();
-                _rightRay.FocusedObject.gameObject.GetComponent<BeerInteraction>().CallDrinkBeer();
-                photonView.RPC("DrinkBeer", RpcTarget.All);
-            }
         }
     }
 
+ 
 
-    private void DrinkBeer()
+    [PunRPC]
+    public void DrinkBeer()
     {
         _fullBeer.SetActive(false);
-        _meshCollider.gameObject.SetActive(false);
+        _meshCollider.enabled = false;
         StartCoroutine(ReGenerateBeer());
     }
 
@@ -92,7 +78,8 @@ public class Beer : InteracterableObject, IPunObservable
 
         _fullBeer.SetActive(true);
 
-        _meshCollider.gameObject.SetActive(true);
+        _meshCollider.enabled = false;
+
 
         yield return null;
     }
