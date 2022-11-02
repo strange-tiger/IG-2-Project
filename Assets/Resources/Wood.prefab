@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1492355483838017065}
   - component: {fileID: 3618066510842485534}
   - component: {fileID: 20883990938452210}
+  - component: {fileID: 5472787145466700161}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -137,7 +138,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1492355483838017065}
-  sceneViewId: 0
+  - {fileID: 20883990938452210}
+  sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1492355483838017065
@@ -183,6 +185,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec243e711186ce64f8278312ea050e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5472787145466700161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2301740150750228174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
