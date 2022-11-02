@@ -4,21 +4,21 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnDice : MonoBehaviourPun
+public class SpawnDice : MonoBehaviourPun, IPunObservable
 {
     private Transform _hostPlayer;
 
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if (stream.IsWriting)
-    //    {
-    //        stream.SendNext(gameObject.activeSelf);
-    //    }
-    //    else if (stream.IsReading)
-    //    {
-    //        gameObject.SetActive((bool)stream.ReceiveNext());
-    //    }
-    //}
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(gameObject.activeSelf);
+        }
+        else if (stream.IsReading)
+        {
+            gameObject.SetActive((bool)stream.ReceiveNext());
+        }
+    }
 
     public void ToggleDice()
     {
