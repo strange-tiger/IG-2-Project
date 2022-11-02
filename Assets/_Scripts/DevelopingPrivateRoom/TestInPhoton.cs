@@ -40,7 +40,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         {
 
             Debug.Log("됐구나?");
-            PhotonNetwork.LoadLevel("PrivateRoom_Interaction_Joker");
+            PhotonNetwork.LoadLevel("Campfire_Joker");
             Debug.Log(PhotonNetwork.CurrentRoom.Name);
         }
         catch
@@ -53,5 +53,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("된거구나?");
+
+        PhotonNetwork.Instantiate("NewPlayer", Vector3.up, Quaternion.identity);
     }
 }

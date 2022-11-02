@@ -48,6 +48,11 @@ public class WoodPile : InteracterableObject, IPunObservable
     [PunRPC]
     private void SpawnWood()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         Vector3 spawnDirection = 2f * Vector3.up + SPAWN_DIRECTION[Random.Range(0, 4)];
 
         GameObject wood = PhotonNetwork.Instantiate("Wood", transform.position, transform.rotation);
