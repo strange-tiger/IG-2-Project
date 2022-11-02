@@ -41,7 +41,8 @@ public class TumbleweedSpawner : MonoBehaviourPun
                 GameObject tumbleweed = _tumbleweedStack.Pop();
                 tumbleweed.transform.position = _spawnPosition.position;
                 tumbleweed.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
-                tumbleweed.SetActive(true);
+                tumbleweed.GetComponent<Tumbleweed>().photonView.RPC("ActiveSelf", RpcTarget.All);
+                //tumbleweed.SetActive(true);
 
                 _elapsedTime -= _tumbleweedSpawnOffsetTime;
             }
