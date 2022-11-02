@@ -33,7 +33,7 @@ public class ScrollButton : MonoBehaviour
         _voiceTable.Add(Defines.EVoiceType.PushToTalk, null);
 
         Type = Defines.EVoiceType.None;
-        _voiceTable[Type].Invoke();
+        VoiceTypeNone();
     }
 
     public void OnClickLeftButton()
@@ -49,9 +49,9 @@ public class ScrollButton : MonoBehaviour
     {
         if (Type == Defines.EVoiceType.MaxCount - 1)
         {
-            // Type = Defines.EVoiceType.None;
             return;
         }
+        SoundManager.Instance.LobbyRecorder.TransmitEnabled = false;
         ++Type;
         _voiceTable[Type]?.Invoke();
     }

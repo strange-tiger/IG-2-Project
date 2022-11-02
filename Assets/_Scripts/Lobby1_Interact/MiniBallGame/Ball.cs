@@ -35,7 +35,8 @@ public class Ball : MonoBehaviourPunCallbacks
 
         if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && _isGrabBall == true)
         {
-            _rigidbody.AddForce(0, _thrust, 0, ForceMode.Impulse);
+            // _rigidbody.AddForce(0, _thrust, 0, ForceMode.Impulse);
+            _rigidbody.AddForce(0, 0.35f, 0.7f);
         }
     }
 
@@ -63,7 +64,10 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.tag == "Player")
         {
-            _isGrabBall = true;
+            if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
+            {
+                _isGrabBall = true;
+            }
         }
     }
 
