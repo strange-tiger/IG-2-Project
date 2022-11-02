@@ -74,14 +74,16 @@ public class TumbleweedMovement : MonoBehaviour
         }
 
         PlayerTumbleweedInteraction playerInteraction = other.transform.root.GetComponentInChildren<PlayerTumbleweedInteraction>();
-        if (playerInteraction)
+        if(!playerInteraction || playerInteraction.IsNearTumbleweed)
         {
-            _outline.enabled = true;
-            _playerTransform = other.transform.root;
-            _playerInteraction = playerInteraction;
-            _playerInteraction.IsNearTumbleweed = true;
-            _isTherePlayer = true;
+            return;
         }
+
+        _outline.enabled = true;
+        _playerTransform = other.transform.root;
+        _playerInteraction = playerInteraction;
+        _playerInteraction.IsNearTumbleweed = true;
+        _isTherePlayer = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -91,7 +93,7 @@ public class TumbleweedMovement : MonoBehaviour
             return;
         }
 
-        if(_isTherePlayer && _playerTransform.gameObject != other.transform.root)
+        if(_isTherePlayer && _playerTransform != other.transform.root)
         {
             return;
         }
