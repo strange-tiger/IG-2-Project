@@ -1,3 +1,4 @@
+#define _PC_TEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,11 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
 
     private void FixedUpdate()
     {
+#if _PC_TEST
+        if(!IsNearTumbleweed || !Input.GetKey(KeyCode.A))
+#else
         if(!IsNearTumbleweed || !_input.InputA)
+#endif
         {
             GrabbingTime = 0f;
             return;
@@ -36,5 +41,10 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
         }
 
         GrabbingTime += Time.fixedDeltaTime;
+    }
+
+    public void GetGold(int gold)
+    {
+        Debug.Log("Gold ¹ÞÀ½ " + gold);
     }
 }
