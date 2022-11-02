@@ -5,7 +5,19 @@ using UnityEngine;
 
 public class PlayerTumbleweedInteraction : MonoBehaviour
 {
-    public bool IsNearTumbleweed { get; set; }
+    private bool _isNearTumbleweed;
+    public bool IsNearTumbleweed 
+    {
+        get => _isNearTumbleweed;
+        set
+        {
+            _isNearTumbleweed = value;
+            if(!_isNearTumbleweed)
+            {
+                GrabbingTime = 0f;
+            }
+        }
+    }
 
     private bool _isGrabbing;
     public float GrabbingTime { get; private set; }

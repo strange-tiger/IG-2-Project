@@ -133,6 +133,10 @@ public class Tumbleweed : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if(_isTherePlayer)
+        {
+            return;
+        }
         GetPlayer(other);
     }
 
