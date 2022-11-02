@@ -22,6 +22,9 @@ public static class AIAnimatorID
 
     // »ç¸Á ¸ðÀ½
     public static readonly int isDeath = Animator.StringToHash("isDeath");
+
+    public static readonly int onDeath = Animator.StringToHash("onDeath");
+    
 }
 
 

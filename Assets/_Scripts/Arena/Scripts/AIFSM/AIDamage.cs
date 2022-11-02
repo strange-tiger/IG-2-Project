@@ -10,6 +10,8 @@ public class AIDamage : AIState
 
     [Header("HP를 입력 해 주세요")]
     [SerializeField] private int _hp;
+    public int Hp { get { return _hp; } set { _hp = value; }}
+
     private int _setHp;
 
     private Animator _animator;
@@ -41,8 +43,6 @@ public class AIDamage : AIState
         _damageTime -= _damageTime;
 
         _isdamage = true;
-
-        // Debug.Log($"{gameObject.name} : {_hp}, 받은 데미지: {_damage}");
     }
 
     public override void OnUpdate()
@@ -52,21 +52,29 @@ public class AIDamage : AIState
             _damageTime += Time.deltaTime;
         }
 
-        if (_hp <= 0)
-        {
-            aiFSM.ChangeState(EAIState.Death);
-        }
-        else if (_damageTime >= 0.5f)
+        if (_damageTime >= 0.5f)
         {
             _damageTime -= _damageTime;
             _isdamage = false;
+            _animator.SetBool(AIAnimatorID.isDamage, false);
             aiFSM.ChangeState(EAIState.Attack);
         }
+        //if (_hp <= 0)
+        //{
+        //    aiFSM.ChangeState(EAIState.Death);
+        //}
+
+
     }
 
     public override void OnExit()
     {
         _animator.SetBool(AIAnimatorID.isDamage, false);
+    }
+
+    private void OnDisable()
+    {
+        _enemyDamage.EnemyDamage.RemoveListener(Hit);
     }
 
     private void Hit(int damage)

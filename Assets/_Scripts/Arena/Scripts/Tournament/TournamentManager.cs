@@ -26,6 +26,8 @@ public class TournamentManager : MonoBehaviour
     {
         _selectGroup = Random.Range(0, _groups.Length);
 
+        // _selectGroup = 0;
+
         _groups[_selectGroup].SetActive(true);
     }
 

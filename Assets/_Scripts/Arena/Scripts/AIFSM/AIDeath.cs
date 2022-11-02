@@ -6,12 +6,10 @@ using EAIState = Defines.Estate;
 public class AIDeath : AIState
 {
     [SerializeField]
-    private Collider _isDeathOffCollider;
+    private Collider[] _isDeathOffCollider;
 
     private Animator _animator;
 
-    private bool _isDeath;
-    private float _deathTime;
 
     private void OnEnable()
     {
@@ -20,28 +18,21 @@ public class AIDeath : AIState
 
     public override void OnEnter()
     {
-        _isDeathOffCollider.enabled = false;
+        for (int i = 0; i < _isDeathOffCollider.Length; ++i)
+        {
+            _isDeathOffCollider[i].enabled = false;
+        }
 
-        _animator.SetBool(AIAnimatorID.isDeath, true);
+        _animator.SetTrigger(AIAnimatorID.onDeath);
 
-        _deathTime -= _deathTime;
-        _isDeath = true;
+        Invoke("Delete", 10f);
+
+        Debug.Log($"{gameObject.name} : Death OnEnter");
     }
 
     public override void OnUpdate()
     {
-        if (_isDeath)
-        {
-            _deathTime += Time.deltaTime;
-        }
-
-        if (_deathTime >= 1f)
-        {
-            _isDeath = false;
-            _animator.SetBool(AIAnimatorID.isDeath, false);
-            gameObject.SetActive(false);
-            _deathTime -= _deathTime;
-        }
+        
     }
 
     public override void OnExit()
@@ -49,8 +40,8 @@ public class AIDeath : AIState
         _animator.SetBool(AIAnimatorID.isDeath, false);
     }
 
-    private void OnDisable()
+    private void Delete()
     {
-        aiFSM.ChangeState(EAIState.IDLE);
+        gameObject.SetActive(false);
     }
 }

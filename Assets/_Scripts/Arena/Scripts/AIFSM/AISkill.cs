@@ -52,6 +52,5 @@ public class AISkill : AIState
         {
             _skillEffect.SetActive(false);
         }
-        
     }
 }
