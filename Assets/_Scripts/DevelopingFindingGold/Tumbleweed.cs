@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-public class Tumbleweed : MonoBehaviourPun, IPunObservable
+public class Tumbleweed : MonoBehaviourPun
 {
     private enum ECoinGrade
     {
@@ -60,7 +60,7 @@ public class Tumbleweed : MonoBehaviourPun, IPunObservable
 
     private void Awake()
     {
-        if(photonView.IsMine)
+        //if(photonView.IsMine)
         {
             // 자주 사용하는 WaitForSeconds 생성
             _waitForLifeTime = new WaitForSeconds(_lifeTime);
@@ -89,7 +89,7 @@ public class Tumbleweed : MonoBehaviourPun, IPunObservable
 
     private void OnEnable()
     {
-        if(photonView.IsMine)
+        //if(photonView.IsMine)
         {
             ResetTumbleweed();
         }
