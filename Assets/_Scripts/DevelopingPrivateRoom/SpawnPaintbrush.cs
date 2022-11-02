@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnPaintbrush : MonoBehaviourPun
+public class SpawnPaintbrush : MonoBehaviourPun, IPunObservable
 {
     private Transform _clientPlayer;
     

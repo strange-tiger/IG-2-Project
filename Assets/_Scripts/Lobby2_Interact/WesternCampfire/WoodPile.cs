@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class WoodPile : InteracterableObject
+public class WoodPile : InteracterableObject, IPunObservable
 {
     [SerializeField] GameObject _wood;
     private static readonly YieldInstruction INTERACT_COOLTIME = new WaitForSeconds(5f);
@@ -16,12 +16,10 @@ public class WoodPile : InteracterableObject
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(gameObject.activeSelf);
             stream.SendNext(_onCooltime);
         }
         else if (stream.IsReading)
         {
-            gameObject.SetActive((bool)stream.ReceiveNext());
             _onCooltime = (bool)stream.ReceiveNext();
         }
     }
