@@ -44,7 +44,7 @@ public class TumbleweedMovement : MonoBehaviour
     private void ResetTumbleweed()
     {
         _rigidbody.velocity = ZERO_VECTOR;
-        //_rigidbody.AddForce(transform.forward * _bounceForce, ForceMode.Impulse);
+        _rigidbody.AddForce(transform.forward * _bounceForce, ForceMode.Impulse);
 
         _outline.enabled = false;
         _sliderTransform.gameObject.SetActive(false);
@@ -79,7 +79,6 @@ public class TumbleweedMovement : MonoBehaviour
             return;
         }
 
-        Debug.Log("[Tumbleweed] 플레이어 들어옴");
         _outline.enabled = true;
         _playerTransform = other.transform.root;
         _playerInteraction = playerInteraction;
@@ -99,7 +98,6 @@ public class TumbleweedMovement : MonoBehaviour
             return;
         }
 
-        Debug.Log("[Tumbleweed] 플레이어 나감");
         _outline.enabled = false;
         _isTherePlayer = false;
         _playerInteraction.IsNearTumbleweed = false;
@@ -115,13 +113,11 @@ public class TumbleweedMovement : MonoBehaviour
             return;
         }
 
-        Debug.Log("[Tumbleweed] 플레이어 상호작용중...");
         _sliderTransform.gameObject.SetActive(true);
         _slider.value = _playerInteraction.GrabbingTime / _getGoldTime;
         
         if(_slider.value >= 1f)
         {
-            Debug.Log("금 획득");
             _playerInteraction.GetGold(GiveRandomGold());
             DisableSelf();
         }
@@ -146,6 +142,6 @@ public class TumbleweedMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        //_spawner.ReturnToTumbleweedStack(gameObject);
+        _spawner.ReturnToTumbleweedStack(gameObject);
     }
 }

@@ -51,7 +51,9 @@ public class TumbleweedSpawner : MonoBehaviourPun
     private void SetRandomSpawnPosition()
     {
         float randomXOffset = Random.Range(-_spawnPositionOffset, _spawnPositionOffset);
-        float randomZOffset = Random.Range(-_spawnPositionOffset, _spawnPositionOffset);
+
+        float randomZRange = Mathf.Sqrt(Mathf.Pow(_spawnPositionOffset, 2) - Mathf.Pow(randomXOffset, 2));
+        float randomZOffset = Random.Range(-randomZRange, randomZRange);
         _spawnPosition.position = new Vector3(transform.position.x + randomXOffset, 
             _spawnPosition.position.y, transform.position.z + randomZOffset);
     }
