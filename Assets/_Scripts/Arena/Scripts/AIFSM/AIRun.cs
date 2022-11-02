@@ -20,10 +20,13 @@ public class AIRun : AIState
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isRun, true);
+        
+
     }
 
     public override void OnUpdate()
     {
+        transform.Translate(Vector3.forward * Time.deltaTime * 0.5f);
         if (_changeStateRunToAttack == true)
         {
             aiFSM.ChangeState(EAIState.Attack);
