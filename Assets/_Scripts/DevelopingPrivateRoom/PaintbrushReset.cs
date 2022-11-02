@@ -14,11 +14,13 @@ public class PaintbrushReset : MonoBehaviourPun
     public event Action OnReset;
 
     private const float DEFAULT_WIDTH = 0.01f;
+    private const float LINE_SCALE = 0.5f;
 
     private int _memoryChildCount;
     //private List<int> _memoryLinePointNums;
     private List<Vector3[]> _memoryLinePoints;
     private List<LineRenderer> _memoryLines;
+    private Coroutine _coroutine;
 
     private void OnEnable()
     {
@@ -29,6 +31,11 @@ public class PaintbrushReset : MonoBehaviourPun
     private void OnDisable()
     {
         _resetButton.onClick.RemoveListener(ResetPad);
+    }
+
+    private void OnDestroy()
+    {
+        photonView.RPC("ResetDraw", RpcTarget.All);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -65,8 +72,8 @@ public class PaintbrushReset : MonoBehaviourPun
                 _memoryLinePoints[i] = (Vector3[])stream.ReceiveNext();
             }
 
-            StopCoroutine(ReceiveLines());
-            StartCoroutine(ReceiveLines());
+            if (_coroutine != null) StopCoroutine(_coroutine);
+            _coroutine = StartCoroutine(ReceiveLines());
         }
     }
 
@@ -85,20 +92,20 @@ public class PaintbrushReset : MonoBehaviourPun
 
     private LineRenderer GenerateLineRenderer()
     {
-        GameObject line = new GameObject("Line");
-        line.AddComponent<PhotonView>();
-        LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
+        GameObject line = PhotonNetwork.Instantiate("Line", Vector3.zero, Quaternion.identity);
+        LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
 
         line.transform.parent = transform;
         line.transform.position = Vector3.zero;
+        line.transform.localScale = LINE_SCALE * Vector3.one;
 
-        lineRenderer.useWorldSpace = false;
-        lineRenderer.startWidth = DEFAULT_WIDTH;
-        lineRenderer.endWidth = DEFAULT_WIDTH;
-        lineRenderer.numCornerVertices = 5;
-        lineRenderer.numCapVertices = 5;
-        lineRenderer.material = _lineMaterial;
-        
+        //lineRenderer.useWorldSpace = false;
+        //lineRenderer.startWidth = DEFAULT_WIDTH;
+        //lineRenderer.endWidth = DEFAULT_WIDTH;
+        //lineRenderer.numCornerVertices = 5;
+        //lineRenderer.numCapVertices = 5;
+        //lineRenderer.material = _lineMaterial;
+
         return lineRenderer;
     }
 
@@ -106,7 +113,7 @@ public class PaintbrushReset : MonoBehaviourPun
     {
         int count = _memoryLines.Count;
 
-        while(count >= 0)
+        while (count >= 0)
         {
             --count;
 
@@ -119,6 +126,10 @@ public class PaintbrushReset : MonoBehaviourPun
     private void ResetPad()
     {
 #if _Photon
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         photonView.RPC("ResetDraw", RpcTarget.All);
 #else
         ResetDraw();
@@ -128,7 +139,7 @@ public class PaintbrushReset : MonoBehaviourPun
     [PunRPC]
     private void ResetDraw()
     {
-        for(int i = 1; i < transform.childCount; ++i)
+        for (int i = 1; i < transform.childCount; ++i)
         {
             PhotonNetwork.Destroy(transform.GetChild(i).gameObject);
         }
