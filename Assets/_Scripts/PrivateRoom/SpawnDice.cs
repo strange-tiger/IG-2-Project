@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnDice : MonoBehaviourPun, IPunObservable
+public class SpawnDice : MonoBehaviourPun
 {
     private Transform _hostPlayer;
 

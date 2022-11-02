@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PaintbrushReset : MonoBehaviourPun, IPunObservable
+public class PaintbrushReset : MonoBehaviourPun
 {
     [SerializeField] Button _resetButton;
     [SerializeField] Material _lineMaterial;
