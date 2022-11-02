@@ -24,7 +24,7 @@ public class TumbleweedSpawner : MonoBehaviourPun
             {
                 tumbleweed.gameObject.SetActive(false);
                 _tumbleweedStack.Push(tumbleweed.gameObject);
-                tumbleweed.GetComponent<TumbleweedMovement>().enabled = true;
+                tumbleweed.GetComponent<Tumbleweed>().enabled = true;
             }
         }
     }

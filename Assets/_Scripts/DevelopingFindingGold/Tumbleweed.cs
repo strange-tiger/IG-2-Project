@@ -3,28 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using EPOOutline;
 using UnityEngine.UI;
+using TMPro;
 
-public class TumbleweedMovement : MonoBehaviour
+public class Tumbleweed : MonoBehaviour
 {
+    private enum ECoinGrade
+    {
+        Common,
+        Rare,
+        Epic,
+        Max,
+    }
+
+    [Header("기본 스팩")]
     [SerializeField] private float _lifeTime = 20f;
     [SerializeField] private float _getGoldTime = 3f;
-
-    [SerializeField] private float _bounceForce = 2f;
-    private Rigidbody _rigidbody;
+    [Header("골드 스팩")]
+    [SerializeField] private int[] _goldCoinGiveCount = new int[(int)ECoinGrade.Max];
+    [SerializeField] private float[] _goldCoinRate = new float[(int)ECoinGrade.Max];
+    private float _maxGoldCoinRate;
 
     [SerializeField] private Color _outlineColor = new Color(1f, 0.9f, 0.01f);
     private Outlinable _outline;
 
-    [SerializeField] private Transform _sliderTransform;
+    [Header("이동 관련")]
+    [SerializeField] private float _bounceForce = 2f;
+    private Rigidbody _rigidbody;
+
+    [Header("UI")]
+    [SerializeField] private Transform _UITransform;
     [SerializeField] private Slider _slider;
+    [SerializeField] private GameObject _getGoldPanel;
+    [SerializeField] private TextMeshProUGUI _goldCountText;
+
+    [Header("사운드")]
+    [SerializeField] private AudioClip[] _goldCoinAudioClips = new AudioClip[(int)ECoinGrade.Max];
+    private AudioSource _audioSource;
+
+    // 플레이어 인식 관련
     private Transform _playerTransform;
     private PlayerTumbleweedInteraction _playerInteraction;
     private bool _isTherePlayer;
+    private bool _isGetCoin;
 
+    // 스포너
     private TumbleweedSpawner _spawner;
 
+    // 사용 예정 변수
     private readonly static Vector3 ZERO_VECTOR = Vector3.zero;
     private WaitForSeconds _waitForLifeTime;
+
+    private MeshRenderer _meshRenderer;
 
     private void Awake()
     {
@@ -37,6 +66,16 @@ public class TumbleweedMovement : MonoBehaviour
         _outline.OutlineParameters.Color = _outlineColor;
 
         _spawner = GetComponentInParent<TumbleweedSpawner>();
+
+        _audioSource = GetComponent<AudioSource>();
+
+        _meshRenderer = GetComponent<MeshRenderer>();
+
+        _maxGoldCoinRate = 0f;
+        foreach(float rate in _goldCoinRate)
+        {
+            _maxGoldCoinRate += rate;
+        }
     }
 
     private void OnEnable()
@@ -51,7 +90,13 @@ public class TumbleweedMovement : MonoBehaviour
         _rigidbody.AddForce(transform.forward * _bounceForce, ForceMode.Impulse);
 
         _outline.enabled = false;
-        _sliderTransform.gameObject.SetActive(false);
+        _meshRenderer.enabled = true;
+        _slider.gameObject.SetActive(false);
+        _slider.value = 0f;
+        _getGoldPanel.SetActive(false);
+
+        _isTherePlayer = false;
+        _isGetCoin = false;
 
         StartCoroutine(CoDisableSelf());
     }
@@ -66,8 +111,8 @@ public class TumbleweedMovement : MonoBehaviour
     {
         if(_isTherePlayer)
         {
-            _sliderTransform.rotation = Quaternion.Euler(0f, _sliderTransform.rotation.y, _sliderTransform.rotation.z);
-            _sliderTransform.transform.LookAt(_playerTransform);
+            _UITransform.rotation = Quaternion.Euler(0f, _UITransform.rotation.y, _UITransform.rotation.z);
+            _UITransform.transform.LookAt(_playerTransform);
         }
     }
 
@@ -106,44 +151,69 @@ public class TumbleweedMovement : MonoBehaviour
         _outline.enabled = false;
         _isTherePlayer = false;
         _playerInteraction.IsNearTumbleweed = false;
-        _sliderTransform.gameObject.SetActive(false);
+        _slider.gameObject.SetActive(false);
     }
 
     private void Update()
     {
+        if(_isGetCoin)
+        {
+            return;
+        }
+
         if(!_isTherePlayer || _playerInteraction.GrabbingTime <= 0f)
         {
-            _sliderTransform.gameObject.SetActive(false);
+            _slider.gameObject.SetActive(false);
             _slider.value = 0f;
             return;
         }
 
-        _sliderTransform.gameObject.SetActive(true);
+        _slider.gameObject.SetActive(true);
         _slider.value = _playerInteraction.GrabbingTime / _getGoldTime;
         
         if(_slider.value >= 1f)
         {
+            _isGetCoin = true;
+
+            _rigidbody.velocity = ZERO_VECTOR;
+
             StopAllCoroutines();
+            
             _playerInteraction.GetGold(GiveRandomGold());
-            DisableSelf();
+            _playerInteraction.IsNearTumbleweed = false;
+            
+            _meshRenderer.enabled = false;
+            
+            Invoke("DisableSelf", 1f);
         }
     }
 
     private int GiveRandomGold()
     {
-        int randomInt = Random.Range(0, 100);
-        if(randomInt < 85)
+        float randomInt = Random.Range(0f, _maxGoldCoinRate);
+        Debug.LogError(randomInt);
+
+        float coinRate = 0f;
+        for(int i = 0; i < (int) ECoinGrade.Max; ++i)
         {
-            return 5;
+            coinRate += _goldCoinRate[i];
+            if(randomInt < coinRate)
+            {
+                return GiveCoinEffect(i);
+            }
         }
-        else if(randomInt < 95)
-        {
-            return 30;
-        }
-        else
-        {
-            return 100;
-        }
+
+        return -1;
+    }
+    private int GiveCoinEffect(int grade)
+    {
+        _audioSource.PlayOneShot(_goldCoinAudioClips[grade]);
+
+        _slider.gameObject.SetActive(false);
+        _goldCountText.text = "+" + _goldCoinGiveCount[grade];
+        _getGoldPanel.SetActive(true);
+
+        return _goldCoinGiveCount[grade];
     }
 
     private void OnDisable()
