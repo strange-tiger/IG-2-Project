@@ -1,9 +1,8 @@
-//#define _Photon
+#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class WoodPile : InteracterableObject
 {
@@ -23,7 +22,7 @@ public class WoodPile : InteracterableObject
         else if (stream.IsReading)
         {
             gameObject.SetActive((bool)stream.ReceiveNext());
-            _onCooltime = true;
+            _onCooltime = (bool)stream.ReceiveNext();
         }
     }
 

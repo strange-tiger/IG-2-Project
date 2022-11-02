@@ -1,4 +1,4 @@
-//#define _Photon
+#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ public class Wood : FocusableObjects
     }
 
     private const float COUNT_DOWN_TIME = 3f;
-    private const int CAMPFIRE_LAYER = 11;
+    private const string CAMPFIRE_TAG = "Campfire";
 
     private Coroutine _countDown;
     private OVRGrabbable _grabbable;
@@ -31,13 +31,13 @@ public class Wood : FocusableObjects
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == CAMPFIRE_LAYER)
+        if (other.CompareTag(CAMPFIRE_TAG))
             if (_countDown != null) StopCoroutine(_countDown);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == CAMPFIRE_LAYER)
+        if (other.CompareTag(CAMPFIRE_TAG))
             _countDown = StartCoroutine(CountDown());
     }
 
