@@ -5,41 +5,43 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using Photon.Pun;
 
-public class BeerInteraction : MonoBehaviourPun
+public class BeerInteraction : MonoBehaviourPun, IPunObservable
 {
-
-    public UnityEvent OnDrunkenBeer = new UnityEvent();
-    public bool IsCoolTime { get; private set; }
 
     [SerializeField] Image _drunkenUI;
 
     private PlayerControllerMove _playerContollerMove;
-    private PlayerInput _playerInput;
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
     private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
     private YieldInstruction _stunTime = new WaitForSeconds(5f);
+    private Color _initUIColor = new Color(1f, 1f, 0.28f, 0f);
     private int _drinkStack = -1;
+    private bool _isTrembling;
+    private bool _isCoolTime;
+    private float[] _tremblingSpeed = new float[2];
     private float _soberUpElapsedTime;
     private float _tremblingElapsedTime;
     private float _initPlayerSpeed = 1.0f;
-    private bool _isTrembling;
-    private float[] _tremblingSpeed = new float[2];
-    private Color _initUIColor = new Color(1f, 1f, 0.28f, 0f);
     private float _animatedFadeAlpha;
-    private void OnEnable()
+   
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Beer.OnDrinkBeer.RemoveListener(CallDrinkBeer);
-        Beer.OnDrinkBeer.AddListener(CallDrinkBeer);
-
+        if(stream.IsWriting)
+        {
+            stream.SendNext(_drinkStack);
+        }
+        else if (stream.IsReading)
+        {
+            _drinkStack = (int)stream.ReceiveNext();
+        }
     }
+
+
     private void Start()
     {
         _playerContollerMove = GetComponent<PlayerControllerMove>();
 
-        _playerInput = GameObject.Find("OVRCameraRig(Clone)").GetComponent<PlayerInput>();
         _drunkenUI = GameObject.Find("DrunkenStack").GetComponent<Image>();
-
-        
     }
 
     private void Update()
@@ -74,9 +76,10 @@ public class BeerInteraction : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void CallDrinkBeer()
     {
-        if(!IsCoolTime)
+        if(photonView.IsMine)
         {
             DrinkBeer();
         }
@@ -134,7 +137,7 @@ public class BeerInteraction : MonoBehaviourPun
     {
         if(photonView.IsMine)
         {
-            IsCoolTime = true;
+            _isCoolTime = true;
 
             _drinkStack++;
 
@@ -181,16 +184,23 @@ public class BeerInteraction : MonoBehaviourPun
     {
         yield return _coolTime;
 
-        IsCoolTime = false;
+        _isCoolTime = false;
 
         yield return null;
     }
 
-    private void OnDisable()
+    private void OnTriggerEnter(Collider other)
     {
-        Beer.OnDrinkBeer.RemoveListener(CallDrinkBeer);
+        if(other.CompareTag("Beer"))
+        {
+            if(!_isCoolTime)
+            {
+                photonView.RPC("CallDrinkBeer",RpcTarget.All);
+                other.GetComponent<Beer>().CallDrinkBeer();
+                Debug.Log(_drinkStack);
+            }
+        }
     }
-
 
 
 }

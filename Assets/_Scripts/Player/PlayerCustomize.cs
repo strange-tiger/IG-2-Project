@@ -13,7 +13,7 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
     [SerializeField] UserCustomizeData _maleData;
     [SerializeField] UserCustomizeData _userData;
     private int _setAvatarNum;
-    private int _setMaterialNum = 0;
+    private int _setMaterialNum;
     private CustomizeData _materialData;
     private SkinnedMeshRenderer _skinnedMeshRenderer;
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -42,6 +42,11 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
     void Start()
     {
         _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+
+        _setAvatarNum = 0;
+        _setMaterialNum = 0;
+
+
         AvatarInit();
 
         //if(bool.Parse(MySqlSetting.GetValueByBase(Asset.EaccountdbColumns.Nickname,name,Asset.EaccountdbColumns.HaveCharacter)))
@@ -69,7 +74,7 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
             _userData = _femaleData;
             
         }
-        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[0];
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
 
 

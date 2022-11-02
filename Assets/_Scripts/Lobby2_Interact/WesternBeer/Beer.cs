@@ -8,15 +8,12 @@ using Photon.Realtime;
 public class Beer : InteracterableObject, IPunObservable
 {
 
-    public static UnityEvent OnDrinkBeer = new UnityEvent();
 
     [SerializeField] GameObject _fullBeer;
     private MeshCollider _meshCollider;
-    private OVRGrabbable _grabbable;
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
-    private BeerInteraction _beerInteraction;
-    private Rigidbody _rigidbody;
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -32,33 +29,18 @@ public class Beer : InteracterableObject, IPunObservable
         }
     }
 
+
+
     public void Start()
     {
         _initBeerPosition = transform.localPosition;
         _meshCollider = GetComponent<MeshCollider>();
-        _grabbable = GetComponent<OVRGrabbable>();
-        _rigidbody = GetComponent<Rigidbody>();
     }
 
- 
-    
-
-    public override void Interact()
+    public void CallDrinkBeer()
     {
-        if (_grabbable.isGrabbed)
-        {
-            _beerInteraction = transform.root.GetComponent<BeerInteraction>();
-
-            if(!_beerInteraction.IsCoolTime)
-            {
-                base.Interact();
-                OnDrinkBeer.Invoke();
-                photonView.RPC("DrinkBeer", RpcTarget.All);
-            }
-        }
+          photonView.RPC("DrinkBeer", RpcTarget.All);
     }
-
- 
 
     [PunRPC]
     public void DrinkBeer()
@@ -83,8 +65,6 @@ public class Beer : InteracterableObject, IPunObservable
 
         yield return null;
     }
-
-
 
 
 

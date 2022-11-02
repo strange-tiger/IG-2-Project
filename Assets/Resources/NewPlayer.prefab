@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 7985481654022924773}
   - component: {fileID: 3338769942497867043}
   - component: {fileID: 1256002991730642746}
+  - component: {fileID: 1924234363725857279}
   m_Layer: 0
   m_Name: NewPlayer
   m_TagString: Player
@@ -539,7 +540,6 @@ MonoBehaviour:
   - {fileID: 504067738957094329}
   - {fileID: 3338769942497867043}
   - {fileID: 2539422536599616235}
-  - {fileID: 0}
   - {fileID: 9032745608646816325}
   - {fileID: 2232617218266852011}
   sceneViewId: 0
@@ -634,10 +634,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7526bc14b4c6049acc0233d852dcae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDrunkenBeer:
-    m_PersistentCalls:
-      m_Calls: []
   _drunkenUI: {fileID: 0}
+--- !u!136 &1924234363725857279
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072405480879903498}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.52, z: 0.18}
 --- !u!114 &971891850876029811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,7 +717,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6229564028872401481}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97333481d5b4354bb7b71dabf71f353, type: 3}
   m_Name: 
