@@ -39,9 +39,9 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
-        _playerContollerMove = GetComponent<PlayerControllerMove>();
+        _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
 
-        _drunkenUI = GameObject.Find("DrunkenStack").GetComponent<Image>();
+        //_drunkenUI = GameObject.Find("DrunkenStack").GetComponent<Image>();
     }
 
     private void Update()
@@ -104,11 +104,13 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
         PlayerControlManager.Instance.IsMoveable = false;
         PlayerControlManager.Instance.IsRayable = false;
+        PlayerControlManager.Instance.IsInvincible = true;
 
         yield return _stunTime;
 
         PlayerControlManager.Instance.IsMoveable = true;
         PlayerControlManager.Instance.IsRayable = true;
+        PlayerControlManager.Instance.IsInvincible = false;
 
         elapsedTime = 0.0f;
 
