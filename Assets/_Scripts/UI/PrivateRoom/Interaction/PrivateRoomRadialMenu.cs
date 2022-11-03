@@ -116,6 +116,10 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     private void ButtonCMethod()
     {
+        if (!_spawnPaintbrush.photonView.IsMine)
+        {
+            return;
+        }
         Debug.Log("paint");
         _spawnPaintbrush.SpawnHelper();
     }
