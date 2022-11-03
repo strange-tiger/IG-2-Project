@@ -42,7 +42,6 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
 
-        //_drunkenUI = GameObject.Find("DrunkenStack").GetComponent<Image>();
         StartCoroutine(FindFadeImage());
     }
 
