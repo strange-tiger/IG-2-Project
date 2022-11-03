@@ -8,9 +8,10 @@ using Photon.Pun;
 public class BeerInteraction : MonoBehaviourPun, IPunObservable
 {
 
-    [SerializeField] Image _drunkenUI;
+    [SerializeField] Material _fadeMaterial;
 
     private PlayerControllerMove _playerContollerMove;
+    private MeshRenderer _fadeRenderer;
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
     private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
     private YieldInstruction _stunTime = new WaitForSeconds(5f);
@@ -42,10 +43,22 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
 
         //_drunkenUI = GameObject.Find("DrunkenStack").GetComponent<Image>();
+        StartCoroutine(FindFadeImage());
     }
 
+    IEnumerator FindFadeImage()
+    {
+        yield return new WaitForSeconds(4f);
+
+        _fadeRenderer = GameObject.Find("CenterEyeAnchor").GetComponent<MeshRenderer>();
+        _fadeRenderer.material = _fadeMaterial;
+        _fadeRenderer.enabled = true;
+
+        yield return null; 
+    }
     private void Update()
     {
+
         if(_drinkStack > -1)
         {
             _soberUpElapsedTime += Time.deltaTime;
@@ -95,7 +108,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
             _animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
 
-            _drunkenUI.color = new Color(0, 0, 0, _animatedFadeAlpha);
+            _fadeMaterial.color = new Color(0, 0, 0, _animatedFadeAlpha);
 
             yield return _fadeTime;
         }
@@ -120,7 +133,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
             _animatedFadeAlpha = Mathf.Lerp(endAlpha, startAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
 
-            _drunkenUI.color = new Color(0, 0, 0, _animatedFadeAlpha);
+            _fadeMaterial.color = new Color(0, 0, 0, _animatedFadeAlpha);
 
             yield return _fadeTime;
         }
@@ -129,7 +142,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
         _drinkStack = -1;
 
-        _drunkenUI.color = _initUIColor;
+        _fadeMaterial.color = _initUIColor;
 
         _tremblingSpeed[0] = _initPlayerSpeed;
         _tremblingSpeed[1] = _initPlayerSpeed;
@@ -156,7 +169,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
             }
             else if(_drinkStack < 5 && _drinkStack > 0)
             {
-                _drunkenUI.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
+                _fadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
 
                 _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
                 _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
@@ -175,7 +188,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
             _soberUpElapsedTime = 0;
 
-            _drunkenUI.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
+            _fadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
 
             _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
             _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
