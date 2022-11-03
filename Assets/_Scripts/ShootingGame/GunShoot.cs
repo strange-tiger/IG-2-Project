@@ -5,21 +5,24 @@ using TMPro;
 
 public class GunShoot : MonoBehaviour
 {
-    [Header("Basic State")]
+    [Header("Position")]
     [SerializeField] private Vector3 _offsetPosition = new Vector3(0.0478f, 0.0146f, 0.1126f);
     [SerializeField] private Transform[] handPosition;
+
+    [Header("BasicState")]
+    [SerializeField] private float _gunRange = 16f;
 
     [Header("Bullet")]
     [SerializeField] private TextMeshProUGUI _bulletCountText;
     private const int _MAX_BULLET_COUNT = 6;
-    private int _bulletCount = 0;
-    private int BulletCount
+    private int _bulletCount_ = 0;
+    private int _bulletCount
     {
-        get => _bulletCount;
+        get => _bulletCount_;
         set
         {
-            _bulletCount = value;
-            _bulletCountText.text = _bulletCount.ToString();
+            _bulletCount_ = value;
+            _bulletCountText.text = _bulletCount_.ToString();
         }
     }
 
@@ -47,24 +50,44 @@ public class GunShoot : MonoBehaviour
 
         _audioSource = GetComponent<AudioSource>();
 
-        BulletCount = _MAX_BULLET_COUNT;
+        _bulletCount = _MAX_BULLET_COUNT;
     }
 
     private void Update()
     {
         Reload();
-        Shoot();
+        Shot();
     }
 
-    private void Shoot()
+    private void Shot()
     {
-        if (!_input.IsRayDowns[_primaryController] || BulletCount <= 0)
+        if (!_input.IsRayDowns[_primaryController] || _bulletCount <= 0)
         {
             return;
         }
 
-        --BulletCount;
+        --_bulletCount;
 
+        PlayShotEffect();
+    }
+
+    private void HitTarget()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.forward);
+        if(Physics.Raycast(ray, out hit, _gunRange))
+        {
+            if(hit.collider.tag != "ShootingObject")
+            {
+                return;
+            }
+
+            // 여기에 스크립트 처리
+        }
+    }
+
+    private void PlayShotEffect()
+    {
         _bulletTrail.SetActive(true);
         Invoke("DisableBulletTrail", _bulletTrailDisableOffsetTime);
         foreach (ParticleSystem effect in _shootEffects)
@@ -76,7 +99,11 @@ public class GunShoot : MonoBehaviour
     private void Reload()
     {
         // 아래를 보고 있다면 장전
-        BulletCount = _MAX_BULLET_COUNT;
+        if (Vector3.Dot(transform.forward, Vector3.down) >= 0.8f)
+        {
+            Debug.Log("[Gun] Reload");
+            _bulletCount = _MAX_BULLET_COUNT;
+        }
     }
 
     private void DisableBulletTrail()
