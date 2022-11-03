@@ -21,16 +21,33 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if ( other.gameObject.GetComponent<FirstMoveAttackObj>() != null)
+        if (other.gameObject.GetComponent<FirstMoveAttackObj>() == null)
         {
-            return ;
+            return;
         }
-        _firstMoveAttackObj = other.gameObject.GetComponent<FirstMoveAttackObj>();
-        isGrab = true;
+        else
+        {
+            _firstMoveAttackObj = other.gameObject.GetComponent<FirstMoveAttackObj>();
+            isGrab = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<FirstMoveAttackObj>() == null)
+        {
+            return;
+        }
+        else
+        {
+            isGrab = false;
+            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, 0f);
+        }
     }
 
     private void Attack()
     {
+        Debug.Log("Attack 가능 상태");
         Collider[] colliders = Physics.OverlapSphere(_firstMoveAttackObj.transform.position, 1f);
 
         foreach (Collider collider in colliders)
@@ -41,7 +58,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
                 continue;
             }
             enemy.photonView.RPC("OnDamage", RpcTarget.All);
-            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All);
+            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, OVRScreenFade.instance.fadeTime);
         }
     }
 
