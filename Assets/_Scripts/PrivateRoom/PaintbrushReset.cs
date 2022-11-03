@@ -17,9 +17,9 @@ public class PaintbrushReset : MonoBehaviourPun, IPunObservable
     private const float LINE_SCALE = 0.5f;
 
     private int _memoryChildCount;
-    //private List<int> _memoryLinePointNums;
-    private List<Vector3[]> _memoryLinePoints;
-    private List<LineRenderer> _memoryLines;
+    private List<int> _memoryLinePointNums;
+    private List<Vector3[]> _memoryLinePoints = new List<Vector3[]>();
+    private List<LineRenderer> _memoryLines = new List<LineRenderer>();
     private Coroutine _coroutine;
 
     private void OnEnable()
@@ -46,7 +46,7 @@ public class PaintbrushReset : MonoBehaviourPun, IPunObservable
                 LineRenderer childLineRenderer = transform.GetChild(i).GetComponent<LineRenderer>();
                 int pointCount = childLineRenderer.positionCount;
 
-                //stream.SendNext(pointCount);
+                stream.SendNext(pointCount);
 
                 Vector3[] linePoints = new Vector3[pointCount];
                 childLineRenderer.GetPositions(linePoints);
@@ -61,11 +61,12 @@ public class PaintbrushReset : MonoBehaviourPun, IPunObservable
 
             MatchChildNum();
 
+            _memoryLinePointNums?.Clear();
+            _memoryLinePoints?.Clear();
             for (int i = 1; i < _memoryChildCount; ++i)
             {
-                //_memoryLinePointNums[i] = (int)stream.ReceiveNext();
-
-                _memoryLinePoints[i] = (Vector3[])stream.ReceiveNext();
+                _memoryLinePointNums.Add((int)stream.ReceiveNext());
+                _memoryLinePoints.Add((Vector3[])stream.ReceiveNext());
             }
 
             if (_coroutine != null) StopCoroutine(_coroutine);
@@ -113,6 +114,7 @@ public class PaintbrushReset : MonoBehaviourPun, IPunObservable
         {
             --count;
 
+            _memoryLines[count].positionCount = _memoryLinePointNums[count];
             _memoryLines[count].SetPositions(_memoryLinePoints[count]);
 
             yield return null;
