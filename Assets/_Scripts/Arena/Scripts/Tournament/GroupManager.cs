@@ -5,14 +5,10 @@ using UnityEngine.Events;
 
 public class GroupManager : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField] private int _setPosition;
+
     private GameObject[] _member = new GameObject[4];
-
-    [SerializeField]
-    private int _setPosition;
-
-    //[SerializeField]
-    //private AIDeath[] _aIDeath;
+    public GameObject[] Member { get { return _member; } }
 
     private GameObject[] _finalBattle = new GameObject[2];
 
@@ -30,7 +26,6 @@ public class GroupManager : MonoBehaviour
     public bool IsDraw { get { return _isDraw; } private set { _isDraw = value; } }
 
     private int _randomIndex;
-
 
     private void OnEnable()
     {
@@ -75,12 +70,6 @@ public class GroupManager : MonoBehaviour
         {
             _member[i].SetActive(true);
         }
-
-        //for (int i = 0; i < _aIDeath.Length; i++)
-        //{
-        //    _aIDeath[i].DeathAI.RemoveListener(SomeAIDied);
-        //    _aIDeath[i].DeathAI.AddListener(SomeAIDied);
-        //}
     }
 
     void Update()
@@ -90,11 +79,6 @@ public class GroupManager : MonoBehaviour
             // ÁØ°á½Â 1
             if ((_member[0].activeSelf == false || _member[1].activeSelf == false) && !_isFirstBattle)
             {
-                //if (_member[0].activeSelf == false && _member[1].activeSelf == false)
-                //{
-                //    _isDraw = true;
-                //}
-
                 if (_member[0].activeSelf)
                 {
                     _firstWinnerIndex = 0;
@@ -119,11 +103,6 @@ public class GroupManager : MonoBehaviour
             // ÁØ°á½Â 2
             if ((_member[2].activeSelf == false || _member[3].activeSelf == false) && _member[0].activeSelf == false && _member[1].activeSelf == false && _isSecondBattle)
             {
-                //if (_member[2].activeSelf == false && _member[3].activeSelf == false)
-                //{
-                //    _isDraw = true;
-                //}
-
                 if (_member[2].activeSelf)
                 {
                     _secondWinnerIndex = 2;
@@ -143,7 +122,6 @@ public class GroupManager : MonoBehaviour
                 Invoke("FinalBattle", 2f);
 
                 _isSecondBattle = false;
-
             }
 
             if (_member[0].activeSelf == false && _member[1].activeSelf == false && _member[2].activeSelf == false && _member[3].activeSelf == false && _isFinelBattle == true)
@@ -154,14 +132,13 @@ public class GroupManager : MonoBehaviour
                 _isWinnerIndex = true;
             }
 
-            //if (_finalBattle[0].activeSelf == false && _finalBattle[0].activeSelf == false)
-            //{
-            //    _isDraw = true;
-            //}
-
             if (_isWinnerIndex)
             {
-                SendWinnerIndex();
+                if (_finalBattle[0].activeSelf == false || _finalBattle[1].activeSelf == false)
+                {
+                    SendWinnerIndex();
+                    Debug.Log(WinnerIndex);
+                }
             }
         }
     }

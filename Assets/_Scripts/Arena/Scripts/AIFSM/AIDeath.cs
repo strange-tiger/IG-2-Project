@@ -23,8 +23,6 @@ public class AIDeath : AIState
         _animator.SetTrigger(AIAnimatorID.onDeath);
 
         Invoke("Delete", 10f);
-
-        Debug.Log($"{gameObject.name} : Death OnEnter");
     }
 
     public override void OnUpdate()

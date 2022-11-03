@@ -88,7 +88,7 @@ public class AIAttack : AIState
             int _enemyHp;
             _enemyHp = other.gameObject.GetComponentInParent<AIDamage>().Hp;
 
-            Debug.Log($"_enemyHp : {_enemyHp}, Me : {gameObject.name}");
+            //Debug.Log($"_enemyHp : {_enemyHp}, Me : {gameObject.name}");
 
             if (_enemyHp <= 0)
             {

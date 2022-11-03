@@ -42,17 +42,10 @@ public class AIDamage : AIState
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
-
         _hp -= _damage;
         _hp -= _skillDamage;
-
         _damageTime -= _damageTime;
-
         _isdamage = true;
-
-
-        Debug.Log($"Me : {gameObject.name}, Damage : {_damage}, SkillDamage : {_skillDamage}");
-        
         _damage = 0;
         _skillDamage = 0;
     }
@@ -73,7 +66,6 @@ public class AIDamage : AIState
         }
         if (_hp <= 0)
         {
-            Debug.Log($"{gameObject.name} : 이제 죽습니다.");
             aiFSM.ChangeState(EAIState.Death);
         }
     }
