@@ -15,7 +15,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [PunRPC]
     public void Crack(float respawnTime)
     {
-        //SoundManager.Instance.PlaySFXSound("쨍그랑!"); //해당 사운드 //근데 이것도 동기화 해야 할 듯
+        SoundManager.Instance.PlaySFXSound("쨍그랑!");
         Invoke("Respawn", respawnTime);
         PhotonNetwork.Destroy(gameObject);
     }
