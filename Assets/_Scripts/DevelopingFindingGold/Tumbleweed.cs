@@ -274,6 +274,10 @@ public class Tumbleweed : MonoBehaviourPun
     [PunRPC]
     private void DisableSelf()
     {
+        if(_isTherePlayer)
+        {
+            _playerInteraction.IsNearTumbleweed = false;
+        }
         gameObject.SetActive(false);
     }
 
