@@ -58,6 +58,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
     protected Dictionary<SyncOVRGrabbable, int> m_grabCandidates = new Dictionary<SyncOVRGrabbable, int>();
     protected bool m_operatingWithoutOVRCameraRig = true;
 
+    protected Collider _grabbedHandCollider;
+
     /// <summary>
     /// The currently grabbed object.
     /// </summary>
@@ -304,6 +306,11 @@ public class SyncOVRGrabber : MonoBehaviourPun
             {
                 m_grabbedObj.transform.parent = transform;
             }
+            else
+            {
+                _grabbedHandCollider = GetComponent<Collider>();
+                _grabbedHandCollider.isTrigger = true;
+            }
         }
     }
 
@@ -330,6 +337,14 @@ public class SyncOVRGrabber : MonoBehaviourPun
                 grabbedRigidbody.MovePosition(grabbablePosition);
                 grabbedRigidbody.MoveRotation(grabbableRotation);
             }
+            else
+            {
+                if (!m_parentHeldObject)
+                {
+                    _grabbedHandCollider.isTrigger = false;
+                    _grabbedHandCollider = null;
+                }
+            }
         }
     }
 
@@ -355,7 +370,15 @@ public class SyncOVRGrabber : MonoBehaviourPun
     protected void GrabbableRelease(Vector3 linearVelocity, Vector3 angularVelocity)
     {
         m_grabbedObj.GrabEnd(linearVelocity, angularVelocity);
-        if (m_parentHeldObject) m_grabbedObj.transform.parent = null;
+        if (m_parentHeldObject)
+        {
+            m_grabbedObj.transform.parent = null;
+        }
+        else
+        {
+            _grabbedHandCollider.isTrigger = false;
+            _grabbedHandCollider = null;
+        }
         m_grabbedObj = null;
     }
 

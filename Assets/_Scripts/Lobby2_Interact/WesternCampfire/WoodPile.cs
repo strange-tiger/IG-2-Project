@@ -1,11 +1,10 @@
-//#define _Photon
+#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 
-public class WoodPile : InteracterableObject
+public class WoodPile : InteracterableObject, IPunObservable
 {
     [SerializeField] GameObject _wood;
     private static readonly YieldInstruction INTERACT_COOLTIME = new WaitForSeconds(5f);
@@ -17,13 +16,11 @@ public class WoodPile : InteracterableObject
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(gameObject.activeSelf);
             stream.SendNext(_onCooltime);
         }
         else if (stream.IsReading)
         {
-            gameObject.SetActive((bool)stream.ReceiveNext());
-            _onCooltime = true;
+            _onCooltime = (bool)stream.ReceiveNext();
         }
     }
 
@@ -51,6 +48,11 @@ public class WoodPile : InteracterableObject
     [PunRPC]
     private void SpawnWood()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         Vector3 spawnDirection = 2f * Vector3.up + SPAWN_DIRECTION[Random.Range(0, 4)];
 
         GameObject wood = PhotonNetwork.Instantiate("Wood", transform.position, transform.rotation);
