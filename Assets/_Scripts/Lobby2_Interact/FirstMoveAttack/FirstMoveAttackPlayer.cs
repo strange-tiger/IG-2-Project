@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
-    private bool isGrab = false;
+    private bool _isGrab = false;
     private FirstMoveAttackObj _firstMoveAttackObj;
     private void Update()
     {
@@ -13,7 +13,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         {
             return;
         }
-        if (isGrab)
+        if (_isGrab)
         {
             Attack();
         }
@@ -28,7 +28,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         else
         {
             _firstMoveAttackObj = other.gameObject.GetComponent<FirstMoveAttackObj>();
-            isGrab = true;
+            _isGrab = true;
         }
     }
 
@@ -40,7 +40,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         }
         else
         {
-            isGrab = false;
+            _isGrab = false;
             _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, 0f);
         }
     }
