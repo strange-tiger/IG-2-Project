@@ -62,7 +62,6 @@ public class Beer : InteracterableObject, IPunObservable
 
         _meshCollider.enabled = false;
 
-
         yield return null;
     }
 
