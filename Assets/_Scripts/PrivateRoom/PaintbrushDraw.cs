@@ -1,4 +1,4 @@
-//#define _Photon
+#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,11 +38,11 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
     private void Update()
     {
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
-#if _Photon
-        photonView.RPC("RaycastOnClients", RpcTarget.All);
-#else
+//#if _Photon
+//        photonView.RPC("RaycastOnClients", RpcTarget.All);
+//#else
         RaycastOnClients();
-#endif
+//#endif
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -80,14 +80,14 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         {
             _isDraw = true;
 #if _Photon
-            photonView.RPC("CreateLine", RpcTarget.All, _currentPoint);
+            photonView.RPC("CreateLine", RpcTarget.AllBuffered, _currentPoint);
 #else
             CreateLine(_currentPoint);
 #endif
         }
     }
 
-    //[PunRPC]
+    [PunRPC]
     private void CreateLine(Vector3 startPos)
     {
         _positionCount = 2;
@@ -95,7 +95,7 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         _currentLineRenderer = GenerateLineRenderer(startPos);
 
 #if _Photon
-        photonView.RPC("ConnectLineOnClients", RpcTarget.All);
+        photonView.RPC("ConnectLineHelper", RpcTarget.AllBuffered);
 #else
         StartCoroutine(ConnectLine());
 #endif
@@ -125,7 +125,7 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
 
 #if _Photon
     [PunRPC]
-    private void ConnectLineOnClients()
+    private void ConnectLineHelper()
     {
         StartCoroutine(ConnectLine());
     }

@@ -38,7 +38,6 @@ public class PaintbrushReset : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(gameObject.activeSelf);
             stream.SendNext(transform.childCount);
 
             for (int i = 1; i < transform.childCount; ++i)
@@ -56,7 +55,6 @@ public class PaintbrushReset : MonoBehaviourPun, IPunObservable
         }
         else if (stream.IsReading)
         {
-            gameObject.SetActive((bool)stream.ReceiveNext());
             _memoryChildCount = (int)stream.ReceiveNext();
 
             MatchChildNum();
