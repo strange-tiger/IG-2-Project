@@ -159,16 +159,12 @@ public class Tumbleweed : MonoBehaviourPun
             return;
         }
 
-        Debug.Log("[Player] " + other.gameObject.name);
-
         PlayerTumbleweedInteraction playerInteraction =
             other.transform.root.GetComponentInChildren<PlayerTumbleweedInteraction>();
         if (!playerInteraction || playerInteraction.IsNearTumbleweed)
         {
             return;
         }
-
-        Debug.LogError(gameObject.name + " " + debugMessage);
 
         _outline.enabled = true;
 
@@ -191,8 +187,6 @@ public class Tumbleweed : MonoBehaviourPun
         {
             return;
         }
-
-        Debug.LogError(gameObject.name + " TriggerExit");
 
         _outline.enabled = false;
         
