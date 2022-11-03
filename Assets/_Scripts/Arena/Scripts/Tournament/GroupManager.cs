@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class GroupManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] _member;
+    private GameObject[] _member = new GameObject[4];
 
     [SerializeField]
     private int _setPosition;
@@ -29,6 +29,39 @@ public class GroupManager : MonoBehaviour
     private bool _isDraw;
     public bool IsDraw { get { return _isDraw; } private set { _isDraw = value; } }
 
+    private int _randomIndex;
+
+
+    private void OnEnable()
+    {
+        List<int> _memberIndexList = new List<int>();
+
+        for (int i = 0; i < _member.Length; ++i)
+        {
+            _randomIndex = Random.Range(0, 4);
+
+            for (int j = 0; j < _memberIndexList.Count;)
+            {
+                if (_memberIndexList[j] == _randomIndex)
+                {
+                    j = 0;
+                    _randomIndex = Random.Range(0, 4);
+                }
+                else
+                {
+                    ++j;
+                }
+            }
+            _memberIndexList.Add(_randomIndex);
+        }
+        Debug.Log($"{_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
+        for (int i = 0; i < _member.Length; ++i)
+        {
+            int index;
+            index = _memberIndexList[i];
+            _member[i] = transform.GetChild(index).gameObject;
+        }
+    }
 
     void Start()
     {
@@ -150,14 +183,14 @@ public class GroupManager : MonoBehaviour
         _member[2].SetActive(true);
         _member[3].SetActive(true);
 
-        
+
         _isSecondBattle = true;
     }
 
     // °á½ÂÀü
     private void FinalBattle()
     {
-        
+
         _isFinelBattle = true;
 
         _finalBattle[0].transform.rotation = Quaternion.Euler(0, 90, 0);

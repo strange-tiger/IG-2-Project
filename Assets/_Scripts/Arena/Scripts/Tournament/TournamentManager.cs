@@ -8,6 +8,7 @@ public class TournamentManager : MonoBehaviour
     private GameObject[] _groups;
 
     private int _selectGroup;
+
     private int _finalWinnerIndex;
 
     public int FinalWinnerIndex
@@ -25,8 +26,6 @@ public class TournamentManager : MonoBehaviour
     private void OnEnable()
     {
         _selectGroup = Random.Range(0, _groups.Length);
-
-        _selectGroup = 3;
 
         _groups[_selectGroup].SetActive(true);
     }
