@@ -65,6 +65,10 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
     [PunRPC]
     public void OnDamage()
     {
+        if(PlayerControlManager.Instance.IsInvincible == true)
+        {
+            return;
+        }
         // È­¸é ¹Ù·Î ²¨Áü
         PlayerControlManager.Instance.IsMoveable = false;
         PlayerControlManager.Instance.IsRayable = false;
