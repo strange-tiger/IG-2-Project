@@ -6,23 +6,33 @@ using Photon.Realtime;
 
 public class SpawnDice : MonoBehaviourPun, IPunObservable
 {
+    [SerializeField] GameObject _dice;
+
+    private Collider _diceCollider;
     private Transform _hostPlayer;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(gameObject.activeSelf);
+            stream.SendNext(_dice.activeSelf);
+            stream.SendNext(_diceCollider.enabled);
         }
         else if (stream.IsReading)
         {
-            gameObject.SetActive((bool)stream.ReceiveNext());
+            _dice.SetActive((bool)stream.ReceiveNext());
+            _diceCollider.enabled = (bool)stream.ReceiveNext();
         }
+    }
+
+    private void Awake()
+    {
+        _diceCollider = GetComponent<Collider>();
     }
 
     public void ToggleDice()
     {
-        if (!gameObject.activeSelf)
+        if (!_dice.activeSelf)
         {
             photonView.RPC("Spawn", RpcTarget.All);
         }
@@ -37,12 +47,12 @@ public class SpawnDice : MonoBehaviourPun, IPunObservable
     private void Spawn()
     {
         transform.position = SPAWN_POSITION;
-        gameObject.SetActive(true);
+        _dice.SetActive(true);
     }
 
     [PunRPC]
     private void Despawn()
     {
-        gameObject.SetActive(false);
+        _dice.SetActive(false);
     }
 }

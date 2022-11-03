@@ -6,17 +6,22 @@ using Photon.Realtime;
 
 public class SpawnPaintbrush : MonoBehaviourPun, IPunObservable
 {
+    [SerializeField] GameObject _legalPad;
+    [SerializeField] GameObject _pencil;
+
     private Transform _clientPlayer;
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(gameObject.activeSelf);
+            stream.SendNext(_legalPad.activeSelf);
+            stream.SendNext(_pencil.activeSelf);
         }
         else if (stream.IsReading)
         {
-            gameObject.SetActive((bool)stream.ReceiveNext());
+            _legalPad.SetActive((bool)stream.ReceiveNext());
+            _pencil.SetActive((bool)stream.ReceiveNext());
         }
     }
 

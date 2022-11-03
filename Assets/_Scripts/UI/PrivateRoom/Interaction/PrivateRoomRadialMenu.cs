@@ -38,7 +38,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             _dice = PhotonNetwork.Instantiate("Dice", transform.position, transform.rotation);
-            _dice.SetActive(false);
         }
         else
         {
@@ -48,7 +47,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         //
 
         _paintbrush = PhotonNetwork.Instantiate("Paintbrush", transform.position, transform.rotation);
-        _paintbrush.SetActive(false);
 
         _spawnDice = _dice.GetComponent<SpawnDice>();
         //
