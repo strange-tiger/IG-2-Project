@@ -1,4 +1,4 @@
-#define _Photon
+//#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
