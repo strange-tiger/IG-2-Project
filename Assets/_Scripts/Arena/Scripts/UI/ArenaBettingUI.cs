@@ -6,32 +6,21 @@ using UnityEngine.UI;
 
 public class ArenaBettingUI : MonoBehaviour
 {
-    [Header("그룹을 넣어주세요")]
-    [SerializeField] private GameObject _group;
-
-    [Header("그룹 텍스트")]
+    
+    [SerializeField] private TournamentManager _tournamentManager;
+    
     [SerializeField] private TextMeshProUGUI _groupNameText;
-
-    [Header("참가자들")]
-    [SerializeField] private GameObject[] _champion;
 
     [Header("참가자들 텍스트")]
     [SerializeField] private TextMeshProUGUI[] _championNameText;
 
-
-
     void Start()
     {
-        _groupNameText.text = _group.name;
+        _groupNameText.text = _tournamentManager.Groups[_tournamentManager.SelectGroup].name;
 
-        for (int i = 0; i < _champion.Length; ++i) 
+        for (int i = 0; i < 4; ++i)
         {
-            _championNameText[i].text = _champion[i].name;
+            _championNameText[i].text = _tournamentManager.Groups[_tournamentManager.SelectGroup].transform.GetChild(i).name;
         }
-    }
-
-    void Update()
-    {
-        
     }
 }

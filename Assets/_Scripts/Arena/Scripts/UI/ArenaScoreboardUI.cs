@@ -30,7 +30,7 @@ public class ArenaScoreboardUI : MonoBehaviour
     {
         for (int i = 0; i < _championNameText.Length; ++i)
         {
-            _championNameText[i].text = _groupManager.Member[i].name;
+            _championNameText[i].text = _groupManager.transform.GetChild(i).name;
         }
 
         for (int i = 0; i < _championSlider.Length; ++i)

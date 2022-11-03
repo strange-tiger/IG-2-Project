@@ -22,7 +22,7 @@ public class AIDeath : AIState
 
         _animator.SetTrigger(AIAnimatorID.onDeath);
 
-        Invoke("Delete", 10f);
+        Invoke("Delete", 5f);
     }
 
     public override void OnUpdate()
