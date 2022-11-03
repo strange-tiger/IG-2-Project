@@ -23,7 +23,7 @@ public class TournamentManager : MonoBehaviour
     {
         _selectGroup = Random.Range(0, _groups.Length);
 
-        _selectGroup = 3;
+        _selectGroup = 2;
 
         if (_vrUI.activeSelf == false)
         {
