@@ -31,6 +31,12 @@ public class GunShoot : MonoBehaviour
     [SerializeField] private GameObject _bulletTrail;
     [SerializeField] private float _bulletTrailDisableOffsetTime = 0.05f;
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
+    [Header("Vibration")]
+    [SerializeField] private float _vibrationTime = 0.1f;
+    [SerializeField] private float _vibrationFrequency = 0.3f;
+    [SerializeField] private float _vibrationAmplitude = 0.3f;
+    private OVRInput.Controller _mainController;
+    private WaitForSeconds _waitForViBrationTime;
 
     // 기타 필요 컨포넌트들
     private PlayerInput _input;
@@ -42,6 +48,7 @@ public class GunShoot : MonoBehaviour
     {
         _input = transform.root.GetComponentInChildren<PlayerInput>();
         _primaryController = (int)_input.PrimaryController;
+        _mainController = _primaryController == 0 ? OVRInput.Controller.LHand : OVRInput.Controller.RHand;
 
         transform.parent = handPosition[_primaryController];
         transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
@@ -51,6 +58,8 @@ public class GunShoot : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _bulletCount = _MAX_BULLET_COUNT;
+
+        _waitForViBrationTime = new WaitForSeconds(_vibrationTime);
     }
 
     private void Update()
@@ -88,12 +97,24 @@ public class GunShoot : MonoBehaviour
 
     private void PlayShotEffect()
     {
+        // 임시로 추가한 컨트롤러 진동
+        OVRInput.Controller mainController = _primaryController == 0 ? 
+            OVRInput.Controller.LHand : OVRInput.Controller.RHand;
+        StartCoroutine(CoVibrateController());
+
         _bulletTrail.SetActive(true);
         Invoke("DisableBulletTrail", _bulletTrailDisableOffsetTime);
         foreach (ParticleSystem effect in _shootEffects)
         {
             effect.Play();
         }
+    }
+
+    private IEnumerator CoVibrateController()
+    {
+        OVRInput.SetControllerVibration(_vibrationFrequency, _vibrationAmplitude, _mainController);
+        yield return _waitForViBrationTime;
+        OVRInput.SetControllerVibration(0, 0, _mainController);
     }
 
     private void Reload()
