@@ -36,8 +36,7 @@ public class Coin : MonoBehaviour
 
     public void RandomGetCoin()
     {
-        _audioSource.volume =
-            PlayerPrefs.GetFloat(VolumeController.VOLUME_CONTROLLER[(int)UINum.EffectVolume]);
+        _audioSource.volume = SoundManager.Instance.SFXVolume;
 
         int _randNum = Random.Range(1,1000);
         if(_randNum == 1000)

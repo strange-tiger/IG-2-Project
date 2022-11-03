@@ -6,10 +6,13 @@ public class TestInput : MonoBehaviour
 {
     private Vector3 curDir;
     private float speed = 5f;
+    [SerializeField]
+    private FirstMoveAttackObj attackObj;
 
     private void Awake()
     {
         curDir = Vector3.zero;
+        //attackObj = new FirstMoveAttackObj();
     }
     void Update()
     {
@@ -17,7 +20,6 @@ public class TestInput : MonoBehaviour
     }
     private void Move()
     {
-
         curDir = Vector3.zero;
 
         if (Input.GetKey(KeyCode.LeftArrow))

@@ -8,6 +8,8 @@ public class MagicWandGrabManager : MonoBehaviourPun
     [SerializeField]
     private MagicWand _magicWand;
 
+    private bool[] _isReady = new bool[2];
+
     private void Start()
     {
         if (photonView.IsMine)
@@ -20,7 +22,15 @@ public class MagicWandGrabManager : MonoBehaviourPun
     {
         if (other.tag == "Player")
         {
-            _magicWand.enabled = true;
+            for (int i = 0; i < _isReady.Length; ++i)
+            {
+                if (_isReady[i] != true)
+                {
+                    _isReady[i] = true;
+                    break;
+                }
+            }
+            WandState();
         }
     }
 
@@ -28,8 +38,27 @@ public class MagicWandGrabManager : MonoBehaviourPun
     {
         if (other.tag == "Player")
         {
-            _magicWand.enabled = false;
+            for (int i = 1; i >= 0; --i)
+            {
+                if (_isReady[i] != false)
+                {
+                    _isReady[i] = false;
+                    break;
+                }
+            }
+            WandState();
         }
     }
 
+    private void WandState()
+    {
+        if (_isReady[0] == true || _isReady[1] == true)
+        {
+            _magicWand.enabled = true;
+        }
+        else
+        {
+            _magicWand.enabled = false;
+        }
+    }
 }

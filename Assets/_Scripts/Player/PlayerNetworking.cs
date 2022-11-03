@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
-using Photon.Voice.Unity;
 
 public class PlayerNetworking : MonoBehaviourPunCallbacks
 {
@@ -20,7 +19,6 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _requestAlarmImage;
 
     [SerializeField] private AudioSource _newPlayerAudioSource;
-    private Recorder _recorder;
 
     private GameObject _pointer;
 
@@ -45,6 +43,11 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             _ovrCameraHandTransforms[0] = hands[0].transform.parent.GetChild(0);
             _ovrCameraHandTransforms[1] = hands[1].transform.parent.GetChild(0);
 
+            //OVRGrabber[] grabber = cameraRig.GetComponentsInChildren<OVRGrabber>();
+            //grabber[0].ParentTransform = _modelHandTransforms[0];
+            //grabber[1].ParentTransform = _modelHandTransforms[1];
+
+
             // 소셜 알림기능 연결
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
             socialTabManager.RequestAlarmImage = _requestAlarmImage;
@@ -53,10 +56,6 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             // 사운드 세팅 스크립트 연결
             VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
             volumeController.PlayerAudioSource = _newPlayerAudioSource;
-
-            _recorder = GetComponentInChildren<Recorder>();
-            ScrollButton scrollButton = cameraRig.GetComponentInChildren<ScrollButton>();
-            scrollButton.PhotonVoice = _recorder;
 
             // UI 다시 비활성화
             volumeController.transform.parent.gameObject.SetActive(false);

@@ -65,17 +65,24 @@ namespace Defines
     public enum EJobClass
     {
         Prototype,
+        HighClassKnight,
+        HighClassAdventurer,
+        FireWizard,
+        IceWizard,
+
     }
 
     public enum EAttackKind
     {
         Attack1,
         Attack2,
+        HighClassKnightAttack,
     }
 
     public enum EDamage
     {
         Damage10 = 10,
+        Damage15 = 15,
         Damage20 = 20,
         Damage30 = 30,
         Damage40 = 40,
@@ -84,5 +91,6 @@ namespace Defines
     public enum EHp
     {
         Hp100 = 100,
+        Hp200 = 200,
     }
 }

@@ -1,29 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Asset.MySql;
 
 public class MakeCharacterManager : MonoBehaviour
 {
+    private PlayerCustomize _playerCustomize;
 
-    [SerializeField] private Slider _characterRotateSlider;
-    [SerializeField] private Button _genderSelectButton;
-    [SerializeField] private Button _maleSelectButton;
-    [SerializeField] private Button _femaleSelectButton;
-    [SerializeField] private Button _makeCharacterButton;
-    [SerializeField] private GameObject _maleCharacter;
-    [SerializeField] private GameObject _femaleCharacter;
-    [SerializeField] private GameObject _customizingCharacter;
-    [SerializeField] private GameObject _genderSettingPanel;
-    [SerializeField] private GameObject _skinSettingPanel;
-    private bool _isFemaleCharacter;
+    [SerializeField] Button _maleSelectButton;
+    [SerializeField] Button _femaleSelectButton;
+    [SerializeField] Button _makeCharacterButton;
+    [SerializeField] GameObject _femalePanel;
+    [SerializeField] GameObject _malePanel;
 
     void Start()
     {
-        _genderSelectButton.onClick.RemoveListener(SelectGender);
-        _genderSelectButton.onClick.AddListener(SelectGender);
-
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _maleSelectButton.onClick.AddListener(SelectMale);
 
@@ -33,43 +26,42 @@ public class MakeCharacterManager : MonoBehaviour
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
         _makeCharacterButton.onClick.AddListener(CreateCharacter);
 
-        _characterRotateSlider.minValue = 0f;
-        _characterRotateSlider.maxValue = 360f;
-        _characterRotateSlider.value = 180f;
-
+        StartCoroutine(FindPlayerCustomize());
     }
 
-    private void Update()
+    IEnumerator FindPlayerCustomize()
     {
-        _customizingCharacter.transform.rotation = Quaternion.Euler(0, _characterRotateSlider.value, 0);
+        yield return new WaitForSeconds(5f);
+
+        _playerCustomize = GameObject.Find("SM_Chr_Peasant_Male_01").GetComponent<PlayerCustomize>();
+
+        yield return null;
+
     }
 
     private void SelectMale()
     {
-        _femaleCharacter.SetActive(false);
-        _maleCharacter.SetActive(true);
-        _isFemaleCharacter = false;
+        PlayerCustomize.IsFemale = 0;
+        _playerCustomize.AvatarInit();
+        _malePanel.SetActive(true);
+        _femalePanel.SetActive(false);
     }
     private void SelectFemale()
     {
-        _maleCharacter.SetActive(false);
-        _femaleCharacter.SetActive(true);
-        _isFemaleCharacter = true;
+        PlayerCustomize.IsFemale = 1;
+        _playerCustomize.AvatarInit();
+        _malePanel.SetActive(false);
+        _femalePanel.SetActive(true);
     }
-    private void SelectGender()
-    {
-        _skinSettingPanel.SetActive(false);
-        _genderSettingPanel.SetActive(true);
-    }
+
 
     private void CreateCharacter()
     {
-       
+        MySqlSetting.AddNewCharacter(name, $"{PlayerCustomize.IsFemale}");
     }
 
     private void OnDisable()
     {
-        _genderSelectButton.onClick.RemoveListener(SelectGender);
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _femaleSelectButton.onClick.RemoveListener(SelectFemale);
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
