@@ -42,14 +42,14 @@ public class MakeCharacterManager : MonoBehaviour
     private void SelectMale()
     {
         PlayerCustomize.IsFemale = 0;
-        _playerCustomize.AvatarInit();
+        _playerCustomize.MakeAvatarData();
         _malePanel.SetActive(true);
         _femalePanel.SetActive(false);
     }
     private void SelectFemale()
     {
         PlayerCustomize.IsFemale = 1;
-        _playerCustomize.AvatarInit();
+        _playerCustomize.MakeAvatarData();
         _malePanel.SetActive(false);
         _femalePanel.SetActive(true);
     }

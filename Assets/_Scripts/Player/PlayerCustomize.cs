@@ -4,8 +4,9 @@ using UnityEngine;
 using Asset.MySql;
 using System;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayerCustomize : MonoBehaviourPun,IPunObservable
+public class PlayerCustomize : MonoBehaviourPunCallbacks
 {
     public static int IsFemale = 0;
 
@@ -14,54 +15,31 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
     [SerializeField] UserCustomizeData _userData;
     private int _setAvatarNum;
     private int _setMaterialNum;
+    private bool _isLoadData;
     private CustomizeData _materialData;
     private SkinnedMeshRenderer _skinnedMeshRenderer;
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if(stream.IsWriting)
-        {
-            stream.SendNext(IsFemale);
-            stream.SendNext(_setAvatarNum);
-            stream.SendNext(_setMaterialNum);
-        }
-        else if(stream.IsReading)
-        {
-            if ((int)stream.ReceiveNext() == 0)
-            {
-                _userData = _maleData;
-            }
-            else
-            {
-                _userData = _femaleData;
-            }
-            _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[(int)stream.ReceiveNext()];
-            _skinnedMeshRenderer.material = _materialData.AvatarMaterial[(int)stream.ReceiveNext()];
-
-        }
-    }
+ 
     void Start()
     {
         _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 
-        _setAvatarNum = 0;
-        _setMaterialNum = 0;
+        if (!_isLoadData)
+        {
+            //if (bool.Parse(MySqlSetting.GetValueByBase(Asset.EaccountdbColumns.Nickname, name, Asset.EaccountdbColumns.HaveCharacter)))
+            //{
+            //    LoadAvatarData();
+            //}
+            //else
+            //{
+            //    MakeAvatarData();
+            //}
+        }
 
-
-        AvatarInit();
-
-        //if(bool.Parse(MySqlSetting.GetValueByBase(Asset.EaccountdbColumns.Nickname,name,Asset.EaccountdbColumns.HaveCharacter)))
-        //{
-        //    AvatarSetting();
-        //}
-        //else
-        //{
-
-        //    AvatarInit();
-        //}
+        photonView.RPC("AvatarSetting", RpcTarget.All);
     }
 
 
-    public void AvatarInit()
+    public void MakeAvatarData()
     {
 
         if(IsFemale == 0)
@@ -74,13 +52,16 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
             _userData = _femaleData;
             
         }
-        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
-        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
 
+        _setAvatarNum = 0;
+        _setMaterialNum = 0;
+
+        _isLoadData = true;
 
     }
 
-    private void AvatarSetting()
+  
+    private void LoadAvatarData()
     {
         
         bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.Gender));
@@ -118,11 +99,22 @@ public class PlayerCustomize : MonoBehaviourPun,IPunObservable
 
         // 장착중이던 아이템과 Material을 적용시킴.
         _setMaterialNum = _userData.UserMaterial[0];
-        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
-        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
+
+        _isLoadData = true;
 
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum);
+    }
 
+
+    [PunRPC]
+    public void AvatarSetting()
+    {
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
+        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
+    }
 
 }
