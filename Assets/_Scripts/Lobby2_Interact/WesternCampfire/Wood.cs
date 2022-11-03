@@ -4,29 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Wood : MonoBehaviourPun, IPunObservable
+public class Wood : MonoBehaviourPun
 {
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(gameObject.activeSelf);
-        }
-        else if (stream.IsReading)
-        {
-            gameObject.SetActive((bool)stream.ReceiveNext());
-        }
-    }
+    [SerializeField] AudioSource _audioSource;
+    [SerializeField] AudioClip _audioClip;
 
     private const float COUNT_DOWN_TIME = 3f;
     private const string CAMPFIRE_TAG = "Campfire";
 
     private Coroutine _countDown;
-    private OVRGrabbable _grabbable;
+    private SyncOVRGrabbable _grabbable;
 
     private void OnEnable()
     {
-        _grabbable = GetComponent<OVRGrabbable>();
+        _grabbable = GetComponent<SyncOVRGrabbable>();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!_grabbable.isGrabbed)
+            _audioSource.PlayOneShot(_audioClip);
     }
 
     private void OnTriggerEnter(Collider other)
