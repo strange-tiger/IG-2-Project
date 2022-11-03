@@ -24,8 +24,8 @@ public class RadialCursor : MonoBehaviour
     {
         if (collision.CompareTag("Button"))
         {
-            RadialMenu._buttonOne = null;
             RadialMenu._buttonOne.image.color = _unSelectedColor;
+            RadialMenu._buttonOne = null;
             RadialMenu._buttonOneImage = null;
         }
     }
