@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class TournamentManager : MonoBehaviour
 {
@@ -21,23 +22,28 @@ public class TournamentManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _selectGroup = Random.Range(0, _groups.Length);
-
-        _selectGroup = 2;
-
-        if (_vrUI.activeSelf == false)
+        if (PhotonNetwork.IsMasterClient)
         {
-            _vrUI.SetActive(true);
-        }
+            _selectGroup = Random.Range(0, _groups.Length);
 
-        Invoke("GameStart", _startSecond);
+            _selectGroup = 2;
+
+            if (_vrUI.activeSelf == false)
+            {
+                _vrUI.SetActive(true);
+            }
+
+            Invoke("GameStart", _startSecond);
+        }
     }
-    
+
     private void GameStart()
     {
         _groups[_selectGroup].SetActive(true);
 
         _vrUI.SetActive(false);
+
+        gameObject.SetActive(false);
     }
 
     private void OnDisable()

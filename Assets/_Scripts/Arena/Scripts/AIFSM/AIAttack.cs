@@ -37,7 +37,7 @@ public class AIAttack : AIState
         _animator.SetBool(AIAnimatorID.isAttack, true);
         _isSkillCoolTime = true;
         _changeStateAttackToDamage = false;
-        _isAnd = false;
+        _isAnd = false; 
     }
 
     public override void OnUpdate()

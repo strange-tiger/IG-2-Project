@@ -32,7 +32,7 @@ public class AIDeath : AIState
 
     public override void OnExit()
     {
-        _animator.SetBool(AIAnimatorID.isDeath, false);
+        
     }
 
     private void Delete()

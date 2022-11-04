@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class ArenaBettingUI : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class ArenaBettingUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] _championNameText;
 
     void Start()
+    {
+       // photonView.RPC("BettingForChampionSetting", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void BettingForChampionSetting()
     {
         _groupNameText.text = _tournamentManager.Groups[_tournamentManager.SelectGroup].name;
 
