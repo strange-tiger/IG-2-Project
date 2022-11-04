@@ -12,6 +12,8 @@ public class PrivateRoomNPC : InteracterableObject
     {
         base.Interact();
 
+        OutFocus();
+
         _privateRoomUI.LoadUI(_UI.JOIN);
     }
 }
