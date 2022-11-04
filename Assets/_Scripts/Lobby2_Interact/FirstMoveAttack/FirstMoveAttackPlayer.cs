@@ -69,7 +69,8 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         {
             return;
         }
-        // È­¸é ¹Ù·Î ²¨Áü
+
+        OVRScreenFade.instance.FadeOut();
         PlayerControlManager.Instance.IsMoveable = false;
         PlayerControlManager.Instance.IsRayable = false;
         StartCoroutine(Invincible(20f));
