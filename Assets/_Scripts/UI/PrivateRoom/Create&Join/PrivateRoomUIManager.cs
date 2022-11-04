@@ -9,10 +9,11 @@ public class PrivateRoomUIManager : UIManager
 {
     [SerializeField] TMP_InputField[] _inputFields;
     [SerializeField] TMP_InputField[] _inputNumField;
+    [SerializeField] Collider _npcCollider;
 
     private void Awake()
     {
-        ShutUI();
+        ShutUIPrivateRoom();
 
         foreach (TMP_InputField input in _inputFields)
         {
@@ -38,6 +39,15 @@ public class PrivateRoomUIManager : UIManager
     /// <param name="ui"></param>
     public void LoadUI(_UI ui)
     {
+        _npcCollider.enabled = false;
+
         LoadUI((int)ui);
+    }
+
+    public void ShutUIPrivateRoom()
+    {
+        ShutUI();
+
+        _npcCollider.enabled = true;
     }
 }

@@ -73,6 +73,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         try
         {
             PhotonNetwork.JoinLobby();
+            Debug.Log("방 생성 시도");
         }
         catch
         {
@@ -119,7 +120,8 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        //PhotonNetwork.LoadLevel("PrivateRoom");
+        // 임시 코드
+        PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
     }
 
     private void ActivePasswordInput(bool isOn)

@@ -131,7 +131,7 @@ public class JoinRoomUI : MonoBehaviour
         JoinRoom.JoinRandom();
     }
 
-    private void Close() => _uiManager.ShutUI();
+    private void Close() => _uiManager.ShutUIPrivateRoom();
 
     #region Legacy
     /*
