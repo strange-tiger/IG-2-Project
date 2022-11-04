@@ -31,6 +31,12 @@ public class GunShoot : MonoBehaviour
     [SerializeField] private GameObject _bulletTrail;
     [SerializeField] private float _bulletTrailDisableOffsetTime = 0.05f;
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
+
+    [Header("Sounds")]
+    [SerializeField] private AudioClip _shotAudioClip;
+    [SerializeField] private AudioClip _reloadAudioClip;
+    private AudioSource _audioSource;
+    
     [Header("Vibration")]
     [SerializeField] private float _vibrationTime = 0.1f;
     [SerializeField] private float _vibrationFrequency = 0.3f;
@@ -38,11 +44,11 @@ public class GunShoot : MonoBehaviour
     private OVRInput.Controller _mainController;
     private WaitForSeconds _waitForViBrationTime;
 
+
     // 기타 필요 컨포넌트들
     private PlayerInput _input;
     private int _primaryController;
-
-    private AudioSource _audioSource;
+    private bool _isReloading;
 
     private void Awake()
     {
@@ -108,6 +114,7 @@ public class GunShoot : MonoBehaviour
         {
             effect.Play();
         }
+        _audioSource.PlayOneShot(_shotAudioClip);
     }
 
     private IEnumerator CoVibrateController()
@@ -119,11 +126,21 @@ public class GunShoot : MonoBehaviour
 
     private void Reload()
     {
+        // 다시 위로 향하면 장전 종료
+        if(_isReloading)
+        {
+            if(Vector3.Dot(transform.forward, Vector3.down) <= 0.5f)
+            {
+                _isReloading = false;
+            }
+        }
         // 아래를 보고 있다면 장전
-        if (Vector3.Dot(transform.forward, Vector3.down) >= 0.8f)
+        else if (Vector3.Dot(transform.forward, Vector3.down) >= 0.8f)
         {
             Debug.Log("[Gun] Reload");
             _bulletCount = _MAX_BULLET_COUNT;
+            _audioSource.PlayOneShot(_reloadAudioClip);
+            _isReloading = true;
         }
     }
 
