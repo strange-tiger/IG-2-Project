@@ -9,11 +9,13 @@ public class Wood : MonoBehaviourPun
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip _audioClip;
 
+    private static readonly YieldInstruction SOUND_COOLTIME = new WaitForSeconds(1f);
     private const float COUNT_DOWN_TIME = 3f;
     private const string CAMPFIRE_TAG = "Campfire";
 
     private Coroutine _countDown;
     private SyncOVRGrabbable _grabbable;
+    private bool _notOnCooltime = true;
 
     private void OnEnable()
     {
@@ -22,8 +24,20 @@ public class Wood : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_grabbable.isGrabbed)
+        if (!_grabbable.isGrabbed && _notOnCooltime)
+        {
             _audioSource.PlayOneShot(_audioClip);
+            StartCoroutine(Cooltime());
+        }
+    }
+
+    IEnumerator Cooltime()
+    {
+        _notOnCooltime = false;
+
+        yield return SOUND_COOLTIME;
+
+        _notOnCooltime = true;
     }
 
     private void OnTriggerEnter(Collider other)
