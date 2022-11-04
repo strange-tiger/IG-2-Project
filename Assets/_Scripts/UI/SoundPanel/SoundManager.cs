@@ -20,35 +20,58 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField]
     private AudioSource _sfxPlayer;
+    public float SFXVolume { get { return _sfxPlayer.volume; } }
     [SerializeField]
     private AudioSource _bgmPlayer;
+    public float BGMVolume { get { return _bgmPlayer.volume; } }
     [SerializeField]
     private AudioClip[] _sfxClip;
-
-    private float _sfxVolume = 1f;
-    public float SFXVolume { get { return _sfxVolume; } set { _sfxVolume = value; } }
-    private float _bgmVolume = 1f;
-    public float BGMVolume { get { return _bgmVolume; } set { _bgmVolume = value; } }
 
     private Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
     private Recorder _lobbyRecoder;
     public Recorder LobbyRecorder { get { return _lobbyRecoder; } }
+    public AudioSource PlayerAudioSource { get; set; }
+
+    public readonly static string[] VOLUME_CONTROLLER =
+       { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
     private void Awake()
     {
         _lobbyRecoder = GetComponent<Recorder>();
+        _lobbyRecoder.TransmitEnabled = false;
+
+        for (int i = 0; i < VOLUME_CONTROLLER.Length; i++)
+        {
+            InitValue(VOLUME_CONTROLLER[i]);
+        }
+        SoundManager.Instance.Refresh();
+
+        _bgmPlayer.volume = BGMVolume;
+        _bgmPlayer.Play();
     }
 
-    private void OnEnable()
+    private float _initVolume = 0.5f;
+    private void InitValue(string key)
     {
-        PlayBGMSound(PlayerPrefs.GetFloat
-            (VolumeController.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]));
+        if (PlayerPrefs.HasKey(key) == false)
+        {
+            PlayerPrefs.SetFloat(key, _initVolume);
+        }
     }
-
-    private void Update()
+    public void Refresh()
     {
-        _bgmPlayer.volume = PlayerPrefs.GetFloat
-            (VolumeController.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]);
+        AudioListener.volume = 
+            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.MasterVolume]);
+
+        if(_bgmPlayer != null) _bgmPlayer.volume = 
+            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]);
+
+        if (_sfxPlayer != null) _sfxPlayer.volume =
+             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.EffectVolume]);
+
+        if (PlayerAudioSource != null) PlayerAudioSource.volume =
+            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.InputVolume]);
+
     }
 
     public void PlaySFXSound(string name, float volume = 1f)
@@ -58,13 +81,7 @@ public class SoundManager : MonoBehaviour
             Debug.Log(name + " is not Contained audioClips");
             return;
         }
-        _sfxPlayer.PlayOneShot(_audioClips[name], volume * SFXVolume);
-    }
-    public void PlayBGMSound(float volume = 1f)
-    {
-        _bgmPlayer.loop = true;
-        _bgmPlayer.volume = volume;
-        _bgmPlayer.Play();
+        _sfxPlayer.PlayOneShot(_audioClips[name], SFXVolume);
     }
 
     public void StopBGMSound()

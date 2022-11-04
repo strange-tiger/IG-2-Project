@@ -3,35 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using Asset.MySql;
 using System;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayerCustomize : MonoBehaviour
+public class PlayerCustomize : MonoBehaviourPunCallbacks
 {
     public static int IsFemale = 0;
 
     [SerializeField] UserCustomizeData _femaleData;
     [SerializeField] UserCustomizeData _maleData;
     [SerializeField] UserCustomizeData _userData;
-    private int _equipNum;
+    private int _setAvatarNum;
+    private int _setMaterialNum;
+    private bool _isLoadData;
+    private CustomizeData _materialData;
     private SkinnedMeshRenderer _skinnedMeshRenderer;
+ 
     void Start()
     {
         _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 
-        AvatarInit();
+        if (!_isLoadData)
+        {
+            //if (bool.Parse(MySqlSetting.GetValueByBase(Asset.EaccountdbColumns.Nickname, name, Asset.EaccountdbColumns.HaveCharacter)))
+            //{
+            //    LoadAvatarData();
+            //}
+            //else
+            //{
+            //    MakeAvatarData();
+            //}
+        }
 
-        //if(bool.Parse(MySqlSetting.GetValueByBase(Asset.EaccountdbColumns.Nickname,name,Asset.EaccountdbColumns.HaveCharacter)))
-        //{
-        //    AvatarSetting();
-        //}
-        //else
-        //{
-
-        //    AvatarInit();
-        //}
+        photonView.RPC("AvatarSetting", RpcTarget.All);
     }
 
 
-    public void AvatarInit()
+    public void MakeAvatarData()
     {
 
         if(IsFemale == 0)
@@ -44,11 +52,16 @@ public class PlayerCustomize : MonoBehaviour
             _userData = _femaleData;
             
         }
-        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[0];
+
+        _setAvatarNum = 0;
+        _setMaterialNum = 0;
+
+        _isLoadData = true;
 
     }
 
-    private void AvatarSetting()
+  
+    private void LoadAvatarData()
     {
         
         bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.Gender));
@@ -79,16 +92,29 @@ public class PlayerCustomize : MonoBehaviour
         {
             if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
             {
-                _equipNum = i;
+                _setAvatarNum = i;
                 break;
             }
         }
 
         // 장착중이던 아이템과 Material을 적용시킴.
-        float _setMaterialNum = _userData.UserMaterial[0];
-        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_equipNum];
-    }
-    
+        _setMaterialNum = _userData.UserMaterial[0];
 
+        _isLoadData = true;
+
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum);
+    }
+
+
+    [PunRPC]
+    public void AvatarSetting()
+    {
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
+        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
+    }
 
 }

@@ -28,17 +28,6 @@ public class PianoButton : MonoBehaviourPunCallbacks
         _audioSource.clip = _myAudioClip;
         _audioSource.spatialBlend = 1;
     }
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if (stream.IsWriting)
-    //    {
-    //        stream.SendNext(SteppedCount);
-    //    }
-    //    else
-    //    {
-    //        SteppedCount = (int)stream.ReceiveNext();
-    //    }
-    //}
     
     [PunRPC]
     private void PlayerJoined(int steppedCount)
@@ -52,37 +41,22 @@ public class PianoButton : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "PlayerBody")
         {
-            //if (photonView.IsMine)
-            {
-                //++SteppedCount;
-                photonView.RPC("AddSteppedCount", RpcTarget.All);
-                Debug.Log("들어오라고!");
-            }
-
-            Debug.Log(_steppedCount);
+            photonView.RPC("AddSteppedCount", RpcTarget.All);
 
             if (SteppedCount == 1)
             {
                 photonView.RPC("PlayPianoSound", RpcTarget.All);
             }
-
-            //if (PhotonNetwork.IsMasterClient)
-            //{
-            //}
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "PlayerBody")
         {
-            //if (photonView.IsMine)
-            {
-                //--SteppedCount;
-                photonView.RPC("SubtractSteppedCount", RpcTarget.All);
-            }
+            photonView.RPC("SubtractSteppedCount", RpcTarget.All);
         }
     }
 

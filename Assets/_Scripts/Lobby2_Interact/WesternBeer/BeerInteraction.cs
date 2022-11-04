@@ -5,46 +5,59 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using Photon.Pun;
 
-public class BeerInteraction : MonoBehaviourPun
+public class BeerInteraction : MonoBehaviourPun, IPunObservable
 {
 
-    public UnityEvent OnDrunkenBeer = new UnityEvent();
-    public bool IsCoolTime { get; private set; }
-
-    [SerializeField] Image _drunkenUI;
+    [SerializeField] Material _fadeMaterial;
 
     private PlayerControllerMove _playerContollerMove;
-    private PlayerInput _playerInput;
+    private MeshRenderer _fadeRenderer;
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
     private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
     private YieldInstruction _stunTime = new WaitForSeconds(5f);
+    private Color _initUIColor = new Color(1f, 1f, 0.28f, 0f);
     private int _drinkStack = -1;
+    private bool _isTrembling;
+    private bool _isCoolTime;
+    private float[] _tremblingSpeed = new float[2];
     private float _soberUpElapsedTime;
     private float _tremblingElapsedTime;
-    private float _initPlayerSpeed;
-    private bool _isTrembling;
-    private float[] _tremblingSpeed = new float[2];
-    private Color _initUIColor = new Color(1f, 1f, 0.28f, 0f);
+    private float _initPlayerSpeed = 1.0f;
     private float _animatedFadeAlpha;
-    private void OnEnable()
+   
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Beer.OnDrinkBeer.RemoveListener(CallDrinkBeer);
-        Beer.OnDrinkBeer.AddListener(CallDrinkBeer);
-
+        if(stream.IsWriting)
+        {
+            stream.SendNext(_drinkStack);
+        }
+        else if (stream.IsReading)
+        {
+            _drinkStack = (int)stream.ReceiveNext();
+        }
     }
+
+
     private void Start()
     {
-        _playerContollerMove = GetComponent<PlayerControllerMove>();
+        _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
 
-        _playerInput = GameObject.Find("OVRCameraRig(Clone)").GetComponent<PlayerInput>();
-        _drunkenUI = GameObject.Find("DrunkenStack").GetComponent<Image>();
-
-        _initPlayerSpeed = _playerContollerMove.MoveScale;
-        
+        StartCoroutine(FindFadeImage());
     }
 
+    IEnumerator FindFadeImage()
+    {
+        yield return new WaitForSeconds(4f);
+
+        _fadeRenderer = GameObject.Find("CenterEyeAnchor").GetComponent<MeshRenderer>();
+        _fadeRenderer.material = _fadeMaterial;
+        _fadeRenderer.enabled = true;
+
+        yield return null; 
+    }
     private void Update()
     {
+
         if(_drinkStack > -1)
         {
             _soberUpElapsedTime += Time.deltaTime;
@@ -75,9 +88,10 @@ public class BeerInteraction : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void CallDrinkBeer()
     {
-        if(!IsCoolTime)
+        if(photonView.IsMine)
         {
             DrinkBeer();
         }
@@ -93,18 +107,22 @@ public class BeerInteraction : MonoBehaviourPun
 
             _animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
 
-            _drunkenUI.color = new Color(0, 0, 0, _animatedFadeAlpha);
+            _fadeMaterial.color = new Color(0, 0, 0, _animatedFadeAlpha);
 
             yield return _fadeTime;
         }
 
         _animatedFadeAlpha = endAlpha;
 
-        _playerInput.enabled = false;
+        PlayerControlManager.Instance.IsMoveable = false;
+        PlayerControlManager.Instance.IsRayable = false;
+        PlayerControlManager.Instance.IsInvincible = true;
 
         yield return _stunTime;
 
-        _playerInput.enabled = true;
+        PlayerControlManager.Instance.IsMoveable = true;
+        PlayerControlManager.Instance.IsRayable = true;
+        PlayerControlManager.Instance.IsInvincible = false;
 
         elapsedTime = 0.0f;
 
@@ -114,7 +132,7 @@ public class BeerInteraction : MonoBehaviourPun
 
             _animatedFadeAlpha = Mathf.Lerp(endAlpha, startAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
 
-            _drunkenUI.color = new Color(0, 0, 0, _animatedFadeAlpha);
+            _fadeMaterial.color = new Color(0, 0, 0, _animatedFadeAlpha);
 
             yield return _fadeTime;
         }
@@ -123,7 +141,7 @@ public class BeerInteraction : MonoBehaviourPun
 
         _drinkStack = -1;
 
-        _drunkenUI.color = _initUIColor;
+        _fadeMaterial.color = _initUIColor;
 
         _tremblingSpeed[0] = _initPlayerSpeed;
         _tremblingSpeed[1] = _initPlayerSpeed;
@@ -131,27 +149,31 @@ public class BeerInteraction : MonoBehaviourPun
     }
     private void DrinkBeer()
     {
-        IsCoolTime = true;
-
-        _drinkStack++;
-
-        _soberUpElapsedTime = 0;
-
-
-        _playerContollerMove.MoveScale = _initPlayerSpeed;
-
-        StartCoroutine(CoolTime());
-
-        if(_drinkStack == 5)
+        if(photonView.IsMine)
         {
-           StartCoroutine(Fade(0, 1));   
-        }
-        else if(_drinkStack < 5 && _drinkStack > 0)
-        {
-            _drunkenUI.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
+            _isCoolTime = true;
 
-            _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
-            _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
+            _drinkStack++;
+
+            _soberUpElapsedTime = 0;
+
+
+            _playerContollerMove.MoveScale = _initPlayerSpeed;
+
+            StartCoroutine(CoolTime());
+
+            if(_drinkStack == 5)
+            {
+               StartCoroutine(Fade(0, 1));   
+            }
+            else if(_drinkStack < 5 && _drinkStack > 0)
+            {
+                _fadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
+
+                _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
+                _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
+            }
+
         }
         
     }
@@ -159,30 +181,40 @@ public class BeerInteraction : MonoBehaviourPun
   
     private void SoberUp()
     {
-        _drinkStack--;
+        if(photonView.IsMine)
+        {
+            _drinkStack--;
 
-        _soberUpElapsedTime = 0;
+            _soberUpElapsedTime = 0;
 
-        _drunkenUI.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
+            _fadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
 
-        _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
-        _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
+            _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
+            _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
+        }
     }
 
     private IEnumerator CoolTime()
     {
         yield return _coolTime;
 
-        IsCoolTime = false;
+        _isCoolTime = false;
 
         yield return null;
     }
 
-    private void OnDisable()
+    private void OnTriggerEnter(Collider other)
     {
-        Beer.OnDrinkBeer.RemoveListener(CallDrinkBeer);
+        if(other.CompareTag("Beer"))
+        {
+            if(!_isCoolTime)
+            {
+                photonView.RPC("CallDrinkBeer",RpcTarget.All);
+                other.GetComponent<Beer>().CallDrinkBeer();
+                Debug.Log(_drinkStack);
+            }
+        }
     }
-
 
 
 }

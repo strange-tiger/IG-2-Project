@@ -17,7 +17,6 @@ public class MakeCharacterManager : MonoBehaviour
 
     void Start()
     {
-        _playerCustomize = GameObject.Find("CharacterModel").GetComponent<PlayerCustomize>();
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _maleSelectButton.onClick.AddListener(SelectMale);
 
@@ -27,20 +26,30 @@ public class MakeCharacterManager : MonoBehaviour
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
         _makeCharacterButton.onClick.AddListener(CreateCharacter);
 
+        StartCoroutine(FindPlayerCustomize());
     }
 
+    IEnumerator FindPlayerCustomize()
+    {
+        yield return new WaitForSeconds(5f);
+
+        _playerCustomize = GameObject.Find("SM_Chr_Peasant_Male_01").GetComponent<PlayerCustomize>();
+
+        yield return null;
+
+    }
 
     private void SelectMale()
     {
         PlayerCustomize.IsFemale = 0;
-        _playerCustomize.AvatarInit();
+        _playerCustomize.MakeAvatarData();
         _malePanel.SetActive(true);
         _femalePanel.SetActive(false);
     }
     private void SelectFemale()
     {
         PlayerCustomize.IsFemale = 1;
-        _playerCustomize.AvatarInit();
+        _playerCustomize.MakeAvatarData();
         _malePanel.SetActive(false);
         _femalePanel.SetActive(true);
     }
