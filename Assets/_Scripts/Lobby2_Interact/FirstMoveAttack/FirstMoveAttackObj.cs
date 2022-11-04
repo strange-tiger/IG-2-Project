@@ -6,25 +6,20 @@ using Photon.Pun;
 public class FirstMoveAttackObj : MonoBehaviourPun
 {
     private Vector3 _objSpawnPos;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
         _objSpawnPos = transform.position;
+        _audioSource = GetComponent<AudioSource>();
     }
 
-    public void OnTriggerExit(Collider other) // 놓쳐버린 경우, 조금 더 디테일할 필요 있음
+    [PunRPC]
+    public void Crack(float respawnTime)
     {
-        if (other.CompareTag("Player"))
-        {
-            PhotonNetwork.Destroy(gameObject);
-            Respawn();
-        }
-    }
-
-    public void Crack()
-    {
-        //SoundManager.Instance.PlaySFXSound("쨍그랑!"); //해당 사운드 //근데 이것도 동기화 해야 할 듯
-        Invoke("Respawn", 2f); // fade-in delay 타임 넣을 것
+        _audioSource.volume = SoundManager.Instance.SFXVolume;
+        _audioSource.Play();
+        Invoke("Respawn", respawnTime);
         PhotonNetwork.Destroy(gameObject);
     }
 
