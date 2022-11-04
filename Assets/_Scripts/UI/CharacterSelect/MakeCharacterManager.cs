@@ -7,8 +7,9 @@ using Asset.MySql;
 
 public class MakeCharacterManager : MonoBehaviour
 {
-    private PlayerCustomize _playerCustomize;
 
+    [SerializeField] PlayerCustomize _playerCustomize;
+    [SerializeField] PlayerNetworking _playerNetworking;
     [SerializeField] Button _maleSelectButton;
     [SerializeField] Button _femaleSelectButton;
     [SerializeField] Button _makeCharacterButton;
@@ -26,18 +27,18 @@ public class MakeCharacterManager : MonoBehaviour
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
         _makeCharacterButton.onClick.AddListener(CreateCharacter);
 
-        StartCoroutine(FindPlayerCustomize());
+        //StartCoroutine(FindPlayerCustomize());
     }
 
-    IEnumerator FindPlayerCustomize()
-    {
-        yield return new WaitForSeconds(5f);
+    //IEnumerator FindPlayerCustomize()
+    //{
+    //    yield return new WaitForSeconds(5f);
 
-        _playerCustomize = GameObject.Find("SM_Chr_Peasant_Male_01").GetComponent<PlayerCustomize>();
+    //    _playerCustomize = GameObject.Find("SM_Chr_Peasant_Male_01").GetComponent<PlayerCustomize>();
 
-        yield return null;
+    //    yield return null;
 
-    }
+    //}
 
     private void SelectMale()
     {
@@ -57,7 +58,8 @@ public class MakeCharacterManager : MonoBehaviour
 
     private void CreateCharacter()
     {
-        MySqlSetting.AddNewCharacter(name, $"{PlayerCustomize.IsFemale}");
+        MySqlSetting.AddNewCharacter(_playerNetworking.MyNickname, $"{PlayerCustomize.IsFemale}");
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, _playerNetworking.MyNickname, Asset.EaccountdbColumns.HaveCharacter, "1");
     }
 
     private void OnDisable()

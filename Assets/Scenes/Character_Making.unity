@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.051441513, g: 0.1500552, b: 0.19368404, a: 1}
+  m_IndirectSpecularColor: {r: 0.051594675, g: 0.15008068, b: 0.19371647, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -258,6 +258,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5835721941620070460, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_Name
       value: NewPlayer
@@ -326,12 +330,15 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 7985481654022924773, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9032745608646816325, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_UseLocal
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 7985481654022924773, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
 --- !u!1 &72485509 stripped
@@ -355,30 +362,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6072405480880000804, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
   m_PrefabInstance: {fileID: 72485508}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &72485512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72485509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 526338d0bf84c404193961218152ff0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _acceleration: 0.1
-  _damping: 0.3
-  _backAndSideDampen: 0.5
-  _fixedSpeedSteps: 0
-  _hmdResetsY: 1
-  _hmdRotatesY: 1
-  _gravityModifier: 0.379
-  _useProfileData: 1
-  _enableLinearMovement: 1
-  _enableRotation: 0
-  _rotationEitherThumbstick: 0
-  MoveScale: 1
 --- !u!143 &72485513
 CharacterController:
   m_ObjectHideFlags: 0
@@ -397,6 +380,17 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &72485514 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7985481654022924773, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+  m_PrefabInstance: {fileID: 72485508}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72485509}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bdfbeb883086f546ae7e1518fa90f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &160250150
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,6 +1671,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764535483}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1834725944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4270564127257267488, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+  m_PrefabInstance: {fileID: 72485508}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97333481d5b4354bb7b71dabf71f353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2143951713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2293,6 +2298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1ca8d1b45fe1e44a1ec7c080d0ff0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerCustomize: {fileID: 1834725944}
+  _playerNetworking: {fileID: 72485514}
   _maleSelectButton: {fileID: 4534814278566457003}
   _femaleSelectButton: {fileID: 4534814277169787086}
   _makeCharacterButton: {fileID: 4534814278183119003}

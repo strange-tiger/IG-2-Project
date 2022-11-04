@@ -165,9 +165,12 @@ public class SyncOVRGrabber : MonoBehaviourPun
 
     void OnTriggerEnter(Collider otherCollider)
     {
-        if (otherCollider.GetComponent<PhotonView>().Owner != PhotonNetwork.LocalPlayer)
+        if(otherCollider.GetComponent<PhotonView>() != null)
         {
-            otherCollider.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+            if (otherCollider.GetComponent<PhotonView>().Owner != PhotonNetwork.LocalPlayer)
+            {
+                otherCollider.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+            }
         }
         // Get the grab trigger
         SyncOVRGrabbable grabbable = otherCollider.GetComponent<SyncOVRGrabbable>() ?? otherCollider.GetComponentInParent<SyncOVRGrabbable>();

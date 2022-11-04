@@ -11,6 +11,7 @@ namespace Defines
     {
         LogIn,
         StartRoom,
+        MakeCharacterRoom,
         FantasyLobby,
         WesternLobby,
         VikingLobby,
