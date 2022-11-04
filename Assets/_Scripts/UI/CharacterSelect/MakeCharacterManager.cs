@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Asset.MySql;
+using UnityEngine.SceneManagement;
+
+using SceneType = Defines.ESceneNumder;
 
 public class MakeCharacterManager : MonoBehaviour
 {
@@ -60,6 +63,7 @@ public class MakeCharacterManager : MonoBehaviour
     {
         MySqlSetting.AddNewCharacter(_playerNetworking.MyNickname, $"{PlayerCustomize.IsFemale}");
         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, _playerNetworking.MyNickname, Asset.EaccountdbColumns.HaveCharacter, "1");
+        SceneManager.LoadScene((int)SceneType.StartRoom);
     }
 
     private void OnDisable()
