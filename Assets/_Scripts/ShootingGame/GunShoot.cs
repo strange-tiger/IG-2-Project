@@ -14,6 +14,9 @@ public class GunShoot : MonoBehaviour
 
     [Header("Bullet")]
     [SerializeField] private TextMeshProUGUI _bulletCountText;
+    [SerializeField] private Transform _bulletSpawnTransform;
+    [SerializeField] private Transform _bulletShotPoint;
+    private Stack<GameObject> _bulletTrailPull = new Stack<GameObject>();
     private const int _MAX_BULLET_COUNT = 6;
     private int _bulletCount_ = 0;
     private int _bulletCount
@@ -66,6 +69,14 @@ public class GunShoot : MonoBehaviour
         _bulletCount = _MAX_BULLET_COUNT;
 
         _waitForViBrationTime = new WaitForSeconds(_vibrationTime);
+
+        foreach(CapsuleCollider bulltTrial in GetComponentsInChildren<CapsuleCollider>())
+        {
+            _bulletTrailPull.Push(bulltTrial.gameObject);
+            bulltTrial.gameObject.SetActive(false);
+            bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
+            Debug.Log("[Bullet] " + bulltTrial.name);
+        }
     }
 
     private void Update()
@@ -92,7 +103,7 @@ public class GunShoot : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
         if(Physics.Raycast(ray, out hit, _gunRange))
         {
-            if(hit.collider.tag != "ShootingObject")
+            if(hit.collider.CompareTag("ShootingObject"))
             {
                 return;
             }
@@ -104,17 +115,24 @@ public class GunShoot : MonoBehaviour
     private void PlayShotEffect()
     {
         // 임시로 추가한 컨트롤러 진동
-        OVRInput.Controller mainController = _primaryController == 0 ? 
-            OVRInput.Controller.LHand : OVRInput.Controller.RHand;
         StartCoroutine(CoVibrateController());
 
-        _bulletTrail.SetActive(true);
-        Invoke("DisableBulletTrail", _bulletTrailDisableOffsetTime);
+        // 총알쏘기
+        ShotBullet();
+
         foreach (ParticleSystem effect in _shootEffects)
         {
             effect.Play();
         }
         _audioSource.PlayOneShot(_shotAudioClip);
+    }
+
+    private void ShotBullet()
+    {
+        GameObject bulletTrail = _bulletTrailPull.Pop();
+        bulletTrail.transform.position = _bulletSpawnTransform.position;
+        bulletTrail.transform.LookAt(_bulletShotPoint);
+        bulletTrail.SetActive(true);
     }
 
     private IEnumerator CoVibrateController()
@@ -144,8 +162,8 @@ public class GunShoot : MonoBehaviour
         }
     }
 
-    private void DisableBulletTrail()
+    public void ReturnToPull(GameObject bulletTrail)
     {
-        _bulletTrail.SetActive(false);
+        _bulletTrailPull.Push(bulletTrail);
     }
 }
