@@ -14,10 +14,21 @@ public class ObjectLuncher : MonoBehaviour
     [SerializeField] private Vector3 _originalDegree = new Vector3(0f, 0f, 0f);
 
     [SerializeField] private LuncherManager.ELuncherId _luncherId;
+    private int _luncherIdInt;
     public LuncherManager.ELuncherId LuncherId { get => _luncherId; set => _luncherId = value; }
 
-    public void GetRandomDegreeInRange()
+    private void Awake()
     {
+        _luncherIdInt = (int)_luncherId;
+    }
+
+    public void GetRandomDegreeInRange(int _lunchCode)
+    {
+        if((_lunchCode & _luncherIdInt) == 0)
+        {
+            return;
+        }
+
         float xDegree = Random.Range(_minXDegree, _maxXDegree);
         float zDegree = Random.Range(_minZDegree, _maxZDegree);
 

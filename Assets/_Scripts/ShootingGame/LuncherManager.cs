@@ -38,6 +38,7 @@ public class LuncherManager : MonoBehaviour
     private float _gameTime = 0f;
 
     private int _luncherSettingCount = 0;
+    private int _luncherTupeCount = 0;
 
     private bool _isStarted = false;
     private bool _isEnd = false;
@@ -61,24 +62,40 @@ public class LuncherManager : MonoBehaviour
         _isStarted = true;
     }
 
-    private void Update()
+    public void LunchObject(int gameTime)
     {
-        if(!_isStarted || !_isEnd)
+        if(gameTime >= _luncherTimmings[_luncherSettingCount].LimitTime)
         {
-            return;
+            ++_luncherSettingCount;
+            _luncherTupeCount = 0;
         }
 
-        _elapsedTime += Time.deltaTime;
-        _gameTime += Time.deltaTime;
-        if (_elapsedTime >= _lunchOffsetSeconds)
+        foreach(ObjectLuncher luncher in _lunchers)
         {
-            _elapsedTime -= _lunchOffsetSeconds;
-            if(_gameTime >= _luncherTimmings[_luncherSettingCount].LimitTime)
-            {
-
-                ++_luncherSettingCount;
-                //if(_lucherSetingCount)
-            }
+            luncher.GetRandomDegreeInRange((int)_luncherTimmings[_luncherSettingCount].LuncherType[_luncherTupeCount]);
         }
+
+        ++_luncherTupeCount;
     }
+
+    //private void Update()
+    //{
+    //    if(!_isStarted || !_isEnd)
+    //    {
+    //        return;
+    //    }
+
+    //    _elapsedTime += Time.deltaTime;
+    //    _gameTime += Time.deltaTime;
+    //    if (_elapsedTime >= _lunchOffsetSeconds)
+    //    {
+    //        _elapsedTime -= _lunchOffsetSeconds;
+    //        if(_gameTime >= _luncherTimmings[_luncherSettingCount].LimitTime)
+    //        {
+
+    //            ++_luncherSettingCount;
+    //            //if(_lucherSetingCount)
+    //        }
+    //    }
+    //}
 }
