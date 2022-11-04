@@ -7,6 +7,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
     private bool _isGrab = false;
     private GameObject _bottle;
+    FirstMoveAttackObj _firstMoveAttackObj;
     private void Update()
     {
         if (false == photonView.IsMine)
@@ -61,8 +62,8 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
             Debug.Log("ถา!!");
             enemy.photonView.RPC("OnDamage", RpcTarget.All);
 
-            FirstMoveAttackObj firstMoveAttackObj = _bottle.GetComponent<FirstMoveAttackObj>();            
-            firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, OVRScreenFade.instance.fadeTime);
+            _firstMoveAttackObj = _bottle.GetComponent<FirstMoveAttackObj>();            
+            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, OVRScreenFade.instance.fadeTime);
         }
     }
 
