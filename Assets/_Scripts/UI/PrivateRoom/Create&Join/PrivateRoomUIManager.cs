@@ -12,7 +12,7 @@ public class PrivateRoomUIManager : UIManager
 
     private void Awake()
     {
-        LoadUI(_UI.JOIN);
+        ShutUI();
 
         foreach (TMP_InputField input in _inputFields)
         {
