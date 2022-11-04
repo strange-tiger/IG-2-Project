@@ -52,7 +52,7 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
         PlayerControlManager.Instance.IsRayable = false;
         PlayerControlManager.Instance.IsMoveable = false;
 
-        if (MySqlSetting.CheckValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "1"))
+        if (MySqlSetting.CheckValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "True"))
         {
             SceneManager.LoadScene((int)SceneType.StartRoom);
         }
