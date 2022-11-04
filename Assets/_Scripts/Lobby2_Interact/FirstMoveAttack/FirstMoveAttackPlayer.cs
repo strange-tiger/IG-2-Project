@@ -5,21 +5,51 @@ using Photon.Pun;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
+    private bool _isGrab = false;
+    private FirstMoveAttackObj _firstMoveAttackObj;
     private void Update()
     {
         if (false == photonView.IsMine)
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.J)) // 그랩을 했을 때
+        if (_isGrab)
         {
             Attack();
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<FirstMoveAttackObj>() == null)
+        {
+            return;
+        }
+        else
+        {
+            _firstMoveAttackObj = other.gameObject.GetComponent<FirstMoveAttackObj>();
+            _isGrab = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<FirstMoveAttackObj>() == null)
+        {
+            return;
+        }
+        else
+        {
+            _isGrab = false;
+            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, 0f);
+        }
+    }
+
     private void Attack()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 2f);
+        Debug.Log("Attack 가능 상태");
+        Collider[] colliders = Physics.OverlapSphere(_firstMoveAttackObj.transform.position, 1f);
+
         foreach (Collider collider in colliders)
         {
             FirstMoveAttackPlayer enemy = collider.GetComponent<FirstMoveAttackPlayer>();
@@ -28,15 +58,22 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
                 continue;
             }
             enemy.photonView.RPC("OnDamage", RpcTarget.All);
+            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, OVRScreenFade.instance.fadeTime);
         }
     }
 
     [PunRPC]
     public void OnDamage()
     {
-        // 화면 바로 꺼짐
+        if(PlayerControlManager.Instance.IsInvincible == true)
+        {
+            return;
+        }
+
+        OVRScreenFade.instance.FadeOut();
         PlayerControlManager.Instance.IsMoveable = false;
         PlayerControlManager.Instance.IsRayable = false;
+        StartCoroutine(Invincible(20f));
         Invoke("Revive", 1f);
     }
 
@@ -45,5 +82,26 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         OVRScreenFade.instance.FadeIn();
         PlayerControlManager.Instance.IsMoveable = true;
         PlayerControlManager.Instance.IsRayable = true;
+    }
+
+    IEnumerator Invincible(float coolTime)
+    {
+        float elapsedTime = 0;
+
+        while(true)
+        {
+            elapsedTime += Time.deltaTime;
+
+            if(elapsedTime > coolTime)
+            {
+                PlayerControlManager.Instance.IsInvincible = false;
+                break;
+            }
+            else
+            {
+                PlayerControlManager.Instance.IsInvincible = true;
+            }
+            yield return null;
+        }
     }
 }

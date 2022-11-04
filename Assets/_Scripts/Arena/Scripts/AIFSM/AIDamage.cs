@@ -10,11 +10,14 @@ public class AIDamage : AIState
 
     [Header("HP를 입력 해 주세요")]
     [SerializeField] private int _hp;
+    public int Hp { get { return _hp; } set { _hp = value; }}
+
     private int _setHp;
 
     private Animator _animator;
 
     private int _damage;
+    private int _skillDamage;
 
     private float _damageTime;
     private bool _isdamage;
@@ -29,20 +32,22 @@ public class AIDamage : AIState
         _animator = GetComponent<Animator>();
 
         _hp = _setHp;
+        _enemyDamage.EnemyDamage.RemoveListener(Hit);
         _enemyDamage.EnemyDamage.AddListener(Hit);
+
+        _enemyDamage.EnemySkillDamage.RemoveListener(SkillHit);
+        _enemyDamage.EnemySkillDamage.AddListener(SkillHit);
     }
 
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
-
         _hp -= _damage;
-
+        _hp -= _skillDamage;
         _damageTime -= _damageTime;
-
         _isdamage = true;
-
-        // Debug.Log($"{gameObject.name} : {_hp}, 받은 데미지: {_damage}");
+        _damage = 0;
+        _skillDamage = 0;
     }
 
     public override void OnUpdate()
@@ -52,15 +57,16 @@ public class AIDamage : AIState
             _damageTime += Time.deltaTime;
         }
 
-        if (_hp <= 0)
-        {
-            aiFSM.ChangeState(EAIState.Death);
-        }
-        else if (_damageTime >= 0.5f)
+        if (_damageTime >= 0.5f)
         {
             _damageTime -= _damageTime;
             _isdamage = false;
+            _animator.SetBool(AIAnimatorID.isDamage, false);
             aiFSM.ChangeState(EAIState.Attack);
+        }
+        if (_hp <= 0)
+        {
+            aiFSM.ChangeState(EAIState.Death);
         }
     }
 
@@ -69,8 +75,19 @@ public class AIDamage : AIState
         _animator.SetBool(AIAnimatorID.isDamage, false);
     }
 
+    private void OnDisable()
+    {
+        _enemyDamage.EnemyDamage.RemoveListener(Hit);
+        _enemyDamage.EnemySkillDamage.RemoveListener(SkillHit);
+    }
+
     private void Hit(int damage)
     {
         _damage = damage;
+    }
+
+    private void SkillHit(int skillDamage)
+    {
+        _skillDamage = skillDamage;
     }
 }
