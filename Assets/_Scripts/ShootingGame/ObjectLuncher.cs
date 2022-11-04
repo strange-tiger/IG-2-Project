@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ObjectLuncher : MonoBehaviour
 {
-    [SerializeField] private float _lunchOffsetSeconds = 1f;
 
     [SerializeField] private float _minXDegree = -15f;
     [SerializeField] private float _maxXDegree = 30f;
@@ -12,33 +11,17 @@ public class ObjectLuncher : MonoBehaviour
     [SerializeField] private float _minZDegree = -10f;
     [SerializeField] private float _maxZDegree = 10f;
 
-    private Stack<GameObject> _objectPullStack = new Stack<GameObject>();
+    [SerializeField] private Vector3 _originalDegree = new Vector3(0f, 0f, 0f);
 
-    private float elapsedTime = 1f;
+    [SerializeField] private LuncherManager.ELuncherId _luncherId;
+    public LuncherManager.ELuncherId LuncherId { get => _luncherId; set => _luncherId = value; }
 
-    private void Awake()
-    {
-        elapsedTime = _lunchOffsetSeconds;
-
-
-    }
-
-    private void Update()
-    {
-        elapsedTime += Time.deltaTime;
-        if (elapsedTime >= _lunchOffsetSeconds)
-        {
-            elapsedTime -= _lunchOffsetSeconds;
-            GetRandomDegreeInRange();
-        }
-    }
-
-    private void GetRandomDegreeInRange()
+    public void GetRandomDegreeInRange()
     {
         float xDegree = Random.Range(_minXDegree, _maxXDegree);
         float zDegree = Random.Range(_minZDegree, _maxZDegree);
 
-        transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        transform.rotation = Quaternion.Euler(xDegree, zDegree, 0f);
+        transform.rotation = Quaternion.Euler(_originalDegree);
+        transform.rotation = Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z);
     }
 }
