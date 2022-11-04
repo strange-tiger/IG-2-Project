@@ -73,15 +73,23 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         try
         {
             PhotonNetwork.JoinLobby();
-            Debug.Log("방 생성 시도");
         }
         catch
         {
             Debug.LogError("로비 입장 실패");
         }
+
+       
+        CreatePrivateRoom();
+        Debug.Log("방 생성 시도");
     }
 
     public override void OnJoinedLobby()
+    {
+        //CreatePrivateRoom();
+    }
+
+    private void CreatePrivateRoom()
     {
         string roomName = _userId + "_" + _passwordInput.text;
 
