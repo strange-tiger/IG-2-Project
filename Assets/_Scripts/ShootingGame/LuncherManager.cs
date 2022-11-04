@@ -67,6 +67,10 @@ public class LuncherManager : MonoBehaviour
         if(gameTime >= _luncherTimmings[_luncherSettingCount].LimitTime)
         {
             ++_luncherSettingCount;
+            if(_luncherSettingCount == _luncherTimmings.Length)
+            {
+                return;
+            }
             _luncherTupeCount = 0;
         }
 
@@ -75,27 +79,7 @@ public class LuncherManager : MonoBehaviour
             luncher.GetRandomDegreeInRange((int)_luncherTimmings[_luncherSettingCount].LuncherType[_luncherTupeCount]);
         }
 
-        ++_luncherTupeCount;
+        Debug.Log(gameTime);
+        _luncherTupeCount = (_luncherTupeCount + 1) % _luncherTimmings[_luncherSettingCount].LuncherType.Length;
     }
-
-    //private void Update()
-    //{
-    //    if(!_isStarted || !_isEnd)
-    //    {
-    //        return;
-    //    }
-
-    //    _elapsedTime += Time.deltaTime;
-    //    _gameTime += Time.deltaTime;
-    //    if (_elapsedTime >= _lunchOffsetSeconds)
-    //    {
-    //        _elapsedTime -= _lunchOffsetSeconds;
-    //        if(_gameTime >= _luncherTimmings[_luncherSettingCount].LimitTime)
-    //        {
-
-    //            ++_luncherSettingCount;
-    //            //if(_lucherSetingCount)
-    //        }
-    //    }
-    //}
 }

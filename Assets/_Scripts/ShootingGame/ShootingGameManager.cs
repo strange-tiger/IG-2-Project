@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ShootingGameManager : MonoBehaviour
 {
-    public float PlayTime { get; set; } = 120f;
+    [SerializeField] private float _playTime = 120f;
+    public float PlayTime { get => _playTime; set => _playTime = value; } 
 
     [SerializeField] private float _showNicknameOffsetTime = 1f;
     [SerializeField] private float _startCountDownOffsetTime = 3f;
@@ -28,6 +29,7 @@ public class ShootingGameManager : MonoBehaviour
     private void Awake()
     {
         _waitForSecond = new WaitForSeconds(1f);
+        StartCoroutine(CoGameStart());
     }
 
     private IEnumerator CoGameStart()
@@ -55,6 +57,7 @@ public class ShootingGameManager : MonoBehaviour
         {
             yield return _waitForSecond;
             elapsedTime += 1;
+            _luncherManager.LunchObject(elapsedTime);
             if(elapsedTime == PlayTime)
             {
                 break;
@@ -65,10 +68,13 @@ public class ShootingGameManager : MonoBehaviour
         {
             yield return _waitForSecond;
             elapsedTime += 1;
+            _luncherManager.LunchObject(elapsedTime);
             if(elapsedTime >= PlayTime + _finalSeconds)
             {
                 break;
             }
         }
+
+        Debug.Log("[Shooting] ∞‘¿” ≥°");
     }
 }

@@ -386,6 +386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 226458500}
+  - component: {fileID: 226458501}
   m_Layer: 0
   m_Name: ShootingGameManager
   m_TagString: Untagged
@@ -407,6 +408,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &226458501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226458499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e1111ac040971409f72e33703c2d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playTime: 10
+  _showNicknameOffsetTime: 1
+  _startCountDownOffsetTime: 3
+  _gameStartOffsetTime: 3
+  _finalSeconds: 5
+  _playerColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  _luncherManager: {fileID: 677484684}
 --- !u!1 &268100530
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,7 +929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _luncherTimmings:
-  - _limitTime: 60
+  - _limitTime: 5
     _luncherType: 0100000002000000
   - _limitTime: 120
     _luncherType: 050000000a000000
@@ -1231,7 +1255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6229553505435802619, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7161985770907033370, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: sceneViewId
