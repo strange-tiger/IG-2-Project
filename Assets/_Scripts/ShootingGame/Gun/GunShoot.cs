@@ -32,7 +32,9 @@ public class GunShoot : MonoBehaviour
 
     // 이팩트
     [Header("Effects")]
-    private Stack<GameObject> _hitUIPull = new Stack<GameObject>();
+    [SerializeField] private Color _playerColor = new Color();
+    public Color PlayerColor { get => _playerColor; set => _playerColor = value; }
+    [SerializeField] private GameObject _hitUI;
 
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
 
@@ -40,7 +42,7 @@ public class GunShoot : MonoBehaviour
     [SerializeField] private AudioClip _shotAudioClip;
     [SerializeField] private AudioClip _reloadAudioClip;
     private AudioSource _audioSource;
-    
+
     [Header("Vibration")]
     [SerializeField] private float _vibrationTime = 0.1f;
     [SerializeField] private float _vibrationFrequency = 0.3f;
@@ -77,24 +79,14 @@ public class GunShoot : MonoBehaviour
         _waitForViBrationTime = new WaitForSeconds(_vibrationTime);
 
         // 총알 효과 스택에 넣기
-        foreach(CapsuleCollider bulltTrial in GetComponentsInChildren<CapsuleCollider>())
+        foreach (CapsuleCollider bulltTrial in GetComponentsInChildren<CapsuleCollider>())
         {
             _bulletTrailPull.Push(bulltTrial.gameObject);
             bulltTrial.gameObject.SetActive(false);
             bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
         }
 
-        // 맞춤 판정 스택에 넣기
-        foreach(Image hitUI in GetComponentsInChildren<Image>())
-        {
-            GameObject ui = hitUI.transform.parent.gameObject;
-            _hitUIPull.Push(ui);
-            ui.SetActive(false);
-            ui.GetComponent<HitUI>().enabled = true;
-            ui.transform.parent = null;
-        }
-
-        _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject"); 
+        _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
 
         _lineRenderer = GetComponent<LineRenderer>();
     }
@@ -127,14 +119,16 @@ public class GunShoot : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = new Ray(_bulletSpawnTransform.position, _bulletSpawnTransform.forward);
-        if(Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
+        if (Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
         {
-            GameObject hitUI = _hitUIPull.Pop();
-            hitUI.transform.position = hit.point;
-            hitUI.SetActive(true);
-
             ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
-            _score += _health.Hit();
+            int point = _health.Hit();
+
+            GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
+            hitUI.GetComponent<HitUI>().enabled = true;
+            hitUI.GetComponent<HitUI>().SetPointText(PlayerColor, point);
+
+            _score += point;
             Debug.Log("[Gun] " + _score);
         }
     }
@@ -172,9 +166,9 @@ public class GunShoot : MonoBehaviour
     private void Reload()
     {
         // 다시 위로 향하면 장전 종료
-        if(_isReloading)
+        if (_isReloading)
         {
-            if(Vector3.Dot(transform.forward, Vector3.down) <= 0.5f)
+            if (Vector3.Dot(transform.forward, Vector3.down) <= 0.5f)
             {
                 _isReloading = false;
             }
@@ -192,10 +186,5 @@ public class GunShoot : MonoBehaviour
     public void ReturnToBulletPull(GameObject bulletTrail)
     {
         _bulletTrailPull.Push(bulletTrail);
-    }
-
-    public void ReturnToHitUIPull(GameObject hitUI)
-    {
-        _hitUIPull.Push(hitUI);
     }
 }

@@ -16,6 +16,7 @@ public class ShootingObjectMovement : MonoBehaviour
     private LayerMask _unbreakableObjectLayer;
 
     private Rigidbody _rigidbody;
+    private ShootingObjectHealth _health;
 
     private void Awake()
     {
@@ -28,6 +29,9 @@ public class ShootingObjectMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.velocity = transform.forward * _moveSpeed;
         _rigidbody.AddTorque(transform.forward * _rotationSpeed, ForceMode.Impulse);
+
+        _health = GetComponent<ShootingObjectHealth>();
+        _health.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,6 +40,7 @@ public class ShootingObjectMovement : MonoBehaviour
         {
             StopAllCoroutines();
             gameObject.layer = _breakableObjectLayer;
+            _health.enabled = true;
         }
     }
 
@@ -45,6 +50,7 @@ public class ShootingObjectMovement : MonoBehaviour
         {
             StartCoroutine(CoDestroyObject());
             gameObject.layer = _unbreakableObjectLayer;
+            _health.enabled = false;
         }
     }
 
