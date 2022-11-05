@@ -2,36 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Events;
 
 public class ReStartTournament : MonoBehaviour
 {
-    [Header("토너먼트 매니저를 넣어주세요")]
-    [SerializeField] private GameObject _tournamentManager;
+    [Header("베팅 UI를 넣어주세요")]
+    [SerializeField] private GameObject _bettingUI;
 
     [Header("재시작할 시간초를 넣어주세요")]
     [SerializeField] private float _reStartTime;
 
-    private float _curTime;
+    public UnityEvent _startBattle = new UnityEvent();
 
-    private void Start()
-    {
-        
-    }
+    private int a; 
+    private float _curTime;
 
     private void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        //if (PhotonNetwork.IsMasterClient)
         {
-            if (_tournamentManager.activeSelf == false)
+            if (_bettingUI.activeSelf == false)
             {
                 _curTime += Time.deltaTime;
 
                 if (_curTime >= _reStartTime)
                 {
+                    _startBattle.Invoke();
                     _curTime -= _curTime;
-                    _tournamentManager.SetActive(true);
                 }
             }
         }
     }
+    
 }

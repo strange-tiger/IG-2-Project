@@ -43,14 +43,14 @@ public class ArenaScoreboardUI : MonoBehaviour, IPunObservable
 
     private void Start()
     {
-        // SetChampionInfo();
+        SetChampionInfo();
         // photonView.RPC("SetChampionInfo", RpcTarget.All);
     }
 
     private void Update()
     {
         FlowingTime();
-        //UpdateTimerText(_minute, _second);
+        UpdateTimerText(_minute, _second);
        // photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
         
         SetChampionHp();
@@ -62,7 +62,7 @@ public class ArenaScoreboardUI : MonoBehaviour, IPunObservable
     /// </summary>
     private void FlowingTime()
     {
-        if (PhotonNetwork.IsMasterClient)
+        //if (PhotonNetwork.IsMasterClient)
         {
             _cumulativeTime += Time.deltaTime;
 
