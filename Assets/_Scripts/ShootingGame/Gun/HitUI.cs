@@ -33,7 +33,7 @@ public class HitUI : MonoBehaviour
         if(active)
         {
             _scoreText.color = playerColor;
-            _scoreText.text = $"+{point}";
+            _scoreText.text = point > 0 ? $"+{point}" : $"-{point}";
         }
     }
 }

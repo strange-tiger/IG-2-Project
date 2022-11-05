@@ -76,8 +76,8 @@ public class ShootingObjectHealth : MonoBehaviour
         {
             _shotEffects[_shotEffectCount].ExitEffect();
         }
-        
-        ++_shotEffectCount;
+
+        _shotEffectCount = (_shotEffectCount + 1) % _shotEffects.Length;
         if (_shotEffects[_shotEffectCount].IsLast)
         {
             _movement.enabled = false;
