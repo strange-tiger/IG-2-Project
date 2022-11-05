@@ -5,14 +5,10 @@ using UnityEngine.Events;
 
 public class GroupManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] _member;
+    [SerializeField] private int _setPosition;
 
-    [SerializeField]
-    private int _setPosition;
-
-    //[SerializeField]
-    //private AIDeath[] _aIDeath;
+    private GameObject[] _member = new GameObject[4];
+    public GameObject[] Member { get { return _member; } }
 
     private GameObject[] _finalBattle = new GameObject[2];
 
@@ -29,6 +25,38 @@ public class GroupManager : MonoBehaviour
     private bool _isDraw;
     public bool IsDraw { get { return _isDraw; } private set { _isDraw = value; } }
 
+    private int _randomIndex;
+
+    private void OnEnable()
+    {
+        List<int> _memberIndexList = new List<int>();
+
+        for (int i = 0; i < _member.Length; ++i)
+        {
+            _randomIndex = Random.Range(0, 4);
+
+            for (int j = 0; j < _memberIndexList.Count;)
+            {
+                if (_memberIndexList[j] == _randomIndex)
+                {
+                    j = 0;
+                    _randomIndex = Random.Range(0, 4);
+                }
+                else
+                {
+                    ++j;
+                }
+            }
+            _memberIndexList.Add(_randomIndex);
+        }
+        Debug.Log($"{_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
+        for (int i = 0; i < _member.Length; ++i)
+        {
+            int index;
+            index = _memberIndexList[i];
+            _member[i] = transform.GetChild(index).gameObject;
+        }
+    }
 
     void Start()
     {
@@ -42,12 +70,6 @@ public class GroupManager : MonoBehaviour
         {
             _member[i].SetActive(true);
         }
-
-        //for (int i = 0; i < _aIDeath.Length; i++)
-        //{
-        //    _aIDeath[i].DeathAI.RemoveListener(SomeAIDied);
-        //    _aIDeath[i].DeathAI.AddListener(SomeAIDied);
-        //}
     }
 
     void Update()
@@ -57,11 +79,6 @@ public class GroupManager : MonoBehaviour
             // ÁØ°á½Â 1
             if ((_member[0].activeSelf == false || _member[1].activeSelf == false) && !_isFirstBattle)
             {
-                //if (_member[0].activeSelf == false && _member[1].activeSelf == false)
-                //{
-                //    _isDraw = true;
-                //}
-
                 if (_member[0].activeSelf)
                 {
                     _firstWinnerIndex = 0;
@@ -86,11 +103,6 @@ public class GroupManager : MonoBehaviour
             // ÁØ°á½Â 2
             if ((_member[2].activeSelf == false || _member[3].activeSelf == false) && _member[0].activeSelf == false && _member[1].activeSelf == false && _isSecondBattle)
             {
-                //if (_member[2].activeSelf == false && _member[3].activeSelf == false)
-                //{
-                //    _isDraw = true;
-                //}
-
                 if (_member[2].activeSelf)
                 {
                     _secondWinnerIndex = 2;
@@ -110,7 +122,6 @@ public class GroupManager : MonoBehaviour
                 Invoke("FinalBattle", 2f);
 
                 _isSecondBattle = false;
-
             }
 
             if (_member[0].activeSelf == false && _member[1].activeSelf == false && _member[2].activeSelf == false && _member[3].activeSelf == false && _isFinelBattle == true)
@@ -121,14 +132,13 @@ public class GroupManager : MonoBehaviour
                 _isWinnerIndex = true;
             }
 
-            //if (_finalBattle[0].activeSelf == false && _finalBattle[0].activeSelf == false)
-            //{
-            //    _isDraw = true;
-            //}
-
             if (_isWinnerIndex)
             {
-                SendWinnerIndex();
+                if (_finalBattle[0].activeSelf == false || _finalBattle[1].activeSelf == false)
+                {
+                    SendWinnerIndex();
+                    Debug.Log(WinnerIndex);
+                }
             }
         }
     }
@@ -150,14 +160,14 @@ public class GroupManager : MonoBehaviour
         _member[2].SetActive(true);
         _member[3].SetActive(true);
 
-        
+
         _isSecondBattle = true;
     }
 
     // °á½ÂÀü
     private void FinalBattle()
     {
-        
+
         _isFinelBattle = true;
 
         _finalBattle[0].transform.rotation = Quaternion.Euler(0, 90, 0);

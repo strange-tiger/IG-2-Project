@@ -25,7 +25,7 @@ public class AIIdle : AIState
         {
             _myCollider.enabled = true;
         }
-
+        
         _isRunTime = true;
         _curTime -= _curTime;
     }
@@ -37,7 +37,7 @@ public class AIIdle : AIState
             _curTime += Time.deltaTime;
         }
 
-        if (_curTime >= 2f)
+        if (_curTime >= 4f)
         {
             aiFSM.ChangeState(EAIState.Run);
             _curTime -= _curTime;
@@ -47,6 +47,7 @@ public class AIIdle : AIState
     public override void OnExit()
     {
         _animator.SetBool(AIAnimatorID.isIdle, false);
+        _curTime -= _curTime;
         _isRunTime = false;
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9077538886969883436}
   - component: {fileID: 285010841}
-  - component: {fileID: 3674418525636955651}
+  - component: {fileID: 5969767979941106970}
   - component: {fileID: 4349922271561276224}
   m_Layer: 0
   m_Name: Wood_Pile 02
@@ -47,7 +47,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.5, y: 1.4, z: 1.3}
   m_Center: {x: 0, y: 0.7, z: -0.05}
---- !u!114 &3674418525636955651
+--- !u!114 &5969767979941106970
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +65,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 4349922271561276224}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

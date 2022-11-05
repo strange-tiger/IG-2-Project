@@ -1279,6 +1279,8 @@ namespace Asset.MySql
             T checkType, string checkValue) where T : System.Enum
         {
             string checkTargetValue = GetValueByBase(targetTable, baseType, baseValue, checkType);
+            Debug.Log(checkTargetValue);
+            Debug.Log(checkValue);
             if (checkTargetValue != null)
             {
                 return checkTargetValue == checkValue;

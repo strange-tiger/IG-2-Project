@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Asset.MySql;
+using UnityEngine.SceneManagement;
+
+using SceneType = Defines.ESceneNumder;
 
 public class MakeCharacterManager : MonoBehaviour
 {
-    private PlayerCustomize _playerCustomize;
 
+    [SerializeField] PlayerCustomize _playerCustomize;
     [SerializeField] Button _maleSelectButton;
     [SerializeField] Button _femaleSelectButton;
     [SerializeField] Button _makeCharacterButton;
@@ -26,30 +30,30 @@ public class MakeCharacterManager : MonoBehaviour
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
         _makeCharacterButton.onClick.AddListener(CreateCharacter);
 
-        StartCoroutine(FindPlayerCustomize());
+        //StartCoroutine(FindPlayerCustomize());
     }
 
-    IEnumerator FindPlayerCustomize()
-    {
-        yield return new WaitForSeconds(5f);
+    //IEnumerator FindPlayerCustomize()
+    //{
+    //    yield return new WaitForSeconds(5f);
 
-        _playerCustomize = GameObject.Find("SM_Chr_Peasant_Male_01").GetComponent<PlayerCustomize>();
+    //    _playerCustomize = GameObject.Find("SM_Chr_Peasant_Male_01").GetComponent<PlayerCustomize>();
 
-        yield return null;
+    //    yield return null;
 
-    }
+    //}
 
     private void SelectMale()
     {
-        PlayerCustomize.IsFemale = 0;
-        _playerCustomize.AvatarInit();
+        _playerCustomize.IsFemale = false;
+        _playerCustomize.MakeAvatarData();
         _malePanel.SetActive(true);
         _femalePanel.SetActive(false);
     }
     private void SelectFemale()
     {
-        PlayerCustomize.IsFemale = 1;
-        _playerCustomize.AvatarInit();
+        _playerCustomize.IsFemale = true;
+        _playerCustomize.MakeAvatarData();
         _malePanel.SetActive(false);
         _femalePanel.SetActive(true);
     }
@@ -57,7 +61,10 @@ public class MakeCharacterManager : MonoBehaviour
 
     private void CreateCharacter()
     {
-        MySqlSetting.AddNewCharacter(name, $"{PlayerCustomize.IsFemale}");
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "1");
+        MySqlSetting.AddNewCharacter(TempAccountDB.Nickname, $"{Convert.ToInt32(_playerCustomize.IsFemale)}");
+        Debug.Log(_playerCustomize.IsFemale);
+        SceneManager.LoadScene((int)SceneType.StartRoom);
     }
 
     private void OnDisable()
