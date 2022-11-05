@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LuncherManager : MonoBehaviour
 {
+    // 발사대 관련
     [Serializable]
     public class LuncherTimingSetting
     {
@@ -13,7 +14,6 @@ public class LuncherManager : MonoBehaviour
         [SerializeField] private ELuncherId[] _luncherType;
         public ELuncherId[] LuncherType { get => _luncherType; set => _luncherType = value; }
     }
-
     public enum ELuncherId {
         FrontLeft = 0b_0001,
         FrontRight = 0b_0010,
@@ -29,50 +29,115 @@ public class LuncherManager : MonoBehaviour
         All = 0b_1111,
     }
 
-    [SerializeField] private LuncherTimingSetting[] _luncherTimmings;
-    public LuncherTimingSetting[] LuncherTimmings { get => _luncherTimmings; set => _luncherTimmings = value; }
-
-    private int _luncherSettingCount = 0;
-    private int _luncherTupeCount = 0;
-
-    [SerializeField] private GameObject[] _shootingObjectPrefabs;
-
-    /// <summary>
-    /// [플레이어 쪽, 왼쪽][플레이어 쪽, 오른쪽][앞 쪽, 왼쪽][앞 쪽, 오른쪽]
-    /// </summary>
-    private int _luncherBit = 0b_1000;
-
+    [Header("Luncher")]
     [SerializeField] private ObjectLuncher[] _lunchers = new ObjectLuncher[_MAX_LUNCHER_COUNT];
     private const int _MAX_LUNCHER_COUNT = 4;
 
+    [Header("Luncher Timing")]
+    [SerializeField] private LuncherTimingSetting[] _luncherTimings;
+    public LuncherTimingSetting[] LuncherTimings { get => _luncherTimings; set => _luncherTimings = value; }
+    private LuncherTimingSetting _currentLuncherTimingSetting;
+    private int _luncherSettingCount = 0;
+    private int _luncherTypeCount = 0;
+
+    // 발사 오브젝트 관련
+    [Serializable]
+    public class ShootingObjectRate
+    {
+        [SerializeField] private GameObject _objectPrefab;
+        public GameObject ObjectPrefab { get => _objectPrefab; set => _objectPrefab = value; }
+        [SerializeField] private float _objectRate;
+        public float ObjectRate { get => _objectRate; set => _objectRate = value; }
+    }
+    [Serializable]
+    public class ShootingObjectTiming
+    {
+        [SerializeField] private float _limitTime;
+        public float LimitTime { get => _limitTime; set => _limitTime = value; }
+        [SerializeField] private ShootingObjectRate[] _shootingObjects;
+        public ShootingObjectRate[] ShootingObjects { get => _shootingObjects; set => _shootingObjects = value; }
+    }
+
+    [Header("ShootingObject Timing")]
+    [SerializeField] ShootingObjectTiming[] _shootingObjectTimings;
+    private ShootingObjectTiming _currentShootingObjectTiming;
+    private int _shootingObjectCount = 0;
+    private float _shootingObjectMaxRate = 0;
+
     public void SetLuncher(float playTime)
     {
-        _luncherTimmings[_luncherTimmings.Length - 2].LimitTime = playTime;
-        _luncherTimmings[_luncherTimmings.Length - 1].LimitTime = playTime + 5;
+        _luncherTimings[_luncherTimings.Length - 2].LimitTime = playTime;
+        _luncherTimings[_luncherTimings.Length - 1].LimitTime = playTime + 5;
+        _currentLuncherTimingSetting = _luncherTimings[0];
+
+        _shootingObjectTimings[_shootingObjectTimings.Length - 6].LimitTime = playTime;
+        _shootingObjectTimings[_shootingObjectTimings.Length - 5].LimitTime = playTime + 1;
+        _shootingObjectTimings[_shootingObjectTimings.Length - 4].LimitTime = playTime + 2;
+        _shootingObjectTimings[_shootingObjectTimings.Length - 3].LimitTime = playTime + 3;
+        _shootingObjectTimings[_shootingObjectTimings.Length - 2].LimitTime = playTime + 4;
+        _shootingObjectTimings[_shootingObjectTimings.Length - 1].LimitTime = playTime + 5;
+        _currentShootingObjectTiming = _shootingObjectTimings[0];
     }
 
     public void LunchObject(int gameTime)
     {
-        int objectNumber = UnityEngine.Random.Range(0, _shootingObjectPrefabs.Length);
-
-        if(gameTime >= _luncherTimmings[_luncherSettingCount].LimitTime)
+        if(gameTime > _currentLuncherTimingSetting.LimitTime)
         {
             ++_luncherSettingCount;
-            if(_luncherSettingCount == _luncherTimmings.Length)
+            if(_luncherSettingCount == _luncherTimings.Length)
             {
                 return;
             }
-            _luncherTupeCount = 0;
+            _currentLuncherTimingSetting = _luncherTimings[_luncherSettingCount];
+
+            _luncherTypeCount = 0;
         }
+
+        if(gameTime > _currentShootingObjectTiming.LimitTime)
+        {
+            ++_shootingObjectCount;
+            if(_shootingObjectCount == _shootingObjectTimings.Length)
+            {
+                return;
+            }
+            _currentShootingObjectTiming = _shootingObjectTimings[_shootingObjectCount];
+
+            _shootingObjectMaxRate = 0;
+            foreach(ShootingObjectRate objectRate in _shootingObjectTimings[_shootingObjectCount].ShootingObjects)
+            {
+                _shootingObjectMaxRate += objectRate.ObjectRate;
+            }
+        }
+
+        GameObject lunchObject = SelectObject();
 
         foreach(ObjectLuncher luncher in _lunchers)
         {
             luncher.GetRandomDegreeInRange(
-                (int)_luncherTimmings[_luncherSettingCount].LuncherType[_luncherTupeCount],
-                _shootingObjectPrefabs[objectNumber]);
+                (int)_currentLuncherTimingSetting.LuncherType[_luncherTypeCount],
+                lunchObject);
         }
 
         Debug.Log(gameTime);
-        _luncherTupeCount = (_luncherTupeCount + 1) % _luncherTimmings[_luncherSettingCount].LuncherType.Length;
+        _luncherTypeCount = (_luncherTypeCount + 1) % _currentLuncherTimingSetting.LuncherType.Length;
+    }
+
+    private GameObject SelectObject()
+    {
+        ShootingObjectTiming shootingTiming = _shootingObjectTimings[_shootingObjectCount];
+
+        float randomRate = UnityEngine.Random.Range(0f, _shootingObjectMaxRate);
+
+        float rate = 0f;
+        foreach(ShootingObjectRate objectRate in shootingTiming.ShootingObjects)
+        {
+            rate += objectRate.ObjectRate;
+            if(randomRate < rate)
+            {
+                return objectRate.ObjectPrefab;
+            }
+        }
+
+        return shootingTiming.ShootingObjects[shootingTiming.ShootingObjects.Length - 1].ObjectPrefab;
     }
 }

@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e1111ac040971409f72e33703c2d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playTime: 30
+  _playTime: 50
   _showNicknameOffsetTime: 1
   _startCountDownOffsetTime: 3
   _gameStartOffsetTime: 3
@@ -840,24 +840,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3219698e678cb904281e4004488576dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _luncherTimmings:
-  - _limitTime: 5
-    _luncherType: 0100000002000000
-  - _limitTime: 120
-    _luncherType: 050000000a000000
-  - _limitTime: -1
-    _luncherType: 0f000000
-  _shootingObjectPrefabs:
-  - {fileID: 640918804740691840, guid: 8bcb92c0af8fb614fb01c11c516e86a7, type: 3}
-  - {fileID: 640918804740691840, guid: 0a04c55904b2337469de8739430b746c, type: 3}
-  - {fileID: 640918804740691840, guid: 2c376d2dd9bddb54c88841ccf5263a51, type: 3}
-  - {fileID: 970715587437743427, guid: 1dd0ddfb00b40214d9de1d3784aaf96f, type: 3}
-  - {fileID: 2685295057078606601, guid: ab79f3071a5ad28428403eb3c7b571f1, type: 3}
   _lunchers:
   - {fileID: 1827367181}
   - {fileID: 1321021526}
   - {fileID: 1507345848}
   - {fileID: 700082921}
+  _luncherTimings:
+  - _limitTime: 60
+    _luncherType: 0100000002000000
+  - _limitTime: 120
+    _luncherType: 050000000a000000
+  - _limitTime: 125
+    _luncherType: 0f000000
+  _shootingObjectTimings:
+  - _limitTime: 14
+    _shootingObjects:
+    - _objectPrefab: {fileID: 640918804740691840, guid: 8bcb92c0af8fb614fb01c11c516e86a7, type: 3}
+      _objectRate: 100
+  - _limitTime: 15
+    _shootingObjects:
+    - _objectPrefab: {fileID: 640918804740691840, guid: 2c376d2dd9bddb54c88841ccf5263a51, type: 3}
+      _objectRate: 100
+  - _limitTime: 29
+    _shootingObjects:
+    - _objectPrefab: {fileID: 640918804740691840, guid: 8bcb92c0af8fb614fb01c11c516e86a7, type: 3}
+      _objectRate: 60
+    - _objectPrefab: {fileID: 640918804740691840, guid: 2c376d2dd9bddb54c88841ccf5263a51, type: 3}
+      _objectRate: 40
+  - _limitTime: 30
+    _shootingObjects:
+    - _objectPrefab: {fileID: 970715587437743427, guid: 1dd0ddfb00b40214d9de1d3784aaf96f, type: 3}
+      _objectRate: 40
+  - _limitTime: 44
+    _shootingObjects:
+    - _objectPrefab: {fileID: 640918804740691840, guid: 8bcb92c0af8fb614fb01c11c516e86a7, type: 3}
+      _objectRate: 50
+    - _objectPrefab: {fileID: 640918804740691840, guid: 2c376d2dd9bddb54c88841ccf5263a51, type: 3}
+      _objectRate: 25
+    - _objectPrefab: {fileID: 970715587437743427, guid: 1dd0ddfb00b40214d9de1d3784aaf96f, type: 3}
+      _objectRate: 25
+  - _limitTime: 45
+    _shootingObjects:
+    - _objectPrefab: {fileID: 2685295057078606601, guid: ab79f3071a5ad28428403eb3c7b571f1, type: 3}
+      _objectRate: 100
+  - _limitTime: 120
+    _shootingObjects:
+    - _objectPrefab: {fileID: 640918804740691840, guid: 8bcb92c0af8fb614fb01c11c516e86a7, type: 3}
+      _objectRate: 25
+    - _objectPrefab: {fileID: 640918804740691840, guid: 2c376d2dd9bddb54c88841ccf5263a51, type: 3}
+      _objectRate: 25
+    - _objectPrefab: {fileID: 970715587437743427, guid: 1dd0ddfb00b40214d9de1d3784aaf96f, type: 3}
+      _objectRate: 25
+    - _objectPrefab: {fileID: 2685295057078606601, guid: ab79f3071a5ad28428403eb3c7b571f1, type: 3}
+      _objectRate: 25
+  - _limitTime: 121
+    _shootingObjects:
+    - _objectPrefab: {fileID: 640918804740691840, guid: 2c376d2dd9bddb54c88841ccf5263a51, type: 3}
+      _objectRate: 100
+  - _limitTime: 122
+    _shootingObjects:
+    - _objectPrefab: {fileID: 640918804740691840, guid: 8bcb92c0af8fb614fb01c11c516e86a7, type: 3}
+      _objectRate: 100
+  - _limitTime: 123
+    _shootingObjects:
+    - _objectPrefab: {fileID: 970715587437743427, guid: 1dd0ddfb00b40214d9de1d3784aaf96f, type: 3}
+      _objectRate: 100
+  - _limitTime: 124
+    _shootingObjects:
+    - _objectPrefab: {fileID: 970715587437743427, guid: 1dd0ddfb00b40214d9de1d3784aaf96f, type: 3}
+      _objectRate: 100
+  - _limitTime: 125
+    _shootingObjects:
+    - _objectPrefab: {fileID: 2685295057078606601, guid: ab79f3071a5ad28428403eb3c7b571f1, type: 3}
+      _objectRate: 100
 --- !u!4 &677484685
 Transform:
   m_ObjectHideFlags: 0
