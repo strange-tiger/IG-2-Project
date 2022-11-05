@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using Asset.MySql;
 
 using SceneType = Defines.ESceneNumder;
 
@@ -50,6 +51,14 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
         LogOut("LogIn");
         PlayerControlManager.Instance.IsRayable = false;
         PlayerControlManager.Instance.IsMoveable = false;
-        SceneManager.LoadScene((int)SceneType.StartRoom);
+
+        if (MySqlSetting.CheckValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "True"))
+        {
+            SceneManager.LoadScene((int)SceneType.StartRoom);
+        }
+        else
+        {
+            SceneManager.LoadScene((int)SceneType.MakeCharacterRoom);
+        }
     }
 }

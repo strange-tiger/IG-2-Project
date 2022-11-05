@@ -1,135 +1,383 @@
 fileFormatVersion: 2
 guid: f7e1f6fe9412c7e47aff70bd904fe0dc
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: cheeck_L1
-    100002: cheeck_L2
-    100004: cheeck_R1
-    100006: cheeck_R2
-    100008: eye_L
-    100010: eye_R
-    100012: eyeL
-    100014: eyeR
-    100016: head
-    100018: hips
-    100020: Leg_L_B
-    100022: Leg_L_B1
-    100024: Leg_L_B2
-    100026: Leg_L_B3
-    100028: Leg_L_B4
-    100030: Leg_L_B5
-    100032: Leg_L_F
-    100034: Leg_L_F1
-    100036: Leg_L_F2
-    100038: Leg_L_F3
-    100040: Leg_L_F4
-    100042: Leg_L_F5
-    100044: Leg_R_B
-    100046: Leg_R_B1
-    100048: Leg_R_B2
-    100050: Leg_R_B3
-    100052: Leg_R_B4
-    100054: Leg_R_B5
-    100056: Leg_R_F
-    100058: Leg_R_F1
-    100060: Leg_R_F2
-    100062: Leg_R_F3
-    100064: Leg_R_F4
-    100066: Leg_R_F5
-    100068: //RootNode
-    100070: mouth
-    100072: mouth1
-    100074: neck
-    100076: root
-    100078: spine2
-    100080: spine3
-    100082: spine4
-    100084: tail1
-    100086: tail10
-    100088: tail11
-    100090: tail2
-    100092: tail3
-    100094: tail4
-    100096: tail5
-    100098: tail6
-    100100: tail7
-    100102: tail8
-    100104: tail9
-    100106: tongue
-    100108: tongue2
-    100110: tongue3
-    100112: tongue4
-    100114: tongue5
-    100116: tongue6
-    100118: tusk_L4
-    100120: tusk_R4
-    400000: cheeck_L1
-    400002: cheeck_L2
-    400004: cheeck_R1
-    400006: cheeck_R2
-    400008: eye_L
-    400010: eye_R
-    400012: eyeL
-    400014: eyeR
-    400016: head
-    400018: hips
-    400020: Leg_L_B
-    400022: Leg_L_B1
-    400024: Leg_L_B2
-    400026: Leg_L_B3
-    400028: Leg_L_B4
-    400030: Leg_L_B5
-    400032: Leg_L_F
-    400034: Leg_L_F1
-    400036: Leg_L_F2
-    400038: Leg_L_F3
-    400040: Leg_L_F4
-    400042: Leg_L_F5
-    400044: Leg_R_B
-    400046: Leg_R_B1
-    400048: Leg_R_B2
-    400050: Leg_R_B3
-    400052: Leg_R_B4
-    400054: Leg_R_B5
-    400056: Leg_R_F
-    400058: Leg_R_F1
-    400060: Leg_R_F2
-    400062: Leg_R_F3
-    400064: Leg_R_F4
-    400066: Leg_R_F5
-    400068: //RootNode
-    400070: mouth
-    400072: mouth1
-    400074: neck
-    400076: root
-    400078: spine2
-    400080: spine3
-    400082: spine4
-    400084: tail1
-    400086: tail10
-    400088: tail11
-    400090: tail2
-    400092: tail3
-    400094: tail4
-    400096: tail5
-    400098: tail6
-    400100: tail7
-    400102: tail8
-    400104: tail9
-    400106: tongue
-    400108: tongue2
-    400110: tongue3
-    400112: tongue4
-    400114: tongue5
-    400116: tongue6
-    400118: tusk_L4
-    400120: tusk_R4
-    7400000: Walk
-    9500000: //RootNode
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: cheeck_L1
+  - first:
+      1: 100002
+    second: cheeck_L2
+  - first:
+      1: 100004
+    second: cheeck_R1
+  - first:
+      1: 100006
+    second: cheeck_R2
+  - first:
+      1: 100008
+    second: eye_L
+  - first:
+      1: 100010
+    second: eye_R
+  - first:
+      1: 100012
+    second: eyeL
+  - first:
+      1: 100014
+    second: eyeR
+  - first:
+      1: 100016
+    second: head
+  - first:
+      1: 100018
+    second: hips
+  - first:
+      1: 100020
+    second: Leg_L_B
+  - first:
+      1: 100022
+    second: Leg_L_B1
+  - first:
+      1: 100024
+    second: Leg_L_B2
+  - first:
+      1: 100026
+    second: Leg_L_B3
+  - first:
+      1: 100028
+    second: Leg_L_B4
+  - first:
+      1: 100030
+    second: Leg_L_B5
+  - first:
+      1: 100032
+    second: Leg_L_F
+  - first:
+      1: 100034
+    second: Leg_L_F1
+  - first:
+      1: 100036
+    second: Leg_L_F2
+  - first:
+      1: 100038
+    second: Leg_L_F3
+  - first:
+      1: 100040
+    second: Leg_L_F4
+  - first:
+      1: 100042
+    second: Leg_L_F5
+  - first:
+      1: 100044
+    second: Leg_R_B
+  - first:
+      1: 100046
+    second: Leg_R_B1
+  - first:
+      1: 100048
+    second: Leg_R_B2
+  - first:
+      1: 100050
+    second: Leg_R_B3
+  - first:
+      1: 100052
+    second: Leg_R_B4
+  - first:
+      1: 100054
+    second: Leg_R_B5
+  - first:
+      1: 100056
+    second: Leg_R_F
+  - first:
+      1: 100058
+    second: Leg_R_F1
+  - first:
+      1: 100060
+    second: Leg_R_F2
+  - first:
+      1: 100062
+    second: Leg_R_F3
+  - first:
+      1: 100064
+    second: Leg_R_F4
+  - first:
+      1: 100066
+    second: Leg_R_F5
+  - first:
+      1: 100068
+    second: //RootNode
+  - first:
+      1: 100070
+    second: mouth
+  - first:
+      1: 100072
+    second: mouth1
+  - first:
+      1: 100074
+    second: neck
+  - first:
+      1: 100076
+    second: root
+  - first:
+      1: 100078
+    second: spine2
+  - first:
+      1: 100080
+    second: spine3
+  - first:
+      1: 100082
+    second: spine4
+  - first:
+      1: 100084
+    second: tail1
+  - first:
+      1: 100086
+    second: tail10
+  - first:
+      1: 100088
+    second: tail11
+  - first:
+      1: 100090
+    second: tail2
+  - first:
+      1: 100092
+    second: tail3
+  - first:
+      1: 100094
+    second: tail4
+  - first:
+      1: 100096
+    second: tail5
+  - first:
+      1: 100098
+    second: tail6
+  - first:
+      1: 100100
+    second: tail7
+  - first:
+      1: 100102
+    second: tail8
+  - first:
+      1: 100104
+    second: tail9
+  - first:
+      1: 100106
+    second: tongue
+  - first:
+      1: 100108
+    second: tongue2
+  - first:
+      1: 100110
+    second: tongue3
+  - first:
+      1: 100112
+    second: tongue4
+  - first:
+      1: 100114
+    second: tongue5
+  - first:
+      1: 100116
+    second: tongue6
+  - first:
+      1: 100118
+    second: tusk_L4
+  - first:
+      1: 100120
+    second: tusk_R4
+  - first:
+      4: 400000
+    second: cheeck_L1
+  - first:
+      4: 400002
+    second: cheeck_L2
+  - first:
+      4: 400004
+    second: cheeck_R1
+  - first:
+      4: 400006
+    second: cheeck_R2
+  - first:
+      4: 400008
+    second: eye_L
+  - first:
+      4: 400010
+    second: eye_R
+  - first:
+      4: 400012
+    second: eyeL
+  - first:
+      4: 400014
+    second: eyeR
+  - first:
+      4: 400016
+    second: head
+  - first:
+      4: 400018
+    second: hips
+  - first:
+      4: 400020
+    second: Leg_L_B
+  - first:
+      4: 400022
+    second: Leg_L_B1
+  - first:
+      4: 400024
+    second: Leg_L_B2
+  - first:
+      4: 400026
+    second: Leg_L_B3
+  - first:
+      4: 400028
+    second: Leg_L_B4
+  - first:
+      4: 400030
+    second: Leg_L_B5
+  - first:
+      4: 400032
+    second: Leg_L_F
+  - first:
+      4: 400034
+    second: Leg_L_F1
+  - first:
+      4: 400036
+    second: Leg_L_F2
+  - first:
+      4: 400038
+    second: Leg_L_F3
+  - first:
+      4: 400040
+    second: Leg_L_F4
+  - first:
+      4: 400042
+    second: Leg_L_F5
+  - first:
+      4: 400044
+    second: Leg_R_B
+  - first:
+      4: 400046
+    second: Leg_R_B1
+  - first:
+      4: 400048
+    second: Leg_R_B2
+  - first:
+      4: 400050
+    second: Leg_R_B3
+  - first:
+      4: 400052
+    second: Leg_R_B4
+  - first:
+      4: 400054
+    second: Leg_R_B5
+  - first:
+      4: 400056
+    second: Leg_R_F
+  - first:
+      4: 400058
+    second: Leg_R_F1
+  - first:
+      4: 400060
+    second: Leg_R_F2
+  - first:
+      4: 400062
+    second: Leg_R_F3
+  - first:
+      4: 400064
+    second: Leg_R_F4
+  - first:
+      4: 400066
+    second: Leg_R_F5
+  - first:
+      4: 400068
+    second: //RootNode
+  - first:
+      4: 400070
+    second: mouth
+  - first:
+      4: 400072
+    second: mouth1
+  - first:
+      4: 400074
+    second: neck
+  - first:
+      4: 400076
+    second: root
+  - first:
+      4: 400078
+    second: spine2
+  - first:
+      4: 400080
+    second: spine3
+  - first:
+      4: 400082
+    second: spine4
+  - first:
+      4: 400084
+    second: tail1
+  - first:
+      4: 400086
+    second: tail10
+  - first:
+      4: 400088
+    second: tail11
+  - first:
+      4: 400090
+    second: tail2
+  - first:
+      4: 400092
+    second: tail3
+  - first:
+      4: 400094
+    second: tail4
+  - first:
+      4: 400096
+    second: tail5
+  - first:
+      4: 400098
+    second: tail6
+  - first:
+      4: 400100
+    second: tail7
+  - first:
+      4: 400102
+    second: tail8
+  - first:
+      4: 400104
+    second: tail9
+  - first:
+      4: 400106
+    second: tongue
+  - first:
+      4: 400108
+    second: tongue2
+  - first:
+      4: 400110
+    second: tongue3
+  - first:
+      4: 400112
+    second: tongue4
+  - first:
+      4: 400114
+    second: tongue5
+  - first:
+      4: 400116
+    second: tongue6
+  - first:
+      4: 400118
+    second: tusk_L4
+  - first:
+      4: 400120
+    second: tusk_R4
+  - first:
+      74: 7400000
+    second: Walk
+  - first:
+      95: 9500000
+    second: //RootNode
   externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -158,6 +406,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Walk
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 30
       wrapMode: 0
@@ -167,13 +416,13 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -190,25 +439,32 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -217,10 +473,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 1
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -230,14 +486,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: root
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: a512f6ed7b0b84b678b866d4bff6a6e0,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: a512f6ed7b0b84b678b866d4bff6a6e0, type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
