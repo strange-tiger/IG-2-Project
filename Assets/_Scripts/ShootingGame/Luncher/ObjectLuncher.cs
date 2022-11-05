@@ -17,12 +17,14 @@ public class ObjectLuncher : MonoBehaviour
     private int _luncherIdInt;
     public LuncherManager.ELuncherId LuncherId { get => _luncherId; set => _luncherId = value; }
 
+    [SerializeField] private Transform _lunchPointTransform;
+
     private void Awake()
     {
         _luncherIdInt = (int)_luncherId;
     }
 
-    public void GetRandomDegreeInRange(int _lunchCode)
+    public void GetRandomDegreeInRange(int _lunchCode, GameObject prefab)
     {
         if((_lunchCode & _luncherIdInt) == 0)
         {
@@ -34,5 +36,7 @@ public class ObjectLuncher : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(_originalDegree);
         transform.rotation = Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z);
+
+        Instantiate(prefab, _lunchPointTransform.position, Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z));
     }
 }

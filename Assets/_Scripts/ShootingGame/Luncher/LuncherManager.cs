@@ -32,16 +32,11 @@ public class LuncherManager : MonoBehaviour
     [SerializeField] private LuncherTimingSetting[] _luncherTimmings;
     public LuncherTimingSetting[] LuncherTimmings { get => _luncherTimmings; set => _luncherTimmings = value; }
 
-    [SerializeField] private float _lunchOffsetSeconds = 1f;
-
-    private float _elapsedTime = 1f;
-    private float _gameTime = 0f;
-
     private int _luncherSettingCount = 0;
     private int _luncherTupeCount = 0;
 
-    private bool _isStarted = false;
-    private bool _isEnd = false;
+    [SerializeField] private GameObject _shootingObjectPrefab;
+
     /// <summary>
     /// [플레이어 쪽, 왼쪽][플레이어 쪽, 오른쪽][앞 쪽, 왼쪽][앞 쪽, 오른쪽]
     /// </summary>
@@ -50,16 +45,10 @@ public class LuncherManager : MonoBehaviour
     [SerializeField] private ObjectLuncher[] _lunchers = new ObjectLuncher[_MAX_LUNCHER_COUNT];
     private const int _MAX_LUNCHER_COUNT = 4;
 
-    private void Awake()
-    {
-        _elapsedTime = _lunchOffsetSeconds;
-    }
-
     public void SetLuncher(float playTime)
     {
         _luncherTimmings[_luncherTimmings.Length - 2].LimitTime = playTime;
         _luncherTimmings[_luncherTimmings.Length - 1].LimitTime = playTime + 5;
-        _isStarted = true;
     }
 
     public void LunchObject(int gameTime)
@@ -76,7 +65,9 @@ public class LuncherManager : MonoBehaviour
 
         foreach(ObjectLuncher luncher in _lunchers)
         {
-            luncher.GetRandomDegreeInRange((int)_luncherTimmings[_luncherSettingCount].LuncherType[_luncherTupeCount]);
+            luncher.GetRandomDegreeInRange(
+                (int)_luncherTimmings[_luncherSettingCount].LuncherType[_luncherTupeCount],
+                _shootingObjectPrefab);
         }
 
         Debug.Log(gameTime);
