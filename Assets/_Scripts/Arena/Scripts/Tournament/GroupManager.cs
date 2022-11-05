@@ -29,33 +29,7 @@ public class GroupManager : MonoBehaviour
 
     private void OnEnable()
     {
-        List<int> _memberIndexList = new List<int>();
-
-        for (int i = 0; i < _member.Length; ++i)
-        {
-            _randomIndex = Random.Range(0, 4);
-
-            for (int j = 0; j < _memberIndexList.Count;)
-            {
-                if (_memberIndexList[j] == _randomIndex)
-                {
-                    j = 0;
-                    _randomIndex = Random.Range(0, 4);
-                }
-                else
-                {
-                    ++j;
-                }
-            }
-            _memberIndexList.Add(_randomIndex);
-        }
-        Debug.Log($"{_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
-        for (int i = 0; i < _member.Length; ++i)
-        {
-            int index;
-            index = _memberIndexList[i];
-            _member[i] = transform.GetChild(index).gameObject;
-        }
+        SettingRandomGroup();
     }
 
     void Start()
@@ -195,5 +169,41 @@ public class GroupManager : MonoBehaviour
         _member[1].transform.position = Vector3.zero;
         _member[2].transform.position = Vector3.zero;
         _member[3].transform.position = Vector3.zero;
+    }
+
+    /// <summary>
+    /// 그룹 내 참가자들 랜덤하게 배치
+    /// </summary>
+    private void SettingRandomGroup()
+    {
+        List<int> _memberIndexList = new List<int>();
+
+        for (int i = 0; i < _member.Length; ++i)
+        {
+            _randomIndex = Random.Range(0, 4);
+
+            for (int j = 0; j < _memberIndexList.Count;)
+            {
+                if (_memberIndexList[j] == _randomIndex)
+                {
+                    j = 0;
+                    _randomIndex = Random.Range(0, 4);
+                }
+                else
+                {
+                    ++j;
+                }
+            }
+            _memberIndexList.Add(_randomIndex);
+        }
+
+        Debug.Log($"{_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
+
+        for (int i = 0; i < _member.Length; ++i)
+        {
+            int index;
+            index = _memberIndexList[i];
+            _member[i] = transform.GetChild(index).gameObject;
+        }
     }
 }
