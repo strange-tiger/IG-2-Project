@@ -27,9 +27,13 @@ public class HitUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetPointText(Color playerColor, int point)
+    public void SetPointText(Color playerColor, int point, bool active)
     {
-        _scoreText.color = playerColor;
-        _scoreText.text = $"+{point}";
+        _scoreText.gameObject.SetActive(active);
+        if(active)
+        {
+            _scoreText.color = playerColor;
+            _scoreText.text = $"+{point}";
+        }
     }
 }

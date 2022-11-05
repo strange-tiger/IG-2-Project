@@ -126,7 +126,7 @@ public class GunShoot : MonoBehaviour
 
             GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
             hitUI.GetComponent<HitUI>().enabled = true;
-            hitUI.GetComponent<HitUI>().SetPointText(PlayerColor, point);
+            hitUI.GetComponent<HitUI>().SetPointText(PlayerColor, point, point != 0);
 
             _score += point;
             Debug.Log("[Gun] " + _score);
