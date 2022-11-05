@@ -20,7 +20,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        base.OnJoinedLobby();
+        //base.OnJoinedLobby();
         try
         {
 
@@ -35,12 +35,12 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        base.OnCreatedRoom();
+        //base.OnCreatedRoom();
         try
         {
 
             Debug.Log("됐구나?");
-            PhotonNetwork.LoadLevel("FindingGold_Jack");
+            PhotonNetwork.LoadLevel("ArenaRoom");
             Debug.Log(PhotonNetwork.CurrentRoom.Name);
         }
         catch
@@ -51,7 +51,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        base.OnJoinedRoom();
+        //base.OnJoinedRoom();
         Debug.Log("된거구나?");
         PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
     }

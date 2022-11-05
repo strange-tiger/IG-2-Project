@@ -27,6 +27,7 @@ public class TournamentManager : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("전 마스터입니다");
             _selectGroup = Random.Range(0, _groups.Length);
 
             // _selectGroup = 2;
@@ -37,8 +38,6 @@ public class TournamentManager : MonoBehaviourPun
             }
 
             Invoke("GameStart", _startSecond);
-
-
 
             _reStart._startBattle.RemoveListener(GameStartEvent);
             _reStart._startBattle.AddListener(GameStartEvent);
