@@ -12,19 +12,6 @@ public class PaintbrushReset : MonoBehaviourPun
 
     public event Action OnReset;
 
-    private const float LINE_SCALE = 0.5f;
-
-    private int _memoryChildCount;
-    
-    /*
-    [SerializeField] Material _lineMaterial;
-    private const float DEFAULT_WIDTH = 0.01f;
-    private List<int> _memoryLinePointNums;
-    private List<Vector3[]> _memoryLinePoints = new List<Vector3[]>();
-    private List<LineRenderer> _memoryLines = new List<LineRenderer>();
-    private Coroutine _coroutine;
-    */
-
     private void OnEnable()
     {
         _resetButton.onClick.RemoveListener(ResetPad);
@@ -34,92 +21,13 @@ public class PaintbrushReset : MonoBehaviourPun
     private void OnDisable()
     {
         _resetButton.onClick.RemoveListener(ResetPad);
-        photonView.RPC("ResetDraw", RpcTarget.All);
+        photonView.RPC("ResetDraw", RpcTarget.AllBuffered);
     }
-
-    /*
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.childCount);
-
-            
-            for (int i = 1; i < transform.childCount; ++i)
-            {
-                LineRenderer childLineRenderer = transform.GetChild(i).GetComponent<LineRenderer>();
-                int pointCount = childLineRenderer.positionCount;
-
-                stream.SendNext(pointCount);
-
-                Vector3[] linePoints = new Vector3[pointCount];
-                childLineRenderer.GetPositions(linePoints);
-
-                stream.SendNext(linePoints);
-            }
-            
-        }
-        else if (stream.IsReading)
-        {
-            _memoryChildCount = (int)stream.ReceiveNext();
-
-            //MatchChildNum();
-
-            
-            _memoryLinePointNums?.Clear();
-            _memoryLinePoints?.Clear();
-            for (int i = 1; i < _memoryChildCount; ++i)
-            {
-                _memoryLinePointNums.Add((int)stream.ReceiveNext());
-                _memoryLinePoints.Add((Vector3[])stream.ReceiveNext());
-            }
-
-            if (_coroutine != null) StopCoroutine(_coroutine);
-            _coroutine = StartCoroutine(ReceiveLines());
-            
-        }
-    }
-
-    
-    private void MatchChildNum()
-    {
-        for (int i = transform.childCount; i < _memoryChildCount; ++i)
-        {
-            GenerateLineRenderer();
-        }
-
-        for (int i = transform.childCount - 1; i > _memoryChildCount; --i)
-        {
-            PhotonNetwork.Destroy(transform.GetChild(i).gameObject);
-        }
-    }
-
-    private void GenerateLineRenderer()
-    {
-        GameObject line = PhotonNetwork.Instantiate("Line", Vector3.zero, Quaternion.identity);
-
-        line.name = "2";
-        line.transform.parent = transform;
-        line.transform.position = Vector3.zero;
-        line.transform.localScale = LINE_SCALE * Vector3.one;
-
-        
-        LineRenderer lineRenderer = line.GetComponent<LineRenderer>);
-        lineRenderer.useWorldSpace = false;
-        lineRenderer.startWidth = DEFAULT_WIDTH;
-        lineRenderer.endWidth = DEFAULT_WIDTH;
-        lineRenderer.numCornerVertices = 5;
-        lineRenderer.numCapVertices = 5;
-        lineRenderer.material = _lineMaterial;
-        return lineRenderer;
-        
-    }
-    */
 
     private void ResetPad()
     {
 #if _Photon
-        photonView.RPC("ResetDraw", RpcTarget.All);
+        photonView.RPC("ResetDraw", RpcTarget.AllBuffered);
 #else
         ResetDraw();
 #endif
@@ -134,21 +42,4 @@ public class PaintbrushReset : MonoBehaviourPun
         }
         OnReset.Invoke();
     }
-
-    /*
-    private IEnumerator ReceiveLines()
-    {
-        int count = _memoryLines.Count;
-
-        while (count >= 0)
-        {
-            --count;
-
-            _memoryLines[count].positionCount = _memoryLinePointNums[count];
-            _memoryLines[count].SetPositions(_memoryLinePoints[count]);
-
-            yield return null;
-        }
-    }
-    */
 }

@@ -6,9 +6,6 @@ using Photon.Pun;
 
 public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
 {
-    //[SerializeField] Material _lineMaterial;
-    //private const float DEFAULT_WIDTH = 0.01f;
-    
     [SerializeField] PaintbrushReset _pad;
     [SerializeField] LayerMask _padMask;
 
@@ -100,19 +97,9 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         GameObject line = PhotonNetwork.Instantiate("Line", Vector3.zero, Quaternion.identity);
         LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
 
-        line.name = "1";
         line.transform.parent = _pad.transform;
         line.transform.position = Vector3.zero;
         line.transform.localScale = LINE_SCALE * Vector3.one;
-
-        /*
-        lineRenderer.useWorldSpace = false;
-        lineRenderer.startWidth = DEFAULT_WIDTH;
-        lineRenderer.endWidth = DEFAULT_WIDTH;
-        lineRenderer.numCornerVertices = 5;
-        lineRenderer.numCapVertices = 5;
-        lineRenderer.material = _lineMaterial;
-        */
 
         lineRenderer.SetPosition(0, startPos);
         lineRenderer.SetPosition(1, startPos);
@@ -125,7 +112,11 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
     {
         while (_isDraw)
         {
+#if _Photon
             photonView.RPC("ConnectLineHelper", RpcTarget.AllBuffered, _prevPoint, _currentPoint);
+#else
+            ConnectLineHelper(_prevPoint, _currentPoint);
+#endif
             _prevPoint = _currentPoint;
             yield return null;
         }
@@ -134,7 +125,6 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
     [PunRPC]
     private void ConnectLineHelper(Vector3 prevPoint, Vector3 currentPoint)
     {
-        Debug.Log("µÇ¶ó Á»");
         if (prevPoint != null && Mathf.Abs(Vector3.Distance(prevPoint, currentPoint)) >= POINTS_DISTANCE)
         {
             _positionCount++;
