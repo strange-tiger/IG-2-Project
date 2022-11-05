@@ -12,8 +12,8 @@ public class ShootingObjectMovement : MonoBehaviour
     [SerializeField] private float _destroyOffsetTime;
     private WaitForSeconds _waitForDestroy;
 
-    private LayerMask _ShootingObjectLayer;
-    private Collider[] _colliders;
+    private LayerMask _breakableObjectLayer;
+    private LayerMask _unbreakableObjectLayer;
 
     private Rigidbody _rigidbody;
 
@@ -21,9 +21,9 @@ public class ShootingObjectMovement : MonoBehaviour
     {
         _waitForDestroy = new WaitForSeconds(_destroyOffsetTime);
 
-        _ShootingObjectLayer = LayerMask.NameToLayer("ShootingObject");
-
-        _colliders = GetComponentsInChildren<Collider>();
+        _breakableObjectLayer = LayerMask.NameToLayer("BreakableShootingObject");
+        _unbreakableObjectLayer = LayerMask.NameToLayer("UnbreakableShootingObject");
+        gameObject.layer = _unbreakableObjectLayer;
 
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.velocity = transform.forward * _moveSpeed;
@@ -34,7 +34,8 @@ public class ShootingObjectMovement : MonoBehaviour
     {
         if (other.CompareTag("ShootingHitRange"))
         {
-            gameObject.layer = _ShootingObjectLayer;
+            StopAllCoroutines();
+            gameObject.layer = _breakableObjectLayer;
         }
     }
 
@@ -42,11 +43,8 @@ public class ShootingObjectMovement : MonoBehaviour
     {
         if(other.CompareTag("ShootingHitRange"))
         {
-            foreach (Collider collider in _colliders)
-            {
-                collider.enabled = false;
-            }
             StartCoroutine(CoDestroyObject());
+            gameObject.layer = _unbreakableObjectLayer;
         }
     }
 

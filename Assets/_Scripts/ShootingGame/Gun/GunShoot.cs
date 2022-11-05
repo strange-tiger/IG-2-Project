@@ -10,7 +10,7 @@ public class GunShoot : MonoBehaviour
     [SerializeField] private Transform[] handPosition;
 
     [Header("BasicState")]
-    [SerializeField] private float _gunRange = 16f;
+    [SerializeField] private float _gunRange = 18f;
 
     [Header("Bullet")]
     [SerializeField] private TextMeshProUGUI _bulletCountText;
@@ -47,11 +47,15 @@ public class GunShoot : MonoBehaviour
     private OVRInput.Controller _mainController;
     private WaitForSeconds _waitForViBrationTime;
 
+    private LayerMask _breakableObjectLayer;
 
     // 기타 필요 컨포넌트들
     private PlayerInput _input;
     private int _primaryController;
     private bool _isReloading;
+
+    private LineRenderer _lineRenderer;
+    private Vector3[] rayPositions = new Vector3[2];
 
     private void Awake()
     {
@@ -75,12 +79,19 @@ public class GunShoot : MonoBehaviour
             _bulletTrailPull.Push(bulltTrial.gameObject);
             bulltTrial.gameObject.SetActive(false);
             bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
-            Debug.Log("[Bullet] " + bulltTrial.name);
         }
+
+        _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject"); 
+
+         _lineRenderer = GetComponent<LineRenderer>();
     }
 
     private void Update()
     {
+        rayPositions[0] = _bulletSpawnTransform.position;
+        rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
+        _lineRenderer.SetPositions(rayPositions);
+
         Reload();
         Shot();
     }
@@ -94,22 +105,23 @@ public class GunShoot : MonoBehaviour
 
         --_bulletCount;
 
+        HitTarget();
         PlayShotEffect();
     }
 
+    private int _score = 0;
     private void HitTarget()
     {
         RaycastHit hit;
-        Ray ray = new Ray(transform.position, transform.forward);
-        if(Physics.Raycast(ray, out hit, _gunRange))
+        Ray ray = new Ray(_bulletSpawnTransform.position, _bulletSpawnTransform.forward);
+        if(Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
         {
-            if(hit.collider.CompareTag("ShootingObject"))
-            {
-                return;
-            }
-
-            // 여기에 스크립트 처리
+            Debug.Log("[Gun] RayHit " + hit.collider.gameObject.name);
+            ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
+            _score += _health.Hit();
+            Debug.Log("[Gun] " + _score);
         }
+
     }
 
     private void PlayShotEffect()

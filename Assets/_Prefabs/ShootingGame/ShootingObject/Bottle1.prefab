@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 640918804740691842}
   - component: {fileID: 640918804740691841}
   - component: {fileID: 3462144192224478372}
+  - component: {fileID: 7101969043674718588}
+  - component: {fileID: 7945285294393836831}
   m_Layer: 0
   m_Name: Bottle1
   m_TagString: Untagged
@@ -62,21 +64,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ee887a13852034c8c414ca9a5f69d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 15
+  _moveSpeed: 5
   _rotationSpeed: 2000
   _destroyOffsetTime: 1
---- !u!65 &640918805354203406
+--- !u!114 &7101969043674718588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640918804740691840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253c966e1429f114dbe5131a91562e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &7945285294393836831
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265311930181997020}
+  m_GameObject: {fileID: 640918804740691840}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.13966751, y: 0.22, z: 0.09875105}
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: -0.0000019073486, y: 0.11, z: 0.0000000055879354}
 --- !u!1001 &640918804012891335
 PrefabInstance:
@@ -206,11 +220,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8841800992733963182, guid: 5a8d582bc1e6e3a44814d9cb1921d808, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5a8d582bc1e6e3a44814d9cb1921d808, type: 3}
---- !u!1 &8265311930181997020 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8813906387513546960, guid: 5a8d582bc1e6e3a44814d9cb1921d808, type: 3}
-  m_PrefabInstance: {fileID: 640918805354203404}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8261317329687739446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8809911781919143226, guid: 5a8d582bc1e6e3a44814d9cb1921d808, type: 3}
