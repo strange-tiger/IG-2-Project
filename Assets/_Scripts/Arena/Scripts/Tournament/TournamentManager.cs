@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class TournamentManager : MonoBehaviour
+public class TournamentManager : MonoBehaviourPun
 {
     [Header("몇초 단위로 시작할지 적어주세요")]
     [SerializeField] private int _startSecond;
@@ -25,7 +25,7 @@ public class TournamentManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             _selectGroup = Random.Range(0, _groups.Length);
 

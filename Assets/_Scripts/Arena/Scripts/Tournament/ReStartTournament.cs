@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 
-public class ReStartTournament : MonoBehaviour
+public class ReStartTournament : MonoBehaviourPun
 {
     [Header("海泼 UI甫 持绢林技夸")]
     [SerializeField] private GameObject _bettingUI;
@@ -19,7 +19,7 @@ public class ReStartTournament : MonoBehaviour
 
     private void Update()
     {
-        //if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             if (_bettingUI.activeSelf == false)
             {
@@ -33,5 +33,4 @@ public class ReStartTournament : MonoBehaviour
             }
         }
     }
-    
 }
