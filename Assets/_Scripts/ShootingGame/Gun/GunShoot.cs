@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GunShoot : MonoBehaviour
 {
@@ -31,8 +32,8 @@ public class GunShoot : MonoBehaviour
 
     // 이팩트
     [Header("Effects")]
-    [SerializeField] private GameObject _bulletTrail;
-    [SerializeField] private float _bulletTrailDisableOffsetTime = 0.05f;
+    private Stack<GameObject> _hitUIPull = new Stack<GameObject>();
+
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
 
     [Header("Sounds")]
@@ -59,6 +60,7 @@ public class GunShoot : MonoBehaviour
 
     private void Awake()
     {
+        // 리볼버가 들려있는 위치 확인하기
         _input = transform.root.GetComponentInChildren<PlayerInput>();
         _primaryController = (int)_input.PrimaryController;
         _mainController = _primaryController == 0 ? OVRInput.Controller.LHand : OVRInput.Controller.RHand;
@@ -66,14 +68,15 @@ public class GunShoot : MonoBehaviour
         transform.parent = handPosition[_primaryController];
         transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
 
+        // 이팩트를 위한 기타 컴포넌트 가져오기
         _shootEffects = GetComponentsInChildren<ParticleSystem>();
-
         _audioSource = GetComponent<AudioSource>();
 
+        // 총 쏘기 관련 초기화
         _bulletCount = _MAX_BULLET_COUNT;
-
         _waitForViBrationTime = new WaitForSeconds(_vibrationTime);
 
+        // 총알 효과 스택에 넣기
         foreach(CapsuleCollider bulltTrial in GetComponentsInChildren<CapsuleCollider>())
         {
             _bulletTrailPull.Push(bulltTrial.gameObject);
@@ -81,9 +84,19 @@ public class GunShoot : MonoBehaviour
             bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
         }
 
+        // 맞춤 판정 스택에 넣기
+        foreach(Image hitUI in GetComponentsInChildren<Image>())
+        {
+            GameObject ui = hitUI.transform.parent.gameObject;
+            _hitUIPull.Push(ui);
+            ui.SetActive(false);
+            ui.GetComponent<HitUI>().enabled = true;
+            ui.transform.parent = null;
+        }
+
         _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject"); 
 
-         _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer = GetComponent<LineRenderer>();
     }
 
     private void Update()
@@ -116,12 +129,14 @@ public class GunShoot : MonoBehaviour
         Ray ray = new Ray(_bulletSpawnTransform.position, _bulletSpawnTransform.forward);
         if(Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
         {
-            Debug.Log("[Gun] RayHit " + hit.collider.gameObject.name);
+            GameObject hitUI = _hitUIPull.Pop();
+            hitUI.transform.position = hit.point;
+            hitUI.SetActive(true);
+
             ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
             _score += _health.Hit();
             Debug.Log("[Gun] " + _score);
         }
-
     }
 
     private void PlayShotEffect()
@@ -174,8 +189,13 @@ public class GunShoot : MonoBehaviour
         }
     }
 
-    public void ReturnToPull(GameObject bulletTrail)
+    public void ReturnToBulletPull(GameObject bulletTrail)
     {
         _bulletTrailPull.Push(bulletTrail);
+    }
+
+    public void ReturnToHitUIPull(GameObject hitUI)
+    {
+        _hitUIPull.Push(hitUI);
     }
 }

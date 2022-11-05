@@ -81,6 +81,6 @@ public class BulletTrailMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _gun.ReturnToPull(gameObject);
+        _gun.ReturnToBulletPull(gameObject);
     }
 }
