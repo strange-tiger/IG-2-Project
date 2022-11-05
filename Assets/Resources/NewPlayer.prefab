@@ -202,7 +202,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2069112046582585354}
-  - component: {fileID: 283173271068751773}
   - component: {fileID: 4229275799203445270}
   - component: {fileID: 5840967426633386870}
   m_Layer: 0
@@ -226,18 +225,6 @@ Transform:
   m_Father: {fileID: 6072405480880000804}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &283173271068751773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781713922887318560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f69fb871dcfeb114c94a3943eb0d4d91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &4229275799203445270
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -629,6 +616,7 @@ GameObject:
   - component: {fileID: 6280768184612576867}
   - component: {fileID: 7985481654022924773}
   - component: {fileID: 3338769942497867043}
+  - component: {fileID: 7505147753320516097}
   m_Layer: 0
   m_Name: NewPlayer
   m_TagString: Player
@@ -762,6 +750,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _eatingSound: {fileID: 8300000, guid: 322ccf4c7fde64445bd49ddd7a1d4c55, type: 3}
+--- !u!114 &7505147753320516097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072405480879903498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69fb871dcfeb114c94a3943eb0d4d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &971891850876029811
 MonoBehaviour:
   m_ObjectHideFlags: 0
