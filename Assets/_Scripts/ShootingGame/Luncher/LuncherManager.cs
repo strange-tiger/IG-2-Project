@@ -35,7 +35,7 @@ public class LuncherManager : MonoBehaviour
     private int _luncherSettingCount = 0;
     private int _luncherTupeCount = 0;
 
-    [SerializeField] private GameObject _shootingObjectPrefab;
+    [SerializeField] private GameObject[] _shootingObjectPrefabs;
 
     /// <summary>
     /// [플레이어 쪽, 왼쪽][플레이어 쪽, 오른쪽][앞 쪽, 왼쪽][앞 쪽, 오른쪽]
@@ -53,6 +53,8 @@ public class LuncherManager : MonoBehaviour
 
     public void LunchObject(int gameTime)
     {
+        int objectNumber = UnityEngine.Random.Range(0, _shootingObjectPrefabs.Length);
+
         if(gameTime >= _luncherTimmings[_luncherSettingCount].LimitTime)
         {
             ++_luncherSettingCount;
@@ -67,7 +69,7 @@ public class LuncherManager : MonoBehaviour
         {
             luncher.GetRandomDegreeInRange(
                 (int)_luncherTimmings[_luncherSettingCount].LuncherType[_luncherTupeCount],
-                _shootingObjectPrefab);
+                _shootingObjectPrefabs[objectNumber]);
         }
 
         Debug.Log(gameTime);
