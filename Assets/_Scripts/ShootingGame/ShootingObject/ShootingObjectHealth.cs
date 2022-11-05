@@ -83,6 +83,7 @@ public class ShootingObjectHealth : MonoBehaviour
             _movement.enabled = false;
             gameObject.layer = _unbreakableObjectLayer;
             _rigidbody.velocity = _ZERO_VECTOR3;
+            StartCoroutine(DisableSelf());
         }
         int point = _shotEffects[_shotEffectCount].ShowEffect();
 
