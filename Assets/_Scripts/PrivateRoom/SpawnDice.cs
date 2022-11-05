@@ -8,13 +8,7 @@ public class SpawnDice : MonoBehaviourPun
 {
     [SerializeField] GameObject _dice;
 
-    private Collider _diceCollider;
     private Transform _hostPlayer;
-
-    private void Awake()
-    {
-        _diceCollider = GetComponent<Collider>();
-    }
 
     public void ToggleDice()
     {
@@ -32,7 +26,10 @@ public class SpawnDice : MonoBehaviourPun
     [PunRPC]
     private void Spawn()
     {
-        transform.position = SPAWN_POSITION;
+        if (photonView.IsMine)
+        {
+            transform.position = SPAWN_POSITION;
+        }
         _dice.SetActive(true);
     }
 

@@ -72,21 +72,28 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     {
         try
         {
-            PhotonNetwork.JoinLobby();
+            PhotonNetwork.LeaveRoom();
         }
         catch
         {
             Debug.LogError("로비 입장 실패");
         }
 
-       
-        CreatePrivateRoom();
         Debug.Log("방 생성 시도");
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        base.OnConnectedToMaster();
+        PhotonNetwork.JoinLobby();
+        Debug.Log("됐나?");
     }
 
     public override void OnJoinedLobby()
     {
-        //CreatePrivateRoom();
+        base.OnJoinedLobby();
+        Debug.Log("로비 입장");
+        CreatePrivateRoom();
     }
 
     private void CreatePrivateRoom()
@@ -123,13 +130,15 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
+        Debug.Log("방 생성");
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
         // 임시 코드
-        PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
+        Debug.Log("방 입장");
+        PhotonNetwork.LoadLevel(2);
     }
 
     private void ActivePasswordInput(bool isOn)

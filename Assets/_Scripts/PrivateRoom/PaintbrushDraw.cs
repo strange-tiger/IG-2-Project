@@ -1,4 +1,4 @@
-//#define _Photon
+#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +6,13 @@ using Photon.Pun;
 
 public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
 {
-    [SerializeField] Material _lineMaterial;
+    //[SerializeField] Material _lineMaterial;
+    //private const float DEFAULT_WIDTH = 0.01f;
+    
     [SerializeField] PaintbrushReset _pad;
     [SerializeField] LayerMask _padMask;
 
     private const float RAY_LENGTH = 0.2f;
-    private const float DEFAULT_WIDTH = 0.01f;
     private const float LINE_SCALE = 0.5f;
     private const float POINTS_DISTANCE = 0.01f;
     private static readonly Vector3 RAY_ORIGIN = new Vector3(0f, 0f, 0.1f);
@@ -38,11 +39,8 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
     private void Update()
     {
         Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
-//#if _Photon
-//        photonView.RPC("RaycastOnClients", RpcTarget.All);
-//#else
+
         RaycastOnClients();
-//#endif
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -57,7 +55,6 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         }
     }
 
-    //[PunRPC]
     private void RaycastOnClients()
     {
         RaycastHit hit;
@@ -94,11 +91,8 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
 
         _currentLineRenderer = GenerateLineRenderer(startPos);
 
-#if _Photon
-        photonView.RPC("ConnectLineHelper", RpcTarget.AllBuffered);
-#else
+
         StartCoroutine(ConnectLine());
-#endif
     }
 
     private LineRenderer GenerateLineRenderer(Vector3 startPos)
@@ -106,16 +100,19 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         GameObject line = PhotonNetwork.Instantiate("Line", Vector3.zero, Quaternion.identity);
         LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
 
+        line.name = "1";
         line.transform.parent = _pad.transform;
         line.transform.position = Vector3.zero;
         line.transform.localScale = LINE_SCALE * Vector3.one;
 
-        //lineRenderer.useWorldSpace = false;
-        //lineRenderer.startWidth = DEFAULT_WIDTH;
-        //lineRenderer.endWidth = DEFAULT_WIDTH;
-        //lineRenderer.numCornerVertices = 5;
-        //lineRenderer.numCapVertices = 5;
-        //lineRenderer.material = _lineMaterial;
+        /*
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.startWidth = DEFAULT_WIDTH;
+        lineRenderer.endWidth = DEFAULT_WIDTH;
+        lineRenderer.numCornerVertices = 5;
+        lineRenderer.numCapVertices = 5;
+        lineRenderer.material = _lineMaterial;
+        */
 
         lineRenderer.SetPosition(0, startPos);
         lineRenderer.SetPosition(1, startPos);
@@ -123,26 +120,26 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         return lineRenderer;
     }
 
-#if _Photon
     [PunRPC]
-    private void ConnectLineHelper()
-    {
-        StartCoroutine(ConnectLine());
-    }
-#endif
-
     private IEnumerator ConnectLine()
     {
         while (_isDraw)
         {
-            if (_prevPoint != null && Mathf.Abs(Vector3.Distance(_prevPoint, _currentPoint)) >= POINTS_DISTANCE)
-            {
-                _prevPoint = _currentPoint;
-                _positionCount++;
-                _currentLineRenderer.positionCount = _positionCount;
-                _currentLineRenderer.SetPosition(_positionCount - 1, _currentPoint);
-            }
+            photonView.RPC("ConnectLineHelper", RpcTarget.AllBuffered, _prevPoint, _currentPoint);
+            _prevPoint = _currentPoint;
             yield return null;
+        }
+    }
+
+    [PunRPC]
+    private void ConnectLineHelper(Vector3 prevPoint, Vector3 currentPoint)
+    {
+        Debug.Log("µÇ¶ó Á»");
+        if (prevPoint != null && Mathf.Abs(Vector3.Distance(prevPoint, currentPoint)) >= POINTS_DISTANCE)
+        {
+            _positionCount++;
+            _currentLineRenderer.positionCount = _positionCount;
+            _currentLineRenderer.SetPosition(_positionCount - 1, currentPoint);
         }
     }
 
