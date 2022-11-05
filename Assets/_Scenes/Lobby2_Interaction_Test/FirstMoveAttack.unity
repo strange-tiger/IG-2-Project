@@ -233,9 +233,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottle_05
       objectReference: {fileID: 0}
+    - target: {fileID: 1172741579455631070, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222561581995266094, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1222561581995266094, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3952459231523818324, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3952459231523818324, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
       propertyPath: m_IsTrigger
@@ -245,6 +257,18 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3952459231523818329, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+      propertyPath: _boxCollider
+      value: 
+      objectReference: {fileID: 630282751}
+    - target: {fileID: 3952459231523818329, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+      propertyPath: _objMeshCollider
+      value: 
+      objectReference: {fileID: 1670122774}
+    - target: {fileID: 3952459231523818329, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+      propertyPath: _objMeshRenderer
+      value: 
+      objectReference: {fileID: 1670122775}
     - target: {fileID: 4897839801651558596, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -291,6 +315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+--- !u!65 &630282751 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 3952459231523818324, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+  m_PrefabInstance: {fileID: 502311713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1216444604
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +413,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!64 &1670122774 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 1222561581995266094, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+  m_PrefabInstance: {fileID: 502311713}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1670122775 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1172741579455631070, guid: 60385104fd86edf4fbf257062167d71d, type: 3}
+  m_PrefabInstance: {fileID: 502311713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1697490960
 GameObject:
   m_ObjectHideFlags: 0

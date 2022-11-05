@@ -9,21 +9,29 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
     public void OnDamage()
     {
         Debug.Log("OnDamage / 피해자에게 호출 됨");
-        if(PlayerControlManager.Instance.IsInvincible == true)
+
+        if (PlayerControlManager.Instance.IsInvincible == true)
         {
             return;
         }
-        //OVRScreenFade.instance.FadeOut();
-        PlayerControlManager.Instance.IsMoveable = false;
-        PlayerControlManager.Instance.IsRayable = false;
+
+        if (photonView.IsMine)
+        {
+            Debug.Log("IsDamaged");
+            PlayerControlManager.Instance.IsMoveable = false;
+            PlayerControlManager.Instance.IsRayable = false;
+        }
+
         StartCoroutine(Invincible(20f));
-        Invoke("Revive", 1f);
+
+        // 2초 딜레이 코루틴
+        Revive();
     }
 
     public void Revive()
     {
-        Debug.Log("Revive");
-        //OVRScreenFade.instance.FadeIn();
+        Debug.Log("Revive");    
+
         PlayerControlManager.Instance.IsMoveable = true;
         PlayerControlManager.Instance.IsRayable = true;
     }
@@ -32,11 +40,11 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
     {
         float elapsedTime = 0;
 
-        while(true)
+        while (true)
         {
             elapsedTime += Time.deltaTime;
 
-            if(elapsedTime > coolTime)
+            if (elapsedTime > coolTime)
             {
                 PlayerControlManager.Instance.IsInvincible = false;
                 Debug.Log("무적 상태 해제");

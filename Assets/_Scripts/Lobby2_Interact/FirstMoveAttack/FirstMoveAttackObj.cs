@@ -8,7 +8,13 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     private Vector3 _objSpawnPos;
     private AudioSource _audioSource;
     private bool _grabbed = false;
-    private PhotonView _grabberPhotonView;
+    private int _grabberPhotonID;
+    [SerializeField]
+    private BoxCollider _boxCollider;
+    [SerializeField]
+    private MeshRenderer _objMeshRenderer;
+    [SerializeField]
+    private MeshCollider _objMeshCollider;
 
     private void Awake()
     {
@@ -18,43 +24,90 @@ public class FirstMoveAttackObj : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<FirstMoveAttackPlayer>() == null)
+        FirstMoveAttackPlayer _player = other.GetComponent<FirstMoveAttackPlayer>();
+
+        if (_player == null)
+        {
+            return;
+        }
+
+        if(PhotonNetwork.IsMasterClient == false)
         {
             return;
         }
 
         if(_grabbed)
         {
-            if(other.gameObject.GetPhotonView() == _grabberPhotonView)
+            if(_player.photonView.ViewID == _grabberPhotonID)
             {
                 return;
             }
 
             photonView.RPC("Crack", RpcTarget.All, 2f);
-            FirstMoveAttackPlayer _player = other.GetComponent<FirstMoveAttackPlayer>();
             _player.photonView.RPC("OnDamage", RpcTarget.All);
         }
         else
         {
-            _grabberPhotonView = other.gameObject.GetPhotonView();
-            _grabbed= true;
+            _grabberPhotonID = _player.photonView.ViewID;
+            _grabbed = true;
         }
         
+    }
+
+    private void OnDestroy()
+    {
+        if(coRespawn != null)
+        {
+            StopCoroutine(coRespawn);
+            coRespawn = null;
+        }
     }
 
     [PunRPC]
     public void Crack(float respawnTime)
     {
-        _audioSource.volume = SoundManager.Instance.SFXVolume;
+        Debug.Log("Crack");
+        //_audioSource.volume = SoundManager.Instance.SFXVolume;
         _audioSource.Play();
-        Invoke("Respawn", respawnTime);
-        PhotonNetwork.Destroy(gameObject);
+        TurnOff();
+        Respawn(respawnTime);
     }
 
-    public void Respawn()
+    public void TurnOff()
     {
-        PhotonNetwork.Instantiate(gameObject.name, _objSpawnPos, Quaternion.identity);
+        _boxCollider.enabled = false;
+        _objMeshRenderer.enabled = false;
+        _objMeshCollider.enabled = false;
+    }
+
+    public void TurnOn()
+    {
+        _boxCollider.enabled = true;
+        _objMeshRenderer.enabled = true;
+        _objMeshCollider.enabled = true;
+    }
+
+    Coroutine coRespawn = null;
+    public void Respawn(float delay)
+    {
+        Debug.Log("Respawn");
+        if(coRespawn != null)
+        {
+            // 코루틴이 도는 중간에 들어옴
+            return;
+        }
+        coRespawn = StartCoroutine(RespawnHelper(delay));
+    }
+
+    IEnumerator RespawnHelper(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        gameObject.transform.position = _objSpawnPos;
         _grabbed = false;
-        _grabberPhotonView = null;
+        _grabberPhotonID = -1;
+
+        coRespawn = null;
+        TurnOn();
     }
 }
