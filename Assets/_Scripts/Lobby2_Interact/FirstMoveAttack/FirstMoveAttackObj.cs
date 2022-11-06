@@ -7,8 +7,10 @@ public class FirstMoveAttackObj : MonoBehaviourPun
 {
     private Vector3 _objSpawnPos;
     private AudioSource _audioSource;
-    private bool _grabbed = false;
-    private int _grabberPhotonID;
+
+    private bool _isGrabbed = false;
+    private bool _isMine = false;
+
     [SerializeField]
     private BoxCollider _boxCollider;
     [SerializeField]
@@ -16,42 +18,43 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [SerializeField]
     private MeshCollider _objMeshCollider;
 
+
+    private SyncOVRGrabbable _syncGrabbable;
+
     private void Awake()
     {
         _objSpawnPos = transform.position;
         _audioSource = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        _syncGrabbable = GetComponent<SyncOVRGrabbable>();
+        _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
+        _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        FirstMoveAttackPlayer _player = other.GetComponent<FirstMoveAttackPlayer>();
-
-        if (_player == null)
+        if(_isGrabbed == false || _isMine == false )
         {
             return;
         }
 
-        if(PhotonNetwork.IsMasterClient == false)
+        PlayerNetworking player = other.GetComponentInParent<PlayerNetworking>();
+        if(player == null)
         {
             return;
         }
 
-        if(_grabbed)
+        PhotonView photonView = other.GetComponent<PhotonView>();
+        if(photonView == null)
         {
-            if(_player.photonView.ViewID == _grabberPhotonID)
-            {
-                return;
-            }
-
-            photonView.RPC("Crack", RpcTarget.All, 2f);
-            _player.photonView.RPC("OnDamage", RpcTarget.All);
-        }
-        else
-        {
-            _grabberPhotonID = _player.photonView.ViewID;
-            _grabbed = true;
+            return;
         }
         
+        player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
+        this.photonView.RPC("Crack", RpcTarget.All, 2f);
     }
 
     private void OnDestroy()
@@ -63,11 +66,37 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         }
     }
 
+    public void OnGrabBegin()
+    {
+        _isGrabbed = true;
+        _isMine = true;
+        photonView.RPC("OnOtherPlayerGrabBegin", RpcTarget.Others);
+    }
+
+    public void OnGrabEnd()
+    {
+        _isGrabbed = false;
+        _isMine = false;
+        photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    private void OnOtherPlayerGrabBegin()
+    {
+        _isGrabbed = true;
+        _isMine = false;
+    }
+
+    [PunRPC]
+    private void OnOtherPlayerGrabEnd()
+    {
+        _isGrabbed = false;
+        _isMine = false;
+    }
+
     [PunRPC]
     public void Crack(float respawnTime)
     {
-        Debug.Log("Crack");
-        //_audioSource.volume = SoundManager.Instance.SFXVolume;
         _audioSource.Play();
         TurnOff();
         Respawn(respawnTime);
@@ -104,8 +133,8 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         yield return new WaitForSeconds(delay);
 
         gameObject.transform.position = _objSpawnPos;
-        _grabbed = false;
-        _grabberPhotonID = -1;
+        photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.All);
+
 
         coRespawn = null;
         TurnOn();

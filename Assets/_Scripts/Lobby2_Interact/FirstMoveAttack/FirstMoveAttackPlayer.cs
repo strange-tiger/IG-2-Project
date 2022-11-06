@@ -6,8 +6,13 @@ using Photon.Pun;
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
     [PunRPC]
-    public void OnDamage()
+    public void OnDamageByBottle(int damagedPlayerID)
     {
+        if (PhotonNetwork.GetPhotonView(damagedPlayerID).IsMine == false)
+        {
+            return;
+        }
+
         Debug.Log("OnDamage / 피해자에게 호출 됨");
 
         if (PlayerControlManager.Instance.IsInvincible == true)
@@ -15,25 +20,25 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
             return;
         }
 
-        if (photonView.IsMine)
-        {
-            Debug.Log("IsDamaged");
-            PlayerControlManager.Instance.IsMoveable = false;
-            PlayerControlManager.Instance.IsRayable = false;
-        }
+        Debug.Log("IsDamaged");
+        PlayerControlManager.Instance.IsMoveable = false;
+        PlayerControlManager.Instance.IsRayable = false;
+        GetComponentInChildren<OVRScreenFade>().FadeOut(0.0f);
 
         StartCoroutine(Invincible(20f));
 
         // 2초 딜레이 코루틴
-        Revive();
+        StartCoroutine(Cooldown(2.0f));
+
     }
 
     public void Revive()
     {
-        Debug.Log("Revive");    
+        Debug.Log("Revive");
 
         PlayerControlManager.Instance.IsMoveable = true;
         PlayerControlManager.Instance.IsRayable = true;
+        GetComponentInChildren<OVRScreenFade>().FadeIn(2.0f);
     }
 
     IEnumerator Invincible(float coolTime)
@@ -57,5 +62,10 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
             }
             yield return null;
         }
+    }
+
+    IEnumerator Cooldown(float delay)
+    {
+        yield return new WaitForSeconds(delay);
     }
 }
