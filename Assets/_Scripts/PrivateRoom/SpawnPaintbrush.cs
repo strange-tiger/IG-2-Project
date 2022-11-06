@@ -6,20 +6,11 @@ using Photon.Realtime;
 
 public class SpawnPaintbrush : MonoBehaviourPun, IPunObservable
 {
+    [SerializeField] GameObject _legalPad;
+    [SerializeField] GameObject _pencil;
+
     private Transform _clientPlayer;
     
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(gameObject.activeSelf);
-        }
-        else if (stream.IsReading)
-        {
-            gameObject.SetActive((bool)stream.ReceiveNext());
-        }
-    }
-
     public void SpawnHelper()
     {
         if (!photonView.IsMine)
@@ -27,7 +18,7 @@ public class SpawnPaintbrush : MonoBehaviourPun, IPunObservable
             return;
         }
 
-        photonView.RPC("Spawn", RpcTarget.All);
+        photonView.RPC("Spawn", RpcTarget.AllBuffered);
     }
 
     private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 1f);
@@ -35,6 +26,7 @@ public class SpawnPaintbrush : MonoBehaviourPun, IPunObservable
     private void Spawn()
     {
         transform.position = SPAWN_PAD_POSITION;
-        gameObject.SetActive(true);
+        _legalPad.SetActive(true);
+        _pencil.SetActive(true);
     }
 }
