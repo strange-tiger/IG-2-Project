@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnPaintbrush : MonoBehaviourPun, IPunObservable
+public class SpawnPaintbrush : MonoBehaviourPun
 {
     [SerializeField] GameObject _legalPad;
     [SerializeField] GameObject _pencil;
