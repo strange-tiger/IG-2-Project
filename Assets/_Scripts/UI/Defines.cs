@@ -37,4 +37,12 @@ namespace Defines
         MAKE,
         MAX
     }
+
+    public enum EPetUIIndex
+    {
+        POPUP,
+        PURCHASE,
+        TRANSFORM,
+        MAX
+    }
 }
