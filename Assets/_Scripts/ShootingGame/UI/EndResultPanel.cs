@@ -10,6 +10,7 @@ public class EndResultPanel : MonoBehaviour
     [SerializeField] private GameObject _goldPanel;
     [SerializeField] private GameObject _starImage;
     [SerializeField] private GameObject _regamePanel;
+    private CheckPanelManager _regameCheckScript;
 
     private TextMeshProUGUI[] _playerNicknameText =
         new TextMeshProUGUI[ShootingGameManager._MAX_PLAYER_COUNT];
@@ -25,6 +26,7 @@ public class EndResultPanel : MonoBehaviour
         _goldPanel.SetActive(false);
         _starImage.SetActive(false);
         _regamePanel.SetActive(false);
+        _regameCheckScript = _regamePanel.GetComponent<CheckPanelManager>();
 
         for (int i = 0; i < ShootingGameManager._MAX_PLAYER_COUNT; ++i)
         {
@@ -60,5 +62,14 @@ public class EndResultPanel : MonoBehaviour
     public void ShowRestartPanel()
     {
         _regamePanel.SetActive(true);
+        _regameCheckScript.ShowCheckPanel("REGAME?",
+            () =>
+            {
+                Debug.Log("[Shooting] 게임 재시작");
+            },
+            () =>
+            {
+                Debug.Log("[Shooting] 게임 종료");
+            });
     }
 }
