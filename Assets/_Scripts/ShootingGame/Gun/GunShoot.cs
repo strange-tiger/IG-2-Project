@@ -34,9 +34,8 @@ public class GunShoot : MonoBehaviour
     // 이팩트
     [Header("Effects")]
     [SerializeField] private Color _playerColor = new Color();
-    public Color PlayerColor { get => _playerColor; set => _playerColor = value; }
     private PlayerNumber _playerNumber;
-    public PlayerNumber PlayerNumber { get => _playerNumber; set => _playerNumber = value; }
+    private string _myNickname;
     [SerializeField] private GameObject _hitUI;
 
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
@@ -65,6 +64,11 @@ public class GunShoot : MonoBehaviour
 
     private void Awake()
     {
+        _myNickname = transform.parent.GetComponentInChildren<PlayerNetworking>().MyNickname;
+
+        // 마스터일 경우에만 실행
+        FindObjectOfType<ShootingGameManager>().SetPlayerNumberAndColor(out _playerColor, out _playerNumber, in _myNickname);
+
         // 리볼버가 들려있는 위치 확인하기
         _input = transform.root.GetComponentInChildren<PlayerInput>();
         _primaryController = (int)_input.PrimaryController;
@@ -125,11 +129,11 @@ public class GunShoot : MonoBehaviour
         if (Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
         {
             ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
-            int point = _health.Hit(PlayerNumber);
+            int point = _health.Hit(_playerNumber);
 
             GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
             hitUI.GetComponent<HitUI>().enabled = true;
-            hitUI.GetComponent<HitUI>().SetPointText(PlayerColor, point, point != 0);
+            hitUI.GetComponent<HitUI>().SetPointText(_playerColor, point, point != 0);
 
             _score += point;
             Debug.Log("[Gun] " + _score);
