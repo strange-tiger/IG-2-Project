@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-public class ArenaScoreboardUI : MonoBehaviour, IPunObservable
+public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] private GroupManager _groupManager;
 
@@ -43,18 +43,18 @@ public class ArenaScoreboardUI : MonoBehaviour, IPunObservable
 
     private void Start()
     {
-        // SetChampionInfo();
-        // photonView.RPC("SetChampionInfo", RpcTarget.All);
+        //SetChampionInfo();
+         photonView.RPC("SetChampionInfo", RpcTarget.All);
     }
 
     private void Update()
     {
         FlowingTime();
-        //UpdateTimerText(_minute, _second);
-       // photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
+       // UpdateTimerText(_minute, _second);
+        photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
         
-        SetChampionHp();
-       // photonView.RPC("SetChampionHp", RpcTarget.All);
+        // SetChampionHp();
+        photonView.RPC("SetChampionHp", RpcTarget.All);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class ArenaScoreboardUI : MonoBehaviour, IPunObservable
     /// </summary>
     private void FlowingTime()
     {
-        if (PhotonNetwork.IsMasterClient)
+        //if (PhotonNetwork.IsMasterClient)
         {
             _cumulativeTime += Time.deltaTime;
 

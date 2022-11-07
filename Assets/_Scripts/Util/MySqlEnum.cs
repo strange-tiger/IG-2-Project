@@ -3,10 +3,10 @@ namespace Asset {
 		accountdb,
 		bettingdb,
 		characterdb,
+		petinventorydb,
 		relationshipdb,
 		requestdb,
 		roomlistdb,
-		test,
 		Max,
 	}
 	public enum EaccountdbColumns {
@@ -35,6 +35,15 @@ namespace Asset {
 		Gold,
 		Max,
 	}
+	public enum EpetinventorydbColumns {
+		Nickname,
+		PetStatus,
+		PetLevel,
+		PetExp,
+		PetAsset,
+		PetSize,
+		Max,
+	}
 	public enum ErelationshipdbColumns {
 		UserA,
 		UserB,
@@ -53,10 +62,6 @@ namespace Asset {
 		Password,
 		DisplayName,
 		RoomNumber,
-		Max,
-	}
-	public enum EtestColumns {
-		Data,
 		Max,
 	}
 }
