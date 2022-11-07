@@ -5,6 +5,15 @@ using UnityEngine.Events;
 
 public class ShootingGameManager : MonoBehaviour
 {
+    public enum EShootingPlayerNumber
+    {
+        Player1,
+        Player2,
+        Player3,
+        Player4,
+        Max
+    }
+
     [SerializeField] private float _playTime = 120f;
     public float PlayTime { get => _playTime; set => _playTime = value; }
 
@@ -26,12 +35,13 @@ public class ShootingGameManager : MonoBehaviour
         new Color(255/255, 50/255, 255/255),
         new Color(53/255, 227/255, 34/255)
     };
+    private int[] _playerScore = new int[(int)EShootingPlayerNumber.Max];
 
     [SerializeField] private LuncherManager _luncherManager;
     [SerializeField] private GameObject _lunchObjects;
     [SerializeField] private ShootingUIManager _uiManager;
 
-    public UnityEvent<int> TimePass = new UnityEvent<int>();
+    public UnityEvent<int> OnTimePass = new UnityEvent<int>();
     private int _elapsedTime = 0;
     public int ElapsedTime
     {
@@ -39,9 +49,11 @@ public class ShootingGameManager : MonoBehaviour
         set
         {
             _elapsedTime = value;
-            TimePass.Invoke(_elapsedTime);
+            OnTimePass.Invoke(_elapsedTime);
         }
     }
+
+    public UnityEvent<EShootingPlayerNumber, int> OnAddScore = new UnityEvent<EShootingPlayerNumber, int>();
 
 
     private AudioSource _audioSource;
@@ -125,5 +137,11 @@ public class ShootingGameManager : MonoBehaviour
     {
         yield return _waitForSecond;
         _uiManager.DisableCurrentPanel();
+    }
+
+    public void AddScoreToPlayer(EShootingPlayerNumber playerNumber, int addPoint)
+    {
+        _playerScore[(int)playerNumber] += addPoint;
+        OnAddScore.Invoke(playerNumber, _playerScore[(int)playerNumber]);
     }
 }

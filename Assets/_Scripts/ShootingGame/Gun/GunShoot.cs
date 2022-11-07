@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using PlayerNumber = ShootingGameManager.EShootingPlayerNumber;
 
 public class GunShoot : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class GunShoot : MonoBehaviour
     [Header("Effects")]
     [SerializeField] private Color _playerColor = new Color();
     public Color PlayerColor { get => _playerColor; set => _playerColor = value; }
+    private PlayerNumber _playerNumber;
+    public PlayerNumber PlayerNumber { get => _playerNumber; set => _playerNumber = value; }
     [SerializeField] private GameObject _hitUI;
 
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
@@ -122,7 +125,7 @@ public class GunShoot : MonoBehaviour
         if (Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
         {
             ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
-            int point = _health.Hit();
+            int point = _health.Hit(PlayerNumber);
 
             GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
             hitUI.GetComponent<HitUI>().enabled = true;
