@@ -34,6 +34,16 @@ public class ShootingObjectMovement : MonoBehaviour
         _health.enabled = false;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("ShootingFloor"))
+        {
+            StartCoroutine(CoDestroyObject());
+            gameObject.layer = _unbreakableObjectLayer;
+            _health.enabled = false;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ShootingHitRange"))
