@@ -33,7 +33,7 @@ public class TransformUI : MonoBehaviour
     [SerializeField] GameObject _applyPopup;
 
     public event Action OnCurrentPetChanged;
-    public PetUIManager.Pet CurrentPet
+    public PetUIManager.PetProfile CurrentPet
     {
         get
         {
@@ -45,13 +45,16 @@ public class TransformUI : MonoBehaviour
             OnCurrentPetChanged.Invoke();
         }
     }
-    private PetUIManager.Pet _currentPet = new PetUIManager.Pet();
+    private PetUIManager.PetProfile _currentPet = new PetUIManager.PetProfile();
 
     private delegate void TransformDelegate(int index);
     TransformDelegate transformPet;
 
     private int _index = 0;
     private int _transformIndex = 0;
+    private int _maxTransformIndex = 0;
+    private bool _doTransformScale = false;
+    private EPetEvolutionCount _currentPetEvolutionCount;
 
     private void OnEnable()
     {
@@ -169,11 +172,20 @@ public class TransformUI : MonoBehaviour
     {
         if (_transformIndex - 1 < 0)
         {
-            _transformIndex = CurrentPet.Prefab.transform.childCount;
+            _transformIndex = _maxTransformIndex;
         }
         --_transformIndex;
 
-        TransformPetChildAsset(_transformIndex);
+        if (_doTransformScale)
+        {
+            TransformPetScale(_transformIndex);
+        }
+        else
+        {
+            TransformPetChildAsset(_transformIndex);
+        }
+
+        ShowTransformOption(_transformIndex);
     }
 
     private void OnClickRightTransformButton()
@@ -184,7 +196,16 @@ public class TransformUI : MonoBehaviour
         }
         ++_transformIndex;
 
-        TransformPetChildAsset(_transformIndex);
+        if (_doTransformScale)
+        {
+            TransformPetScale(_transformIndex);
+        }
+        else
+        {
+            TransformPetChildAsset(_transformIndex);
+        }
+
+        ShowTransformOption(_transformIndex);
     }
 
     private void TransformPetChildAsset(int index)
@@ -213,7 +234,7 @@ public class TransformUI : MonoBehaviour
 
         _petExplanation.text = CurrentPet.Explanation;
 
-        _petTransformOption.text = CurrentPet.Price.ToString();
+        UpdateTransformOption();
     }
 
     private void TogglePetObject(GameObject currentPet)
@@ -232,9 +253,40 @@ public class TransformUI : MonoBehaviour
         new Color(0f, 103f, 163f),
         new Color(155f, 17f, 30f)
     };
-    private void ShowPetGrade(PetUIManager.Pet.EGrade grade)
+    private void ShowPetGrade(PetUIManager.PetProfile.EGrade grade)
     {
         _petGrade.text = grade.ToString();
         _petGrade.color = GRADE_COLOR[(int)grade];
+    }
+
+    private void UpdateTransformOption()
+    {
+        if (CurrentPet.Prefab.transform.GetComponentInChildren<Pet>().PetEvolutionCount == EPetEvolutionCount.NONE)
+        {
+            _maxTransformIndex = TRANSFORM_SCALE.Length;
+
+            _doTransformScale = true;
+        }
+        else
+        {
+            _maxTransformIndex = CurrentPet.Prefab.transform.childCount;
+
+            _doTransformScale = false;
+        }
+
+        ShowTransformOption(0);
+    }
+    
+    private void ShowTransformOption(int index)
+    {
+        if (_doTransformScale)
+        {
+            _petTransformOption.text = $"{(int)100 * TRANSFORM_SCALE[index]}%";
+        }
+        else
+        {
+            // юс╫ц
+            _petTransformOption.text = CurrentPet.Prefab.transform.GetChild(index).name;
+        }
     }
 }

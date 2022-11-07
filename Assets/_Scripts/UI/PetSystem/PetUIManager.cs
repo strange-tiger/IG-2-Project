@@ -16,7 +16,7 @@ public class PetUIManager : UIManager
 
     public PlayerNetworking PlayerNetworkingInPet { get; private set; }
 
-    public class Pet
+    public class PetProfile
     {
         public enum EGrade
         {
@@ -27,7 +27,7 @@ public class PetUIManager : UIManager
             MAX
         }
 
-        public Pet()
+        public PetProfile()
         {
             SetName();
             SetGrade();
@@ -55,7 +55,7 @@ public class PetUIManager : UIManager
         public void SetIsHave(bool isHave = false) { IsHave = isHave; }
     }
 
-    public Pet[] PetList { get; private set; }
+    public PetProfile[] PetList { get; private set; }
 
     private void Awake()
     {
@@ -92,14 +92,14 @@ public class PetUIManager : UIManager
     private void InitializePetInventory()
     {
 #if debug
-        PetList = new Pet[_DB.GetPetInventoryList("Temp").Count];
+        PetList = new PetProfile[_DB.GetPetInventoryList("Temp").Count];
 #else
         PetList = new Pet[_DB.GetPetInventoryList(PlayerNetworkingInPet.MyNickname).Count];
 #endif
         
         for (int i = 0; i < PetList.Length; ++i)
         {
-            PetList[i] = new Pet();
+            PetList[i] = new PetProfile();
 
             if (i % 2 == 0)
             {

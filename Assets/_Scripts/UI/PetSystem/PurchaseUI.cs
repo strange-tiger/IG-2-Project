@@ -29,7 +29,7 @@ public class PurchaseUI : MonoBehaviour
     private TextMeshProUGUI _petPrice;
 
     public event Action OnCurrentPetChanged;
-    public PetUIManager.Pet CurrentPet
+    public PetUIManager.PetProfile CurrentPet
     {
         get
         {
@@ -41,7 +41,7 @@ public class PurchaseUI : MonoBehaviour
             OnCurrentPetChanged.Invoke();
         }
     }
-    private PetUIManager.Pet _currentPet = new PetUIManager.Pet();
+    private PetUIManager.PetProfile _currentPet = new PetUIManager.PetProfile();
 
     private int _index = 0;
 
@@ -196,7 +196,7 @@ public class PurchaseUI : MonoBehaviour
         new Color(0f, 103f, 163f),
         new Color(155f, 17f, 30f)
     };
-    private void ShowPetGrade(PetUIManager.Pet.EGrade grade)
+    private void ShowPetGrade(PetUIManager.PetProfile.EGrade grade)
     {
         _petGrade.text = grade.ToString();
         _petGrade.color = GRADE_COLOR[(int)grade];
