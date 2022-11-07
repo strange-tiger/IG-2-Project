@@ -51,6 +51,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
         _fadeRenderer = GameObject.Find("CenterEyeAnchor").GetComponent<MeshRenderer>();
         _fadeRenderer.material = _fadeMaterial;
+        _fadeMaterial.color = _initUIColor;
         _fadeRenderer.enabled = true;
 
         yield return null; 

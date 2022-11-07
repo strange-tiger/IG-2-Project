@@ -19,6 +19,7 @@ public class JoinRoomUI : MonoBehaviour
     [SerializeField] Button _makeRoomButton;
     [SerializeField] Button _refreshButton;
     [SerializeField] Button _randomJoinButton;
+    [SerializeField] Button _closeButton;
 
     [Header("Text")]
     [SerializeField] RoomInfoTextUI[] _roomInfoTexts;
@@ -40,14 +41,6 @@ public class JoinRoomUI : MonoBehaviour
     private List<Dictionary<string, string>> _roomList = new List<Dictionary<string, string>>();
     private List<Dictionary<string, string>[]> _roomPage = new List<Dictionary<string, string>[]>();
 
-    // private Dictionary<string, RoomInfo> _cachedRoomList = new Dictionary<string, RoomInfo>();
-    // private List<RoomInfo[]> _roomPageList = new List<RoomInfo[]>();
-    //
-    //private void Awake()
-    //{
-    //    PhotonNetwork.ConnectUsingSettings();
-    //}
-
     private void OnEnable()
     {
         _makeRoomButton.onClick.RemoveListener(LoadMakeRoom);
@@ -58,6 +51,9 @@ public class JoinRoomUI : MonoBehaviour
 
         _randomJoinButton.onClick.RemoveListener(RandomJoin);
         _randomJoinButton.onClick.AddListener(RandomJoin);
+
+        _closeButton.onClick.RemoveListener(Close);
+        _closeButton.onClick.AddListener(Close);
 
         RoomListUpdate();
     }
@@ -134,6 +130,8 @@ public class JoinRoomUI : MonoBehaviour
     {
         JoinRoom.JoinRandom();
     }
+
+    private void Close() => _uiManager.ShutUIPrivateRoom();
 
     #region Legacy
     /*
@@ -259,5 +257,6 @@ public class JoinRoomUI : MonoBehaviour
         _makeRoomButton.onClick.RemoveListener(LoadMakeRoom);
         _refreshButton.onClick.RemoveListener(RefreshRoomList);
         _randomJoinButton.onClick.RemoveListener(RandomJoin);
+        _closeButton.onClick.RemoveListener(Close);
     }
 }
