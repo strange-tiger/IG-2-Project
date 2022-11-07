@@ -203,11 +203,11 @@ GameObject:
   - component: {fileID: 8275704744721549326}
   - component: {fileID: 8275704744721549327}
   - component: {fileID: 8275704744721549320}
-  - component: {fileID: 572613505661328340}
   - component: {fileID: -3956731072230785877}
   - component: {fileID: 3643322930513002996}
   - component: {fileID: 5088931005297678728}
   - component: {fileID: 8366275784910438280}
+  - component: {fileID: 5922171801919310796}
   m_Layer: 0
   m_Name: Beer
   m_TagString: Beer
@@ -259,23 +259,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
   _fullBeer: {fileID: 8268717291742268568}
---- !u!114 &572613505661328340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275704744721549321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d61468f8b77ae4b92c344bc9a600fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints: []
 --- !u!114 &-3956731072230785877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,3 +332,20 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &5922171801919310796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275704744721549321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80e0edc8b0e5c84a839efedc792ee86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_allowOffhandGrab: 1
+  m_snapPosition: 0
+  m_snapOrientation: 0
+  m_snapOffset: {fileID: 0}
+  m_grabPoints: []

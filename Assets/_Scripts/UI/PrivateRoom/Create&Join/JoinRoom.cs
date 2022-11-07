@@ -73,6 +73,8 @@ public class JoinRoom : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+        // 임시 코드
+        PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
     }
 
 }

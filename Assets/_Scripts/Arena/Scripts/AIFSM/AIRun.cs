@@ -5,6 +5,9 @@ using EAIState = Defines.Estate;
 
 public class AIRun : AIState
 {
+    [Header("이동속도를 입력 해 주세요")]
+    [SerializeField] private float _speed;
+
     [SerializeField] private Collider _myCollider;
 
     private Animator _animator;
@@ -24,6 +27,7 @@ public class AIRun : AIState
 
     public override void OnUpdate()
     {
+        transform.Translate(Vector3.forward * Time.deltaTime * _speed);
         if (_changeStateRunToAttack == true)
         {
             aiFSM.ChangeState(EAIState.Attack);
