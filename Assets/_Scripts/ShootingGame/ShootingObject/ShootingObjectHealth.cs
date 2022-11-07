@@ -38,6 +38,7 @@ public class ShootingObjectHealth : MonoBehaviour
     public GameObject InitialModel { get => _initialModel; set => _initialModel = value; }
 
     [Header("Shot Effects")]
+    [SerializeField] private AudioClip[] _shotSoundEffects;
     [SerializeField] private ShotEffect[] _shotEffects;
     public ShotEffect[] ShotEffects { get => _shotEffects; private set => _shotEffects = value; }
     private int _shotEffectCount = -1;
@@ -86,8 +87,15 @@ public class ShootingObjectHealth : MonoBehaviour
             StartCoroutine(DisableSelf());
         }
         int point = _shotEffects[_shotEffectCount].ShowEffect();
+        PlayEffectSound();
 
         return point;
+    }
+
+    private void PlayEffectSound()
+    {
+        int randonNumber = UnityEngine.Random.Range(0, _shotSoundEffects.Length);
+        _audioSource.PlayOneShot(_shotSoundEffects[randonNumber]);
     }
 
     private IEnumerator DisableSelf()
