@@ -15,8 +15,8 @@ public class PetData : ScriptableObject
     [SerializeField] int[] petEXP;
     public int[] PetEXP { get { return petEXP; } }
 
-    [SerializeField] Vector3[] petSize;
-    public Vector3[] PetSize { get { return petSize; } }
+    [SerializeField] float[] petSize;
+    public float[] PetSize { get { return petSize; } }
 
     [SerializeField] int[] petAsset;
     public int[] PetAsset { get { return petAsset; } }
