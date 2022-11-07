@@ -34,11 +34,10 @@ public class FirstMoveAttackObj : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_isGrabbed == false || _isMine == false )
+        if (_isGrabbed == false)
         {
             return;
         }
-        Debug.Log("±×·¦!");
 
         if(other.CompareTag("Player"))
         {
@@ -52,10 +51,8 @@ public class FirstMoveAttackObj : MonoBehaviourPun
             return;
         }
 
-        PhotonView photonView = other.GetComponent<PhotonView>();
-
-        PlayerNetworking player = other.GetComponentInParent<PlayerNetworking>();
-        player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
+        PhotonView otherPlayer = other.transform.root.gameObject.GetPhotonView();
+        otherPlayer.RPC("OnDamageByBottle", RpcTarget.All);
         this.photonView.RPC("Crack", RpcTarget.All);
 
     }
@@ -85,43 +82,27 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void OnGrabBegin()
     {
-        if (photonView.IsMine)
-        {
-            _isGrabbed = true;
-            _isMine = true;
-            photonView.RPC("OnOtherPlayerGrabBegin", RpcTarget.Others);
-        }
+        _isGrabbed = true;
+        photonView.RPC("OnGrabBegin", RpcTarget.Others);
     }
 
+    [PunRPC]
     public void OnGrabEnd()
     {
-        if (photonView.IsMine)
-        {
-            _isGrabbed = false;
-            _isMine = false;
-            photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.Others);
-        }
+        _isGrabbed = false;
+        _objMeshCollider.isTrigger = false;
+        _grabber = null;
+        gameObject.transform.rotation = Quaternion.identity;
+        gameObject.transform.position = _objSpawnPos;
+        photonView.RPC("OnGrabEnd", RpcTarget.Others);
     }
 
     public void GrabberSetting(PhotonView photonView)
     {
         _grabber = photonView;
-    }
-
-    [PunRPC]
-    private void OnOtherPlayerGrabBegin()
-    {
-        _isGrabbed = true;
-        _isMine = false;
-    }
-
-    [PunRPC]
-    private void OnOtherPlayerGrabEnd()
-    {
-        _isGrabbed = false;
-        _isMine = false;
     }
 
     [PunRPC]
@@ -149,7 +130,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         _objMeshCollider.enabled = true;
     }
 
-    Coroutine coRespawn = null;
+    private Coroutine coRespawn = null;
     public void Respawn()
     {
         Debug.Log("Respawn");
@@ -164,7 +145,8 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     IEnumerator RespawnHelper()
     {
         yield return _respawnCoolTime;
-        _objMeshCollider.isTrigger = false;
+       // _objMeshCollider.isTrigger = false;
+        gameObject.transform.rotation = Quaternion.identity;
         gameObject.transform.position = _objSpawnPos;
         //photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.All);
 

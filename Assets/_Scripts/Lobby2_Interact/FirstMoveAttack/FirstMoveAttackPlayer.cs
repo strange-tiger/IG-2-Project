@@ -8,13 +8,8 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
     YieldInstruction _reviveCooldown = new WaitForSeconds(2.0f);
 
     [PunRPC]
-    public void OnDamageByBottle(int damagedPlayerID)
+    public void OnDamageByBottle()
     {
-        if (PhotonNetwork.GetPhotonView(damagedPlayerID).IsMine == false)
-        {
-            return;
-        }
-
         if (PlayerControlManager.Instance.IsInvincible == true)
         {
             return;
