@@ -19,7 +19,6 @@ public class StartPlayerInfoPanelManager : MonoBehaviour
         for(int i = 0; i< ShootingGameManager._MAX_PLAYER_COUNT; ++i)
         {
             GameObject nextChild = transform.GetChild(i).gameObject;
-            Debug.Log(nextChild.name);
             _playerNicknameText[i] = nextChild.GetComponentInChildren<TextMeshProUGUI>();
             _playerColor[i] = nextChild.GetComponent<Image>();
             _isYouImages[i] = nextChild.GetComponentsInChildren<Image>()[1].gameObject;
