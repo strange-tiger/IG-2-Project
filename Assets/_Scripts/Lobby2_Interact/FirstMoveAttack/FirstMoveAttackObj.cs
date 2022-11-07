@@ -11,8 +11,8 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     private bool _isGrabbed = false;
     private bool _isMine = false;
 
-    [SerializeField]
-    private BoxCollider _boxCollider;
+    //[SerializeField]
+    //private BoxCollider _boxCollider;
     [SerializeField]
     private MeshRenderer _objMeshRenderer;
     [SerializeField]
@@ -20,42 +20,61 @@ public class FirstMoveAttackObj : MonoBehaviourPun
 
     private YieldInstruction _respawnCoolTime = new WaitForSeconds(2f);
     private SyncOVRGrabbable _syncGrabbable;
-
-    private void Awake()
-    {
-        _objSpawnPos = transform.position;
-        _audioSource = GetComponent<AudioSource>();
-    }
+    private PhotonView _grabber = null;
 
     private void Start()
     {
+        _objSpawnPos = transform.position;
+        _audioSource = GetComponent<AudioSource>();
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
         _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
         _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
+        _syncGrabbable.CallbackGrabberSetting = GrabberSetting;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(_isGrabbed == false || _isMine == false )
+        if (_isGrabbed == false || _isMine == false )
         {
             return;
         }
+        Debug.Log("그랩!");
 
-        PlayerNetworking player = other.GetComponentInParent<PlayerNetworking>();
-        if(player == null)
+        if(other.CompareTag("Player"))
+        {
+            return;
+        }
+        Debug.Log("음 플레이어가 들어왔구만");
+        _objMeshCollider.isTrigger = true;
+
+        if(_grabber == other.transform.root.gameObject.GetPhotonView())
         {
             return;
         }
 
         PhotonView photonView = other.GetComponent<PhotonView>();
-        if(photonView == null)
-        {
-            return;
-        }
-        
+
+        PlayerNetworking player = other.GetComponentInParent<PlayerNetworking>();
         player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
         this.photonView.RPC("Crack", RpcTarget.All);
+
     }
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("PlayerHand") == false)
+    //    {
+    //        return;
+    //    }
+
+    //    Debug.Log("플레이어 나갔다!");
+
+    //    if(PhotonNetwork.IsMasterClient)
+    //    {
+    //        photonView.RPC("TurnOff", RpcTarget.All);
+    //        photonView.RPC("Respawn", RpcTarget.All);
+    //    }
+    //}
 
     private void OnDestroy()
     {
@@ -68,16 +87,27 @@ public class FirstMoveAttackObj : MonoBehaviourPun
 
     public void OnGrabBegin()
     {
-        _isGrabbed = true;
-        _isMine = true;
-        photonView.RPC("OnOtherPlayerGrabBegin", RpcTarget.Others);
+        if (photonView.IsMine)
+        {
+            _isGrabbed = true;
+            _isMine = true;
+            photonView.RPC("OnOtherPlayerGrabBegin", RpcTarget.Others);
+        }
     }
 
     public void OnGrabEnd()
     {
-        _isGrabbed = false;
-        _isMine = false;
-        photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.Others);
+        if (photonView.IsMine)
+        {
+            _isGrabbed = false;
+            _isMine = false;
+            photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.Others);
+        }
+    }
+
+    public void GrabberSetting(PhotonView photonView)
+    {
+        _grabber = photonView;
     }
 
     [PunRPC]
@@ -97,21 +127,24 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [PunRPC]
     public void Crack()
     {
-        _audioSource.Play();
+        if(PhotonNetwork.IsMasterClient)
+        {
+            _audioSource.Play();
+        }
         TurnOff();
         Respawn();
     }
 
     public void TurnOff()
     {
-        _boxCollider.enabled = false;
+        //_boxCollider.enabled = false;
         _objMeshRenderer.enabled = false;
         _objMeshCollider.enabled = false;
     }
 
     public void TurnOn()
     {
-        _boxCollider.enabled = true;
+        //_boxCollider.enabled = true;
         _objMeshRenderer.enabled = true;
         _objMeshCollider.enabled = true;
     }
@@ -131,9 +164,9 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     IEnumerator RespawnHelper()
     {
         yield return _respawnCoolTime;
-
+        _objMeshCollider.isTrigger = false;
         gameObject.transform.position = _objSpawnPos;
-        photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.All);
+        //photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.All);
 
         coRespawn = null;
         TurnOn();
