@@ -27,7 +27,6 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
 
         StartCoroutine(Invincible(20f));
 
-        // 2초 딜레이 코루틴
         StartCoroutine(Cooldown(2.0f));
 
     }

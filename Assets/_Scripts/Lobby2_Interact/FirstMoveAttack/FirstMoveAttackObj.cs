@@ -18,7 +18,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [SerializeField]
     private MeshCollider _objMeshCollider;
 
-
+    private YieldInstruction _respawnCoolTime = new WaitForSeconds(2f);
     private SyncOVRGrabbable _syncGrabbable;
 
     private void Awake()
@@ -54,7 +54,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         }
         
         player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
-        this.photonView.RPC("Crack", RpcTarget.All, 2f);
+        this.photonView.RPC("Crack", RpcTarget.All);
     }
 
     private void OnDestroy()
@@ -95,11 +95,11 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void Crack(float respawnTime)
+    public void Crack()
     {
         _audioSource.Play();
         TurnOff();
-        Respawn(respawnTime);
+        Respawn();
     }
 
     public void TurnOff()
@@ -117,7 +117,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     }
 
     Coroutine coRespawn = null;
-    public void Respawn(float delay)
+    public void Respawn()
     {
         Debug.Log("Respawn");
         if(coRespawn != null)
@@ -125,16 +125,15 @@ public class FirstMoveAttackObj : MonoBehaviourPun
             // 코루틴이 도는 중간에 들어옴
             return;
         }
-        coRespawn = StartCoroutine(RespawnHelper(delay));
+        coRespawn = StartCoroutine(RespawnHelper());
     }
 
-    IEnumerator RespawnHelper(float delay)
+    IEnumerator RespawnHelper()
     {
-        yield return new WaitForSeconds(delay);
+        yield return _respawnCoolTime;
 
         gameObject.transform.position = _objSpawnPos;
         photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.All);
-
 
         coRespawn = null;
         TurnOn();
