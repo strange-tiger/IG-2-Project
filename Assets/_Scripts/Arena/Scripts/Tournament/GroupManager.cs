@@ -29,6 +29,11 @@ public class GroupManager : MonoBehaviourPun
     private int _secondWinnerIndex;
     public int WinnerIndex { get { return _winnerIndex; } private set { _winnerIndex = value; } }
 
+    private int a;
+    private int b;
+    private int c;
+    private int d;
+
     private bool _isDraw;
     public bool IsDraw { get { return _isDraw; } private set { _isDraw = value; } }
 
@@ -36,7 +41,6 @@ public class GroupManager : MonoBehaviourPun
 
     private void OnEnable()
     {
-
         _setFirstBattle.RemoveListener(SetPositionFirstBattle);
         _setFirstBattle.AddListener(SetPositionFirstBattle);
 
@@ -48,10 +52,11 @@ public class GroupManager : MonoBehaviourPun
 
         if (PhotonNetwork.IsMasterClient)
         {
+            // 1번
             SettingRandomGroup();
-        }
 
-        _setFirstBattle.Invoke();
+            _setFirstBattle.Invoke();
+        }
     }
 
     private void Update()
@@ -60,7 +65,6 @@ public class GroupManager : MonoBehaviourPun
         if ((_member[0].activeSelf == false || _member[1].activeSelf == false) && !_isFirstBattle)
         {
             _FirstBattleWinnerSetFinalGroup.Invoke();
-            //photonView.RPC("FirstWinnerSetFinalGroup", RpcTarget.Others);
 
             _isFirstBattle = true;
         }
@@ -69,7 +73,6 @@ public class GroupManager : MonoBehaviourPun
         if ((_member[2].activeSelf == false || _member[3].activeSelf == false) && _member[0].activeSelf == false && _member[1].activeSelf == false && _isSecondBattle)
         {
             _SecondBattleWinnerSetFinalGroup.Invoke();
-            //photonView.RPC("SecondWinnerSetFinalGroup", RpcTarget.Others);
 
             _isSecondBattle = false;
         }
@@ -80,7 +83,6 @@ public class GroupManager : MonoBehaviourPun
             if ((_finalBattle[0].activeSelf == false || _finalBattle[1].activeSelf == false) && _isFinelBattle)
             {
                 SendWinnerIndex();
-                //photonView.RPC("SendWinnerIndex", RpcTarget.Others);
 
                 Debug.Log(WinnerIndex);
 
@@ -132,16 +134,37 @@ public class GroupManager : MonoBehaviourPun
             _member[i] = transform.GetChild(index).gameObject;
         }
 
-        // 첫번째 전투시작 이벤트
+        photonView.RPC("ClientsSettingGroup", RpcTarget.Others, _memberIndexList[0], _memberIndexList[1], _memberIndexList[2], _memberIndexList[3]);
+        Debug.Log($"마스터 : {_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
+    }
 
-        //photonView.RPC("SetPositionFirstBattle", RpcTarget.Others);
+    /// <summary>
+    /// SettingRandomGroup 클라버전
+    /// </summary>
+    [PunRPC]
+    public void ClientsSettingGroup(int list_0, int list_1, int list_2, int list_3)
+    {
+        Debug.Log($"{list_0}, {list_1}, {list_2}, {list_3}");
+
+        a = list_0;
+        b = list_1;
+        c = list_2;
+        d = list_3;
+
+        _member[0] = transform.GetChild(list_0).gameObject;
+        _member[1] = transform.GetChild(list_1).gameObject;
+        _member[2] = transform.GetChild(list_2).gameObject;
+        _member[3] = transform.GetChild(list_3).gameObject;
+
+        _setFirstBattle.Invoke();
+
+        Debug.Log($"클라 : {a}, {b}, {c}, {d}");
     }
 
     /// <summary>
     /// 첫번째 전투 참가자들 위치 배치 및 생성
     /// </summary>
-    //[PunRPC]
-    public void SetPositionFirstBattle()
+    private void SetPositionFirstBattle()
     {
         _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
         _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -156,8 +179,7 @@ public class GroupManager : MonoBehaviourPun
     /// <summary>
     /// 두번재 전투 참가자들 위치 배치 및 생성
     /// </summary>
-    //[PunRPC]
-    public void SetPositionSecondBattle()
+    private void SetPositionSecondBattle()
     {
         _member[2].transform.position = new Vector3(-_setPosition, -2f, 0);
         _member[2].transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -173,8 +195,7 @@ public class GroupManager : MonoBehaviourPun
     /// <summary>
     /// 마지막 전투 참가자틀 위치 배치 및 생성
     /// </summary>
-    //[PunRPC]
-    public void SetPositionFinalBattle()
+    private void SetPositionFinalBattle()
     {
 
         _finalBattle[0].transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -189,12 +210,18 @@ public class GroupManager : MonoBehaviourPun
     /// <summary>
     /// 첫번째 전투 승리를 최종 전투 참가자 그룹에 추가 및 두번째 전투 진행
     /// </summary>
-    //[PunRPC]
-    public void FirstWinnerSetFinalGroup()
+    private void FirstWinnerSetFinalGroup()
     {
         if (_member[0].activeSelf)
         {
-            _firstWinnerIndex = _memberIndexList[0];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[0];
+            }
+            else
+            {
+                _firstWinnerIndex = a;
+            }
             _finalBattle[0] = _member[0];
             _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
             _member[0].SetActive(false);
@@ -202,7 +229,14 @@ public class GroupManager : MonoBehaviourPun
 
         else if (_member[1].activeSelf)
         {
-            _firstWinnerIndex = _memberIndexList[1];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[1];
+            }
+            else
+            {
+                _firstWinnerIndex = b;
+            }
             _finalBattle[0] = _member[1];
             _member[1].transform.position = new Vector3(-_setPosition, -2f, 0);
             _member[1].SetActive(false);
@@ -210,18 +244,23 @@ public class GroupManager : MonoBehaviourPun
 
         // 두번재 전투 위치 배치 및 생성
         Invoke("SetPositionSecondBattle", 2f);
-        //photonView.RPC("SetPositionSecondBattle", RpcTarget.Others);
     }
 
     /// <summary>
     /// 두번째 전투 승리를 최종 전투 참가자 그룹에 추가 및 마지막 전투 진행
     /// </summary>
-    //[PunRPC]
-    public void SecondWinnerSetFinalGroup()
+    private void SecondWinnerSetFinalGroup()
     {
         if (_member[2].activeSelf)
         {
-            _secondWinnerIndex = _memberIndexList[2];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[2];
+            }
+            else
+            {
+                _firstWinnerIndex = c;
+            }
             _finalBattle[1] = _member[2];
             _member[2].transform.position = new Vector3(_setPosition, -2f, 0);
             _member[2].SetActive(false);
@@ -229,21 +268,26 @@ public class GroupManager : MonoBehaviourPun
 
         else if (_member[3].activeSelf)
         {
-            _secondWinnerIndex = _memberIndexList[3];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[3];
+            }
+            else
+            {
+                _firstWinnerIndex = d;            
+            }
             _finalBattle[1] = _member[3];
             _member[3].transform.position = new Vector3(_setPosition, -2f, 0);
             _member[3].SetActive(false);
         }
 
         Invoke("SetPositionFinalBattle", 2f);
-        //photonView.RPC("SetPositionFinalBattle", RpcTarget.Others);
     }
 
     /// <summary>
     /// 우승자 인덱스 넣어주기
     /// </summary>
-    //[PunRPC]
-    public void SendWinnerIndex()
+    private void SendWinnerIndex()
     {
         if (_finalBattle[0].activeSelf)
         {
@@ -258,8 +302,7 @@ public class GroupManager : MonoBehaviourPun
     /// <summary>
     /// 경기 종료 시 셋팅 초기화
     /// </summary>
-    //[PunRPC]
-    public void SettingReset()
+    private void SettingReset()
     {
         _member[0].transform.position = Vector3.zero;
         _member[1].transform.position = Vector3.zero;
@@ -286,19 +329,9 @@ public class GroupManager : MonoBehaviourPun
     /// <summary>
     /// 꺼
     /// </summary>
-
     private void Finish()
     {
         _finalBattle[_winnerIndex].SetActive(false);
-        gameObject.SetActive(false);
-
-        //photonView.RPC("SendFinish", RpcTarget.Others, _winnerIndex);
-    }
-
-    [PunRPC]
-    public void SendFinish(int num)
-    {
-        _finalBattle[num].SetActive(false);
         gameObject.SetActive(false);
     }
 }

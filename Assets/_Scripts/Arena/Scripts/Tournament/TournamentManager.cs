@@ -72,10 +72,21 @@ public class TournamentManager : MonoBehaviourPun
 
     private void OnDisable()
     {
-        _groups[_selectGroup].SetActive(false);
-        _selectGroup -= _selectGroup;
+        photonView.RPC("ClientsMustDoEnd", RpcTarget.Others, _selectGroup);
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _groups[_selectGroup].SetActive(false);
+            _selectGroup -= _selectGroup;
+        }
         _reStart._startBattle.RemoveListener(GameStartEvent);
+    }
+
+    [PunRPC]
+    public void ClientsMustDoEnd(int num)
+    {
+        _groups[num].SetActive(false);
+        num -= num;
     }
 
     private void GameStartEvent()
