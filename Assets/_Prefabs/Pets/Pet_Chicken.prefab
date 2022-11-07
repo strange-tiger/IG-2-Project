@@ -476,6 +476,8 @@ GameObject:
   m_Component:
   - component: {fileID: 706085684550591803}
   - component: {fileID: 706085684543654619}
+  - component: {fileID: 3435374000296403327}
+  - component: {fileID: 3627936312404460254}
   m_Layer: 0
   m_Name: Chick
   m_TagString: Untagged
@@ -520,6 +522,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3435374000296403327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706085684551088411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+--- !u!65 &3627936312404460254
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706085684551088411}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1 &706085684551088413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1206,6 +1234,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8745298476406862780}
   - component: {fileID: 8745298476396977244}
+  - component: {fileID: 856592580158101612}
+  - component: {fileID: 4046195894985906558}
   m_Layer: 0
   m_Name: Fledgling
   m_TagString: Untagged
@@ -1266,6 +1296,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &856592580158101612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745298476406501276}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7, y: 0.7, z: 0.7}
+  m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &4046195894985906558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745298476406501276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
 --- !u!1 &8745298476406501278
 GameObject:
   m_ObjectHideFlags: 0
