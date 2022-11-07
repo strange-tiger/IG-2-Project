@@ -35,11 +35,11 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-
+        
         Debug.Log("µÆ±¸³ª?");
         PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
-
+        
     }
 
     public override void OnJoinedRoom()

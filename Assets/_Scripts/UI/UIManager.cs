@@ -4,7 +4,7 @@ public abstract class UIManager : MonoBehaviour
 {
     [SerializeField] protected GameObject[] _ui;
 
-    protected void ShutUI()
+    public void ShutUI()
     {
         foreach (GameObject ui in _ui)
         {
