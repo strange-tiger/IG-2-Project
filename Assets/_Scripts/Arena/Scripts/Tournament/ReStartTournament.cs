@@ -14,22 +14,18 @@ public class ReStartTournament : MonoBehaviourPun
 
     public UnityEvent _startBattle = new UnityEvent();
 
-    private int a; 
     private float _curTime;
 
     private void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (_bettingUI.activeSelf == false)
         {
-            if (_bettingUI.activeSelf == false)
-            {
-                _curTime += Time.deltaTime;
+            _curTime += Time.deltaTime;
 
-                if (_curTime >= _reStartTime)
-                {
-                    _startBattle.Invoke();
-                    _curTime -= _curTime;
-                }
+            if (_curTime >= _reStartTime)
+            {
+                _startBattle.Invoke();
+                _curTime -= _curTime;
             }
         }
     }
