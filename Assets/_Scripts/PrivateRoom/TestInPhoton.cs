@@ -9,52 +9,49 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.ConnectUsingSettings();
+        Debug.Log("¡¢º”¡ﬂ");
     }
 
     private void OnDisconnectedFromMasterServer()
     {
         PhotonNetwork.ConnectUsingSettings();
+        Debug.Log("¡¢º” Ω«∆– ¥ŸΩ√ ¡¢º” ¡ﬂ");
     }
 
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
-        Debug.Log("ÎêêÎÇò?");
+        Debug.Log("∏∂Ω∫≈Õ¡¢º” øœ∑· ∑Œ∫Ò ¡¢º” ¡ﬂ");
     }
+
+    private static readonly RoomOptions RandomRoomOptions = new RoomOptions()
+    {
+        MaxPlayers = 4
+    };
 
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
+        Debug.Log("∑Œ∫Ò ¡¢º” øœ∑·");
 
-        Debug.Log("ÎêêÏßÄ?");
-
-        while (!PhotonNetwork.JoinRandomOrCreateRoom());
+        PhotonNetwork.JoinOrCreateRoom("aa", RandomRoomOptions, TypedLobby.Default);
     }
 
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-<<<<<<<<< Temporary merge branch 1
-        
-        Debug.Log("ÎêêÍµ¨ÎÇò?");
-        PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
-        Debug.Log(PhotonNetwork.CurrentRoom.Name);
-        
-=========
+        Debug.Log($"ª˝º∫«— πÊ ¿Ã∏ß : {PhotonNetwork.CurrentRoom.Name}");
+        Debug.Log("πÊ ª˝º∫");
 
-        Debug.Log("ÎêêÍµ¨ÎÇò?");
-        PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
-        Debug.Log("ÎêúÍ±∞Íµ¨ÎÇò?");
-
->>>>>>>>> Temporary merge branch 2
+        PhotonNetwork.LoadLevel("ArenaRoom");
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("Á≠âËä≠Â§áÂî±?");
-
+        Debug.Log($"¬¸∞°«— πÊ ¿Ã∏ß : {PhotonNetwork.CurrentRoom.Name}");
+        Debug.Log("∑Î ¬¸∞°");
         PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
     }
 }

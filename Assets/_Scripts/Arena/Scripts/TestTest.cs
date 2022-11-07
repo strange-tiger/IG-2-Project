@@ -5,18 +5,19 @@ using Photon.Pun;
 
 public class TestTest : MonoBehaviourPun
 {
-    
+    private bool _isStart;
 
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && !_isStart)
         {
             Debug.Log("ぞし");
 
-            if (OVRInput.GetDown(OVRInput.Button.Two))
+            if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.G))
             {
                 Debug.Log("しぞ");
                 PhotonNetwork.Instantiate("Tournament", Vector3.zero, Quaternion.identity);
+                _isStart = true;
             }
         }
     }

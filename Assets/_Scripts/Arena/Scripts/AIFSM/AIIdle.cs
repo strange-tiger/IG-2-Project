@@ -7,7 +7,7 @@ public class AIIdle : AIState
 {
     private Animator _animator;
 
-    [Header("내 인식범위 콜라이더를 넣어주세요")]
+    [Header("내 캐릭터 컨트롤러의 콜라이더를 넣어주세요")]
     [SerializeField] private Collider _myCollider;
 
     private float _curTime;

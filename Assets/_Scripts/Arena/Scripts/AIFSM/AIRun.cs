@@ -8,8 +8,6 @@ public class AIRun : AIState
     [Header("이동속도를 입력 해 주세요")]
     [SerializeField] private float _speed;
 
-    [SerializeField] private Collider _myCollider;
-
     private Animator _animator;
 
     private bool _changeStateRunToAttack;

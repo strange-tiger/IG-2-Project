@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
-public class GroupManager : MonoBehaviour
+public class GroupManager : MonoBehaviourPun
 {
     [SerializeField] private int _setPosition;
 
@@ -35,6 +36,7 @@ public class GroupManager : MonoBehaviour
 
     private void OnEnable()
     {
+
         _setFirstBattle.RemoveListener(SetPositionFirstBattle);
         _setFirstBattle.AddListener(SetPositionFirstBattle);
 
@@ -44,7 +46,12 @@ public class GroupManager : MonoBehaviour
         _SecondBattleWinnerSetFinalGroup.RemoveListener(SecondWinnerSetFinalGroup);
         _SecondBattleWinnerSetFinalGroup.AddListener(SecondWinnerSetFinalGroup);
 
-        SettingRandomGroup();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            SettingRandomGroup();
+        }
+
+        _setFirstBattle.Invoke();
     }
 
     private void Update()
@@ -53,6 +60,7 @@ public class GroupManager : MonoBehaviour
         if ((_member[0].activeSelf == false || _member[1].activeSelf == false) && !_isFirstBattle)
         {
             _FirstBattleWinnerSetFinalGroup.Invoke();
+            //photonView.RPC("FirstWinnerSetFinalGroup", RpcTarget.Others);
 
             _isFirstBattle = true;
         }
@@ -61,6 +69,7 @@ public class GroupManager : MonoBehaviour
         if ((_member[2].activeSelf == false || _member[3].activeSelf == false) && _member[0].activeSelf == false && _member[1].activeSelf == false && _isSecondBattle)
         {
             _SecondBattleWinnerSetFinalGroup.Invoke();
+            //photonView.RPC("SecondWinnerSetFinalGroup", RpcTarget.Others);
 
             _isSecondBattle = false;
         }
@@ -71,6 +80,8 @@ public class GroupManager : MonoBehaviour
             if ((_finalBattle[0].activeSelf == false || _finalBattle[1].activeSelf == false) && _isFinelBattle)
             {
                 SendWinnerIndex();
+                //photonView.RPC("SendWinnerIndex", RpcTarget.Others);
+
                 Debug.Log(WinnerIndex);
 
                 Invoke("Finish", 15f);
@@ -78,12 +89,7 @@ public class GroupManager : MonoBehaviour
                 _isFinelBattle = false;
             }
         }
-    }
 
-    // 죽은 AI
-    private void SomeAIDied(GameObject obj)
-    {
-        obj.SetActive(false);
     }
 
     private void OnDisable()
@@ -127,13 +133,15 @@ public class GroupManager : MonoBehaviour
         }
 
         // 첫번째 전투시작 이벤트
-        _setFirstBattle.Invoke();
+
+        //photonView.RPC("SetPositionFirstBattle", RpcTarget.Others);
     }
 
     /// <summary>
     /// 첫번째 전투 참가자들 위치 배치 및 생성
     /// </summary>
-    private void SetPositionFirstBattle()
+    //[PunRPC]
+    public void SetPositionFirstBattle()
     {
         _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
         _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -148,7 +156,8 @@ public class GroupManager : MonoBehaviour
     /// <summary>
     /// 두번재 전투 참가자들 위치 배치 및 생성
     /// </summary>
-    private void SetPositionSecondBattle()
+    //[PunRPC]
+    public void SetPositionSecondBattle()
     {
         _member[2].transform.position = new Vector3(-_setPosition, -2f, 0);
         _member[2].transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -164,7 +173,8 @@ public class GroupManager : MonoBehaviour
     /// <summary>
     /// 마지막 전투 참가자틀 위치 배치 및 생성
     /// </summary>
-    private void SetPositionFinalBattle()
+    //[PunRPC]
+    public void SetPositionFinalBattle()
     {
 
         _finalBattle[0].transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -179,7 +189,8 @@ public class GroupManager : MonoBehaviour
     /// <summary>
     /// 첫번째 전투 승리를 최종 전투 참가자 그룹에 추가 및 두번째 전투 진행
     /// </summary>
-    private void FirstWinnerSetFinalGroup()
+    //[PunRPC]
+    public void FirstWinnerSetFinalGroup()
     {
         if (_member[0].activeSelf)
         {
@@ -199,12 +210,14 @@ public class GroupManager : MonoBehaviour
 
         // 두번재 전투 위치 배치 및 생성
         Invoke("SetPositionSecondBattle", 2f);
+        //photonView.RPC("SetPositionSecondBattle", RpcTarget.Others);
     }
 
     /// <summary>
     /// 두번째 전투 승리를 최종 전투 참가자 그룹에 추가 및 마지막 전투 진행
     /// </summary>
-    private void SecondWinnerSetFinalGroup()
+    //[PunRPC]
+    public void SecondWinnerSetFinalGroup()
     {
         if (_member[2].activeSelf)
         {
@@ -223,12 +236,14 @@ public class GroupManager : MonoBehaviour
         }
 
         Invoke("SetPositionFinalBattle", 2f);
+        //photonView.RPC("SetPositionFinalBattle", RpcTarget.Others);
     }
 
     /// <summary>
     /// 우승자 인덱스 넣어주기
     /// </summary>
-    private void SendWinnerIndex()
+    //[PunRPC]
+    public void SendWinnerIndex()
     {
         if (_finalBattle[0].activeSelf)
         {
@@ -243,7 +258,8 @@ public class GroupManager : MonoBehaviour
     /// <summary>
     /// 경기 종료 시 셋팅 초기화
     /// </summary>
-    private void SettingReset()
+    //[PunRPC]
+    public void SettingReset()
     {
         _member[0].transform.position = Vector3.zero;
         _member[1].transform.position = Vector3.zero;
@@ -270,9 +286,19 @@ public class GroupManager : MonoBehaviour
     /// <summary>
     /// 꺼
     /// </summary>
+
     private void Finish()
     {
         _finalBattle[_winnerIndex].SetActive(false);
+        gameObject.SetActive(false);
+
+        //photonView.RPC("SendFinish", RpcTarget.Others, _winnerIndex);
+    }
+
+    [PunRPC]
+    public void SendFinish(int num)
+    {
+        _finalBattle[num].SetActive(false);
         gameObject.SetActive(false);
     }
 }

@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class TournamentManager : MonoBehaviourPun
 {
-    [Header("몇초 단위로 시작할지 적어주세요")]
+    [Header("몇초 후 시작할지 적어주세요")]
     [SerializeField] private int _startSecond;
 
     [Header("배팅 UI를 넣어주세요")]
@@ -23,14 +24,14 @@ public class TournamentManager : MonoBehaviourPun
     private int _finalWinnerIndex;
     public int FinalWinnerIndex { get { return _finalWinnerIndex; } private set { _finalWinnerIndex = value; } }
 
+    private float _curTime;
+
     private void OnEnable()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("전 마스터입니다");
             _selectGroup = Random.Range(0, _groups.Length);
-
-            // _selectGroup = 2;
+            Debug.Log("전 마스터입니다");
 
             if (_vrUI.activeSelf == false)
             {
@@ -42,13 +43,31 @@ public class TournamentManager : MonoBehaviourPun
             _reStart._startBattle.RemoveListener(GameStartEvent);
             _reStart._startBattle.AddListener(GameStartEvent);
         }
+        Debug.Log("응애");
     }
 
     private void GameStart()
     {
-        _groups[_selectGroup].SetActive(true);
+        photonView.RPC("ClientsMustDo", RpcTarget.Others, _selectGroup);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _groups[_selectGroup].SetActive(true);
+            _vrUI.SetActive(false);
+
+            Debug.LogError(_selectGroup);
+        }
+    }
+
+    [PunRPC]
+    public void ClientsMustDo(int num)
+    {
+        Debug.Log("동기화 스타트");
 
         _vrUI.SetActive(false);
+        _groups[num].SetActive(true);
+
+        Debug.LogError(num);
     }
 
     private void OnDisable()
