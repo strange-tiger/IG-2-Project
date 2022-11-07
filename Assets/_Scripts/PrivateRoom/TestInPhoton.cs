@@ -29,7 +29,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
 
         Debug.Log("µÆÁö?");
 
-        while (!PhotonNetwork.JoinRandomOrCreateRoom()) ;
+        while (!PhotonNetwork.JoinRandomOrCreateRoom());
     }
 
     public override void OnCreatedRoom()
