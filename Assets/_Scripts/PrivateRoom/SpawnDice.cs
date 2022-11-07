@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnDice : MonoBehaviourPun, IPunObservable
+public class SpawnDice : MonoBehaviourPun
 {
     [SerializeField] GameObject _dice;
 
