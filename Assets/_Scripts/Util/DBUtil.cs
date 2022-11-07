@@ -1171,8 +1171,7 @@ namespace Asset.MySql
 
                 if (reader.Read())
                 {
-                    Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-                    string[] petStatusArray = reader["PetIndex"].ToString().Split(',');
+                    string[] petStatusArray = reader["PetStatus"].ToString().Split(',');
                     string[] petLevelArray = reader["PetLevel"].ToString().Split(',');
                     string[] petExpArray = reader["PetExp"].ToString().Split(',');
                     string[] petAssetArray = reader["PetAsset"].ToString().Split(',');
@@ -1180,7 +1179,8 @@ namespace Asset.MySql
 
                     for(int i = 0; i < petStatusArray.Length; ++i)
                     {
-                        dictionaryList.Add("PetIndex", petStatusArray[i]);
+                        Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
+                        dictionaryList.Add("PetStatus", petStatusArray[i]);
                         dictionaryList.Add("PetLevel", petLevelArray[i]);
                         dictionaryList.Add("PetExp", petExpArray[i]);
                         dictionaryList.Add("PetAsset", petAssetArray[i]);
