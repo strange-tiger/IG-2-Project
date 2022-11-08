@@ -89,6 +89,8 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         }
         TurnOff();
         Respawn();
+
+        Debug.Log($"OnDamageByBottle : {PlayerControlManager.Instance.IsMoveable}");
     }
 
     private void TurnOff()
