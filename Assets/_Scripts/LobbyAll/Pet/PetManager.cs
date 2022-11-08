@@ -5,6 +5,7 @@ using UnityEngine;
 using Asset.MySql;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Reflection;
 
 public class PetManager : MonoBehaviourPunCallbacks
 {
@@ -90,39 +91,45 @@ public class PetManager : MonoBehaviourPunCallbacks
         if(photonView.IsMine)
         {
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
+            
+            _petLevel = _petData.PetLevel[index];
+
+            _petExp = _petData.PetExp[index];
+
+            _petMaxExpType = _petData.PetMaxExp[index];
+
+            switch(_petMaxExpType)
+            {
+                case EPetMaxExp.ONEHOUR:
+                    _petMaxExp = 60;
+                    return;
+
+                case EPetMaxExp.THREEHOUR:
+                    _petMaxExp = 180;
+                    return;
+
+                case EPetMaxExp.SECONDARYEVOL:
+                    if(_petLevel == 0)
+                    _petMaxExp = 120;
+                    else
+                    _petMaxExp = 240;
+                    return;
+            }
         }
 
-        _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(true);
+        photonView.RPC("ShowPetDataApplied", RpcTarget.All, _petObject, index);
+    }
 
-        _petObject.transform.GetChild(_petData.PetAsset[index]).GetComponent<PetMove>().SetPetManager(this);
+    [PunRPC]
+    private void ShowPetDataApplied(GameObject petObject, int index)
+    {
+        petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(true);
 
-        _petLevel = _petData.PetLevel[index];
-
-        _petExp = _petData.PetExp[index];
-
-        _petMaxExpType = _petData.PetMaxExp[index];
+        petObject.transform.GetChild(_petData.PetAsset[index]).GetComponent<PetMove>().SetPetManager(this);
 
         _petSize = _petData.PetSize[index];
 
-        _petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
-
-        switch(_petMaxExpType)
-        {
-            case EPetMaxExp.ONEHOUR:
-                _petMaxExp = 60;
-                return;
-
-            case EPetMaxExp.THREEHOUR:
-                _petMaxExp = 180;
-                return;
-
-            case EPetMaxExp.SECONDARYEVOL:
-                if(_petLevel == 0)
-                _petMaxExp = 120;
-                else
-                _petMaxExp = 240;
-                return;
-        }
+        petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
