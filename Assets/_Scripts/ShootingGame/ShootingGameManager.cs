@@ -116,11 +116,6 @@ public class ShootingGameManager : MonoBehaviourPun
         playerNumber = _shootingPlayerInfos[_playerCount].PlayerNumber;
     }
 
-    public void SetPlayerInfo(out Color playerColor, out EShootingPlayerNumber playerNumber, in string playerNickname)
-    {
-
-    }
-
     private IEnumerator CoGameStart()
     {
         _luncherManager.SetLuncher(PlayTime);

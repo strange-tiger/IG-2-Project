@@ -8,13 +8,11 @@ public class ShootingGameStartNPC : InteracterableObject
     private const int _MAX_MAP_COUNT = 100;
 
     [SerializeField] private float _mapXOffset = 1000f;
-    private List<string> _playerList = new List<string>();
-    //private List<ShootingSearchPartyPlayer> _playerList = new List<ShootingSearchPartyPlayer>();
+    //private List<string> _playerList = new List<string>();
+    private List<ShootingSearchPartyPlayer> _playerList = new List<ShootingSearchPartyPlayer>();
 
     private bool[] _isThereMap = new bool[_MAX_MAP_COUNT];
     private Queue<GameObject> _mapQueue = new Queue<GameObject>();
-
-    private bool _isPlayer
 
     public override void Interact()
     {
