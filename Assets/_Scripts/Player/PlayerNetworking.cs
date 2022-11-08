@@ -27,12 +27,12 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        //if (photonView.IsMine)
+        if (photonView.IsMine)
         {
             // CameraRig 부착
-            //GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
-            GameObject cameraRig = GetComponentInChildren<OVRCameraRig>().gameObject;
-            //cameraRig.transform.position = _ovrCameraPosition;
+            GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
+            //GameObject cameraRig = GetComponentInChildren<OVRCameraRig>().gameObject;
+            cameraRig.transform.position = _ovrCameraPosition;
 
             // 플레이어 컨트롤러 부착
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
@@ -66,12 +66,12 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
         }
-        //else
-        //{
-        //    CapsuleCollider collider = gameObject.AddComponent<CapsuleCollider>();
-        //    collider.height = 2f;
+        else
+        {
+            CapsuleCollider collider = gameObject.AddComponent<CapsuleCollider>();
+            collider.height = 2f;
 
-        //}
+        }
         gameObject.AddComponent<UserInteraction>().RequestAlarmImage = _requestAlarmImage;
     }
 
