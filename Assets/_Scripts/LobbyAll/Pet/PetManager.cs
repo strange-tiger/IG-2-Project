@@ -79,7 +79,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied()
     {
-        _petObject = Instantiate(_petData.PetObject[_eqiupNum],gameObject.transform);
+        _petObject = Instantiate(_petData.PetObject[_eqiupNum],transform.position,Quaternion.identity);
 
         _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
 
