@@ -230,11 +230,14 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     string _insertCharacterString = GetInsertString(ETableType.characterdb, nickname, gender);
+                    string _insertPetInventoryString = GetInsertString(ETableType.characterdb, nickname);
 
                     MySqlCommand _insertCharacterCommand = new MySqlCommand(_insertCharacterString, _mysqlConnection);
+                    MySqlCommand _insertPetInventoryCommand = new MySqlCommand(_insertPetInventoryString, _mysqlConnection);
 
                     _mysqlConnection.Open();
                     _insertCharacterCommand.ExecuteNonQuery();
+                    _insertPetInventoryCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
                 return true;
@@ -868,7 +871,6 @@ namespace Asset.MySql
 
 #endregion
 
-
 #region Betting
 
         /// <summary>
@@ -1127,9 +1129,74 @@ namespace Asset.MySql
             }
         }
 
+        #endregion
+
+#region PetInventoryList        
+        /// <summary>
+        /// 유저의 닉네임을 받아 PetStatus, PetLevel,PetExp의 Dictionary를 담는 리스트를 가져옴.
+        /// </summary>
+        /// <param name="nickname"></param>
+        /// <returns></returns>
+        public static List<Dictionary<string, string>> GetPetInventoryList(string nickname)
+        {
+            List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
+
+            // UserA 칼럼에 대한 State 검사 후 리스트 생성
+            GetPetInventoryListHelper
+            (
+                nickname,
+                ref resultList
+            );
+
+
+            return resultList;
+        }
+
+
+        private static void GetPetInventoryListHelper(string nickname, ref List<Dictionary<string, string>> resultList)
+        {
+            string selcetPetInventoryString = $"SELECT * from PetInventoryDB " +
+                $"WHERE {EpetinventorydbColumns.Nickname} = '{nickname}'; ";
+
+            using(MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+
+
+                MySqlCommand command = new MySqlCommand(selcetPetInventoryString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if (reader.Read())
+                {
+                    string[] petStatusArray = reader["PetStatus"].ToString().Split(',');
+                    string[] petLevelArray = reader["PetLevel"].ToString().Split(',');
+                    string[] petExpArray = reader["PetExp"].ToString().Split(',');
+                    string[] petAssetArray = reader["PetAsset"].ToString().Split(',');
+                    string[] petSizeArray = reader["PetSize"].ToString().Split(',');
+
+                    for(int i = 0; i < petStatusArray.Length; ++i)
+                    {
+                        Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
+                        dictionaryList.Add("PetStatus", petStatusArray[i]);
+                        dictionaryList.Add("PetLevel", petLevelArray[i]);
+                        dictionaryList.Add("PetExp", petExpArray[i]);
+                        dictionaryList.Add("PetAsset", petAssetArray[i]);
+                        dictionaryList.Add("PetSize", petSizeArray[i]);
+                        resultList.Add(dictionaryList);
+                    }
+
+                }
+
+                _mysqlConnection.Close();
+
+            }
+            
+        }
+
 #endregion
-
-
 
 
 

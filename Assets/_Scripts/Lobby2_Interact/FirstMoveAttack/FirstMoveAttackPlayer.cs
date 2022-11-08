@@ -5,96 +5,39 @@ using Photon.Pun;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
-    private bool _isGrab = false;
-    private FirstMoveAttackObj _firstMoveAttackObj;
-    private void Update()
-    {
-        if (false == photonView.IsMine)
-        {
-            return;
-        }
-        if (_isGrab)
-        {
-            Attack();
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<FirstMoveAttackObj>() == null)
-        {
-            return;
-        }
-        else
-        {
-            _firstMoveAttackObj = other.gameObject.GetComponent<FirstMoveAttackObj>();
-            _isGrab = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<FirstMoveAttackObj>() == null)
-        {
-            return;
-        }
-        else
-        {
-            _isGrab = false;
-            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, 0f);
-        }
-    }
-
-    private void Attack()
-    {
-        Debug.Log("Attack 가능 상태");
-        Collider[] colliders = Physics.OverlapSphere(_firstMoveAttackObj.transform.position, 1f);
-
-        foreach (Collider collider in colliders)
-        {
-            FirstMoveAttackPlayer enemy = collider.GetComponent<FirstMoveAttackPlayer>();
-            if (enemy == null || enemy == this)
-            {
-                continue;
-            }
-            enemy.photonView.RPC("OnDamage", RpcTarget.All);
-            _firstMoveAttackObj.photonView.RPC("Crack", RpcTarget.All, OVRScreenFade.instance.fadeTime);
-        }
-    }
-
     [PunRPC]
-    public void OnDamage()
+    public void OnDamageByBottle()
     {
-        if(PlayerControlManager.Instance.IsInvincible == true)
+        if (PlayerControlManager.Instance.IsInvincible == true)
         {
             return;
         }
+      
+        GetComponentInChildren<OVRScreenFade>().FadeOut(0.0f);
 
-        OVRScreenFade.instance.FadeOut();
-        PlayerControlManager.Instance.IsMoveable = false;
-        PlayerControlManager.Instance.IsRayable = false;
         StartCoroutine(Invincible(20f));
-        Invoke("Revive", 1f);
+        StartCoroutine(ReviveCooldown());
+        Debug.Log($"OnDamageByBottle : {PlayerControlManager.Instance.IsMoveable}");
     }
 
     public void Revive()
     {
-        OVRScreenFade.instance.FadeIn();
-        PlayerControlManager.Instance.IsMoveable = true;
-        PlayerControlManager.Instance.IsRayable = true;
+        GetComponentInChildren<OVRScreenFade>().FadeIn(2.0f);
     }
 
     IEnumerator Invincible(float coolTime)
     {
         float elapsedTime = 0;
 
-        while(true)
+        while (true)
         {
             elapsedTime += Time.deltaTime;
 
-            if(elapsedTime > coolTime)
+            if (elapsedTime >= coolTime)
             {
                 PlayerControlManager.Instance.IsInvincible = false;
+                elapsedTime = 0;
+                Debug.Log("무적 상태 해제");
                 break;
             }
             else
@@ -103,5 +46,12 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
             }
             yield return null;
         }
+    }
+
+    YieldInstruction _reviveCooldown = new WaitForSeconds(2.0f);
+    IEnumerator ReviveCooldown()
+    {
+        yield return _reviveCooldown;
+        Revive();
     }
 }
