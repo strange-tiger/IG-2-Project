@@ -283,7 +283,7 @@ public class TransformUI : MonoBehaviour
 
     private void UpdateTransformOption()
     {
-        if (CurrentPet.PetObject.transform.GetComponentInChildren<Pet>().PetEvolutionCount == EPetEvolutionCount.NONE)
+        if (CurrentPet.PetObject.transform.GetComponentInChildren<PetInteract>().PetEvolutionCount == EPetEvolutionCount.NONE)
         {
             _maxTransformIndex = TRANSFORM_SCALE.Length;
 
