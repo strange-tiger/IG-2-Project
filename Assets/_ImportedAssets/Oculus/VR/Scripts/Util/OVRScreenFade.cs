@@ -146,22 +146,6 @@ public class OVRScreenFade : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Start a fade in
-	/// </summary>
-	public void FadeIn(float delay)
-	{
-		StartCoroutine(Fade(1.0f, 0.0f, delay));
-	}
-
-	/// <summary>
-	/// Start a fade out
-	/// </summary>
-	public void FadeOut(float delay)
-	{
-		StartCoroutine(Fade(0, 1, delay));
-	}
-
-	/// <summary>
 	/// Starts a fade in when a new level is loaded
 	/// </summary>
 	void OnLevelFinishedLoading(int level)
@@ -222,20 +206,6 @@ public class OVRScreenFade : MonoBehaviour
 	{
 		float elapsedTime = 0.0f;
 		while (elapsedTime < fadeTime)
-		{
-			elapsedTime += Time.deltaTime;
-			animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
-			SetMaterialAlpha();
-			yield return new WaitForEndOfFrame();
-		}
-		animatedFadeAlpha = endAlpha;
-		SetMaterialAlpha();
-	}
-
-	IEnumerator Fade(float startAlpha, float endAlpha, float delay)
-	{
-		float elapsedTime = 0.0f;
-		while (elapsedTime < delay)
 		{
 			elapsedTime += Time.deltaTime;
 			animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));

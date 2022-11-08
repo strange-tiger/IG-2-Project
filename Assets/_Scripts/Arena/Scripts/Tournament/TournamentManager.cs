@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class TournamentManager : MonoBehaviourPun
+public class TournamentManager : MonoBehaviour
 {
     [Header("몇초 단위로 시작할지 적어주세요")]
     [SerializeField] private int _startSecond;
 
     [Header("배팅 UI를 넣어주세요")]
     [SerializeField] private GameObject _vrUI;
-
-    [Header("재시작")]
-    [SerializeField] private ReStartTournament _reStart;
 
     [SerializeField] private GameObject[] _groups;
     public GameObject[] Groups { get { return _groups; } }
@@ -27,10 +24,9 @@ public class TournamentManager : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("전 마스터입니다");
             _selectGroup = Random.Range(0, _groups.Length);
 
-            // _selectGroup = 2;
+            _selectGroup = 2;
 
             if (_vrUI.activeSelf == false)
             {
@@ -38,9 +34,6 @@ public class TournamentManager : MonoBehaviourPun
             }
 
             Invoke("GameStart", _startSecond);
-
-            _reStart._startBattle.RemoveListener(GameStartEvent);
-            _reStart._startBattle.AddListener(GameStartEvent);
         }
     }
 
@@ -49,25 +42,13 @@ public class TournamentManager : MonoBehaviourPun
         _groups[_selectGroup].SetActive(true);
 
         _vrUI.SetActive(false);
+
+        gameObject.SetActive(false);
     }
 
     private void OnDisable()
     {
         _groups[_selectGroup].SetActive(false);
         _selectGroup -= _selectGroup;
-
-        _reStart._startBattle.RemoveListener(GameStartEvent);
-    }
-
-    private void GameStartEvent()
-    {
-        _selectGroup = Random.Range(0, _groups.Length);
-
-        if (_vrUI.activeSelf == false)
-        {
-            _vrUI.SetActive(true);
-        }
-
-        Invoke("GameStart", _startSecond);
     }
 }

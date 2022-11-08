@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class ArenaBettingUI : MonoBehaviourPun
+public class ArenaBettingUI : MonoBehaviour
 {
     
     [SerializeField] private TournamentManager _tournamentManager;
@@ -17,8 +17,7 @@ public class ArenaBettingUI : MonoBehaviourPun
 
     void Start()
     {
-        // BettingForChampionSetting();
-         photonView.RPC("BettingForChampionSetting", RpcTarget.All);
+       // photonView.RPC("BettingForChampionSetting", RpcTarget.All);
     }
 
     [PunRPC]
