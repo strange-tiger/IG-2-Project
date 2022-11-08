@@ -79,41 +79,38 @@ public class PetManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied()
     {
-        if(photonView.IsMine)
+        _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[_eqiupNum].name}",transform.position,Quaternion.identity);
+
+        _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
+
+        _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).GetComponent<PetMove>().SetPetManager(this);
+
+        _petLevel = _petData.PetLevel[_eqiupNum];
+
+        _petExp = _petData.PetExp[_eqiupNum];
+
+        _petMaxExpType = _petData.PetMaxExp[_eqiupNum];
+
+        _petSize = _petData.PetSize[_eqiupNum];
+
+        _petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
+
+        switch(_petMaxExpType)
         {
-            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[_eqiupNum].name}",transform.position,Quaternion.identity);
+            case EPetMaxExp.ONEHOUR:
+                _petMaxExp = 60;
+                return;
 
-            _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
+            case EPetMaxExp.THREEHOUR:
+                _petMaxExp = 180;
+                return;
 
-            _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).GetComponent<PetMove>().SetPetManager(this);
-
-            _petLevel = _petData.PetLevel[_eqiupNum];
-
-            _petExp = _petData.PetExp[_eqiupNum];
-
-            _petMaxExpType = _petData.PetMaxExp[_eqiupNum];
-
-            _petSize = _petData.PetSize[_eqiupNum];
-
-            _petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
-
-            switch(_petMaxExpType)
-            {
-                case EPetMaxExp.ONEHOUR:
-                    _petMaxExp = 60;
-                    return;
-
-                case EPetMaxExp.THREEHOUR:
-                    _petMaxExp = 180;
-                    return;
-
-                case EPetMaxExp.SECONDARYEVOL:
-                    if(_petLevel == 0)
-                    _petMaxExp = 120;
-                    else
-                    _petMaxExp = 240;
-                    return;
-            }
+            case EPetMaxExp.SECONDARYEVOL:
+                if(_petLevel == 0)
+                _petMaxExp = 120;
+                else
+                _petMaxExp = 240;
+                return;
         }
     }
 
