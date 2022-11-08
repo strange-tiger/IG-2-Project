@@ -8,50 +8,61 @@ using PlayerInfo = ShootingGameManager.ShootingPlayerInfo;
 public class EndResultPanel : MonoBehaviour
 {
     [SerializeField] private GameObject _goldPanel;
-    [SerializeField] private GameObject _starImage;
+    [SerializeField] private GameObject _starPanel;
     [SerializeField] private GameObject _regamePanel;
     private CheckPanelManager _regameCheckScript;
 
-    private TextMeshProUGUI[] _playerNicknameText =
+    private TextMeshProUGUI[] _playerNicknameTexts =
         new TextMeshProUGUI[ShootingGameManager._MAX_PLAYER_COUNT];
-    private Image[] _playerColor =
+    
+    private Image[] _playerColors =
         new Image[ShootingGameManager._MAX_PLAYER_COUNT];
-    private TextMeshProUGUI[] _playerScoreText =
+    
+    private TextMeshProUGUI[] _playerScoreTexts =
         new TextMeshProUGUI[ShootingGameManager._MAX_PLAYER_COUNT];
-    private GameObject[] _isYouImages =
-        new GameObject[ShootingGameManager._MAX_PLAYER_COUNT];
+
+    private TextMeshProUGUI[] _playerGoldTexts;
+
+    private Image[] _goldStars;
 
     private void Awake()
     {
-        _goldPanel.SetActive(false);
-        _starImage.SetActive(false);
         _regamePanel.SetActive(false);
         _regameCheckScript = _regamePanel.GetComponent<CheckPanelManager>();
 
         for (int i = 0; i < ShootingGameManager._MAX_PLAYER_COUNT; ++i)
         {
             GameObject nextChild = transform.GetChild(i).gameObject;
-            _playerNicknameText[i] = nextChild.GetComponentInChildren<TextMeshProUGUI>();
-            _playerColor[i] = nextChild.GetComponent<Image>();
-            _playerScoreText[i] = _playerColor[i].GetComponentInChildren<Image>().GetComponentInChildren<TextMeshProUGUI>();
+            _playerNicknameTexts[i] = nextChild.GetComponentInChildren<TextMeshProUGUI>();
+            _playerColors[i] = nextChild.GetComponent<Image>();
+            _playerScoreTexts[i] = nextChild.GetComponentsInChildren<Image>()[1].GetComponentInChildren<TextMeshProUGUI>();
         }
+
+        _playerGoldTexts = _goldPanel.GetComponentsInChildren<TextMeshProUGUI>();
+        _goldPanel.SetActive(false);
+
+        _goldStars = _starPanel.GetComponentsInChildren<Image>();
+        _starPanel.SetActive(false);
     }
 
     public void SetPlayerList(List<PlayerInfo> playerInfos)
     {
-        for(int i = 0; i<playerInfos.Count; ++i)
+        int playerInfoCount = playerInfos.Count;
+        for (int i = 0; i < playerInfoCount; ++i)
         {
             PlayerInfo info = playerInfos[i];
 
-            _playerNicknameText[i].text = info.PlayerNickname;
-            _playerColor[i].color = info.PlayerColor;
-            _playerScoreText[i].text = info.PlayerScore.ToString();
+            _playerNicknameTexts[i].text = info.PlayerNickname;
+            _playerColors[i].color = info.PlayerColor;
+            _playerScoreTexts[i].text = info.PlayerScore.ToString();
+            _playerGoldTexts[i].text = info.PlayerGold.ToString();
+            _goldStars[i].gameObject.SetActive(info.IsWinner);
         }
     }
 
     public void ShowStarImage()
     {
-        _starImage.SetActive(true);
+        _starPanel.SetActive(true);
     }
 
     public void ShowGoldPanel()

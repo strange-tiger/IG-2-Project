@@ -1,7 +1,10 @@
+#define _DEV_MODE_
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Asset.MySql;
 
 public class ShootingGameManager : MonoBehaviour
 {
@@ -44,6 +47,8 @@ public class ShootingGameManager : MonoBehaviour
         public string PlayerNickname { get; set; }
         public Color PlayerColor { get; set; }
         public int PlayerScore { get; set; }
+        public int PlayerGold { get; set; }
+        public bool IsWinner { get; set; }
     }
     private List<ShootingPlayerInfo> _shootingPlayerInfos = new List<ShootingPlayerInfo>();
 
@@ -70,6 +75,18 @@ public class ShootingGameManager : MonoBehaviour
 
     private void Awake()
     {
+#if _DEV_MODE_
+        for(int i = 0; i< _MAX_PLAYER_COUNT; ++i)
+        {
+            _shootingPlayerInfos.Add(new ShootingPlayerInfo()
+            {
+                PlayerColor = _playerColors[i],
+                PlayerNumber = (EShootingPlayerNumber)i,
+                PlayerNickname = "Nickname" + i.ToString(),
+                PlayerScore = 3
+            });
+        }
+#endif
         _waitForSecond = new WaitForSeconds(1f);
 
         _audioSource = GetComponent<AudioSource>();
@@ -163,30 +180,7 @@ public class ShootingGameManager : MonoBehaviour
     {
         yield return _waitForSecond;
         Debug.Log("[Shooting] 게임 결과 출력");
-        _shootingPlayerInfos.Sort(delegate (ShootingPlayerInfo playerA, ShootingPlayerInfo playerB)
-        {
-            if (playerA.PlayerScore < playerB.PlayerScore)
-            {
-                return -1;
-            }
-            else if (playerA.PlayerScore > playerB.PlayerScore)
-            {
-                return 1;
-            }
-            else
-            {
-                if (playerA.PlayerNumber > playerB.PlayerNumber)
-                {
-                    return -1;
-                }
-                else if (playerA.PlayerNumber < playerB.PlayerNumber)
-                {
-                    return 1;
-                }
-            }
-
-            return 0;
-        });
+        SetPlayerList();
         _uiManager.ShowEndScore(_shootingPlayerInfos);
 
         yield return _waitForSecond;
@@ -194,9 +188,62 @@ public class ShootingGameManager : MonoBehaviour
         _uiManager.ShowStarImage();
 
         yield return new WaitForSeconds(_hoorayTime);
-        Debug.Log("[Shooting] 환호 후 재시작 페널 띄우기");
+        Debug.Log("[Shooting] 환호 후 재시작, 골드 페널 띄우기");
+        //GiveGold();
         _uiManager.ShowGoldPanel();
         _uiManager.ShowRestartPanel();
+    }
+
+    private void SetPlayerList()
+    {
+        // 점수 순위로 정렬
+        _shootingPlayerInfos.Sort(delegate (ShootingPlayerInfo playerA, ShootingPlayerInfo playerB)
+        {
+            if (playerA.PlayerScore < playerB.PlayerScore)
+            {
+                return 1;
+            }
+            else if (playerA.PlayerScore > playerB.PlayerScore)
+            {
+                return -1;
+            }
+            else
+            {
+                if (playerA.PlayerNumber > playerB.PlayerNumber)
+                {
+                    return 1;
+                }
+                else if (playerA.PlayerNumber < playerB.PlayerNumber)
+                {
+                    return -1;
+                }
+            }
+
+            return 0;
+        });
+
+        int highestScore = _shootingPlayerInfos[0].PlayerScore;
+        
+        foreach(ShootingPlayerInfo playerInfo in _shootingPlayerInfos)
+        {
+            if(playerInfo.PlayerScore == highestScore)
+            {
+                playerInfo.IsWinner = true;
+                playerInfo.PlayerGold = playerInfo.PlayerScore * 2;
+            }
+            else
+            {
+                playerInfo.PlayerGold = playerInfo.PlayerScore;
+            }
+        }
+    }
+
+    private void GiveGold()
+    {
+        foreach(ShootingPlayerInfo playerinfo in _shootingPlayerInfos)
+        {
+            MySqlSetting.EarnGold(playerinfo.PlayerNickname, playerinfo.PlayerGold);
+        }
     }
 
     public void AddScoreToPlayer(EShootingPlayerNumber playerNumber, int addPoint)

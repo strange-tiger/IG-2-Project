@@ -24,6 +24,7 @@ public class StartPlayerInfoPanelManager : MonoBehaviour
             _isYouImages[i] = nextChild.GetComponentsInChildren<Image>()[1].gameObject;
             _isYouImages[i].SetActive(false);
         }
+        gameObject.SetActive(false);
     }
 
     public void SetPlayerList(List<PlayerInfo> playerInfos)
