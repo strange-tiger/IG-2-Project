@@ -16,10 +16,7 @@ public class PetMove : MonoBehaviour
     public event Action<bool> OnStateChanged;
     public EPetMoveState State
     {
-        get
-        {
-            return _state;
-        }
+        get { return _state; }
 
         set
         {
@@ -32,18 +29,15 @@ public class PetMove : MonoBehaviour
     private PetManager _manager;
     private Animator _animator;
     private NavMeshAgent _agent;
-    private Collider _senser;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
-        _senser = GetComponentInParent<Collider>();
     }
 
     private void OnEnable()
     {
-        State = EPetMoveState.IDLE;
         OnStateChanged -= ChangeMoveState;
         OnStateChanged += ChangeMoveState;
     }
@@ -51,6 +45,18 @@ public class PetMove : MonoBehaviour
     private void OnDisable()
     {
         OnStateChanged -= ChangeMoveState;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+            State = EPetMoveState.IDLE;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            State = EPetMoveState.MOVE;
     }
 
     public void SetPetManager(PetManager manager)
@@ -61,12 +67,13 @@ public class PetMove : MonoBehaviour
     private void ChangeMoveState(bool isMove)
     {
         _animator.SetBool("IsWalk", isMove);
-        _agent.isStopped = !isMove;
 
         if (isMove)
         {
             _agent.SetDestination(_manager.transform.position);
+            Debug.Log(_manager.transform.position);
         }
-    }
 
+        _agent.isStopped = !isMove;
+    }
 }
