@@ -12,6 +12,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     [Header("PetData")]
     [SerializeField] PetData _petData;
     [SerializeField] GameObject _petObject;
+    [SerializeField] GameObject _petChildObject;
     [SerializeField] EPetMaxExp _petMaxExpType;
     [SerializeField] int _petLevel;
     [SerializeField] int _petExp;
@@ -86,13 +87,15 @@ public class PetManager : MonoBehaviourPunCallbacks
         if (_petObject != null)
         {
             PhotonNetwork.Destroy(_petObject);
-            _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(false);
+            _petChildObject.SetActive(false);
         }
         if(photonView.IsMine)
         {
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
             
             _petLevel = _petData.PetLevel[index];
+
+            _petChildObject = _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject;
 
             _petExp = _petData.PetExp[index];
 
@@ -116,21 +119,17 @@ public class PetManager : MonoBehaviourPunCallbacks
                     return;
             }
         }
+        _petChildObject.SetActive(true);
 
-        photonView.RPC("ShowPetDataApplied", RpcTarget.All, _petObject, index);
-    }
-
-    [PunRPC]
-    private void ShowPetDataApplied(GameObject petObject, int index)
-    {
-        petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(true);
-
-        petObject.transform.GetChild(_petData.PetAsset[index]).GetComponent<PetMove>().SetPetManager(this);
+        _petChildObject.GetComponent<PetMove>().SetPetManager(this);
 
         _petSize = _petData.PetSize[index];
 
-        petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
+        _petChildObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
+
     }
+
+    
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
