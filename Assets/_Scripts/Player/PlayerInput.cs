@@ -21,13 +21,18 @@ public class PlayerInput : MonoBehaviourPun
     public bool InputA { get; private set; }
 
     public bool IsRay { get; private set; }
+    public bool[] IsRays { get; private set; }
+    public bool[] IsRayDowns { get; private set; }
     public bool IsLeftRay { get; private set; }
+    public bool IsLeftRayDown { get; private set; }
     public bool IsRightRay { get; private set; }
+    public bool IsRightRayDown { get; private set; }
 
     public bool IsMove { get; private set; }
     public bool IsInventoryOn { get; private set; }
 
     public bool IsGrab { get; private set; }
+    public bool[] IsGrabs { get; private set; }
     public bool IsLeftGrab { get; private set; }
     public bool IsRightGrab { get; private set; }
 
@@ -36,6 +41,9 @@ public class PlayerInput : MonoBehaviourPun
     private void Awake()
     {
         PrimaryController = Defines.EPrimaryController.Left;
+        IsRays = new bool[2];
+        IsRayDowns = new bool[2];
+        IsGrabs = new bool[2];
     }
 
     void Update()
@@ -46,13 +54,19 @@ public class PlayerInput : MonoBehaviourPun
         InputADown = OVRInput.GetDown(OVRInput.Button.One);
         InputA = OVRInput.Get(OVRInput.Button.One);
     
-        IsLeftRay = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
-        IsRightRay = OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger);
+        IsRays[0] = IsLeftRay = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
+        IsRays[1] = IsRightRay = OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger);
+
+        IsRayDowns[0] = IsLeftRayDown = OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger);
+        IsRayDowns[1] = IsRightRayDown = OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger);
+
         IsRay = IsLeftRay || IsRightRay;
 
         IsLeftGrab = OVRInput.Get(OVRInput.Button.PrimaryHandTrigger);
         IsRightGrab = OVRInput.Get(OVRInput.Button.SecondaryHandTrigger);
         IsGrab = IsLeftGrab || IsRightGrab;
+        IsGrabs[0] = IsLeftGrab;
+        IsGrabs[1] = IsRightGrab;
         
         IsMove = OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
         IsInventoryOn = (OVRInput.Get(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
