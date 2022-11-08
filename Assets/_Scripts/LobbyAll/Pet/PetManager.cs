@@ -67,6 +67,8 @@ public class PetManager : MonoBehaviourPunCallbacks
 
         _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
 
+        _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).GetComponent<PetMove>().SetPetManager(this);
+
         _petLevel = _petData.PetLevel[_eqiupNum];
 
         _petExp = _petData.PetExp[_eqiupNum];
