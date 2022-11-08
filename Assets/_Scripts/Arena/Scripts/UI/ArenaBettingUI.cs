@@ -17,18 +17,17 @@ public class ArenaBettingUI : MonoBehaviourPun
 
     void Start()
     {
-        // BettingForChampionSetting();
          photonView.RPC("BettingForChampionSetting", RpcTarget.All);
     }
 
     [PunRPC]
     public void BettingForChampionSetting()
     {
-        _groupNameText.text = _tournamentManager.Groups[_tournamentManager.SelectGroup].name;
+        _groupNameText.text = _tournamentManager.Groups[_tournamentManager.SelectGroupNum].name;
 
         for (int i = 0; i < 4; ++i)
         {
-            _championNameText[i].text = _tournamentManager.Groups[_tournamentManager.SelectGroup].transform.GetChild(i).name;
+            _championNameText[i].text = _tournamentManager.Groups[_tournamentManager.SelectGroupNum].transform.GetChild(i).name;
         }
     }
 }

@@ -151,10 +151,10 @@ public class GroupManager : MonoBehaviourPun
         c = list_2;
         d = list_3;
 
-        _member[0] = transform.GetChild(list_0).gameObject;
-        _member[1] = transform.GetChild(list_1).gameObject;
-        _member[2] = transform.GetChild(list_2).gameObject;
-        _member[3] = transform.GetChild(list_3).gameObject;
+        _member[0] = transform.GetChild(a).gameObject;
+        _member[1] = transform.GetChild(b).gameObject;
+        _member[2] = transform.GetChild(c).gameObject;
+        _member[3] = transform.GetChild(d).gameObject;
 
         _setFirstBattle.Invoke();
 
@@ -331,7 +331,9 @@ public class GroupManager : MonoBehaviourPun
     /// </summary>
     private void Finish()
     {
-        _finalBattle[_winnerIndex].SetActive(false);
+        _finalBattle[0].SetActive(false);
+        _finalBattle[1].SetActive(false);
+
         gameObject.SetActive(false);
     }
 }

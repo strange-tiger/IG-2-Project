@@ -11,8 +11,6 @@ public class TestTest : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient && !_isStart)
         {
-            Debug.Log("ぞし");
-
             if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.G))
             {
                 Debug.Log("しぞ");
