@@ -96,8 +96,15 @@ public class TournamentManager : MonoBehaviourPun
         if (_vrUI.activeSelf == false)
         {
             _vrUI.SetActive(true);
+            photonView.RPC("ClientsGameStartEvent", RpcTarget.Others);
         }
 
         Invoke("GameStart", _startSecond);
+    }
+
+    [PunRPC]
+    public void ClientsGameStartEvent()
+    {
+        _vrUI.SetActive(true);
     }
 }
