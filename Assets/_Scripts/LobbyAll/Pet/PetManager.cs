@@ -20,8 +20,8 @@ public class PetManager : MonoBehaviourPunCallbacks
     private YieldInstruction _gainExpTime = new WaitForSeconds(60f);
     private IEnumerator _gainExpCoroutine;
     private int _eqiupNum;
+    private int _testNum = -1;
     private bool _havePet;
-
     void Awake()
     {
         _gainExpCoroutine = PetExpIncrease();
@@ -38,6 +38,22 @@ public class PetManager : MonoBehaviourPunCallbacks
             }
         }
 
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            if(_testNum == 15)
+            {
+                _testNum = 0;
+            }
+            else
+            {
+                _testNum++;
+            }
+            PetChange(_testNum);
+        }
     }
 
 
