@@ -1160,11 +1160,13 @@ namespace Asset.MySql
 
                     for(int i = 0; i < petStatusArray.Length; ++i)
                     {
+
                         petData.PetStatus[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus),petStatusArray[i]);
                         petData.PetLevel[i] = int.Parse(petLevelArray[i]);
                         petData.PetExp[i] = int.Parse(petExpArray[i]);
                         petData.PetAsset[i] = int.Parse(petAssetArray[i]);
                         petData.PetSize[i] = float.Parse(petSizeArray[i]);
+
                     }
 
                 }
