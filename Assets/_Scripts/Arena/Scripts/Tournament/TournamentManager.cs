@@ -32,17 +32,24 @@ public class TournamentManager : MonoBehaviourPun
 
     private float _curTime;
 
+    private void Awake()
+    {
+        Debug.Log($"Awake 동작, 마스터 : {PhotonNetwork.IsMasterClient}, _vrUI의 상태 : {_vrUI.activeSelf}");
+    }
+
     private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             GameStartEvent();
         }
-        Debug.Log("OnEnable");
+        Debug.Log($"Start 동작, 마스터 : {PhotonNetwork.IsMasterClient}, _vrUI의 상태 : {_vrUI.activeSelf}");
     }
 
     private void Update()
     {
+        Debug.Log($"Update 동작, 마스터 : {PhotonNetwork.IsMasterClient}, _vrUI의 상태 : {_vrUI.activeSelf}");
+
         if (_vrUI.activeSelf == false && PhotonNetwork.IsMasterClient)
         {
             _curTime += Time.deltaTime;
@@ -52,18 +59,15 @@ public class TournamentManager : MonoBehaviourPun
                 _curTime -= _curTime;
             }
         }
+
+        Debug.Log(PhotonNetwork.PlayerList);
     }
 
     private void GameStartEvent()
     {
         _selectGroupNum = UnityEngine.Random.Range(0, _groups.Length);
 
-        if (_vrUI.activeSelf == false)
-        {
-            _vrUI.SetActive(true);
-        }
-
-        photonView.RPC("ClientsSetUI", RpcTarget.Others);
+        photonView.RPC("ClientsSetUI", RpcTarget.All);
 
         StartCoroutine(GameStart());
     }
@@ -71,7 +75,7 @@ public class TournamentManager : MonoBehaviourPun
     [PunRPC]
     public void ClientsSetUI()
     {
-        Debug.Log("얍!");
+        Debug.Log("PunRPC RpcTarget.All ClientsSetUI()");
         if (_vrUI.activeSelf == false)
         {
             _vrUI.SetActive(true);
@@ -81,17 +85,10 @@ public class TournamentManager : MonoBehaviourPun
     [PunRPC]
     public void ClientsMustDo(int num)
     {
-        Debug.Log("클라 GameStart");
+        Debug.Log("PunRPC RpcTarget.All ClientsMustDo()");
 
         _groups[num].SetActive(true);
         _vrUI.SetActive(false);
-    }
-
-    [PunRPC]
-    public void ClientsMustDoEnd(int num)
-    {
-        _groups[num].SetActive(false);
-        num -= num;
     }
 
     IEnumerator GameStart()
@@ -100,14 +97,6 @@ public class TournamentManager : MonoBehaviourPun
 
         yield return _startDelay;
 
-        photonView.RPC("ClientsMustDo", RpcTarget.Others, _selectGroupNum);
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            _groups[_selectGroupNum].SetActive(true);
-            _vrUI.SetActive(false);
-        }
-
-        yield break;
+        photonView.RPC("ClientsMustDo", RpcTarget.All, _selectGroupNum);
     }
 }
