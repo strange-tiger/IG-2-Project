@@ -22,7 +22,7 @@ public class TournamentManager : MonoBehaviourPun
 
     // private UnityEvent _startBattle = new UnityEvent();
 
-    private Action _gameStartActionEvent;
+    //private Action _gameStartActionEvent;
 
     private int _selectGroupNum;
     public int SelectGroupNum { get { return _selectGroupNum; } }
@@ -36,8 +36,6 @@ public class TournamentManager : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            _gameStartActionEvent = GameStartEvent;
-
             GameStartEvent();
         }
         Debug.Log("OnEnable");
@@ -45,16 +43,12 @@ public class TournamentManager : MonoBehaviourPun
 
     private void Update()
     {
-        if (_vrUI.activeSelf == false)
+        if (_vrUI.activeSelf == false && PhotonNetwork.IsMasterClient)
         {
             _curTime += Time.deltaTime;
             if (_curTime >= _reStartTime)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    _gameStartActionEvent?.Invoke();
-                }
-
+                GameStartEvent();
                 _curTime -= _curTime;
             }
         }
@@ -69,7 +63,19 @@ public class TournamentManager : MonoBehaviourPun
             _vrUI.SetActive(true);
         }
 
+        photonView.RPC("ClientsSetUI", RpcTarget.Others);
+
         StartCoroutine(GameStart());
+    }
+
+    [PunRPC]
+    public void ClientsSetUI()
+    {
+        Debug.Log("얍!");
+        if (_vrUI.activeSelf == false)
+        {
+            _vrUI.SetActive(true);
+        }
     }
 
     [PunRPC]
@@ -77,8 +83,8 @@ public class TournamentManager : MonoBehaviourPun
     {
         Debug.Log("클라 GameStart");
 
-        _vrUI.SetActive(false);
         _groups[num].SetActive(true);
+        _vrUI.SetActive(false);
     }
 
     [PunRPC]
@@ -88,33 +94,20 @@ public class TournamentManager : MonoBehaviourPun
         num -= num;
     }
 
-    private void OnDisable()
+    IEnumerator GameStart()
     {
-        photonView.RPC("ClientsMustDoEnd", RpcTarget.Others, _selectGroupNum);
+        WaitForSeconds _startDelay = new WaitForSeconds(_startSecond);
+
+        yield return _startDelay;
+
+        photonView.RPC("ClientsMustDo", RpcTarget.Others, _selectGroupNum);
 
         if (PhotonNetwork.IsMasterClient)
         {
-            _groups[_selectGroupNum].SetActive(false);
-            _selectGroupNum -= _selectGroupNum;
+            _groups[_selectGroupNum].SetActive(true);
+            _vrUI.SetActive(false);
         }
-    }
 
-    IEnumerator GameStart()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(_startSecond);
-
-            photonView.RPC("ClientsMustDo", RpcTarget.Others, _selectGroupNum);
-
-            if (PhotonNetwork.IsMasterClient)
-            {
-                Debug.Log("마스터 GameStart");
-                _groups[_selectGroupNum].SetActive(true);
-                _vrUI.SetActive(false);
-            }
-
-            yield return null;
-        }
+        yield break;
     }
 }
