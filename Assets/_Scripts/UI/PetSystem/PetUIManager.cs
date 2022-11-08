@@ -11,8 +11,7 @@ public class PetUIManager : UIManager
 {
     [SerializeField] Collider _npcCollider;
 
-    [SerializeField] GameObject _demoOne;
-    [SerializeField] GameObject _demoTwo;
+    [SerializeField] PetData _petData;
 
     public PlayerNetworking PlayerNetworkingInPet { get; private set; }
 
@@ -34,25 +33,32 @@ public class PetUIManager : UIManager
             SetExplanation();
             SetPrice();
             SetIsHave();
+            SetSize();
+            SetAssetIndex();
         }
 
-        public GameObject Prefab { get; private set; }
+        public GameObject PetObject { get; private set; }
         public string Name { get; private set; }
         public EGrade Grade { get; private set; }
         public string Explanation { get; private set; }
         public int Price { get; private set; }
         public bool IsHave { get; private set; }
+        public float Size { get; private set; }
+        public int AssetIndex { get; private set; }
 
-        public void SetPrefab(GameObject prefab) 
-        { 
-            Prefab = prefab;
-            Prefab.SetActive(false);
+        public void SetPrefab(GameObject prefab)
+        {
+            PetObject = Instantiate(prefab);
+            PetObject.transform.GetChild(AssetIndex).gameObject.SetActive(true);
+            PetObject.SetActive(false);
         }
         public void SetName(string name = "Temp") { Name = name; }
         public void SetGrade(EGrade grade = EGrade.A) { Grade = grade; }
         public void SetExplanation(string explain = "Temp") { Explanation = explain; }
         public void SetPrice(int price = 0) { Price = price; }
         public void SetIsHave(bool isHave = false) { IsHave = isHave; }
+        public void SetSize(float size = 0.3f) { Size = size; }
+        public void SetAssetIndex(int assetIndex = 0) { AssetIndex = assetIndex; }
     }
 
     public PetProfile[] PetList { get; private set; }
@@ -69,15 +75,15 @@ public class PetUIManager : UIManager
         PlayerNetworkingInPet = FindObjectOfType<PlayerNetworking>();
 #endif
         InitializePetInventory();
-        Debug.Log(PetList[0]);
     }
+
+    public PetData GetPetData() => _petData;
 
     public void LoadUI(_UI ui)
     {
 #if !debug
         _npcCollider.enabled = false;
 #endif
-
         LoadUI((int)ui);
     }
 
@@ -91,30 +97,15 @@ public class PetUIManager : UIManager
 
     private void InitializePetInventory()
     {
-#if debug
-        PetList = new PetProfile[_DB.GetPetInventoryList("Temp").Count];
-#else
-        PetList = new Pet[_DB.GetPetInventoryList(PlayerNetworkingInPet.MyNickname).Count];
-#endif
+        PetList = new PetProfile[_petData.PetObject.Length];
         
         for (int i = 0; i < PetList.Length; ++i)
         {
             PetList[i] = new PetProfile();
 
-            if (i % 2 == 0)
-            {
-                PetList[i].SetPrefab(_demoOne);
-            }
-            else
-            {
-                PetList[i].SetPrefab(_demoTwo);
-            }
+            PetList[i].SetPrefab(_petData.PetObject[i]);
 
-#if debug
-            PetList[i].SetIsHave(_DB.GetPetInventoryList("Temp")[i]["PetStatus"] == "Have");
-#else
-            PetList[i].SetIsHave(_DB.GetPetInventoryList(PlayerNetworkingInPet.MyNickname)[i]["PetIndex"] == "Have");
-#endif
+            PetList[i].SetIsHave(_petData.PetStatus[i] == EPetStatus.HAVE);
         }
     }
 }
