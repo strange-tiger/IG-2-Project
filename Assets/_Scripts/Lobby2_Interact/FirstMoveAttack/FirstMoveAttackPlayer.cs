@@ -5,8 +5,6 @@ using Photon.Pun;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
-    YieldInstruction _reviveCooldown = new WaitForSeconds(2.0f);
-
     [PunRPC]
     public void OnDamageByBottle()
     {
@@ -38,21 +36,22 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         {
             elapsedTime += Time.deltaTime;
 
-            if (elapsedTime > coolTime)
+            if (elapsedTime >= coolTime)
             {
                 PlayerControlManager.Instance.IsInvincible = false;
+                elapsedTime = 0;
                 Debug.Log("公利 惑怕 秦力");
                 break;
             }
             else
             {
                 PlayerControlManager.Instance.IsInvincible = true;
-                Debug.Log("公利 惑怕");
             }
             yield return null;
         }
     }
 
+    YieldInstruction _reviveCooldown = new WaitForSeconds(2.0f);
     IEnumerator ReviveCooldown()
     {
         yield return _reviveCooldown;

@@ -15,7 +15,6 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [SerializeField]
     private MeshRenderer _objMeshRenderer;
 
-    private YieldInstruction _respawnCoolTime = new WaitForSeconds(2f);
     private SyncOVRGrabbable _syncGrabbable;
     private PhotonView _grabber = null;
 
@@ -31,37 +30,32 @@ public class FirstMoveAttackObj : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
+        // 그랩 전까진 모든 Enter 무시
         if (_isGrabbed == false)
         {
             return;
         }
 
-        if(other.CompareTag("Player"))
+        _objCollider.isTrigger = true;
+
+        // 그랩 후 플레이어 태그를 가진 오브젝트만 인식
+        if(other.CompareTag("Player") == false)
         {
             return;
         }
-        Debug.Log("음 플레이어가 들어왔구만");
-        _objCollider.isTrigger = true;
 
+        // 플레이어 태그가 인식되면 현재 잡고있는 사람의 photonView와 비교 
         if(_grabber == other.transform.root.gameObject.GetPhotonView())
         {
             return;
         }
 
+        // 일치하지 않으면 병이 깨지고 타격을 받음
         PhotonView otherPlayer = other.transform.root.gameObject.GetPhotonView();
         otherPlayer.RPC("OnDamageByBottle", RpcTarget.All);
         this.photonView.RPC("Crack", RpcTarget.All);
-
     }
 
-    private void OnDestroy()
-    {
-        if(coRespawn != null)
-        {
-            StopCoroutine(coRespawn);
-            coRespawn = null;
-        }
-    }
 
     [PunRPC]
     public void OnGrabBegin()
@@ -76,8 +70,8 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         _isGrabbed = false;
         _objCollider.isTrigger = false;
         _grabber = null;
-        gameObject.transform.rotation = Quaternion.identity;
-        gameObject.transform.position = _objSpawnPos;
+        ObjPosReset();
+
         photonView.RPC("OnGrabEnd", RpcTarget.Others);
     }
 
@@ -97,38 +91,26 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         Respawn();
     }
 
-    public void TurnOff()
+    private void TurnOff()
     {
         _objMeshRenderer.enabled = false;
         _objCollider.enabled = false;
     }
+    public void Respawn()
+    {
+        ObjPosReset();
+        TurnOn();
+    }
+    private void ObjPosReset()
+    {
+        gameObject.transform.rotation = Quaternion.identity;
+        gameObject.transform.position = _objSpawnPos;
+    }
 
-    public void TurnOn()
+    private void TurnOn()
     {
         _objMeshRenderer.enabled = true;
         _objCollider.enabled = true;
     }
 
-    private Coroutine coRespawn = null;
-    public void Respawn()
-    {
-        Debug.Log("Respawn");
-        if(coRespawn != null)
-        {
-            // 코루틴이 도는 중간에 들어옴
-            return;
-        }
-        coRespawn = StartCoroutine(RespawnHelper());
-    }
-
-    IEnumerator RespawnHelper()
-    {
-        yield return _respawnCoolTime;
-        gameObject.transform.rotation = Quaternion.identity;
-        gameObject.transform.position = _objSpawnPos;
-        //photonView.RPC("OnOtherPlayerGrabEnd", RpcTarget.All);
-
-        coRespawn = null;
-        TurnOn();
-    }
 }
