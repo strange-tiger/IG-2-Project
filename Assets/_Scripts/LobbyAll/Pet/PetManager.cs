@@ -21,7 +21,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     private IEnumerator _gainExpCoroutine;
     private int _eqiupNum;
     private int _testNum = -1;
-    private bool _havePet;
+    private bool _havePet = false;
     void Awake()
     {
         _gainExpCoroutine = PetExpIncrease();
