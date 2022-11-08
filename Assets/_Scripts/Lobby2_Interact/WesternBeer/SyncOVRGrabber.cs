@@ -351,7 +351,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
         }
     }
 
-    protected void GrabEnd()
+    public void GrabEnd()
     {
         if (m_grabbedObj != null)
         {

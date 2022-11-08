@@ -15,8 +15,9 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [SerializeField]
     private MeshRenderer _objMeshRenderer;
 
+    private SyncOVRGrabber _grabber = null;
     private SyncOVRGrabbable _syncGrabbable;
-    private PhotonView _grabber = null;
+    private PhotonView _grabberPhotonView = null;
 
     private void Start()
     {
@@ -44,11 +45,11 @@ public class FirstMoveAttackObj : MonoBehaviourPun
             return;
         }
 
-        Debug.Log(_grabber);
+        Debug.Log(_grabberPhotonView);
         Debug.Log(other.transform.root.gameObject.GetPhotonView());
 
         // 플레이어 태그가 인식되면 현재 잡고있는 사람의 photonView와 비교 
-        if (_grabber == other.transform.root.gameObject.GetPhotonView())
+        if (_grabberPhotonView == other.transform.root.gameObject.GetPhotonView())
         {
             return;
         }
@@ -56,6 +57,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         // 일치하지 않으면 병이 깨지고 타격을 받음
         PhotonView photonView = other.GetComponent<PhotonView>();
 
+        _grabber.GrabEnd();
         this.photonView.RPC("Crack", RpcTarget.All);
         PlayerNetworking player = other.GetComponentInParent<PlayerNetworking>();
         player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
@@ -79,7 +81,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         Debug.Log("GrabEnd");
         _isGrabbed = false;
         _objCollider.isTrigger = false;
-        _grabber = null;
+        _grabberPhotonView = null;
         ObjPosReset();
 
         if (photonView.IsMine)
@@ -88,9 +90,10 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         }
     }
 
-    public void GrabberSetting(PhotonView photonView)
+    public void GrabberSetting(PhotonView photonView, SyncOVRGrabber grabber)
     {
-        _grabber = photonView;
+        _grabberPhotonView = photonView;
+        _grabber = grabber;
     }
 
     [PunRPC]
