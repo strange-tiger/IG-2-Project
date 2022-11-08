@@ -97,23 +97,15 @@ public class PetUIManager : UIManager
 
     private void InitializePetInventory()
     {
-#if debug
         PetList = new PetProfile[_petData.PetObject.Length];
-#else
-        PetList = new Pet[_DB.GetPetInventoryList(PlayerNetworkingInPet.MyNickname).Count];
-#endif
         
         for (int i = 0; i < PetList.Length; ++i)
         {
             PetList[i] = new PetProfile();
 
             PetList[i].SetPrefab(_petData.PetObject[i]);
-            
-#if debug
-            PetList[i].SetIsHave(_DB.GetPetInventoryList("Temp")[i]["PetStatus"] == "Have");
-#else
-            PetList[i].SetIsHave(_DB.GetPetInventoryList(PlayerNetworkingInPet.MyNickname)[i]["PetIndex"] == "Have");
-#endif
+
+            PetList[i].SetIsHave(_petData.PetStatus[i] == EPetStatus.HAVE);
         }
     }
 }

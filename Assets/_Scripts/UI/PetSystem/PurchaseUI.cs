@@ -1,4 +1,4 @@
-#define debug
+//#define debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -135,6 +135,14 @@ public class PurchaseUI : MonoBehaviour
                 petData.PetStatus[i] = EPetStatus.HAVE;
             }
         }
+
+#if !debug
+        if(_DB.UpdatePetInventoryData(_ui.PlayerNetworkingInPet.MyNickname, petData))
+        {
+            return;
+        }
+        Debug.LogError("Æê Á¤º¸ ¾÷µ« ½ÇÆÐ");
+#endif
     }
 
     private void OnClickLeftButton()
