@@ -83,16 +83,19 @@ public class PetManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied(int index)
     {
-        if(photonView.IsMine)
-        {
+        
             if (_petObject != null)
             {
-                PhotonNetwork.Destroy(_petObject);
                 //_petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(false);
+                PhotonNetwork.Destroy(_petObject);
             }
 
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
 
+        if (!photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(_petObject);
+        }
             _petLevel = _petData.PetLevel[index];
 
            _petExp = _petData.PetExp[index];
@@ -116,11 +119,7 @@ public class PetManager : MonoBehaviourPunCallbacks
                    _petMaxExp = 240;
                    return;
            }
-        }
-        if (!photonView.IsMine)
-        {
-            _petObject = _petData.PetObject[index];
-        }
+        
         
 
 
