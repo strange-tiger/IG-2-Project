@@ -90,13 +90,16 @@ public class PetManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.Destroy(_petObject);
             }
 
-            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
 
+        if (photonView.IsMine)
+        {
+            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
+        }
         if (!photonView.IsMine)
         {
-            PhotonNetwork.Destroy(_petObject);
+            _petObject = GameObject.Find($"{_petData.PetObject[index].name} (Clone)");
         }
-            _petLevel = _petData.PetLevel[index];
+        _petLevel = _petData.PetLevel[index];
 
            _petExp = _petData.PetExp[index];
 
