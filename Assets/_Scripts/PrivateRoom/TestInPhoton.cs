@@ -20,14 +20,14 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
-        Debug.Log("µÆ³ª?");
+        Debug.Log("ç¯å”±?");
     }
 
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
 
-        Debug.Log("µÆÁö?");
+        Debug.Log("ç¯ç˜¤?");
 
         while (!PhotonNetwork.JoinRandomOrCreateRoom());
     }
@@ -35,17 +35,16 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        
-        Debug.Log("µÆ±¸³ª?");
+ 
+        Debug.Log("ç¯å¤‡å”±?");
         PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
-        
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("µÈ°Å±¸³ª?");
+        Debug.Log("ç­‰èŠ­å¤‡å”±?");
 
         PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
     }
