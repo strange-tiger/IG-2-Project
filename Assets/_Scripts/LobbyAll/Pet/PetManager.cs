@@ -81,7 +81,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     {
         if(photonView.IsMine)
         {
-            _petObject = PhotonNetwork.Instantiate($"{_petData.PetObject[_eqiupNum].name}",transform.position,Quaternion.identity);
+            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[_eqiupNum].name}",transform.position,Quaternion.identity);
 
             _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
 

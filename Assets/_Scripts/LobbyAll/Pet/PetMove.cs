@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
 public enum EPetMoveState
 {
@@ -11,7 +12,7 @@ public enum EPetMoveState
     MAX
 }
 
-public class PetMove : MonoBehaviour
+public class PetMove : MonoBehaviourPun
 {
     public event Action<bool> OnStateChanged;
     public EPetMoveState State
@@ -49,14 +50,18 @@ public class PetMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player") && photonView.IsMine)
+        {
             State = EPetMoveState.IDLE;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && photonView.IsMine)
+        {
             State = EPetMoveState.MOVE;
+        }
     }
 
     public void SetPetManager(PetManager manager)
