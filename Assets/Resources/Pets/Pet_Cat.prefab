@@ -317,6 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2347318769797926927}
   - component: {fileID: 2347318769807753195}
+  - component: {fileID: 3804802459346536554}
   m_Layer: 0
   m_Name: Cat_LOD0
   m_TagString: Untagged
@@ -359,6 +360,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3804802459346536554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347318769798220847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &2347318769798220851
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +789,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2347318770373421356}
   - component: {fileID: 2347318770363533000}
+  - component: {fileID: 792497863108820214}
   m_Layer: 0
   m_Name: Cat_LOD2
   m_TagString: Untagged
@@ -814,6 +832,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &792497863108820214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347318770373063948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &2347318770373063950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2347318770411599240}
   - component: {fileID: 2347318770402040428}
+  - component: {fileID: 2009748697258246196}
   m_Layer: 0
   m_Name: Cat_LOD3
   m_TagString: Untagged
@@ -1173,6 +1208,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2009748697258246196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347318770411432360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &2347318770411432362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,7 +1551,6 @@ GameObject:
   - component: {fileID: 3166254405165201566}
   - component: {fileID: 6083162187182958115}
   - component: {fileID: 3992964988386226528}
-  - component: {fileID: 5951707102168110984}
   - component: {fileID: 7578483091557848347}
   - component: {fileID: 840138994902589362}
   - component: {fileID: 2978988496627304728}
@@ -1511,7 +1561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2347318771476099656
 Transform:
   m_ObjectHideFlags: 0
@@ -1609,7 +1659,10 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3992964988386226528}
-  - {fileID: 5951707102168110984}
+  - {fileID: 3804802459346536554}
+  - {fileID: 676587840235211155}
+  - {fileID: 792497863108820214}
+  - {fileID: 2009748697258246196}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1629,22 +1682,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &5951707102168110984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347318771476099662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
 --- !u!114 &7578483091557848347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1995,6 +2032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2347318771613199097}
   - component: {fileID: 2347318771603637533}
+  - component: {fileID: 676587840235211155}
   m_Layer: 0
   m_Name: Cat_LOD1
   m_TagString: Untagged
@@ -2037,6 +2075,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &676587840235211155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347318771613169369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &2347318771613169371
 GameObject:
   m_ObjectHideFlags: 0

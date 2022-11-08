@@ -84,41 +84,47 @@ public class PetManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied(int index)
     {
-        if (_petObject != null)
-        {
-            PhotonNetwork.Destroy(_petObject);
-            _petChildObject.SetActive(false);
-        }
         if(photonView.IsMine)
         {
-            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
-            
-            _petLevel = _petData.PetLevel[index];
-
-            _petChildObject = _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject;
-
-            _petExp = _petData.PetExp[index];
-
-            _petMaxExpType = _petData.PetMaxExp[index];
-
-            switch(_petMaxExpType)
+            if (_petObject != null)
             {
-                case EPetMaxExp.ONEHOUR:
-                    _petMaxExp = 60;
-                    return;
-
-                case EPetMaxExp.THREEHOUR:
-                    _petMaxExp = 180;
-                    return;
-
-                case EPetMaxExp.SECONDARYEVOL:
-                    if(_petLevel == 0)
-                    _petMaxExp = 120;
-                    else
-                    _petMaxExp = 240;
-                    return;
+                PhotonNetwork.Destroy(_petObject);
+                _petChildObject.SetActive(false);
             }
+
+            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
         }
+        if (!photonView.IsMine)
+        {
+            _petObject = _petData.PetObject[index];
+        }
+        _petLevel = _petData.PetLevel[index];
+
+       _petChildObject = _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject;
+
+       _petExp = _petData.PetExp[index];
+
+       _petMaxExpType = _petData.PetMaxExp[index];
+
+       switch(_petMaxExpType)
+       {
+           case EPetMaxExp.ONEHOUR:
+               _petMaxExp = 60;
+               return;
+
+           case EPetMaxExp.THREEHOUR:
+               _petMaxExp = 180;
+               return;
+
+           case EPetMaxExp.SECONDARYEVOL:
+               if(_petLevel == 0)
+               _petMaxExp = 120;
+               else
+               _petMaxExp = 240;
+               return;
+       }
+        
+
         _petChildObject.SetActive(true);
 
         _petChildObject.GetComponent<PetMove>().SetPetManager(this);
@@ -150,7 +156,7 @@ public class PetManager : MonoBehaviourPunCallbacks
         
 
         _eqiupNum = index;
-
+        if(photonView.IsMine)
         photonView.RPC("PetDataApplied", RpcTarget.All, _eqiupNum);
 
 
