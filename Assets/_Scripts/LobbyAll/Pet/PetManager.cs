@@ -12,7 +12,6 @@ public class PetManager : MonoBehaviourPunCallbacks
     [Header("PetData")]
     [SerializeField] PetData _petData;
     [SerializeField] GameObject _petObject;
-    [SerializeField] GameObject _petChildObject;
     [SerializeField] EPetMaxExp _petMaxExpType;
     [SerializeField] int _petLevel;
     [SerializeField] int _petExp;
@@ -89,7 +88,7 @@ public class PetManager : MonoBehaviourPunCallbacks
             if (_petObject != null)
             {
                 PhotonNetwork.Destroy(_petObject);
-                _petChildObject.SetActive(false);
+                _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(false);
             }
 
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
@@ -98,9 +97,8 @@ public class PetManager : MonoBehaviourPunCallbacks
         {
             _petObject = _petData.PetObject[index];
         }
+        
         _petLevel = _petData.PetLevel[index];
-
-       _petChildObject = _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject;
 
        _petExp = _petData.PetExp[index];
 
@@ -123,15 +121,15 @@ public class PetManager : MonoBehaviourPunCallbacks
                _petMaxExp = 240;
                return;
        }
-        
 
-        _petChildObject.SetActive(true);
 
-        _petChildObject.GetComponent<PetMove>().SetPetManager(this);
+        _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(true);
+
+        _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.GetComponent<PetMove>().SetPetManager(this);
 
         _petSize = _petData.PetSize[index];
 
-        _petChildObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
+        _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
 
     }
 
