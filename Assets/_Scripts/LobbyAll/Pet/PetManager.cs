@@ -31,13 +31,12 @@ public class PetManager : MonoBehaviourPunCallbacks
         if(_havePet)
         {
             photonView.RPC("PetDataApplied", RpcTarget.All);
-
-            if(_petMaxExpType != EPetMaxExp.NONE)
-            {
-                PetGainExp();
-            }
         }
 
+        if(_petMaxExpType != EPetMaxExp.NONE)
+        {
+            PetGainExp();
+        }
     }
 
 
