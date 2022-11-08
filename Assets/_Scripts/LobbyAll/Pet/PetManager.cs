@@ -30,7 +30,7 @@ public class PetManager : MonoBehaviourPunCallbacks
 
         if(_havePet)
         {
-            photonView.RPC("PetDataApplied", RpcTarget.All);
+            photonView.RPC("PetDataApplied", RpcTarget.All, _eqiupNum);
         }
 
         if(_petMaxExpType != EPetMaxExp.NONE)
@@ -80,27 +80,29 @@ public class PetManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void PetDataApplied()
+    public void PetDataApplied(int index)
     {
         if (_petObject != null)
         {
             PhotonNetwork.Destroy(_petObject);
-            _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(false);
+            _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(false);
+        }
+        if(photonView.IsMine)
+        {
+            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
         }
 
-        _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[_eqiupNum].name}",transform.position,Quaternion.identity);
+        _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(true);
 
-        _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
+        _petObject.transform.GetChild(_petData.PetAsset[index]).GetComponent<PetMove>().SetPetManager(this);
 
-        _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).GetComponent<PetMove>().SetPetManager(this);
+        _petLevel = _petData.PetLevel[index];
 
-        _petLevel = _petData.PetLevel[_eqiupNum];
+        _petExp = _petData.PetExp[index];
 
-        _petExp = _petData.PetExp[_eqiupNum];
+        _petMaxExpType = _petData.PetMaxExp[index];
 
-        _petMaxExpType = _petData.PetMaxExp[_eqiupNum];
-
-        _petSize = _petData.PetSize[_eqiupNum];
+        _petSize = _petData.PetSize[index];
 
         _petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
 
@@ -127,7 +129,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     {
         if (_havePet)
         {
-            photonView.RPC("PetDataApplied", newPlayer);
+            photonView.RPC("PetDataApplied", newPlayer, _eqiupNum);
         }
     }
 
@@ -143,7 +145,7 @@ public class PetManager : MonoBehaviourPunCallbacks
 
         _eqiupNum = index;
 
-        photonView.RPC("PetDataApplied", RpcTarget.All);
+        photonView.RPC("PetDataApplied", RpcTarget.All, _eqiupNum);
 
 
         PetGainExp();
