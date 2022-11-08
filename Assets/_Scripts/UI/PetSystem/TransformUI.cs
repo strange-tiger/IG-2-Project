@@ -115,12 +115,15 @@ public class TransformUI : MonoBehaviour
 
     private void TransformPet()
     {
-#if !debug
-        if (_DB.UseGold(_ui.PlayerNetworkingInPet.MyNickname, int.Parse(_petPrice.text)))
+        if (_doTransformScale)
         {
-            return;
+            TransformPetScale(_transformIndex);
         }
-#endif
+        else
+        {
+            TransformPetChildAsset(_transformIndex);
+        }
+
         Debug.Log("º¯È¯");
     }
 
@@ -176,15 +179,6 @@ public class TransformUI : MonoBehaviour
         }
         --_transformIndex;
 
-        if (_doTransformScale)
-        {
-            TransformPetScale(_transformIndex);
-        }
-        else
-        {
-            TransformPetChildAsset(_transformIndex);
-        }
-
         ShowTransformOption(_transformIndex);
     }
 
@@ -195,15 +189,6 @@ public class TransformUI : MonoBehaviour
             _transformIndex = -1;
         }
         ++_transformIndex;
-
-        if (_doTransformScale)
-        {
-            TransformPetScale(_transformIndex);
-        }
-        else
-        {
-            TransformPetChildAsset(_transformIndex);
-        }
 
         ShowTransformOption(_transformIndex);
     }
