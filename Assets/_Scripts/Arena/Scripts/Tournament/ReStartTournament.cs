@@ -18,25 +18,15 @@ public class ReStartTournament : MonoBehaviourPun
 
     private void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (_bettingUI.activeSelf == false)
         {
-            if (_bettingUI.activeSelf == false)
+            _curTime += Time.deltaTime;
+
+            if (_curTime >= _reStartTime)
             {
-                _curTime += Time.deltaTime;
-                Debug.Log((int)_curTime);
-                if (_curTime >= _reStartTime)
-                {
-                    _startBattle.Invoke();
-                    photonView.RPC("ClientsStartBattle", RpcTarget.Others);
-                    _curTime -= _curTime;
-                }
+                _startBattle.Invoke();
+                _curTime -= _curTime;
             }
         }
-    }
-
-    [PunRPC]
-    public void ClientsStartBattle()
-    {
-        _startBattle.Invoke();
     }
 }
