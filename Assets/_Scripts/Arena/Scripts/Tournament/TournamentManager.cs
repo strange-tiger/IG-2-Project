@@ -23,7 +23,7 @@ public class TournamentManager : MonoBehaviourPun
     // private UnityEvent _startBattle = new UnityEvent();
 
     //private Action _gameStartActionEvent;
-
+    
     private int _selectGroupNum;
     public int SelectGroupNum { get { return _selectGroupNum; } }
 
@@ -56,11 +56,10 @@ public class TournamentManager : MonoBehaviourPun
             if (_curTime >= _reStartTime)
             {
                 GameStartEvent();
+
                 _curTime -= _curTime;
             }
         }
-
-        Debug.Log(PhotonNetwork.PlayerList);
     }
 
     private void GameStartEvent()
@@ -68,6 +67,8 @@ public class TournamentManager : MonoBehaviourPun
         _selectGroupNum = UnityEngine.Random.Range(0, _groups.Length);
 
         photonView.RPC("ClientsSetUI", RpcTarget.All);
+
+        Debug.Log("GameStartEvent µø¿€");
 
         StartCoroutine(GameStart());
     }
@@ -98,5 +99,7 @@ public class TournamentManager : MonoBehaviourPun
         yield return _startDelay;
 
         photonView.RPC("ClientsMustDo", RpcTarget.All, _selectGroupNum);
+
+        PhotonNetwork.SendAllOutgoingCommands();
     }
 }
