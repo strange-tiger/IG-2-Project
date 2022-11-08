@@ -39,40 +39,53 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         _objCollider.isTrigger = true;
 
         // 그랩 후 플레이어 태그를 가진 오브젝트만 인식
-        if(other.CompareTag("Player") == false)
+        if(other.CompareTag("PlayerBody") == false)
         {
             return;
         }
 
+        Debug.Log(_grabber);
+        Debug.Log(other.transform.root.gameObject.GetPhotonView());
+
         // 플레이어 태그가 인식되면 현재 잡고있는 사람의 photonView와 비교 
-        if(_grabber == other.transform.root.gameObject.GetPhotonView())
+        if (_grabber == other.transform.root.gameObject.GetPhotonView())
         {
             return;
         }
 
         // 일치하지 않으면 병이 깨지고 타격을 받음
-        PhotonView otherPlayer = other.transform.root.gameObject.GetPhotonView();
-        otherPlayer.RPC("OnDamageByBottle", RpcTarget.All);
+        PhotonView photonView = other.GetComponent<PhotonView>();
+
         this.photonView.RPC("Crack", RpcTarget.All);
+        PlayerNetworking player = other.GetComponentInParent<PlayerNetworking>();
+        player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
     }
 
 
     [PunRPC]
     public void OnGrabBegin()
     {
+        Debug.Log("GrabBegin");
         _isGrabbed = true;
-        photonView.RPC("OnGrabBegin", RpcTarget.Others);
+        if(photonView.IsMine)
+        {
+            photonView.RPC("OnGrabBegin", RpcTarget.Others);
+        }
     }
 
     [PunRPC]
     public void OnGrabEnd()
     {
+        Debug.Log("GrabEnd");
         _isGrabbed = false;
         _objCollider.isTrigger = false;
         _grabber = null;
         ObjPosReset();
 
-        photonView.RPC("OnGrabEnd", RpcTarget.Others);
+        if (photonView.IsMine)
+        {
+            photonView.RPC("OnGrabEnd", RpcTarget.Others);
+        }
     }
 
     public void GrabberSetting(PhotonView photonView)

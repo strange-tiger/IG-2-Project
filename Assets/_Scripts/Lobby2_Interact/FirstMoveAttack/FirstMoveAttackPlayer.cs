@@ -6,8 +6,13 @@ using Photon.Pun;
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
     [PunRPC]
-    public void OnDamageByBottle()
+    public void OnDamageByBottle(int damagedPlayerID)
     {
+        if (PhotonNetwork.GetPhotonView(damagedPlayerID).IsMine == false)
+        {
+            return;
+        }
+
         if (PlayerControlManager.Instance.IsInvincible == true)
         {
             return;

@@ -379,7 +379,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
         }
         else
         {
-            _grabbedHandCollider.isTrigger = false;
+            //_grabbedHandCollider.isTrigger = false;
             _grabbedHandCollider = null;
         }
         m_grabbedObj = null;
