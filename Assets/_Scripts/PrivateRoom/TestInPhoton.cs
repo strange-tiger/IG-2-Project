@@ -37,7 +37,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnCreatedRoom();
         
         Debug.Log("µÆ±¸³ª?");
-        PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
+        PhotonNetwork.LoadLevel("Pet_Interaction");
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
         
     }

@@ -76,6 +76,10 @@ GameObject:
   - component: {fileID: 2924566184500729374}
   - component: {fileID: 1749157816016194112}
   - component: {fileID: 1954920861905468985}
+  - component: {fileID: 4957075532388029594}
+  - component: {fileID: 6403500329432515509}
+  - component: {fileID: 3154957197892687941}
+  - component: {fileID: 2932932815522262126}
   m_Layer: 0
   m_Name: Puffe_B
   m_TagString: Untagged
@@ -201,6 +205,69 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters: []
   m_SynchronizeLayers: []
+--- !u!114 &4957075532388029594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165826849322659089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20e49dc4f40e98419f2a53619d82314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &6403500329432515509
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165826849322659089}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!54 &3154957197892687941
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165826849322659089}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!135 &2932932815522262126
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165826849322659089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1165826849322659091
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +712,10 @@ GameObject:
   - component: {fileID: 4192286489362460802}
   - component: {fileID: 441769224822065965}
   - component: {fileID: 1687960186560299084}
+  - component: {fileID: 5326218599453048935}
+  - component: {fileID: 7198186019321183799}
+  - component: {fileID: 2229060461783737036}
+  - component: {fileID: 594059554217282252}
   m_Layer: 0
   m_Name: Puffe_A
   m_TagString: Untagged
@@ -732,7 +803,9 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 441769224822065965}
+  - {fileID: 1687960186560299084}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -768,6 +841,69 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters: []
   m_SynchronizeLayers: []
+--- !u!114 &5326218599453048935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461542674739293029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20e49dc4f40e98419f2a53619d82314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &7198186019321183799
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461542674739293029}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!54 &2229060461783737036
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461542674739293029}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!135 &594059554217282252
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461542674739293029}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7461542674739293031
 GameObject:
   m_ObjectHideFlags: 0
