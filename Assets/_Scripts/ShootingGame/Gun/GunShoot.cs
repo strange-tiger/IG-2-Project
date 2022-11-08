@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Photon.Pun;
 using PlayerNumber = ShootingGameManager.EShootingPlayerNumber;
 
-public class GunShoot : MonoBehaviour
+public class GunShoot : MonoBehaviourPun
 {
     [Header("Position")]
     [SerializeField] private Vector3 _offsetPosition = new Vector3(0.0478f, 0.0146f, 0.1126f);
-    [SerializeField] private Transform[] handPosition;
+    [SerializeField] private Transform[] _handPositions;
 
     [Header("BasicState")]
     [SerializeField] private float _gunRange = 18f;
@@ -64,19 +65,6 @@ public class GunShoot : MonoBehaviour
 
     private void Awake()
     {
-        _myNickname = transform.parent.GetComponentInChildren<PlayerNetworking>().MyNickname;
-
-        // 마스터일 경우에만 실행
-        FindObjectOfType<ShootingGameManager>().SetPlayerNumberAndColor(out _playerColor, out _playerNumber, in _myNickname);
-
-        // 리볼버가 들려있는 위치 확인하기
-        _input = transform.root.GetComponentInChildren<PlayerInput>();
-        _primaryController = (int)_input.PrimaryController;
-        _mainController = _primaryController == 0 ? OVRInput.Controller.LHand : OVRInput.Controller.RHand;
-
-        transform.parent = handPosition[_primaryController];
-        transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
-
         // 이팩트를 위한 기타 컴포넌트 가져오기
         _shootEffects = GetComponentsInChildren<ParticleSystem>();
         _audioSource = GetComponent<AudioSource>();
@@ -96,6 +84,30 @@ public class GunShoot : MonoBehaviour
         _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
 
         _lineRenderer = GetComponent<LineRenderer>();
+    }
+
+    [PunRPC]
+    public void Reset(Transform[] handPositions, ShootingGameManager shootingGameManager)
+    {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
+
+        _handPositions = handPositions;
+
+        _myNickname = transform.parent.GetComponentInChildren<PlayerNetworking>().MyNickname;
+
+        // 마스터일 경우에만 실행
+        shootingGameManager.AddPlayerToGame(out _playerColor, out _playerNumber, in _myNickname);
+
+        // 리볼버가 들려있는 위치 확인하기
+        _input = transform.root.GetComponentInChildren<PlayerInput>();
+        _primaryController = (int)_input.PrimaryController;
+        _mainController = _primaryController == 0 ? OVRInput.Controller.LHand : OVRInput.Controller.RHand;
+
+        transform.parent = _handPositions[_primaryController];
+        transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
     }
 
     private void Update()

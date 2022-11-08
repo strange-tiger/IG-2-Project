@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Asset.MySql;
+using Photon.Pun;
 
-public class ShootingGameManager : MonoBehaviour
+public class ShootingGameManager : MonoBehaviourPun
 {
     public enum EShootingPlayerNumber
     {
@@ -38,8 +39,9 @@ public class ShootingGameManager : MonoBehaviour
         new Color(255/255, 50/255, 255/255),
         new Color(53/255, 227/255, 34/255)
     };
-    //[SerializeField] private Transform[] _playerPosition;
+    [SerializeField] private Transform[] _playerPosition;
     private int _playerCount = 0;
+    public int PlayerCount { get => _playerCount; set => _playerCount = value; }
 
     public class ShootingPlayerInfo
     {
@@ -69,14 +71,17 @@ public class ShootingGameManager : MonoBehaviour
     }
 
     public UnityEvent<EShootingPlayerNumber, int> OnAddScore = new UnityEvent<EShootingPlayerNumber, int>();
-
+    public UnityEvent OnGameOver = new UnityEvent();
 
     private AudioSource _audioSource;
 
     private void Awake()
     {
+        _waitForSecond = new WaitForSeconds(1f);
+
+        _audioSource = GetComponent<AudioSource>();
 #if _DEV_MODE_
-        for(int i = 0; i< _MAX_PLAYER_COUNT; ++i)
+        for (int i = 0; i < _MAX_PLAYER_COUNT; ++i)
         {
             _shootingPlayerInfos.Add(new ShootingPlayerInfo()
             {
@@ -86,14 +91,17 @@ public class ShootingGameManager : MonoBehaviour
                 PlayerScore = 3
             });
         }
+        StartCoroutine(CoGameStart());
 #endif
-        _waitForSecond = new WaitForSeconds(1f);
+    }
 
-        _audioSource = GetComponent<AudioSource>();
+    public void StartGame(List<GameObject> playerList)
+    {
         StartCoroutine(CoGameStart());
     }
 
-    public void SetPlayerNumberAndColor(out Color playerColor, out EShootingPlayerNumber playerNumber, in string playerNickname)
+    
+    public void AddPlayerToGame(out Color playerColor, out EShootingPlayerNumber playerNumber, in string playerNickname)
     {
         _shootingPlayerInfos.Add(new ShootingPlayerInfo()
         {
@@ -106,6 +114,11 @@ public class ShootingGameManager : MonoBehaviour
 
         playerColor = _shootingPlayerInfos[_playerCount].PlayerColor;
         playerNumber = _shootingPlayerInfos[_playerCount].PlayerNumber;
+    }
+
+    public void SetPlayerInfo(out Color playerColor, out EShootingPlayerNumber playerNumber, in string playerNickname)
+    {
+
     }
 
     private IEnumerator CoGameStart()
