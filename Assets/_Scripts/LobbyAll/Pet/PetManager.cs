@@ -20,48 +20,51 @@ public class PetManager : MonoBehaviourPunCallbacks
     private YieldInstruction _gainExpTime = new WaitForSeconds(60f);
     private IEnumerator _gainExpCoroutine;
     private int _eqiupNum;
-    private int _testNum = 0;
+    private bool _havePet;
+
     void Awake()
     {
         _gainExpCoroutine = PetExpIncrease();
 
         PetDataInitializeFromDB();
 
-        photonView.RPC("PetDataApplied", RpcTarget.All);
-
-        if(_petMaxExpType != EPetMaxExp.NONE)
+        if(_havePet)
         {
-            PetGainExp();
+            photonView.RPC("PetDataApplied", RpcTarget.All);
+
+            if(_petMaxExpType != EPetMaxExp.NONE)
+            {
+                PetGainExp();
+            }
         }
+
     }
 
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            if(_testNum == 15)
-            {
-                _testNum = 0;
-            }
-            else
-            {
-                _testNum++;
-            }
-
-            PetChange(_testNum);
-        }
-    }
     private void PetDataInitializeFromDB()
     {
         MySqlSetting.Init();
         _petData = MySqlSetting.GetPetInventoryData("Temp",_petData);
+
+        for(int i = 0; i < _petData.PetStatus.Length; ++i)
+        {
+            if(_petData.PetStatus[i] == EPetStatus.EQUIPED)
+            {
+                _eqiupNum = i;
+                _havePet = true;
+                break;
+            }
+            else
+            {
+                _havePet = false;
+            }
+        }
     }
 
     [PunRPC]
-    private void PetDataApplied()
+    public void PetDataApplied()
     {
-        _petObject = Instantiate(_petData.PetObject[_eqiupNum]);
+        _petObject = Instantiate(_petData.PetObject[_eqiupNum],gameObject.transform);
 
         _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
 
@@ -116,6 +119,7 @@ public class PetManager : MonoBehaviourPunCallbacks
         }
 
         _eqiupNum = index;
+
         photonView.RPC("PetDataApplied", RpcTarget.All);
 
 
