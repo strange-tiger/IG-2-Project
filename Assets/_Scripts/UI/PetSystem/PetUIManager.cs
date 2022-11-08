@@ -37,7 +37,7 @@ public class PetUIManager : UIManager
             SetAssetIndex();
         }
 
-        public GameObject Prefab { get; private set; }
+        public GameObject PetObject { get; private set; }
         public string Name { get; private set; }
         public EGrade Grade { get; private set; }
         public string Explanation { get; private set; }
@@ -46,10 +46,11 @@ public class PetUIManager : UIManager
         public float Size { get; private set; }
         public int AssetIndex { get; private set; }
 
-        public void SetPrefab(GameObject prefab) 
-        { 
-            Prefab = Instantiate(prefab);
-            Prefab.SetActive(false);
+        public void SetPrefab(GameObject prefab)
+        {
+            PetObject = Instantiate(prefab);
+            PetObject.transform.GetChild(AssetIndex).gameObject.SetActive(true);
+            PetObject.SetActive(false);
         }
         public void SetName(string name = "Temp") { Name = name; }
         public void SetGrade(EGrade grade = EGrade.A) { Grade = grade; }

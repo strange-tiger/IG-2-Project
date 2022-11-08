@@ -318,6 +318,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d429fc6b9b3814c9314dfa88c9e07b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1351134128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1351134129}
+  - component: {fileID: 1351134130}
+  m_Layer: 0
+  m_Name: PetManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1351134129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351134128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1351134130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351134128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2db34632a91b024ab308d2203af868c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _petData: {fileID: 11400000, guid: 01e67c6a783c3f749baf213db99f3619, type: 2}
+  _petObject: {fileID: 0}
+  _petLevel: 0
+  _petEXP: 0
+  _petSize: 0
 --- !u!1 &1744182747
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,14 +470,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PetVRUI
       objectReference: {fileID: 0}
-    - target: {fileID: 6510143162378419232, guid: 6d94dbace32c03a4fa5e7bb07e4d205d, type: 3}
-      propertyPath: _demoOne
-      value: 
-      objectReference: {fileID: 1081447616647149735, guid: c690d3146e64be3489ee31e673c75b8a, type: 3}
-    - target: {fileID: 6510143162378419232, guid: 6d94dbace32c03a4fa5e7bb07e4d205d, type: 3}
-      propertyPath: _demoTwo
-      value: 
-      objectReference: {fileID: 6752917909861367573, guid: f6dbc9b626963514e9f8dfaa22085389, type: 3}
     - target: {fileID: 7486782538544931274, guid: 6d94dbace32c03a4fa5e7bb07e4d205d, type: 3}
       propertyPath: m_RootOrder
       value: 3

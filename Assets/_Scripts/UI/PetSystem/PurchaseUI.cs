@@ -181,7 +181,7 @@ public class PurchaseUI : MonoBehaviour
 
     private void ShowCurrentPet()
     {
-        TogglePetObject(CurrentPet.Prefab);
+        TogglePetObject(CurrentPet.PetObject);
 
         _petName.text = CurrentPet.Name;
 
