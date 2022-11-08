@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pet : InteracterableObject
+public class PetInteract : InteracterableObject
 {
 
     [SerializeField] EPetEvolutionCount _petEvolutionCount;

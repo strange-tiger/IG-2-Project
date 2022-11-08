@@ -1,4 +1,4 @@
-#define debug
+//#define debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -106,6 +106,14 @@ public class TransformUI : MonoBehaviour
         {
             OnClickRightButton();
         }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            OnClickLeftTransformButton();
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            OnClickRightTransformButton();
+        }
         else if (Input.GetKeyDown(KeyCode.T))
         {
             TransformPet();
@@ -115,16 +123,44 @@ public class TransformUI : MonoBehaviour
 
     private void TransformPet()
     {
-#if !debug
-        if (_DB.UseGold(_ui.PlayerNetworkingInPet.MyNickname, int.Parse(_petPrice.text)))
+        if (_doTransformScale)
         {
-            return;
+            TransformPetScale(_transformIndex);
         }
-#endif
+        else
+        {
+            TransformPetChildAsset(_transformIndex);
+        }
+
         Debug.Log("변환");
     }
 
-    private void Close() => _ui.LoadUI(_UI.POPUP);
+    private void Close()
+    {
+        _ui.LoadUI(_UI.POPUP);
+
+        PetData petData = _ui.GetPetData();
+        for (int i = 0; i < _ui.PetList.Length; ++i)
+        {
+            if (petData.PetSize[i] != _ui.PetList[i].Size)
+            {
+                petData.PetSize[i] = _ui.PetList[i].Size;
+            }
+
+            if (petData.PetAsset[i] != _ui.PetList[i].AssetIndex)
+            {
+                petData.PetAsset[i] = _ui.PetList[i].AssetIndex;
+            }
+        }
+
+#if !debug
+        if(_DB.UpdatePetInventoryData(_ui.PlayerNetworkingInPet.MyNickname, petData))
+        {
+            return;
+        }
+        Debug.LogError("펫 정보 업뎃 실패");
+#endif
+    }
 
     private void OnClickLeftButton()
     {
@@ -176,57 +212,42 @@ public class TransformUI : MonoBehaviour
         }
         --_transformIndex;
 
-        if (_doTransformScale)
-        {
-            TransformPetScale(_transformIndex);
-        }
-        else
-        {
-            TransformPetChildAsset(_transformIndex);
-        }
-
         ShowTransformOption(_transformIndex);
     }
 
     private void OnClickRightTransformButton()
     {
-        if (_transformIndex + 1 >= _ui.PetList.Length)
+        if (_transformIndex + 1 >= _maxTransformIndex)
         {
             _transformIndex = -1;
         }
         ++_transformIndex;
-
-        if (_doTransformScale)
-        {
-            TransformPetScale(_transformIndex);
-        }
-        else
-        {
-            TransformPetChildAsset(_transformIndex);
-        }
 
         ShowTransformOption(_transformIndex);
     }
 
     private void TransformPetChildAsset(int index)
     {
-        for(int i = 0; i < CurrentPet.Prefab.transform.childCount; ++i)
+        _ui.PetList[_index].SetAssetIndex(index);
+
+        for (int i = 0; i < CurrentPet.PetObject.transform.childCount; ++i)
         {
-            CurrentPet.Prefab.transform.GetChild(i).gameObject.SetActive(false);
+            CurrentPet.PetObject.transform.GetChild(i).gameObject.SetActive(false);
         }
 
-        CurrentPet.Prefab.transform.GetChild(index).gameObject.SetActive(true);
+        CurrentPet.PetObject.transform.GetChild(index).gameObject.SetActive(true);
     }
 
     private static readonly float[] TRANSFORM_SCALE = new float[3] { 0.3f, 0.5f, 1f };
     private void TransformPetScale(int index)
     {
-        CurrentPet.Prefab.transform.localScale = TRANSFORM_SCALE[index] * Vector3.one;
+        _ui.PetList[_index].SetSize(TRANSFORM_SCALE[index]);
+        CurrentPet.PetObject.transform.localScale = 100f * TRANSFORM_SCALE[index] * Vector3.one;
     }
 
     private void ShowCurrentPet()
     {
-        TogglePetObject(CurrentPet.Prefab);
+        TogglePetObject(CurrentPet.PetObject);
 
         _petName.text = CurrentPet.Name;
 
@@ -242,6 +263,7 @@ public class TransformUI : MonoBehaviour
         _petObject.SetActive(false);
         _petObject = currentPet;
         _petObject.transform.parent = transform;
+        _petObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         _petObject.transform.localPosition = Vector3.zero;
         _petObject.SetActive(true);
     }
@@ -261,7 +283,7 @@ public class TransformUI : MonoBehaviour
 
     private void UpdateTransformOption()
     {
-        if (CurrentPet.Prefab.transform.GetComponentInChildren<Pet>().PetEvolutionCount == EPetEvolutionCount.NONE)
+        if (CurrentPet.PetObject.transform.GetComponentInChildren<PetInteract>().PetEvolutionCount == EPetEvolutionCount.NONE)
         {
             _maxTransformIndex = TRANSFORM_SCALE.Length;
 
@@ -269,7 +291,7 @@ public class TransformUI : MonoBehaviour
         }
         else
         {
-            _maxTransformIndex = CurrentPet.Prefab.transform.childCount;
+            _maxTransformIndex = CurrentPet.PetObject.transform.childCount;
 
             _doTransformScale = false;
         }
@@ -286,7 +308,7 @@ public class TransformUI : MonoBehaviour
         else
         {
             // 임시
-            _petTransformOption.text = CurrentPet.Prefab.transform.GetChild(index).name;
+            _petTransformOption.text = CurrentPet.PetObject.transform.GetChild(index).name;
         }
     }
 }

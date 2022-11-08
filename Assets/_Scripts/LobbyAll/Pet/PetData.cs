@@ -6,14 +6,17 @@ public class PetData : ScriptableObject
     [SerializeField] GameObject[] petObject;
     public GameObject[] PetObject { get { return petObject; } }
 
+    [SerializeField] EPetMaxExp[] petMaxExp;
+    public EPetMaxExp[] PetMaxExp { get { return petMaxExp; } }
+
     [SerializeField] EPetStatus[] petStatus;
     public EPetStatus[] PetStatus { get { return petStatus; } }
 
     [SerializeField] int[] petLevel;
     public int[] PetLevel { get { return petLevel; } }
 
-    [SerializeField] int[] petEXP;
-    public int[] PetEXP { get { return petEXP; } }
+    [SerializeField] int[] petExp;
+    public int[] PetExp { get { return petExp; } }
 
     [SerializeField] float[] petSize;
     public float[] PetSize { get { return petSize; } }
@@ -28,3 +31,11 @@ public enum EPetStatus
     HAVE,
     EQUIPED
 };
+
+public enum EPetMaxExp
+{
+    NONE,
+    ONEHOUR,
+    THREEHOUR,
+    SECONDARYEVOL,
+}
