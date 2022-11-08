@@ -44,6 +44,7 @@ public class PurchaseUI : MonoBehaviour
     private PetUIManager.PetProfile _currentPet = new PetUIManager.PetProfile();
 
     private int _index = 0;
+    private int _purchaseAmount = 0;
 
     private void OnEnable()
     {
@@ -99,11 +100,12 @@ public class PurchaseUI : MonoBehaviour
     private void Purchase()
     {
 #if !debug
-        if (_DB.UseGold(_ui.PlayerNetworkingInPet.MyNickname, int.Parse(_petPrice.text)))
+        if (_DB.CheckHaveGold(_ui.PlayerNetworkingInPet.MyNickname) > _purchaseAmount + int.Parse(_petPrice.text))
         {
             return;
         }
 #endif
+        _purchaseAmount += int.Parse(_petPrice.text);
 
         CurrentPet.SetIsHave(true);
         _ui.PetList[_index].SetIsHave(true);
@@ -111,7 +113,29 @@ public class PurchaseUI : MonoBehaviour
         _purchaseButton.enabled = false;
     }
 
-    private void Close() => _ui.LoadUI(_UI.POPUP);
+    private void Close()
+    {
+        _ui.LoadUI(_UI.POPUP);
+
+#if !debug
+        if(!_DB.UseGold(_ui.PlayerNetworkingInPet.MyNickname, _purchaseAmount))
+        {
+            _purchaseAmount = 0;
+            return;
+        }
+#endif
+        _purchaseAmount = 0;
+
+        PetData petData = _ui.GetPetData();
+        for(int i = 0; i < _ui.PetList.Length; ++i)
+        {
+            if (petData.PetStatus[i] == EPetStatus.NONE
+                && _ui.PetList[i].IsHave)
+            {
+                petData.PetStatus[i] = EPetStatus.HAVE;
+            }
+        }
+    }
 
     private void OnClickLeftButton()
     {

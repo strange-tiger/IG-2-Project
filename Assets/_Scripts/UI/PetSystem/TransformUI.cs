@@ -127,7 +127,24 @@ public class TransformUI : MonoBehaviour
         Debug.Log("º¯È¯");
     }
 
-    private void Close() => _ui.LoadUI(_UI.POPUP);
+    private void Close()
+    {
+        _ui.LoadUI(_UI.POPUP);
+
+        PetData petData = _ui.GetPetData();
+        for (int i = 0; i < _ui.PetList.Length; ++i)
+        {
+            if (petData.PetSize[i] != _ui.PetList[i].Size)
+            {
+                petData.PetSize[i] = _ui.PetList[i].Size;
+            }
+
+            if (petData.PetAsset[i] != _ui.PetList[i].AssetIndex)
+            {
+                petData.PetAsset[i] = _ui.PetList[i].AssetIndex;
+            }
+        }
+    }
 
     private void OnClickLeftButton()
     {
@@ -195,7 +212,9 @@ public class TransformUI : MonoBehaviour
 
     private void TransformPetChildAsset(int index)
     {
-        for(int i = 0; i < CurrentPet.Prefab.transform.childCount; ++i)
+        _ui.PetList[_index].SetAssetIndex(index);
+
+        for (int i = 0; i < CurrentPet.Prefab.transform.childCount; ++i)
         {
             CurrentPet.Prefab.transform.GetChild(i).gameObject.SetActive(false);
         }
@@ -206,6 +225,7 @@ public class TransformUI : MonoBehaviour
     private static readonly float[] TRANSFORM_SCALE = new float[3] { 0.3f, 0.5f, 1f };
     private void TransformPetScale(int index)
     {
+        _ui.PetList[_index].SetSize(TRANSFORM_SCALE[index]);
         CurrentPet.Prefab.transform.localScale = TRANSFORM_SCALE[index] * Vector3.one;
     }
 
