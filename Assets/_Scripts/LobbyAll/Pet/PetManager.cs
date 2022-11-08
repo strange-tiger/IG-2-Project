@@ -7,18 +7,30 @@ using Asset.MySql;
 public class PetManager : MonoBehaviour
 {
     [Header("PetData")]
-    [SerializeField] Pet _pet;
     [SerializeField] PetData _petData;
     [SerializeField] GameObject _petObject;
+    [SerializeField] EPetMaxExp _petMaxExpType;
     [SerializeField] int _petLevel;
-    [SerializeField] int _petEXP;
+    [SerializeField] int _petExp;
+    [SerializeField] int _petMaxExp;
     [SerializeField] float _petSize;
-    private int _eqiupNum;
 
+    private YieldInstruction _gainExpTime = new WaitForSeconds(60f);
+    private IEnumerator _gainExpCoroutine;
+    private int _eqiupNum;
+    private int _testNum = 0;
     void Awake()
-    { 
+    {
+        _gainExpCoroutine = PetExpIncrease();
+
         PetDataInitializeFromDB();
+
         PetDataApplied();
+
+        if(_petMaxExpType != EPetMaxExp.NONE)
+        {
+            PetGainExp();
+        }
     }
 
 
@@ -26,7 +38,16 @@ public class PetManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.K))
         {
-            PetDataUpdate();
+            if(_testNum == 15)
+            {
+                _testNum = 0;
+            }
+            else
+            {
+                _testNum++;
+            }
+
+            PetChange(_testNum);
         }
     }
     private void PetDataInitializeFromDB()
@@ -41,21 +62,111 @@ public class PetManager : MonoBehaviour
 
         _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
 
-        _pet = _petObject.GetComponent<Pet>();
-
         _petLevel = _petData.PetLevel[_eqiupNum];
 
-        _petEXP = _petData.PetExp[_eqiupNum];
+        _petExp = _petData.PetExp[_eqiupNum];
+
+        _petMaxExpType = _petData.PetMaxExp[_eqiupNum];
+
+        _petSize = _petData.PetSize[_eqiupNum];
+
+        _petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
+
+        switch(_petMaxExpType)
+        {
+            case EPetMaxExp.ONEHOUR:
+                _petMaxExp = 60;
+                return;
+
+            case EPetMaxExp.THREEHOUR:
+                _petMaxExp = 180;
+                return;
+
+            case EPetMaxExp.SECONDARYEVOL:
+                if(_petLevel == 0)
+                _petMaxExp = 120;
+                else
+                _petMaxExp = 240;
+                return;
+        }
     }
 
+
+    /// <summary>
+    /// Index를 받아 PetData를 바꿔줌. 만약 이미 펫이 존재했으면, Destroy해주고, PetPrefab 자식의 SetActive를 False로 바꿔줌.
+    /// </summary>
+    /// <param name="index"></param>
     public void PetChange(int index)
     {
+        PetGainExpStop();
+
+        if (_petObject != null)
+        {
+            Destroy(_petObject);
+            _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(false);
+        }
+
         _eqiupNum = index;
         PetDataApplied();
+
+        PetGainExp();
     }
 
-   private void PetDataUpdate()
+    private IEnumerator PetExpIncrease()
     {
-        MySqlSetting.UpdatePetInventoryData("Temp", _petData);
+        while (true)
+        {
+            yield return _gainExpTime;
+
+            _petExp++;
+
+            _petData.PetExp[_eqiupNum] = _petExp;
+
+            PetDataUpdate("Temp");
+
+            if(_petExp == _petMaxExp)
+            {
+                PetLevelUp();
+            }
+            
+        }
+    }
+
+    private void PetLevelUp()
+    {
+        PetGainExpStop();
+
+        _petLevel++;
+
+        _petData.PetLevel[_eqiupNum] = _petLevel;
+
+        if (_petMaxExpType == EPetMaxExp.SECONDARYEVOL && _petLevel < 2)
+        {
+            _petData.PetExp[_eqiupNum] = 0;
+            _petMaxExp *= 2;
+            PetGainExp();
+        }
+
+    }
+
+    private void PetGainExp()
+    {
+        if(_petExp == _petMaxExp)
+        {
+            return;
+        }
+
+
+        StartCoroutine(_gainExpCoroutine);
+    }
+
+    private void PetGainExpStop()
+    {
+        StopCoroutine(_gainExpCoroutine);
+    }
+
+   private void PetDataUpdate(string nickname)
+    {
+        MySqlSetting.UpdatePetInventoryData(nickname, _petData);
     }
 }
