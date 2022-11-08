@@ -41,17 +41,20 @@ public class PetManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
+        if(photonView.IsMine)
         {
-            if(_testNum == 15)
+            if(Input.GetKeyDown(KeyCode.K))
             {
-                _testNum = 0;
+                if(_testNum == 15)
+                {
+                    _testNum = 0;
+                }
+                else
+                {
+                    _testNum++;
+                }
+                PetChange(_testNum);
             }
-            else
-            {
-                _testNum++;
-            }
-            PetChange(_testNum);
         }
     }
 
