@@ -209,6 +209,7 @@ public class PurchaseUI : MonoBehaviour
         _petObject.SetActive(false);
         _petObject = currentPet;
         _petObject.transform.parent = transform;
+        _petObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         _petObject.transform.localPosition = Vector3.zero;
         _petObject.SetActive(true);
     }
