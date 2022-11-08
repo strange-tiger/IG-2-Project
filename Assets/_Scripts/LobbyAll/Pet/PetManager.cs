@@ -125,7 +125,10 @@ public class PetManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        photonView.RPC("PetDataApplied", newPlayer);
+        if (_havePet)
+        {
+            photonView.RPC("PetDataApplied", newPlayer);
+        }
     }
 
     /// <summary>
