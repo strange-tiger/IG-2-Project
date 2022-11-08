@@ -229,6 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 883959838}
   - component: {fileID: 883959837}
+  - component: {fileID: 883959839}
   m_Layer: 0
   m_Name: PetManager
   m_TagString: Untagged
@@ -248,11 +249,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2db34632a91b024ab308d2203af868c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pet: {fileID: 0}
   _petData: {fileID: 11400000, guid: 01e67c6a783c3f749baf213db99f3619, type: 2}
   _petObject: {fileID: 0}
+  _petMaxExpType: 0
   _petLevel: 0
-  _petEXP: 0
+  _petExp: 0
+  _petMaxExp: 0
   _petSize: 0
 --- !u!4 &883959838
 Transform:
@@ -268,6 +270,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &883959839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883959836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1463039420
 GameObject:
   m_ObjectHideFlags: 0

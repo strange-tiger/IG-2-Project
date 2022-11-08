@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Asset.MySql;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class PetManager : MonoBehaviour
+public class PetManager : MonoBehaviourPunCallbacks
 {
     [Header("PetData")]
     [SerializeField] PetData _petData;
@@ -25,7 +27,7 @@ public class PetManager : MonoBehaviour
 
         PetDataInitializeFromDB();
 
-        PetDataApplied();
+        photonView.RPC("PetDataApplied", RpcTarget.All);
 
         if(_petMaxExpType != EPetMaxExp.NONE)
         {
@@ -56,6 +58,7 @@ public class PetManager : MonoBehaviour
         _petData = MySqlSetting.GetPetInventoryData("Temp",_petData);
     }
 
+    [PunRPC]
     private void PetDataApplied()
     {
         _petObject = Instantiate(_petData.PetObject[_eqiupNum]);
@@ -91,6 +94,10 @@ public class PetManager : MonoBehaviour
         }
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        photonView.RPC("PetDataApplied", newPlayer);
+    }
 
     /// <summary>
     /// Index를 받아 PetData를 바꿔줌. 만약 이미 펫이 존재했으면, Destroy해주고, PetPrefab 자식의 SetActive를 False로 바꿔줌.
@@ -107,7 +114,8 @@ public class PetManager : MonoBehaviour
         }
 
         _eqiupNum = index;
-        PetDataApplied();
+        photonView.RPC("PetDataApplied", RpcTarget.All);
+
 
         PetGainExp();
     }
