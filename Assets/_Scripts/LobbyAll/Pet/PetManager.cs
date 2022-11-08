@@ -79,7 +79,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied()
     {
-        _petObject = Instantiate(_petData.PetObject[_eqiupNum]);
+        _petObject = Instantiate(_petData.PetObject[_eqiupNum],transform.position,Quaternion.identity);
 
         _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
 
@@ -120,7 +120,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Index¸¦ ¹Þ¾Æ PetData¸¦ ¹Ù²ãÁÜ. ¸¸¾à ÀÌ¹Ì ÆêÀÌ Á¸ÀçÇßÀ¸¸é, DestroyÇØÁÖ°í, PetPrefab ÀÚ½ÄÀÇ SetActive¸¦ False·Î ¹Ù²ãÁÜ.
+    /// Indexï¿½ï¿½ ï¿½Þ¾ï¿½ PetDataï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, Destroyï¿½ï¿½ï¿½Ö°ï¿½, PetPrefab ï¿½Ú½ï¿½ï¿½ï¿½ SetActiveï¿½ï¿½ Falseï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½.
     /// </summary>
     /// <param name="index"></param>
     public void PetChange(int index)
