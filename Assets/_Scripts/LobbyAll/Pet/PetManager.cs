@@ -88,39 +88,40 @@ public class PetManager : MonoBehaviourPunCallbacks
             if (_petObject != null)
             {
                 PhotonNetwork.Destroy(_petObject);
-                _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(false);
+                //_petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(false);
             }
 
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
+
+            _petLevel = _petData.PetLevel[index];
+
+           _petExp = _petData.PetExp[index];
+
+           _petMaxExpType = _petData.PetMaxExp[index];
+
+           switch(_petMaxExpType)
+           {
+               case EPetMaxExp.ONEHOUR:
+                   _petMaxExp = 60;
+                   return;
+
+               case EPetMaxExp.THREEHOUR:
+                   _petMaxExp = 180;
+                   return;
+
+               case EPetMaxExp.SECONDARYEVOL:
+                   if(_petLevel == 0)
+                   _petMaxExp = 120;
+                   else
+                   _petMaxExp = 240;
+                   return;
+           }
         }
         if (!photonView.IsMine)
         {
             _petObject = _petData.PetObject[index];
         }
         
-        _petLevel = _petData.PetLevel[index];
-
-       _petExp = _petData.PetExp[index];
-
-       _petMaxExpType = _petData.PetMaxExp[index];
-
-       switch(_petMaxExpType)
-       {
-           case EPetMaxExp.ONEHOUR:
-               _petMaxExp = 60;
-               return;
-
-           case EPetMaxExp.THREEHOUR:
-               _petMaxExp = 180;
-               return;
-
-           case EPetMaxExp.SECONDARYEVOL:
-               if(_petLevel == 0)
-               _petMaxExp = 120;
-               else
-               _petMaxExp = 240;
-               return;
-       }
 
 
         _petObject.transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(true);
