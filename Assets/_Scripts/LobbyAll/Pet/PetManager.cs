@@ -82,6 +82,12 @@ public class PetManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied()
     {
+        if (_petObject != null)
+        {
+            PhotonNetwork.Destroy(_petObject);
+            _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(false);
+        }
+
         _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[_eqiupNum].name}",transform.position,Quaternion.identity);
 
         _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
@@ -130,11 +136,7 @@ public class PetManager : MonoBehaviourPunCallbacks
     {
         PetGainExpStop();
 
-        if (_petObject != null)
-        {
-            Destroy(_petObject);
-            _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(false);
-        }
+        
 
         _eqiupNum = index;
 
