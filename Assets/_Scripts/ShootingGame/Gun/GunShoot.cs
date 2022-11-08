@@ -1,3 +1,5 @@
+#define _DEV_MODE_
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -84,6 +86,11 @@ public class GunShoot : MonoBehaviourPun
         _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
 
         _lineRenderer = GetComponent<LineRenderer>();
+#if _DEV_MODE_
+        _lineRenderer.enabled = true;
+#else
+        _lineRenderer.enabled = false;
+#endif
     }
 
     [PunRPC]
@@ -112,9 +119,11 @@ public class GunShoot : MonoBehaviourPun
 
     private void Update()
     {
+#if _DEV_MODE_
         rayPositions[0] = _bulletSpawnTransform.position;
         rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
         _lineRenderer.SetPositions(rayPositions);
+#endif
 
         Reload();
         Shot();
