@@ -230,11 +230,14 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     string _insertCharacterString = GetInsertString(ETableType.characterdb, nickname, gender);
+                    string _insertPetInventoryString = GetInsertString(ETableType.characterdb, nickname);
 
                     MySqlCommand _insertCharacterCommand = new MySqlCommand(_insertCharacterString, _mysqlConnection);
+                    MySqlCommand _insertPetInventoryCommand = new MySqlCommand(_insertPetInventoryString, _mysqlConnection);
 
                     _mysqlConnection.Open();
                     _insertCharacterCommand.ExecuteNonQuery();
+                    _insertPetInventoryCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
                 return true;
@@ -868,7 +871,6 @@ namespace Asset.MySql
 
 #endregion
 
-
 #region Betting
 
         /// <summary>
@@ -1127,9 +1129,98 @@ namespace Asset.MySql
             }
         }
 
-#endregion
+        #endregion
+
+#region PetInventoryList        
 
 
+        public static PetData GetPetInventoryData(string nickname, PetData petData)
+        {
+            string selcetPetInventoryString = $"SELECT * from PetInventoryDB " +
+                $"WHERE {EpetinventorydbColumns.Nickname} = '{nickname}'; ";
+
+            using(MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+
+
+                MySqlCommand command = new MySqlCommand(selcetPetInventoryString, _mysqlConnection);
+
+                _mysqlConnection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                if (reader.Read())
+                {
+                    string[] petStatusArray = reader["PetStatus"].ToString().Split(',');
+                    string[] petLevelArray = reader["PetLevel"].ToString().Split(',');
+                    string[] petExpArray = reader["PetExp"].ToString().Split(',');
+                    string[] petAssetArray = reader["PetAsset"].ToString().Split(',');
+                    string[] petSizeArray = reader["PetSize"].ToString().Split(',');
+
+                    for(int i = 0; i < petStatusArray.Length; ++i)
+                    {
+
+                        petData.PetStatus[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus),petStatusArray[i]);
+                        petData.PetLevel[i] = int.Parse(petLevelArray[i]);
+                        petData.PetExp[i] = int.Parse(petExpArray[i]);
+                        petData.PetAsset[i] = int.Parse(petAssetArray[i]);
+                        petData.PetSize[i] = float.Parse(petSizeArray[i]);
+
+                    }
+
+                }
+
+                _mysqlConnection.Close();
+
+                return petData;
+            }
+            
+        }
+
+        public static bool UpdatePetInventoryData(string nickname, PetData petData)
+        {
+
+            string petStatusString = petData.PetStatus[0].ToString();
+            string petLevelString = petData.PetLevel[0].ToString();
+            string petExpString = petData.PetExp[0].ToString();
+            string petAssetString = petData.PetAsset[0].ToString();
+            string petSizeString = petData.PetSize[0].ToString();
+
+            for (int i = 1; i < petData.PetStatus.Length; ++i)
+            {
+                petStatusString += ',' + petData.PetStatus[i].ToString();
+                petLevelString += ',' + petData.PetLevel[i].ToString();
+                petExpString += ',' + petData.PetExp[i].ToString();
+                petAssetString += ',' + petData.PetAsset[i].ToString();
+                petSizeString += ',' + petData.PetSize[i].ToString();
+
+            }
+
+            string updateString = $"Update PetInventoryDB set {EpetinventorydbColumns.PetStatus} = '{petStatusString}',{EpetinventorydbColumns.PetLevel} = '{petLevelString}',{EpetinventorydbColumns.PetExp} = '{petExpString}',{EpetinventorydbColumns.PetAsset} = '{petAssetString}',{EpetinventorydbColumns.PetSize} = '{petSizeString}' where {EpetinventorydbColumns.Nickname} = '{nickname}';";
+
+            try
+            {
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    
+                    MySqlCommand command = new MySqlCommand(updateString, _sqlConnection);
+
+                    _sqlConnection.Open();
+                    command.ExecuteNonQuery();
+                    _sqlConnection.Close();
+
+                    return true;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+
+        }
+        #endregion
 
 
 
