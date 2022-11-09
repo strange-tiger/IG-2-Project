@@ -6,8 +6,7 @@ using Photon.Realtime;
 
 public class TestInPhoton : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private Transform ffff;
+
 
     private void Awake()
     {
@@ -49,6 +48,6 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.Instantiate("NewPlayer", ffff.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
     }
 }
