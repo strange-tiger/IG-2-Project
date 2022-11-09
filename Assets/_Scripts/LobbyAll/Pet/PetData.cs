@@ -4,25 +4,25 @@ using UnityEngine;
 public class PetData : ScriptableObject
 {
     [SerializeField] GameObject[] petObject;
-    public GameObject[] PetObject { get { return petObject; } }
+    public GameObject[] Object { get { return petObject; } }
 
-    [SerializeField] EPetMaxExp[] petMaxExp;
-    public EPetMaxExp[] PetMaxExp { get { return petMaxExp; } }
+    [SerializeField] EPetMaxExp[] maxExp;
+    public EPetMaxExp[] MaxExp { get { return maxExp; } }
 
-    [SerializeField] EPetStatus[] petStatus;
-    public EPetStatus[] PetStatus { get { return petStatus; } }
+    [SerializeField] EPetStatus[] status;
+    public EPetStatus[] Status { get { return status; } }
 
-    [SerializeField] int[] petLevel;
-    public int[] PetLevel { get { return petLevel; } }
+    [SerializeField] int[] level;
+    public int[] Level { get { return level; } }
 
-    [SerializeField] int[] petExp;
-    public int[] PetExp { get { return petExp; } }
+    [SerializeField] int[] exp;
+    public int[] Exp { get { return exp; } }
 
-    [SerializeField] float[] petSize;
-    public float[] PetSize { get { return petSize; } }
+    [SerializeField] float[] size;
+    public float[] Size { get { return size; } }
 
-    [SerializeField] int[] petAsset;
-    public int[] PetAsset { get { return petAsset; } }
+    [SerializeField] int[] childIndex;
+    public int[] ChildIndex { get { return childIndex; } }
 }
 
 public enum EPetStatus
