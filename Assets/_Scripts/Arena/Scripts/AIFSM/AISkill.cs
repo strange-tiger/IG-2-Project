@@ -13,6 +13,8 @@ public class AISkill : AIState
 
     private void OnEnable()
     {
+        _animator = GetComponent<Animator>();
+
         _isSkill = true;
     }
 

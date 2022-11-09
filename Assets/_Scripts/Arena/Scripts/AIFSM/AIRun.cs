@@ -12,6 +12,7 @@ public class AIRun : AIState
 
     private void OnEnable()
     {
+        _animator = GetComponent<Animator>();
         _changeStateRunToAttack = false;
     }
 

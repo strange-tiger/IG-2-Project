@@ -14,11 +14,13 @@ public class Tournament : MonoBehaviourPun
         _curTime += Time.deltaTime;
         if (_curTime >= _reStartTime)
         {
-            PhotonNetwork.Destroy(gameObject);
+            Debug.Log("√ ±‚»≠");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
 
             _curTime -= _curTime;
         }
-
-
     }
 }

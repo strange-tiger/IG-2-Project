@@ -13,6 +13,7 @@ public class AIIdle : AIState
 
     private void OnEnable()
     {
+        _animator = GetComponent<Animator>();
         _curTime -= _curTime;
     }
 

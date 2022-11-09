@@ -27,6 +27,8 @@ public class AIDamage : AIState
 
     private void OnEnable()
     {
+        _animator = GetComponent<Animator>();
+
         _hp = _setHp;
         _enemyDamage.EnemyDamage.RemoveListener(Hit);
         _enemyDamage.EnemyDamage.AddListener(Hit);

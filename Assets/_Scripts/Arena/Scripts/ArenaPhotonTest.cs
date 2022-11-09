@@ -1,4 +1,4 @@
-#define debugMaster
+//#define debugMaster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +9,7 @@ public class ArenaPhotonTest : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Transform _pos;
 
-    private const string ROOM_NAME = "ArenaTest4";
+    private const string ROOM_NAME = "ArenaTest6";
 
     private void Awake()
     {

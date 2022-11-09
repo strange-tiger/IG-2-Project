@@ -25,6 +25,7 @@ public class AIAttack : AIState
 
     private void OnEnable()
     {
+        _animator = GetComponent<Animator>();
         EnemyDamage = new UnityEvent<int>();
         EnemySkillDamage = new UnityEvent<int>();
     }
