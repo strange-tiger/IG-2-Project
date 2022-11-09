@@ -8,14 +8,11 @@ public class AISkill : AIState
     [Header("내 스킬 이펙트을 넣어주세요")]
     [SerializeField] GameObject _skillEffect;
 
-    private Animator _animator;
-
     private float _curTime;
     private bool _isSkill;
 
     private void OnEnable()
     {
-        _animator = GetComponent<Animator>();
         _isSkill = true;
     }
 

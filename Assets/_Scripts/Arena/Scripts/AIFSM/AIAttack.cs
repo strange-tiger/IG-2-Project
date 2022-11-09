@@ -12,8 +12,6 @@ public class AIAttack : AIState
     public UnityEvent<int> EnemyDamage;
     public UnityEvent<int> EnemySkillDamage;
 
-    private Animator _animator;
-
     private bool _isSkillCoolTime;
     private bool _changeStateAttackToDamage;
     private bool _isAnd;
@@ -27,7 +25,6 @@ public class AIAttack : AIState
 
     private void OnEnable()
     {
-        _animator = GetComponent<Animator>();
         EnemyDamage = new UnityEvent<int>();
         EnemySkillDamage = new UnityEvent<int>();
     }

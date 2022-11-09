@@ -8,14 +8,6 @@ public class AIDeath : AIState
     [SerializeField]
     private Collider[] _isDeathOffCollider;
 
-    private Animator _animator;
-
-
-    private void OnEnable()
-    {
-        _animator = GetComponent<Animator>();
-    }
-
     public override void OnEnter()
     {
         Invoke("OffCollider", 1f);
