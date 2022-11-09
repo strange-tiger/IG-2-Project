@@ -27,18 +27,19 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
-            // CameraRig ºÎÂø
+            // CameraRig ï¿½ï¿½ï¿½ï¿½
             GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
+            //GameObject cameraRig = GetComponentInChildren<OVRCameraRig>().gameObject;
             cameraRig.transform.position = _ovrCameraPosition;
 
-            // ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ ºÎÂø
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½ï¿½ï¿½ï¿½
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
             playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
 
-            // ÇÃ·¹ÀÌ¾î ¸ðµ¨ ¿¬°á
-            // ¼ÕÀ» ¹Þ¾Æ¿Í ¿¬°áÇÔ
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             PlayerFocus[] hands = cameraRig.GetComponentsInChildren<PlayerFocus>();
             _ovrCameraHandTransforms[0] = hands[0].transform.parent.GetChild(0);
             _ovrCameraHandTransforms[1] = hands[1].transform.parent.GetChild(0);
@@ -48,21 +49,21 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
             //grabber[1].ParentTransform = _modelHandTransforms[1];
 
 
-            // ¼Ò¼È ¾Ë¸²±â´É ¿¬°á
+            // ï¿½Ò¼ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             SocialTabManager socialTabManager = cameraRig.GetComponentInChildren<SocialTabManager>();
             socialTabManager.RequestAlarmImage = _requestAlarmImage;
             socialTabManager.gameObject.SetActive(false);
 
-            // »ç¿îµå ¼¼ÆÃ ½ºÅ©¸³Æ® ¿¬°á
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
             volumeController.PlayerAudioSource = _newPlayerAudioSource;
 
-            // UI ´Ù½Ã ºñÈ°¼ºÈ­
+            // UI ï¿½Ù½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
             volumeController.transform.parent.gameObject.SetActive(false);
 
             socialTabManager.transform.parent.gameObject.SetActive(false);
 
-            // ¿ùµå ³»ÀÇ canvas¿Í ¿¬°áÇÏ±â À§ÇÑ Æ÷ÀÎÅÍ °¡Á®¿À±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ canvasï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
         }
         else
