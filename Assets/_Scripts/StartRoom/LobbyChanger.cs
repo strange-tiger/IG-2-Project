@@ -18,7 +18,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         {
             GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name,new Vector3(0f, 1f, 3f),
                 Quaternion.Euler(0f, 0f, 0f), 0, null);
-            PlayerNetworking playerNetworking = player.GetComponent<PlayerNetworking>();
+            BasicPlayerNetworking playerNetworking = player.GetComponent<BasicPlayerNetworking>();
             playerNetworking.photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
             playerNetworking.CanvasSetting(_canvases);
         }
