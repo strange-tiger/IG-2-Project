@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerNumber = ShootingGameManager.EShootingPlayerNumber;
 
 public class ShootingObjectHealth : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class ShootingObjectHealth : MonoBehaviour
     public GameObject InitialModel { get => _initialModel; set => _initialModel = value; }
 
     [Header("Shot Effects")]
+    [SerializeField] private AudioClip[] _shotSoundEffects;
     [SerializeField] private ShotEffect[] _shotEffects;
     public ShotEffect[] ShotEffects { get => _shotEffects; private set => _shotEffects = value; }
     private int _shotEffectCount = -1;
@@ -52,9 +54,15 @@ public class ShootingObjectHealth : MonoBehaviour
     private AudioSource _audioSource;
     private Rigidbody _rigidbody;
     private ShootingObjectMovement _movement;
+    private static ShootingGameManager _shootingGameManager;
 
     private void Awake()
     {
+        if(_shootingGameManager)
+        {
+            _shootingGameManager = FindObjectOfType<ShootingGameManager>();
+        }
+
         _audioSource = GetComponent<AudioSource>();
         _rigidbody = GetComponent<Rigidbody>();
         _movement = GetComponent<ShootingObjectMovement>();
@@ -65,7 +73,7 @@ public class ShootingObjectHealth : MonoBehaviour
         _shotEffectCount = -1;
     }
 
-    public int Hit()
+    public int Hit(PlayerNumber playerNumber)
     {
         Debug.Log("[Shooting] Hit");
         if(_shotEffectCount < 0)
@@ -86,8 +94,16 @@ public class ShootingObjectHealth : MonoBehaviour
             StartCoroutine(DisableSelf());
         }
         int point = _shotEffects[_shotEffectCount].ShowEffect();
+        _shootingGameManager.AddScoreToPlayer(playerNumber, point);
+        PlayEffectSound();
 
         return point;
+    }
+
+    private void PlayEffectSound()
+    {
+        int randonNumber = UnityEngine.Random.Range(0, _shotSoundEffects.Length);
+        _audioSource.PlayOneShot(_shotSoundEffects[randonNumber]);
     }
 
     private IEnumerator DisableSelf()
