@@ -27,10 +27,11 @@ public class PlayerNetworking : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
             // CameraRig 부착
             GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
+            //GameObject cameraRig = GetComponentInChildren<OVRCameraRig>().gameObject;
             cameraRig.transform.position = _ovrCameraPosition;
 
             // 플레이어 컨트롤러 부착
