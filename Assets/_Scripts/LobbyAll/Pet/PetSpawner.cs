@@ -28,6 +28,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         }
     }
 
+#if debug
     private void Update()
     {
         if (photonView.IsMine)
@@ -46,6 +47,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
             }
         }
     }
+#endif
 
     private void PetDataInitializeFromDB()
     {
