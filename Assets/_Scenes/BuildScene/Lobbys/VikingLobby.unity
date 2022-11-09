@@ -247,6 +247,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isStartRoom: 0
+  _canvases: []
+  _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
 --- !u!4 &361453254
 Transform:
   m_ObjectHideFlags: 0
@@ -535,8 +538,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _lobbyType: 3
+  _sceneType: 0
   _lobbyManager: {fileID: 361453253}
+  _checkMessage: 
+  _nextLobbyName: 
 --- !u!1 &701380398
 GameObject:
   m_ObjectHideFlags: 0
