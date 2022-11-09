@@ -12,11 +12,13 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.ConnectUsingSettings();
+        Debug.Log("서버에 접속중입니다");
     }
 
     private void OnDisconnectedFromMasterServer()
     {
         PhotonNetwork.ConnectUsingSettings();
+        Debug.Log("서버에 접속실패해서 다시 시작중입니다");
     }
 
     public override void OnConnectedToMaster()
@@ -27,7 +29,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
 
     private static readonly RoomOptions RandomRoomOptions = new RoomOptions()
     {
-        MaxPlayers = 4
+        MaxPlayers = 10
     };
 
     public override void OnJoinedLobby()

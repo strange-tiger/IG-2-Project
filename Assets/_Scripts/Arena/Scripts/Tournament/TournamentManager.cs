@@ -16,21 +16,12 @@ public class TournamentManager : MonoBehaviourPun
 
     [SerializeField] private GameObject[] _groups;
     public GameObject[] Groups { get { return _groups; } }
-
-    [Header("재시작할 시간초를 넣어주세요")]
-    [SerializeField] private float _reStartTime;
-
-    // private UnityEvent _startBattle = new UnityEvent();
-
-    //private Action _gameStartActionEvent;
     
     private int _selectGroupNum;
     public int SelectGroupNum { get { return _selectGroupNum; } }
 
     private int _finalWinnerIndex;
     public int FinalWinnerIndex { get { return _finalWinnerIndex; } private set { _finalWinnerIndex = value; } }
-
-    private float _curTime;
 
     private void Awake()
     {
@@ -44,22 +35,6 @@ public class TournamentManager : MonoBehaviourPun
             GameStartEvent();
         }
         Debug.Log($"Start 동작, 마스터 : {PhotonNetwork.IsMasterClient}, _vrUI의 상태 : {_vrUI.activeSelf}");
-    }
-
-    private void Update()
-    {
-        Debug.Log($"Update 동작, 마스터 : {PhotonNetwork.IsMasterClient}, _vrUI의 상태 : {_vrUI.activeSelf}");
-
-        if (_vrUI.activeSelf == false && PhotonNetwork.IsMasterClient)
-        {
-            _curTime += Time.deltaTime;
-            if (_curTime >= _reStartTime)
-            {
-                GameStartEvent();
-
-                _curTime -= _curTime;
-            }
-        }
     }
 
     private void GameStartEvent()
