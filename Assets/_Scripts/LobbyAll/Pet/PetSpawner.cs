@@ -1,4 +1,3 @@
-
 #define debug
 using System;
 using System.Collections;
@@ -83,7 +82,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
-            //transform.GetChild(_petData.ChildIndex[index]).gameObject.GetComponent<PetMove>().SetPetSpawner(this);
+            _petObject.transform.GetChild(_petData.ChildIndex[index]).gameObject.GetComponent<PetMove>().SetPetSpawner(this);
 
         }
     }
