@@ -40,6 +40,7 @@ public class ShootingGameManager : MonoBehaviourPun
         new Color(53/255, 227/255, 34/255)
     };
     [SerializeField] private Transform[] _playerPosition;
+    [SerializeField] private Transform[] _canvasPosition;
     private int _playerCount = 0;
     public int PlayerCount { get => _playerCount; set => _playerCount = value; }
 
