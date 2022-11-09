@@ -16,6 +16,8 @@ namespace Defines
         WesternLobby,
         VikingLobby,
         ArenaRoom,
+        ShootingWaitingRoom,
+        ShootingGameRoom,
 
         End,
     }

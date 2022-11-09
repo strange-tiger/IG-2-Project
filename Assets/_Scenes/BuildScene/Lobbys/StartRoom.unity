@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isStartRoom: 1
   _canvases: []
+  _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
 --- !u!4 &16103459
 Transform:
   m_ObjectHideFlags: 0
@@ -1302,6 +1303,10 @@ PrefabInstance:
     - target: {fileID: 3669648705763040211, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5840967426633386870, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: sceneViewId
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_Name
@@ -2733,9 +2738,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _nextLobbyName: "\uC911\uC138 \uD310\uD0C0\uC9C0 \uC655\uAD6D"
-  _lobbyType: 3
+  _sceneType: 3
   _lobbyManager: {fileID: 16103458}
+  _checkMessage: 
+  _nextLobbyName: "\uC911\uC138 \uD310\uD0C0\uC9C0 \uC655\uAD6D"
 --- !u!4 &1138978508 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5473812282478564752, guid: 9341bf390e762484fbd3e7dea5dff7c4, type: 3}
@@ -2923,9 +2929,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _nextLobbyName: "\uC11C\uBD80"
-  _lobbyType: 4
+  _sceneType: 4
   _lobbyManager: {fileID: 16103458}
+  _checkMessage: 
+  _nextLobbyName: "\uC11C\uBD80"
 --- !u!4 &1230095319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4331832858961822, guid: 461adae6d8ea6d74fac73e4bd90066cb, type: 3}
