@@ -70,12 +70,16 @@ public class LuncherManager : MonoBehaviour
         _luncherTimings[_luncherTimings.Length - 1].LimitTime = playTime + 5;
         _currentLuncherTimingSetting = _luncherTimings[0];
 
-        _shootingObjectTimings[_shootingObjectTimings.Length - 6].LimitTime = playTime;
-        _shootingObjectTimings[_shootingObjectTimings.Length - 5].LimitTime = playTime + 1;
-        _shootingObjectTimings[_shootingObjectTimings.Length - 4].LimitTime = playTime + 2;
-        _shootingObjectTimings[_shootingObjectTimings.Length - 3].LimitTime = playTime + 3;
-        _shootingObjectTimings[_shootingObjectTimings.Length - 2].LimitTime = playTime + 4;
-        _shootingObjectTimings[_shootingObjectTimings.Length - 1].LimitTime = playTime + 5;
+        for(int i = 0; i < 6; ++i)
+        {
+            _shootingObjectTimings[_shootingObjectTimings.Length - (6 - i)].LimitTime = playTime + i;
+        }
+        //_shootingObjectTimings[_shootingObjectTimings.Length - 6].LimitTime = playTime;
+        //_shootingObjectTimings[_shootingObjectTimings.Length - 5].LimitTime = playTime + 1;
+        //_shootingObjectTimings[_shootingObjectTimings.Length - 4].LimitTime = playTime + 2;
+        //_shootingObjectTimings[_shootingObjectTimings.Length - 3].LimitTime = playTime + 3;
+        //_shootingObjectTimings[_shootingObjectTimings.Length - 2].LimitTime = playTime + 4;
+        //_shootingObjectTimings[_shootingObjectTimings.Length - 1].LimitTime = playTime + 5;
         _currentShootingObjectTiming = _shootingObjectTimings[0];
     }
 

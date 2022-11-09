@@ -20,6 +20,7 @@ public class ObjectLuncher : MonoBehaviour
     public LuncherManager.ELuncherId LuncherId { get => _luncherId; set => _luncherId = value; }
 
     [SerializeField] private Transform _lunchPointTransform;
+    [SerializeField] private Transform _objectParent;
 
     private void Awake()
     {
@@ -41,7 +42,9 @@ public class ObjectLuncher : MonoBehaviour
             transform.rotation = Quaternion.Euler(_originalDegree);
             transform.rotation = Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z);
 
-            Instantiate(prefab, _lunchPointTransform.position, Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z));
+            GameObject newObject = Instantiate(prefab, _lunchPointTransform.position, 
+                Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z));
+            newObject.transform.parent = _objectParent;
         }
     }
 }

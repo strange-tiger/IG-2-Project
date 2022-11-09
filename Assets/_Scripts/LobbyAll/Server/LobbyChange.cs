@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LobbyChange : InteracterableObject
+public class LobbyChange : ServerChange
 {
     [SerializeField] private string _nextLobbyName;
-    [SerializeField] private Defines.ESceneNumder _lobbyType;
-    [SerializeField] private LobbyChanger _lobbyManager;
 
-    public override void Interact()
+    protected override string CheckMessage()
     {
-        base.Interact();
-        MenuUIManager.Instance.ShowCheckPanel(_nextLobbyName + "로 이동하시겠습니까?",
-            () => { _lobbyManager.ChangeLobby(_lobbyType); },
-            () => { });
+        return _nextLobbyName + "로 이동하시겠습니까?";
     }
 }
