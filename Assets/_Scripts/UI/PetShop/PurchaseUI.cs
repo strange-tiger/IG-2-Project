@@ -43,7 +43,8 @@ public class PurchaseUI : MonoBehaviour
     }
     private PetUIManager.PetProfile _currentPet = new PetUIManager.PetProfile();
 
-    private int _index = 0;
+    private int _currentIndex = -1;
+    private int _equipedIndex = -1;
     private int _purchaseAmount = 0;
 
     private void OnEnable()
@@ -65,9 +66,8 @@ public class PurchaseUI : MonoBehaviour
 
         _petPrice = _purchaseButton.GetComponentInChildren<TextMeshProUGUI>();
 
-        _index = 0;
-        Debug.Log(_ui.PetList[_index]);
-        CurrentPet = _ui.PetList[_index];
+        _currentIndex = -1;
+        OnClickRightButton();
     }
 
     private void OnDisable()
@@ -107,8 +107,14 @@ public class PurchaseUI : MonoBehaviour
 #endif
         _purchaseAmount += int.Parse(_petPrice.text);
 
-        CurrentPet.SetIsHave(true);
-        _ui.PetList[_index].SetIsHave(true);
+        if (_equipedIndex != -1)
+        {
+            _ui.PetList[_equipedIndex].SetIsHave(EPetStatus.HAVE);
+        }
+
+        _equipedIndex = _currentIndex;
+        CurrentPet.SetIsHave(EPetStatus.EQUIPED);
+        _ui.PetList[_currentIndex].SetIsHave(EPetStatus.EQUIPED);
 
         _purchaseButton.enabled = false;
     }
@@ -130,10 +136,15 @@ public class PurchaseUI : MonoBehaviour
         for(int i = 0; i < _ui.PetList.Length; ++i)
         {
             if (petData.PetStatus[i] == EPetStatus.NONE
-                && _ui.PetList[i].IsHave)
+                && _ui.PetList[i].IsHave != EPetStatus.NONE)
             {
                 petData.PetStatus[i] = EPetStatus.HAVE;
             }
+        }
+
+        if (_equipedIndex != -1)
+        {
+            petData.PetStatus[_equipedIndex] = EPetStatus.EQUIPED;
         }
 
 #if !debug
@@ -147,44 +158,44 @@ public class PurchaseUI : MonoBehaviour
 
     private void OnClickLeftButton()
     {
-        int prevIndex = _index;
+        int prevIndex = _currentIndex;
         do
         {
-            if (_index - 1 < 0)
+            if (_currentIndex - 1 < 0)
             {
-                _index = _ui.PetList.Length;
+                _currentIndex = _ui.PetList.Length;
             }
-            --_index;
+            --_currentIndex;
 
-            if (_index == prevIndex)
+            if (_currentIndex == prevIndex)
             {
                 break;
             }
-
-            CurrentPet = _ui.PetList[_index];
         }
-        while (CurrentPet.IsHave);
+        while (_ui.PetList[_currentIndex].IsHave != EPetStatus.NONE);
+
+        CurrentPet = _ui.PetList[_currentIndex];
     }
 
     private void OnClickRightButton()
     {
-        int prevIndex = _index;
+        int prevIndex = _currentIndex;
         do
         {
-            if (_index + 1 >= _ui.PetList.Length)
+            if (_currentIndex + 1 >= _ui.PetList.Length)
             {
-                _index = -1;
+                _currentIndex = -1;
             }
-            ++_index;
+            ++_currentIndex;
 
-            if (_index == prevIndex)
+            if (_currentIndex == prevIndex)
             {
                 break;
             }
-
-            CurrentPet = _ui.PetList[_index];
         }
-        while (CurrentPet.IsHave);
+        while (_ui.PetList[_currentIndex].IsHave != EPetStatus.NONE);
+        
+        CurrentPet = _ui.PetList[_currentIndex];
     }
 
     private void ShowCurrentPet()

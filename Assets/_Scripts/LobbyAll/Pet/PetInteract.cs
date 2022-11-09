@@ -15,12 +15,3 @@ public class PetInteract : InteracterableObject
 
 
 }
-
-
-public enum EPetEvolutionCount
-{
-    NONE,
-    ZERO,
-    ONE,
-    TWO,
-};
