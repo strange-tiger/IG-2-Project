@@ -1,3 +1,4 @@
+#define debugMaster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using Photon.Realtime;
 
 public class TestInPhoton : MonoBehaviourPunCallbacks
 {
+    private const string ROOM_NAME = "PetTest";
+
     private void Awake()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -32,8 +35,11 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
 
         Debug.Log("µÆÁö?");
-
-        while (!PhotonNetwork.CreateRoom("PetTest"));
+#if debugMaster
+        while (!PhotonNetwork.CreateRoom(ROOM_NAME));
+#else
+        while (!PhotonNetwork.JoinRoom(ROOM_NAME));
+#endif
     }
 
     public override void OnCreatedRoom()
