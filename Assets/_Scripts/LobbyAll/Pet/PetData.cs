@@ -3,26 +3,26 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable/PetData", fileName = "PetData")]
 public class PetData : ScriptableObject
 {
-    [SerializeField] GameObject[] petObject;
-    public GameObject[] PetObject { get { return petObject; } }
+    [SerializeField] GameObject[] _object;
+    public GameObject[] Object { get { return _object; } }
 
-    [SerializeField] EPetMaxExp[] petMaxExp;
-    public EPetMaxExp[] PetMaxExp { get { return petMaxExp; } }
+    [SerializeField] EPetMaxExp[] _maxExp;
+    public EPetMaxExp[] MaxExp { get { return _maxExp; } }
 
-    [SerializeField] EPetStatus[] petStatus;
-    public EPetStatus[] PetStatus { get { return petStatus; } }
+    [SerializeField] EPetStatus[] _status;
+    public EPetStatus[] Status { get { return _status; } }
 
-    [SerializeField] int[] petLevel;
-    public int[] PetLevel { get { return petLevel; } }
+    [SerializeField] int[] _level;
+    public int[] Level { get { return _level; } }
 
-    [SerializeField] int[] petExp;
-    public int[] PetExp { get { return petExp; } }
+    [SerializeField] int[] _exp;
+    public int[] Exp { get { return _exp; } }
 
-    [SerializeField] float[] petSize;
-    public float[] PetSize { get { return petSize; } }
+    [SerializeField] float[] _size;
+    public float[] Size { get { return _size; } }
 
-    [SerializeField] int[] petAsset;
-    public int[] PetAsset { get { return petAsset; } }
+    [SerializeField] int[] _childIndex;
+    public int[] ChildIndex { get { return _childIndex; } }
 }
 
 public enum EPetStatus

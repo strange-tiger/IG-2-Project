@@ -135,16 +135,16 @@ public class PurchaseUI : MonoBehaviour
         PetData petData = _ui.GetPetData();
         for(int i = 0; i < _ui.PetList.Length; ++i)
         {
-            if (petData.PetStatus[i] == EPetStatus.NONE
-                && _ui.PetList[i].IsHave != EPetStatus.NONE)
+            if (petData.Status[i] == EPetStatus.NONE
+                && _ui.PetList[i].Status != EPetStatus.NONE)
             {
-                petData.PetStatus[i] = EPetStatus.HAVE;
+                petData.Status[i] = EPetStatus.HAVE;
             }
         }
 
         if (_equipedIndex != -1)
         {
-            petData.PetStatus[_equipedIndex] = EPetStatus.EQUIPED;
+            petData.Status[_equipedIndex] = EPetStatus.EQUIPED;
         }
 
 #if !debug
@@ -172,7 +172,7 @@ public class PurchaseUI : MonoBehaviour
                 break;
             }
         }
-        while (_ui.PetList[_currentIndex].IsHave != EPetStatus.NONE);
+        while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
 
         CurrentPet = _ui.PetList[_currentIndex];
     }
@@ -193,7 +193,7 @@ public class PurchaseUI : MonoBehaviour
                 break;
             }
         }
-        while (_ui.PetList[_currentIndex].IsHave != EPetStatus.NONE);
+        while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
         
         CurrentPet = _ui.PetList[_currentIndex];
     }

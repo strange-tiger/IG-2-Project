@@ -91,7 +91,7 @@ public class TransformUI : MonoBehaviour
 
         for (int i = 0; i < _ui.PetList.Length; ++i)
         {
-            if (_ui.PetList[i].IsHave == EPetStatus.EQUIPED)
+            if (_ui.PetList[i].Status == EPetStatus.EQUIPED)
             {
                 _equipedIndex = i;
                 break;
@@ -157,17 +157,17 @@ public class TransformUI : MonoBehaviour
         PetData petData = _ui.GetPetData();
         for (int i = 0; i < _ui.PetList.Length; ++i)
         {
-            if (petData.PetSize[i] != _ui.PetList[i].Size)
+            if (petData.Size[i] != _ui.PetList[i].Size)
             {
-                petData.PetSize[i] = _ui.PetList[i].Size;
+                petData.Size[i] = _ui.PetList[i].Size;
             }
 
-            if (petData.PetAsset[i] != _ui.PetList[i].AssetIndex)
+            if (petData.ChildIndex[i] != _ui.PetList[i].AssetIndex)
             {
-                petData.PetAsset[i] = _ui.PetList[i].AssetIndex;
+                petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
             }
 
-            petData.PetStatus[i] = _ui.PetList[i].IsHave;
+            petData.Status[i] = _ui.PetList[i].Status;
         }
 #if !debug
         if (_DB.UpdatePetInventoryData(_ui.PlayerNetworkingInPet.MyNickname, petData))
@@ -196,7 +196,7 @@ public class TransformUI : MonoBehaviour
                 break;
             }
         }
-        while (_ui.PetList[_currentIndex].IsHave < EPetStatus.HAVE);
+        while (_ui.PetList[_currentIndex].Status < EPetStatus.HAVE);
 
         UpdateCurrentPet();
     }
@@ -219,7 +219,7 @@ public class TransformUI : MonoBehaviour
                 break;
             }
         }
-        while (_ui.PetList[_currentIndex].IsHave < EPetStatus.HAVE);
+        while (_ui.PetList[_currentIndex].Status < EPetStatus.HAVE);
 
         UpdateCurrentPet();
     }

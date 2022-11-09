@@ -27,7 +27,7 @@ public class PetMove : MonoBehaviourPun
     }
     private EPetMoveState _state = EPetMoveState.IDLE;
 
-    private PetSpawner _manager;
+    private PetSpawner _spawner;
     private Animator _animator;
     private NavMeshAgent _agent;
 
@@ -64,9 +64,9 @@ public class PetMove : MonoBehaviourPun
         }
     }
 
-    public void SetPetManager(PetSpawner manager)
+    public void SetPetSpawner(PetSpawner spawner)
     {
-        _manager = manager;
+        _spawner = spawner;
     }
 
     private void ChangeMoveState(bool isMove)
@@ -75,8 +75,8 @@ public class PetMove : MonoBehaviourPun
 
         if (isMove)
         {
-            _agent.SetDestination(_manager.transform.position);
-            Debug.Log(_manager.transform.position);
+            _agent.SetDestination(_spawner.transform.position);
+            Debug.Log(_spawner.transform.position);
         }
 
         _agent.isStopped = !isMove;

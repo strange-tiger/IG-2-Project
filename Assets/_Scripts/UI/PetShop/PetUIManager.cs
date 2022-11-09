@@ -43,7 +43,7 @@ public class PetUIManager : UIManager
         public EGrade Grade { get; private set; }
         public string Explanation { get; private set; }
         public int Price { get; private set; }
-        public EPetStatus IsHave { get; private set; }
+        public EPetStatus Status { get; private set; }
         public float Size { get; private set; }
         public int AssetIndex { get; private set; }
         public int Level { get; private set; }
@@ -58,7 +58,7 @@ public class PetUIManager : UIManager
         public void SetGrade(EGrade grade = EGrade.A) { Grade = grade; }
         public void SetExplanation(string explain = "Temp") { Explanation = explain; }
         public void SetPrice(int price = 0) { Price = price; }
-        public void SetIsHave(EPetStatus isHave = EPetStatus.NONE) { IsHave = isHave; }
+        public void SetIsHave(EPetStatus status = EPetStatus.NONE) { Status = status; }
         public void SetSize(float size = 0.3f) { Size = size; }
         public void SetAssetIndex(int assetIndex = 0) { AssetIndex = assetIndex; }
         public void SetLevel(int level = 0) { Level = level; }
@@ -100,15 +100,15 @@ public class PetUIManager : UIManager
 
     private void InitializePetInventory()
     {
-        PetList = new PetProfile[_petData.PetObject.Length];
+        PetList = new PetProfile[_petData.Object.Length];
         
         for (int i = 0; i < PetList.Length; ++i)
         {
             PetList[i] = new PetProfile();
 
-            PetList[i].SetPrefab(_petData.PetObject[i]);
+            PetList[i].SetPrefab(_petData.Object[i]);
 
-            PetList[i].SetIsHave(_petData.PetStatus[i]);
+            PetList[i].SetIsHave(_petData.Status[i]);
         }
     }
 }

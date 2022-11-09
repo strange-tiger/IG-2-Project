@@ -14,7 +14,7 @@ public class Pet : MonoBehaviourPunCallbacks
     [SerializeField] int _petMaxExp;
     [SerializeField] float _petSize;
 
-    private YieldInstruction _gainExpTime = new WaitForSeconds(60f);
+    private static readonly YieldInstruction _gainExpTime = new WaitForSeconds(60f);
     private IEnumerator _gainExpCoroutine;
     private int _eqiupNum;
 
@@ -34,9 +34,9 @@ public class Pet : MonoBehaviourPunCallbacks
 
     private void PetDataInitializeFromPetData()
     {
-        for (int i = 0; i < _petData.PetStatus.Length; ++i)
+        for (int i = 0; i < _petData.Status.Length; ++i)
         {
-            if (_petData.PetObject[i] == gameObject)
+            if (_petData.Object[i] == gameObject)
             {
                 _eqiupNum = i;
                 break;
@@ -47,17 +47,17 @@ public class Pet : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied(int index)
     {
-        transform.GetChild(_petData.PetAsset[index]).gameObject.SetActive(true);
+        transform.GetChild(_petData.ChildIndex[index]).gameObject.SetActive(true);
 
-        _petSize = _petData.PetSize[index];
+        _petSize = _petData.Size[index];
 
-        transform.GetChild(_petData.PetAsset[index]).gameObject.transform.localScale = new Vector3(transform.localScale.x * _petSize, transform.localScale.y * _petSize, transform.localScale.z * _petSize);
+        transform.GetChild(_petData.ChildIndex[index]).gameObject.transform.localScale = new Vector3(transform.localScale.x * _petSize, transform.localScale.y * _petSize, transform.localScale.z * _petSize);
 
-        _petLevel = _petData.PetLevel[index];
+        _petLevel = _petData.Level[index];
 
-        _petExp = _petData.PetExp[index];
+        _petExp = _petData.Exp[index];
 
-        _petMaxExpType = _petData.PetMaxExp[index];
+        _petMaxExpType = _petData.MaxExp[index];
 
         switch (_petMaxExpType)
         {
@@ -76,16 +76,11 @@ public class Pet : MonoBehaviourPunCallbacks
                     _petMaxExp = 240;
                 return;
         }
-
     }
-
-
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        
         photonView.RPC("PetDataApplied", newPlayer, _eqiupNum);
-        
     }
 
     private IEnumerator PetExpIncrease()
@@ -96,7 +91,7 @@ public class Pet : MonoBehaviourPunCallbacks
 
             _petExp++;
 
-            _petData.PetExp[_eqiupNum] = _petExp;
+            _petData.Exp[_eqiupNum] = _petExp;
 
             PetDataUpdate("Temp");
 
@@ -104,7 +99,6 @@ public class Pet : MonoBehaviourPunCallbacks
             {
                 PetLevelUp();
             }
-
         }
     }
 
@@ -114,15 +108,14 @@ public class Pet : MonoBehaviourPunCallbacks
 
         _petLevel++;
 
-        _petData.PetLevel[_eqiupNum] = _petLevel;
+        _petData.Level[_eqiupNum] = _petLevel;
 
         if (_petMaxExpType == EPetMaxExp.SECONDARYEVOL && _petLevel < 2)
         {
-            _petData.PetExp[_eqiupNum] = 0;
+            _petData.Exp[_eqiupNum] = 0;
             _petMaxExp *= 2;
             PetGainExp();
         }
-
     }
 
     private void PetGainExp()
@@ -131,7 +124,6 @@ public class Pet : MonoBehaviourPunCallbacks
         {
             return;
         }
-
 
         StartCoroutine(_gainExpCoroutine);
     }
@@ -145,5 +137,4 @@ public class Pet : MonoBehaviourPunCallbacks
     {
         MySqlSetting.UpdatePetInventoryData(nickname, _petData);
     }
-
 }

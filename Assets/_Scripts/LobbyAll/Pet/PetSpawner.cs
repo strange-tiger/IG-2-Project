@@ -21,7 +21,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     {
         PetDataInitializeFromDB();
 
-        if(_havePet)
+        if (_havePet)
         {
             photonView.RPC("PetInstantiate", RpcTarget.All, _eqiupNum);
         }
@@ -29,11 +29,11 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
-            if(Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                if(_testNum == 15)
+                if (_testNum == 15)
                 {
                     _testNum = 0;
                 }
@@ -46,15 +46,14 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         }
     }
 
-
     private void PetDataInitializeFromDB()
     {
         MySqlSetting.Init();
-        _petData = MySqlSetting.GetPetInventoryData("Temp",_petData);
+        _petData = MySqlSetting.GetPetInventoryData("Temp", _petData);
 
-        for(int i = 0; i < _petData.PetStatus.Length; ++i)
+        for (int i = 0; i < _petData.Status.Length; ++i)
         {
-            if(_petData.PetStatus[i] == EPetStatus.EQUIPED)
+            if (_petData.Status[i] == EPetStatus.EQUIPED)
             {
                 _eqiupNum = i;
                 _havePet = true;
@@ -77,13 +76,11 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine)
         {
-            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.PetObject[index].name}",transform.position,Quaternion.identity);
-            transform.GetChild(_petData.PetAsset[index]).gameObject.GetComponent<PetMove>().SetPetManager(this);
+            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
+            transform.GetChild(_petData.ChildIndex[index]).gameObject.GetComponent<PetMove>().SetPetSpawner(this);
 
         }
     }
-
-    
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -101,8 +98,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     }
 
-
-   private void PetDataUpdate(string nickname)
+    private void PetDataUpdate(string nickname)
     {
         MySqlSetting.UpdatePetInventoryData(nickname, _petData);
     }
