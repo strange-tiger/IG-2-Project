@@ -24,7 +24,7 @@ public class Wood : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_grabbable.isGrabbed && _notOnCooltime)
+        if (_grabbable.isGrabbed && _notOnCooltime)
         {
             _audioSource.PlayOneShot(_audioClip);
             StartCoroutine(Cooltime());
