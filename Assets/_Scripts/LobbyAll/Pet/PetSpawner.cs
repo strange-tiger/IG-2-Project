@@ -1,12 +1,10 @@
 #define debug
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Asset.MySql;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Reflection;
+using Asset.MySql;
 
 public class PetSpawner : MonoBehaviourPunCallbacks
 {
@@ -51,11 +49,9 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     private void PetDataInitializeFromDB()
     {
-#if !debug
         MySqlSetting.Init();
         _petData = MySqlSetting.GetPetInventoryData("Temp", _petData);
-#else
-#endif
+
         for (int i = 0; i < _petData.Status.Length; ++i)
         {
             if (_petData.Status[i] == EPetStatus.EQUIPED)
@@ -82,7 +78,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
-            _petObject.transform.GetChild(_petData.ChildIndex[index]).gameObject.GetComponent<PetMove>().SetPetSpawner(this);
+            _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
 
         }
     }
@@ -97,17 +93,12 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     public void PetChange(int index)
     {
-
         _eqiupNum = index;
         photonView.RPC("PetInstantiate", RpcTarget.All, _eqiupNum);
-
     }
 
     private void PetDataUpdate(string nickname)
     {
-#if !debug
         MySqlSetting.UpdatePetInventoryData(nickname, _petData);
-#else
-#endif
     }
 }
