@@ -27,7 +27,7 @@ public class PetMove : MonoBehaviourPun
     }
     private EPetMoveState _state = EPetMoveState.IDLE;
 
-    private PetSpawner _spawner;
+    private Transform _destination;
     private Animator _animator;
     private NavMeshAgent _agent;
 
@@ -35,6 +35,8 @@ public class PetMove : MonoBehaviourPun
     {
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+
+        //_spawner = FindObjectOfType<PetSpawner>();
     }
 
     private void OnEnable()
@@ -50,7 +52,7 @@ public class PetMove : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && photonView.IsMine)
+        if (other.CompareTag("Player") /*&& photonView.IsMine*/)
         {
             State = EPetMoveState.IDLE;
         }
@@ -58,15 +60,15 @@ public class PetMove : MonoBehaviourPun
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && photonView.IsMine)
+        if (other.CompareTag("Player") /*&& photonView.IsMine*/)
         {
             State = EPetMoveState.MOVE;
         }
     }
 
-    public void SetPetSpawner(PetSpawner spawner)
+    public void SetTarget(Transform destination)
     {
-        _spawner = spawner;
+        _destination = destination;
     }
 
     private void ChangeMoveState(bool isMove)
@@ -75,8 +77,8 @@ public class PetMove : MonoBehaviourPun
 
         if (isMove)
         {
-            _agent.SetDestination(_spawner.transform.position);
-            Debug.Log(_spawner.transform.position);
+            _agent.SetDestination(_destination.position);
+            Debug.Log(_destination.position);
         }
 
         _agent.isStopped = !isMove;
