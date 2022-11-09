@@ -1,3 +1,4 @@
+#define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -135,6 +136,9 @@ public class Pet : MonoBehaviourPunCallbacks
 
     private void PetDataUpdate(string nickname)
     {
+#if !debug
         MySqlSetting.UpdatePetInventoryData(nickname, _petData);
+#else
+#endif
     }
 }

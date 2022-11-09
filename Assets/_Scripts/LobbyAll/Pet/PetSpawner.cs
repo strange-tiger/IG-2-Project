@@ -1,3 +1,4 @@
+#define debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,9 +49,12 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     private void PetDataInitializeFromDB()
     {
+#if !debug
         MySqlSetting.Init();
         _petData = MySqlSetting.GetPetInventoryData("Temp", _petData);
-
+#else
+        _petData = new PetData();
+#endif
         for (int i = 0; i < _petData.Status.Length; ++i)
         {
             if (_petData.Status[i] == EPetStatus.EQUIPED)
@@ -100,6 +104,9 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     private void PetDataUpdate(string nickname)
     {
+#if !debug
         MySqlSetting.UpdatePetInventoryData(nickname, _petData);
+#else
+#endif
     }
 }
