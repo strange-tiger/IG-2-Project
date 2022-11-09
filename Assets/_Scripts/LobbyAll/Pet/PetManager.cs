@@ -46,9 +46,9 @@ public class PetManager : MonoBehaviourPunCallbacks
         MySqlSetting.Init();
         _petData = MySqlSetting.GetPetInventoryData("Temp",_petData);
 
-        for(int i = 0; i < _petData.PetStatus.Length; ++i)
+        for(int i = 0; i < _petData.Status.Length; ++i)
         {
-            if(_petData.PetStatus[i] == EPetStatus.EQUIPED)
+            if(_petData.Status[i] == EPetStatus.EQUIPED)
             {
                 _eqiupNum = i;
                 _havePet = true;
@@ -64,19 +64,19 @@ public class PetManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetDataApplied()
     {
-        _petObject = Instantiate(_petData.PetObject[_eqiupNum],gameObject.transform);
+        _petObject = Instantiate(_petData.Object[_eqiupNum],gameObject.transform);
 
-        _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(true);
+        _petObject.transform.GetChild(_petData.ChildIndex[_eqiupNum]).gameObject.SetActive(true);
 
-        _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).GetComponent<PetMove>().SetPetManager(this);
+        _petObject.transform.GetChild(_petData.ChildIndex[_eqiupNum]).GetComponent<PetMove>().SetTarget(transform);
 
-        _petLevel = _petData.PetLevel[_eqiupNum];
+        _petLevel = _petData.Level[_eqiupNum];
 
-        _petExp = _petData.PetExp[_eqiupNum];
+        _petExp = _petData.Exp[_eqiupNum];
 
-        _petMaxExpType = _petData.PetMaxExp[_eqiupNum];
+        _petMaxExpType = _petData.MaxExp[_eqiupNum];
 
-        _petSize = _petData.PetSize[_eqiupNum];
+        _petSize = _petData.Size[_eqiupNum];
 
         _petObject.transform.localScale = new Vector3(_petObject.transform.localScale.x * _petSize, _petObject.transform.localScale.y * _petSize, _petObject.transform.localScale.z * _petSize);
 
@@ -115,7 +115,7 @@ public class PetManager : MonoBehaviourPunCallbacks
         if (_petObject != null)
         {
             Destroy(_petObject);
-            _petObject.transform.GetChild(_petData.PetAsset[_eqiupNum]).gameObject.SetActive(false);
+            _petObject.transform.GetChild(_petData.ChildIndex[_eqiupNum]).gameObject.SetActive(false);
         }
 
         _eqiupNum = index;
@@ -134,7 +134,7 @@ public class PetManager : MonoBehaviourPunCallbacks
 
             _petExp++;
 
-            _petData.PetExp[_eqiupNum] = _petExp;
+            _petData.Exp[_eqiupNum] = _petExp;
 
             PetDataUpdate("Temp");
 
@@ -152,11 +152,11 @@ public class PetManager : MonoBehaviourPunCallbacks
 
         _petLevel++;
 
-        _petData.PetLevel[_eqiupNum] = _petLevel;
+        _petData.Level[_eqiupNum] = _petLevel;
 
         if (_petMaxExpType == EPetMaxExp.SECONDARYEVOL && _petLevel < 2)
         {
-            _petData.PetExp[_eqiupNum] = 0;
+            _petData.Exp[_eqiupNum] = 0;
             _petMaxExp *= 2;
             PetGainExp();
         }
