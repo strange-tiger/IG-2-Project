@@ -11,14 +11,18 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    private void OnDisconnectedFromMasterServer()
+    public override void OnDisconnected(DisconnectCause cause)
     {
+        base.OnDisconnected(cause);
+
         PhotonNetwork.ConnectUsingSettings();
+        Debug.Log("서버 연결 실패");
     }
 
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
+
         PhotonNetwork.JoinLobby();
         Debug.Log("됐나?");
     }
@@ -38,8 +42,6 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         
         Debug.Log("됐구나?");
         PhotonNetwork.LoadLevel("Pet_Interaction");
-        Debug.Log(PhotonNetwork.CurrentRoom.Name);
-        
     }
 
     public override void OnJoinedRoom()
