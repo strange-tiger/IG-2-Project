@@ -27,7 +27,7 @@ public class PetMove : MonoBehaviourPun
     }
     private EPetMoveState _state = EPetMoveState.IDLE;
 
-    private PetManager _manager;
+    private PetSpawner _manager;
     private Animator _animator;
     private NavMeshAgent _agent;
 
@@ -64,7 +64,7 @@ public class PetMove : MonoBehaviourPun
         }
     }
 
-    public void SetPetManager(PetManager manager)
+    public void SetPetManager(PetSpawner manager)
     {
         _manager = manager;
     }
