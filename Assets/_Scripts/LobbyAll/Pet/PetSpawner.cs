@@ -55,7 +55,6 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         MySqlSetting.Init();
         _petData = MySqlSetting.GetPetInventoryData("Temp", _petData);
 #else
-        _petData = new PetData();
 #endif
         for (int i = 0; i < _petData.Status.Length; ++i)
         {
