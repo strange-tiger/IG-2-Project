@@ -11,8 +11,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     [SerializeField] private bool _isStartRoom;
     [SerializeField] private OVRRaycaster[] _canvases;
     [SerializeField] private GameObject _playerPrefab;
+    protected GameObject _myPlayer;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if(!_isStartRoom)
         {
@@ -21,6 +22,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
             BasicPlayerNetworking playerNetworking = player.GetComponent<BasicPlayerNetworking>();
             playerNetworking.photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
             playerNetworking.CanvasSetting(_canvases);
+            _myPlayer = player;
         }
     }
 

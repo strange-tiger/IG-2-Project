@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using PlayerInfo = ShootingGameManager.ShootingPlayerInfo;
+using Photon.Pun;
 
-public class ShootingUIManager : MonoBehaviour
+public class ShootingUIManager : MonoBehaviourPun
 {
     [SerializeField] private ShootingGameManager _shootingGameManager;
     private StartPlayerInfoPanelManager _startPlayerInfoScript;
@@ -61,6 +62,7 @@ public class ShootingUIManager : MonoBehaviour
         _currentPanel = _countDownPanel;
     }
 
+    [PunRPC]
     public void ShowPlayerPanel()
     {
         _currentPanel.SetActive(false);
@@ -91,6 +93,7 @@ public class ShootingUIManager : MonoBehaviour
         _endScoreScript.ShowRestartPanel();
     }
 
+    [PunRPC]
     public void DisableCurrentPanel()
     {
         _currentPanel.SetActive(false);

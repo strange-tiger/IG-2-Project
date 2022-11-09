@@ -28,6 +28,13 @@ public class LuncherManager : MonoBehaviour
 
         All = 0b_1111,
     }
+    public enum EShootingObject
+    {
+        Bottle,
+        Tin,
+        Barrel,
+        Skull,
+    }
 
     [Header("Luncher")]
     [SerializeField] private ObjectLuncher[] _lunchers = new ObjectLuncher[_MAX_LUNCHER_COUNT];
@@ -44,8 +51,8 @@ public class LuncherManager : MonoBehaviour
     [Serializable]
     public class ShootingObjectRate
     {
-        [SerializeField] private GameObject _objectPrefab;
-        public GameObject ObjectPrefab { get => _objectPrefab; set => _objectPrefab = value; }
+        [SerializeField] private EShootingObject _shootingObjectType;
+        public EShootingObject ShootingObjectType { get => _shootingObjectType; set => _shootingObjectType = value; }
         [SerializeField] private float _objectRate;
         public float ObjectRate { get => _objectRate; set => _objectRate = value; }
     }
@@ -74,12 +81,6 @@ public class LuncherManager : MonoBehaviour
         {
             _shootingObjectTimings[_shootingObjectTimings.Length - (6 - i)].LimitTime = playTime + i;
         }
-        //_shootingObjectTimings[_shootingObjectTimings.Length - 6].LimitTime = playTime;
-        //_shootingObjectTimings[_shootingObjectTimings.Length - 5].LimitTime = playTime + 1;
-        //_shootingObjectTimings[_shootingObjectTimings.Length - 4].LimitTime = playTime + 2;
-        //_shootingObjectTimings[_shootingObjectTimings.Length - 3].LimitTime = playTime + 3;
-        //_shootingObjectTimings[_shootingObjectTimings.Length - 2].LimitTime = playTime + 4;
-        //_shootingObjectTimings[_shootingObjectTimings.Length - 1].LimitTime = playTime + 5;
         _currentShootingObjectTiming = _shootingObjectTimings[0];
     }
 
@@ -113,7 +114,7 @@ public class LuncherManager : MonoBehaviour
             }
         }
 
-        GameObject lunchObject = SelectObject();
+        EShootingObject lunchObject = SelectObject();
 
         foreach(ObjectLuncher luncher in _lunchers)
         {
@@ -126,7 +127,7 @@ public class LuncherManager : MonoBehaviour
         _luncherTypeCount = (_luncherTypeCount + 1) % _currentLuncherTimingSetting.LuncherType.Length;
     }
 
-    private GameObject SelectObject()
+    private EShootingObject SelectObject()
     {
         ShootingObjectTiming shootingTiming = _shootingObjectTimings[_shootingObjectCount];
 
@@ -138,10 +139,10 @@ public class LuncherManager : MonoBehaviour
             rate += objectRate.ObjectRate;
             if(randomRate < rate)
             {
-                return objectRate.ObjectPrefab;
+                return objectRate.ShootingObjectType;
             }
         }
 
-        return shootingTiming.ShootingObjects[shootingTiming.ShootingObjects.Length - 1].ObjectPrefab;
+        return shootingTiming.ShootingObjects[shootingTiming.ShootingObjects.Length - 1].ShootingObjectType;
     }
 }

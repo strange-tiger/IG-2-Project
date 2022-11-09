@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class ShootingObjectMovement : MonoBehaviour
+public class ShootingObjectMovement : MonoBehaviourPun
 {
     [Header("Basic Speed")]
     [SerializeField] private float _moveSpeed;
@@ -67,6 +68,16 @@ public class ShootingObjectMovement : MonoBehaviour
     private IEnumerator CoDestroyObject()
     {
         yield return _waitForDestroy;
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        photonView.RPC("DestroySelf", RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    private void DestroySelf()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }

@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using PlayerNumber = ShootingGameManager.EShootingPlayerNumber;
 
-public class ShootingObjectHealth : MonoBehaviour
+public class ShootingObjectHealth : MonoBehaviourPun
 {
     [Serializable]
     public class ShotEffect
@@ -19,7 +20,7 @@ public class ShootingObjectHealth : MonoBehaviour
 
         public int ShowEffect()
         {
-            if(_isThereEffect)
+            if (_isThereEffect)
             {
                 _effect.SetActive(true);
             }
@@ -58,7 +59,7 @@ public class ShootingObjectHealth : MonoBehaviour
 
     private void Awake()
     {
-        if(_shootingGameManager)
+        if (_shootingGameManager)
         {
             _shootingGameManager = FindObjectOfType<ShootingGameManager>();
         }
@@ -71,12 +72,14 @@ public class ShootingObjectHealth : MonoBehaviour
         _waitForDestroy = new WaitForSeconds(_destroyOffsetTime);
 
         _shotEffectCount = -1;
+
+        transform.parent = _shootingGameManager.LunchObjects.transform;
     }
 
     public int Hit(PlayerNumber playerNumber)
     {
         Debug.Log("[Shooting] Hit");
-        if(_shotEffectCount < 0)
+        if (_shotEffectCount < 0)
         {
             _initialModel.SetActive(false);
         }
@@ -109,6 +112,16 @@ public class ShootingObjectHealth : MonoBehaviour
     private IEnumerator DisableSelf()
     {
         yield return _waitForDestroy;
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        photonView.RPC("DestroySelf", RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    private void DestroySelf()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }
