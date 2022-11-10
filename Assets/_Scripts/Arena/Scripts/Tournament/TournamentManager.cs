@@ -16,7 +16,11 @@ public class TournamentManager : MonoBehaviourPun
 
     [SerializeField] private GameObject[] _groups;
     public GameObject[] Groups { get { return _groups; } }
-    
+
+    [SerializeField] private float _reStartTime;
+
+    private float _curTime;
+
     private int _selectGroupNum;
     public int SelectGroupNum { get { return _selectGroupNum; } }
 
@@ -35,6 +39,24 @@ public class TournamentManager : MonoBehaviourPun
             GameStartEvent();
         }
         Debug.Log($"Start 동작, 마스터 : {PhotonNetwork.IsMasterClient}, _vrUI의 상태 : {_vrUI.activeSelf}");
+    }
+    
+
+    void Update()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _curTime += Time.deltaTime;
+
+            if (_curTime >= _reStartTime)
+            {
+                Debug.Log("초기화");
+
+                GameStartEvent();
+                // PhotonNetwork.Destroy(gameObject);
+                _curTime -= _curTime;
+            }
+        }
     }
 
     private void GameStartEvent()
