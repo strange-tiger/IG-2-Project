@@ -6,7 +6,8 @@ using Photon.Pun;
 
 public class GroupManager : MonoBehaviourPun
 {
-    [SerializeField] private int _setPosition;
+    [SerializeField] private int _setPositionX;
+    [SerializeField] private float _setPositionZ;
 
     private GameObject[] _member = new GameObject[4];
     public GameObject[] Member { get { return _member; } }
@@ -166,9 +167,9 @@ public class GroupManager : MonoBehaviourPun
     /// </summary>
     private void SetPositionFirstBattle()
     {
-        _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
+        _member[0].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
         _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
-        _member[1].transform.position = new Vector3(_setPosition, -2f, 0);
+        _member[1].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
         _member[1].transform.rotation = Quaternion.Euler(0, -90, 0);
 
         _member[0].SetActive(true);
@@ -181,9 +182,9 @@ public class GroupManager : MonoBehaviourPun
     /// </summary>
     private void SetPositionSecondBattle()
     {
-        _member[2].transform.position = new Vector3(-_setPosition, -2f, 0);
+        _member[2].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
         _member[2].transform.rotation = Quaternion.Euler(0, 90, 0);
-        _member[3].transform.position = new Vector3(_setPosition, -2f, 0);
+        _member[3].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
         _member[3].transform.rotation = Quaternion.Euler(0, -90, 0);
 
         _member[2].SetActive(true);
@@ -223,7 +224,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = a;
             }
             _finalBattle[0] = _member[0];
-            _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
+            _member[0].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
             _member[0].SetActive(false);
         }
 
@@ -238,7 +239,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = b;
             }
             _finalBattle[0] = _member[1];
-            _member[1].transform.position = new Vector3(-_setPosition, -2f, 0);
+            _member[1].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
             _member[1].SetActive(false);
         }
 
@@ -262,7 +263,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = c;
             }
             _finalBattle[1] = _member[2];
-            _member[2].transform.position = new Vector3(_setPosition, -2f, 0);
+            _member[2].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
             _member[2].SetActive(false);
         }
 
@@ -277,7 +278,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = d;            
             }
             _finalBattle[1] = _member[3];
-            _member[3].transform.position = new Vector3(_setPosition, -2f, 0);
+            _member[3].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
             _member[3].SetActive(false);
         }
 
