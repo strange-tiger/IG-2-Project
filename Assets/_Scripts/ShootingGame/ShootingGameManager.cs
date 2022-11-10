@@ -122,6 +122,19 @@ public class ShootingGameManager : MonoBehaviourPun
     {
         if(PhotonNetwork.IsMasterClient)
         {
+            foreach(ShootingPlayerInfo info in _shootingPlayerInfos)
+            {
+                if(info.PlayerNickname == playerNickname)
+                {
+                    return;
+                }
+            }
+
+            if(_shootingPlayerInfos.Count == _MAX_PLAYER_COUNT)
+            {
+                return;
+            }
+
             _shootingPlayerInfos.Add(new ShootingPlayerInfo()
             {
                 PlayerNumber = (EShootingPlayerNumber) _playerCount,
@@ -379,6 +392,7 @@ public class ShootingGameManager : MonoBehaviourPun
             if (info.PlayerNumber == playerNumber)
             {
                 info.PlayerScore += addPoint;
+                OnAddScore.Invoke(playerNumber, info.PlayerScore);
                 photonView.RPC("PlayerScoreAdded", RpcTarget.AllBuffered, 
                     playerNumber, info.PlayerScore);
                 break;
@@ -389,6 +403,11 @@ public class ShootingGameManager : MonoBehaviourPun
     [PunRPC]
     private void PlayerScoreAdded(EShootingPlayerNumber playerNumber, int score)
     {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
         foreach (ShootingPlayerInfo info in _shootingPlayerInfos)
         {
             if (info.PlayerNumber == playerNumber)
