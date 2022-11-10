@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using ShootingObjectType = LuncherManager.EShootingObject;
 
-public class ObjectLuncher : MonoBehaviour
+public class ObjectLuncher : MonoBehaviourPun
 {
+    [SerializeField] private GameObject[] _shootingObjects;
 
     [SerializeField] private float _minXDegree = -15f;
     [SerializeField] private float _maxXDegree = 30f;
@@ -20,14 +23,13 @@ public class ObjectLuncher : MonoBehaviour
     public LuncherManager.ELuncherId LuncherId { get => _luncherId; set => _luncherId = value; }
 
     [SerializeField] private Transform _lunchPointTransform;
-    [SerializeField] private Transform _objectParent;
 
     private void Awake()
     {
         _luncherIdInt = (int)_luncherId;
     }
 
-    public void GetRandomDegreeInRange(int _lunchCode, GameObject prefab)
+    public void LunchObjects(int _lunchCode, ShootingObjectType type)
     {
         if((_lunchCode & _luncherIdInt) == 0)
         {
@@ -42,9 +44,9 @@ public class ObjectLuncher : MonoBehaviour
             transform.rotation = Quaternion.Euler(_originalDegree);
             transform.rotation = Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z);
 
-            GameObject newObject = Instantiate(prefab, _lunchPointTransform.position, 
-                Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z));
-            newObject.transform.parent = _objectParent;
+            //GameObject newObject = Instantiate(prefab, _lunchPointTransform.position, Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z));
+            GameObject newObject = PhotonNetwork.Instantiate(_shootingObjects[(int)type].name,
+                _lunchPointTransform.position, Quaternion.Euler(xDegree + _originalDegree.x, zDegree + _originalDegree.y, _originalDegree.z));
         }
     }
 }
