@@ -1,10 +1,10 @@
-#define debugMaster
+//#define debugMaster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-
+using Asset.MySql;
 public class TestInPhoton : MonoBehaviourPunCallbacks
 {
     private const string ROOM_NAME = "PetTest";
@@ -47,13 +47,13 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnCreatedRoom();
 
         Debug.Log("됐구나?");
-        PhotonNetwork.LoadLevel("Pet_Interaction");
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
         Debug.Log("된거구나?");
+        MySqlSetting.Init();
 
         PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
     }

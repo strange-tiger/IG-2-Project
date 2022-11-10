@@ -85,7 +85,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        if (_havePet)
+        if (_petObject.activeSelf)
         {
             photonView.RPC("PetInstantiate", newPlayer, _eqiupNum);
         }
