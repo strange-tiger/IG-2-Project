@@ -53,9 +53,9 @@ public class FirstMoveAttackObj : MonoBehaviourPun
 
         // 일치하지 않으면 병이 깨지고 타격을 받음
         this.photonView.RPC("Crack", RpcTarget.All);
-
-        FirstMoveAttackPlayer player = other.GetComponentInParent<FirstMoveAttackPlayer>();
-        player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
+        
+        FirstMoveAttackPlayer player = other.transform.root.GetComponentInChildren<FirstMoveAttackPlayer>();
+        player.photonView.RPC("OnDamageByBottle", RpcTarget.All);
     }
 
 
@@ -85,23 +85,22 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         }
     }
 
-    //이거 pun 써야할것같기도 하고
-    public void GrabberSetting(PhotonView photonView, SyncOVRGrabber grabber)
+    public void GrabberSetting(PhotonView grabberPhotonView, SyncOVRGrabber grabber)
     {
-        _grabberPhotonView = photonView;
+        _grabberPhotonView = grabberPhotonView;
         _grabber = grabber;
     }
 
     [PunRPC]
     public void Crack()
     {
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             _audioSource.Play();
         }
-        _grabber.GrabEnd();
+        _grabber?.GrabEnd();
         TurnOff();
-        Respawn();
+        Invoke("Respawn", 2f);
     }
 
     private void TurnOff()
