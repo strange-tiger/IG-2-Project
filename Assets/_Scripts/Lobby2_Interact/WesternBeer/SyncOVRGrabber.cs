@@ -209,7 +209,6 @@ public class SyncOVRGrabber : MonoBehaviourPun
     {
         if ((m_prevFlex >= grabBegin) && (prevFlex < grabBegin))
         {
-
             GrabBegin();
         }
         else if ((m_prevFlex <= grabEnd) && (prevFlex > grabEnd))
@@ -357,7 +356,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
         }
     }
 
-    protected void GrabEnd()
+    public void GrabEnd()
     {
         if (m_grabbedObj != null)
         {
@@ -386,7 +385,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
         }
         else
         {
-            _grabbedHandCollider.isTrigger = false;
+            //_grabbedHandCollider.isTrigger = false;
             _grabbedHandCollider = null;
         }
         m_grabbedObj = null;
