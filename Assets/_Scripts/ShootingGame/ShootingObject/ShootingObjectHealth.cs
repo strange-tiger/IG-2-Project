@@ -124,7 +124,10 @@ public class ShootingObjectHealth : MonoBehaviourPun
     private void PlayEffectSound()
     {
         int randonNumber = UnityEngine.Random.Range(0, _shotSoundEffects.Length);
-        _audioSource.PlayOneShot(_shotSoundEffects[randonNumber]);
+        if(_shotSoundEffects.Length > 0)
+        {
+            _audioSource.PlayOneShot(_shotSoundEffects[randonNumber]);
+        }
     }
 
     private IEnumerator DisableSelf()
