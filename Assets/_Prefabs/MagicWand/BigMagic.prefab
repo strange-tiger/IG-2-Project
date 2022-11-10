@@ -19396,9 +19396,7 @@ GameObject:
   - component: {fileID: 2641366531145804389}
   - component: {fileID: 2652487086997172257}
   - component: {fileID: 2659702935160498201}
-  - component: {fileID: 2620133620528405145}
   - component: {fileID: 2647564234267455208}
-  - component: {fileID: 2647564234267455209}
   - component: {fileID: 2647564234267455210}
   - component: {fileID: 2647564234267455211}
   - component: {fileID: 2647564234267455212}
@@ -19406,6 +19404,7 @@ GameObject:
   - component: {fileID: 2647564234267455213}
   - component: {fileID: 2390941868637905954}
   - component: {fileID: 1383995708818543970}
+  - component: {fileID: 6583975423069122336}
   m_Layer: 0
   m_Name: BigMagic
   m_TagString: Untagged
@@ -19481,20 +19480,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2620133620528405145
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2647564234267455223}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43359126884879142, guid: a0ba4207f8c32ca44bb39829372886c8, type: 2}
 --- !u!114 &2647564234267455208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19511,24 +19496,6 @@ MonoBehaviour:
   _coolTime: 10
   _magicWandPanel: {fileID: 7594156511919201187}
   _magic: []
---- !u!114 &2647564234267455209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2647564234267455223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d61468f8b77ae4b92c344bc9a600fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 1
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints:
-  - {fileID: 2647564234267455211}
 --- !u!54 &2647564234267455210
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19636,6 +19603,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.092208624, y: 1.6079408, z: 0.2}
   m_Center: {x: 0, y: 0.4792357, z: 0}
+--- !u!114 &6583975423069122336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2647564234267455223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80e0edc8b0e5c84a839efedc792ee86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_allowOffhandGrab: 1
+  m_snapPosition: 0
+  m_snapOrientation: 0
+  m_snapOffset: {fileID: 0}
+  m_grabPoints:
+  - {fileID: 2647564234267455211}
 --- !u!1 &5046970359607807509
 GameObject:
   m_ObjectHideFlags: 0

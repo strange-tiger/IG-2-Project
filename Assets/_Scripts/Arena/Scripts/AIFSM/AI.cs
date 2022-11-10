@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EAIState = Defines.Estate;
 using EJob = Defines.EJobClass;
+using Photon.Pun;
 
 public class AI : MonoBehaviour
 {
