@@ -13,6 +13,12 @@ public class PrivateRoomRadialMenuSpawner : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
+        photonView.RPC("SpawnMenu", newPlayer);
+    }
+
+    [PunRPC]
+    private void SpawnMenu()
+    {
         StartCoroutine(SpawnDelay());
     }
 
