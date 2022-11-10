@@ -46,10 +46,10 @@ public class ShootingUIManager : MonoBehaviourPun
         transform.position = position;
     }
 
-    public void ShowStartPlayerPanel(List<PlayerInfo> infos)
+    public void ShowStartPlayerPanel(List<PlayerInfo> infos, string myClientNickname)
     {
         _currentPanel.SetActive(false);
-        _startPlayerInfoScript.SetPlayerList(infos);
+        _startPlayerInfoScript.SetPlayerList(infos, myClientNickname);
         _startPlayerPanel.SetActive(true);
         _currentPanel = _startPlayerPanel;
     }

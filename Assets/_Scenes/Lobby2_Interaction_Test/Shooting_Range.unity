@@ -2030,7 +2030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf4a09380707fc4c9d69083d78b670e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyChanger: {fileID: 1193855604}
+  _lobbyChanger: {fileID: 775743941}
   _goldPanel: {fileID: 2079177312}
   _starPanel: {fileID: 1463437411}
   _regamePanel: {fileID: 762688882}
@@ -6975,7 +6975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e1111ac040971409f72e33703c2d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playTime: 5
+  _playTime: 120
   _showNicknameOffsetTime: 1
   _startCountDownOffsetTime: 3
   _startCountDownSounds:
@@ -8698,6 +8698,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 775743940}
+  - component: {fileID: 775743941}
   m_Layer: 0
   m_Name: ShootingRange
   m_TagString: Untagged
@@ -8721,10 +8722,26 @@ Transform:
   - {fileID: 1130950551}
   - {fileID: 612462679}
   - {fileID: 264817413}
-  - {fileID: 1193855605}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &775743941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775743939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc445bfda19703439a95ab0ac066c5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isStartRoom: 0
+  _canvases:
+  - {fileID: 264817414}
+  _playerPrefab: {fileID: 6072405480879903498, guid: 86fb4eb7a05f52641b347cc352b52dc6, type: 3}
+  _shootingGameManager: {fileID: 612462678}
 --- !u!1 &778681579
 GameObject:
   m_ObjectHideFlags: 0
@@ -12320,53 +12337,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1192563497}
   m_CullTransparentMesh: 1
---- !u!1 &1193855603
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1193855605}
-  - component: {fileID: 1193855604}
-  m_Layer: 0
-  m_Name: LobbyChanger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1193855604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1193855603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isStartRoom: 0
-  _canvases:
-  - {fileID: 264817414}
-  _playerPrefab: {fileID: 6072405480879903498, guid: 86fb4eb7a05f52641b347cc352b52dc6, type: 3}
---- !u!4 &1193855605
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1193855603}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 775743940}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1200839318
 PrefabInstance:
   m_ObjectHideFlags: 0

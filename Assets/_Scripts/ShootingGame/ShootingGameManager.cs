@@ -186,7 +186,7 @@ public class ShootingGameManager : MonoBehaviourPun
         yield return new WaitForSeconds(_showNicknameOffsetTime);
 
         Debug.Log("[Shooting] UI 띄움");
-        _uiManager.ShowStartPlayerPanel(_shootingPlayerInfos);
+        _uiManager.ShowStartPlayerPanel(_shootingPlayerInfos, _myClientNickname);
         yield return new WaitForSeconds(_startCountDownOffsetTime);
 
         if(PhotonNetwork.IsMasterClient)
@@ -300,7 +300,7 @@ public class ShootingGameManager : MonoBehaviourPun
     {
         yield return _waitForSecond;
         Debug.Log("[Shooting] 게임 결과 출력");
-        SetPlayerList();
+        SortPlayerListByScore();
         _uiManager.ShowEndScore(_shootingPlayerInfos);
 
         yield return _waitForSecond;
@@ -314,7 +314,7 @@ public class ShootingGameManager : MonoBehaviourPun
         _uiManager.ShowRestartPanel();
     }
 
-    private void SetPlayerList()
+    private void SortPlayerListByScore()
     {
         // 점수 순위로 정렬
         _shootingPlayerInfos.Sort(delegate (ShootingPlayerInfo playerA, ShootingPlayerInfo playerB)

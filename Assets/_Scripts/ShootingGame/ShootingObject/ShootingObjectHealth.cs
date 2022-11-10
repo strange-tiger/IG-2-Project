@@ -45,6 +45,9 @@ public class ShootingObjectHealth : MonoBehaviourPun
     public ShotEffect[] ShotEffects { get => _shotEffects; private set => _shotEffects = value; }
     private int _shotEffectCount = -1;
 
+    [Header("Hit Effect")]
+    [SerializeField] private GameObject _hitUI;
+
     [Header("Destroy")]
     [SerializeField] private float _destroyOffsetTime = 0.5f;
     private WaitForSeconds _waitForDestroy;
@@ -76,7 +79,14 @@ public class ShootingObjectHealth : MonoBehaviourPun
         transform.parent = _shootingGameManager.LunchObjects.transform;
     }
 
-    public int Hit(PlayerNumber playerNumber)
+    public void Hit(PlayerNumber playerNumber, Vector3 playerColor, Vector3 hitPoint)
+    {
+        photonView.RPC("HitByServer", RpcTarget.AllBufferedViaServer,
+            playerNumber, playerColor, hitPoint);
+    }
+
+    [PunRPC]
+    public void HitByServer(PlayerNumber playerNumber, Vector3 playerColor, Vector3 hitPoint)
     {
         Debug.Log("[Shooting] Hit");
         if (_shotEffectCount < 0)
@@ -94,13 +104,21 @@ public class ShootingObjectHealth : MonoBehaviourPun
             _movement.enabled = false;
             gameObject.layer = _unbreakableObjectLayer;
             _rigidbody.velocity = _ZERO_VECTOR3;
-            StartCoroutine(DisableSelf());
+            if(PhotonNetwork.IsMasterClient)
+            {
+                StartCoroutine(DisableSelf());
+            }
         }
         int point = _shotEffects[_shotEffectCount].ShowEffect();
         _shootingGameManager.AddScoreToPlayer(playerNumber, point);
         PlayEffectSound();
 
-        return point;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            GameObject hitUI = PhotonNetwork.Instantiate(_hitUI.name, hitPoint, Quaternion.identity);
+            hitUI.GetComponent<HitUI>().photonView.RPC("SetPointText", RpcTarget.AllViaServer,
+                playerColor, point, point != 0);
+        }
     }
 
     private void PlayEffectSound()
@@ -113,15 +131,6 @@ public class ShootingObjectHealth : MonoBehaviourPun
     {
         yield return _waitForDestroy;
         //Destroy(gameObject);
-        photonView.RPC("DestroySelf", RpcTarget.AllBufferedViaServer);
-    }
-
-    [PunRPC]
-    private void DestroySelf()
-    {
-        if(PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
+        PhotonNetwork.Destroy(gameObject);
     }
 }

@@ -37,9 +37,9 @@ public class GunShoot : MonoBehaviourPun
     // ¿Ã∆—∆Æ
     [Header("Effects")]
     [SerializeField] private Color _playerColor = new Color();
+    private Vector3 _playerColorInVector3;
     private PlayerNumber _playerNumber;
     private string _myNickname;
-    [SerializeField] private GameObject _hitUI;
 
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
 
@@ -117,6 +117,7 @@ public class GunShoot : MonoBehaviourPun
     {
         _playerNumber = playerNumber;
         _playerColor = playerColor;
+        _playerColorInVector3 = new Vector3(playerColor.r, playerColor.g, playerColor.b);
     }
 
     private void Update()
@@ -144,7 +145,6 @@ public class GunShoot : MonoBehaviourPun
         PlayShotEffect();
     }
 
-    private int _score = 0;
     private void HitTarget()
     {
         RaycastHit hit;
@@ -152,14 +152,10 @@ public class GunShoot : MonoBehaviourPun
         if (Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
         {
             ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
-            int point = _health.Hit(_playerNumber);
+            _health.Hit(_playerNumber, _playerColorInVector3, hit.point);
 
-            GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
-            hitUI.GetComponent<HitUI>().enabled = true;
-            hitUI.GetComponent<HitUI>().SetPointText(_playerColor, point, point != 0);
-
-            _score += point;
-            Debug.Log("[Gun] " + _score);
+            //GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
+            //hitUI.GetComponent<HitUI>().SetPointText(_playerColor, point, point != 0);
         }
     }
 
