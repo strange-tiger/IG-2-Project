@@ -13,7 +13,7 @@ public class ShootingServerManager : LobbyChanger
         if(photonView.IsMine)
         {
             GunShoot gun = _myPlayer.GetComponentInChildren<GunShoot>();
-            gun.Reset(_shootingGameManager);
+            gun.SetManager(_shootingGameManager);
         }
     }
 }

@@ -103,20 +103,6 @@ public class ShootingGameManager : MonoBehaviourPun
         {
             _soundEffects.Add(effect);
         }
-
-#if _DEV_MODE_
-        for (int i = 0; i < _MAX_PLAYER_COUNT; ++i)
-        {
-            _shootingPlayerInfos.Add(new ShootingPlayerInfo()
-            {
-                PlayerColor = _playerColors[i],
-                PlayerNumber = (EShootingPlayerNumber)i,
-                PlayerNickname = "Nickname" + i.ToString(),
-                PlayerScore = 3
-            });
-        }
-        StartCoroutine(CoGameStart());
-#endif
     }
 
     public void StartGame()
@@ -360,6 +346,9 @@ public class ShootingGameManager : MonoBehaviourPun
 
     private void GiveGold()
     {
+#if _DEV_MODE_
+        Debug.Log("[Shooting] °ñµå Áö±ÞÇÔ");
+#else
         if (!PhotonNetwork.IsMasterClient)
         {
             return;
@@ -369,6 +358,7 @@ public class ShootingGameManager : MonoBehaviourPun
         {
             MySqlSetting.EarnGold(playerinfo.PlayerNickname, playerinfo.PlayerGold);
         }
+#endif
     }
 
     public void AddScoreToPlayer(EShootingPlayerNumber playerNumber, int addPoint)

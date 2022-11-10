@@ -103,9 +103,9 @@ public class ShootingObjectHealth : MonoBehaviourPun
         {
             _movement.enabled = false;
             gameObject.layer = _unbreakableObjectLayer;
-            _rigidbody.velocity = _ZERO_VECTOR3;
             if(PhotonNetwork.IsMasterClient)
             {
+                _rigidbody.velocity = _ZERO_VECTOR3;
                 StartCoroutine(DisableSelf());
             }
         }

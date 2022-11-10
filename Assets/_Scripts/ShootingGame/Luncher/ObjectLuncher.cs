@@ -23,14 +23,13 @@ public class ObjectLuncher : MonoBehaviourPun
     public LuncherManager.ELuncherId LuncherId { get => _luncherId; set => _luncherId = value; }
 
     [SerializeField] private Transform _lunchPointTransform;
-    [SerializeField] private Transform _objectParent;
 
     private void Awake()
     {
         _luncherIdInt = (int)_luncherId;
     }
 
-    public void GetRandomDegreeInRange(int _lunchCode, ShootingObjectType type)
+    public void LunchObjects(int _lunchCode, ShootingObjectType type)
     {
         if((_lunchCode & _luncherIdInt) == 0)
         {

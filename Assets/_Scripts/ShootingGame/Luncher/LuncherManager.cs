@@ -118,7 +118,7 @@ public class LuncherManager : MonoBehaviour
 
         foreach(ObjectLuncher luncher in _lunchers)
         {
-            luncher.GetRandomDegreeInRange(
+            luncher.LunchObjects(
                 (int)_currentLuncherTimingSetting.LuncherType[_luncherTypeCount],
                 lunchObject);
         }

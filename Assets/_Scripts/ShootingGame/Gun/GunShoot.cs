@@ -108,7 +108,7 @@ public class GunShoot : MonoBehaviourPun
 #endif
     }
     
-    public void Reset(ShootingGameManager shootingGameManager)
+    public void SetManager(ShootingGameManager shootingGameManager)
     {
         shootingGameManager.AddPlayer(_myNickname, this);
     }
@@ -153,9 +153,6 @@ public class GunShoot : MonoBehaviourPun
         {
             ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
             _health.Hit(_playerNumber, _playerColorInVector3, hit.point);
-
-            //GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
-            //hitUI.GetComponent<HitUI>().SetPointText(_playerColor, point, point != 0);
         }
     }
 
