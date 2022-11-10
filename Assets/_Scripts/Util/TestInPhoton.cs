@@ -1,4 +1,4 @@
-//#define debugMaster
+#define debugMaster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +55,6 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         Debug.Log("된거구나?");
         MySqlSetting.Init();
 
-        PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("NewPlayer", new Vector3(1,1,1), Quaternion.identity);
     }
 }
