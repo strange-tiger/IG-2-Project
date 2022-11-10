@@ -1,4 +1,4 @@
-#define debugMaster
+//#define debugMaster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnDisconnected(cause);
 
         PhotonNetwork.ConnectUsingSettings();
-        Debug.Log("¼­¹ö ¿¬°á ½ÇÆĞ");
+        Debug.Log("ì„œë²„ ì—°ê²° ì‹¤íŒ¨");
     }
 
     public override void OnConnectedToMaster()
@@ -27,18 +27,18 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
 
         PhotonNetwork.JoinLobby();
-        Debug.Log("µÆ³ª?");
+        Debug.Log("ëë‚˜?");
     }
 
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
 
-        Debug.Log("µÆÁö?");
+        Debug.Log("ëì§€?");
 #if debugMaster
         while (!PhotonNetwork.CreateRoom(ROOM_NAME)) ;
 #else
-        while (!PhotonNetwork.JoinRoom(ROOM_NAME)) ;
+        while (!PhotonNetwork.JoinRoom(ROOM_NAME));
 #endif
     }
 
@@ -46,13 +46,13 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     {
         base.OnCreatedRoom();
 
-        Debug.Log("µÆ±¸³ª?");
+        Debug.Log("ëêµ¬ë‚˜?");
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("µÈ°Å±¸³ª?");
+        Debug.Log("ëœê±°êµ¬ë‚˜?");
         MySqlSetting.Init();
 
         PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);

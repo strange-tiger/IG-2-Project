@@ -1161,11 +1161,11 @@ namespace Asset.MySql
                     for(int i = 0; i < petStatusArray.Length; ++i)
                     {
 
-                        petData.PetStatus[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus),petStatusArray[i]);
-                        petData.PetLevel[i] = int.Parse(petLevelArray[i]);
-                        petData.PetExp[i] = int.Parse(petExpArray[i]);
-                        petData.PetAsset[i] = int.Parse(petAssetArray[i]);
-                        petData.PetSize[i] = float.Parse(petSizeArray[i]);
+                        petData.Status[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus),petStatusArray[i]);
+                        petData.Level[i] = int.Parse(petLevelArray[i]);
+                        petData.Exp[i] = int.Parse(petExpArray[i]);
+                        petData.ChildIndex[i] = int.Parse(petAssetArray[i]);
+                        petData.Size[i] = float.Parse(petSizeArray[i]);
 
                     }
 
@@ -1181,19 +1181,19 @@ namespace Asset.MySql
         public static bool UpdatePetInventoryData(string nickname, PetData petData)
         {
 
-            string petStatusString = petData.PetStatus[0].ToString();
-            string petLevelString = petData.PetLevel[0].ToString();
-            string petExpString = petData.PetExp[0].ToString();
-            string petAssetString = petData.PetAsset[0].ToString();
-            string petSizeString = petData.PetSize[0].ToString();
+            string petStatusString = petData.Status[0].ToString();
+            string petLevelString = petData.Level[0].ToString();
+            string petExpString = petData.Exp[0].ToString();
+            string petAssetString = petData.ChildIndex[0].ToString();
+            string petSizeString = petData.Size[0].ToString();
 
-            for (int i = 1; i < petData.PetStatus.Length; ++i)
+            for (int i = 1; i < petData.Status.Length; ++i)
             {
-                petStatusString += ',' + petData.PetStatus[i].ToString();
-                petLevelString += ',' + petData.PetLevel[i].ToString();
-                petExpString += ',' + petData.PetExp[i].ToString();
-                petAssetString += ',' + petData.PetAsset[i].ToString();
-                petSizeString += ',' + petData.PetSize[i].ToString();
+                petStatusString += ',' + petData.Status[i].ToString();
+                petLevelString += ',' + petData.Level[i].ToString();
+                petExpString += ',' + petData.Exp[i].ToString();
+                petAssetString += ',' + petData.ChildIndex[i].ToString();
+                petSizeString += ',' + petData.Size[i].ToString();
 
             }
 
