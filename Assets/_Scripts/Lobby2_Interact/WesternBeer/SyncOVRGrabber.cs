@@ -351,7 +351,9 @@ public class SyncOVRGrabber : MonoBehaviourPun
                 if (!m_parentHeldObject)
                 {
                     _grabbedHandCollider.isTrigger = false;
-                    _grabbedHandCollider = null;
+                    //_grabbedHandCollider = null;
+                    GrabEnd();
+
                 }
             }
         }
