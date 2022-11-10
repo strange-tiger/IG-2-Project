@@ -69,6 +69,12 @@ public class ShootingGameManager : MonoBehaviourPun
     [SerializeField] private GameObject _uiCanvas;
     [SerializeField] private ShootingUIManager _uiManager;
 
+    [Header("EndSoundEffects")]
+    [SerializeField] private AudioClip _goldStarAudioClip;
+    [SerializeField] private AudioClip _hoorayAudioClip;
+    [SerializeField] private AudioClip _eagleAudioClip;
+    [SerializeField] private AudioClip _giveGoldAudioClip;
+
     public UnityEvent<int> OnTimePass = new UnityEvent<int>();
     private int _elapsedTime = 0;
     public int ElapsedTime
@@ -299,21 +305,31 @@ public class ShootingGameManager : MonoBehaviourPun
     {
         yield return _waitForSecond;
         Debug.Log("[Shooting] 게임 결과 출력");
-        SortPlayerListByScore();
+        bool isMyClientWinner = SortPlayerListByScore();
         _uiManager.ShowEndScore(_shootingPlayerInfos);
 
         yield return _waitForSecond;
         Debug.Log("[Shooting] 황금 별 달아주기");
         _uiManager.ShowStarImage();
+        _audioSource.PlayOneShot(_goldStarAudioClip);
+        if(isMyClientWinner)
+        {
+            _audioSource.PlayOneShot(_hoorayAudioClip);
+        }
+        else
+        {
+            _audioSource.PlayOneShot(_eagleAudioClip);
+        }
 
         yield return new WaitForSeconds(_hoorayTime);
         Debug.Log("[Shooting] 환호 후 재시작, 골드 페널 띄우기");
         GiveGold();
         _uiManager.ShowGoldPanel();
+        _audioSource.PlayOneShot(_giveGoldAudioClip);
         _uiManager.ShowRestartPanel();
     }
 
-    private void SortPlayerListByScore()
+    private bool SortPlayerListByScore()
     {
         // 점수 순위로 정렬
         _shootingPlayerInfos.Sort(delegate (ShootingPlayerInfo playerA, ShootingPlayerInfo playerB)
@@ -342,6 +358,7 @@ public class ShootingGameManager : MonoBehaviourPun
         });
 
         int highestScore = _shootingPlayerInfos[0].PlayerScore;
+        bool isWinner = false;
         
         foreach(ShootingPlayerInfo playerInfo in _shootingPlayerInfos)
         {
@@ -349,12 +366,15 @@ public class ShootingGameManager : MonoBehaviourPun
             {
                 playerInfo.IsWinner = true;
                 playerInfo.PlayerGold = playerInfo.PlayerScore * 2;
+                isWinner = playerInfo.PlayerNickname == _myClientNickname;
             }
             else
             {
                 playerInfo.PlayerGold = playerInfo.PlayerScore;
             }
         }
+
+        return isWinner;
     }
 
     private void GiveGold()
