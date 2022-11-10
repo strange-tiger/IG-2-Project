@@ -209,7 +209,6 @@ public class SyncOVRGrabber : MonoBehaviourPun
     {
         if ((m_prevFlex >= grabBegin) && (prevFlex < grabBegin))
         {
-
             GrabBegin();
         }
         else if ((m_prevFlex <= grabEnd) && (prevFlex > grabEnd))
@@ -324,7 +323,6 @@ public class SyncOVRGrabber : MonoBehaviourPun
             return;
         }
 
-        Debug.Log($"클라이언트가 물체 잡음\n pos :{pos}, quaternion : {rot}, bool : {forceTeleport}");
         Rigidbody grabbedRigidbody = m_grabbedObj.grabbedRigidbody;
         Vector3 grabbablePosition = pos + rot * m_grabbedObjectPosOff;
         Quaternion grabbableRotation = rot * m_grabbedObjectRotOff;

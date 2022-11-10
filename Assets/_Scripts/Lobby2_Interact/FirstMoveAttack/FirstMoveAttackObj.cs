@@ -57,7 +57,6 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         // 일치하지 않으면 병이 깨지고 타격을 받음
         PhotonView photonView = other.GetComponent<PhotonView>();
 
-        _grabber.GrabEnd();
         this.photonView.RPC("Crack", RpcTarget.All);
         PlayerNetworking player = other.GetComponentInParent<PlayerNetworking>();
         player.photonView.RPC("OnDamageByBottle", RpcTarget.All, player.photonView.ViewID);
@@ -103,6 +102,7 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         {
             _audioSource.Play();
         }
+        _grabber.GrabEnd();
         TurnOff();
         Respawn();
 
