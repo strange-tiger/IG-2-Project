@@ -1,5 +1,6 @@
 #define _DEV_MODE_
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class ShootingGameManager : MonoBehaviourPun
     [SerializeField] private float _playTime = 120f;
     public float PlayTime { get => _playTime; set => _playTime = value; }
 
-    [Header("SettingTime")]
+    [Header("PlayTimeSetting")]
     [SerializeField] private float _showNicknameOffsetTime = 1f;
     [SerializeField] private float _startCountDownOffsetTime = 3f;
     [SerializeField] private AudioClip[] _startCountDownSounds;
@@ -32,6 +33,9 @@ public class ShootingGameManager : MonoBehaviourPun
     [SerializeField] private AudioClip[] _finalSoundEffect;
     private WaitForSeconds _waitForSecond;
 
+    private List<AudioClip> _soundEffects = new List<AudioClip>();
+
+    [Header("PlayerSetting")]
     public const int _MAX_PLAYER_COUNT = 4;
     [SerializeField] private Color[] _playerColors = {
         new Color(255/255, 50/255, 50/255),
@@ -40,9 +44,11 @@ public class ShootingGameManager : MonoBehaviourPun
         new Color(53/255, 227/255, 34/255)
     };
     [SerializeField] private Transform[] _playerPosition;
+    [SerializeField] private Transform[] _canvasPosition;
     private int _playerCount = 0;
     public int PlayerCount { get => _playerCount; set => _playerCount = value; }
 
+    [Serializable]
     public class ShootingPlayerInfo
     {
         public EShootingPlayerNumber PlayerNumber { get; set; }
@@ -54,9 +60,20 @@ public class ShootingGameManager : MonoBehaviourPun
     }
     private List<ShootingPlayerInfo> _shootingPlayerInfos = new List<ShootingPlayerInfo>();
 
+    [Header("Luncher")]
     [SerializeField] private LuncherManager _luncherManager;
     [SerializeField] private GameObject _lunchObjects;
+    public GameObject LunchObjects { get => _lunchObjects; private set => _lunchObjects = value; }
+
+    [Header("UI")]
+    [SerializeField] private GameObject _uiCanvas;
     [SerializeField] private ShootingUIManager _uiManager;
+
+    [Header("EndSoundEffects")]
+    [SerializeField] private AudioClip _goldStarAudioClip;
+    [SerializeField] private AudioClip _hoorayAudioClip;
+    [SerializeField] private AudioClip _eagleAudioClip;
+    [SerializeField] private AudioClip _giveGoldAudioClip;
 
     public UnityEvent<int> OnTimePass = new UnityEvent<int>();
     private int _elapsedTime = 0;
@@ -65,8 +82,10 @@ public class ShootingGameManager : MonoBehaviourPun
         get => _elapsedTime;
         set
         {
-            _elapsedTime = value;
-            OnTimePass.Invoke(_elapsedTime);
+            if(PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("CountTime", RpcTarget.AllViaServer, value);
+            }
         }
     }
 
@@ -74,89 +93,146 @@ public class ShootingGameManager : MonoBehaviourPun
     public UnityEvent OnGameOver = new UnityEvent();
 
     private AudioSource _audioSource;
+    private GunShoot _myClient;
+    private string _myClientNickname;
 
     private void Awake()
     {
         _waitForSecond = new WaitForSeconds(1f);
 
         _audioSource = GetComponent<AudioSource>();
-#if _DEV_MODE_
-        for (int i = 0; i < _MAX_PLAYER_COUNT; ++i)
+        foreach(AudioClip effect in _startCountDownSounds)
+        {
+            _soundEffects.Add(effect);
+        }
+        foreach (AudioClip effect in _finalSoundEffect)
+        {
+            _soundEffects.Add(effect);
+        }
+    }
+
+    public void StartGame()
+    {
+        StartCoroutine(CoGameStart());
+    }
+
+    public void AddPlayer(string playerNickname, GunShoot clientScript)
+    {
+        _myClient = clientScript;
+        _myClientNickname = playerNickname;
+        photonView.RPC("AddPlayerToGame", RpcTarget.AllBuffered, playerNickname);
+    }
+
+    [PunRPC]
+    private void AddPlayerToGame(string playerNickname)
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            foreach(ShootingPlayerInfo info in _shootingPlayerInfos)
+            {
+                if(info.PlayerNickname == playerNickname)
+                {
+                    return;
+                }
+            }
+
+            if(_shootingPlayerInfos.Count == _MAX_PLAYER_COUNT)
+            {
+                return;
+            }
+
+            _shootingPlayerInfos.Add(new ShootingPlayerInfo()
+            {
+                PlayerNumber = (EShootingPlayerNumber) _playerCount,
+                PlayerNickname = playerNickname,
+                PlayerColor = _playerColors[_playerCount],
+            });
+            photonView.RPC("PlayerAdded", RpcTarget.AllBuffered, _playerCount, playerNickname);
+            ++_playerCount;
+        }
+    }
+
+    [PunRPC]
+    private void PlayerAdded(int playerNumber, string playerNickname)
+    {
+        if(!PhotonNetwork.IsMasterClient)
         {
             _shootingPlayerInfos.Add(new ShootingPlayerInfo()
             {
-                PlayerColor = _playerColors[i],
-                PlayerNumber = (EShootingPlayerNumber)i,
-                PlayerNickname = "Nickname" + i.ToString(),
-                PlayerScore = 3
+                PlayerNumber = (EShootingPlayerNumber)playerNumber,
+                PlayerNickname = playerNickname,
+                PlayerColor = _playerColors[playerNumber]
             });
         }
-        StartCoroutine(CoGameStart());
-#endif
-    }
 
-    public void StartGame(List<GameObject> playerList)
-    {
-        StartCoroutine(CoGameStart());
-    }
-
-    
-    public void AddPlayerToGame(out Color playerColor, out EShootingPlayerNumber playerNumber, in string playerNickname)
-    {
-        _shootingPlayerInfos.Add(new ShootingPlayerInfo()
+        if (_shootingPlayerInfos.Count == _MAX_PLAYER_COUNT)
         {
-            PlayerNickname = playerNickname,
-            PlayerNumber = (EShootingPlayerNumber)_playerCount,
-            PlayerColor = _playerColors[_playerCount],
-            PlayerScore = 0
-        });
-        ++_playerCount;
+            foreach (ShootingPlayerInfo info in _shootingPlayerInfos)
+            {
+                if (info.PlayerNickname == _myClientNickname)
+                {
+                    int playerNumberInt = (int)info.PlayerNumber;
+                    _myClient.transform.root.position =
+                        _playerPosition[playerNumberInt].position;
+                    _uiCanvas.transform.position = _canvasPosition[playerNumberInt].position;
 
-        playerColor = _shootingPlayerInfos[_playerCount].PlayerColor;
-        playerNumber = _shootingPlayerInfos[_playerCount].PlayerNumber;
+                    _myClient.PlayerInfoSetting(info.PlayerNumber, info.PlayerColor);
+                 
+                    return;
+                }
+            }
+
+            StartGame();
+        }
     }
-
+    
     private IEnumerator CoGameStart()
     {
         _luncherManager.SetLuncher(PlayTime);
-
         yield return new WaitForSeconds(_showNicknameOffsetTime);
-        Debug.Log("[Shooting] UI 띄움");
 
-        _uiManager.ShowStartPlayerPanel(_shootingPlayerInfos);
+        Debug.Log("[Shooting] UI 띄움");
+        _uiManager.ShowStartPlayerPanel(_shootingPlayerInfos, _myClientNickname);
         yield return new WaitForSeconds(_startCountDownOffsetTime);
 
-        Debug.Log("[Shooting] UI 내림");
-        _uiManager.DisableCurrentPanel();
-        for(int i = _gameStartOffsetTime; i >= 0; --i)
+        if(PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("[Shooting] 게임 시작까지 " + i);
-            if(i != 0)
-            {
-                _uiManager.ShowCountDownPanel(i.ToString());
-            }
-            else
-            {
-                _uiManager.ShowCountDownPanel("ATTACK!");
-            }
-            _audioSource.PlayOneShot(_startCountDownSounds[_gameStartOffsetTime - i]);
-            yield return _waitForSecond;
+            StartCoroutine(CoInGame());
         }
-
-        Debug.Log("[Shooting] 게임 시작");
-        _uiManager.ShowPlayerPanel();
-        StartCoroutine(CoInGame());
     }
 
     private IEnumerator CoInGame()
     {
+        Debug.Log("[Shooting] UI 내림");
+        _uiManager.photonView.RPC("DisableCurrentPanel", RpcTarget.AllBuffered); // 동기화 불필요 (해결)
+
+        for (int i = _gameStartOffsetTime; i >= 0; --i)
+        {
+            Debug.Log("[Shooting] 게임 시작까지 " + i);
+
+            //if (i != 0)
+            //{
+            //    _uiManager.ShowCountDownPanel(i.ToString()); // 동기화 필요(해결)
+            //}
+            //else
+            //{
+            //    _uiManager.ShowCountDownPanel("ATTACK!"); // 동기화 필요(해결)
+            //}
+            //_audioSource.PlayOneShot(_startCountDownSounds[_gameStartOffsetTime - i]); // 동기화 필요 (해결)
+            photonView.RPC("CountDown", RpcTarget.AllViaServer, i);
+            yield return _waitForSecond;
+        }
+
+        Debug.Log("[Shooting] 게임 시작");
+        _uiManager.photonView.RPC("ShowPlayerPanel", RpcTarget.AllBuffered); // 동기화 불필요(해결)
+
         ElapsedTime = 0;
 
         while (true)
         {
             yield return _waitForSecond;
-            ElapsedTime += 1;
-            _luncherManager.LunchObject(ElapsedTime);
+            ElapsedTime += 1; // 동기화, 서버화 필요 (해결)
+            _luncherManager.LunchObject(ElapsedTime); // 서버에서만 작동
             if(ElapsedTime == PlayTime)
             {
                 break;
@@ -166,9 +242,10 @@ public class ShootingGameManager : MonoBehaviourPun
         while(true)
         {
             yield return _waitForSecond;
-            ElapsedTime += 1;
-            _luncherManager.LunchObject(ElapsedTime);
-            _audioSource.PlayOneShot(_finalSoundEffect[ElapsedTime - 1 - (int)PlayTime]);
+            ElapsedTime += 1; // 동기화, 서버화 필요
+            _luncherManager.LunchObject(ElapsedTime); // 서버에서만 작동
+            //_audioSource.PlayOneShot(_finalSoundEffect[ElapsedTime - 1 - (int)PlayTime]); // 동기화 필요 (해결)
+            photonView.RPC("PlaySoundEffect", RpcTarget.AllViaServer, _startCountDownSounds.Length + ElapsedTime - 1 - (int)PlayTime);
             if(ElapsedTime >= PlayTime + _finalSeconds)
             {
                 break;
@@ -176,11 +253,52 @@ public class ShootingGameManager : MonoBehaviourPun
         }
 
         yield return _waitForSecond;
-        _audioSource.PlayOneShot(_finalSoundEffect[_finalSoundEffect.Length - 1]);
-        _uiManager.ShowCountDownPanel("STOP!");
-        Destroy(_lunchObjects);
+        //_audioSource.PlayOneShot(_finalSoundEffect[_finalSoundEffect.Length - 1]); // 동기화 필요(해결)
+        //_uiManager.ShowCountDownPanel("STOP!"); // 동기화 필요(해결)
+        photonView.RPC("StopGame", RpcTarget.AllBufferedViaServer);
 
         Debug.Log("[Shooting] 게임 끝");
+        photonView.RPC("GameEnd", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    private void PlaySoundEffect(int number)
+    {
+        _audioSource.PlayOneShot(_soundEffects[number]);
+    }
+
+    [PunRPC]
+    private void CountTime(int elapsedTime)
+    {
+        _elapsedTime = elapsedTime;
+        OnTimePass.Invoke(_elapsedTime);
+    }
+
+    [PunRPC]
+    private void CountDown(int i)
+    {
+        if (i != 0)
+        {
+            _uiManager.ShowCountDownPanel(i.ToString());
+        }
+        else
+        {
+            _uiManager.ShowCountDownPanel("ATTACK!");
+        }
+        _audioSource.PlayOneShot(_startCountDownSounds[_gameStartOffsetTime - i]);
+    }
+
+    [PunRPC]
+    private void StopGame()
+    {
+        Destroy(_lunchObjects);
+        _audioSource.PlayOneShot(_finalSoundEffect[_finalSoundEffect.Length - 1]);
+        _uiManager.ShowCountDownPanel("STOP!");
+    }
+
+    [PunRPC]
+    private void GameEnd()
+    {
         StartCoroutine(CoGameEnd());
     }
 
@@ -188,21 +306,31 @@ public class ShootingGameManager : MonoBehaviourPun
     {
         yield return _waitForSecond;
         Debug.Log("[Shooting] 게임 결과 출력");
-        SetPlayerList();
+        bool isMyClientWinner = SortPlayerListByScore();
         _uiManager.ShowEndScore(_shootingPlayerInfos);
 
         yield return _waitForSecond;
         Debug.Log("[Shooting] 황금 별 달아주기");
         _uiManager.ShowStarImage();
+        _audioSource.PlayOneShot(_goldStarAudioClip);
+        if(isMyClientWinner)
+        {
+            _audioSource.PlayOneShot(_hoorayAudioClip);
+        }
+        else
+        {
+            _audioSource.PlayOneShot(_eagleAudioClip);
+        }
 
         yield return new WaitForSeconds(_hoorayTime);
         Debug.Log("[Shooting] 환호 후 재시작, 골드 페널 띄우기");
-        //GiveGold();
+        GiveGold();
         _uiManager.ShowGoldPanel();
+        _audioSource.PlayOneShot(_giveGoldAudioClip);
         _uiManager.ShowRestartPanel();
     }
 
-    private void SetPlayerList()
+    private bool SortPlayerListByScore()
     {
         // 점수 순위로 정렬
         _shootingPlayerInfos.Sort(delegate (ShootingPlayerInfo playerA, ShootingPlayerInfo playerB)
@@ -231,6 +359,7 @@ public class ShootingGameManager : MonoBehaviourPun
         });
 
         int highestScore = _shootingPlayerInfos[0].PlayerScore;
+        bool isWinner = false;
         
         foreach(ShootingPlayerInfo playerInfo in _shootingPlayerInfos)
         {
@@ -238,25 +367,76 @@ public class ShootingGameManager : MonoBehaviourPun
             {
                 playerInfo.IsWinner = true;
                 playerInfo.PlayerGold = playerInfo.PlayerScore * 2;
+                isWinner = playerInfo.PlayerNickname == _myClientNickname;
             }
             else
             {
                 playerInfo.PlayerGold = playerInfo.PlayerScore;
             }
         }
+
+        return isWinner;
     }
 
     private void GiveGold()
     {
+#if _DEV_MODE_
+        Debug.Log("[Shooting] 골드 지급함");
+#else
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
         foreach(ShootingPlayerInfo playerinfo in _shootingPlayerInfos)
         {
             MySqlSetting.EarnGold(playerinfo.PlayerNickname, playerinfo.PlayerGold);
         }
+#endif
     }
 
     public void AddScoreToPlayer(EShootingPlayerNumber playerNumber, int addPoint)
     {
-        _shootingPlayerInfos[(int)playerNumber].PlayerScore += addPoint;
-        OnAddScore.Invoke(playerNumber, _shootingPlayerInfos[(int)playerNumber].PlayerScore);
+        photonView.RPC("AddScoreToPlayerInMaster", RpcTarget.AllBuffered, playerNumber, addPoint);
+    }
+
+    [PunRPC]
+    private void AddScoreToPlayerInMaster(EShootingPlayerNumber playerNumber, int addPoint)
+    {
+        if(!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
+        foreach (ShootingPlayerInfo info in _shootingPlayerInfos)
+        {
+            if (info.PlayerNumber == playerNumber)
+            {
+                info.PlayerScore += addPoint;
+                OnAddScore.Invoke(playerNumber, info.PlayerScore);
+                photonView.RPC("PlayerScoreAdded", RpcTarget.AllBuffered, 
+                    playerNumber, info.PlayerScore);
+                break;
+            }
+        }
+    }
+
+    [PunRPC]
+    private void PlayerScoreAdded(EShootingPlayerNumber playerNumber, int score)
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
+        foreach (ShootingPlayerInfo info in _shootingPlayerInfos)
+        {
+            if (info.PlayerNumber == playerNumber)
+            {
+                info.PlayerScore = score;
+                OnAddScore.Invoke(playerNumber, score);
+                break;
+            }
+        }
     }
 }
