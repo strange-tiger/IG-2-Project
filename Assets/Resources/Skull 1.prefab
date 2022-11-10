@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2685295057078606602}
   - component: {fileID: 2685295057078606603}
   - component: {fileID: 2685295057078606600}
+  - component: {fileID: 3387220126746589263}
+  - component: {fileID: 4339829650360450041}
   m_Layer: 0
   m_Name: Skull 1
   m_TagString: Untagged
@@ -107,6 +109,45 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3387220126746589263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685295057078606601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 4339829650360450041}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &4339829650360450041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685295057078606601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4337708041671819117
 GameObject:
   m_ObjectHideFlags: 0

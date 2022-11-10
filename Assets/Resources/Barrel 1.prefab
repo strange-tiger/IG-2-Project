@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1760375229763408624}
   - component: {fileID: 5321109172434163962}
   - component: {fileID: 8852925509712102177}
+  - component: {fileID: 6941823623895059144}
+  - component: {fileID: 2504143135372775228}
   m_Layer: 0
   m_Name: Barrel 1
   m_TagString: Untagged
@@ -120,6 +122,45 @@ MonoBehaviour:
   _moveSpeed: 40
   _rotationSpeed: 1000
   _destroyOffsetTime: 1
+--- !u!114 &6941823623895059144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970715587437743427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2504143135372775228}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &2504143135372775228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970715587437743427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &8393776626193530134
 GameObject:
   m_ObjectHideFlags: 0

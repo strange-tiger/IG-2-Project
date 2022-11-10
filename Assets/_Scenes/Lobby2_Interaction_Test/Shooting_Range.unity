@@ -6956,6 +6956,7 @@ GameObject:
   - component: {fileID: 612462679}
   - component: {fileID: 612462678}
   - component: {fileID: 612462680}
+  - component: {fileID: 612462681}
   m_Layer: 0
   m_Name: ShootingGameManager
   m_TagString: Untagged
@@ -7133,6 +7134,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &612462681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612462677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &613543995
 GameObject:
   m_ObjectHideFlags: 0
@@ -11491,6 +11514,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 775743940}
     m_Modifications:
+    - target: {fileID: 2372345276997930995, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372345277028196371, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2372345277585951546, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750679246716543973, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4576341470161486522, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
       propertyPath: _shootingObjectTimings.Array.data[1]._shootingObjects.Array.data[0]._shootingObjectType
       value: 1
