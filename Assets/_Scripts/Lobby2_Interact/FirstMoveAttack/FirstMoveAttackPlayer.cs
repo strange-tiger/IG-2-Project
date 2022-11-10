@@ -19,10 +19,8 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         }
       
         GetComponentInChildren<OVRScreenFade>().FadeOut(0.0f);
-
         StartCoroutine(Invincible(20f));
         StartCoroutine(ReviveCooldown());
-        Debug.Log($"OnDamageByBottle : {PlayerControlManager.Instance.IsMoveable}");
     }
 
     public void Revive()
