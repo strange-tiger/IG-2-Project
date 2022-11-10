@@ -5,25 +5,23 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 
-public class ShootingPlayerNetworking : MonoBehaviourPunCallbacks
+public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Vector3 _ovrCameraPosition = new Vector3(0f, 0.7f, 0.8f);
-    [SerializeField] private GameObject _ovrCameraRigPrefab;
+    [SerializeField] protected Vector3 _ovrCameraPosition = new Vector3(0f, 0.7f, 0.8f);
+    [SerializeField] protected GameObject _ovrCameraRigPrefab;
 
-    private const int HAND_COUNT = 2;
-    [SerializeField] private Transform[] _modelHandTransforms;
-    private Transform[] _ovrCameraHandTransforms = new Transform[2];
+    protected const int HAND_COUNT = 2;
+    [SerializeField] protected Transform[] _modelHandTransforms;
+    protected Transform[] _ovrCameraHandTransforms = new Transform[2];
 
-    [SerializeField] private TextMeshProUGUI _nicknameText;
+    [SerializeField] protected TextMeshProUGUI _nicknameText;
 
-    [SerializeField] private AudioSource _newPlayerAudioSource;
-
-    private GameObject _pointer;
+    protected GameObject _pointer;
 
     public string MyNickname { get; private set; }
     public string MyUserId { get; private set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (photonView.IsMine)
         {
