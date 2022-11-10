@@ -17,15 +17,12 @@ public class TumbleweedSpawner : MonoBehaviourPun
 
     private void Awake()
     {
-        if(photonView.IsMine)
+        Rigidbody[] _tumbleweeds = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody tumbleweed in _tumbleweeds)
         {
-            Rigidbody[] _tumbleweeds = GetComponentsInChildren<Rigidbody>();
-            foreach (Rigidbody tumbleweed in _tumbleweeds)
-            {
-                tumbleweed.gameObject.SetActive(false);
-                _tumbleweedStack.Push(tumbleweed.gameObject);
-                tumbleweed.GetComponent<Tumbleweed>().enabled = true;
-            }
+            tumbleweed.gameObject.SetActive(false);
+            _tumbleweedStack.Push(tumbleweed.gameObject);
+            tumbleweed.GetComponent<Tumbleweed>().enabled = true;
         }
     }
 

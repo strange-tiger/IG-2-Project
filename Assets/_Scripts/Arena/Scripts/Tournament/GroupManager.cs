@@ -19,6 +19,8 @@ public class GroupManager : MonoBehaviourPun
     private UnityEvent _FirstBattleWinnerSetFinalGroup = new UnityEvent();
     private UnityEvent _SecondBattleWinnerSetFinalGroup = new UnityEvent();
 
+    public UnityEvent _finishTournament = new UnityEvent();
+
     List<int> _memberIndexList;
 
     private bool _isFirstBattle;
@@ -83,10 +85,6 @@ public class GroupManager : MonoBehaviourPun
         {
             if ((_finalBattle[0].activeSelf == false || _finalBattle[1].activeSelf == false) && _isFinelBattle)
             {
-                SendWinnerIndex();
-
-                Debug.Log(WinnerIndex);
-
                 Invoke("Finish", 15f);
 
                 _isFinelBattle = false;
@@ -136,7 +134,6 @@ public class GroupManager : MonoBehaviourPun
         }
 
         photonView.RPC("ClientsSettingGroup", RpcTarget.Others, _memberIndexList[0], _memberIndexList[1], _memberIndexList[2], _memberIndexList[3]);
-        Debug.Log($"마스터 : {_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
     }
 
     /// <summary>
@@ -158,8 +155,6 @@ public class GroupManager : MonoBehaviourPun
         _member[3] = transform.GetChild(d).gameObject;
 
         _setFirstBattle.Invoke();
-
-        Debug.Log($"클라 : {a}, {b}, {c}, {d}");
     }
 
     /// <summary>
@@ -167,9 +162,9 @@ public class GroupManager : MonoBehaviourPun
     /// </summary>
     private void SetPositionFirstBattle()
     {
-        _member[0].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
+        _member[0].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
         _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
-        _member[1].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
+        _member[1].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
         _member[1].transform.rotation = Quaternion.Euler(0, -90, 0);
 
         _member[0].SetActive(true);
@@ -182,9 +177,9 @@ public class GroupManager : MonoBehaviourPun
     /// </summary>
     private void SetPositionSecondBattle()
     {
-        _member[2].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
+        _member[2].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
         _member[2].transform.rotation = Quaternion.Euler(0, 90, 0);
-        _member[3].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
+        _member[3].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
         _member[3].transform.rotation = Quaternion.Euler(0, -90, 0);
 
         _member[2].SetActive(true);
@@ -224,7 +219,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = a;
             }
             _finalBattle[0] = _member[0];
-            _member[0].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
+            _member[0].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
             _member[0].SetActive(false);
         }
 
@@ -239,7 +234,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = b;
             }
             _finalBattle[0] = _member[1];
-            _member[1].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
+            _member[1].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
             _member[1].SetActive(false);
         }
 
@@ -263,7 +258,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = c;
             }
             _finalBattle[1] = _member[2];
-            _member[2].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
+            _member[2].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
             _member[2].SetActive(false);
         }
 
@@ -278,7 +273,7 @@ public class GroupManager : MonoBehaviourPun
                 _firstWinnerIndex = d;            
             }
             _finalBattle[1] = _member[3];
-            _member[3].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
+            _member[3].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
             _member[3].SetActive(false);
         }
 
@@ -335,6 +330,8 @@ public class GroupManager : MonoBehaviourPun
         _finalBattle[0].SetActive(false);
         _finalBattle[1].SetActive(false);
 
+        SendWinnerIndex();
+        _finishTournament.Invoke();
         gameObject.SetActive(false);
     }
 }

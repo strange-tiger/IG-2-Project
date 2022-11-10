@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Asset.MySql;
 
 public class PlayerTumbleweedInteraction : MonoBehaviour
 {
@@ -22,30 +23,27 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
     private bool _isGrabbing;
     public float GrabbingTime { get; private set; }
 
-    [SerializeField] private OVRGrabber[] _grabbers;
+    public SyncOVRGrabber[] Grabbers { get; set; }
 
-    private PlayerInput _input;
+    public PlayerInput Input { get; set; }
 
-    private void Awake()
-    {
-        _input = GetComponent<PlayerInput>();
-    }
+    private string _nickname = "";
 
     private void FixedUpdate()
     {
 #if _PC_TEST
         if(!IsNearTumbleweed || !Input.GetKey(KeyCode.A))
 #else
-        if(!IsNearTumbleweed || !_input.InputA)
+        if(!IsNearTumbleweed || !Input.InputA)
 #endif
         {
             GrabbingTime = 0f;
             return;
         }
 
-        foreach(OVRGrabber grabber in _grabbers)
+        foreach (SyncOVRGrabber grabber in Grabbers)
         {
-            if(grabber.grabbedObject)
+            if (grabber.grabbedObject)
             {
                 GrabbingTime = 0f;
                 return;
@@ -58,6 +56,13 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
     public void GetGold(int gold)
     {
         Debug.Log("Gold ¹ÞÀ½ " + gold);
+
+        if(_nickname == "")
+        {
+            _nickname = GetComponent<BasicPlayerNetworking>().MyNickname;
+        }
+
+        MySqlSetting.EarnGold(_nickname, gold);
         IsNearTumbleweed = false;
     }
 }
