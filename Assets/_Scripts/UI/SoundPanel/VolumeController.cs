@@ -17,7 +17,7 @@ public class VolumeController : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log($"SoundManager.VOLUME_CONTROLLER.Length {SoundManager.VOLUME_CONTROLLER.Length}");
+        //Debug.Log($"SoundManager.VOLUME_CONTROLLER.Length {SoundManager.VOLUME_CONTROLLER.Length}");
         for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
         {
             _textDict.Add(_slider[i], _text[i]);

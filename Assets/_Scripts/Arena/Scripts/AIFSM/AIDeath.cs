@@ -8,9 +8,6 @@ public class AIDeath : AIState
     [SerializeField]
     private Collider[] _isDeathOffCollider;
 
-    private Animator _animator;
-
-
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
-public class HitUI : MonoBehaviour
+public class HitUI : MonoBehaviourPun
 {
     [SerializeField] private float _hitUIDisableTime = 0.5f;
     private WaitForSeconds _waitForDisable;
@@ -27,12 +28,13 @@ public class HitUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetPointText(Color playerColor, int point, bool active)
+    [PunRPC]
+    public void SetPointText(Vector3 playerColor, int point, bool active)
     {
         _scoreText.gameObject.SetActive(active);
         if(active)
         {
-            _scoreText.color = playerColor;
+            _scoreText.color = new Color(playerColor.x, playerColor.y, playerColor.z);
             _scoreText.text = point > 0 ? $"+{point}" : $"-{point}";
         }
     }

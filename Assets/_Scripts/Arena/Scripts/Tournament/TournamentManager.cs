@@ -1,73 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.Events;
 
 public class TournamentManager : MonoBehaviourPun
 {
-    [Header("몇초 단위로 시작할지 적어주세요")]
+    [Header("몇초 후 시작할지 적어주세요")]
     [SerializeField] private int _startSecond;
 
     [Header("배팅 UI를 넣어주세요")]
     [SerializeField] private GameObject _vrUI;
 
-    [Header("재시작")]
-    [SerializeField] private ReStartTournament _reStart;
-
     [SerializeField] private GameObject[] _groups;
     public GameObject[] Groups { get { return _groups; } }
 
-    private int _selectGroup;
-    public int SelectGroup { get { return _selectGroup; } }
+    private int _selectGroupNum;
+    public int SelectGroupNum { get { return _selectGroupNum; } }
 
     private int _finalWinnerIndex;
     public int FinalWinnerIndex { get { return _finalWinnerIndex; } private set { _finalWinnerIndex = value; } }
 
-    private void OnEnable()
+    private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("전 마스터입니다");
-            _selectGroup = Random.Range(0, _groups.Length);
-
-            // _selectGroup = 2;
-
-            if (_vrUI.activeSelf == false)
-            {
-                _vrUI.SetActive(true);
-            }
-
-            Invoke("GameStart", _startSecond);
-
-            _reStart._startBattle.RemoveListener(GameStartEvent);
-            _reStart._startBattle.AddListener(GameStartEvent);
+            GameStartEvent();
         }
-    }
-
-    private void GameStart()
-    {
-        _groups[_selectGroup].SetActive(true);
-
-        _vrUI.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        _groups[_selectGroup].SetActive(false);
-        _selectGroup -= _selectGroup;
-
-        _reStart._startBattle.RemoveListener(GameStartEvent);
     }
 
     private void GameStartEvent()
     {
-        _selectGroup = Random.Range(0, _groups.Length);
+        _selectGroupNum = UnityEngine.Random.Range(0, _groups.Length);
 
+        photonView.RPC("ClientsSetUI", RpcTarget.All);
+
+        StartCoroutine(GameStart());
+    }
+
+    [PunRPC]
+    public void ClientsSetUI()
+    {
         if (_vrUI.activeSelf == false)
         {
             _vrUI.SetActive(true);
         }
+    }
 
-        Invoke("GameStart", _startSecond);
+    [PunRPC]
+    public void ClientsMustDo(int num)
+    {
+        _groups[num].SetActive(true);
+        _vrUI.SetActive(false);
+    }
+
+    IEnumerator GameStart()
+    {
+        WaitForSeconds _startDelay = new WaitForSeconds(_startSecond);
+
+        yield return _startDelay;
+
+        photonView.RPC("ClientsMustDo", RpcTarget.All, _selectGroupNum);
+
+        PhotonNetwork.SendAllOutgoingCommands();
     }
 }

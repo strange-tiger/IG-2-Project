@@ -22,7 +22,7 @@ public class SyncOVRGrabbable : MonoBehaviourPun
 
     public Action CallbackOnGrabBegin { private get; set; } = null;
     public Action CallbackOnGrabEnd { private get; set; } = null;
-    public Action<PhotonView> CallbackGrabberSetting { private get; set; } = null;
+    public Action<PhotonView, SyncOVRGrabber> CallbackGrabberSetting { private get; set; } = null;
 
     /// <summary>
     /// If true, the object can currently be grabbed.
@@ -106,7 +106,7 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
 
         CallbackOnGrabBegin?.Invoke();
-        CallbackGrabberSetting?.Invoke(hand.transform.root.gameObject.GetPhotonView());
+        CallbackGrabberSetting?.Invoke(hand.transform.root.gameObject.GetPhotonView(), hand.GetComponent<SyncOVRGrabber>());
     }
 
     /// <summary>

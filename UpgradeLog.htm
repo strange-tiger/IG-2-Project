@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+ <html xmlns:msxsl="urn:schemas-microsoft-com:xslt"><head><meta content="en-us" http-equiv="Content-Language" /><meta content="text/html; charset=utf-16" http-equiv="Content-Type" /><title _locID="ConversionReport0">
+          마이그레이션 보고서
+        </title><style> 
+                    /* Body style, for the entire document */
+                    body
+                    {
+                        background: #F3F3F4;
+                        color: #1E1E1F;
+                        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    /* Header1 style, used for the main title */
+                    h1
+                    {
+                        padding: 10px 0px 10px 10px;
+                        font-size: 21pt;
+                        background-color: #E2E2E2;
+                        border-bottom: 1px #C1C1C2 solid; 
+                        color: #201F20;
+                        margin: 0;
+                        font-weight: normal;
+                    }
+
+                    /* Header2 style, used for "Overview" and other sections */
+                    h2
+                    {
+                        font-size: 18pt;
+                        font-weight: normal;
+                        padding: 15px 0 5px 0;
+                        margin: 0;
+                    }
+
+                    /* Header3 style, used for sub-sections, such as project name */
+                    h3
+                    {
+                        font-weight: normal;
+                        font-size: 15pt;
+                        margin: 0;
+                        padding: 15px 0 5px 0;
+                        background-color: transparent;
+                    }
+
+                    /* Color all hyperlinks one color */
+                    a
+                    {
+                        color: #1382CE;
+                    }
+
+                    /* Table styles */ 
+                    table
+                    {
+                        border-spacing: 0 0;
+                        border-collapse: collapse;
+                        font-size: 10pt;
+                    }
+
+                    table th
+                    {
+                        background: #E7E7E8;
+                        text-align: left;
+                        text-decoration: none;
+                        font-weight: normal;
+                        padding: 3px 6px 3px 6px;
+                    }
+
+                    table td
+                    {
+                        vertical-align: top;
+                        padding: 3px 6px 5px 5px;
+                        margin: 0px;
+                        border: 1px solid #E7E7E8;
+                        background: #F7F7F8;
+                    }
+
+                    /* Local link is a style for hyperlinks that link to file:/// content, there are lots so color them as 'normal' text until the user mouse overs */
+                    .localLink
+                    {
+                        color: #1E1E1F;
+                        background: #EEEEED;
+                        text-decoration: none;
+                    }
+
+                    .localLink:hover
+                    {
+                        color: #1382CE;
+                        background: #FFFF99;
+                        text-decoration: none;
+                    }
+
+                    /* Center text, used in the over views cells that contain message level counts */ 
+                    .textCentered
+                    {
+                        text-align: center;
+                    }
+
+                    /* The message cells in message tables should take up all avaliable space */
+                    .messageCell
+                    {
+                        width: 100%;
+                    }
+
+                    /* Padding around the content after the h1 */ 
+                    #content 
+                    {
+	                    padding: 0px 12px 12px 12px; 
+                    }
+
+                    /* The overview table expands to width, with a max width of 97% */ 
+                    #overview table
+                    {
+                        width: auto;
+                        max-width: 75%; 
+                    }
+
+                    /* The messages tables are always 97% width */
+                    #messages table
+                    {
+                        width: 97%;
+                    }
+
+                    /* All Icons */
+                    .IconSuccessEncoded, .IconInfoEncoded, .IconWarningEncoded, .IconErrorEncoded
+                    {
+                        min-width:18px;
+                        min-height:18px; 
+                        background-repeat:no-repeat;
+                        background-position:center;
+                    }
+
+                    /* Success icon encoded */
+                    .IconSuccessEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconSuccess#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcElEQVR4Xq2TsUsCURzHv15g8ZJcBWlyiYYgCIWcb9DFRRwMW5TA2c0/QEFwFkxxUQdxVlBwCYWOi6IhWgQhBLHJUCkhLr/BW8S7gvrAg+N+v8/v+x68Z8MGy+XSCyABQAXgBgHGALoASkIIDWSLeLBetdHryMjd5IxQPWT4rn1c/P7+xxp72Cs9m5SZ0Bq2vPnbPFafK2zDvmNHypdC0BPkLlQhxJsCAhQoZwdZU5mwxh720qGo8MzTxTTKZDPCx2HoVzp6lz0Q9tKhyx0kGs8Ny+TkWRKk8lCROwEduhyg9l/6lunOPSfmH3NUH6uQ0KHLAe7JYvJjevm+DAMGJHToKtigE+vwvIidxLamb8IBY9e+C5LiXREkfho3TSd06HJA13/oh6T51MTsfQbHrsMynQ5dDihFjiK8JJAU9AKIWTp76dCVN7HWHrajmUEGvyF9nkbAE6gLIS7kTUyuf2gscLoJrElZo/Mvj+nPz/kLTmfnEwP3tB0AAAAASUVORK5CYII=);
+                    }
+
+                    /* Information icon encoded */
+                    .IconInfoEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconInformation#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHElEQVR4Xs2TsUoDQRRF7wwoziokjZUKadInhdhukR9YP8DMX1hYW+QvdsXa/QHBbcXC7W0CamWTQnclFutceIQJwwaWNLlwm5k5d94M76mmaeCrrmsLYOocY12FcxZFUeozCqKqqgYA8uevv1H6VuPxcwlfk5N92KHBxfFeCSAxxswlYAW/Xr989x/mv9gkhtyMDhcAxgzRsp7flj8B/HF1RsMXq+NZMkopaHe7lbKxQUEIGbKsYNoGn969060hZBkQex/W8oRQwsQaW2o3Ago2SVcJUzAgY3N0lTCZZm+zPS8HB51gMmS1DEYyOz9acKO1D8JWTlafKIMxdhvlfdyT94Vv5h7P8Ky7nQzACmhvKq3zk3PjW9asz9D/1oigecsioooAAAAASUVORK5CYII=);
+                    }
+
+                    /* Warning icon encoded */
+                    .IconWarningEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconWarning#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAx0lEQVR4XpWSMQ7CMAxFf4xAyBMLCxMrO8dhaBcuwdCJS3RJBw7SA/QGTCxdWJgiQYWKXJWKIXHIlyw5lqr34tQgEOdcBsCOx5yZK3hCCKdYXneQkh4pEfqzLfu+wVDSyyzFoJjfz9NB+pAF+eizx2Vruts0k15mPgvS6GYvpVtQhB61IB/dk6AF6fS4Ben0uIX5odtFe8Q/eW1KvFeH4e8khT6+gm5B+t3juyDt7n0jpe+CANTd+oTUjN/U3yVaABnSUjFz/gFq44JaVSCXeQAAAABJRU5ErkJggg==);
+                    }
+
+                    /* Error icon encoded */
+                    .IconErrorEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconError#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQElEQVR4XqWTvUoEQRCE6wYPZUA80AfwAQz23uCMjA7MDRQEIzPBVEyNTQUFIw00vcQTTMzuAh/AxEQQT8HF/3G/oGGnEUGuoNnd6qoZuqltyKEsyzVJq5I6rnUp6SjGeGhESikzzlc1eL7opfuVbrqbU1Zw9NCgtQMaZpY0eNnaaL2fHusvTK5vKu7sjSS1Y4y3QUA6K3e3Mau5UFDyMP7tYF9o8cAHZv68vipoIJg971PZIZ5HiwdvYGGvFVFHmGmZ2MxwmQYPXubPl9Up0tfoMQGetXd6mRbvhBw+boZ6WF7Mbv1+GsHRk0fQmPAH1GfmZirbCfDJ61tw3Px8/8pZsPAG4jlVhcPgZ7adwNWBB68lkRQWFiTgFlbnLY3DGGM7izIJIyT/jjIvEJw6fdJTc6krDzh6aMwMP9bvDH4ADSsa9uSWVJkAAAAASUVORK5CYII=);
+                    }
+                 </style><script type="text/javascript" language="javascript"> 
+          
+            // Startup 
+            // Hook up the the loaded event for the document/window, to linkify the document content
+            var startupFunction = function() { linkifyElement("messages"); };
+            
+            if(window.attachEvent)
+            {
+              window.attachEvent('onload', startupFunction);
+            }
+            else if (window.addEventListener) 
+            {
+              window.addEventListener('load', startupFunction, false);
+            }
+            else 
+            {
+              document.addEventListener('load', startupFunction, false);
+            } 
+            
+            // Toggles the visibility of table rows with the specified name 
+            function toggleTableRowsByName(name)
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  if(!!currentName && currentName.indexOf(name) == 0)
+                  {
+                      var isVisible = allRows[i].style.display == ''; 
+                      isVisible ? allRows[i].style.display = 'none' : allRows[i].style.display = '';
+                  }
+               }
+            }
+            
+            function scrollToFirstVisibleRow(name) 
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  var isVisible = allRows[i].style.display == ''; 
+                  if(!!currentName && currentName.indexOf(name) == 0 && isVisible)
+                  {
+                     allRows[i].scrollIntoView(true); 
+                     return true; 
+                  }
+               }
+               
+               return false;
+            }
+            
+            // Linkifies the specified text content, replaces candidate links with html links 
+            function linkify(text)
+            {
+                 if(!text || 0 === text.length)
+                 {
+                     return text; 
+                 }
+
+                 // Find http, https and ftp links and replace them with hyper links 
+                 var urlLink = /(http|https|ftp)\:\/\/[a-zA-Z0-9\-\.]+(:[a-zA-Z0-9]*)?\/?([a-zA-Z0-9\-\._\?\,\/\\\+&%\$#\=~;\{\}])*/gi;
+                 
+                 return text.replace(urlLink, '<a href="$&">$&</a>') ;
+            }
+            
+            // Linkifies the specified element by ID
+            function linkifyElement(id)
+            {
+                var element = document.getElementById(id);
+                if(!!element)
+                {
+                  element.innerHTML = linkify(element.innerHTML); 
+                }
+            }
+            
+            function ToggleMessageVisibility(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              toggleTableRowsByName("MessageRowClass" + projectName);
+              toggleTableRowsByName('MessageRowHeaderShow' + projectName);
+              toggleTableRowsByName('MessageRowHeaderHide' + projectName); 
+            }
+            
+            function ScrollToFirstVisibleMessage(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              // First try the 'Show messages' row
+              if(!scrollToFirstVisibleRow('MessageRowHeaderShow' + projectName))
+              {
+                // Failed to find a visible row for 'Show messages', try an actual message row 
+                scrollToFirstVisibleRow('MessageRowClass' + projectName); 
+              }
+            }
+           </script></head><body><h1 _locID="ConversionReport">
+          마이그레이션 보고서 - </h1><div id="content"><h2 _locID="OverviewTitle">개요</h2><div id="overview"><table><tr><th></th><th _locID="ProjectTableHeader">프로젝트</th><th _locID="PathTableHeader">경로</th><th _locID="ErrorsTableHeader">오류</th><th _locID="WarningsTableHeader">경고</th><th _locID="MessagesTableHeader">메시지</th></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Assembly-CSharp">Assembly-CSharp</a></strong></td><td>Assembly-CSharp.csproj</td><td class="textCentered"><a href="#Assembly-CSharpError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Assembly-CSharp-Editor">Assembly-CSharp-Editor</a></strong></td><td>Assembly-CSharp-Editor.csproj</td><td class="textCentered"><a href="#Assembly-CSharp-EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.AudioManager">Oculus.AudioManager</a></strong></td><td>Oculus.AudioManager.csproj</td><td class="textCentered"><a href="#Oculus.AudioManagerError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.AudioManager.Audio.Editor">Oculus.AudioManager.Audio.Editor</a></strong></td><td>Oculus.AudioManager.Audio.Editor.csproj</td><td class="textCentered"><a href="#Oculus.AudioManager.Audio.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.AudioManager.Utils.Editor">Oculus.AudioManager.Utils.Editor</a></strong></td><td>Oculus.AudioManager.Utils.Editor.csproj</td><td class="textCentered"><a href="#Oculus.AudioManager.Utils.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Interaction">Oculus.Interaction</a></strong></td><td>Oculus.Interaction.csproj</td><td class="textCentered"><a href="#Oculus.InteractionError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Interaction.Editor">Oculus.Interaction.Editor</a></strong></td><td>Oculus.Interaction.Editor.csproj</td><td class="textCentered"><a href="#Oculus.Interaction.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Interaction.InterfaceSupport">Oculus.Interaction.InterfaceSupport</a></strong></td><td>Oculus.Interaction.InterfaceSupport.csproj</td><td class="textCentered"><a href="#Oculus.Interaction.InterfaceSupportError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Interaction.Samples">Oculus.Interaction.Samples</a></strong></td><td>Oculus.Interaction.Samples.csproj</td><td class="textCentered"><a href="#Oculus.Interaction.SamplesError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Interaction.Samples.Editor">Oculus.Interaction.Samples.Editor</a></strong></td><td>Oculus.Interaction.Samples.Editor.csproj</td><td class="textCentered"><a href="#Oculus.Interaction.Samples.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.LipSync">Oculus.LipSync</a></strong></td><td>Oculus.LipSync.csproj</td><td class="textCentered"><a href="#Oculus.LipSyncError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.LipSync.Editor">Oculus.LipSync.Editor</a></strong></td><td>Oculus.LipSync.Editor.csproj</td><td class="textCentered"><a href="#Oculus.LipSync.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Platform">Oculus.Platform</a></strong></td><td>Oculus.Platform.csproj</td><td class="textCentered"><a href="#Oculus.PlatformError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Platform.Editor">Oculus.Platform.Editor</a></strong></td><td>Oculus.Platform.Editor.csproj</td><td class="textCentered"><a href="#Oculus.Platform.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Spatializer">Oculus.Spatializer</a></strong></td><td>Oculus.Spatializer.csproj</td><td class="textCentered"><a href="#Oculus.SpatializerError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.Spatializer.Editor">Oculus.Spatializer.Editor</a></strong></td><td>Oculus.Spatializer.Editor.csproj</td><td class="textCentered"><a href="#Oculus.Spatializer.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.VR">Oculus.VR</a></strong></td><td>Oculus.VR.csproj</td><td class="textCentered"><a href="#Oculus.VRError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.VR.Editor">Oculus.VR.Editor</a></strong></td><td>Oculus.VR.Editor.csproj</td><td class="textCentered"><a href="#Oculus.VR.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Oculus.VR.Scripts.Editor">Oculus.VR.Scripts.Editor</a></strong></td><td>Oculus.VR.Scripts.Editor.csproj</td><td class="textCentered"><a href="#Oculus.VR.Scripts.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonChat">PhotonChat</a></strong></td><td>PhotonChat.csproj</td><td class="textCentered"><a href="#PhotonChatError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonRealtime">PhotonRealtime</a></strong></td><td>PhotonRealtime.csproj</td><td class="textCentered"><a href="#PhotonRealtimeError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonUnityNetworking">PhotonUnityNetworking</a></strong></td><td>PhotonUnityNetworking.csproj</td><td class="textCentered"><a href="#PhotonUnityNetworkingError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonUnityNetworking.Demos">PhotonUnityNetworking.Demos</a></strong></td><td>PhotonUnityNetworking.Demos.csproj</td><td class="textCentered"><a href="#PhotonUnityNetworking.DemosError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonUnityNetworking.Editor">PhotonUnityNetworking.Editor</a></strong></td><td>PhotonUnityNetworking.Editor.csproj</td><td class="textCentered"><a href="#PhotonUnityNetworking.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonUnityNetworking.Utilities">PhotonUnityNetworking.Utilities</a></strong></td><td>PhotonUnityNetworking.Utilities.csproj</td><td class="textCentered"><a href="#PhotonUnityNetworking.UtilitiesError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonUnityNetworking.Utilities.Culling.Editor">PhotonUnityNetworking.Utilities.Culling.Editor</a></strong></td><td>PhotonUnityNetworking.Utilities.Culling.Editor.csproj</td><td class="textCentered"><a href="#PhotonUnityNetworking.Utilities.Culling.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonUnityNetworking.Utilities.PhotonPlayer.Editor">PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</a></strong></td><td>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj</td><td class="textCentered"><a href="#PhotonUnityNetworking.Utilities.PhotonPlayer.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonVoice">PhotonVoice</a></strong></td><td>PhotonVoice.csproj</td><td class="textCentered"><a href="#PhotonVoiceError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonVoice.API">PhotonVoice.API</a></strong></td><td>PhotonVoice.API.csproj</td><td class="textCentered"><a href="#PhotonVoice.APIError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonVoice.Editor">PhotonVoice.Editor</a></strong></td><td>PhotonVoice.Editor.csproj</td><td class="textCentered"><a href="#PhotonVoice.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonVoice.PUN">PhotonVoice.PUN</a></strong></td><td>PhotonVoice.PUN.csproj</td><td class="textCentered"><a href="#PhotonVoice.PUNError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonVoice.PUN.Editor">PhotonVoice.PUN.Editor</a></strong></td><td>PhotonVoice.PUN.Editor.csproj</td><td class="textCentered"><a href="#PhotonVoice.PUN.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PhotonVoice.Utilities.Editor">PhotonVoice.Utilities.Editor</a></strong></td><td>PhotonVoice.Utilities.Editor.csproj</td><td class="textCentered"><a href="#PhotonVoice.Utilities.EditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PunDemos.DemoHubEditor">PunDemos.DemoHubEditor</a></strong></td><td>PunDemos.DemoHubEditor.csproj</td><td class="textCentered"><a href="#PunDemos.DemoHubEditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#PunDemos.DemoSlotcarEditor">PunDemos.DemoSlotcarEditor</a></strong></td><td>PunDemos.DemoSlotcarEditor.csproj</td><td class="textCentered"><a href="#PunDemos.DemoSlotcarEditorError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Solution"><span _locID="OverviewSolutionSpan">솔루션</span></a></strong></td><td>IG-2-Project.sln</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#" onclick="ScrollToFirstVisibleMessage('Solution'); return false;">1</a></td></tr></table></div><h2 _locID="SolutionAndProjectsTitle">솔루션 및 프로젝트</h2><div id="messages"><a name="Assembly-CSharp" /><h3>Assembly-CSharp</h3><table><tr id="Assembly-CSharpHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassAssembly-CSharp"><td class="IconErrorEncoded"><a name="Assembly-CSharpError" /></td><td class="messageCell"><strong>Assembly-CSharp.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Assembly-CSharp-Editor" /><h3>Assembly-CSharp-Editor</h3><table><tr id="Assembly-CSharp-EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassAssembly-CSharp-Editor"><td class="IconErrorEncoded"><a name="Assembly-CSharp-EditorError" /></td><td class="messageCell"><strong>Assembly-CSharp-Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.AudioManager" /><h3>Oculus.AudioManager</h3><table><tr id="Oculus.AudioManagerHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.AudioManager"><td class="IconErrorEncoded"><a name="Oculus.AudioManagerError" /></td><td class="messageCell"><strong>Oculus.AudioManager.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.AudioManager.Audio.Editor" /><h3>Oculus.AudioManager.Audio.Editor</h3><table><tr id="Oculus.AudioManager.Audio.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.AudioManager.Audio.Editor"><td class="IconErrorEncoded"><a name="Oculus.AudioManager.Audio.EditorError" /></td><td class="messageCell"><strong>Oculus.AudioManager.Audio.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.AudioManager.Utils.Editor" /><h3>Oculus.AudioManager.Utils.Editor</h3><table><tr id="Oculus.AudioManager.Utils.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.AudioManager.Utils.Editor"><td class="IconErrorEncoded"><a name="Oculus.AudioManager.Utils.EditorError" /></td><td class="messageCell"><strong>Oculus.AudioManager.Utils.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Interaction" /><h3>Oculus.Interaction</h3><table><tr id="Oculus.InteractionHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Interaction"><td class="IconErrorEncoded"><a name="Oculus.InteractionError" /></td><td class="messageCell"><strong>Oculus.Interaction.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Interaction.Editor" /><h3>Oculus.Interaction.Editor</h3><table><tr id="Oculus.Interaction.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Interaction.Editor"><td class="IconErrorEncoded"><a name="Oculus.Interaction.EditorError" /></td><td class="messageCell"><strong>Oculus.Interaction.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Interaction.InterfaceSupport" /><h3>Oculus.Interaction.InterfaceSupport</h3><table><tr id="Oculus.Interaction.InterfaceSupportHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Interaction.InterfaceSupport"><td class="IconErrorEncoded"><a name="Oculus.Interaction.InterfaceSupportError" /></td><td class="messageCell"><strong>Oculus.Interaction.InterfaceSupport.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Interaction.Samples" /><h3>Oculus.Interaction.Samples</h3><table><tr id="Oculus.Interaction.SamplesHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Interaction.Samples"><td class="IconErrorEncoded"><a name="Oculus.Interaction.SamplesError" /></td><td class="messageCell"><strong>Oculus.Interaction.Samples.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Interaction.Samples.Editor" /><h3>Oculus.Interaction.Samples.Editor</h3><table><tr id="Oculus.Interaction.Samples.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Interaction.Samples.Editor"><td class="IconErrorEncoded"><a name="Oculus.Interaction.Samples.EditorError" /></td><td class="messageCell"><strong>Oculus.Interaction.Samples.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.LipSync" /><h3>Oculus.LipSync</h3><table><tr id="Oculus.LipSyncHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.LipSync"><td class="IconErrorEncoded"><a name="Oculus.LipSyncError" /></td><td class="messageCell"><strong>Oculus.LipSync.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.LipSync.Editor" /><h3>Oculus.LipSync.Editor</h3><table><tr id="Oculus.LipSync.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.LipSync.Editor"><td class="IconErrorEncoded"><a name="Oculus.LipSync.EditorError" /></td><td class="messageCell"><strong>Oculus.LipSync.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Platform" /><h3>Oculus.Platform</h3><table><tr id="Oculus.PlatformHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Platform"><td class="IconErrorEncoded"><a name="Oculus.PlatformError" /></td><td class="messageCell"><strong>Oculus.Platform.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Platform.Editor" /><h3>Oculus.Platform.Editor</h3><table><tr id="Oculus.Platform.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Platform.Editor"><td class="IconErrorEncoded"><a name="Oculus.Platform.EditorError" /></td><td class="messageCell"><strong>Oculus.Platform.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Spatializer" /><h3>Oculus.Spatializer</h3><table><tr id="Oculus.SpatializerHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Spatializer"><td class="IconErrorEncoded"><a name="Oculus.SpatializerError" /></td><td class="messageCell"><strong>Oculus.Spatializer.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.Spatializer.Editor" /><h3>Oculus.Spatializer.Editor</h3><table><tr id="Oculus.Spatializer.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.Spatializer.Editor"><td class="IconErrorEncoded"><a name="Oculus.Spatializer.EditorError" /></td><td class="messageCell"><strong>Oculus.Spatializer.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.VR" /><h3>Oculus.VR</h3><table><tr id="Oculus.VRHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.VR"><td class="IconErrorEncoded"><a name="Oculus.VRError" /></td><td class="messageCell"><strong>Oculus.VR.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.VR.Editor" /><h3>Oculus.VR.Editor</h3><table><tr id="Oculus.VR.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.VR.Editor"><td class="IconErrorEncoded"><a name="Oculus.VR.EditorError" /></td><td class="messageCell"><strong>Oculus.VR.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Oculus.VR.Scripts.Editor" /><h3>Oculus.VR.Scripts.Editor</h3><table><tr id="Oculus.VR.Scripts.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassOculus.VR.Scripts.Editor"><td class="IconErrorEncoded"><a name="Oculus.VR.Scripts.EditorError" /></td><td class="messageCell"><strong>Oculus.VR.Scripts.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonChat" /><h3>PhotonChat</h3><table><tr id="PhotonChatHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonChat"><td class="IconErrorEncoded"><a name="PhotonChatError" /></td><td class="messageCell"><strong>PhotonChat.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonRealtime" /><h3>PhotonRealtime</h3><table><tr id="PhotonRealtimeHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonRealtime"><td class="IconErrorEncoded"><a name="PhotonRealtimeError" /></td><td class="messageCell"><strong>PhotonRealtime.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonUnityNetworking" /><h3>PhotonUnityNetworking</h3><table><tr id="PhotonUnityNetworkingHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonUnityNetworking"><td class="IconErrorEncoded"><a name="PhotonUnityNetworkingError" /></td><td class="messageCell"><strong>PhotonUnityNetworking.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonUnityNetworking.Demos" /><h3>PhotonUnityNetworking.Demos</h3><table><tr id="PhotonUnityNetworking.DemosHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonUnityNetworking.Demos"><td class="IconErrorEncoded"><a name="PhotonUnityNetworking.DemosError" /></td><td class="messageCell"><strong>PhotonUnityNetworking.Demos.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonUnityNetworking.Editor" /><h3>PhotonUnityNetworking.Editor</h3><table><tr id="PhotonUnityNetworking.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonUnityNetworking.Editor"><td class="IconErrorEncoded"><a name="PhotonUnityNetworking.EditorError" /></td><td class="messageCell"><strong>PhotonUnityNetworking.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonUnityNetworking.Utilities" /><h3>PhotonUnityNetworking.Utilities</h3><table><tr id="PhotonUnityNetworking.UtilitiesHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonUnityNetworking.Utilities"><td class="IconErrorEncoded"><a name="PhotonUnityNetworking.UtilitiesError" /></td><td class="messageCell"><strong>PhotonUnityNetworking.Utilities.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonUnityNetworking.Utilities.Culling.Editor" /><h3>PhotonUnityNetworking.Utilities.Culling.Editor</h3><table><tr id="PhotonUnityNetworking.Utilities.Culling.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonUnityNetworking.Utilities.Culling.Editor"><td class="IconErrorEncoded"><a name="PhotonUnityNetworking.Utilities.Culling.EditorError" /></td><td class="messageCell"><strong>PhotonUnityNetworking.Utilities.Culling.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor" /><h3>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</h3><table><tr id="PhotonUnityNetworking.Utilities.PhotonPlayer.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonUnityNetworking.Utilities.PhotonPlayer.Editor"><td class="IconErrorEncoded"><a name="PhotonUnityNetworking.Utilities.PhotonPlayer.EditorError" /></td><td class="messageCell"><strong>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonVoice" /><h3>PhotonVoice</h3><table><tr id="PhotonVoiceHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonVoice"><td class="IconErrorEncoded"><a name="PhotonVoiceError" /></td><td class="messageCell"><strong>PhotonVoice.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonVoice.API" /><h3>PhotonVoice.API</h3><table><tr id="PhotonVoice.APIHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonVoice.API"><td class="IconErrorEncoded"><a name="PhotonVoice.APIError" /></td><td class="messageCell"><strong>PhotonVoice.API.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonVoice.Editor" /><h3>PhotonVoice.Editor</h3><table><tr id="PhotonVoice.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonVoice.Editor"><td class="IconErrorEncoded"><a name="PhotonVoice.EditorError" /></td><td class="messageCell"><strong>PhotonVoice.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonVoice.PUN" /><h3>PhotonVoice.PUN</h3><table><tr id="PhotonVoice.PUNHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonVoice.PUN"><td class="IconErrorEncoded"><a name="PhotonVoice.PUNError" /></td><td class="messageCell"><strong>PhotonVoice.PUN.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonVoice.PUN.Editor" /><h3>PhotonVoice.PUN.Editor</h3><table><tr id="PhotonVoice.PUN.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonVoice.PUN.Editor"><td class="IconErrorEncoded"><a name="PhotonVoice.PUN.EditorError" /></td><td class="messageCell"><strong>PhotonVoice.PUN.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PhotonVoice.Utilities.Editor" /><h3>PhotonVoice.Utilities.Editor</h3><table><tr id="PhotonVoice.Utilities.EditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPhotonVoice.Utilities.Editor"><td class="IconErrorEncoded"><a name="PhotonVoice.Utilities.EditorError" /></td><td class="messageCell"><strong>PhotonVoice.Utilities.Editor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PunDemos.DemoHubEditor" /><h3>PunDemos.DemoHubEditor</h3><table><tr id="PunDemos.DemoHubEditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPunDemos.DemoHubEditor"><td class="IconErrorEncoded"><a name="PunDemos.DemoHubEditorError" /></td><td class="messageCell"><strong>PunDemos.DemoHubEditor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="PunDemos.DemoSlotcarEditor" /><h3>PunDemos.DemoSlotcarEditor</h3><table><tr id="PunDemos.DemoSlotcarEditorHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="ErrorRowClassPunDemos.DemoSlotcarEditor"><td class="IconErrorEncoded"><a name="PunDemos.DemoSlotcarEditorError" /></td><td class="messageCell"><strong>PunDemos.DemoSlotcarEditor.csproj:
+        </strong><span>이 프로젝트 형식을 기반으로 하는 애플리케이션을 찾지 못했습니다. 추가 정보를 보려면 이 링크를 확인하십시오. http://go.microsoft.com/fwlink/?LinkID=299083&amp;projecttype=E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1</span></td></tr></table><a name="Solution" /><h3 _locID="ProjectDisplayNameHeader">솔루션</h3><table><tr id="SolutionHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">메시지</th></tr><tr name="MessageRowHeaderShowSolution"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="ShowAdditionalMessages" href="#" name="SolutionMessage" onclick="ToggleMessageVisibility('Solution'); return false;">
+          표시 1 추가 메시지
+        </a></td></tr><tr name="MessageRowClassSolution" style="display: none"><td class="IconInfoEncoded"><a name="SolutionMessage" /></td><td class="messageCell"><strong>IG-2-Project.sln:
+        </strong><span>솔루션 파일은 마이그레이션하지 않아도 됩니다.</span></td></tr><tr style="display: none" name="MessageRowHeaderHideSolution"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="HideAdditionalMessages" href="#" name="SolutionMessage" onclick="ToggleMessageVisibility('Solution'); return false;">
+          숨기기 1 추가 메시지
+        </a></td></tr></table></div></div></body></html>

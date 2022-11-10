@@ -14,6 +14,11 @@ public class GunShoot : MonoBehaviourPun
     [SerializeField] private Vector3 _offsetPosition = new Vector3(0.0478f, 0.0146f, 0.1126f);
     [SerializeField] private Transform[] _handPositions;
 
+    [Header("Model")]
+    [SerializeField] private GameObject _playerModel;
+    private MeshRenderer _renderer;
+    private ShootingPlayerLoadingUI _loadingUI;
+
     [Header("BasicState")]
     [SerializeField] private float _gunRange = 18f;
 
@@ -37,9 +42,9 @@ public class GunShoot : MonoBehaviourPun
     // 이팩트
     [Header("Effects")]
     [SerializeField] private Color _playerColor = new Color();
+    private Vector3 _playerColorInVector3;
     private PlayerNumber _playerNumber;
     private string _myNickname;
-    [SerializeField] private GameObject _hitUI;
 
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
 
@@ -63,10 +68,25 @@ public class GunShoot : MonoBehaviourPun
     private bool _isReloading;
 
     private LineRenderer _lineRenderer;
-    private Vector3[] rayPositions = new Vector3[2];
+    private Vector3[] _rayPositions = new Vector3[2];
+
+    private bool _isShootable = false;
 
     private void Awake()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
+        _myNickname = transform.root.GetComponentInChildren<PlayerNetworking>().MyNickname;
+
+        // 초기화
+        _playerModel.SetActive(false);
+        _renderer = GetComponent<MeshRenderer>();
+        _renderer.enabled = false;
+        PlayerControlManager.Instance.IsRayable = false;
+
         // 이팩트를 위한 기타 컴포넌트 가져오기
         _shootEffects = GetComponentsInChildren<ParticleSystem>();
         _audioSource = GetComponent<AudioSource>();
@@ -92,21 +112,13 @@ public class GunShoot : MonoBehaviourPun
         _lineRenderer.enabled = false;
 #endif
     }
-
-    [PunRPC]
-    public void Reset(Transform[] handPositions, ShootingGameManager shootingGameManager)
+    
+    public void SetManager(ShootingGameManager shootingGameManager, ShootingPlayerLoadingUI _shootingPlayerLoadingUI)
     {
-        if(!photonView.IsMine)
-        {
-            return;
-        }
+        shootingGameManager.AddPlayer(_myNickname, this);
 
-        _handPositions = handPositions;
-
-        _myNickname = transform.parent.GetComponentInChildren<PlayerNetworking>().MyNickname;
-
-        // 마스터일 경우에만 실행
-        shootingGameManager.AddPlayerToGame(out _playerColor, out _playerNumber, in _myNickname);
+        shootingGameManager.OnGameOver.RemoveListener(StopShooting);
+        shootingGameManager.OnGameOver.AddListener(StopShooting);
 
         // 리볼버가 들려있는 위치 확인하기
         _input = transform.root.GetComponentInChildren<PlayerInput>();
@@ -115,15 +127,33 @@ public class GunShoot : MonoBehaviourPun
 
         transform.parent = _handPositions[_primaryController];
         transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
+
+        _loadingUI = _shootingPlayerLoadingUI;
+    }
+
+    public void PlayerInfoSetting(PlayerNumber playerNumber, Color playerColor)
+    {
+        _playerNumber = playerNumber;
+        _playerColor = playerColor;
+        _playerColorInVector3 = new Vector3(playerColor.r, playerColor.g, playerColor.b);
+
+        _isShootable = true;
+        _playerModel.SetActive(true);
+        _renderer.enabled = true;
+        _loadingUI.DisableLoadingPanel();
     }
 
     private void Update()
     {
 #if _DEV_MODE_
-        rayPositions[0] = _bulletSpawnTransform.position;
-        rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
-        _lineRenderer.SetPositions(rayPositions);
+        _rayPositions[0] = _bulletSpawnTransform.position;
+        _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
+        _lineRenderer.SetPositions(_rayPositions);
 #endif
+        if(!_isShootable)
+        {
+            return;
+        }
 
         Reload();
         Shot();
@@ -142,7 +172,6 @@ public class GunShoot : MonoBehaviourPun
         PlayShotEffect();
     }
 
-    private int _score = 0;
     private void HitTarget()
     {
         RaycastHit hit;
@@ -150,14 +179,7 @@ public class GunShoot : MonoBehaviourPun
         if (Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
         {
             ShootingObjectHealth _health = hit.collider.GetComponent<ShootingObjectHealth>();
-            int point = _health.Hit(_playerNumber);
-
-            GameObject hitUI = Instantiate(_hitUI, hit.point, Quaternion.identity);
-            hitUI.GetComponent<HitUI>().enabled = true;
-            hitUI.GetComponent<HitUI>().SetPointText(_playerColor, point, point != 0);
-
-            _score += point;
-            Debug.Log("[Gun] " + _score);
+            _health.Hit(_playerNumber, _playerColorInVector3, hit.point);
         }
     }
 
@@ -209,6 +231,12 @@ public class GunShoot : MonoBehaviourPun
             _audioSource.PlayOneShot(_reloadAudioClip);
             _isReloading = true;
         }
+    }
+
+    private void StopShooting()
+    {
+        _isShootable = false;
+        PlayerControlManager.Instance.IsRayable = true;
     }
 
     public void ReturnToBulletPull(GameObject bulletTrail)

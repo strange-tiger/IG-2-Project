@@ -62,7 +62,7 @@ public class ShootingGameStartNPC : InteracterableObject
                     _playerList.RemoveAt(0);
                 }
 
-                shootingGameManager.StartGame(playerList);
+                //shootingGameManager.StartGame(playerList);
                 break;
             }
         }

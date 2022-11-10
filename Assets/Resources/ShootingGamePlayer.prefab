@@ -512,13 +512,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc9063daef1d71d4bb6d0c4f6a0e307a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ovrCameraPosition: {x: 0, y: 0.7, z: 0.8}
+  _ovrCameraPosition: {x: 0, y: 0.7, z: 0}
   _ovrCameraRigPrefab: {fileID: 8195805791958106615, guid: 8078935e6379557448a41b2f9e897cd5, type: 3}
   _modelHandTransforms:
   - {fileID: 7895069224636134188}
   - {fileID: 7401276134618709666}
   _nicknameText: {fileID: 4691367702282538850}
-  _newPlayerAudioSource: {fileID: 2145734672103758956}
 --- !u!114 &971891850876029811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,6 +891,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 7401276134618709666}
     m_Modifications:
     - target: {fileID: 1655898097, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: _handPositions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1655898097, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
       propertyPath: handPosition.Array.data[0]
       value: 
       objectReference: {fileID: 0}
@@ -899,6 +902,14 @@ PrefabInstance:
       propertyPath: handPosition.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1655898097, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: _handPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 7895069224636134188}
+    - target: {fileID: 1655898097, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: _handPositions.Array.data[1]
+      value: 
+      objectReference: {fileID: 7401276134618709666}
     - target: {fileID: 8899927513647204242, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
       propertyPath: m_Name
       value: Revolver (1)
@@ -946,6 +957,10 @@ PrefabInstance:
     - target: {fileID: 8902321758207326220, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922142097683556142, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}

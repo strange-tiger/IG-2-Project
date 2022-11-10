@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-
+using Asset.MySql;
 public class TestInPhoton : MonoBehaviourPunCallbacks
 {
     private const string ROOM_NAME = "PrivateTest";
@@ -54,7 +54,8 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("된거구나?");
+        MySqlSetting.Init();
 
-        PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("NewPlayer", new Vector3(1,1,1), Quaternion.identity);
     }
 }
