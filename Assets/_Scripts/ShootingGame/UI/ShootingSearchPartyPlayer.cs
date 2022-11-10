@@ -43,7 +43,7 @@ public class ShootingSearchPartyPlayer : MonoBehaviourPun
         _cancelButton.onClick.RemoveAllListeners();
         _cancelButton.onClick.AddListener(() =>
        {
-           _shootingGameStartScript.CancelSearching(this);
+           //_shootingGameStartScript.CancelSearching(this);
        });
 
         _elapsedTime = 0f;
@@ -99,7 +99,7 @@ public class ShootingSearchPartyPlayer : MonoBehaviourPun
 
     public void CancelSearching()
     {
-        _shootingGameStartScript.CancelSearching(this);
+        //_shootingGameStartScript.CancelSearching(this);
         _isSearching = false;
         _searchPanel.SetActive(false);
     }
