@@ -14,6 +14,11 @@ public class GunShoot : MonoBehaviourPun
     [SerializeField] private Vector3 _offsetPosition = new Vector3(0.0478f, 0.0146f, 0.1126f);
     [SerializeField] private Transform[] _handPositions;
 
+    [Header("Model")]
+    [SerializeField] private GameObject _playerModel;
+    private MeshRenderer _renderer;
+    private ShootingPlayerLoadingUI _loadingUI;
+
     [Header("BasicState")]
     [SerializeField] private float _gunRange = 18f;
 
@@ -63,7 +68,9 @@ public class GunShoot : MonoBehaviourPun
     private bool _isReloading;
 
     private LineRenderer _lineRenderer;
-    private Vector3[] rayPositions = new Vector3[2];
+    private Vector3[] _rayPositions = new Vector3[2];
+
+    private bool _isShootable = false;
 
     private void Awake()
     {
@@ -74,13 +81,11 @@ public class GunShoot : MonoBehaviourPun
 
         _myNickname = transform.root.GetComponentInChildren<PlayerNetworking>().MyNickname;
 
-        // 리볼버가 들려있는 위치 확인하기
-        _input = transform.root.GetComponentInChildren<PlayerInput>();
-        _primaryController = (int)_input.PrimaryController;
-        _mainController = _primaryController == 0 ? OVRInput.Controller.LHand : OVRInput.Controller.RHand;
-
-        transform.parent = _handPositions[_primaryController];
-        transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
+        // 초기화
+        _playerModel.SetActive(false);
+        _renderer = GetComponent<MeshRenderer>();
+        _renderer.enabled = false;
+        PlayerControlManager.Instance.IsRayable = false;
 
         // 이팩트를 위한 기타 컴포넌트 가져오기
         _shootEffects = GetComponentsInChildren<ParticleSystem>();
@@ -108,9 +113,22 @@ public class GunShoot : MonoBehaviourPun
 #endif
     }
     
-    public void SetManager(ShootingGameManager shootingGameManager)
+    public void SetManager(ShootingGameManager shootingGameManager, ShootingPlayerLoadingUI _shootingPlayerLoadingUI)
     {
         shootingGameManager.AddPlayer(_myNickname, this);
+
+        shootingGameManager.OnGameOver.RemoveListener(StopShooting);
+        shootingGameManager.OnGameOver.AddListener(StopShooting);
+
+        // 리볼버가 들려있는 위치 확인하기
+        _input = transform.root.GetComponentInChildren<PlayerInput>();
+        _primaryController = (int)_input.PrimaryController;
+        _mainController = _primaryController == 0 ? OVRInput.Controller.LHand : OVRInput.Controller.RHand;
+
+        transform.parent = _handPositions[_primaryController];
+        transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
+
+        _loadingUI = _shootingPlayerLoadingUI;
     }
 
     public void PlayerInfoSetting(PlayerNumber playerNumber, Color playerColor)
@@ -118,15 +136,24 @@ public class GunShoot : MonoBehaviourPun
         _playerNumber = playerNumber;
         _playerColor = playerColor;
         _playerColorInVector3 = new Vector3(playerColor.r, playerColor.g, playerColor.b);
+
+        _isShootable = true;
+        _playerModel.SetActive(true);
+        _renderer.enabled = true;
+        _loadingUI.DisableLoadingPanel();
     }
 
     private void Update()
     {
 #if _DEV_MODE_
-        rayPositions[0] = _bulletSpawnTransform.position;
-        rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
-        _lineRenderer.SetPositions(rayPositions);
+        _rayPositions[0] = _bulletSpawnTransform.position;
+        _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
+        _lineRenderer.SetPositions(_rayPositions);
 #endif
+        if(!_isShootable)
+        {
+            return;
+        }
 
         Reload();
         Shot();
@@ -204,6 +231,12 @@ public class GunShoot : MonoBehaviourPun
             _audioSource.PlayOneShot(_reloadAudioClip);
             _isReloading = true;
         }
+    }
+
+    private void StopShooting()
+    {
+        _isShootable = false;
+        PlayerControlManager.Instance.IsRayable = true;
     }
 
     public void ReturnToBulletPull(GameObject bulletTrail)

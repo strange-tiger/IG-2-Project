@@ -171,12 +171,13 @@ public class ShootingGameManager : MonoBehaviourPun
             {
                 if (info.PlayerNickname == _myClientNickname)
                 {
-                    _myClient.PlayerInfoSetting(info.PlayerNumber, info.PlayerColor);
-                 
                     int playerNumberInt = (int)info.PlayerNumber;
-                    _myClient.transform.root.position = 
+                    _myClient.transform.root.position =
                         _playerPosition[playerNumberInt].position;
                     _uiCanvas.transform.position = _canvasPosition[playerNumberInt].position;
+
+                    _myClient.PlayerInfoSetting(info.PlayerNumber, info.PlayerColor);
+                 
                     return;
                 }
             }
