@@ -23,9 +23,15 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
 
     private float[] _hp = new float[4];
 
-    private int _minute = 15;
-    private int _second = 0;
+    private int _minute;
+    private int _second;
     private float _cumulativeTime;
+
+    private void OnEnable()
+    {
+        _minute = 15;
+        _second = 0;
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -62,7 +68,7 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
     /// </summary>
     private void FlowingTime()
     {
-        //if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             _cumulativeTime += Time.deltaTime;
 

@@ -17,7 +17,10 @@ public class ArenaBettingUI : MonoBehaviourPun
 
     void Start()
     {
-         photonView.RPC("BettingForChampionSetting", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("BettingForChampionSetting", RpcTarget.All);
+        }
     }
 
     [PunRPC]
