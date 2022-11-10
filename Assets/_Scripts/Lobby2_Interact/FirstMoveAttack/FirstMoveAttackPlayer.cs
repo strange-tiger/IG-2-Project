@@ -14,7 +14,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         }
 
         Debug.Log("OnDamageByBottle");
-        GetComponentInChildren<OVRScreenFade>().FadeOut(0.0f);
+        GetComponentInChildren<OVRScreenFade>()?.FadeOut(0.0f);
         StartCoroutine(Invincible(20f));
         StartCoroutine(ReviveCooldown());
     }
