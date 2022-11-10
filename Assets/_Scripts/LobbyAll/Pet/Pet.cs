@@ -79,10 +79,7 @@ public class Pet : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        photonView.RPC("PetDataApplied", newPlayer, _eqiupNum);
-    }
+
 
     private IEnumerator PetExpIncrease()
     {
