@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
 public enum EPetMoveState
 {
@@ -11,7 +12,7 @@ public enum EPetMoveState
     MAX
 }
 
-public class PetMove : MonoBehaviour
+public class PetMove : MonoBehaviourPun
 {
     public event Action<bool> OnStateChanged;
     public EPetMoveState State
@@ -26,7 +27,7 @@ public class PetMove : MonoBehaviour
     }
     private EPetMoveState _state = EPetMoveState.IDLE;
 
-    private PetManager _manager;
+    private Transform _destination;
     private Animator _animator;
     private NavMeshAgent _agent;
 
@@ -49,19 +50,23 @@ public class PetMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player") && photonView.IsMine)
+        {
             State = EPetMoveState.IDLE;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && photonView.IsMine)
+        {
             State = EPetMoveState.MOVE;
+        }
     }
 
-    public void SetPetManager(PetManager manager)
+    public void SetTarget(Transform destination)
     {
-        _manager = manager;
+        _destination = destination;
     }
 
     private void ChangeMoveState(bool isMove)
@@ -70,8 +75,8 @@ public class PetMove : MonoBehaviour
 
         if (isMove)
         {
-            _agent.SetDestination(_manager.transform.position);
-            Debug.Log(_manager.transform.position);
+            _agent.SetDestination(_destination.position);
+            Debug.Log(_destination.position);
         }
 
         _agent.isStopped = !isMove;

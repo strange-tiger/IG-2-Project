@@ -14,8 +14,6 @@ public class AIDamage : AIState
 
     private int _setHp;
 
-    private Animator _animator;
-
     private int _damage;
     private int _skillDamage;
 

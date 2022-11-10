@@ -27,14 +27,13 @@ public class StartPlayerInfoPanelManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetPlayerList(List<PlayerInfo> playerInfos)
+    public void SetPlayerList(List<PlayerInfo> playerInfos, string myClientNickname)
     {
         for(int i = 0; i < playerInfos.Count; ++i)
         {
             _playerNicknameText[i].text = playerInfos[i].PlayerNickname;
             _playerColor[i].color = playerInfos[i].PlayerColor;
-            //만약 isMine 이면 
-            _isYouImages[i].SetActive(true);
+            _isYouImages[i].SetActive(playerInfos[i].PlayerNickname == myClientNickname);
         }
     }
 }

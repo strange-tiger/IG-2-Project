@@ -295,6 +295,11 @@ public class SyncOVRGrabber : MonoBehaviourPun
                 m_grabbedObjectRotOff = relOri;
             }
 
+            if (m_grabbedObj == null)
+            {
+                GrabEnd();
+                return;
+            }
             // NOTE: force teleport on grab, to avoid high-speed travel to dest which hits a lot of other objects at high
             // speed and sends them flying. The grabbed object may still teleport inside of other objects, but fixing that
             // is beyond the scope of this demo.
@@ -320,6 +325,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
     {
         if (m_grabbedObj == null)
         {
+            GrabEnd();
             return;
         }
 
@@ -372,6 +378,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
     protected void GrabbableRelease(Vector3 linearVelocity, Vector3 angularVelocity)
     {
         m_grabbedObj.GrabEnd(linearVelocity, angularVelocity);
+
         if (m_parentHeldObject)
         {
             m_grabbedObj.transform.parent = null;
