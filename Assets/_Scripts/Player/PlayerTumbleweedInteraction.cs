@@ -22,7 +22,7 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
     private bool _isGrabbing;
     public float GrabbingTime { get; private set; }
 
-    [SerializeField] private OVRGrabber[] _grabbers;
+    public SyncOVRGrabber[] Grabbers { get; set; }
 
     private PlayerInput _input;
 
@@ -43,7 +43,7 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
             return;
         }
 
-        foreach(OVRGrabber grabber in _grabbers)
+        foreach(SyncOVRGrabber grabber in Grabbers)
         {
             if(grabber.grabbedObject)
             {

@@ -48,6 +48,9 @@ public class PlayerNetworking : BasicPlayerNetworking
 
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
+
+            SyncOVRGrabber[] grabbers = cameraRig.GetComponentsInChildren<SyncOVRGrabber>();
+            GetComponent<PlayerTumbleweedInteraction>().Grabbers = grabbers;
         }
         else
         {
