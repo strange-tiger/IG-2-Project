@@ -24,28 +24,23 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
 
     public SyncOVRGrabber[] Grabbers { get; set; }
 
-    private PlayerInput _input;
-
-    private void Awake()
-    {
-        _input = GetComponent<PlayerInput>();
-    }
+    public PlayerInput Input { get; set; }
 
     private void FixedUpdate()
     {
 #if _PC_TEST
         if(!IsNearTumbleweed || !Input.GetKey(KeyCode.A))
 #else
-        if(!IsNearTumbleweed || !_input.InputA)
+        if(!IsNearTumbleweed || !Input.InputA)
 #endif
         {
             GrabbingTime = 0f;
             return;
         }
 
-        foreach(SyncOVRGrabber grabber in Grabbers)
+        foreach (SyncOVRGrabber grabber in Grabbers)
         {
-            if(grabber.grabbedObject)
+            if (grabber.grabbedObject)
             {
                 GrabbingTime = 0f;
                 return;
