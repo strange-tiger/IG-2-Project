@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 public class TestInPhoton : MonoBehaviourPunCallbacks
 {
-    private const string ROOM_NAME = "PetTest";
+    private const string ROOM_NAME = "PrivateTest";
 
     private void Awake()
     {
@@ -35,6 +35,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
 
         Debug.Log("됐지?");
+
 #if debugMaster
         while (!PhotonNetwork.CreateRoom(ROOM_NAME)) ;
 #else
@@ -47,7 +48,6 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnCreatedRoom();
 
         Debug.Log("됐구나?");
-        PhotonNetwork.LoadLevel("Pet_Interaction");
     }
 
     public override void OnJoinedRoom()

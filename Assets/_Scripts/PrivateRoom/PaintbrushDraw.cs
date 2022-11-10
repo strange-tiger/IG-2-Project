@@ -94,7 +94,7 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
 
     private LineRenderer GenerateLineRenderer(Vector3 startPos)
     {
-        GameObject line = PhotonNetwork.Instantiate("Line", Vector3.zero, Quaternion.identity);
+        GameObject line = PhotonNetwork.Instantiate("PrivateRoom\\Line", Vector3.zero, Quaternion.identity);
         LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
 
         line.transform.parent = _pad.transform;
