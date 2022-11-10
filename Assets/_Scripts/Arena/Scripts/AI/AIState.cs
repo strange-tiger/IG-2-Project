@@ -6,6 +6,8 @@ public abstract class AIState : MonoBehaviour
 {
     protected AIFSM aiFSM;
 
+    protected Animator _animator;
+
     public void Initialize(AIFSM aiFSM)
     {
         this.aiFSM = aiFSM;
