@@ -42,6 +42,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         }
         else
         {
+            Debug.LogError("[LobbyChanger] " + _nextScene.ToString());
             PhotonNetwork.JoinOrCreateRoom(_nextScene.ToString(), _roomOptions, TypedLobby.Default);
         }
     }
@@ -63,8 +64,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         if (_needSceneChange)
         {
-            Debug.Log("[LogOut] LobbyChanger OnJoinedLobby");
-
             if (_nextScene <= Defines.ESceneNumder.StartRoom)
             {
                 PhotonNetwork.LoadLevel((int)_nextScene);

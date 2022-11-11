@@ -23,6 +23,8 @@ public class WaitingServerManager : LobbyChanger
 
     private WaitForSeconds _waitForSecond;
 
+    private const int _MAX_PLAYER_COUNT = ShootingGameManager._MAX_PLAYER_COUNT;
+
     protected override void Awake()
     {
         base.Awake();
@@ -38,21 +40,32 @@ public class WaitingServerManager : LobbyChanger
         _exitWaitingScript = _door.GetComponent<ExitWaiting>();
         _doorSenserScript = _door.GetComponent<DoorSenser>();
 
-        _playerCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+        _playerCountText.text = PhotonNetwork.PlayerList.Length.ToString();
+        photonView.RPC("PlayerEntered", RpcTarget.All);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    [PunRPC]
+    private void PlayerEntered()
     {
-        int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        Debug.Log("[ShootingWaiting] 플레이어 참가함");
+        int playerCount = PhotonNetwork.PlayerList.Length;
         _playerCountText.text = playerCount.ToString();
 
         if (PhotonNetwork.IsMasterClient)
         {
-            if(playerCount == ShootingGameManager._MAX_PLAYER_COUNT)
+            if (playerCount == _MAX_PLAYER_COUNT)
             {
+                Debug.Log("[ShootingWaiting] 플레이어 참가함");
                 StartGame();
             }
         }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("[ShootingWaiting] 플레이어 나감");
+        int playerCount = PhotonNetwork.PlayerList.Length;
+        _playerCountText.text = playerCount.ToString();
     }
 
     private void StartGame()
