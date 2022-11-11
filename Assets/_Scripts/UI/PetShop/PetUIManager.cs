@@ -30,7 +30,7 @@ public class PetUIManager : UIManager
             SetGrade();
             SetExplanation();
             SetPrice();
-            SetIsHave();
+            SetStatus();
             SetSize();
             SetAssetIndex();
             SetLevel();
@@ -56,7 +56,7 @@ public class PetUIManager : UIManager
         public void SetGrade(EGrade grade = EGrade.A) { Grade = grade; }
         public void SetExplanation(string explain = "Temp") { Explanation = explain; }
         public void SetPrice(int price = 0) { Price = price; }
-        public void SetIsHave(EPetStatus status = EPetStatus.NONE) { Status = status; }
+        public void SetStatus(EPetStatus status = EPetStatus.NONE) { Status = status; }
         public void SetSize(float size = 0.3f) { Size = size; }
         public void SetAssetIndex(int assetIndex = 0) { AssetIndex = assetIndex; }
         public void SetLevel(int level = 0) { Level = level; }
@@ -102,7 +102,7 @@ public class PetUIManager : UIManager
 
             PetList[i].SetPrefab(_petData.Object[i]);
 
-            PetList[i].SetIsHave(_petData.Status[i]);
+            PetList[i].SetStatus(_petData.Status[i]);
         }
     }
 }

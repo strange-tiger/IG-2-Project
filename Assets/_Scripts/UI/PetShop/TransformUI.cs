@@ -59,7 +59,7 @@ public class TransformUI : MonoBehaviour
     private Transform _currentPetTransform;
 
     private int _currentIndex = 0;
-    private int _equipedIndex = 0;
+    private int _equipedIndex = -1;
     private int _transformIndex = 0;
     private int _maxTransformIndex = 0;
     private bool _doTransformScale = false;
@@ -99,7 +99,9 @@ public class TransformUI : MonoBehaviour
             }
         }
         _currentIndex = _equipedIndex;
-        CurrentPet = _ui.PetList[_equipedIndex];
+
+        if (_equipedIndex != -1)
+            CurrentPet = _ui.PetList[_equipedIndex];
 
         _applyPopup.SetActive(false);
     }
@@ -156,36 +158,34 @@ public class TransformUI : MonoBehaviour
         PetData petData = _ui.GetPetData();
         for (int i = 0; i < _ui.PetList.Length; ++i)
         {
-            if (petData.Size[i] != _ui.PetList[i].Size)
-            {
-                petData.Size[i] = _ui.PetList[i].Size;
-            }
-
-            if (petData.ChildIndex[i] != _ui.PetList[i].AssetIndex)
-            {
-                petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
-            }
-
+            petData.Size[i] = _ui.PetList[i].Size;
+            petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
             petData.Status[i] = _ui.PetList[i].Status;
         }
+
 #if !debug
-        if (_DB.UpdatePetInventoryData("aaa", petData))
+        if (!_DB.UpdatePetInventoryData("aaa", petData))
         {
             return;
         }
 #endif
-        _applyPopup.SetActive(true);
-        
         _ui.LoadUI(_UI.POPUP);
 
+        _applyPopup.SetActive(true);
+        
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnClickLeftButton()
     {
+        if (_currentIndex == -1)
+        {
+            return;
+        }
+
         int prevIndex = _currentIndex;
 
-        _ui.PetList[prevIndex].SetIsHave(EPetStatus.HAVE);
+        _ui.PetList[prevIndex].SetStatus(EPetStatus.HAVE);
         do
         {
             if (_currentIndex - 1 < 0)
@@ -206,9 +206,14 @@ public class TransformUI : MonoBehaviour
 
     private void OnClickRightButton()
     {
+        if (_currentIndex == -1)
+        {
+            return;
+        }
+
         int prevIndex = _currentIndex;
 
-        _ui.PetList[prevIndex].SetIsHave(EPetStatus.HAVE);
+        _ui.PetList[prevIndex].SetStatus(EPetStatus.HAVE);
         do
         {
             if (_currentIndex + 1 >= _ui.PetList.Length)
@@ -229,14 +234,20 @@ public class TransformUI : MonoBehaviour
 
     private void UpdateCurrentPet()
     {
-        _ui.PetList[_currentIndex].SetIsHave(EPetStatus.EQUIPED);
+        _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
         CurrentPet = _ui.PetList[_currentIndex];
+        _transformIndex = 0;
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnClickLeftTransformButton()
     {
+        if (_currentIndex == -1)
+        {
+            return;
+        }
+
         int currentPetEvolutionCount = 0;
         do
         {
@@ -255,6 +266,11 @@ public class TransformUI : MonoBehaviour
 
     private void OnClickRightTransformButton()
     {
+        if (_currentIndex == -1)
+        {
+            return;
+        }
+
         int currentPetEvolutionCount = 0;
         do
         {

@@ -101,21 +101,23 @@ public class PurchaseUI : MonoBehaviour
     private void Purchase()
     {
 #if !debug
-        if (_DB.CheckHaveGold(_ui.PlayerNetworkingInPet.MyNickname) > _purchaseAmount + int.Parse(_petPrice.text))
-        {
-            return;
-        }
+        //if (_DB.CheckHaveGold("aaa") > _purchaseAmount + int.Parse(_petPrice.text))
+        //{
+        //    return;
+        //}
 #endif
         _purchaseAmount += int.Parse(_petPrice.text);
 
         if (_equipedIndex != -1)
         {
-            _ui.PetList[_equipedIndex].SetIsHave(EPetStatus.HAVE);
+            _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
         }
 
         _equipedIndex = _currentIndex;
-        CurrentPet.SetIsHave(EPetStatus.EQUIPED);
-        _ui.PetList[_currentIndex].SetIsHave(EPetStatus.EQUIPED);
+        CurrentPet.SetStatus(EPetStatus.EQUIPED);
+        _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
+
+        Debug.Log(_ui.PetList[_currentIndex].Status);
 
         _purchaseButton.enabled = false;
 
@@ -125,7 +127,7 @@ public class PurchaseUI : MonoBehaviour
     private void Close()
     {
 #if !debug
-        if (!_DB.UseGold(_ui.PlayerNetworkingInPet.MyNickname, _purchaseAmount))
+        if (!_DB.UseGold("aaa", _purchaseAmount))
         {
             _purchaseAmount = 0;
             return;
@@ -136,20 +138,11 @@ public class PurchaseUI : MonoBehaviour
         PetData petData = _ui.GetPetData();
         for (int i = 0; i < _ui.PetList.Length; ++i)
         {
-            if (petData.Status[i] == EPetStatus.NONE
-                && _ui.PetList[i].Status != EPetStatus.NONE)
-            {
-                petData.Status[i] = EPetStatus.HAVE;
-            }
-        }
-
-        if (_equipedIndex != -1)
-        {
-            petData.Status[_equipedIndex] = EPetStatus.EQUIPED;
+            petData.Status[i] = _ui.PetList[i].Status;
         }
 
 #if !debug
-        if (_DB.UpdatePetInventoryData(_ui.PlayerNetworkingInPet.MyNickname, petData))
+        if (!_DB.UpdatePetInventoryData("aaa", petData))
         {
             return;
         }
@@ -219,7 +212,7 @@ public class PurchaseUI : MonoBehaviour
 #if debug
         if (int.Parse(_petPrice.text) > 100)
 #else
-        if (int.Parse(_petPrice.text) > _DB.CheckHaveGold(_ui.PlayerNetworkingInPet.MyNickname))
+        if (int.Parse(_petPrice.text) > _DB.CheckHaveGold("aaa"))
 #endif
         {
             _purchaseButton.enabled = false;
