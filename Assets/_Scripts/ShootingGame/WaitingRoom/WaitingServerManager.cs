@@ -28,7 +28,8 @@ public class WaitingServerManager : LobbyChanger
         base.Awake();
         if(photonView.IsMine)
         {
-            Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
+            GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
+            countDown.SetActive(false);
         }
 
         _waitForSecond = new WaitForSeconds(1f);
@@ -36,6 +37,8 @@ public class WaitingServerManager : LobbyChanger
 
         _exitWaitingScript = _door.GetComponent<ExitWaiting>();
         _doorSenserScript = _door.GetComponent<DoorSenser>();
+
+        _playerCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

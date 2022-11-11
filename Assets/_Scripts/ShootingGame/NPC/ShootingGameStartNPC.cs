@@ -6,7 +6,7 @@ using SceneNumber = Defines.ESceneNumder;
 
 public class ShootingGameStartNPC : InteracterableObject
 {
-    [SerializeField] LobbyChanger _lobbyChanger;
+    [SerializeField] private LobbyChanger _lobbyChanger;
     public override void Interact()
     {
         MenuUIManager.Instance.ShowCheckPanel("Play?",
