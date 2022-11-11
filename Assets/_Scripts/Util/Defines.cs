@@ -64,7 +64,7 @@ namespace Defines
         Damage,
         Death,
     }
-    
+
     public enum EJobClass
     {
         Prototype,
@@ -95,5 +95,88 @@ namespace Defines
     {
         Hp100 = 100,
         Hp200 = 200,
+    }
+
+    public enum EVoiceType
+    {
+        None,
+        Always,
+        PushToTalk,
+        MaxCount,
+    }
+
+    public enum ESoundType
+    {
+        Bgm,
+        Effect,
+        MaxCount,
+    }
+
+    public enum EVoiceUIType
+    {
+        MasterVolume = 0,
+        EffectVolume,
+        BackGroundVolume,
+        InputVolume,
+        OutputVolume,
+        MaxCount,
+    }
+
+    public enum EPianoKeyColor
+    {
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Purple,
+        Pink,
+        MaxCount,
+    }
+
+    public enum ELogInUIIndex
+    {
+        LOGIN,
+        SIGNIN,
+        FINDPASSWORD,
+        MAX
+    }
+
+    public enum ELogInErrorType
+    {
+        NONE,
+        ID,
+        PASSWORD,
+        MAX
+    }
+
+    public enum EChangePasswordErrorType
+    {
+        NONE,
+        ID,
+        ANSWER,
+        MAX
+    }
+
+    public enum ECharacterUIIndex
+    {
+        SELECT,
+        MAKE,
+        MAX
+    }
+
+    public enum EPrivateRoomUIIndex
+    {
+        JOIN,
+        MAKE,
+        MAX
+    }
+
+    public enum EPetUIIndex
+    {
+        POPUP,
+        PURCHASE,
+        TRANSFORM,
+        MAX
     }
 }
