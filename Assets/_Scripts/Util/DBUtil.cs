@@ -230,13 +230,37 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     string _insertCharacterString = GetInsertString(ETableType.characterdb, nickname, gender);
-                    string _insertPetInventoryString = GetInsertString(ETableType.characterdb, nickname);
 
                     MySqlCommand _insertCharacterCommand = new MySqlCommand(_insertCharacterString, _mysqlConnection);
-                    MySqlCommand _insertPetInventoryCommand = new MySqlCommand(_insertPetInventoryString, _mysqlConnection);
 
                     _mysqlConnection.Open();
                     _insertCharacterCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+
+                AddNewPetInventory(nickname);
+
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+
+        private static bool AddNewPetInventory(string nickname)
+        {
+            try
+            {
+
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string _insertPetInventoryString = GetInsertString(ETableType.characterdb, nickname);
+
+                    MySqlCommand _insertPetInventoryCommand = new MySqlCommand(_insertPetInventoryString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
                     _insertPetInventoryCommand.ExecuteNonQuery();
                     _mysqlConnection.Close();
                 }
@@ -1194,7 +1218,6 @@ namespace Asset.MySql
                 petExpString += ',' + petData.Exp[i].ToString();
                 petAssetString += ',' + petData.ChildIndex[i].ToString();
                 petSizeString += ',' + petData.Size[i].ToString();
-
             }
 
             string updateString = $"Update PetInventoryDB set {EpetinventorydbColumns.PetStatus} = '{petStatusString}',{EpetinventorydbColumns.PetLevel} = '{petLevelString}',{EpetinventorydbColumns.PetExp} = '{petExpString}',{EpetinventorydbColumns.PetAsset} = '{petAssetString}',{EpetinventorydbColumns.PetSize} = '{petSizeString}' where {EpetinventorydbColumns.Nickname} = '{nickname}';";
