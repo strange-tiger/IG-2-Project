@@ -15,9 +15,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     protected virtual void Awake()
     {
-        if(!_isStartRoom)
+        if (!_isStartRoom)
         {
-            GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name,new Vector3(0f, 1f, 3f),
+            GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(0f, 1f, 3f),
                 Quaternion.Euler(0f, 0f, 0f), 0, null);
             BasicPlayerNetworking playerNetworking = player.GetComponent<BasicPlayerNetworking>();
             playerNetworking.photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
@@ -35,8 +35,8 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
         PlayerControlManager.Instance.IsRayable = false;
         PlayerControlManager.Instance.IsMoveable = false;
-        
-        if(!_isStartRoom)
+
+        if (!_isStartRoom)
         {
             PhotonNetwork.LeaveRoom();
         }
@@ -48,7 +48,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        if(_needSceneChange)
+        if (_needSceneChange)
         {
             Debug.Log("[LogOut] LobbyChanger OnConnectedToMaster");
             PhotonNetwork.JoinLobby();
@@ -61,16 +61,24 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     };
     public override void OnJoinedLobby()
     {
-        if(_needSceneChange)
+        if (_needSceneChange)
         {
             Debug.Log("[LogOut] LobbyChanger OnJoinedLobby");
+
+            if (_nextScene <= Defines.ESceneNumder.StartRoom)
+            {
+                PhotonNetwork.LoadLevel((int)_nextScene);
+
+                return;
+            }
+
             PhotonNetwork.JoinOrCreateRoom(_nextScene.ToString(), _roomOptions, TypedLobby.Default);
         }
     }
 
     public override void OnJoinedRoom()
     {
-        if(_needSceneChange)
+        if (_needSceneChange)
         {
             Debug.Log("[LogOut] LobbyChanger OnJoinedRoom");
             PhotonNetwork.LoadLevel((int)_nextScene);
