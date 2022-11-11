@@ -28,6 +28,13 @@ public class BettingManager : MonoBehaviour
             BettingStart();
         }
     }
+
+    private void OnEnable()
+    {
+        _groupManager._finishTournament.RemoveListener(DistributeGold);
+        _groupManager._finishTournament.AddListener(DistributeGold);
+    }
+
     private void Update()
     {
         if(!_isBettingStart)
@@ -75,5 +82,10 @@ public class BettingManager : MonoBehaviour
             BetRates[i] = 0;
             ChampionBetAmounts[i] = 0;
         }
+    }
+
+    private void OnDisable()
+    {
+        _groupManager._finishTournament.RemoveListener(DistributeGold);
     }
 }
