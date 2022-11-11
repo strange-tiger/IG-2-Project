@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
-public class GroupManager : MonoBehaviour
+public class GroupManager : MonoBehaviourPun
 {
-    [SerializeField] private int _setPosition;
+    [SerializeField] private int _setPositionX;
+    [SerializeField] private float _setPositionZ;
 
     private GameObject[] _member = new GameObject[4];
     public GameObject[] Member { get { return _member; } }
@@ -28,6 +30,11 @@ public class GroupManager : MonoBehaviour
     private int _secondWinnerIndex;
     public int WinnerIndex { get { return _winnerIndex; } private set { _winnerIndex = value; } }
 
+    private int a;
+    private int b;
+    private int c;
+    private int d;
+
     private bool _isDraw;
     public bool IsDraw { get { return _isDraw; } private set { _isDraw = value; } }
 
@@ -44,7 +51,13 @@ public class GroupManager : MonoBehaviour
         _SecondBattleWinnerSetFinalGroup.RemoveListener(SecondWinnerSetFinalGroup);
         _SecondBattleWinnerSetFinalGroup.AddListener(SecondWinnerSetFinalGroup);
 
-        SettingRandomGroup();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // 1번
+            SettingRandomGroup();
+
+            _setFirstBattle.Invoke();
+        }
     }
 
     private void Update()
@@ -71,6 +84,7 @@ public class GroupManager : MonoBehaviour
             if ((_finalBattle[0].activeSelf == false || _finalBattle[1].activeSelf == false) && _isFinelBattle)
             {
                 SendWinnerIndex();
+
                 Debug.Log(WinnerIndex);
 
                 Invoke("Finish", 15f);
@@ -78,12 +92,7 @@ public class GroupManager : MonoBehaviour
                 _isFinelBattle = false;
             }
         }
-    }
 
-    // 죽은 AI
-    private void SomeAIDied(GameObject obj)
-    {
-        obj.SetActive(false);
     }
 
     private void OnDisable()
@@ -126,8 +135,31 @@ public class GroupManager : MonoBehaviour
             _member[i] = transform.GetChild(index).gameObject;
         }
 
-        // 첫번째 전투시작 이벤트
+        photonView.RPC("ClientsSettingGroup", RpcTarget.Others, _memberIndexList[0], _memberIndexList[1], _memberIndexList[2], _memberIndexList[3]);
+        Debug.Log($"마스터 : {_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
+    }
+
+    /// <summary>
+    /// SettingRandomGroup 클라버전
+    /// </summary>
+    [PunRPC]
+    public void ClientsSettingGroup(int list_0, int list_1, int list_2, int list_3)
+    {
+        Debug.Log($"{list_0}, {list_1}, {list_2}, {list_3}");
+
+        a = list_0;
+        b = list_1;
+        c = list_2;
+        d = list_3;
+
+        _member[0] = transform.GetChild(a).gameObject;
+        _member[1] = transform.GetChild(b).gameObject;
+        _member[2] = transform.GetChild(c).gameObject;
+        _member[3] = transform.GetChild(d).gameObject;
+
         _setFirstBattle.Invoke();
+
+        Debug.Log($"클라 : {a}, {b}, {c}, {d}");
     }
 
     /// <summary>
@@ -135,9 +167,9 @@ public class GroupManager : MonoBehaviour
     /// </summary>
     private void SetPositionFirstBattle()
     {
-        _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
+        _member[0].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
         _member[0].transform.rotation = Quaternion.Euler(0, 90, 0);
-        _member[1].transform.position = new Vector3(_setPosition, -2f, 0);
+        _member[1].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
         _member[1].transform.rotation = Quaternion.Euler(0, -90, 0);
 
         _member[0].SetActive(true);
@@ -150,9 +182,9 @@ public class GroupManager : MonoBehaviour
     /// </summary>
     private void SetPositionSecondBattle()
     {
-        _member[2].transform.position = new Vector3(-_setPosition, -2f, 0);
+        _member[2].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
         _member[2].transform.rotation = Quaternion.Euler(0, 90, 0);
-        _member[3].transform.position = new Vector3(_setPosition, -2f, 0);
+        _member[3].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
         _member[3].transform.rotation = Quaternion.Euler(0, -90, 0);
 
         _member[2].SetActive(true);
@@ -183,17 +215,31 @@ public class GroupManager : MonoBehaviour
     {
         if (_member[0].activeSelf)
         {
-            _firstWinnerIndex = _memberIndexList[0];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[0];
+            }
+            else
+            {
+                _firstWinnerIndex = a;
+            }
             _finalBattle[0] = _member[0];
-            _member[0].transform.position = new Vector3(-_setPosition, -2f, 0);
+            _member[0].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
             _member[0].SetActive(false);
         }
 
         else if (_member[1].activeSelf)
         {
-            _firstWinnerIndex = _memberIndexList[1];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[1];
+            }
+            else
+            {
+                _firstWinnerIndex = b;
+            }
             _finalBattle[0] = _member[1];
-            _member[1].transform.position = new Vector3(-_setPosition, -2f, 0);
+            _member[1].transform.position = new Vector3(-_setPositionX, -3f, _setPositionZ);
             _member[1].SetActive(false);
         }
 
@@ -208,17 +254,31 @@ public class GroupManager : MonoBehaviour
     {
         if (_member[2].activeSelf)
         {
-            _secondWinnerIndex = _memberIndexList[2];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[2];
+            }
+            else
+            {
+                _firstWinnerIndex = c;
+            }
             _finalBattle[1] = _member[2];
-            _member[2].transform.position = new Vector3(_setPosition, -2f, 0);
+            _member[2].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
             _member[2].SetActive(false);
         }
 
         else if (_member[3].activeSelf)
         {
-            _secondWinnerIndex = _memberIndexList[3];
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _firstWinnerIndex = _memberIndexList[3];
+            }
+            else
+            {
+                _firstWinnerIndex = d;            
+            }
             _finalBattle[1] = _member[3];
-            _member[3].transform.position = new Vector3(_setPosition, -2f, 0);
+            _member[3].transform.position = new Vector3(_setPositionX, -3f, _setPositionZ);
             _member[3].SetActive(false);
         }
 
@@ -272,7 +332,9 @@ public class GroupManager : MonoBehaviour
     /// </summary>
     private void Finish()
     {
-        _finalBattle[_winnerIndex].SetActive(false);
+        _finalBattle[0].SetActive(false);
+        _finalBattle[1].SetActive(false);
+
         gameObject.SetActive(false);
     }
 }

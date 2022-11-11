@@ -152,7 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hasPlayer: 1
+  _isStartRoom: 0
+  _canvases: []
+  _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
 --- !u!4 &16103459
 Transform:
   m_ObjectHideFlags: 0
@@ -672,8 +674,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _lobbyType: 2
+  _sceneType: 0
   _lobbyManager: {fileID: 16103458}
+  _checkMessage: 
+  _nextLobbyName: 
 --- !u!1 &701380398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,8 +1325,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _lobbyType: 4
+  _sceneType: 0
   _lobbyManager: {fileID: 16103458}
+  _checkMessage: 
+  _nextLobbyName: 
 --- !u!1 &1515942808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,8 +1568,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _lobbyType: 3
+  _sceneType: 0
   _lobbyManager: {fileID: 16103458}
+  _checkMessage: 
+  _nextLobbyName: 
 --- !u!1 &1848029032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1997,6 +2005,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6149224679546415130, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7095871039780472785, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: sceneViewId
       value: 2
@@ -2004,6 +2016,10 @@ PrefabInstance:
     - target: {fileID: 7215816375355564460, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: sceneViewId
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7792025439783767656, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: sceneViewId
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}

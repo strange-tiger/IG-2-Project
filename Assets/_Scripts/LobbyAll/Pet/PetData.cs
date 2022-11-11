@@ -3,23 +3,26 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable/PetData", fileName = "PetData")]
 public class PetData : ScriptableObject
 {
-    [SerializeField] GameObject[] petObject;
-    public GameObject[] PetObject { get { return petObject; } }
+    [SerializeField] GameObject[] _object;
+    public GameObject[] Object { get { return _object; } }
 
-    [SerializeField] EPetStatus[] petStatus;
-    public EPetStatus[] PetStatus { get { return petStatus; } }
+    [SerializeField] EPetMaxExp[] _maxExp;
+    public EPetMaxExp[] MaxExp { get { return _maxExp; } }
 
-    [SerializeField] int[] petLevel;
-    public int[] PetLevel { get { return petLevel; } }
+    [SerializeField] EPetStatus[] _status;
+    public EPetStatus[] Status { get { return _status; } }
 
-    [SerializeField] int[] petEXP;
-    public int[] PetEXP { get { return petEXP; } }
+    [SerializeField] int[] _level;
+    public int[] Level { get { return _level; } }
 
-    [SerializeField] float[] petSize;
-    public float[] PetSize { get { return petSize; } }
+    [SerializeField] int[] _exp;
+    public int[] Exp { get { return _exp; } }
 
-    [SerializeField] int[] petAsset;
-    public int[] PetAsset { get { return petAsset; } }
+    [SerializeField] float[] _size;
+    public float[] Size { get { return _size; } }
+
+    [SerializeField] int[] _childIndex;
+    public int[] ChildIndex { get { return _childIndex; } }
 }
 
 public enum EPetStatus
@@ -28,3 +31,11 @@ public enum EPetStatus
     HAVE,
     EQUIPED
 };
+
+public enum EPetMaxExp
+{
+    NONE,
+    ONEHOUR,
+    THREEHOUR,
+    SECONDARYEVOL,
+}

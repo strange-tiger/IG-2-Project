@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using PlayerInfo = ShootingGameManager.ShootingPlayerInfo;
+using SceneNumber = Defines.ESceneNumder;
 
 public class EndResultPanel : MonoBehaviour
 {
+    [SerializeField] private LobbyChanger _lobbyChanger;
+
+    [Header("UI")]
     [SerializeField] private GameObject _goldPanel;
     [SerializeField] private GameObject _starPanel;
     [SerializeField] private GameObject _regamePanel;
@@ -77,10 +81,12 @@ public class EndResultPanel : MonoBehaviour
             () =>
             {
                 Debug.Log("[Shooting] 게임 재시작");
+                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom);
             },
             () =>
             {
                 Debug.Log("[Shooting] 게임 종료");
+                _lobbyChanger.ChangeLobby(SceneNumber.WesternLobby);
             });
     }
 }

@@ -14,8 +14,9 @@ namespace Defines
         MakeCharacterRoom,
         FantasyLobby,
         WesternLobby,
-        VikingLobby,
         ArenaRoom,
+        ShootingWaitingRoom,
+        ShootingGameRoom,
 
         End,
     }

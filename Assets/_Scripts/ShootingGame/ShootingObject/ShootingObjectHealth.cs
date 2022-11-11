@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using PlayerNumber = ShootingGameManager.EShootingPlayerNumber;
 
-public class ShootingObjectHealth : MonoBehaviour
+public class ShootingObjectHealth : MonoBehaviourPun
 {
     [Serializable]
     public class ShotEffect
@@ -19,7 +20,7 @@ public class ShootingObjectHealth : MonoBehaviour
 
         public int ShowEffect()
         {
-            if(_isThereEffect)
+            if (_isThereEffect)
             {
                 _effect.SetActive(true);
             }
@@ -44,6 +45,9 @@ public class ShootingObjectHealth : MonoBehaviour
     public ShotEffect[] ShotEffects { get => _shotEffects; private set => _shotEffects = value; }
     private int _shotEffectCount = -1;
 
+    [Header("Hit Effect")]
+    [SerializeField] private GameObject _hitUI;
+
     [Header("Destroy")]
     [SerializeField] private float _destroyOffsetTime = 0.5f;
     private WaitForSeconds _waitForDestroy;
@@ -58,7 +62,7 @@ public class ShootingObjectHealth : MonoBehaviour
 
     private void Awake()
     {
-        if(_shootingGameManager)
+        if (_shootingGameManager)
         {
             _shootingGameManager = FindObjectOfType<ShootingGameManager>();
         }
@@ -71,12 +75,21 @@ public class ShootingObjectHealth : MonoBehaviour
         _waitForDestroy = new WaitForSeconds(_destroyOffsetTime);
 
         _shotEffectCount = -1;
+
+        transform.parent = _shootingGameManager.LunchObjects.transform;
     }
 
-    public int Hit(PlayerNumber playerNumber)
+    public void Hit(PlayerNumber playerNumber, Vector3 playerColor, Vector3 hitPoint)
+    {
+        photonView.RPC("HitByServer", RpcTarget.AllBufferedViaServer,
+            playerNumber, playerColor, hitPoint);
+    }
+
+    [PunRPC]
+    public void HitByServer(PlayerNumber playerNumber, Vector3 playerColor, Vector3 hitPoint)
     {
         Debug.Log("[Shooting] Hit");
-        if(_shotEffectCount < 0)
+        if (_shotEffectCount < 0)
         {
             _initialModel.SetActive(false);
         }
@@ -90,25 +103,37 @@ public class ShootingObjectHealth : MonoBehaviour
         {
             _movement.enabled = false;
             gameObject.layer = _unbreakableObjectLayer;
-            _rigidbody.velocity = _ZERO_VECTOR3;
-            StartCoroutine(DisableSelf());
+            if(PhotonNetwork.IsMasterClient)
+            {
+                _rigidbody.velocity = _ZERO_VECTOR3;
+                StartCoroutine(DisableSelf());
+            }
         }
         int point = _shotEffects[_shotEffectCount].ShowEffect();
-        _shootingGameManager.AddScoreToPlayer(playerNumber, point);
         PlayEffectSound();
 
-        return point;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            _shootingGameManager.AddScoreToPlayer(playerNumber, point);
+            GameObject hitUI = PhotonNetwork.Instantiate(_hitUI.name, hitPoint, Quaternion.identity);
+            hitUI.GetComponent<HitUI>().photonView.RPC("SetPointText", RpcTarget.AllViaServer,
+                playerColor, point, point != 0);
+        }
     }
 
     private void PlayEffectSound()
     {
         int randonNumber = UnityEngine.Random.Range(0, _shotSoundEffects.Length);
-        _audioSource.PlayOneShot(_shotSoundEffects[randonNumber]);
+        if(_shotSoundEffects.Length > 0)
+        {
+            _audioSource.PlayOneShot(_shotSoundEffects[randonNumber]);
+        }
     }
 
     private IEnumerator DisableSelf()
     {
         yield return _waitForDestroy;
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

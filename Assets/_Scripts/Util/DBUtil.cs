@@ -1132,28 +1132,9 @@ namespace Asset.MySql
         #endregion
 
 #region PetInventoryList        
-        /// <summary>
-        /// 유저의 닉네임을 받아 PetStatus, PetLevel,PetExp의 Dictionary를 담는 리스트를 가져옴.
-        /// </summary>
-        /// <param name="nickname"></param>
-        /// <returns></returns>
-        public static List<Dictionary<string, string>> GetPetInventoryList(string nickname)
-        {
-            List<Dictionary<string, string>> resultList = new List<Dictionary<string, string>>();
-
-            // UserA 칼럼에 대한 State 검사 후 리스트 생성
-            GetPetInventoryListHelper
-            (
-                nickname,
-                ref resultList
-            );
 
 
-            return resultList;
-        }
-
-
-        private static void GetPetInventoryListHelper(string nickname, ref List<Dictionary<string, string>> resultList)
+        public static PetData GetPetInventoryData(string nickname, PetData petData)
         {
             string selcetPetInventoryString = $"SELECT * from PetInventoryDB " +
                 $"WHERE {EpetinventorydbColumns.Nickname} = '{nickname}'; ";
@@ -1179,24 +1160,67 @@ namespace Asset.MySql
 
                     for(int i = 0; i < petStatusArray.Length; ++i)
                     {
-                        Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
-                        dictionaryList.Add("PetStatus", petStatusArray[i]);
-                        dictionaryList.Add("PetLevel", petLevelArray[i]);
-                        dictionaryList.Add("PetExp", petExpArray[i]);
-                        dictionaryList.Add("PetAsset", petAssetArray[i]);
-                        dictionaryList.Add("PetSize", petSizeArray[i]);
-                        resultList.Add(dictionaryList);
+
+                        petData.Status[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus),petStatusArray[i]);
+                        petData.Level[i] = int.Parse(petLevelArray[i]);
+                        petData.Exp[i] = int.Parse(petExpArray[i]);
+                        petData.ChildIndex[i] = int.Parse(petAssetArray[i]);
+                        petData.Size[i] = float.Parse(petSizeArray[i]);
+
                     }
 
                 }
 
                 _mysqlConnection.Close();
 
+                return petData;
             }
             
         }
 
-#endregion
+        public static bool UpdatePetInventoryData(string nickname, PetData petData)
+        {
+
+            string petStatusString = petData.Status[0].ToString();
+            string petLevelString = petData.Level[0].ToString();
+            string petExpString = petData.Exp[0].ToString();
+            string petAssetString = petData.ChildIndex[0].ToString();
+            string petSizeString = petData.Size[0].ToString();
+
+            for (int i = 1; i < petData.Status.Length; ++i)
+            {
+                petStatusString += ',' + petData.Status[i].ToString();
+                petLevelString += ',' + petData.Level[i].ToString();
+                petExpString += ',' + petData.Exp[i].ToString();
+                petAssetString += ',' + petData.ChildIndex[i].ToString();
+                petSizeString += ',' + petData.Size[i].ToString();
+
+            }
+
+            string updateString = $"Update PetInventoryDB set {EpetinventorydbColumns.PetStatus} = '{petStatusString}',{EpetinventorydbColumns.PetLevel} = '{petLevelString}',{EpetinventorydbColumns.PetExp} = '{petExpString}',{EpetinventorydbColumns.PetAsset} = '{petAssetString}',{EpetinventorydbColumns.PetSize} = '{petSizeString}' where {EpetinventorydbColumns.Nickname} = '{nickname}';";
+
+            try
+            {
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    
+                    MySqlCommand command = new MySqlCommand(updateString, _sqlConnection);
+
+                    _sqlConnection.Open();
+                    command.ExecuteNonQuery();
+                    _sqlConnection.Close();
+
+                    return true;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+
+        }
+        #endregion
 
 
 
