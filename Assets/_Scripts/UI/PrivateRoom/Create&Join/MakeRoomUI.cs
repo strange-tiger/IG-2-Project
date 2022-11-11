@@ -138,7 +138,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         // 임시 코드
         Debug.Log("방 입장");
-        PhotonNetwork.LoadLevel(2);
+        PhotonNetwork.LoadLevel("PrivateRoom");
     }
 
     private void ActivePasswordInput(bool isOn)

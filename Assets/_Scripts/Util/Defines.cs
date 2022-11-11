@@ -17,6 +17,7 @@ namespace Defines
         ArenaRoom,
         ShootingWaitingRoom,
         ShootingGameRoom,
+        PrivateRoom,
 
         End,
     }

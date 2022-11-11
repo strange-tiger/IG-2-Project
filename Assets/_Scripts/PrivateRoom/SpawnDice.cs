@@ -22,7 +22,7 @@ public class SpawnDice : MonoBehaviourPun
         }
     }
 
-    private static readonly Vector3 SPAWN_POSITION = new Vector3(0f, 1.5f, 5f);
+    private static readonly Vector3 SPAWN_POSITION = new Vector3(0f, 2f, 5f);
     [PunRPC]
     private void Spawn()
     {
