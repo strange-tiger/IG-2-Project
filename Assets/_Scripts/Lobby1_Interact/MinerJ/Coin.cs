@@ -84,5 +84,6 @@ public class Coin : MonoBehaviour
             Debug.Log(_elapsedTime);
             yield return null;
         }
-    }    
+    }     
+
 }
