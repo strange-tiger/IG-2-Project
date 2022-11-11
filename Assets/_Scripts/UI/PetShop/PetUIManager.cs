@@ -1,8 +1,6 @@
-#define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
@@ -84,18 +82,14 @@ public class PetUIManager : UIManager
 
     public void LoadUI(_UI ui)
     {
-#if !debug
         _npcCollider.enabled = false;
-#endif
         LoadUI((int)ui);
     }
 
     public void ShutPetUI()
     {
         ShutUI();
-#if !debug
         _npcCollider.enabled = true;
-#endif
     }
 
     private void InitializePetInventory()

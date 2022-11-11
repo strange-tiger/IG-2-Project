@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
+using UnityEngine.EventSystems;
 
 public class PurchaseUI : MonoBehaviour
 {
@@ -117,12 +118,12 @@ public class PurchaseUI : MonoBehaviour
         _ui.PetList[_currentIndex].SetIsHave(EPetStatus.EQUIPED);
 
         _purchaseButton.enabled = false;
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void Close()
     {
-        _ui.LoadUI(_UI.POPUP);
-
 #if !debug
         if (!_DB.UseGold(_ui.PlayerNetworkingInPet.MyNickname, _purchaseAmount))
         {
@@ -153,6 +154,9 @@ public class PurchaseUI : MonoBehaviour
             return;
         }
 #endif
+        _ui.LoadUI(_UI.POPUP);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnClickLeftButton()
@@ -174,6 +178,8 @@ public class PurchaseUI : MonoBehaviour
         while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
 
         CurrentPet = _ui.PetList[_currentIndex];
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnClickRightButton()
@@ -195,6 +201,8 @@ public class PurchaseUI : MonoBehaviour
         while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
 
         CurrentPet = _ui.PetList[_currentIndex];
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void ShowCurrentPet()

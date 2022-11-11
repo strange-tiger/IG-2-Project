@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
+using UnityEngine.EventSystems;
 
 public enum EPetEvolutionCount
 {
@@ -99,6 +100,8 @@ public class TransformUI : MonoBehaviour
         }
         _currentIndex = _equipedIndex;
         CurrentPet = _ui.PetList[_equipedIndex];
+
+        _applyPopup.SetActive(false);
     }
 
     private void OnDisable()
@@ -146,14 +149,10 @@ public class TransformUI : MonoBehaviour
         {
             TransformPetChildAsset(_transformIndex);
         }
-
-        Debug.Log("��ȯ");
     }
 
     private void Close()
     {
-        _ui.LoadUI(_UI.POPUP);
-
         PetData petData = _ui.GetPetData();
         for (int i = 0; i < _ui.PetList.Length; ++i)
         {
@@ -170,12 +169,16 @@ public class TransformUI : MonoBehaviour
             petData.Status[i] = _ui.PetList[i].Status;
         }
 #if !debug
-        if (_DB.UpdatePetInventoryData(_ui.PlayerNetworkingInPet.MyNickname, petData))
+        if (_DB.UpdatePetInventoryData("aaa", petData))
         {
             return;
         }
-        Debug.LogError("�� ���� ���� ����");
 #endif
+        _applyPopup.SetActive(true);
+        
+        _ui.LoadUI(_UI.POPUP);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnClickLeftButton()
@@ -228,6 +231,8 @@ public class TransformUI : MonoBehaviour
     {
         _ui.PetList[_currentIndex].SetIsHave(EPetStatus.EQUIPED);
         CurrentPet = _ui.PetList[_currentIndex];
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnClickLeftTransformButton()
@@ -351,5 +356,7 @@ public class TransformUI : MonoBehaviour
             // �ӽ�
             _petTransformOption.text = _currentPetTransform.GetChild(index).name;
         }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }
