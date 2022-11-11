@@ -8,7 +8,9 @@ using SceneNumber = Defines.ESceneNumder;
 
 public class WaitingServerManager : LobbyChanger
 {
-    [SerializeField] private ExitWaiting _door;
+    [SerializeField] private GameObject _door;
+    private ExitWaiting _exitWaitingScript;
+    private DoorSenser _doorSenserScript;
 
     [SerializeField] private TextMeshProUGUI _playerCountText;
 
@@ -21,34 +23,56 @@ public class WaitingServerManager : LobbyChanger
 
     private WaitForSeconds _waitForSecond;
 
+    private const int _MAX_PLAYER_COUNT = ShootingGameManager._MAX_PLAYER_COUNT;
+
     protected override void Awake()
     {
         base.Awake();
         if(photonView.IsMine)
         {
-            Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
+            GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
+            countDown.SetActive(false);
         }
 
         _waitForSecond = new WaitForSeconds(1f);
         _audioSource = GetComponent<AudioSource>();
+
+        _exitWaitingScript = _door.GetComponent<ExitWaiting>();
+        _doorSenserScript = _door.GetComponent<DoorSenser>();
+
+        _playerCountText.text = PhotonNetwork.PlayerList.Length.ToString();
+        photonView.RPC("PlayerEntered", RpcTarget.All);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    [PunRPC]
+    private void PlayerEntered()
     {
-        int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        Debug.Log("[ShootingWaiting] 플레이어 참가함");
+        int playerCount = PhotonNetwork.PlayerList.Length;
         _playerCountText.text = playerCount.ToString();
 
         if (PhotonNetwork.IsMasterClient)
         {
-            if(playerCount == ShootingGameManager._MAX_PLAYER_COUNT)
+            if (playerCount == _MAX_PLAYER_COUNT)
             {
+                Debug.Log("[ShootingWaiting] 플레이어 참가함");
                 StartGame();
             }
         }
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("[ShootingWaiting] 플레이어 나감");
+        int playerCount = PhotonNetwork.PlayerList.Length;
+        _playerCountText.text = playerCount.ToString();
+    }
+
     private void StartGame()
     {
+        _doorSenserScript.enabled = false;
+        _exitWaitingScript.OutFocus();
+        _exitWaitingScript.enabled = false;
         StartCoroutine(CoStartCountDown());
     }
 
