@@ -101,10 +101,10 @@ public class PurchaseUI : MonoBehaviour
     private void Purchase()
     {
 #if !debug
-        //if (_DB.CheckHaveGold("aaa") > _purchaseAmount + int.Parse(_petPrice.text))
-        //{
-        //    return;
-        //}
+        if (_DB.CheckHaveGold(_ui.PlayerNickname) < _purchaseAmount + int.Parse(_petPrice.text))
+        {
+            return;
+        }
 #endif
         _purchaseAmount += int.Parse(_petPrice.text);
 
@@ -127,7 +127,7 @@ public class PurchaseUI : MonoBehaviour
     private void Close()
     {
 #if !debug
-        if (!_DB.UseGold("aaa", _purchaseAmount))
+        if (!_DB.UseGold(_ui.PlayerNickname, _purchaseAmount))
         {
             _purchaseAmount = 0;
             return;
@@ -142,7 +142,7 @@ public class PurchaseUI : MonoBehaviour
         }
 
 #if !debug
-        if (!_DB.UpdatePetInventoryData("aaa", petData))
+        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
         {
             return;
         }
@@ -212,7 +212,7 @@ public class PurchaseUI : MonoBehaviour
 #if debug
         if (int.Parse(_petPrice.text) > 100)
 #else
-        if (int.Parse(_petPrice.text) > _DB.CheckHaveGold("aaa"))
+        if (int.Parse(_petPrice.text) > _DB.CheckHaveGold(_ui.PlayerNickname))
 #endif
         {
             _purchaseButton.enabled = false;

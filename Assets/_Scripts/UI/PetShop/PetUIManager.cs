@@ -11,7 +11,8 @@ public class PetUIManager : UIManager
 
     [SerializeField] PetData _petData;
 
-    public PlayerNetworking PlayerNetworkingInPet { get; private set; }
+    private BasicPlayerNetworking _playerNetworking;
+    public string PlayerNickname { get; private set; }
 
     public class PetProfile
     {
@@ -72,10 +73,17 @@ public class PetUIManager : UIManager
 
     private void OnEnable()
     {
-#if !debug
-        PlayerNetworkingInPet = FindObjectOfType<PlayerNetworking>();
-#endif
         InitializePetInventory();
+
+        StartCoroutine(SetPlayerNetworking());
+    }
+
+    private IEnumerator SetPlayerNetworking()
+    {
+        yield return new WaitForSeconds(1f);
+
+        _playerNetworking = FindObjectOfType<BasicPlayerNetworking>();
+        PlayerNickname = _playerNetworking.MyNickname;
     }
 
     public PetData GetPetData() => _petData;

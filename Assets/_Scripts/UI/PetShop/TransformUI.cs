@@ -164,7 +164,7 @@ public class TransformUI : MonoBehaviour
         }
 
 #if !debug
-        if (!_DB.UpdatePetInventoryData("aaa", petData))
+        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
         {
             return;
         }
