@@ -11,6 +11,7 @@ public class Rock : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        Debug.Log("충돌은 해?");
         if(other.gameObject.CompareTag("Player"))
         {
             _miningButton.SetActive(true);

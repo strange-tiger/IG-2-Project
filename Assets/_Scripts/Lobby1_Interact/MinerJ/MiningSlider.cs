@@ -41,7 +41,7 @@ public class MiningSlider : MonoBehaviour
         {
             gameObject.SetActive(false);
             HitCircleDisable();
-            _coin.GetCoin();
+            _coin.gameObject.SetActive(true);
         }
         else if (5f <= _elapsedTime && _elapsedTime <= 5.5f)
         {
