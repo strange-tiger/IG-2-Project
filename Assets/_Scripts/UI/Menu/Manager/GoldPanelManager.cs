@@ -7,10 +7,34 @@ using TMPro;
 public class GoldPanelManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _myGold;
-    private PlayerNetworking _playerNetworking;
+    [SerializeField] GameObject _goldPanel;
+    private BasicPlayerNetworking _playerNetworking;
+    private bool _isGoldUpdateComplete;
     private void Awake()
     {
-        _playerNetworking = transform.root.GetComponent<PlayerNetworking>();
-        _myGold.text = MySqlSetting.CheckHaveGold(_playerNetworking.MyNickname).ToString();
+        StartCoroutine(BringMyNickname());
+    }
+
+    IEnumerator BringMyNickname()
+    {
+        yield return new WaitForSeconds(3f);
+
+        _playerNetworking = transform.root.GetComponent<BasicPlayerNetworking>();
+    }
+
+    private void Update()
+    {
+        if(_goldPanel.activeSelf)
+        {
+            if (_isGoldUpdateComplete == false)
+            {
+                _myGold.text = MySqlSetting.CheckHaveGold(_playerNetworking.MyNickname).ToString();
+            }
+            _isGoldUpdateComplete = true;
+        }
+        else
+        {
+            _isGoldUpdateComplete = false;
+        }
     }
 }
