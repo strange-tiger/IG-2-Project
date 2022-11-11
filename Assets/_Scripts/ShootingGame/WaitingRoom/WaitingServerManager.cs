@@ -8,7 +8,9 @@ using SceneNumber = Defines.ESceneNumder;
 
 public class WaitingServerManager : LobbyChanger
 {
-    [SerializeField] private ExitWaiting _door;
+    [SerializeField] private GameObject _door;
+    private ExitWaiting _exitWaitingScript;
+    private DoorSenser _doorSenserScript;
 
     [SerializeField] private TextMeshProUGUI _playerCountText;
 
@@ -31,6 +33,9 @@ public class WaitingServerManager : LobbyChanger
 
         _waitForSecond = new WaitForSeconds(1f);
         _audioSource = GetComponent<AudioSource>();
+
+        _exitWaitingScript = _door.GetComponent<ExitWaiting>();
+        _doorSenserScript = _door.GetComponent<DoorSenser>();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -49,6 +54,9 @@ public class WaitingServerManager : LobbyChanger
 
     private void StartGame()
     {
+        _doorSenserScript.enabled = false;
+        _exitWaitingScript.OutFocus();
+        _exitWaitingScript.enabled = false;
         StartCoroutine(CoStartCountDown());
     }
 
