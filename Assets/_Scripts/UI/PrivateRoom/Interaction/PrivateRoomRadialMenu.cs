@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 {
@@ -14,6 +15,11 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     //[SerializeField] 
     [SerializeField] GameObject _paintbrush;
     [SerializeField] Button _buttonDice;
+
+    [Header("Attach")]
+    [SerializeField] Canvas _canvas;
+
+    private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(2f);
 
     public static Button ClickButton;
 
@@ -27,6 +33,25 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     private void Start()
     {
         _priavteRoomRadialCursorInitPosition = _privateRoomRadialCursor.rectTransform.localPosition;
+
+        _canvas.renderMode = RenderMode.ScreenSpaceCamera;
+
+        StartCoroutine(FindCamera());
+    }
+
+    IEnumerator FindCamera()
+    {
+        yield return MENU_DELAY;
+
+        GameObject findCamera = GameObject.Find("CenterEyeAnchor");
+
+        Debug.Assert(findCamera != null, "카메라 찾기 실패");
+
+        if (photonView.IsMine)
+        {
+            _canvas.worldCamera = findCamera.GetComponent<Camera>();
+            _canvas.planeDistance = 1f;
+        }
     }
 
     public override void OnJoinedRoom()
@@ -37,7 +62,7 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            _dice = PhotonNetwork.Instantiate("Dice", transform.position, transform.rotation);
+            _dice = PhotonNetwork.Instantiate("PrivateRoom\\Dice", transform.position, transform.rotation);
         }
         else
         {
@@ -46,7 +71,7 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
         //
 
-        _paintbrush = PhotonNetwork.Instantiate("Paintbrush", transform.position, transform.rotation);
+        _paintbrush = PhotonNetwork.Instantiate("PrivateRoom\\Paintbrush", transform.position, transform.rotation);
 
         _spawnDice = _dice.GetComponent<SpawnDice>();
         //
@@ -56,10 +81,10 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     private void Update()
     {
 #if _VR
-        //if (!photonView.IsMine)
-        //{
-        //    return;
-        //}
+        if (!photonView.IsMine)
+        {
+            return;
+        }
 
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
         {
@@ -86,11 +111,11 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     private void CallMethod()
     {
         Debug.Log("Call");
-        if(ClickButton.name == "ButtonA")
+        if (ClickButton.name == "ButtonA")
         {
             ButtonAMethod();
         }
-        else if(ClickButton.name == "ButtonB")
+        else if (ClickButton.name == "ButtonB")
         {
             ButtonBMethod();
         }

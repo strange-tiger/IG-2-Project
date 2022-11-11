@@ -23,7 +23,6 @@ public class BettingManager : MonoBehaviour
 
     private void Start()
     {
-        MySqlSetting.Init();
         if ((DateTime.Now.Minute >= _startTime[0] && DateTime.Now.Minute < _startTime[1]) || (DateTime.Now.Minute >= _startTime[2] && DateTime.Now.Minute < _startTime[3]))
         {
             BettingStart();

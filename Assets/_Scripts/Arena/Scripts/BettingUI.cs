@@ -101,7 +101,6 @@ public class BettingUI : MonoBehaviourPun
                 }
             );
         }
-        MySqlSetting.Init();
     }
 
     private void PopUpPanelOff() => _popUpPanel.SetActive(false);
