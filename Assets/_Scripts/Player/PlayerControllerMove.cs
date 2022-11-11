@@ -161,7 +161,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     private void Awake()
     {
         _controller = gameObject.GetComponent<CharacterController>();
-
+        _controller.radius = 0.25f;
         if (_controller == null)
             Debug.LogWarning("OVRPlayerController: No CharacterController attached.");
 
