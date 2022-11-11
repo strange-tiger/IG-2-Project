@@ -15,9 +15,9 @@ namespace Defines
         FantasyLobby,
         WesternLobby,
         ArenaRoom,
+        PrivateRoom,
         ShootingWaitingRoom,
         ShootingGameRoom,
-        PrivateRoom,
 
         End,
     }
