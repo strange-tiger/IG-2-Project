@@ -54,6 +54,8 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    private static readonly Vector3 INSTANTIATE_POS = new Vector3(0f, 2f, 0f);
+
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -62,19 +64,16 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            _dice = PhotonNetwork.Instantiate("PrivateRoom\\Dice", transform.position, transform.rotation);
+            _dice = PhotonNetwork.Instantiate("PrivateRoom\\Dice", INSTANTIATE_POS, transform.rotation);
         }
         else
         {
             _buttonDice.interactable = false;
         }
 
-        //
-
-        _paintbrush = PhotonNetwork.Instantiate("PrivateRoom\\Paintbrush", transform.position, transform.rotation);
+        _paintbrush = PhotonNetwork.Instantiate("PrivateRoom\\Paintbrush", INSTANTIATE_POS, transform.rotation);
 
         _spawnDice = _dice.GetComponent<SpawnDice>();
-        //
         _spawnPaintbrush = _paintbrush.GetComponent<SpawnPaintbrush>();
     }
 
