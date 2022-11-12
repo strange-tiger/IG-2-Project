@@ -82,7 +82,7 @@ public class WaitingServerManager : LobbyChanger
 
     private IEnumerator CoStartCountDown()
     {
-        for(int i = 0; i < _countDownSeconds; ++i)
+        for(int i = 0; i <= _countDownSeconds; ++i)
         {
             int countTime = i;
             photonView.RPC("CountDown", RpcTarget.All, countTime);
