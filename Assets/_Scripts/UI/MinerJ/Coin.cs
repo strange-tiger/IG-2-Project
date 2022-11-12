@@ -1,7 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Asset.MySql;
 using TMPro;
 
 public class Coin : MonoBehaviour
@@ -10,17 +11,20 @@ public class Coin : MonoBehaviour
     private Image _coinImage;
     private TextMeshProUGUI _coinText;
 
+    private Rock _rock;
     [SerializeField]
     private Button _miningButton;
     [SerializeField]
     private AudioClip[] _clips;
-
+    
+    private string _nickname = "";
     private int _coin;
     private float _delay = 5f;
     private float _elapsedTime = 0;
 
     private void Awake()
     {
+        _rock = transform.root.GetComponent<Rock>();
         _audioSource = GetComponent<AudioSource>();
         _coinImage = gameObject.GetComponentInChildren<Image>();
         _coinText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
@@ -31,8 +35,9 @@ public class Coin : MonoBehaviour
         InitCoin();
         RandomGetCoin();
         StartCoroutine(GetCoinEffect());
+        GetGold();
     }
-    
+
 
     public void InitCoin()
     {
@@ -84,6 +89,16 @@ public class Coin : MonoBehaviour
             Debug.Log(_elapsedTime);
             yield return null;
         }
-    }     
+    }
+    public void GetGold()
+    {
+        Debug.Log("Gold ��� " + _coin);
 
+        if (_nickname == "")
+        {
+            _nickname = _rock.Player.GetComponent<BasicPlayerNetworking>().MyNickname;
+        }
+
+        MySqlSetting.EarnGold(_nickname, _coin);
+    }
 }
