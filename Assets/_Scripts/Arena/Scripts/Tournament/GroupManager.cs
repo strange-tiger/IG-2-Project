@@ -14,7 +14,6 @@ public class GroupManager : MonoBehaviourPun
 
     private GameObject[] _finalBattle = new GameObject[2];
 
-    // 준결승 1 위치 셋팅 해 주는 이벤트
     private UnityEvent _setFirstBattle = new UnityEvent();
     private UnityEvent _FirstBattleWinnerSetFinalGroup = new UnityEvent();
     private UnityEvent _SecondBattleWinnerSetFinalGroup = new UnityEvent();
