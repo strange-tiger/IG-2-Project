@@ -1,8 +1,6 @@
-#define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
@@ -13,7 +11,8 @@ public class PetUIManager : UIManager
 
     [SerializeField] PetData _petData;
 
-    public PlayerNetworking PlayerNetworkingInPet { get; private set; }
+    private BasicPlayerNetworking _playerNetworking;
+    public string PlayerNickname { get; private set; }
 
     public class PetProfile
     {
@@ -32,7 +31,7 @@ public class PetUIManager : UIManager
             SetGrade();
             SetExplanation();
             SetPrice();
-            SetIsHave();
+            SetStatus();
             SetSize();
             SetAssetIndex();
             SetLevel();
@@ -58,7 +57,7 @@ public class PetUIManager : UIManager
         public void SetGrade(EGrade grade = EGrade.A) { Grade = grade; }
         public void SetExplanation(string explain = "Temp") { Explanation = explain; }
         public void SetPrice(int price = 0) { Price = price; }
-        public void SetIsHave(EPetStatus status = EPetStatus.NONE) { Status = status; }
+        public void SetStatus(EPetStatus status = EPetStatus.NONE) { Status = status; }
         public void SetSize(float size = 0.3f) { Size = size; }
         public void SetAssetIndex(int assetIndex = 0) { AssetIndex = assetIndex; }
         public void SetLevel(int level = 0) { Level = level; }
@@ -74,28 +73,31 @@ public class PetUIManager : UIManager
 
     private void OnEnable()
     {
-#if !debug
-        PlayerNetworkingInPet = FindObjectOfType<PlayerNetworking>();
-#endif
         InitializePetInventory();
+
+        StartCoroutine(SetPlayerNetworking());
+    }
+
+    private IEnumerator SetPlayerNetworking()
+    {
+        yield return new WaitForSeconds(1f);
+
+        _playerNetworking = FindObjectOfType<BasicPlayerNetworking>();
+        PlayerNickname = _playerNetworking.MyNickname;
     }
 
     public PetData GetPetData() => _petData;
 
     public void LoadUI(_UI ui)
     {
-#if !debug
         _npcCollider.enabled = false;
-#endif
         LoadUI((int)ui);
     }
 
     public void ShutPetUI()
     {
         ShutUI();
-#if !debug
         _npcCollider.enabled = true;
-#endif
     }
 
     private void InitializePetInventory()
@@ -108,7 +110,7 @@ public class PetUIManager : UIManager
 
             PetList[i].SetPrefab(_petData.Object[i]);
 
-            PetList[i].SetIsHave(_petData.Status[i]);
+            PetList[i].SetStatus(_petData.Status[i]);
         }
     }
 }

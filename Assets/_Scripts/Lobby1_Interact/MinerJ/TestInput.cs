@@ -6,13 +6,11 @@ public class TestInput : MonoBehaviour
 {
     private Vector3 curDir;
     private float speed = 5f;
-    [SerializeField]
-    private FirstMoveAttackObj attackObj;
 
     private void Awake()
     {
         curDir = Vector3.zero;
-        //attackObj = new FirstMoveAttackObj();
+       
     }
     void Update()
     {
