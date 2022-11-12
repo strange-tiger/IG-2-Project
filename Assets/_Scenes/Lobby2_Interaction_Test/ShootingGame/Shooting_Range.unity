@@ -2518,7 +2518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147813296}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 929139286}
@@ -3072,7 +3072,6 @@ GameObject:
   m_Component:
   - component: {fileID: 231429150}
   - component: {fileID: 231429149}
-  - component: {fileID: 231429148}
   - component: {fileID: 231429151}
   m_Layer: 0
   m_Name: Main Camera
@@ -3081,14 +3080,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &231429148
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231429147}
-  m_Enabled: 1
 --- !u!20 &231429149
 Camera:
   m_ObjectHideFlags: 0
@@ -18438,6 +18429,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4557962227136583645, guid: 1418652cf56be8f4ab3b012f0dc4167d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5591901636139638587, guid: 1418652cf56be8f4ab3b012f0dc4167d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594125334269651462, guid: 1418652cf56be8f4ab3b012f0dc4167d, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

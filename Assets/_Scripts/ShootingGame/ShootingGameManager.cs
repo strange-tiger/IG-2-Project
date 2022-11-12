@@ -111,11 +111,6 @@ public class ShootingGameManager : MonoBehaviourPun
         }
     }
 
-    public void StartGame()
-    {
-        StartCoroutine(CoGameStart());
-    }
-
     public void AddPlayer(string playerNickname, GunShoot clientScript)
     {
         _myClient = clientScript;
@@ -147,7 +142,10 @@ public class ShootingGameManager : MonoBehaviourPun
                 PlayerNickname = playerNickname,
                 PlayerColor = _playerColors[_playerCount],
             });
-            photonView.RPC("PlayerAdded", RpcTarget.AllBuffered, _playerCount, playerNickname);
+
+            int playerCount = _playerCount;
+            string nickname = playerNickname;
+            photonView.RPC("PlayerAdded", RpcTarget.AllBuffered, playerCount, nickname);
             ++_playerCount;
         }
     }
@@ -177,18 +175,24 @@ public class ShootingGameManager : MonoBehaviourPun
                     _uiCanvas.transform.position = _canvasPosition[playerNumberInt].position;
 
                     _myClient.PlayerInfoSetting(info.PlayerNumber, info.PlayerColor);
-                 
-                    return;
+
+                    break;
                 }
             }
 
             StartGame();
         }
     }
-    
+
+    public void StartGame()
+    {
+        StartCoroutine(CoGameStart());
+    }
+
     private IEnumerator CoGameStart()
     {
         _luncherManager.SetLuncher(PlayTime);
+        Debug.Log("[Shooting] 런처 세팅함");
         yield return new WaitForSeconds(_showNicknameOffsetTime);
 
         Debug.Log("[Shooting] UI 띄움");
