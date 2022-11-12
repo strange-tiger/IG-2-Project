@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class BallManager : MonoBehaviourPunCallbacks
+public class BallManager : MonoBehaviourPun
 {
     [SerializeField]
     private Vector3 _ballSspawnVector;
@@ -18,6 +18,5 @@ public class BallManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Instantiate("Ball", transform.position + _ballSspawnVector, Quaternion.identity);
         }
-        //Instantiate(_ball, _ballSspawnVector, Quaternion.identity);
     }
 }

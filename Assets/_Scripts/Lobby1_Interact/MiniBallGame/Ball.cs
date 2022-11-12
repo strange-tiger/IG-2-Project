@@ -12,11 +12,7 @@ public class Ball : MonoBehaviourPunCallbacks
     private float _resetBallTimer;
 
     private Rigidbody _rigidbody;
-    private Transform _transform;
-
     private float _currentTime;
-    private readonly float _thrust = 1.15f;
-
     private bool _isGrabBall;
 
     private void Awake()
