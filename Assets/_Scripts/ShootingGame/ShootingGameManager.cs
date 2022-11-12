@@ -207,7 +207,7 @@ public class ShootingGameManager : MonoBehaviourPun
 
         if(PhotonNetwork.IsMasterClient)
         {
-            //StartCoroutine(CoInGame());
+            StartCoroutine(CoInGame());
         }
     }
 

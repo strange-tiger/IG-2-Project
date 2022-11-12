@@ -62,7 +62,7 @@ public class ShootingObjectHealth : MonoBehaviourPun
 
     private void Awake()
     {
-        if (_shootingGameManager)
+        if (!_shootingGameManager)
         {
             _shootingGameManager = FindObjectOfType<ShootingGameManager>();
         }
