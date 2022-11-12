@@ -94,8 +94,6 @@ public class AIAttack : AIState
                 _animator.SetBool(AIAnimatorID.isAttack, false);
                 _animator.SetBool(AIAnimatorID.isIdle, true);
                 _isAnd = true;
-
-                Debug.Log($"{gameObject.name} : ½Â¸®!");
             }
         }
     }
