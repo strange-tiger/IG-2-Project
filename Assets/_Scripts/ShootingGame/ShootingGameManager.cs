@@ -153,6 +153,7 @@ public class ShootingGameManager : MonoBehaviourPun
     [PunRPC]
     private void PlayerAdded(int playerNumber, string playerNickname)
     {
+        Debug.Log("[Shooting] 플레이어 추가됨");
         if(!PhotonNetwork.IsMasterClient)
         {
             _shootingPlayerInfos.Add(new ShootingPlayerInfo()
@@ -161,14 +162,17 @@ public class ShootingGameManager : MonoBehaviourPun
                 PlayerNickname = playerNickname,
                 PlayerColor = _playerColors[playerNumber]
             });
+            Debug.Log("[Shooting] 플레이어 info에 추가함");
         }
 
         if (_shootingPlayerInfos.Count == _MAX_PLAYER_COUNT)
         {
+            Debug.Log("[Shooting] 플레이어 다 모임");
             foreach (ShootingPlayerInfo info in _shootingPlayerInfos)
             {
                 if (info.PlayerNickname == _myClientNickname)
                 {
+                    Debug.Log("[Shooting] 나의 플레이어 정보 초기화 함");
                     int playerNumberInt = (int)info.PlayerNumber;
                     _myClient.transform.root.position =
                         _playerPosition[playerNumberInt].position;
@@ -176,10 +180,12 @@ public class ShootingGameManager : MonoBehaviourPun
 
                     _myClient.PlayerInfoSetting(info.PlayerNumber, info.PlayerColor);
 
+
                     break;
                 }
             }
 
+            Debug.Log("[Shooting] 게임 시작함");
             StartGame();
         }
     }

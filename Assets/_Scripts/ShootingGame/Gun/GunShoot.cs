@@ -146,9 +146,12 @@ public class GunShoot : MonoBehaviourPun
     private void Update()
     {
 #if _DEV_MODE_
-        _rayPositions[0] = _bulletSpawnTransform.position;
-        _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
-        _lineRenderer.SetPositions(_rayPositions);
+        if(photonView.IsMine)
+        {
+            _rayPositions[0] = _bulletSpawnTransform.position;
+            _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
+            _lineRenderer.SetPositions(_rayPositions);
+        }
 #endif
         if(!_isShootable)
         {
