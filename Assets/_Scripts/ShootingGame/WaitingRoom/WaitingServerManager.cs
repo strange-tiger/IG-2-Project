@@ -29,13 +29,11 @@ public class WaitingServerManager : LobbyChanger
     protected override void Awake()
     {
         base.Awake();
-        if(photonView.IsMine)
-        {
-            GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
-            _countDownScript = countDown.GetComponent<StartGameCountDown>();
-            _countDownText = countDown.GetComponentInChildren<TextMeshProUGUI>();
-            _countDownText.gameObject.SetActive(false);
-        }
+
+        GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
+        _countDownScript = countDown.GetComponent<StartGameCountDown>();
+        _countDownText = countDown.GetComponentInChildren<TextMeshProUGUI>();
+        _countDownText.gameObject.SetActive(false);
 
         _waitForSecond = new WaitForSeconds(1f);
         _audioSource = GetComponent<AudioSource>();
