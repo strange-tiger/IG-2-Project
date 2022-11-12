@@ -79,7 +79,7 @@ public class GunShoot : MonoBehaviourPun
             return;
         }
 
-        _myNickname = transform.root.GetComponentInChildren<PlayerNetworking>().MyNickname;
+        _myNickname = transform.root.GetComponentInChildren<BasicPlayerNetworking>().MyNickname;
 
         // √ ±‚»≠
         _playerModel.SetActive(false);

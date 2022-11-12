@@ -20,6 +20,7 @@ public class WaitingServerManager : LobbyChanger
 
     [SerializeField] private GameObject _countDownPrefab;
     private StartGameCountDown _countDownScript;
+    private TextMeshProUGUI _countDownText;
 
     private WaitForSeconds _waitForSecond;
 
@@ -31,7 +32,9 @@ public class WaitingServerManager : LobbyChanger
         if(photonView.IsMine)
         {
             GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
-            countDown.SetActive(false);
+            _countDownScript = countDown.GetComponent<StartGameCountDown>();
+            _countDownText = countDown.GetComponentInChildren<TextMeshProUGUI>();
+            _countDownText.gameObject.SetActive(false);
         }
 
         _waitForSecond = new WaitForSeconds(1f);
@@ -51,13 +54,10 @@ public class WaitingServerManager : LobbyChanger
         int playerCount = PhotonNetwork.PlayerList.Length;
         _playerCountText.text = playerCount.ToString();
 
-        if (PhotonNetwork.IsMasterClient)
+        if (playerCount == _MAX_PLAYER_COUNT)
         {
-            if (playerCount == _MAX_PLAYER_COUNT)
-            {
-                Debug.Log("[ShootingWaiting] 플레이어 참가함");
-                StartGame();
-            }
+            Debug.Log("[ShootingWaiting] 모든 플레이어 모임");
+            StartGame();
         }
     }
 
@@ -73,14 +73,19 @@ public class WaitingServerManager : LobbyChanger
         _doorSenserScript.enabled = false;
         _exitWaitingScript.OutFocus();
         _exitWaitingScript.enabled = false;
-        StartCoroutine(CoStartCountDown());
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(CoStartCountDown());
+        }
     }
 
     private IEnumerator CoStartCountDown()
     {
         for(int i = 0; i < _countDownSeconds; ++i)
         {
-            photonView.RPC("CountDown", RpcTarget.All, i);
+            int countTime = i;
+            photonView.RPC("CountDown", RpcTarget.All, countTime);
             yield return _waitForSecond;
         }
 
@@ -90,7 +95,9 @@ public class WaitingServerManager : LobbyChanger
     [PunRPC]
     private void CountDown(int countTime)
     {
+        Debug.Log("[ShootingWaiting] CountDown 중");
         _countDownScript.SetCountDownText((_countDownSeconds - countTime).ToString());
+        _countDownText.gameObject.SetActive(true);
         _audioSource.PlayOneShot(_countDownAudioClips[countTime]);
     }
 
