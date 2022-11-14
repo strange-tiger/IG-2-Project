@@ -261,7 +261,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
             m_grabbedObj.GrabBegin(this, closestGrabbableCollider);
 
             m_lastPos = transform.position;
-            m_lastRot = transform.rotation;
+            m_lastRot = m_grabbedObj.transform.rotation;
 
             // Set up offsets for grabbed object desired position relative to hand.
             if (m_grabbedObj.snapPosition)

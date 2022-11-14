@@ -27,6 +27,12 @@ public class PetShopPopup : PopupUI
 
     private void LoadPurchase() => _ui.LoadUI(_UI.PURCHASE);
     private void LoadTransform() => _ui.LoadUI(_UI.TRANSFORM);
+    protected override void Close()
+    {
+        _ui.Npc.OnFocus();
+
+        base.Close();
+    }
 
     protected override void OnDisable()
     {
