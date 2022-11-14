@@ -26,11 +26,13 @@ namespace Asset.MySql
         private const string INSERT_CHARACTER = "INSERT INTO CharacterDB (Nickname,Gender) VALUES ";
         private const string INSERT_RELATIONSHIP = "INSERT INTO RelationshipDB (UserA,UserB,State) VALUES ";
         private const string INSERT_BETTING = "INSERT INTO BettingDB (Nickname,BettingGold,BettingChampionNumber,HaveGold) VALUES ";
+        private const string INSERT_PETINVENTORY = "INSERT INTO PetInventoryDB (Nickname) VALUES ";
         public static readonly string[] INSERT =
         {
             INSERT_ACCOUNT,
             INSERT_BETTING,
             INSERT_CHARACTER,
+            INSERT_PETINVENTORY,
             INSERT_RELATIONSHIP
         };
         public const string SET_ENUM = "SHOW TABLES;\nDESC ";
@@ -238,7 +240,6 @@ namespace Asset.MySql
                     _mysqlConnection.Close();
                 }
 
-                AddNewPetInventory(nickname);
 
                 return true;
             }
@@ -249,15 +250,14 @@ namespace Asset.MySql
             }
         }
 
-        private static bool AddNewPetInventory(string nickname)
+        public static bool AddNewPetInventory(string nickname)
         {
             try
             {
 
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string _insertPetInventoryString = GetInsertString(ETableType.characterdb, nickname);
-
+                    string _insertPetInventoryString = GetInsertString(ETableType.petinventorydb, nickname);
                     MySqlCommand _insertPetInventoryCommand = new MySqlCommand(_insertPetInventoryString, _mysqlConnection);
 
                     _mysqlConnection.Open();

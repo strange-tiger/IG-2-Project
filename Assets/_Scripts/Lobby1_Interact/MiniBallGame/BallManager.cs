@@ -9,14 +9,15 @@ public class BallManager : MonoBehaviourPun
     [SerializeField]
     private Vector3 _ballSspawnVector;
 
-    //[SerializeField]
-    //private GameObject _ball;
+    private bool _isball = true;
 
-    void Start()
+    private void Update()
     {
-        if(photonView.AmOwner)
+        if(PhotonNetwork.IsMasterClient && _isball)
         {
             PhotonNetwork.Instantiate("Ball", transform.position + _ballSspawnVector, Quaternion.identity);
+
+            _isball = false;
         }
     }
 }

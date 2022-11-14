@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
@@ -93,6 +94,13 @@ public class BettingUI : MonoBehaviourPun
         _popUpOffButton.onClick.RemoveListener(PopUpPanelOff);
         _popUpOffButton.onClick.AddListener(PopUpPanelOff);
 
+
+
+        if(SceneManager.GetActiveScene().name == "ArenaRoom")
+        {
+            ArenaStart.OnTournamentStart.RemoveListener(BettingUIInit);
+            ArenaStart.OnTournamentStart.AddListener(BettingUIInit);
+        }
         foreach (TMP_InputField inputfield in _betChampionInputField)
         {
             inputfield.onSelect.AddListener((string temp) =>
@@ -102,6 +110,15 @@ public class BettingUI : MonoBehaviourPun
             );
         }
     }
+
+    private void BettingUIInit()
+    {
+        _bettingManager = FindObjectOfType<BettingManager>();
+        _playerNickname = GetComponent<BasicPlayerNetworking>().MyNickname;
+        _bettingPanelButton.gameObject.SetActive(true);
+    }
+
+
 
     private void PopUpPanelOff() => _popUpPanel.SetActive(false);
 
@@ -330,5 +347,9 @@ public class BettingUI : MonoBehaviourPun
         _betCancelChampionThreeButton.onClick.RemoveListener(BetCancelChampionThree);
         _betCancelChampionFourButton.onClick.RemoveListener(BetCancelChampionFour);
         _popUpOffButton.onClick.RemoveListener(PopUpPanelOff);
+        if (SceneManager.GetActiveScene().name == "ArenaRoom")
+        {
+            ArenaStart.OnTournamentStart.RemoveListener(BettingUIInit);
+        }
     }
 }
