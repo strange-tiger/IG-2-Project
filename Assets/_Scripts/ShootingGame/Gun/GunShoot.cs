@@ -1,4 +1,4 @@
-#define _DEV_MODE_
+//#define _DEV_MODE_
 
 using System.Collections;
 using System.Collections.Generic;
@@ -79,8 +79,6 @@ public class GunShoot : MonoBehaviourPun
             return;
         }
 
-        _myNickname = transform.root.GetComponentInChildren<PlayerNetworking>().MyNickname;
-
         // 초기화
         _playerModel.SetActive(false);
         _renderer = GetComponent<MeshRenderer>();
@@ -115,11 +113,8 @@ public class GunShoot : MonoBehaviourPun
     
     public void SetManager(ShootingGameManager shootingGameManager, ShootingPlayerLoadingUI _shootingPlayerLoadingUI)
     {
-        shootingGameManager.AddPlayer(_myNickname, this);
-
-        shootingGameManager.OnGameOver.RemoveListener(StopShooting);
-        shootingGameManager.OnGameOver.AddListener(StopShooting);
-
+        _myNickname = transform.root.GetComponentInChildren<BasicPlayerNetworking>().MyNickname;
+        
         // 리볼버가 들려있는 위치 확인하기
         _input = transform.root.GetComponentInChildren<PlayerInput>();
         _primaryController = (int)_input.PrimaryController;
@@ -129,6 +124,11 @@ public class GunShoot : MonoBehaviourPun
         transform.localPosition = new Vector3((_primaryController == 0) ? _offsetPosition.x : _offsetPosition.x * -1f, _offsetPosition.y, _offsetPosition.z);
 
         _loadingUI = _shootingPlayerLoadingUI;
+
+        shootingGameManager.AddPlayer(_myNickname, this);
+
+        shootingGameManager.OnGameOver.RemoveListener(StopShooting);
+        shootingGameManager.OnGameOver.AddListener(StopShooting);
     }
 
     public void PlayerInfoSetting(PlayerNumber playerNumber, Color playerColor)
@@ -146,9 +146,12 @@ public class GunShoot : MonoBehaviourPun
     private void Update()
     {
 #if _DEV_MODE_
-        _rayPositions[0] = _bulletSpawnTransform.position;
-        _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
-        _lineRenderer.SetPositions(_rayPositions);
+        if(photonView.IsMine)
+        {
+            _rayPositions[0] = _bulletSpawnTransform.position;
+            _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
+            _lineRenderer.SetPositions(_rayPositions);
+        }
 #endif
         if(!_isShootable)
         {

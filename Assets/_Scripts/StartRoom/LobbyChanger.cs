@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using SceneNumber = Defines.ESceneNumder;
 
 public class LobbyChanger : MonoBehaviourPunCallbacks
 {
-    private Defines.ESceneNumder _nextScene;
-    private bool _needSceneChange = false;
     [SerializeField] private bool _isStartRoom;
     [SerializeField] private OVRRaycaster[] _canvases;
     [SerializeField] private GameObject _playerPrefab;
+    
     protected GameObject _myPlayer;
+
+    private SceneNumber _nextScene;
+    private string _nextSceneRoomName;
+    private bool _needSceneChange = false;
 
     protected virtual void Awake()
     {
@@ -26,8 +30,14 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         }
     }
 
-    public void ChangeLobby(Defines.ESceneNumder sceneNumber)
+    public void ChangeLobby(SceneNumber sceneNumber)
     {
+        ChangeLobby(sceneNumber, sceneNumber.ToString());
+    }
+
+    public void ChangeLobby(SceneNumber sceneNumber, string roomName)
+    {
+        _nextSceneRoomName = roomName;
         _nextScene = sceneNumber;
         _needSceneChange = true;
 
@@ -42,8 +52,8 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogError("[LobbyChanger] " + _nextScene.ToString());
-            PhotonNetwork.JoinOrCreateRoom(_nextScene.ToString(), _roomOptions, TypedLobby.Default);
+            Debug.LogError("[LobbyChanger] " + roomName);
+            PhotonNetwork.JoinOrCreateRoom(roomName, _roomOptions, TypedLobby.Default);
         }
     }
 
@@ -64,14 +74,13 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         if (_needSceneChange)
         {
-            if (_nextScene <= Defines.ESceneNumder.StartRoom)
+            if (_nextScene <= SceneNumber.StartRoom)
             {
                 PhotonNetwork.LoadLevel((int)_nextScene);
 
                 return;
             }
-
-            PhotonNetwork.JoinOrCreateRoom(_nextScene.ToString(), _roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _roomOptions, TypedLobby.Default);
         }
     }
 

@@ -30,12 +30,9 @@ public class ShootingObjectMovement : MonoBehaviourPun
         _health = GetComponent<ShootingObjectHealth>();
         _health.enabled = false;
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-            _rigidbody.velocity = transform.forward * _moveSpeed;
-            _rigidbody.AddTorque(transform.forward * _rotationSpeed, ForceMode.Impulse);
-        }
+        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.velocity = transform.forward * _moveSpeed;
+        _rigidbody.AddTorque(transform.forward * _rotationSpeed, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
