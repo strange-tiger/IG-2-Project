@@ -26,6 +26,11 @@ public class UserInteraction : InteracterableObject
 
         if(photonView.IsMine)
         {
+            if(Nickname == requesterNickname)
+            {
+                return;
+            }
+
             // 내가 블록한 상대가 친구 추가를 했다면 무시함
             bool isLeft;
             byte blockByte;

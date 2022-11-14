@@ -39,6 +39,7 @@ public class WaitingServerManager : LobbyChanger
         _audioSource = GetComponent<AudioSource>();
 
         _doorInteraction = _door.GetComponentInChildren<WaitingRoomDoorInteraction>().gameObject;
+        _doorInteraction.SetActive(false);
         _doorSencer = _door.GetComponentInChildren<DoorSenser>().gameObject;
 
         _playerCountText.text = $"{PhotonNetwork.PlayerList.Length.ToString()}/{_MAX_PLAYER_COUNT}";

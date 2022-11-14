@@ -14,12 +14,18 @@ public class DoorSenser : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _interactionObject.SetActive(true);
+        if(other.CompareTag("PlayerBody"))
+        {
+            _interactionObject.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _interaction.OutFocus();
-        _interactionObject.SetActive(false);
+        if(other.CompareTag("PlayerBody"))
+        {
+            _interaction.OutFocus();
+            _interactionObject.SetActive(false);
+        }
     }
 }
