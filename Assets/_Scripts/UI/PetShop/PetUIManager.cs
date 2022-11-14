@@ -12,6 +12,7 @@ public class PetUIManager : UIManager
 
     private BasicPlayerNetworking _playerNetworking;
     public string PlayerNickname { get; private set; }
+    public static PetSpawner PlayerPetSpawner { get; set; }
 
     public class PetProfile
     {
