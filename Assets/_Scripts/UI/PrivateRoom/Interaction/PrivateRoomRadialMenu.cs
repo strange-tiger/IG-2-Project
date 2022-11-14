@@ -36,6 +36,8 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
         _canvas.renderMode = RenderMode.ScreenSpaceCamera;
 
+        PrivateRoomEnterance();
+
         StartCoroutine(FindCamera());
     }
 
@@ -56,11 +58,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     private static readonly Vector3 INSTANTIATE_POS = new Vector3(0f, 2f, 0f);
 
-    public override void OnJoinedRoom()
+    private void PrivateRoomEnterance()
     {
-        base.OnJoinedRoom();
-
-        Debug.Log("성공");
+        Debug.Log("입장 성공");
 
         if (PhotonNetwork.IsMasterClient)
         {
