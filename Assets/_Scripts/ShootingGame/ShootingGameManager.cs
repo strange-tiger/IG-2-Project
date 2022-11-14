@@ -36,7 +36,7 @@ public class ShootingGameManager : MonoBehaviourPun
     private List<AudioClip> _soundEffects = new List<AudioClip>();
 
     [Header("PlayerSetting")]
-    public const int _MAX_PLAYER_COUNT = 4;
+    public const int _MAX_PLAYER_COUNT = 2;
     [SerializeField] private Color[] _playerColors = {
         new Color(255/255, 50/255, 50/255),
         new Color(50/255, 140/255, 255/255),
@@ -401,7 +401,7 @@ public class ShootingGameManager : MonoBehaviourPun
 
     public void AddScoreToPlayer(EShootingPlayerNumber playerNumber, int addPoint)
     {
-        photonView.RPC("AddScoreToPlayerInMaster", RpcTarget.AllBuffered, playerNumber, addPoint);
+        photonView.RPC("AddScoreToPlayerInMaster", RpcTarget.MasterClient, playerNumber, addPoint);
     }
 
     [PunRPC]
