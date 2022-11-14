@@ -9,8 +9,8 @@ using SceneNumber = Defines.ESceneNumder;
 public class WaitingServerManager : LobbyChanger
 {
     [SerializeField] private GameObject _door;
-    private ExitWaiting _exitWaitingScript;
-    private DoorSenser _doorSenserScript;
+    private GameObject _doorInteraction;
+    private GameObject _doorSencer;
 
     [SerializeField] private TextMeshProUGUI _playerCountText;
 
@@ -20,6 +20,7 @@ public class WaitingServerManager : LobbyChanger
 
     [SerializeField] private GameObject _countDownPrefab;
     private StartGameCountDown _countDownScript;
+    private TextMeshProUGUI _countDownText;
 
     private WaitForSeconds _waitForSecond;
 
@@ -28,20 +29,22 @@ public class WaitingServerManager : LobbyChanger
     protected override void Awake()
     {
         base.Awake();
-        if(photonView.IsMine)
-        {
-            GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
-            countDown.SetActive(false);
-        }
+
+        GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
+        _countDownScript = countDown.GetComponent<StartGameCountDown>();
+        _countDownText = countDown.GetComponentInChildren<TextMeshProUGUI>();
+        _countDownText.gameObject.SetActive(false);
 
         _waitForSecond = new WaitForSeconds(1f);
         _audioSource = GetComponent<AudioSource>();
 
-        _exitWaitingScript = _door.GetComponent<ExitWaiting>();
-        _doorSenserScript = _door.GetComponent<DoorSenser>();
+        _doorInteraction = _door.GetComponentInChildren<WaitingRoomDoorInteraction>().gameObject;
+        _doorInteraction.SetActive(false);
+        _doorSencer = _door.GetComponentInChildren<DoorSenser>().gameObject;
 
-        _playerCountText.text = PhotonNetwork.PlayerList.Length.ToString();
+        _playerCountText.text = $"{PhotonNetwork.PlayerList.Length.ToString()}/{_MAX_PLAYER_COUNT}";
         photonView.RPC("PlayerEntered", RpcTarget.All);
+
     }
 
     [PunRPC]
@@ -49,15 +52,12 @@ public class WaitingServerManager : LobbyChanger
     {
         Debug.Log("[ShootingWaiting] 플레이어 참가함");
         int playerCount = PhotonNetwork.PlayerList.Length;
-        _playerCountText.text = playerCount.ToString();
+        _playerCountText.text = $"{PhotonNetwork.PlayerList.Length.ToString()}/{_MAX_PLAYER_COUNT}"; ;
 
-        if (PhotonNetwork.IsMasterClient)
+        if (playerCount == _MAX_PLAYER_COUNT)
         {
-            if (playerCount == _MAX_PLAYER_COUNT)
-            {
-                Debug.Log("[ShootingWaiting] 플레이어 참가함");
-                StartGame();
-            }
+            Debug.Log("[ShootingWaiting] 모든 플레이어 모임");
+            StartGame();
         }
     }
 
@@ -70,17 +70,22 @@ public class WaitingServerManager : LobbyChanger
 
     private void StartGame()
     {
-        _doorSenserScript.enabled = false;
-        _exitWaitingScript.OutFocus();
-        _exitWaitingScript.enabled = false;
-        StartCoroutine(CoStartCountDown());
+        _doorInteraction.GetComponent<WaitingRoomDoorInteraction>().OutFocus();
+        _doorInteraction.SetActive(false);
+        _doorSencer.SetActive(false);
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(CoStartCountDown());
+        }
     }
 
     private IEnumerator CoStartCountDown()
     {
-        for(int i = 0; i < _countDownSeconds; ++i)
+        for(int i = 0; i <= _countDownSeconds; ++i)
         {
-            photonView.RPC("CountDown", RpcTarget.All, i);
+            int countTime = i;
+            photonView.RPC("CountDown", RpcTarget.All, countTime);
             yield return _waitForSecond;
         }
 
@@ -90,7 +95,9 @@ public class WaitingServerManager : LobbyChanger
     [PunRPC]
     private void CountDown(int countTime)
     {
+        Debug.Log("[ShootingWaiting] CountDown 중");
         _countDownScript.SetCountDownText((_countDownSeconds - countTime).ToString());
+        _countDownText.gameObject.SetActive(true);
         _audioSource.PlayOneShot(_countDownAudioClips[countTime]);
     }
 

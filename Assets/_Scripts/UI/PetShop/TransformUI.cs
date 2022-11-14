@@ -169,6 +169,11 @@ public class TransformUI : MonoBehaviour
             return;
         }
 #endif
+        if (_equipedIndex != -1)
+        {
+            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+        }
+
         _ui.LoadUI(_UI.POPUP);
 
         _applyPopup.SetActive(true);
@@ -249,6 +254,8 @@ public class TransformUI : MonoBehaviour
         }
 
         int currentPetEvolutionCount = 0;
+
+        int prevIndex = _transformIndex;
         do
         {
             if (_transformIndex - 1 < 0)
@@ -257,6 +264,10 @@ public class TransformUI : MonoBehaviour
             }
             --_transformIndex;
 
+            if (_transformIndex == prevIndex)
+            {
+                break;
+            }
             currentPetEvolutionCount = (int)_currentPetTransform.GetChild(_transformIndex).GetComponent<PetInteract>().PetEvolutionCount - 1;
         }
         while (CurrentPet.Level < currentPetEvolutionCount);
@@ -272,6 +283,8 @@ public class TransformUI : MonoBehaviour
         }
 
         int currentPetEvolutionCount = 0;
+
+        int prevIndex = _transformIndex;
         do
         {
             if (_transformIndex + 1 >= _maxTransformIndex)
@@ -280,6 +293,10 @@ public class TransformUI : MonoBehaviour
             }
             ++_transformIndex;
 
+            if (_transformIndex == prevIndex)
+            {
+                break;
+            }
             currentPetEvolutionCount = (int)_currentPetTransform.GetChild(_transformIndex).GetComponent<PetInteract>().PetEvolutionCount - 1;
         }
         while (CurrentPet.Level < currentPetEvolutionCount);

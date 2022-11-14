@@ -10,12 +10,17 @@ public class UserInteraction : InteracterableObject
     public GameObject RequestAlarmImage { private get; set; }
 
     public string Nickname { get; private set; }
+    private string _clientNickanme;
 
     private bool _hasNickname;
 
     public override void Interact()
     {
         CheckAndGetMyNickname();
+        if(Nickname == _clientNickanme)
+        {
+            return;
+        }
         MenuUIManager.Instance.ShowSocialUI(this);
     }
 
@@ -61,6 +66,8 @@ public class UserInteraction : InteracterableObject
             _playerInfo = GetComponent<PlayerNetworking>();
             Nickname = _playerInfo.MyNickname;
             _hasNickname = true;
+            _clientNickanme = MenuUIManager.Instance.transform.root.
+                GetComponent<BasicPlayerNetworking>().MyNickname;
         }
     }
 }

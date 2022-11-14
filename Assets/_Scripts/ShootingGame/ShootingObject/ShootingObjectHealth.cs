@@ -62,7 +62,7 @@ public class ShootingObjectHealth : MonoBehaviourPun
 
     private void Awake()
     {
-        if (_shootingGameManager)
+        if (!_shootingGameManager)
         {
             _shootingGameManager = FindObjectOfType<ShootingGameManager>();
         }
@@ -116,7 +116,7 @@ public class ShootingObjectHealth : MonoBehaviourPun
         {
             _shootingGameManager.AddScoreToPlayer(playerNumber, point);
             GameObject hitUI = PhotonNetwork.Instantiate(_hitUI.name, hitPoint, Quaternion.identity);
-            hitUI.GetComponent<HitUI>().photonView.RPC("SetPointText", RpcTarget.AllViaServer,
+            hitUI.GetComponent<HitUI>().photonView.RPC("SetPointText", RpcTarget.All,
                 playerColor, point, point != 0);
         }
     }

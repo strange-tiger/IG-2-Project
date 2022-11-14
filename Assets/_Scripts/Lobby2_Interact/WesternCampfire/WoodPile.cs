@@ -9,7 +9,7 @@ public class WoodPile : InteracterableObject, IPunObservable
     [SerializeField] GameObject _wood;
     private static readonly YieldInstruction INTERACT_COOLTIME = new WaitForSeconds(5f);
     private static readonly Vector3[] SPAWN_DIRECTION = new Vector3[4] { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
-    private const float SPAWN_WOOD_FORCE = 1.5f;
+    private const float SPAWN_WOOD_FORCE = 2f;
     private bool _onCooltime = false;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -55,7 +55,7 @@ public class WoodPile : InteracterableObject, IPunObservable
 
         Vector3 spawnDirection = 2f * Vector3.up + SPAWN_DIRECTION[Random.Range(0, 4)];
 
-        GameObject wood = PhotonNetwork.Instantiate("Wood", transform.position, transform.rotation);
+        GameObject wood = PhotonNetwork.Instantiate("Wood", transform.position + Vector3.up, transform.rotation);
 
         wood?.GetComponent<Rigidbody>().AddForce(SPAWN_WOOD_FORCE * spawnDirection, ForceMode.Impulse);
 

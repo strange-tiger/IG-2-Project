@@ -27,7 +27,7 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
         {
             // CameraRig 부착
             GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
-            cameraRig.transform.position = _ovrCameraPosition;
+            cameraRig.transform.localPosition = _ovrCameraPosition;
 
             // 손을 받아와 연결함
             PlayerFocus[] hands = cameraRig.GetComponentsInChildren<PlayerFocus>();
