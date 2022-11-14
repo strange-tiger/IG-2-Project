@@ -79,12 +79,12 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-#if _VR
         if (!photonView.IsMine)
         {
             return;
         }
 
+#if _VR
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
         {
             _privateRoomRadialMenu.SetActive(true);
