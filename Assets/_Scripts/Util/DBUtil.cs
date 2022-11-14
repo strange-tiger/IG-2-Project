@@ -919,14 +919,47 @@ namespace Asset.MySql
 
 
                     string insertBettingString = GetInsertString(ETableType.bettingdb, nickname, betGold.ToString(), championNum.ToString(),haveGold.ToString());
-                    string updateCharacterGoldString = $"Update {ETableType.characterdb} set Gold = '{haveGold}' where Nickname = '{nickname}'";
 
                     MySqlCommand insertBettingCommand = new MySqlCommand(insertBettingString, _mysqlConnection);
-                    MySqlCommand updateCharacterGoldCommand = new MySqlCommand(updateCharacterGoldString, _mysqlConnection);
 
                     _mysqlConnection.Open();
 
                     insertBettingCommand.ExecuteNonQuery();
+
+                    _mysqlConnection.Close();
+
+                }
+
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError("못넣음" + error.Message);
+
+                return false;
+            }
+        }
+
+        public static bool UpdateGoldAfterBetting(string nickname, double betGold)
+        {
+
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+
+                    int haveGold;
+
+
+                    haveGold = int.Parse(GetValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold)) - (int)betGold;
+
+
+                    string updateCharacterGoldString = $"Update {ETableType.characterdb} set Gold = '{haveGold}' where Nickname = '{nickname}'";
+
+                    MySqlCommand updateCharacterGoldCommand = new MySqlCommand(updateCharacterGoldString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
                     updateCharacterGoldCommand.ExecuteNonQuery();
 
                     _mysqlConnection.Close();
