@@ -44,6 +44,7 @@ public class PurchaseUI : MonoBehaviour
     }
     private PetUIManager.PetProfile _currentPet = new PetUIManager.PetProfile();
 
+    private PetSpawner _spawner;
     private int _currentIndex = -1;
     private int _equipedIndex = -1;
     private int _purchaseAmount = 0;
@@ -117,8 +118,6 @@ public class PurchaseUI : MonoBehaviour
         CurrentPet.SetStatus(EPetStatus.EQUIPED);
         _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
 
-        Debug.Log(_ui.PetList[_currentIndex].Status);
-
         _purchaseButton.enabled = false;
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -126,13 +125,6 @@ public class PurchaseUI : MonoBehaviour
 
     private void Close()
     {
-#if !debug
-        if (!_DB.UseGold(_ui.PlayerNickname, _purchaseAmount))
-        {
-            _purchaseAmount = 0;
-            return;
-        }
-#endif
         _purchaseAmount = 0;
 
         PetData petData = _ui.GetPetData();
