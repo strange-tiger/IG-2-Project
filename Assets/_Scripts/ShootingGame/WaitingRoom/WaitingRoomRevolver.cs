@@ -7,12 +7,17 @@ public class WaitingRoomRevolver : MonoBehaviour
 {
     private bool _isGrabbed = false;
     private bool _isReloading = false;
+
+    //bullet
+    [SerializeField] private Transform _bulletSpawnTransform;
+    [SerializeField] private Transform _bulletShotPoint;
+    private Stack<GameObject> _bulletTrailPull = new Stack<GameObject>();
     private const int _MAX_BULLET_COUNT = 6;
     private int _bulletCount = 0;
     private int BulletCount
     {
         get { return _bulletCount; }
-        set 
+        set
         {
             _bulletCount = value;
             _bulletCountText.text = _bulletCount.ToString();
@@ -27,24 +32,29 @@ public class WaitingRoomRevolver : MonoBehaviour
     [SerializeField] private AudioClip _reloadAudioClip;
     private AudioSource _audioSource;
 
+    private ParticleSystem[] _shootEffects = new ParticleSystem[2];
+
     private void Awake()
     {
         BulletCount = _MAX_BULLET_COUNT;
 
+        _shootEffects = GetComponentsInChildren<ParticleSystem>();
         _audioSource = GetComponent<AudioSource>();
+
+        foreach (CapsuleCollider bulltTrial in GetComponentsInChildren<CapsuleCollider>())
+        {
+            _bulletTrailPull.Push(bulltTrial.gameObject);
+            bulltTrial.gameObject.SetActive(false);
+            bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
+        }
     }
 
     void Update()
     {
-        if(_isGrabbed == false)
+        if (_isGrabbed == false)
         {
             return;
         }
-
-        //if (!_isShootable)
-        //{
-        //    return;
-        //}
 
         //Reload();
         //Shot();
@@ -78,5 +88,34 @@ public class WaitingRoomRevolver : MonoBehaviour
             _audioSource.PlayOneShot(_reloadAudioClip);
             _isReloading = true;
         }
+    }
+
+    private void Shot()
+    {
+        --BulletCount;
+        PlayShotEffect();
+    }
+
+    private void PlayShotEffect()
+    {
+        // 임시로 추가한 컨트롤러 진동
+        //StartCoroutine(CoVibrateController());
+
+        // 총알쏘기
+        ShotBullet();
+
+        foreach (ParticleSystem effect in _shootEffects)
+        {
+            effect.Play();
+        }
+        _audioSource.PlayOneShot(_shotAudioClip);
+    }
+
+    private void ShotBullet()
+    {
+        GameObject bulletTrail = _bulletTrailPull.Pop();
+        bulletTrail.transform.position = _bulletSpawnTransform.position;
+        bulletTrail.transform.LookAt(_bulletShotPoint);
+        bulletTrail.SetActive(true);
     }
 }
