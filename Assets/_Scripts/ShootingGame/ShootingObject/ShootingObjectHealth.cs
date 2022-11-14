@@ -110,13 +110,13 @@ public class ShootingObjectHealth : MonoBehaviourPun
             }
         }
         int point = _shotEffects[_shotEffectCount].ShowEffect();
+        _shootingGameManager.AddScoreToPlayer(playerNumber, point);
         PlayEffectSound();
 
         if(PhotonNetwork.IsMasterClient)
         {
-            _shootingGameManager.AddScoreToPlayer(playerNumber, point);
             GameObject hitUI = PhotonNetwork.Instantiate(_hitUI.name, hitPoint, Quaternion.identity);
-            hitUI.GetComponent<HitUI>().photonView.RPC("SetPointText", RpcTarget.AllViaServer,
+            hitUI.GetComponent<HitUI>().photonView.RPC("SetPointText", RpcTarget.All,
                 playerColor, point, point != 0);
         }
     }

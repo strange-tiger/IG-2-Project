@@ -13,6 +13,7 @@ public class WaitingServerManager : LobbyChanger
     private DoorSenser _doorSenserScript;
 
     [SerializeField] private TextMeshProUGUI _playerCountText;
+    [SerializeField] private TextMeshProUGUI _maxPlayerCountText;
 
     [SerializeField] private int _countDownSeconds = 3;
     [SerializeField] private AudioClip[] _countDownAudioClips = new AudioClip[3];
@@ -43,6 +44,8 @@ public class WaitingServerManager : LobbyChanger
 
         _playerCountText.text = PhotonNetwork.PlayerList.Length.ToString();
         photonView.RPC("PlayerEntered", RpcTarget.All);
+
+        _maxPlayerCountText.text = $"/{_MAX_PLAYER_COUNT}";
     }
 
     [PunRPC]
