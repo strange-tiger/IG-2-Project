@@ -1,4 +1,4 @@
-#define debug
+//#define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,18 +12,16 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     [SerializeField] PetData _petData;
     [SerializeField] GameObject _petObject;
 
+    private static readonly WaitForSeconds DELAY_GET_NICKNAME = new WaitForSeconds(2f);
+    private BasicPlayerNetworking _player;
+
     private int _eqiupNum;
     private int _testNum = -1;
     private bool _havePet = false;
 
     void Awake()
     {
-        PetDataInitializeFromDB();
-
-        if (_havePet)
-        {
-            photonView.RPC("PetInstantiate", RpcTarget.All, _eqiupNum);
-        }
+        StartCoroutine(PetInitialize());
     }
 
 #if debug
@@ -47,10 +45,25 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     }
 #endif
 
+    private IEnumerator PetInitialize()
+    {
+        yield return DELAY_GET_NICKNAME;
+
+        PetDataInitializeFromDB();
+
+        if (_havePet)
+        {
+            photonView.RPC("PetInstantiate", RpcTarget.All, _eqiupNum);
+        }
+    }
+
     private void PetDataInitializeFromDB()
     {
         MySqlSetting.Init();
-        _petData = MySqlSetting.GetPetInventoryData("Temp", _petData);
+
+        _player = FindObjectOfType<BasicPlayerNetworking>();
+
+        _petData = MySqlSetting.GetPetInventoryData(_player.MyNickname, _petData);
 
         for (int i = 0; i < _petData.Status.Length; ++i)
         {
@@ -70,13 +83,13 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetInstantiate(int index)
     {
-        if (_petObject != null)
-        {
-            PhotonNetwork.Destroy(_petObject);
-        }
-
         if (photonView.IsMine)
         {
+            if (_petObject != null)
+            {
+                PhotonNetwork.Destroy(_petObject);
+            }
+
             _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
             _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
 
