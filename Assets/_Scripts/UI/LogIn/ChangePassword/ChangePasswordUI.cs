@@ -9,6 +9,7 @@ using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Error = Defines.EChangePasswordErrorType;
 using Sql = Asset.MySql.MySqlSetting;
+using UnityEngine.EventSystems;
 
 public class ChangePasswordUI : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class ChangePasswordUI : MonoBehaviour
     [Header("Input Field")]
     [SerializeField] TMP_InputField _idInput;
     [SerializeField] TMP_InputField _answerInput;
-    [SerializeField] TMP_Dropdown _questionList;
+    [SerializeField] QuestionList _questionList;
 
     [Header("Popup")]
     [SerializeField] ChangePasswordErrorPopupUI _errorPopup;
@@ -56,7 +57,7 @@ public class ChangePasswordUI : MonoBehaviour
             _errorPopup.ErrorPopup(Error.ID);
             return;
         }
-        if (!Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Question, _questionList.value.ToString()) ||
+        if (!Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Question, _questionList.Value.ToString()) ||
             !Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
         {
             _errorPopup.ErrorPopup(Error.ANSWER);
@@ -64,6 +65,8 @@ public class ChangePasswordUI : MonoBehaviour
         }
 
         _changePopup.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public string GetID()

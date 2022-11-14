@@ -8,11 +8,14 @@ using _DB = Asset.MySql.MySqlSetting;
 public class PetUIManager : UIManager
 {
     [SerializeField] Collider _npcCollider;
-
     [SerializeField] PetData _petData;
+
+    [SerializeField] PetShopInteract _npc;
+    public PetShopInteract Npc { get => _npc; }
 
     private BasicPlayerNetworking _playerNetworking;
     public string PlayerNickname { get; private set; }
+    public static PetSpawner PlayerPetSpawner { get; set; }
 
     public class PetProfile
     {
@@ -53,14 +56,14 @@ public class PetUIManager : UIManager
             PetObject.transform.GetChild(AssetIndex).gameObject.SetActive(true);
             PetObject.SetActive(false);
         }
-        public void SetName(string name = "Temp") { Name = name; }
-        public void SetGrade(EGrade grade = EGrade.A) { Grade = grade; }
-        public void SetExplanation(string explain = "Temp") { Explanation = explain; }
-        public void SetPrice(int price = 0) { Price = price; }
-        public void SetStatus(EPetStatus status = EPetStatus.NONE) { Status = status; }
-        public void SetSize(float size = 0.3f) { Size = size; }
-        public void SetAssetIndex(int assetIndex = 0) { AssetIndex = assetIndex; }
-        public void SetLevel(int level = 0) { Level = level; }
+        public void SetName(string name = "Temp") => Name = name;
+        public void SetGrade(EGrade grade = EGrade.A) => Grade = grade;
+        public void SetExplanation(string explain = "Temp") => Explanation = explain;
+        public void SetPrice(int price = 0) => Price = price;
+        public void SetStatus(EPetStatus status = EPetStatus.NONE) => Status = status;
+        public void SetSize(float size = 1f) => Size = size;
+        public void SetAssetIndex(int assetIndex = 0) => AssetIndex = assetIndex;
+        public void SetLevel(int level = 0) => Level = level;
     }
 
     public PetProfile[] PetList { get; private set; }

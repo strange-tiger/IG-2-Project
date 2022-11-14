@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using PlayerInfo = ShootingGameManager.ShootingPlayerInfo;
+using PlayerNumber = ShootingGameManager.EShootingPlayerNumber;
 using Photon.Pun;
 
 public class ShootingUIManager : MonoBehaviourPun
@@ -46,11 +47,12 @@ public class ShootingUIManager : MonoBehaviourPun
         transform.position = position;
     }
 
-    public void ShowStartPlayerPanel(List<PlayerInfo> infos, string myClientNickname)
+    public void ShowStartPlayerPanel(List<PlayerInfo> infos, string myClientNickname, PlayerNumber myClientNumber)
     {
         _currentPanel.SetActive(false);
         _startPlayerInfoScript.SetPlayerList(infos, myClientNickname);
         _startPlayerPanel.SetActive(true);
+        _playerUI.SetPlayerNumber(myClientNumber);
         _currentPanel = _startPlayerPanel;
     }
 

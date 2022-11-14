@@ -4,21 +4,28 @@ using UnityEngine;
 
 public class DoorSenser : MonoBehaviour
 {
-    private ExitWaiting _interaction;
+    [SerializeField] private GameObject _interactionObject;
+    private WaitingRoomDoorInteraction _interaction;
 
     private void Awake()
     {
-        _interaction = GetComponent<ExitWaiting>();
+        _interaction = _interactionObject.GetComponent<WaitingRoomDoorInteraction>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        _interaction.enabled = true;
+        if(other.CompareTag("PlayerBody"))
+        {
+            _interactionObject.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _interaction.OutFocus();
-        _interaction.enabled = false;
+        if(other.CompareTag("PlayerBody"))
+        {
+            _interaction.OutFocus();
+            _interactionObject.SetActive(false);
+        }
     }
 }

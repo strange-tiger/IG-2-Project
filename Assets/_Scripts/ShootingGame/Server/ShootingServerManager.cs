@@ -10,10 +10,7 @@ public class ShootingServerManager : LobbyChanger
     protected override void Awake()
     {
         base.Awake();
-        if(photonView.IsMine)
-        {
-            GunShoot gun = _myPlayer.GetComponentInChildren<GunShoot>();
-            gun.SetManager(_shootingGameManager, _myPlayer.GetComponentInChildren<ShootingPlayerLoadingUI>());
-        }
+        GunShoot gun = _myPlayer.GetComponentInChildren<GunShoot>();
+        gun.SetManager(_shootingGameManager, _myPlayer.GetComponentInChildren<ShootingPlayerLoadingUI>());
     }
 }
