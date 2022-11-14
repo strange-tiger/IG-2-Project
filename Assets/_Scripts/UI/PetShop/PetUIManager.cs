@@ -10,6 +10,9 @@ public class PetUIManager : UIManager
     [SerializeField] Collider _npcCollider;
     [SerializeField] PetData _petData;
 
+    [SerializeField] PetShopInteract _npc;
+    public PetShopInteract Npc { get => _npc; }
+
     private BasicPlayerNetworking _playerNetworking;
     public string PlayerNickname { get; private set; }
     public static PetSpawner PlayerPetSpawner { get; set; }
