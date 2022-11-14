@@ -10,7 +10,9 @@ public class OakBarrelInteraction : MonoBehaviourPun
     [SerializeField] private GameObject _playerModel;
     private OakBarrel _oakBarrel;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(10f);
+    private PlayerFocus _playerFocus;
+
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(20f);
     private PlayerControllerMove _playerControllerMove;
 
     private float _speedSlower = 0.2f;
@@ -22,23 +24,27 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
         _oakBarrel = GameObject.Find("OakBarrel").GetComponent<OakBarrel>();
 
+        _playerFocus = GetComponentInChildren<PlayerFocus>(); 
+
         _oakBarrel.CoveredOakBarrel.RemoveListener(BecomeOakBarrel);
         _oakBarrel.CoveredOakBarrel.AddListener(BecomeOakBarrel);
     }
 
-    //private void Update()
-    //{
-    //    if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
-    //    {
-    //        StopCoroutine(OakBarrelIsGone());
+    private void Update()
+    {
+        Debug.Log($"유레카! : {_playerFocus.FocusedObject.name}");
 
-    //        OutOakBarrel();
-    //    }
-    //}
+        if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+        {
+            StopCoroutine(OakBarrelIsGone());
+
+            OutOakBarrel();
+        }
+    }
 
     private void BecomeOakBarrel()
     {
-        Debug.Log("1");
+        
         if (photonView.IsMine)
         {
             if (_playerModel.activeSelf == true)

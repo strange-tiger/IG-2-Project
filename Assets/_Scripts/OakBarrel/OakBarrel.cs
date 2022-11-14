@@ -9,25 +9,25 @@ public class OakBarrel : InteracterableObject
 {
     public UnityEvent CoveredOakBarrel = new UnityEvent();
     
-    private float _oakBarrelReturnTime = 10f;
+    private float _oakBarrelReturnTime = 20f;
 
     public override void Interact()
     {
         base.Interact();
 
-        Debug.Log("들어가라고");
+        CoveredOakBarrel.Invoke();
 
         Invoke("SetOakBarrelOriginalPosition", _oakBarrelReturnTime);
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, false);
+
+        
     }
 
     [PunRPC]
     public void SomeoneInteractedOakBarrel(bool isTrueFalse)
     {
         gameObject.SetActive(isTrueFalse);
-
-        CoveredOakBarrel.Invoke();
     }
 
     private void SetOakBarrelOriginalPosition()
