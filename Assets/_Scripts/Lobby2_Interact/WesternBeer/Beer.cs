@@ -11,8 +11,8 @@ public class Beer : InteracterableObject, IPunObservable
 
     [SerializeField] GameObject _fullBeer;
     [SerializeField] AudioClip _drinkSound;
-    private CapsuleCollider _beerCollider;
-    private BoxCollider _boxCollider;
+    [SerializeField] BoxCollider _boxCollider;
+    private BoxCollider _beerCollider;
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
     private AudioSource _audioSource;
@@ -38,7 +38,6 @@ public class Beer : InteracterableObject, IPunObservable
     public void Start()
     {
         _initBeerPosition = transform.localPosition;
-        _beerCollider = GetComponent<CapsuleCollider>();
         _boxCollider = GetComponent<BoxCollider>();
         _audioSource = GetComponent<AudioSource>();
     }
