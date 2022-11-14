@@ -9,11 +9,10 @@ using SceneNumber = Defines.ESceneNumder;
 public class WaitingServerManager : LobbyChanger
 {
     [SerializeField] private GameObject _door;
-    private ExitWaiting _exitWaitingScript;
-    private DoorSenser _doorSenserScript;
+    private GameObject _doorInteraction;
+    private GameObject _doorSencer;
 
     [SerializeField] private TextMeshProUGUI _playerCountText;
-    [SerializeField] private TextMeshProUGUI _maxPlayerCountText;
 
     [SerializeField] private int _countDownSeconds = 3;
     [SerializeField] private AudioClip[] _countDownAudioClips = new AudioClip[3];
@@ -39,13 +38,12 @@ public class WaitingServerManager : LobbyChanger
         _waitForSecond = new WaitForSeconds(1f);
         _audioSource = GetComponent<AudioSource>();
 
-        _exitWaitingScript = _door.GetComponent<ExitWaiting>();
-        _doorSenserScript = _door.GetComponent<DoorSenser>();
+        _doorInteraction = _door.GetComponentInChildren<WaitingRoomDoorInteraction>().gameObject;
+        _doorSencer = _door.GetComponentInChildren<DoorSenser>().gameObject;
 
-        _playerCountText.text = PhotonNetwork.PlayerList.Length.ToString();
+        _playerCountText.text = $"{PhotonNetwork.PlayerList.Length.ToString()}/{_MAX_PLAYER_COUNT}";
         photonView.RPC("PlayerEntered", RpcTarget.All);
 
-        _maxPlayerCountText.text = $"/{_MAX_PLAYER_COUNT}";
     }
 
     [PunRPC]
@@ -53,7 +51,7 @@ public class WaitingServerManager : LobbyChanger
     {
         Debug.Log("[ShootingWaiting] 플레이어 참가함");
         int playerCount = PhotonNetwork.PlayerList.Length;
-        _playerCountText.text = playerCount.ToString();
+        _playerCountText.text = $"{PhotonNetwork.PlayerList.Length.ToString()}/{_MAX_PLAYER_COUNT}"; ;
 
         if (playerCount == _MAX_PLAYER_COUNT)
         {
@@ -71,9 +69,9 @@ public class WaitingServerManager : LobbyChanger
 
     private void StartGame()
     {
-        _doorSenserScript.enabled = false;
-        _exitWaitingScript.OutFocus();
-        _exitWaitingScript.enabled = false;
+        _doorInteraction.GetComponent<WaitingRoomDoorInteraction>().OutFocus();
+        _doorInteraction.SetActive(false);
+        _doorSencer.SetActive(false);
 
         if(PhotonNetwork.IsMasterClient)
         {
