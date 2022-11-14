@@ -259,7 +259,7 @@ public class TransformUI : MonoBehaviour
 
             currentPetEvolutionCount = (int)_currentPetTransform.GetChild(_transformIndex).GetComponent<PetInteract>().PetEvolutionCount - 1;
         }
-        while (CurrentPet.Level <= currentPetEvolutionCount);
+        while (CurrentPet.Level < currentPetEvolutionCount);
 
         ShowTransformOption(_transformIndex);
     }
@@ -282,7 +282,7 @@ public class TransformUI : MonoBehaviour
 
             currentPetEvolutionCount = (int)_currentPetTransform.GetChild(_transformIndex).GetComponent<PetInteract>().PetEvolutionCount - 1;
         }
-        while (CurrentPet.Level <= currentPetEvolutionCount);
+        while (CurrentPet.Level < currentPetEvolutionCount);
 
 
         ShowTransformOption(_transformIndex);

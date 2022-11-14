@@ -55,14 +55,14 @@ public class Food : InteracterableObject, IPunObservable
     public void EatFoodState()
     {
         _food.SetActive(false);
-        _foodCollider.gameObject.SetActive(false);
+        _foodCollider.enabled = false;
     }
 
     [PunRPC]
     public void RegenerateFoodState()
     {
         _food.SetActive(true);
-        _foodCollider.gameObject.SetActive(true);
+        _foodCollider.enabled = true;
     }
 
 
