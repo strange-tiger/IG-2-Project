@@ -169,6 +169,11 @@ public class TransformUI : MonoBehaviour
             return;
         }
 #endif
+        if (_equipedIndex != -1)
+        {
+            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+        }
+
         _ui.LoadUI(_UI.POPUP);
 
         _applyPopup.SetActive(true);
