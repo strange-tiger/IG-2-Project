@@ -30,7 +30,7 @@ public class SignInUI : MonoBehaviour
     [SerializeField] TMP_InputField _answerInput;
 
     [Space(15)]
-    [SerializeField] TMP_Dropdown _questionList;
+    [SerializeField] QuestionList _questionList;
 
     [Header("Error Text")]
     [SerializeField] GameObject _idErrorText;
@@ -92,7 +92,7 @@ public class SignInUI : MonoBehaviour
                 _idInput.text,
                 Hash.Compute(_passwordInput.text),
                 _nicknameInput.text,
-                _questionList.value,
+                _questionList.Value,
                 _answerInput.text
             ),
             "계정 생성 실패!"
