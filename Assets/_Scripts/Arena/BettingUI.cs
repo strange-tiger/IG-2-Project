@@ -182,6 +182,7 @@ public class BettingUI : MonoBehaviourPun
     private void BetChampion(int index)
     {
         MySqlSetting.InsertBetting(_playerNickname, double.Parse(_betChampionInputField[index].text), index);
+        MySqlSetting.UpdateGoldAfterBetting(_playerNickname, double.Parse(_betChampionInputField[index].text));
 
         _isBetting[index] = true;
 
