@@ -63,6 +63,7 @@ public class MakeCharacterManager : MonoBehaviour
     {
         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "1");
         MySqlSetting.AddNewCharacter(TempAccountDB.Nickname, $"{Convert.ToInt32(_playerCustomize.IsFemale)}");
+        MySqlSetting.AddNewPetInventory(TempAccountDB.Nickname);
         Debug.Log(_playerCustomize.IsFemale);
         SceneManager.LoadScene((int)SceneType.StartRoom);
     }
