@@ -93,6 +93,8 @@ public class BettingUI : MonoBehaviourPun
         _popUpOffButton.onClick.RemoveListener(PopUpPanelOff);
         _popUpOffButton.onClick.AddListener(PopUpPanelOff);
 
+        _playerNickname = GetComponent<BasicPlayerNetworking>().MyNickname;
+
         foreach (TMP_InputField inputfield in _betChampionInputField)
         {
             inputfield.onSelect.AddListener((string temp) =>
