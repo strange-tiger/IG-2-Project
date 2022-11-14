@@ -10,7 +10,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     [SerializeField] private GameObject _playerModel;
     private OakBarrel _oakBarrel;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(5f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(10f);
     private PlayerControllerMove _playerControllerMove;
 
     private float _speedSlower = 0.2f;
@@ -26,15 +26,15 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _oakBarrel.CoveredOakBarrel.AddListener(BecomeOakBarrel);
     }
 
-    private void Update()
-    {
-        if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
-        {
-            StopCoroutine(OakBarrelIsGone());
+    //private void Update()
+    //{
+    //    if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+    //    {
+    //        StopCoroutine(OakBarrelIsGone());
 
-            OutOakBarrel();
-        }
-    }
+    //        OutOakBarrel();
+    //    }
+    //}
 
     private void BecomeOakBarrel()
     {
@@ -50,7 +50,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
                 StartCoroutine(OakBarrelIsGone());
             }
 
-            if (_playerModel.activeSelf == false)
+            else if (_playerModel.activeSelf == false)
             {
                 Debug.Log("3");
                 OutOakBarrel();
@@ -66,15 +66,27 @@ public class OakBarrelInteraction : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void ActiveSetting(GameObject obj, bool value)
+    public void ActivePlayer(bool value)
     {
-        obj.SetActive(value);
+        Debug.Log($"ActivePlayer : {value}");
+
+        _playerModel.SetActive(value);
+    }
+
+    [PunRPC]
+    public void ActiveOakBarrel(bool value)
+    {
+        Debug.Log($"ActiveOakBarrel: {value}");
+
+        _playerOakBarrel.SetActive(value);
     }
 
     private void InOakBarrel()
     {
-        photonView.RPC("ActiveSetting", RpcTarget.All, _playerModel, false);
-        photonView.RPC("ActiveSetting", RpcTarget.All, _playerOakBarrel, true);
+        Debug.Log("InOakBarrel");
+
+        photonView.RPC("ActiveOakBarrel", RpcTarget.All, true);
+        photonView.RPC("ActivePlayer", RpcTarget.All, false);
 
         _isInOak = true;
 
@@ -83,11 +95,18 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void OutOakBarrel()
     {
-        photonView.RPC("ActiveSetting", RpcTarget.All, _playerModel, true);
-        photonView.RPC("ActiveSetting", RpcTarget.All, _playerOakBarrel, false);
+        Debug.Log("OutOakBarrel");
+
+        photonView.RPC("ActiveOakBarrel", RpcTarget.All, false);
+        photonView.RPC("ActivePlayer", RpcTarget.All, true);
 
         _isInOak = false;
 
         _playerControllerMove.MoveScale += _speedSlower;
+    }
+
+    private void OnDisable()
+    {
+        _oakBarrel.CoveredOakBarrel.RemoveListener(BecomeOakBarrel);
     }
 }
