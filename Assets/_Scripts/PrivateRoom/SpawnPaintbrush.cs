@@ -21,7 +21,7 @@ public class SpawnPaintbrush : MonoBehaviourPun
         photonView.RPC("Spawn", RpcTarget.AllBuffered);
     }
 
-    private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 1f);
+    private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 4f);
     [PunRPC]
     private void Spawn()
     {

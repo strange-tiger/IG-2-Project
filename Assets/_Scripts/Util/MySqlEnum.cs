@@ -5,7 +5,6 @@ namespace Asset {
 		characterdb,
 		petinventorydb,
 		relationshipdb,
-		requestdb,
 		roomlistdb,
 		Max,
 	}

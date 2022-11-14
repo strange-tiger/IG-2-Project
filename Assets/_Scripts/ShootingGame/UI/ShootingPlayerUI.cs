@@ -24,6 +24,11 @@ public class ShootingPlayerUI : MonoBehaviour
         _shootingGameManager = shootingGameManager;
     }
 
+    public void SetPlayerNumber(PlayerNumber playerNumber)
+    {
+        _playerNumber = playerNumber;
+    }
+
     private void SetTime(int time)
     {
         int leftTime = (int)_shootingGameManager.PlayTime - time;

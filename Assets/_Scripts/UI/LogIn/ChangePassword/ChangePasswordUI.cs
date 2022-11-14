@@ -9,6 +9,7 @@ using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Error = Defines.EChangePasswordErrorType;
 using Sql = Asset.MySql.MySqlSetting;
+using UnityEngine.EventSystems;
 
 public class ChangePasswordUI : MonoBehaviour
 {
@@ -64,6 +65,8 @@ public class ChangePasswordUI : MonoBehaviour
         }
 
         _changePopup.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public string GetID()

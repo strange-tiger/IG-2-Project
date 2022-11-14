@@ -59,7 +59,7 @@ public class EndResultPanel : MonoBehaviour
             _playerNicknameTexts[i].text = info.PlayerNickname;
             _playerColors[i].color = info.PlayerColor;
             _playerScoreTexts[i].text = info.PlayerScore.ToString();
-            _playerGoldTexts[i].text = info.PlayerGold.ToString();
+            _playerGoldTexts[i].text = "+ " + info.PlayerGold.ToString();
             _goldStars[i].gameObject.SetActive(info.IsWinner);
         }
     }

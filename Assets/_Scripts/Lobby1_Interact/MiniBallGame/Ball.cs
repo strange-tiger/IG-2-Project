@@ -12,8 +12,10 @@ public class Ball : MonoBehaviourPunCallbacks
     private float _resetBallTimer;
 
     private Rigidbody _rigidbody;
+    private AudioSource _audioSource;
+
     private float _currentTime;
-    private bool _isGrabBall;
+    private bool[] _isGrabBall = new bool[2];
 
     private void Awake()
     {
@@ -23,17 +25,22 @@ public class Ball : MonoBehaviourPunCallbacks
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         SetBall();
 
-        if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && _isGrabBall == true)
+        if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && _isGrabBall[0] == true || _isGrabBall[1] == true)
         {
-            // _rigidbody.AddForce(0, _thrust, 0, ForceMode.Impulse);
-            _rigidbody.AddForce(0, 0.35f, 0.7f);
+            _rigidbody.AddForce(0, 40f, 20f);
         }
+
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    _rigidbody.AddForce(0, 60f, 30f);
+        //}
     }
 
     private void SetBall()
@@ -62,8 +69,23 @@ public class Ball : MonoBehaviourPunCallbacks
         {
             if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
             {
-                _isGrabBall = true;
+                for (int i = 0; i < _isGrabBall.Length; ++i)
+                {
+                    if (_isGrabBall[i] != true)
+                    {
+                        _isGrabBall[i] = true;
+                        break;
+                    }
+                }
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "BallGameCourtFloor")
+        {
+            _audioSource.Play();
         }
     }
 
@@ -71,7 +93,14 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.tag == "Player")
         {
-            _isGrabBall = false;
+            for (int i = 0; i < _isGrabBall.Length; ++i)
+            {
+                if (_isGrabBall[i] != false)
+                {
+                    _isGrabBall[i] = false;
+                    break;
+                }
+            }
         }
     }
 }
