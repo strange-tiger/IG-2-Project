@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 using Column = Asset.EaccountdbColumns;
@@ -98,6 +99,8 @@ public class SignInUI : MonoBehaviour
         );
 
         _successPopup.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     /// <summary>

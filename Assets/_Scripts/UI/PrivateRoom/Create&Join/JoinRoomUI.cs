@@ -31,7 +31,7 @@ public class JoinRoomUI : MonoBehaviour
         set
         {
             _pageCount = value;
-            OnPageCountChanged.Invoke();
+            OnPageCountChanged?.Invoke();
         }
     }
     private static int _pageCount = 0;

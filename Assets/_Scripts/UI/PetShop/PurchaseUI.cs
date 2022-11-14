@@ -44,7 +44,6 @@ public class PurchaseUI : MonoBehaviour
     }
     private PetUIManager.PetProfile _currentPet = new PetUIManager.PetProfile();
 
-    private PetSpawner _spawner;
     private int _currentIndex = -1;
     private int _equipedIndex = -1;
     private int _purchaseAmount = 0;
