@@ -35,7 +35,7 @@ public class Coin : MonoBehaviour
         InitCoin();
         RandomGetCoin();
         StartCoroutine(GetCoinEffect());
-        GetGold();
+        SaveGoldData();
     }
 
 
@@ -90,7 +90,7 @@ public class Coin : MonoBehaviour
             yield return null;
         }
     }
-    public void GetGold()
+    public void SaveGoldData()
     {
         Debug.Log("Gold ��� " + _coin);
 

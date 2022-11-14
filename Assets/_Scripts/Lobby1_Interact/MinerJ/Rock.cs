@@ -8,22 +8,27 @@ public class Rock : MonoBehaviour
     private Transform _miningUI;
     [SerializeField]
     private GameObject _miningButton;
-    private GameObject _player;
-    public GameObject Player { get { return _player; } }
+    private PlayerNetworking _player;
+    public PlayerNetworking Player { get { return _player; } }
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("PlayerBody"))
+        if(other.gameObject.CompareTag("Player"))
         {
-            _player = other.gameObject;
+            _player = other.gameObject.transform.root.GetComponent<PlayerNetworking>();
+            if(_player == null)
+            {
+                return;
+            }
             _miningButton.SetActive(true);
         }
     }
     public void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("PlayerBody"))
+        if(other.gameObject.CompareTag("Player"))
         {
             MiningUIDisable();
+            _player = null;
         }
     }
 
