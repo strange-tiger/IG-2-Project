@@ -12,9 +12,13 @@ public class OakBarrel : InteracterableObject
     
     private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
 
-    public override void Interact()
+    private void Start()
     {
         _outlinable = GetComponent<Outlinable>();
+    }
+
+    public override void Interact()
+    {
         base.Interact();
 
         CoveredOakBarrel.Invoke();
@@ -31,15 +35,13 @@ public class OakBarrel : InteracterableObject
         {
             if (_outlinable.enabled == true)
             {
-                if (OVRInput.GetDown(OVRInput.Button.One))
-                {
-                    CoveredOakBarrel.Invoke();
-
-                    PhotonNetwork.Destroy(gameObject);
-                }
+                gameObject.SetActive(isTrueFalse);
+            }
+            else
+            {
+                gameObject.SetActive(isTrueFalse);
             }
         }
-        gameObject.SetActive(isTrueFalse);
     }
 
     private IEnumerator SetOakBarrelOriginalPosition()

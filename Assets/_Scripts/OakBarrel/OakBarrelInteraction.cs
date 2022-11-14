@@ -7,7 +7,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
 {
     [SerializeField] private GameObject _oakBarrelObject;
     [SerializeField] private GameObject _playerModel;
-    [SerializeField] private Transform _modelTransform;
     [SerializeField] private OakBarrel _oakBarrel;
 
     private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
