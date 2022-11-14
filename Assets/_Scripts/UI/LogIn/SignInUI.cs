@@ -8,6 +8,7 @@ using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Sql = Asset.MySql.MySqlSetting;
 using Hash = Encryption.Hash256;
+using UnityEngine.EventSystems;
 
 public class SignInUI : MonoBehaviour
 {
@@ -98,6 +99,8 @@ public class SignInUI : MonoBehaviour
         );
 
         _successPopup.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     /// <summary>

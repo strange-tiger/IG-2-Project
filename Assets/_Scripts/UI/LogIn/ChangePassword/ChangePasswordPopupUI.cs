@@ -65,7 +65,11 @@ public class ChangePasswordPopupUI : PopupUI
 
     protected override void OnDisable()
     {
+        _passwordInput.text = "";
+        _passwordCheckInput.text = "";
+        
         base.OnDisable();
+
         _changeButton.onClick.RemoveListener(ChangePassword);
     }
 }
