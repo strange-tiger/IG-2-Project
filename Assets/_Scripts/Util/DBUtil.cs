@@ -27,13 +27,15 @@ namespace Asset.MySql
         private const string INSERT_RELATIONSHIP = "INSERT INTO RelationshipDB (UserA,UserB,State) VALUES ";
         private const string INSERT_BETTING = "INSERT INTO BettingDB (Nickname,BettingGold,BettingChampionNumber,HaveGold) VALUES ";
         private const string INSERT_PETINVENTORY = "INSERT INTO PetInventoryDB (Nickname) VALUES ";
+        private const string INSERT_ROOMLIST = "INSERT INTO RoomListDB (UserId, Password, DisplayName, RoomNumber) VALUES ";
         public static readonly string[] INSERT =
         {
             INSERT_ACCOUNT,
             INSERT_BETTING,
             INSERT_CHARACTER,
             INSERT_PETINVENTORY,
-            INSERT_RELATIONSHIP
+            INSERT_RELATIONSHIP,
+            INSERT_ROOMLIST,
         };
         public const string SET_ENUM = "SHOW TABLES;\nDESC ";
         public const string SELECT = "SELECT * from ";
