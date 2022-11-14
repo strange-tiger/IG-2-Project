@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6517610126619301266}
   - component: {fileID: 5871902138307515503}
+  - component: {fileID: 5728035795002400287}
   m_Layer: 0
   m_Name: BeerCollider
   m_TagString: Beer
@@ -140,6 +141,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.3, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0.25}
+--- !u!114 &5728035795002400287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127947358909019921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61a5b2fe6fdc4264d93529b30eb10bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _fullBeer: {fileID: 8268717291742268568}
+  _drinkSound: {fileID: 8300000, guid: 889185375ff2e834f811d61ac55c7418, type: 3}
+  _grabCollider: {fileID: 7404153549318268388}
 --- !u!1 &8268717291742268568
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +262,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8275704744721549326}
-  - component: {fileID: 8275704744721549320}
   - component: {fileID: -3956731072230785877}
   - component: {fileID: 3643322930513002996}
   - component: {fileID: 5088931005297678728}
@@ -277,22 +293,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8275704744721549320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275704744721549321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a5b2fe6fdc4264d93529b30eb10bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _fullBeer: {fileID: 8268717291742268568}
-  _drinkSound: {fileID: 8300000, guid: 889185375ff2e834f811d61ac55c7418, type: 3}
-  _boxCollider: {fileID: 5871902138307515503}
 --- !u!114 &-3956731072230785877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,9 +312,9 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 8275704744721549320}
   - {fileID: 5088931005297678728}
   - {fileID: 8366275784910438280}
+  - {fileID: 5728035795002400287}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
