@@ -209,6 +209,8 @@ GameObject:
   - component: {fileID: 8366275784910438280}
   - component: {fileID: 5922171801919310796}
   - component: {fileID: 1827645394065116112}
+  - component: {fileID: 7404153549318268388}
+  - component: {fileID: 7149310461379525489}
   m_Layer: 0
   m_Name: Beer
   m_TagString: Beer
@@ -241,7 +243,7 @@ MeshCollider:
   m_GameObject: {fileID: 8275704744721549321}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -447,3 +449,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &7404153549318268388
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275704744721549321}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.05, y: 0.2, z: 0.05}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &7149310461379525489
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275704744721549321}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.18
+  m_Height: 0.3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0.28}

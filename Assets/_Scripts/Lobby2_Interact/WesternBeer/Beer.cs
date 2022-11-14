@@ -11,7 +11,8 @@ public class Beer : InteracterableObject, IPunObservable
 
     [SerializeField] GameObject _fullBeer;
     [SerializeField] AudioClip _drinkSound;
-    private MeshCollider _meshCollider;
+    private CapsuleCollider _beerCollider;
+    private BoxCollider _boxCollider;
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
     private AudioSource _audioSource;
@@ -21,12 +22,14 @@ public class Beer : InteracterableObject, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(_fullBeer.activeSelf);
-            stream.SendNext(_meshCollider.enabled);
+            stream.SendNext(_beerCollider.enabled);
+            stream.SendNext(_boxCollider.enabled);
         }
         else if (stream.IsReading)
         {
             _fullBeer.SetActive((bool)stream.ReceiveNext());
-            _meshCollider.enabled = (bool)stream.ReceiveNext();
+            _beerCollider.enabled = (bool)stream.ReceiveNext();
+            _boxCollider.enabled = (bool)stream.ReceiveNext();
         }
     }
 
@@ -35,7 +38,8 @@ public class Beer : InteracterableObject, IPunObservable
     public void Start()
     {
         _initBeerPosition = transform.localPosition;
-        _meshCollider = GetComponent<MeshCollider>();
+        _beerCollider = GetComponent<CapsuleCollider>();
+        _boxCollider = GetComponent<BoxCollider>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -49,7 +53,8 @@ public class Beer : InteracterableObject, IPunObservable
     {
         _audioSource.PlayOneShot(_drinkSound);
         _fullBeer.SetActive(false);
-        _meshCollider.enabled = false;
+        _beerCollider.enabled = false;
+        _boxCollider.enabled = false;
         StartCoroutine(ReGenerateBeer());
     }
 
@@ -63,7 +68,9 @@ public class Beer : InteracterableObject, IPunObservable
 
         _fullBeer.SetActive(true);
 
-        _meshCollider.enabled = false;
+        _beerCollider.enabled = true;
+
+        _boxCollider.enabled = true;
 
         yield return null;
     }
