@@ -14,12 +14,13 @@ GameObject:
   - component: {fileID: 7025912790093236098}
   - component: {fileID: 2527042887658629230}
   - component: {fileID: 3241291693102309996}
-  - component: {fileID: 7737358800159025207}
+  - component: {fileID: 8155007335389780}
   - component: {fileID: 2803706759808247566}
   - component: {fileID: 4124689316992495005}
+  - component: {fileID: 8911488397093165389}
   m_Layer: 0
   m_Name: Sword5
-  m_TagString: Untagged
+  m_TagString: IsekaiWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,8 +135,8 @@ MonoBehaviour:
   m_snapOrientation: 0
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
---- !u!136 &7737358800159025207
-CapsuleCollider:
+--- !u!65 &8155007335389780
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -144,10 +145,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 0.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.6, z: -0.04}
+  serializedVersion: 2
+  m_Size: {x: 0.11, y: 0.82, z: 0.22}
+  m_Center: {x: 0, y: 0.58, z: -0.02}
 --- !u!114 &2803706759808247566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,3 +187,15 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &8911488397093165389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2692195108304644687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632a7459cd7f93e4cb1b50e33fe25b48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
