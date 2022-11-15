@@ -1,15 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Asset.MySql;
-using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
+using Asset.MySql;
 using Photon.Pun;
 
 public class CustomizeShop : MonoBehaviourPun
 {
-
 
     [SerializeField] TextMeshProUGUI _avatarName;
     [SerializeField] TextMeshProUGUI _avatarValue;
@@ -124,6 +124,8 @@ public class CustomizeShop : MonoBehaviourPun
         {
             return;
         }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void Queueing()
@@ -159,6 +161,21 @@ public class CustomizeShop : MonoBehaviourPun
 
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+
+        if (MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
+        {
+            _purchaseButton.colors = _enoughGoldColorBlock;
+            _purchaseButton.interactable = true;
+        }
+        else
+        {
+            _purchaseButton.colors = _notEnoughGoldColorBlock;
+            _purchaseButton.interactable = false;
+
+        }
+
+        EventSystem.current.SetSelectedGameObject(null);
+
     }
 
     void RightAvatarButton()
@@ -183,6 +200,9 @@ public class CustomizeShop : MonoBehaviourPun
             _purchaseButton.interactable = false;
 
         }
+
+        EventSystem.current.SetSelectedGameObject(null);
+
     }
 
 

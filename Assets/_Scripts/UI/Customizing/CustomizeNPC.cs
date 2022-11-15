@@ -15,8 +15,6 @@ public class CustomizeNPC : InteracterableObject
     {
         base.Interact();
 
-
-
         _customizeNPCMenu.SetActive(true);
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CustomizeUIManager : UIManager
 {
@@ -36,25 +37,38 @@ public class CustomizeUIManager : UIManager
     {
         _customizeMenu.SetActive(true);
         _customizeNPCMenu.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void MenuOff()
     {
         _customizeMenu.SetActive(false);
         _customizeNPCMenu.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void ShopOn()
     {
         _customizeShop.SetActive(true);
         _customizeNPCMenu.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
     private void ShopOff()
     {
         _customizeShop.SetActive(false);
         _customizeNPCMenu.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
-    private void NPCMenuOff() => _customizeNPCMenu.SetActive(false);
+    private void NPCMenuOff()
+    {
+        _customizeNPCMenu.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+    }
 
     private void OnDisable()
     {

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Asset.MySql;
 using TMPro;
 using Photon.Pun;
@@ -64,9 +65,6 @@ public class CustomizeMenu : MonoBehaviourPun
 
     void Start()
     {
-
-
-
 
         MySqlSetting.Init();
 
@@ -143,6 +141,9 @@ public class CustomizeMenu : MonoBehaviourPun
         MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor, _userCustomizeData.UserMaterial[0]);
         MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
         _saveString = null;
+
+        EventSystem.current.SetSelectedGameObject(null);
+
     }
 
     private void RootSet()
@@ -180,6 +181,9 @@ public class CustomizeMenu : MonoBehaviourPun
 
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
+        EventSystem.current.SetSelectedGameObject(null);
+
+
     }
 
     void RightAvatarButton()
@@ -191,6 +195,9 @@ public class CustomizeMenu : MonoBehaviourPun
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
 
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+
+        EventSystem.current.SetSelectedGameObject(null);
+
 
     }
 
@@ -204,6 +211,9 @@ public class CustomizeMenu : MonoBehaviourPun
         {
             _setMaterialNum -= 1;
         }
+
+        EventSystem.current.SetSelectedGameObject(null);
+
     }
 
     void RightMaterialButton()
@@ -217,6 +227,7 @@ public class CustomizeMenu : MonoBehaviourPun
             _setMaterialNum += 1;
         }
 
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnDisable()
