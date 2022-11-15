@@ -11,7 +11,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(20f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
     private PlayerControllerMove _playerControllerMove;
 
     private MeshRenderer _playerMeshRenderer;
