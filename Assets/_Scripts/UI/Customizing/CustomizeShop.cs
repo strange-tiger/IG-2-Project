@@ -28,6 +28,12 @@ public class CustomizeShop : MonoBehaviourPun
     public UserCustomizeData _femaleUserCustomizeData;
     public UserCustomizeData _userCustomizeData;
 
+
+    private Color _enoughGoldColor = new Color(255, 212, 0);
+    private Color _notEnoughGoldColor = new Color(128, 128, 128);
+    private ColorBlock _enoughGoldColorBlock;
+    private ColorBlock _notEnoughGoldColorBlock;
+
     private Queue<int> _haveAvatar = new Queue<int>();
     private PlayerNetworking _playerNetworking;
     private string _playerNickname;
@@ -45,6 +51,9 @@ public class CustomizeShop : MonoBehaviourPun
 
         _purchaseButton.onClick.RemoveListener(PurchaseButton);
         _purchaseButton.onClick.AddListener(PurchaseButton);
+
+        _enoughGoldColorBlock.normalColor = _enoughGoldColor;
+        _notEnoughGoldColorBlock.normalColor = _notEnoughGoldColor;
 
         if (photonView.IsMine)
         {
@@ -162,6 +171,18 @@ public class CustomizeShop : MonoBehaviourPun
 
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+
+        if(MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
+        {
+            _purchaseButton.colors = _enoughGoldColorBlock;
+            _purchaseButton.interactable = true;
+        }
+        else
+        {
+            _purchaseButton.colors = _notEnoughGoldColorBlock;
+            _purchaseButton.interactable = false;
+
+        }
     }
 
 
