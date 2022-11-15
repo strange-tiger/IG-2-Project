@@ -24,11 +24,12 @@ public class CustomizeShop : MonoBehaviour
     [SerializeField] GameObject _characterMeshRendererObject;
 
 
-    public CustomizeData _costomizeDatas;
-    public UserCustomizeData _maleUserCostomizeData;
-    public UserCustomizeData _femaleUserCostomizeData;
-    public UserCustomizeData _userCostomizeData;
+    public CustomizeData _customizeDatas;
+    public UserCustomizeData _maleUserCustomizeData;
+    public UserCustomizeData _femaleUserCustomizeData;
+    public UserCustomizeData _userCustomizeData;
 
+    private Queue<int> _haveAvatar = new Queue<int>();
     private string _playerNickname;
     private int _setAvatarNum;
     private int _setMaterialNum;
@@ -58,11 +59,11 @@ public class CustomizeShop : MonoBehaviour
         // 성별을 확인하여 맞는 데이터를 불러옴
         if (_isFemale)
         {
-            _userCostomizeData = _femaleUserCostomizeData;
+            _userCustomizeData = _femaleUserCustomizeData;
         }
         else
         {
-            _userCostomizeData = _maleUserCostomizeData;
+            _userCustomizeData = _maleUserCustomizeData;
         }
 
         // 해당 유저의 아바타 데이터를 불러옴
@@ -71,35 +72,39 @@ public class CustomizeShop : MonoBehaviour
         // 불러온 아바타 데이터를 스크립터블오브젝트에 넣어줌.
         for (int i = 0; i < avatarData.Length - 1; ++i)
         {
-            _userCostomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
+            _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
         // 유저의 색 데이터를 불러옴
-        _userCostomizeData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
+        _userCustomizeData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
         // 착용중이었던 아바타의 데이터를 불러옴.
-        for (int i = 0; i < _userCostomizeData.AvatarState.Length - 1; ++i)
+        for (int i = 0; i < _userCustomizeData.AvatarState.Length - 1; ++i)
         {
-            if (_userCostomizeData.AvatarState[i] == EAvatarState.EQUIPED)
+            if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
             {
                 _setAvatarNum = i;
-                break;
+                _haveAvatar.Enqueue(i);
             }
+
         }
+
+        RootSet();
+
         // Material과 유저의 아바타 데이터를 커스터마이즈 창에 적용시킴
-        _setMaterialNum = _userCostomizeData.UserMaterial[0];
-        _skinnedMeshRenderer.sharedMesh = _userCostomizeData.AvatarMesh[_setAvatarNum];
+        _setMaterialNum = _userCustomizeData.UserMaterial[0];
+        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
         // 상점에서 아바타의 이름과 가격을 적용시킴.
-        _avatarName.text = _userCostomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCostomizeData.AvatarValue[_setAvatarNum].ToString();
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
     }
 
     void PurchaseButton()
     {
-        if (_userCostomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
+        if (_userCustomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
         {
-            _userCostomizeData.AvatarState[_setAvatarNum] = EAvatarState.HAVE;
-            _skinnedMeshRenderer.material = _costomizeDatas.AvatarMaterial[_setMaterialNum];
+            _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.HAVE;
+            _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
             _noneLight.SetActive(true);
         }
         else
@@ -108,6 +113,12 @@ public class CustomizeShop : MonoBehaviour
         }
     }
 
+    private void Queueing()
+    {
+        _setAvatarNum = _haveAvatar.Peek();
+        _haveAvatar.Enqueue(_setAvatarNum);
+        _haveAvatar.Dequeue();
+    }
 
     private void RootSet()
     {
@@ -127,55 +138,26 @@ public class CustomizeShop : MonoBehaviour
 
     void LeftAvartarButton()
     {
-        if (_setAvatarNum == 0)
-        {
-            _setAvatarNum = _userCostomizeData.AvatarMesh.Length - 1;
-        }
-        else
-        {
-            _setAvatarNum -= 1;
-        }
-        _skinnedMeshRenderer.sharedMesh = _userCostomizeData.AvatarMesh[_setAvatarNum];
+        Queueing();
 
-        if (_userCostomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
-        {
-            _skinnedMeshRenderer.material = _noneMaterial;
-            _noneLight.SetActive(false);
-        }
-        else
-        {
-            _skinnedMeshRenderer.material = _costomizeDatas.AvatarMaterial[_setMaterialNum];
-            _noneLight.SetActive(true);
-        }
-        _avatarName.text = _userCostomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCostomizeData.AvatarValue[_setAvatarNum].ToString();
+        RootSet();
+
+        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
     }
 
     void RightAvatarButton()
     {
-        if (_setAvatarNum == _userCostomizeData.AvatarMesh.Length - 1)
-        {
-            _setAvatarNum = 0;
-        }
-        else
-        {
-            _setAvatarNum += 1;
-        }
+        Queueing();
 
-        _skinnedMeshRenderer.sharedMesh = _userCostomizeData.AvatarMesh[_setAvatarNum];
+        RootSet();
 
-        if (_userCostomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
-        {
-            _skinnedMeshRenderer.material = _noneMaterial;
-            _noneLight.SetActive(false);
-        }
-        else
-        {
-            _skinnedMeshRenderer.material = _costomizeDatas.AvatarMaterial[_setMaterialNum];
-            _noneLight.SetActive(true);
-        }
-        _avatarName.text = _userCostomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCostomizeData.AvatarValue[_setAvatarNum].ToString();
+        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
     }
 
 
