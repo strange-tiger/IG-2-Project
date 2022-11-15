@@ -15,6 +15,7 @@ public class PlayerInteraction : MonoBehaviour
     private bool _isThereUI;
 
     public UnityEvent InteractionOakBarrel = new UnityEvent();
+    public UnityEvent InteractionPlayerOakBarrel = new UnityEvent();
 
     private void OnEnable()
     {
@@ -120,8 +121,13 @@ public class PlayerInteraction : MonoBehaviour
             if(interacterableObject)
             {
                 interacterableObject.Interact();
+                
+                if (interacterableObject.gameObject.transform.root.CompareTag("Player"))
+                {
+                    InteractionPlayerOakBarrel.Invoke();
+                }
 
-                if (interacterableObject.gameObject.CompareTag("OakBarrel"))
+                else if (interacterableObject.gameObject.CompareTag("OakBarrel"))
                 {
                     InteractionOakBarrel.Invoke();
                 }
