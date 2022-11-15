@@ -17,18 +17,24 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     [SerializeField] UserCustomizeData _maleData;
     [SerializeField] UserCustomizeData _userData;
     [SerializeField] CustomizeData _materialData;
+    [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
+    [SerializeField] GameObject _smMeshRendererObject;
+    [SerializeField] GameObject _characterMeshRendererObject;
     private int _setAvatarNum;
     private int _setMaterialNum;
-    private SkinnedMeshRenderer _skinnedMeshRenderer;
     private PlayerNetworking _playerInfo;
     private string _playerNickname;
  
     void Start()
     {
-        _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+
+        _smMeshRenderer = _smMeshRendererObject.GetComponentInChildren<SkinnedMeshRenderer>();
+        _characterMeshRenderer = _characterMeshRendererObject.GetComponentInChildren<SkinnedMeshRenderer>();
 
 
-        if(SceneManager.GetActiveScene().name != "MakeCharacterRoom")
+        if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
         {
             if (SceneManager.GetActiveScene().name == "StartRoom")
             {
@@ -66,6 +72,9 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
         _setAvatarNum = 0;
         _setMaterialNum = 0;
+
+        RootSet(_setAvatarNum);
+
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
 
@@ -119,6 +128,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         }
         else
         {
+            RootSet(_setAvatarNum);
             _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
             _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
         }
@@ -132,12 +142,28 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
     }
 
+    private void RootSet(int avatarNum)
+    {
+        if (avatarNum <= 9 && avatarNum >= 7)
+        {
+            _smMeshRendererObject.SetActive(true);
+            _characterMeshRendererObject.SetActive(false);
+            _skinnedMeshRenderer = _smMeshRenderer;
+        }
+        else
+        {
+            _smMeshRendererObject.SetActive(false);
+            _characterMeshRendererObject.SetActive(true);
+            _skinnedMeshRenderer = _characterMeshRenderer;
+        }
+    }
 
     [PunRPC]
     public void AvatarSetting(int avatarNum, int materialNum, bool genderNum)
     {
-        
-            if(genderNum == true)
+            RootSet(avatarNum);
+
+            if (genderNum == true)
             {
                 _userData = _femaleData;
             }
@@ -145,6 +171,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
             {
                 _userData = _maleData;
             }
+
             _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
             _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
         

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerInteraction : MonoBehaviour
     private OVRInputModule _eventSystemInputModule;
     private OVRRaycaster _ovrRaycaster;
     private bool _isThereUI;
+
+    public UnityEvent InteractionOakBarrel = new UnityEvent();
 
     private void OnEnable()
     {
@@ -117,6 +120,11 @@ public class PlayerInteraction : MonoBehaviour
             if(interacterableObject)
             {
                 interacterableObject.Interact();
+
+                if (interacterableObject.gameObject.CompareTag("OakBarrel"))
+                {
+                    InteractionOakBarrel.Invoke();
+                }
             }
         }
     }
