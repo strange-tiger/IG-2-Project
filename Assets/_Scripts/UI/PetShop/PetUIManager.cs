@@ -1,17 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
+using _CSV = Asset.ParseCSV.CSVParser;
+using Photon.Pun;
 
 public class PetUIManager : UIManager
 {
     [SerializeField] Collider _npcCollider;
     [SerializeField] PetData _petData;
 
+    [SerializeField] PetShopInteract _npc;
+    public PetShopInteract Npc { get => _npc; }
+
+    private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
     public string PlayerNickname { get; private set; }
+    public static PetSpawner PlayerPetSpawner { get; set; }
 
     public class PetProfile
     {
@@ -81,7 +89,15 @@ public class PetUIManager : UIManager
     {
         yield return new WaitForSeconds(1f);
 
-        _playerNetworking = FindObjectOfType<BasicPlayerNetworking>();
+        _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
+
+        foreach (var player in _playerNetworkings)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                _playerNetworking = player;
+            }
+        }
         PlayerNickname = _playerNetworking.MyNickname;
     }
 
@@ -103,13 +119,29 @@ public class PetUIManager : UIManager
     {
         PetList = new PetProfile[_petData.Object.Length];
 
+        List<Dictionary<string, string>> csvData = _CSV.ParseCSV("PetTextScripts");
+
         for (int i = 0; i < PetList.Length; ++i)
         {
             PetList[i] = new PetProfile();
 
+            PetList[i].SetName(csvData[i]["이름"]);
+
+            PetList[i].SetGrade((PetProfile.EGrade) Enum.Parse(typeof(PetProfile.EGrade), csvData[i]["등급"]));
+
+            PetList[i].SetExplanation(csvData[i]["설명"]);
+
+            PetList[i].SetPrice(int.Parse(csvData[i]["가격(골드)"]));
+
             PetList[i].SetPrefab(_petData.Object[i]);
 
             PetList[i].SetStatus(_petData.Status[i]);
+
+            PetList[i].SetSize(_petData.Size[i]);
+
+            PetList[i].SetAssetIndex(_petData.ChildIndex[i]);
+
+            PetList[i].SetLevel(_petData.Level[i]);
         }
     }
 }

@@ -1,32 +1,47 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Asset.MySql;
-using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
+using Asset.MySql;
+using Photon.Pun;
 
-public class CustomizeShop : MonoBehaviour
+public class CustomizeShop : MonoBehaviourPun
 {
-
 
     [SerializeField] TextMeshProUGUI _avatarName;
     [SerializeField] TextMeshProUGUI _avatarValue;
     [SerializeField] Button _purchaseButton;
     [SerializeField] Button _leftAvatarButton;
     [SerializeField] Button _rightAvatarButton;
-    [SerializeField] GameObject _noneLight;
-    [SerializeField] Material _noneMaterial;
+    [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
+    [SerializeField] GameObject _smMeshRendererObject;
+    [SerializeField] GameObject _characterMeshRendererObject;
 
-    public CustomizeData _costomizeDatas;
-    public UserCustomizeData _maleUserCostomizeData;
-    public UserCustomizeData _femaleUserCostomizeData;
-    public UserCustomizeData _userCostomizeData;
 
-    private SkinnedMeshRenderer _skinnedMeshRenderer;
+    public CustomizeData _customizeDatas;
+    public UserCustomizeData _maleUserCustomizeData;
+    public UserCustomizeData _femaleUserCustomizeData;
+    public UserCustomizeData _userCustomizeData;
 
+
+    private Color _enoughGoldColor = new Color(255, 212, 0);
+    private Color _notEnoughGoldColor = new Color(128, 128, 128);
+
+    private List<int> _notHaveAvatarList = new List<int>();
+    private PlayerCustomize _playerCustomize;
+    private BasicPlayerNetworking[] _playerNetworkings;
+    private BasicPlayerNetworking _playerNetworking;
+    private string _playerNickname;
+    private string _saveString;
     private int _setAvatarNum;
     private int _setMaterialNum;
+    private int _equipNum;
+    private int _startNum;
     private bool _isFemale;
 
     private void OnEnable()
@@ -40,123 +55,215 @@ public class CustomizeShop : MonoBehaviour
         _purchaseButton.onClick.RemoveListener(PurchaseButton);
         _purchaseButton.onClick.AddListener(PurchaseButton);
 
+
+
+        _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
+
+        foreach (var player in _playerNetworkings)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                _playerNetworking = player;
+            }
+        }
+
+        _playerNickname = _playerNetworking.MyNickname;
+
+
+        AvatarShopInit();
     }
 
-    void Start()
+    private void AvatarShopInit()
     {
-        _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 
         MySqlSetting.Init();
 
         // 성별을 확인함.
-        _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.Gender));
+        _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
         // 성별을 확인하여 맞는 데이터를 불러옴
         if (_isFemale)
         {
-            _userCostomizeData = _femaleUserCostomizeData;
+            _userCustomizeData = _femaleUserCustomizeData;
         }
         else
         {
-            _userCostomizeData = _maleUserCostomizeData;
+            _userCustomizeData = _maleUserCustomizeData;
         }
 
         // 해당 유저의 아바타 데이터를 불러옴
-        string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.AvatarData).Split(',');
+        string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
 
         // 불러온 아바타 데이터를 스크립터블오브젝트에 넣어줌.
         for (int i = 0; i < avatarData.Length - 1; ++i)
         {
-            _userCostomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
+            _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
         // 유저의 색 데이터를 불러옴
-        _userCostomizeData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.AvatarColor));
+        _userCustomizeData.UserMaterial = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
         // 착용중이었던 아바타의 데이터를 불러옴.
-        for (int i = 0; i < _userCostomizeData.AvatarState.Length - 1; ++i)
+        for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
-            if (_userCostomizeData.AvatarState[i] == EAvatarState.EQUIPED)
+            if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
             {
-                _setAvatarNum = i;
-                break;
+                _notHaveAvatarList.Add(i);
+            }
+            if (_userCustomizeData.AvatarState[i] == EAvatarState.EQUIPED)
+            {
+                _equipNum = i;
             }
         }
+        _startNum = 0;
+         _setAvatarNum = _notHaveAvatarList[_startNum];
+
+        RootSet();
+
         // Material과 유저의 아바타 데이터를 커스터마이즈 창에 적용시킴
-        _setMaterialNum = _userCostomizeData.UserMaterial[0];
-        _skinnedMeshRenderer.sharedMesh = _userCostomizeData.AvatarMesh[_setAvatarNum];
+        _setMaterialNum = _userCustomizeData.UserMaterial;
+        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
         // 상점에서 아바타의 이름과 가격을 적용시킴.
-        _avatarName.text = _userCostomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCostomizeData.AvatarValue[_setAvatarNum].ToString();
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
     }
 
     void PurchaseButton()
     {
-        if (_userCostomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
+
+        if (_playerNetworking.GetComponent<PhotonView>().IsMine)
         {
-            _userCostomizeData.AvatarState[_setAvatarNum] = EAvatarState.HAVE;
-            _skinnedMeshRenderer.material = _costomizeDatas.AvatarMaterial[_setMaterialNum];
-            _noneLight.SetActive(true);
+            MySqlSetting.UseGold(_playerNickname, _userCustomizeData.AvatarValue[_setAvatarNum]);
+
+            _userCustomizeData.AvatarState[_equipNum] = EAvatarState.HAVE;
+            _equipNum = _setAvatarNum;
+            _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
+
+            _notHaveAvatarList.Remove(_setAvatarNum);
+
+            RootSet();
+
+            for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
+            {
+                _saveString += _userCustomizeData.AvatarState[i].ToString() + ',';
+            }
+
+            MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
+
+            _saveString = null;
+
+            _playerCustomize = _playerNetworking.GetComponentInChildren<PlayerCustomize>();
+            _playerCustomize.photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, _isFemale);
+
+            if(_notHaveAvatarList.Count == 0)
+            {
+                return;
+            }
+
+
+            if (_startNum == _notHaveAvatarList.Count)
+            {
+                _startNum = 0;
+                _setAvatarNum = _notHaveAvatarList[_startNum];
+            }
+            else
+            {
+                _startNum++;
+                _setAvatarNum = _notHaveAvatarList[_startNum];
+            }
         }
-        else
-        {
-            return;
-        }
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
 
 
+    private void RootSet()
+    {
+        if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
+        {
+            _smMeshRendererObject.SetActive(true);
+            _characterMeshRendererObject.SetActive(false);
+            _skinnedMeshRenderer = _smMeshRenderer;
+        }
+        else
+        {
+            _smMeshRendererObject.SetActive(false);
+            _characterMeshRendererObject.SetActive(true);
+            _skinnedMeshRenderer = _characterMeshRenderer;
+        }
+    }
+
     void LeftAvartarButton()
     {
-        if (_setAvatarNum == 0)
+        if (_startNum == 0)
         {
-            _setAvatarNum = _userCostomizeData.AvatarMesh.Length - 1;
+            _startNum = _notHaveAvatarList.Count - 1;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
         else
         {
-            _setAvatarNum -= 1;
+            _startNum--;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
-        _skinnedMeshRenderer.sharedMesh = _userCostomizeData.AvatarMesh[_setAvatarNum];
 
-        if (_userCostomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
+        RootSet();
+
+        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+
+        if (MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
         {
-            _skinnedMeshRenderer.material = _noneMaterial;
-            _noneLight.SetActive(false);
+            _purchaseButton.image.color = _enoughGoldColor;
+            _purchaseButton.interactable = true;
         }
         else
         {
-            _skinnedMeshRenderer.material = _costomizeDatas.AvatarMaterial[_setMaterialNum];
-            _noneLight.SetActive(true);
+            _purchaseButton.image.color = _notEnoughGoldColor;
+            _purchaseButton.interactable = false;
+
         }
-        _avatarName.text = _userCostomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCostomizeData.AvatarValue[_setAvatarNum].ToString();
+
+        EventSystem.current.SetSelectedGameObject(null);
+
     }
 
     void RightAvatarButton()
     {
-        if (_setAvatarNum == _userCostomizeData.AvatarMesh.Length - 1)
+        if (_startNum == _notHaveAvatarList.Count - 1)
         {
-            _setAvatarNum = 0;
+            _startNum = 0;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
         else
         {
-            _setAvatarNum += 1;
+            _startNum++;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
 
-        _skinnedMeshRenderer.sharedMesh = _userCostomizeData.AvatarMesh[_setAvatarNum];
+        RootSet();
 
-        if (_userCostomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
+        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+
+        if(MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
         {
-            _skinnedMeshRenderer.material = _noneMaterial;
-            _noneLight.SetActive(false);
+            _purchaseButton.image.color = _enoughGoldColor;
+            _purchaseButton.interactable = true;
         }
         else
         {
-            _skinnedMeshRenderer.material = _costomizeDatas.AvatarMaterial[_setMaterialNum];
-            _noneLight.SetActive(true);
+            _purchaseButton.image.color = _notEnoughGoldColor;
+            _purchaseButton.interactable = false;
+
         }
-        _avatarName.text = _userCostomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCostomizeData.AvatarValue[_setAvatarNum].ToString();
+
+        EventSystem.current.SetSelectedGameObject(null);
+
     }
 
 
@@ -165,8 +272,12 @@ public class CustomizeShop : MonoBehaviour
     {
         _leftAvatarButton.onClick.RemoveListener(LeftAvartarButton);
         _rightAvatarButton.onClick.RemoveListener(RightAvatarButton);
-
         _purchaseButton.onClick.RemoveListener(PurchaseButton);
+
+        _notHaveAvatarList.Clear();
+
+        _playerNetworking = null;
+        _playerCustomize = null;
     }
 }
 

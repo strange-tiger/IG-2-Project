@@ -55,6 +55,11 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         {
             photonView.RPC("PetInstantiate", RpcTarget.All, _eqiupNum);
         }
+
+        if (photonView.IsMine)
+        {
+            PetUIManager.PlayerPetSpawner = this;
+        }
     }
 
     private void PetDataInitializeFromDB()

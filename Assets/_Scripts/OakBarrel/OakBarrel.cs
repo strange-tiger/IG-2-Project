@@ -7,50 +7,30 @@ using UnityEngine.Events;
 
 public class OakBarrel : InteracterableObject
 {
-    private Outlinable _outlinable;
-    public UnityEvent CoveredOakBarrel = new UnityEvent();
+    // public UnityEvent CoveredOakBarrel = new UnityEvent();
     
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
-
-    private void Start()
-    {
-        _outlinable = GetComponent<Outlinable>();
-    }
+    private float _oakBarrelReturnTime = 120f;
 
     public override void Interact()
     {
         base.Interact();
 
-        CoveredOakBarrel.Invoke();
+       // CoveredOakBarrel.Invoke();
+
+        Invoke("SetOakBarrelOriginalPosition", _oakBarrelReturnTime);
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, false);
-
-        StartCoroutine(SetOakBarrelOriginalPosition());
     }
 
     [PunRPC]
-    private void SomeoneInteractedOakBarrel(bool isTrueFalse)
+    public void SomeoneInteractedOakBarrel(bool isTrueFalse)
     {
-        if (photonView.IsMine)
-        {
-            if (_outlinable.enabled == true)
-            {
-                gameObject.SetActive(isTrueFalse);
-            }
-            else
-            {
-                gameObject.SetActive(isTrueFalse);
-            }
-        }
+        gameObject.SetActive(isTrueFalse);
     }
 
-    private IEnumerator SetOakBarrelOriginalPosition()
+    private void SetOakBarrelOriginalPosition()
     {
         base.Interact();
-
-        CoveredOakBarrel.Invoke();
-
-        yield return _oakBarrelReturnTime;
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, true);
     }

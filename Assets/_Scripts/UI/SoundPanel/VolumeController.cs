@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -17,7 +17,6 @@ public class VolumeController : MonoBehaviour
 
     private void OnEnable()
     {
-        //Debug.Log($"SoundManager.VOLUME_CONTROLLER.Length {SoundManager.VOLUME_CONTROLLER.Length}");
         for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
         {
             _textDict.Add(_slider[i], _text[i]);
@@ -38,7 +37,7 @@ public class VolumeController : MonoBehaviour
         _textDict[slider].text = (int)(slider.value * 100) + "%";
         SoundManager.Instance.Refresh();
     }
-    public void BackGroundValueChanged(Slider slider)
+    public void BackgroundValueChanged(Slider slider)
     {
         PlayerPrefs.SetFloat
            (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume], slider.value);
@@ -58,6 +57,6 @@ public class VolumeController : MonoBehaviour
             (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.OutputVolume], slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
         //SoundManager.Instance.Refresh();
-        // ¹Ì±¸Çö
+        // ï¿½Ì±ï¿½ï¿½ï¿½
     }
 }
