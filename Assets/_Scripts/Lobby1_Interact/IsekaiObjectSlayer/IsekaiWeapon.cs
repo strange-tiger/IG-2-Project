@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class IsekaiWeapon : MonoBehaviour
+public class IsekaiWeapon : MonoBehaviourPun
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("AttackPoints")]
+    [SerializeField] Collider[] _attackPoints;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
