@@ -107,6 +107,7 @@ public class SyncOVRGrabbable : MonoBehaviourPun
 
         CallbackOnGrabBegin?.Invoke();
         CallbackGrabberSetting?.Invoke(hand.transform.root.gameObject.GetPhotonView(), hand.GetComponent<SyncOVRGrabber>());
+
     }
 
     /// <summary>

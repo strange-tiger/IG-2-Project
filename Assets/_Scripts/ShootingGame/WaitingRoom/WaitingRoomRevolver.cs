@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
-public class WaitingRoomRevolver : MonoBehaviour
+public class WaitingRoomRevolver : MonoBehaviourPun
 {
     private bool _isGrabbed = false;
+    private SyncOVRGrabbable _syncGrabbable;
     private bool _isReloading = false;
 
     //bullet
@@ -34,10 +36,19 @@ public class WaitingRoomRevolver : MonoBehaviour
 
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
 
+    [SerializeField] private float _vibrationTime = 0.1f;
+    [SerializeField] private float _vibrationFrequency = 0.3f;
+    [SerializeField] private float _vibrationAmplitude = 0.3f;
+    private WaitForSeconds _waitForViBrationTime;
+
     private void Awake()
     {
-        BulletCount = _MAX_BULLET_COUNT;
+        _syncGrabbable = GetComponent<SyncOVRGrabbable>();
+        _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
+        _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
 
+        BulletCount = _MAX_BULLET_COUNT;
+        _waitForViBrationTime = new WaitForSeconds(_vibrationTime);
         _shootEffects = GetComponentsInChildren<ParticleSystem>();
         _audioSource = GetComponent<AudioSource>();
 
@@ -56,18 +67,26 @@ public class WaitingRoomRevolver : MonoBehaviour
             return;
         }
 
-        //Reload();
-        //Shot();
+        Reload();
+        Shot();
     }
 
     public void OnGrabBegin()
     {
         _isGrabbed = true;
+        if (photonView.IsMine)
+        {
+            photonView.RPC("OnGrabBegin", RpcTarget.Others);
+        }
     }
 
     public void OnGrabEnd()
     {
         _isGrabbed = false;
+        if (photonView.IsMine)
+        {
+            photonView.RPC("OnGrabEnd", RpcTarget.Others);
+        }
     }
 
     private void Reload()
@@ -92,6 +111,10 @@ public class WaitingRoomRevolver : MonoBehaviour
 
     private void Shot()
     {
+        if (!OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || _bulletCount <= 0)
+        {
+            return;
+        }
         --BulletCount;
         PlayShotEffect();
     }
@@ -99,7 +122,7 @@ public class WaitingRoomRevolver : MonoBehaviour
     private void PlayShotEffect()
     {
         // 임시로 추가한 컨트롤러 진동
-        //StartCoroutine(CoVibrateController());
+        StartCoroutine(CoVibrateController());
 
         // 총알쏘기
         ShotBullet();
@@ -111,6 +134,12 @@ public class WaitingRoomRevolver : MonoBehaviour
         _audioSource.PlayOneShot(_shotAudioClip);
     }
 
+    private IEnumerator CoVibrateController()
+    {
+        OVRInput.SetControllerVibration(_vibrationFrequency, _vibrationAmplitude, OVRInput.Controller.RHand);
+        yield return _waitForViBrationTime;
+        OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RHand);
+    }
     private void ShotBullet()
     {
         GameObject bulletTrail = _bulletTrailPull.Pop();

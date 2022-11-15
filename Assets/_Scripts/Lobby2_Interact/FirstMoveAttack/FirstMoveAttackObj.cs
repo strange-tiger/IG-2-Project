@@ -62,7 +62,6 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [PunRPC]
     public void OnGrabBegin()
     {
-        Debug.Log("OnGrabBegin");
         _isGrabbed = true;
         if(photonView.IsMine)
         {
@@ -73,7 +72,6 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [PunRPC]
     public void OnGrabEnd()
     {
-        Debug.Log("OnGrabEnd");
         _isGrabbed = false;
         _objCollider.isTrigger = false;
         _grabberPhotonView = null;
