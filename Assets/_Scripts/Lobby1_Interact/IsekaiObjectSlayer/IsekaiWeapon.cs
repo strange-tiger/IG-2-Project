@@ -8,5 +8,4 @@ public class IsekaiWeapon : MonoBehaviourPun
     [Header("AttackPoints")]
     [SerializeField] Collider[] _attackPoints;
 
-
 }
