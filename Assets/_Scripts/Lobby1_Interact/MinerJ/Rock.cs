@@ -8,14 +8,14 @@ public class Rock : MonoBehaviour
     private Transform _miningUI;
     [SerializeField]
     private GameObject _miningButton;
-    private PlayerNetworking _player;
-    public PlayerNetworking Player { get { return _player; } }
+    private BasicPlayerNetworking _player;
+    public BasicPlayerNetworking Player { get { return _player; } }
 
     public void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            _player = other.gameObject.transform.root.GetComponent<PlayerNetworking>();
+            _player = other.gameObject.transform.root.GetComponent<BasicPlayerNetworking>();
             if(_player == null)
             {
                 return;

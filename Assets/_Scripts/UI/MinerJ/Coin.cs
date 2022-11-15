@@ -24,7 +24,7 @@ public class Coin : MonoBehaviour
 
     private void Awake()
     {
-        _rock = transform.root.GetComponent<Rock>();
+        _rock = GetComponentInParent<Rock>();
         _audioSource = GetComponent<AudioSource>();
         _coinImage = gameObject.GetComponentInChildren<Image>();
         _coinText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
