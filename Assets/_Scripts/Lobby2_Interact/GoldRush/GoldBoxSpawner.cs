@@ -14,8 +14,8 @@ public class GoldBoxSpawner : MonoBehaviour
     {
         _spawnPositions = _spawnPositionParent.GetComponentsInChildren<Transform>();
 
-        foreach(GoldBoxInetraction goldBox in 
-            _goldBoxParent.GetComponentsInChildren<GoldBoxInetraction>())
+        foreach(Rigidbody goldBox in 
+            _goldBoxParent.GetComponentsInChildren<Rigidbody>())
         {
             _goldBoxQueue.Enqueue(goldBox.gameObject);
             goldBox.gameObject.SetActive(false);

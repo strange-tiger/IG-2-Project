@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EPOOutline;
@@ -204,7 +204,7 @@ public class Tumbleweed : MonoBehaviourPun
             return;
         }
 
-        if(!_isTherePlayer || _playerInteraction.GrabbingTime <= 0f)
+        if(!_isTherePlayer || _playerInteraction.InteractingTime <= 0f)
         {
             _slider.value = 0f;
             _slider.gameObject.SetActive(false);
@@ -212,7 +212,7 @@ public class Tumbleweed : MonoBehaviourPun
             return;
         }
 
-        _slider.value = _playerInteraction.GrabbingTime / _grabToGetGoldTime;
+        _slider.value = _playerInteraction.InteractingTime / _grabToGetGoldTime;
         _slider.gameObject.SetActive(true);
         
         if(_slider.value >= 1f)

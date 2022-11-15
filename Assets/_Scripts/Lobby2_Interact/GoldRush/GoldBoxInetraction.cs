@@ -10,15 +10,19 @@ public class GoldBoxInetraction : MonoBehaviour
     public UnityEvent OnGiveGold = new UnityEvent();
 
     private Vector3 _originalPosition;
+    private Rigidbody _rigidbody;
 
     private void Awake()
     {
         _spawner = transform.root.GetComponentInParent<GoldBoxSpawner>();
+        _rigidbody = transform.root.GetComponentInParent<Rigidbody>();
         _originalPosition = transform.position;
     }
 
     private void OnEnable()
     {
+        _rigidbody.useGravity = false;
+        _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         StartCoroutine(WaitForGiveGold());
     }
 

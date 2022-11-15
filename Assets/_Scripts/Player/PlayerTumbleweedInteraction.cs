@@ -4,30 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Asset.MySql;
 
-public class PlayerTumbleweedInteraction : MonoBehaviour
+public class PlayerTumbleweedInteraction : PlayerInteractionSencer
 {
     private bool _isNearTumbleweed;
     public bool IsNearTumbleweed 
     {
-        get => _isNearTumbleweed;
+        get
+        {
+            return IsNearInteraction || _isNearTumbleweed;
+        }
         set
         {
             _isNearTumbleweed = value;
+            IsNearInteraction = value;
             if(!_isNearTumbleweed)
             {
-                GrabbingTime = 0f;
+                InteractingTime = 0f;
             }
         }
     }
 
-    private bool _isGrabbing;
-    public float GrabbingTime { get; private set; }
-
-    public SyncOVRGrabber[] Grabbers { get; set; }
-
-    public PlayerInput Input { get; set; }
-
-    private string _nickname = "";
+    public float InteractingTime { get; private set; }
 
     private void FixedUpdate()
     {
@@ -37,7 +34,7 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
         if(!IsNearTumbleweed || !Input.InputA)
 #endif
         {
-            GrabbingTime = 0f;
+            InteractingTime = 0f;
             return;
         }
 
@@ -45,24 +42,17 @@ public class PlayerTumbleweedInteraction : MonoBehaviour
         {
             if (grabber.grabbedObject)
             {
-                GrabbingTime = 0f;
+                InteractingTime = 0f;
                 return;
             }
         }
 
-        GrabbingTime += Time.fixedDeltaTime;
+        InteractingTime += Time.fixedDeltaTime;
     }
 
-    public void GetGold(int gold)
+    public override void GetGold(int gold)
     {
-        Debug.Log("Gold ¹ÞÀ½ " + gold);
-
-        if(_nickname == "")
-        {
-            _nickname = GetComponent<BasicPlayerNetworking>().MyNickname;
-        }
-
-        MySqlSetting.EarnGold(_nickname, gold);
+        base.GetGold(gold);
         IsNearTumbleweed = false;
     }
 }
