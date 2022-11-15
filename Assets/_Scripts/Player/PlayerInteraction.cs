@@ -122,12 +122,12 @@ public class PlayerInteraction : MonoBehaviour
             {
                 interacterableObject.Interact();
                 
-                if (interacterableObject.gameObject.transform.root.CompareTag("Player"))
-                {
-                    InteractionPlayerOakBarrel.Invoke();
-                }
+                //if (interacterableObject.gameObject.transform.root.CompareTag("Player"))
+                //{
+                //    InteractionPlayerOakBarrel.Invoke();
+                //}
 
-                else if (interacterableObject.gameObject.CompareTag("OakBarrel"))
+                if (interacterableObject.gameObject.CompareTag("OakBarrel"))
                 {
                     InteractionOakBarrel.Invoke();
                 }
