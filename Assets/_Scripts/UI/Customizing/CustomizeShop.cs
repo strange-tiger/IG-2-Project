@@ -5,8 +5,9 @@ using Asset.MySql;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
-public class CustomizeShop : MonoBehaviour
+public class CustomizeShop : MonoBehaviourPun
 {
 
 
@@ -15,8 +16,6 @@ public class CustomizeShop : MonoBehaviour
     [SerializeField] Button _purchaseButton;
     [SerializeField] Button _leftAvatarButton;
     [SerializeField] Button _rightAvatarButton;
-    [SerializeField] GameObject _noneLight;
-    [SerializeField] Material _noneMaterial;
     [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
     [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
     [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
@@ -30,6 +29,7 @@ public class CustomizeShop : MonoBehaviour
     public UserCustomizeData _userCustomizeData;
 
     private Queue<int> _haveAvatar = new Queue<int>();
+    private PlayerNetworking _playerNetworking;
     private string _playerNickname;
     private int _setAvatarNum;
     private int _setMaterialNum;
@@ -46,6 +46,11 @@ public class CustomizeShop : MonoBehaviour
         _purchaseButton.onClick.RemoveListener(PurchaseButton);
         _purchaseButton.onClick.AddListener(PurchaseButton);
 
+        if (photonView.IsMine)
+        {
+            _playerNetworking = FindObjectOfType<PlayerNetworking>();
+            _playerNickname = _playerNetworking.MyNickname;
+        }
     }
 
     void Start()
@@ -105,7 +110,6 @@ public class CustomizeShop : MonoBehaviour
         {
             _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.HAVE;
             _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
-            _noneLight.SetActive(true);
         }
         else
         {

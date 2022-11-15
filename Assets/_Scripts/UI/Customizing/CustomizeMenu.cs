@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Asset.MySql;
 using TMPro;
-public class CustomizeMenu : MonoBehaviour
+using Photon.Pun;
+public class CustomizeMenu : MonoBehaviourPun
 {
 
 
@@ -28,6 +29,7 @@ public class CustomizeMenu : MonoBehaviour
     public UserCustomizeData _femaleUserCustomizeData;
     public UserCustomizeData _userCustomizeData;
 
+    private PlayerNetworking _playerNetworking;
     private Queue<int> _haveAvatar = new Queue<int>();
     private int _setAvatarNum;
     private int _equipNum;
@@ -53,10 +55,18 @@ public class CustomizeMenu : MonoBehaviour
         _equipButton.onClick.RemoveListener(EquipButton);
         _equipButton.onClick.AddListener(EquipButton);
 
+        if(photonView.IsMine)
+        {
+            _playerNetworking = FindObjectOfType<PlayerNetworking>();
+            _playerNickname = _playerNetworking.MyNickname;
+        }
     }
 
     void Start()
     {
+
+
+
 
         MySqlSetting.Init();
 

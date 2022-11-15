@@ -32,14 +32,28 @@ public class CustomizeUIManager : UIManager
         _customizeNPCOffButton.onClick.AddListener(NPCMenuOff);
     }
 
-    private void MenuOn() => _customizeMenu.SetActive(true);
+    private void MenuOn()
+    {
+        _customizeMenu.SetActive(true);
+        _customizeNPCMenu.SetActive(false);
+    }
 
-    private void MenuOff() => _customizeMenu.SetActive(false);
+    private void MenuOff()
+    {
+        _customizeMenu.SetActive(false);
+        _customizeNPCMenu.SetActive(true);
+    }
 
-    private void ShopOn() => _customizeShop.SetActive(true);
-
-    private void ShopOff() => _customizeShop.SetActive(false);
-
+    private void ShopOn()
+    {
+        _customizeShop.SetActive(true);
+        _customizeNPCMenu.SetActive(false);
+    }
+    private void ShopOff()
+    {
+        _customizeShop.SetActive(false);
+        _customizeNPCMenu.SetActive(true);
+    }
     private void NPCMenuOff() => _customizeNPCMenu.SetActive(false);
 
     private void OnDisable()

@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 149384411}
   - component: {fileID: 149384410}
   - component: {fileID: 149384409}
+  - component: {fileID: 149384412}
   m_Layer: 5
   m_Name: Shop
   m_TagString: Untagged
@@ -439,16 +440,14 @@ MonoBehaviour:
   _purchaseButton: {fileID: 1111321092}
   _leftAvatarButton: {fileID: 1221847336}
   _rightAvatarButton: {fileID: 2034971249}
-  _noneLight: {fileID: 2034971247}
-  _noneMaterial: {fileID: 2100000, guid: b957742c5b9bfd441b9b330c8b55d0c5, type: 2}
   _skinnedMeshRenderer: {fileID: 5427714808431867844}
   _smMeshRenderer: {fileID: 5427714808431867844}
   _characterMeshRenderer: {fileID: 5401772639577033740}
   _smMeshRendererObject: {fileID: 5383891260776246138}
   _characterMeshRendererObject: {fileID: 5411920255641549970}
-  _customizeDatas: {fileID: 0}
-  _maleUserCustomizeData: {fileID: 0}
-  _femaleUserCustomizeData: {fileID: 0}
+  _customizeDatas: {fileID: 11400000, guid: 0eb480d9a1792e4458eedef990de8e80, type: 2}
+  _maleUserCustomizeData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
+  _femaleUserCustomizeData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
   _userCustomizeData: {fileID: 0}
 --- !u!114 &149384410
 MonoBehaviour:
@@ -488,6 +487,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149384407}
   m_CullTransparentMesh: 1
+--- !u!114 &149384412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149384407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &165749518
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +675,7 @@ GameObject:
   - component: {fileID: 323564834}
   - component: {fileID: 323564836}
   - component: {fileID: 323564835}
+  - component: {fileID: 323564837}
   m_Layer: 5
   m_Name: Customize
   m_TagString: Untagged
@@ -753,6 +775,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323564832}
   m_CullTransparentMesh: 1
+--- !u!114 &323564837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323564832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &541552964
 GameObject:
   m_ObjectHideFlags: 0
@@ -3061,8 +3105,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482340786}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.049375884, y: 1.0195994, z: -9.777782}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.049375884, y: -0.28, z: -9.777782}
+  m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -5318,8 +5362,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
   _customizeNPCMenu: {fileID: 165749518}
-  _playerNetworking: {fileID: 0}
-  _collider: {fileID: 0}
 --- !u!4 &1802243417
 Transform:
   m_ObjectHideFlags: 0
@@ -6208,7 +6250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802123469}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.56002754, y: 1.0195994, z: -9.742828}
+  m_LocalPosition: {x: -0.56002754, y: -0.27999997, z: -9.742828}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1802285417}
@@ -6971,6 +7013,7 @@ GameObject:
   - component: {fileID: 2043382002}
   - component: {fileID: 2043382007}
   - component: {fileID: 2043382006}
+  - component: {fileID: 2043382008}
   m_Layer: 5
   m_Name: CustomizeCanvas
   m_TagString: Untagged
@@ -7104,6 +7147,19 @@ MonoBehaviour:
   _customizeMenu: {fileID: 323564832}
   _customizeShop: {fileID: 149384407}
   _customizeNPCMenu: {fileID: 165749518}
+--- !u!114 &2043382008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043382001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1 &2066780824
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,6 +38,10 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
                 _playerNickname = TempAccountDB.Nickname;
 
             }
+            else if(SceneManager.GetActiveScene().name == "LogIn")
+            {
+                _playerNickname = "aaa";
+            }
             else
             {
                 _playerInfo = GetComponentInParent<PlayerNetworking>();
