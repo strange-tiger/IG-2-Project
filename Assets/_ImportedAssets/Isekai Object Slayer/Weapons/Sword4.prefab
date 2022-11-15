@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 624553023725451696}
   - component: {fileID: 5989757794752187136}
   - component: {fileID: 5936568206613105956}
+  - component: {fileID: 2870636029854225859}
   m_Layer: 0
   m_Name: Sword4
   m_TagString: Untagged
@@ -97,7 +98,7 @@ CapsuleCollider:
   m_Radius: 0.06
   m_Height: 0.5
   m_Direction: 1
-  m_Center: {x: 0, y: -0.05, z: 0}
+  m_Center: {x: 0, y: -0.07, z: 0}
 --- !u!54 &5989757794752187136
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -131,3 +132,16 @@ MonoBehaviour:
   m_snapOrientation: 0
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
+--- !u!65 &2870636029854225859
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4483830652893777828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.72, z: 0.28}
+  m_Center: {x: 0, y: 0.58, z: 0}
