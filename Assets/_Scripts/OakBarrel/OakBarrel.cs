@@ -7,21 +7,19 @@ using UnityEngine.Events;
 
 public class OakBarrel : InteracterableObject
 {
-    public UnityEvent CoveredOakBarrel = new UnityEvent();
+    // public UnityEvent CoveredOakBarrel = new UnityEvent();
     
-    private float _oakBarrelReturnTime = 20f;
+    private float _oakBarrelReturnTime = 120f;
 
     public override void Interact()
     {
         base.Interact();
 
-        CoveredOakBarrel.Invoke();
+       // CoveredOakBarrel.Invoke();
 
         Invoke("SetOakBarrelOriginalPosition", _oakBarrelReturnTime);
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, false);
-
-        
     }
 
     [PunRPC]

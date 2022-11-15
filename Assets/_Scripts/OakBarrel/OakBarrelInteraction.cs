@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.Events;
+
 
 public class OakBarrelInteraction : MonoBehaviourPun
 {
     [SerializeField] private GameObject _playerOakBarrel;
     [SerializeField] private GameObject _playerModel;
-    private OakBarrel _oakBarrel;
 
-    private PlayerFocus _playerFocus;
+    private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(20f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
     private PlayerControllerMove _playerControllerMove;
 
     private float _speedSlower = 0.2f;
@@ -21,19 +20,14 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private void Start()
     {
         _playerControllerMove = GetComponent<PlayerControllerMove>();
+        _playerInteraction = GetComponentInChildren<PlayerInteraction>();
 
-        _oakBarrel = GameObject.Find("OakBarrel").GetComponent<OakBarrel>();
-
-        _playerFocus = GetComponentInChildren<PlayerFocus>(); 
-
-        _oakBarrel.CoveredOakBarrel.RemoveListener(BecomeOakBarrel);
-        _oakBarrel.CoveredOakBarrel.AddListener(BecomeOakBarrel);
+        _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
+        _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
     }
 
     private void Update()
     {
-        Debug.Log($"유레카! : {_playerFocus.FocusedObject.name}");
-
         if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
         {
             StopCoroutine(OakBarrelIsGone());
@@ -44,13 +38,10 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void BecomeOakBarrel()
     {
-        
         if (photonView.IsMine)
         {
             if (_playerModel.activeSelf == true)
             {
-                Debug.Log("2");
-
                 InOakBarrel();
 
                 StartCoroutine(OakBarrelIsGone());
@@ -58,7 +49,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
             else if (_playerModel.activeSelf == false)
             {
-                Debug.Log("3");
                 OutOakBarrel();
             }
         }
@@ -113,6 +103,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void OnDisable()
     {
-        _oakBarrel.CoveredOakBarrel.RemoveListener(BecomeOakBarrel);
+        _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
     }
 }
