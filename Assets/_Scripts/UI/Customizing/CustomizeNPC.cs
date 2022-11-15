@@ -9,6 +9,13 @@ public class CustomizeNPC : InteracterableObject
 {
 
     [SerializeField] GameObject _customizeNPCMenu;
+    private MeshCollider _collider;
+
+    private void Start()
+    {
+        _collider = GetComponent<MeshCollider>();
+    }
+
 
 
     public override void Interact()
@@ -16,6 +23,8 @@ public class CustomizeNPC : InteracterableObject
         base.Interact();
 
         _customizeNPCMenu.SetActive(true);
+
+        _collider.enabled = false;
     }
 
  

@@ -60,6 +60,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
 
     protected Collider _grabbedHandCollider;
 
+
     /// <summary>
     /// The currently grabbed object.
     /// </summary>
@@ -331,7 +332,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
 
         Rigidbody grabbedRigidbody = m_grabbedObj.grabbedRigidbody;
         Vector3 grabbablePosition = pos + rot * m_grabbedObjectPosOff;
-        Quaternion grabbableRotation = rot * m_grabbedObjectRotOff;
+        Quaternion grabbableRotation = rot;
+        //Quaternion grabbableRotation = rot * m_grabbedObjectRotOff;
 
         if (forceTeleport)
         {

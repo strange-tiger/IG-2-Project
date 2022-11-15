@@ -109,7 +109,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
             _userData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
         // DB에 저장되어 있던 아바타의 Material을 불러옴
-        _userData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
+        _userData.UserMaterial = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
         // 아바타의 정보를 돌면서 장착중이던 아바타를 찾아냄.
         for (int i = 0; i < _userData.AvatarState.Length - 1; ++i)
@@ -122,7 +122,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         }
 
         // 장착중이던 아이템과 Material을 적용시킴.
-        _setMaterialNum = _userData.UserMaterial[0];
+        _setMaterialNum = _userData.UserMaterial;
         if(SceneManager.GetActiveScene().name != "StartRoom")
         {
             photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, IsFemale);
@@ -175,9 +175,6 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
             _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
             _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
-        
-
-        Debug.Log(_userData);
 
     }
 

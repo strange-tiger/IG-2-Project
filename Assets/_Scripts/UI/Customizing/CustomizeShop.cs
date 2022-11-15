@@ -31,14 +31,17 @@ public class CustomizeShop : MonoBehaviourPun
 
     private Color _enoughGoldColor = new Color(255, 212, 0);
     private Color _notEnoughGoldColor = new Color(128, 128, 128);
-    private ColorBlock _enoughGoldColorBlock;
-    private ColorBlock _notEnoughGoldColorBlock;
 
-    private Queue<int> _haveAvatar = new Queue<int>();
-    private PlayerNetworking _playerNetworking;
+    private List<int> _notHaveAvatarList = new List<int>();
+    private PlayerCustomize _playerCustomize;
+    private BasicPlayerNetworking[] _playerNetworkings;
+    private BasicPlayerNetworking _playerNetworking;
     private string _playerNickname;
+    private string _saveString;
     private int _setAvatarNum;
     private int _setMaterialNum;
+    private int _equipNum;
+    private int _startNum;
     private bool _isFemale;
 
     private void OnEnable()
@@ -52,17 +55,25 @@ public class CustomizeShop : MonoBehaviourPun
         _purchaseButton.onClick.RemoveListener(PurchaseButton);
         _purchaseButton.onClick.AddListener(PurchaseButton);
 
-        _enoughGoldColorBlock.normalColor = _enoughGoldColor;
-        _notEnoughGoldColorBlock.normalColor = _notEnoughGoldColor;
 
-        if (photonView.IsMine)
+
+        _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
+
+        foreach (var player in _playerNetworkings)
         {
-            _playerNetworking = FindObjectOfType<PlayerNetworking>();
-            _playerNickname = _playerNetworking.MyNickname;
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                _playerNetworking = player;
+            }
         }
+
+        _playerNickname = _playerNetworking.MyNickname;
+
+
+        AvatarShopInit();
     }
 
-    void Start()
+    private void AvatarShopInit()
     {
 
         MySqlSetting.Init();
@@ -89,23 +100,27 @@ public class CustomizeShop : MonoBehaviourPun
             _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
         // 유저의 색 데이터를 불러옴
-        _userCustomizeData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
+        _userCustomizeData.UserMaterial = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
         // 착용중이었던 아바타의 데이터를 불러옴.
-        for (int i = 0; i < _userCustomizeData.AvatarState.Length - 1; ++i)
+        for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
             if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
             {
-                _setAvatarNum = i;
-                _haveAvatar.Enqueue(i);
+                _notHaveAvatarList.Add(i);
             }
-
+            if (_userCustomizeData.AvatarState[i] == EAvatarState.EQUIPED)
+            {
+                _equipNum = i;
+            }
         }
+        _startNum = 0;
+         _setAvatarNum = _notHaveAvatarList[_startNum];
 
         RootSet();
 
         // Material과 유저의 아바타 데이터를 커스터마이즈 창에 적용시킴
-        _setMaterialNum = _userCustomizeData.UserMaterial[0];
+        _setMaterialNum = _userCustomizeData.UserMaterial;
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
         // 상점에서 아바타의 이름과 가격을 적용시킴.
@@ -115,25 +130,53 @@ public class CustomizeShop : MonoBehaviourPun
 
     void PurchaseButton()
     {
-        if (_userCustomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
+
+        if (_playerNetworking.GetComponent<PhotonView>().IsMine)
         {
-            _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.HAVE;
-            _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
-        }
-        else
-        {
-            return;
+            MySqlSetting.UseGold(_playerNickname, _userCustomizeData.AvatarValue[_setAvatarNum]);
+
+            _userCustomizeData.AvatarState[_equipNum] = EAvatarState.HAVE;
+            _equipNum = _setAvatarNum;
+            _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
+
+            _notHaveAvatarList.Remove(_setAvatarNum);
+
+            RootSet();
+
+            for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
+            {
+                _saveString += _userCustomizeData.AvatarState[i].ToString() + ',';
+            }
+
+            MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
+
+            _saveString = null;
+
+            _playerCustomize = _playerNetworking.GetComponentInChildren<PlayerCustomize>();
+            _playerCustomize.photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, _isFemale);
+
+            if(_notHaveAvatarList.Count == 0)
+            {
+                return;
+            }
+
+
+            if (_startNum == _notHaveAvatarList.Count)
+            {
+                _startNum = 0;
+                _setAvatarNum = _notHaveAvatarList[_startNum];
+            }
+            else
+            {
+                _startNum++;
+                _setAvatarNum = _notHaveAvatarList[_startNum];
+            }
         }
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    private void Queueing()
-    {
-        _setAvatarNum = _haveAvatar.Peek();
-        _haveAvatar.Enqueue(_setAvatarNum);
-        _haveAvatar.Dequeue();
-    }
+
 
     private void RootSet()
     {
@@ -153,7 +196,16 @@ public class CustomizeShop : MonoBehaviourPun
 
     void LeftAvartarButton()
     {
-        Queueing();
+        if (_startNum == 0)
+        {
+            _startNum = _notHaveAvatarList.Count - 1;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
+        }
+        else
+        {
+            _startNum--;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
+        }
 
         RootSet();
 
@@ -164,12 +216,12 @@ public class CustomizeShop : MonoBehaviourPun
 
         if (MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
         {
-            _purchaseButton.colors = _enoughGoldColorBlock;
+            _purchaseButton.image.color = _enoughGoldColor;
             _purchaseButton.interactable = true;
         }
         else
         {
-            _purchaseButton.colors = _notEnoughGoldColorBlock;
+            _purchaseButton.image.color = _notEnoughGoldColor;
             _purchaseButton.interactable = false;
 
         }
@@ -180,7 +232,16 @@ public class CustomizeShop : MonoBehaviourPun
 
     void RightAvatarButton()
     {
-        Queueing();
+        if (_startNum == _notHaveAvatarList.Count - 1)
+        {
+            _startNum = 0;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
+        }
+        else
+        {
+            _startNum++;
+            _setAvatarNum = _notHaveAvatarList[_startNum];
+        }
 
         RootSet();
 
@@ -191,12 +252,12 @@ public class CustomizeShop : MonoBehaviourPun
 
         if(MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
         {
-            _purchaseButton.colors = _enoughGoldColorBlock;
+            _purchaseButton.image.color = _enoughGoldColor;
             _purchaseButton.interactable = true;
         }
         else
         {
-            _purchaseButton.colors = _notEnoughGoldColorBlock;
+            _purchaseButton.image.color = _notEnoughGoldColor;
             _purchaseButton.interactable = false;
 
         }
@@ -212,6 +273,11 @@ public class CustomizeShop : MonoBehaviourPun
         _leftAvatarButton.onClick.RemoveListener(LeftAvartarButton);
         _rightAvatarButton.onClick.RemoveListener(RightAvatarButton);
         _purchaseButton.onClick.RemoveListener(PurchaseButton);
+
+        _notHaveAvatarList.Clear();
+
+        _playerNetworking = null;
+        _playerCustomize = null;
     }
 }
 

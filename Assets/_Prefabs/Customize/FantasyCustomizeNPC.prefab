@@ -12551,6 +12551,7 @@ GameObject:
   - component: {fileID: 5247825708031934695}
   - component: {fileID: 5247825708041506025}
   - component: {fileID: 5247825708041616440}
+  - component: {fileID: 2149354686703930078}
   m_Layer: 0
   m_Name: FantasyCustomizeNPC
   m_TagString: Untagged
@@ -12622,6 +12623,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300036, guid: c9a34c70f1c0d00409f41fcfbb2a6871, type: 3}
+--- !u!114 &2149354686703930078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5247825708041616443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5247825708041619661
 GameObject:
   m_ObjectHideFlags: 0
@@ -13512,6 +13535,7 @@ MonoBehaviour:
   _customizeMenu: {fileID: 5247825706831360470}
   _customizeShop: {fileID: 5247825706405521441}
   _customizeNPCMenu: {fileID: 5247825706388334584}
+  _collider: {fileID: 5247825708041616440}
 --- !u!114 &5247825708265901056
 MonoBehaviour:
   m_ObjectHideFlags: 0

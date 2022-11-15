@@ -14,6 +14,8 @@ public class CustomizeUIManager : UIManager
     [SerializeField] GameObject _customizeMenu;
     [SerializeField] GameObject _customizeShop;
     [SerializeField] GameObject _customizeNPCMenu;
+    [SerializeField] MeshCollider _collider;
+
 
     private void OnEnable()
     {
@@ -31,6 +33,7 @@ public class CustomizeUIManager : UIManager
 
         _customizeNPCOffButton.onClick.RemoveListener(NPCMenuOff);
         _customizeNPCOffButton.onClick.AddListener(NPCMenuOff);
+
     }
 
     private void MenuOn()
@@ -66,6 +69,8 @@ public class CustomizeUIManager : UIManager
     private void NPCMenuOff()
     {
         _customizeNPCMenu.SetActive(false);
+
+        _collider.enabled = true;
 
         EventSystem.current.SetSelectedGameObject(null);
     }
