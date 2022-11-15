@@ -4,6 +4,7 @@ using UnityEngine;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
+using Photon.Pun;
 
 public class PetUIManager : UIManager
 {
@@ -13,6 +14,7 @@ public class PetUIManager : UIManager
     [SerializeField] PetShopInteract _npc;
     public PetShopInteract Npc { get => _npc; }
 
+    private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
     public string PlayerNickname { get; private set; }
     public static PetSpawner PlayerPetSpawner { get; set; }
@@ -85,7 +87,15 @@ public class PetUIManager : UIManager
     {
         yield return new WaitForSeconds(1f);
 
-        _playerNetworking = FindObjectOfType<BasicPlayerNetworking>();
+        _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
+
+        foreach (var player in _playerNetworkings)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                _playerNetworking = player;
+            }
+        }
         PlayerNickname = _playerNetworking.MyNickname;
     }
 

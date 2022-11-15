@@ -1590,7 +1590,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300042, guid: c9a34c70f1c0d00409f41fcfbb2a6871, type: 3}
+  m_Mesh: {fileID: 4300046, guid: c9a34c70f1c0d00409f41fcfbb2a6871, type: 3}
   m_Bones:
   - {fileID: 151933774815433968}
   - {fileID: 151691918569181978}
@@ -2542,7 +2542,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300036, guid: 9d545e43681431348908eab98e78aa45, type: 3}
+  m_Mesh: {fileID: 4300050, guid: ffdfcb810f2918b4f8fe9f917f07bc78, type: 3}
   m_Bones:
   - {fileID: 266036748231929592}
   - {fileID: 266239136045661096}
@@ -3306,7 +3306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &265960714681405278
 Transform:
   m_ObjectHideFlags: 0
@@ -3971,7 +3971,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9102210245930106717}
   - component: {fileID: 8693990510313004965}
-  - component: {fileID: 6963710263286981371}
   m_Layer: 5
   m_Name: CharacterModel (1)
   m_TagString: Untagged
@@ -4016,30 +4015,6 @@ MonoBehaviour:
   _characterMeshRenderer: {fileID: 287408125649569884}
   _smMeshRendererObject: {fileID: 269243055652695850}
   _characterMeshRendererObject: {fileID: 148873320078506178}
---- !u!114 &6963710263286981371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4097230144943633450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 3826379169862016513}
-  - {fileID: 4762756642035484492}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &4270669434609734685
 GameObject:
   m_ObjectHideFlags: 0
@@ -4317,6 +4292,8 @@ MonoBehaviour:
   - {fileID: 3338769942497867043}
   - {fileID: 9032745608646816325}
   - {fileID: 2232617218266852011}
+  - {fileID: 3826379169862016513}
+  - {fileID: 4762756642035484492}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -4433,9 +4410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6e6e594e632a447bf26e55897e1f35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _oakBarrelObject: {fileID: 160640417621920002}
-  _playerModel: {fileID: 0}
-  _oakBarrel: {fileID: 160640417621920003}
+  _playerOakBarrel: {fileID: 160640417621920002}
+  _playerModel: {fileID: 4097230144943633450}
 --- !u!1 &6718035182797435399
 GameObject:
   m_ObjectHideFlags: 0
@@ -4558,25 +4534,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a12946137def997489190ccb4bd694c6, type: 3}
---- !u!114 &160640417621920003 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 438964592465750442, guid: a12946137def997489190ccb4bd694c6, type: 3}
-  m_PrefabInstance: {fileID: 300956550242623657}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160640417621920002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e188b1f59908484aa65527a0a0e2cc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &157771027884285648 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 440707945931341433, guid: a12946137def997489190ccb4bd694c6, type: 3}
-  m_PrefabInstance: {fileID: 300956550242623657}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &160640417621920002 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 438964592465750443, guid: a12946137def997489190ccb4bd694c6, type: 3}
+  m_PrefabInstance: {fileID: 300956550242623657}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &157771027884285648 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 440707945931341433, guid: a12946137def997489190ccb4bd694c6, type: 3}
   m_PrefabInstance: {fileID: 300956550242623657}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1762934784412275844
