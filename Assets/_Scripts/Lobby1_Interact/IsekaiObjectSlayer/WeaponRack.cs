@@ -8,7 +8,8 @@ public class WeaponRack : MonoBehaviourPun
     [Header("Weapons")]
     [SerializeField] Transform[] _weapons;
 
-    private Vector3[] _initWeaponPositions;
+    public Vector3[] InitWeaponPositions { get; private set; }
+    
     private int[] _weaponIndexGroup;
     private int[] _weaponMaxIndexGroup;
 
@@ -25,12 +26,12 @@ public class WeaponRack : MonoBehaviourPun
         }
 
         int weaponNum = _weapons.Length;
-        _initWeaponPositions = new Vector3[weaponNum];
+        InitWeaponPositions = new Vector3[weaponNum];
         _weaponIndexGroup = new int[weaponNum];
         _weaponMaxIndexGroup = new int[weaponNum];
         for (int i = 0; i < weaponNum; ++i)
         {
-            _initWeaponPositions[i] = _weapons[i].position;
+            InitWeaponPositions[i] = _weapons[i].position;
             _weaponIndexGroup[i] = 0;
             _weaponMaxIndexGroup[i] = _weapons[i].childCount;
         }

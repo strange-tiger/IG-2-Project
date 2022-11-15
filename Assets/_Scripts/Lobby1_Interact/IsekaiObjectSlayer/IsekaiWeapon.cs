@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class IsekaiWeapon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private SyncOVRGrabbable _grabbable;
+
+    private void Awake()
     {
-        
+        _grabbable = GetComponent<SyncOVRGrabbable>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
