@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Asset.MySql;
+using TMPro;
 public class CustomizeMenu : MonoBehaviour
 {
 
@@ -14,11 +15,14 @@ public class CustomizeMenu : MonoBehaviour
     [SerializeField] Button _leftMaterialButton;
     [SerializeField] Button _rightAvatarButton;
     [SerializeField] Button _rightMaterialButton;
+    [SerializeField] TextMeshProUGUI _avatarName;
     [SerializeField] GameObject _noneLight;
     [SerializeField] Material _noneMaterial;
     [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
     [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
     [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
+    [SerializeField] GameObject _smMeshRendererObject;
+    [SerializeField] GameObject _characterMeshRendererObject;
 
 
     public CustomizeData _customizeDatas;
@@ -32,7 +36,7 @@ public class CustomizeMenu : MonoBehaviour
     private int _setMaterialNum;
     private string _saveString;
     private bool _isFemale;
-    private string _playerNickname = "aaa";
+    private string _playerNickname;
 
     private void OnEnable()
     {
@@ -95,6 +99,8 @@ public class CustomizeMenu : MonoBehaviour
 
         RootSet();
 
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+
         // 장착중이던 아이템과 Material을 적용시킴.
         _setMaterialNum = _userCustomizeData.UserMaterial[0];
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
@@ -113,14 +119,14 @@ public class CustomizeMenu : MonoBehaviour
             _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
             _userCustomizeData.UserMaterial[0] = _setMaterialNum;
         }
-       
+
+        RootSet();
 
         for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
-            
                 _saveString += _userCustomizeData.AvatarState[i].ToString() + ',';
-            
         }
+
         MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor, _userCustomizeData.UserMaterial[0]);
         MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
         _saveString = null;
@@ -130,14 +136,14 @@ public class CustomizeMenu : MonoBehaviour
     {
         if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
         {
-            _smMeshRenderer.gameObject.SetActive(true);
-            _characterMeshRenderer.gameObject.SetActive(false);
+            _smMeshRendererObject.SetActive(true);
+            _characterMeshRendererObject.SetActive(false);
             _skinnedMeshRenderer = _smMeshRenderer;
         }
         else
         {
-            _smMeshRenderer.gameObject.SetActive(false);
-            _characterMeshRenderer.gameObject.SetActive(true);
+            _smMeshRendererObject.SetActive(false);
+            _characterMeshRendererObject.SetActive(true);
             _skinnedMeshRenderer = _characterMeshRenderer;
         }
     }
@@ -154,6 +160,8 @@ public class CustomizeMenu : MonoBehaviour
         }
 
         RootSet();
+
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
 
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
         
@@ -182,7 +190,9 @@ public class CustomizeMenu : MonoBehaviour
         }
 
         RootSet();
-        
+
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
         if (_userCustomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
@@ -208,15 +218,16 @@ public class CustomizeMenu : MonoBehaviour
             _setMaterialNum -= 1;
         }
 
-         if (_userCustomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
-            {
-                _skinnedMeshRenderer.material = _noneMaterial;
-            }
-            else
-            {
-                _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
-            }
+        if (_userCustomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
+        {
+            _skinnedMeshRenderer.material = _noneMaterial;
+        }
+        else
+        {
+            _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+        }
     }
+
     void RightMaterialButton()
     {
         if (_setMaterialNum == _customizeDatas.AvatarMaterial.Length - 1)

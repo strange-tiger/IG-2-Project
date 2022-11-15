@@ -26,12 +26,9 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     private int _setMaterialNum;
     private PlayerNetworking _playerInfo;
     private string _playerNickname;
- 
+    
     void Start()
     {
-
-        _smMeshRenderer = _smMeshRendererObject.GetComponentInChildren<SkinnedMeshRenderer>();
-        _characterMeshRenderer = _characterMeshRendererObject.GetComponentInChildren<SkinnedMeshRenderer>();
 
 
         if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
