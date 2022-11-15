@@ -16,19 +16,23 @@ public class CustomizeMenu : MonoBehaviour
     [SerializeField] Button _rightMaterialButton;
     [SerializeField] GameObject _noneLight;
     [SerializeField] Material _noneMaterial;
+    [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
+
 
     public CustomizeData _customizeDatas;
     public UserCustomizeData _maleUserCustomizeData;
     public UserCustomizeData _femaleUserCustomizeData;
     public UserCustomizeData _userCustomizeData;
 
-    private SkinnedMeshRenderer _skinnedMeshRenderer;
 
     private int _setAvatarNum;
     private int _equipNum;
     private int _setMaterialNum;
     private string _saveString;
     private bool _isFemale;
+    private string _playerNickname = "aaa";
 
     private void OnEnable()
     {
@@ -51,13 +55,11 @@ public class CustomizeMenu : MonoBehaviour
 
     void Start()
     {
-        _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 
         MySqlSetting.Init();
-        //MySqlSetting.AddNewCharacter("name", "1");
 
         // 성별을 확인함.
-        _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.Gender));
+        _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
         // 성별에 맞는 데이터를 불러옴
         if(_isFemale)
@@ -70,7 +72,7 @@ public class CustomizeMenu : MonoBehaviour
         }
 
         // DB에 저장되어 있던 아바타 데이터를 불러옴
-        string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname,"name",Asset.EcharacterdbColumns.AvatarData).Split(',');
+        string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
         
         // 불러온 데이터를 스크립터블 오브젝트에 넣어줌
         for(int i = 0; i < avatarData.Length - 1; ++i)
@@ -78,7 +80,7 @@ public class CustomizeMenu : MonoBehaviour
             _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
         // DB에 저장되어 있던 아바타의 Material을 불러옴
-        _userCustomizeData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.AvatarColor));
+        _userCustomizeData.UserMaterial[0] = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
         
         // 아바타의 정보를 돌면서 장착중이던 아바타를 찾아냄.
         for(int i = 0; i < _userCustomizeData.AvatarState.Length - 1; ++i)
@@ -90,6 +92,8 @@ public class CustomizeMenu : MonoBehaviour
                 break;
             }
         }
+
+        RootSet();
 
         // 장착중이던 아이템과 Material을 적용시킴.
         _setMaterialNum = _userCustomizeData.UserMaterial[0];
@@ -117,9 +121,25 @@ public class CustomizeMenu : MonoBehaviour
                 _saveString += _userCustomizeData.AvatarState[i].ToString() + ',';
             
         }
-        MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, "name", Asset.EcharacterdbColumns.AvatarColor, _userCustomizeData.UserMaterial[0]);
-        MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname,"name",Asset.EcharacterdbColumns.AvatarData, _saveString);
+        MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor, _userCustomizeData.UserMaterial[0]);
+        MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
         _saveString = null;
+    }
+
+    private void RootSet()
+    {
+        if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
+        {
+            _smMeshRenderer.gameObject.SetActive(true);
+            _characterMeshRenderer.gameObject.SetActive(false);
+            _skinnedMeshRenderer = _smMeshRenderer;
+        }
+        else
+        {
+            _smMeshRenderer.gameObject.SetActive(false);
+            _characterMeshRenderer.gameObject.SetActive(true);
+            _skinnedMeshRenderer = _characterMeshRenderer;
+        }
     }
 
     void LeftAvartarButton()
@@ -132,6 +152,9 @@ public class CustomizeMenu : MonoBehaviour
         {
             _setAvatarNum -= 1;
         }
+
+        RootSet();
+
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
         
         if(_userCustomizeData.AvatarState[_setAvatarNum] == EAvatarState.NONE)
@@ -144,6 +167,7 @@ public class CustomizeMenu : MonoBehaviour
             _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
             _noneLight.SetActive(true);
         }
+
     }
 
     void RightAvatarButton()
@@ -156,6 +180,8 @@ public class CustomizeMenu : MonoBehaviour
         {
             _setAvatarNum += 1;
         }
+
+        RootSet();
         
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
