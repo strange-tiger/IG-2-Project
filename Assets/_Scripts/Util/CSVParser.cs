@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.ParseCSV
+namespace Asset.ParseCSV
 {
     public class CSVParser
     {
