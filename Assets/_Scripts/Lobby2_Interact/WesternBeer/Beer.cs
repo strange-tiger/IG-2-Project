@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Beer : InteracterableObject
+public class Beer : InteracterableObject, IPunObservable
 {
 
 
@@ -17,28 +17,30 @@ public class Beer : InteracterableObject
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
     private AudioSource _audioSource;
 
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if (stream.IsWriting)
-    //    {
-    //        stream.SendNext(_fullBeer.activeSelf);
-    //        stream.SendNext(_beerCollider.enabled);
-    //        stream.SendNext(_grabCollider.enabled);
-    //    }
-    //    else if (stream.IsReading)
-    //    {
-    //        _fullBeer.SetActive((bool)stream.ReceiveNext());
-    //        _beerCollider.enabled = (bool)stream.ReceiveNext();
-    //        _grabCollider.enabled = (bool)stream.ReceiveNext();
-    //    }
-    //}
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        
+            if (stream.IsWriting)
+            {
+                stream.SendNext(_fullBeer.activeSelf);
+                stream.SendNext(_beerCollider.enabled);
+                stream.SendNext(_grabCollider.enabled);
+            }
+            else if (stream.IsReading)
+            {
+                _fullBeer.SetActive((bool)stream.ReceiveNext());
+                _beerCollider.enabled = (bool)stream.ReceiveNext();
+                _grabCollider.enabled = (bool)stream.ReceiveNext();
+            }
+        
+    }
 
 
 
     public void Start()
     {
         _initBeerPosition = transform.position;
-        _grabCollider = GetComponent<BoxCollider>();
+        _beerCollider = GetComponent<BoxCollider>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -56,12 +58,6 @@ public class Beer : InteracterableObject
         _grabCollider.enabled = false;
         StartCoroutine(ReGenerateBeer());
     }
-
-    //[PunRPC]
-    //public void BeerInit()
-    //{
-
-    //}
 
 
     private IEnumerator ReGenerateBeer()
