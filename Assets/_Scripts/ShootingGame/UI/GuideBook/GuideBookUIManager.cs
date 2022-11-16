@@ -15,8 +15,6 @@ public class GuideBookUIManager : MonoBehaviour
     [SerializeField] GameObject _rightPageUI;
     private int _currentPage;
 
-    private PlayerInput _playerInput;
-
     public UnityEvent OnClose = new UnityEvent();
 
     private AudioSource _audioSource;
@@ -29,8 +27,8 @@ public class GuideBookUIManager : MonoBehaviour
     private void OnEnable()
     {
         _audioSource.PlayOneShot(_bookOpenAndCloseClip);
-        _guildPages[0].SetActive(true);
         _guildPages[_currentPage].SetActive(false);
+        _guildPages[0].SetActive(true);
         _currentPage = 0;
     }
 
