@@ -144,8 +144,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     private bool _playerControllerEnabled = false;
     private bool _isControllerRight;
 
-    // ÇÃ·¹ÀÌ¾î ¾Ö´Ï¸ÞÀÌ¼Ç
-    private Animator _animator;
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
+    private Animator[] _animators;
 
     private void Start()
     {
@@ -270,7 +270,8 @@ public class PlayerControllerMove : MonoBehaviourPun
         }
         else
         {
-            _animator.SetBool(AniamtionHash.IsWalking, false);
+            _animators[0].SetBool(AniamtionHash.IsWalking, false);
+            _animators[1].SetBool(AniamtionHash.IsWalking, false);
         }
 
         Vector3 moveDirection = Vector3.zero;
@@ -403,7 +404,8 @@ public class PlayerControllerMove : MonoBehaviourPun
                     primaryAxis.x = Mathf.Round(primaryAxis.x * _fixedSpeedSteps) / _fixedSpeedSteps;
                 }
 
-                _animator.SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
+                _animators[0].SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
+                _animators[1].SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
 
                 if (primaryAxis.y > 0.0f)
                     _moveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);
@@ -485,7 +487,7 @@ public class PlayerControllerMove : MonoBehaviourPun
 
     private void SwitchController(bool value)
     {
-        Debug.Log($"ÀÌº¥Æ® : {value}");
+        Debug.Log($"ï¿½Ìºï¿½Æ® : {value}");
         _isControllerRight = value;
     }
 }
