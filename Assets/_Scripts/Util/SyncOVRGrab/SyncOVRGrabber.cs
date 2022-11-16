@@ -289,7 +289,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
                 if (m_grabbedObj.snapOffset)
                 {
                     m_grabbedObjectRotOff = m_grabbedObj.snapOffset.rotation * m_grabbedObjectRotOff;
-                }
+                } 
             }
             else
             {
