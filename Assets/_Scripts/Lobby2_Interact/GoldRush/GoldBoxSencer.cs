@@ -71,7 +71,8 @@ public class GoldBoxSencer : MonoBehaviour
 
         _outline.enabled = true;
 
-        _playerTransform = other.transform.root;
+        _playerTransform = 
+            other.transform.root.GetComponentInChildren<OVRCameraRig>().transform;
 
         _playerInteraction = playerInteraction;
         _playerInteraction.IsNearGoldRush = true;
