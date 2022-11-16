@@ -19,6 +19,7 @@
  */
 
 
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -37,6 +38,9 @@ using UnityEngine.SceneManagement;
         [SerializeField]
         float m_spherecastRadius = 0;
 
+
+        [SerializeField]
+        Transform m_handRay;
         // Distance below which no-snap objects won't be teleported, but will instead be left
         // where they are in relation to the hand.
         [SerializeField]
@@ -293,7 +297,7 @@ using UnityEngine.SceneManagement;
                 }
             }
 
-            if (dgOut == null && m_useSpherecast)
+            if (dgOut == null && m_useSpherecast && m_handRay.GetComponent<LineRenderer>().enabled)
             {
                 return FindTargetWithSpherecast(out dgOut, out collOut);
             }
@@ -304,17 +308,19 @@ using UnityEngine.SceneManagement;
         {
             dgOut = null;
             collOut = null;
-            Ray ray = new Ray(m_gripTransform.position, m_gripTransform.forward);
+            Ray ray = new Ray(m_handRay.position,m_handRay.forward);
             RaycastHit hitInfo;
 
-            // If no objects in grab volume, raycast.
-            // Potential optimization: 
-            // In DistanceGrabbable.RefreshCrosshairs, we could move the object between collision layers.
-            // If it's in range, it would move into the layer DistanceGrabber.m_grabObjectsInLayer,
-            // and if out of range, into another layer so it's ignored by DistanceGrabber's SphereCast.
-            // However, we're limiting the SphereCast by m_maxGrabDistance, so the optimization doesn't seem
-            // essential.
-            int layer = (m_grabObjectsInLayer == -1) ? ~0 : 1 << m_grabObjectsInLayer;
+
+        
+        // If no objects in grab volume, raycast.
+        // Potential optimization: 
+        // In DistanceGrabbable.RefreshCrosshairs, we could move the object between collision layers.
+        // If it's in range, it would move into the layer DistanceGrabber.m_grabObjectsInLayer,
+        // and if out of range, into another layer so it's ignored by DistanceGrabber's SphereCast.
+        // However, we're limiting the SphereCast by m_maxGrabDistance, so the optimization doesn't seem
+        // essential.
+        int layer = (m_grabObjectsInLayer == -1) ? ~0 : 1 << m_grabObjectsInLayer;
             if (Physics.SphereCast(ray, m_spherecastRadius, out hitInfo, m_maxGrabDistance, layer))
             {
                 SyncOVRDistanceGrabbable grabbable = null;
@@ -323,6 +329,14 @@ using UnityEngine.SceneManagement;
                 {
                     grabbable = hitInfo.collider.gameObject.GetComponentInParent<SyncOVRDistanceGrabbable>();
                     hitCollider = grabbable == null ? null : hitInfo.collider;
+
+                    if (hitCollider.GetComponent<PhotonView>() != null)
+                    {
+                        if (hitCollider.GetComponent<PhotonView>().Owner != PhotonNetwork.LocalPlayer)
+                        {
+                        hitCollider.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+                        }
+                    }
                     if (grabbable)
                     {
                         dgOut = grabbable;

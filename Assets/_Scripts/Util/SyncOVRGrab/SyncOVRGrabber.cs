@@ -46,6 +46,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
     [SerializeField]
     protected GameObject m_player;
 
+
+
     protected bool m_grabVolumeEnabled = true;
     protected Vector3 m_lastPos;
     protected Quaternion m_lastRot;

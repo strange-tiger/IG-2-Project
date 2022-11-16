@@ -109,6 +109,8 @@ GameObject:
   - component: {fileID: 5728035795002400287}
   - component: {fileID: 7953407609824453168}
   - component: {fileID: 4177647214555748148}
+  - component: {fileID: 9054949628816909253}
+  - component: {fileID: 2435612994063300318}
   m_Layer: 10
   m_Name: BeerCollider
   m_TagString: Beer
@@ -177,8 +179,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 5728035795002400287}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -278,6 +279,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9054949628816909253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127947358909019921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: badca8fb11dbd544a994d506ec65166c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+--- !u!33 &2435612994063300318
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127947358909019921}
+  m_Mesh: {fileID: 4300000, guid: e90e4ae77f761b74ab31d9bf95ba99fc, type: 3}
 --- !u!1 &8268717291742268568
 GameObject:
   m_ObjectHideFlags: 0
