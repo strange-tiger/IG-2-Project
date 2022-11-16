@@ -12,6 +12,7 @@ public class TumbleweedSpawner : MonoBehaviourPun
     private float _elapsedTime = 0f;
 
     private Rigidbody[] _tumbleweedPoll;
+    private int _tumbleweedCount;
     private int _currentTumbelweed = 0;
 
     private readonly static Vector3 ZERO_VECTOR = Vector3.zero;
@@ -19,6 +20,12 @@ public class TumbleweedSpawner : MonoBehaviourPun
     private void Awake()
     {
         _tumbleweedPoll = GetComponentsInChildren<Rigidbody>();
+        foreach(Rigidbody tumbleweed in _tumbleweedPoll)
+        {
+            tumbleweed.gameObject.SetActive(false);
+            tumbleweed.GetComponent<Tumbleweed>().enabled = true;
+        }
+        _tumbleweedCount = _tumbleweedPoll.Length;
     }
 
     private void FixedUpdate()
@@ -35,7 +42,7 @@ public class TumbleweedSpawner : MonoBehaviourPun
                 tumbleweed.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
                 tumbleweed.GetComponent<Tumbleweed>().photonView.RPC("ActiveSelf", RpcTarget.All);
 
-                ++_currentTumbelweed;
+                _currentTumbelweed = (_currentTumbelweed + 1) % _tumbleweedCount;
 
                 _elapsedTime -= _tumbleweedSpawnOffsetTime;
             }
