@@ -144,7 +144,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     private bool _isControllerRight;
 
     // 플레이어 애니메이션
-    private Animator _animator;
+    private Animator[] _animators;
 
     private void Start()
     {
@@ -178,7 +178,7 @@ public class PlayerControllerMove : MonoBehaviourPun
 
         InitialYRotation = transform.rotation.eulerAngles.y;
 
-        _animator = GetComponentInChildren<Animator>();
+        _animators = GetComponentsInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -268,7 +268,8 @@ public class PlayerControllerMove : MonoBehaviourPun
         }
         else
         {
-            _animator.SetBool(AniamtionHash.IsWalking, false);
+            _animators[0].SetBool(AniamtionHash.IsWalking, false);
+            _animators[1].SetBool(AniamtionHash.IsWalking, false);
         }
 
         Vector3 moveDirection = Vector3.zero;
@@ -401,7 +402,8 @@ public class PlayerControllerMove : MonoBehaviourPun
                     primaryAxis.x = Mathf.Round(primaryAxis.x * _fixedSpeedSteps) / _fixedSpeedSteps;
                 }
 
-                _animator.SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
+                _animators[0].SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
+                _animators[1].SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
 
                 if (primaryAxis.y > 0.0f)
                     _moveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);
