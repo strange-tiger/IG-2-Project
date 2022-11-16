@@ -8,20 +8,23 @@ public class GoldBoxSpawner : MonoBehaviour
     private Transform[] _spawnPositions;
 
     [SerializeField] private GameObject _goldBoxParent;
-    private Queue<GameObject> _goldBoxQueue = new Queue<GameObject>();
+
+    private GoldBoxSencer[] _goldBoxPoll;
+    private int _goldBoxCount;
+    private int _currentGoldBox = 0;
 
     private void Awake()
     {
         _spawnPositions = _spawnPositionParent.GetComponentsInChildren<Transform>();
 
-        foreach(GoldBoxSencer goldBox in 
-            _goldBoxParent.GetComponentsInChildren<GoldBoxSencer>())
+        _goldBoxPoll = _goldBoxParent.GetComponentsInChildren<GoldBoxSencer>();
+        foreach(GoldBoxSencer goldBox in _goldBoxPoll)
         {
-            _goldBoxQueue.Enqueue(goldBox.gameObject);
             goldBox.gameObject.SetActive(false);
             goldBox.GetComponentInChildren<GoldBoxInetraction>().
                 OnGiveGold.AddListener(SpawnGoldBoxInRandomPosition);
         }
+        _goldBoxCount = _goldBoxPoll.Length;
 
         SpawnGoldBoxInRandomPosition();
     }
@@ -29,15 +32,15 @@ public class GoldBoxSpawner : MonoBehaviour
     private void SpawnGoldBoxInRandomPosition()
     {
         int positionIndex = Random.Range(1, _spawnPositions.Length);
-        GameObject goldBox = _goldBoxQueue.Dequeue();
+        GameObject goldBox = _goldBoxPoll[_currentGoldBox].gameObject;
         goldBox.transform.position = _spawnPositions[positionIndex].position;
         goldBox.transform.rotation = _spawnPositions[positionIndex].rotation;
         goldBox.SetActive(true);
+        _currentGoldBox = (_currentGoldBox + 1) % _goldBoxCount;
     }
 
     public void ReturnToPoll(GameObject goldBox)
     {
-        _goldBoxQueue.Enqueue(goldBox);
         goldBox.transform.parent = _goldBoxParent.transform;
     }
 }
