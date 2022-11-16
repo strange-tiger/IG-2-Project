@@ -261,16 +261,6 @@ public class Tumbleweed : MonoBehaviourPun
         return _goldCoinGiveCount[grade];
     }
 
-    private void OnDisable()
-    {
-        if(!photonView.IsMine)
-        {
-            return;
-        }
-
-        _spawner.ReturnToTumbleweedStack(gameObject);
-    }
-
     [PunRPC]
     private void DisableSelf()
     {
