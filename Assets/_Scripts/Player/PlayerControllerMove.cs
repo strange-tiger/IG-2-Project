@@ -133,6 +133,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     protected OVRCameraRig _cameraRig = null;
     public OVRCameraRig CameraRig { get; set; }
 
+    private SwitchController _switchController;
     private InventoryUIManager _inventoryUIManager = new InventoryUIManager();
     private Vector3 _moveThrottle = Vector3.zero;
     private OVRPose? _initialPose;
@@ -153,10 +154,10 @@ public class PlayerControllerMove : MonoBehaviourPun
         p.z = OVRManager.profile.eyeDepth;
         _cameraRig.transform.localPosition = p;
 
-        //_controllerScrollButton.SwitchController.AddListener(SwitchController);
+
+        _switchController.SwitchControllerEvent.RemoveListener(SwitchController);
+        _switchController.SwitchControllerEvent.AddListener(SwitchController);
     }
-
-
 
     private void Awake()
     {
@@ -179,6 +180,7 @@ public class PlayerControllerMove : MonoBehaviourPun
         InitialYRotation = transform.rotation.eulerAngles.y;
 
         _animator = GetComponentInChildren<Animator>();
+        _switchController = GetComponentInChildren<SwitchController>();
     }
 
     private void OnEnable()
@@ -481,9 +483,10 @@ public class PlayerControllerMove : MonoBehaviourPun
         }
     }
 
-    private void SwitchController(bool isLeft)
+    private void SwitchController(bool value)
     {
-        _isControllerRight = isLeft;
+        Debug.Log($"¿Ã∫•∆Æ : {value}");
+        _isControllerRight = value;
     }
 }
 

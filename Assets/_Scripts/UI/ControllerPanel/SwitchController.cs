@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 using _Controller = Defines.ESwitchController;
 
 
-public class SwitchController : MonoBehaviour
+public class SwitchController : MonoBehaviourPun
 {
     public UnityEvent<bool> SwitchControllerEvent = new UnityEvent<bool>();
 
     private ControlScrollUI _controllerScrollUI;
     private _Controller _type = _Controller.Left;
-    // private Dictionary<_Switch, ControllerTypeDelegate> _controllerTable = new Dictionary<_Switch, ControllerTypeDelegate>();
 
     public _Controller Type
     {
@@ -32,17 +32,15 @@ public class SwitchController : MonoBehaviour
     {
         _controllerScrollUI = GetComponent<ControlScrollUI>();
         Type = _Controller.Left;
-
-        //_controllerTable.Add(_Switch.Left, ControllerTypeLeft);
-        //_controllerTable.Add(_Switch.Right, ControllerTypeRight);
     }
 
     public void OnClickLeftButton()
     {
         if (Type > _Controller.Left)
         {
-            SwitchControllerEvent.Invoke(true);
+            SwitchControllerEvent.Invoke(false);
             --Type;
+            Debug.Log("왼쪽버튼클릭");
         }
     }
 
@@ -50,8 +48,9 @@ public class SwitchController : MonoBehaviour
     {
         if (Type < _Controller.Right)
         {
-            SwitchControllerEvent.Invoke(false);
+            SwitchControllerEvent.Invoke(true);
             ++Type;
+            Debug.Log("오른쪽버튼클릭");
         }
     }
 }

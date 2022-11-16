@@ -19,6 +19,7 @@ public class PlayerNetworking : BasicPlayerNetworking
 
             // 플레이어 컨트롤러 부착
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
+            NewPlayerMove newPlayerMove = gameObject.AddComponent<NewPlayerMove>();
             playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
 
             // 플레이어 모델 연결
