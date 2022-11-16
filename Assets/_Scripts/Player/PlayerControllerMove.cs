@@ -133,6 +133,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     protected OVRCameraRig _cameraRig = null;
     public OVRCameraRig CameraRig { get; set; }
 
+    private Animator _animator;
     private SwitchController _switchController;
     private InventoryUIManager _inventoryUIManager = new InventoryUIManager();
     private Vector3 _moveThrottle = Vector3.zero;
