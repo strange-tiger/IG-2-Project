@@ -9,7 +9,7 @@ public class SwitchController : MonoBehaviour
 {
     public UnityEvent<bool> SwitchControllerEvent = new UnityEvent<bool>();
 
-    private SwitchControllerScrollUI _switchControllerScrollUI;
+    private ControlScrollUI _controllerScrollUI;
     private _Controller _type = _Controller.Left;
     // private Dictionary<_Switch, ControllerTypeDelegate> _controllerTable = new Dictionary<_Switch, ControllerTypeDelegate>();
 
@@ -22,7 +22,7 @@ public class SwitchController : MonoBehaviour
         private set
         {
             _type = value;
-            _switchControllerScrollUI.TextOutput(_type);
+            _controllerScrollUI.TextOutput(_type);
         }
     }
 
@@ -30,7 +30,7 @@ public class SwitchController : MonoBehaviour
 
     private void Awake()
     {
-        _switchControllerScrollUI = GetComponent<SwitchControllerScrollUI>();
+        _controllerScrollUI = GetComponent<ControlScrollUI>();
         Type = _Controller.Left;
 
         //_controllerTable.Add(_Switch.Left, ControllerTypeLeft);

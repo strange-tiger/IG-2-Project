@@ -6,10 +6,10 @@ using TMPro;
 public class ControlScrollUI : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI voiceUIText;
+    private TextMeshProUGUI controlUIText;
 
-    public void TextOutput(Defines.EVoiceType voiceType)
+    public void TextOutput(Defines.ESwitchController controlType)
     {
-        voiceUIText.text = voiceType.ToString();
+        controlUIText.text = controlType.ToString();
     }
 }
