@@ -11,9 +11,10 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(7f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
     private PlayerControllerMove _playerControllerMove;
 
+    private MeshCollider _oakBarrelMeshCollider;
     private MeshRenderer _playerMeshRenderer;
     private MeshRenderer _oakBarrelMeshRenderer;
 
@@ -21,6 +22,15 @@ public class OakBarrelInteraction : MonoBehaviourPun
     
     private float _speedSlower = 0.2f;
     private bool _isInOak;
+
+    private void Awake()
+    {
+        _oakBarrelMeshRenderer = _playerOakBarrel.GetComponent<MeshRenderer>();
+        _oakBarrelMeshCollider = _playerOakBarrel.GetComponent<MeshCollider>();
+
+        _oakBarrelMeshRenderer.enabled = false;
+        _oakBarrelMeshCollider.enabled = false;
+    }
 
     private void Start()
     {
@@ -31,9 +41,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
 
         _playerMeshRenderer = GameObject.Find("CenterEyeAnchor").GetComponentInChildren<MeshRenderer>();
-
-        _oakBarrelMeshRenderer = GameObject.Find("Oakbarrel").GetComponent<MeshRenderer>();
-        
     }
 
     private void Update()
@@ -82,12 +89,14 @@ public class OakBarrelInteraction : MonoBehaviourPun
     public void ActivePlayer(bool value)
     {
         _playerModel.SetActive(value);
+        _oakBarrelMeshCollider.enabled = value;
     }
 
     [PunRPC]
     public void ActiveOakBarrel(bool value)
     {
         _oakBarrelMeshRenderer.enabled = value;
+        _oakBarrelMeshCollider.enabled = value;
     }
 
     private void InOakBarrel()

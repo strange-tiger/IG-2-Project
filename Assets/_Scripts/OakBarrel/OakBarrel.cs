@@ -12,7 +12,7 @@ public class OakBarrel : InteracterableObject
 
     private MeshRenderer _oakBarrelMeshRenderer;
 
-    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(7f);
+    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
 
     private void OnEnable()
     {
@@ -29,14 +29,6 @@ public class OakBarrel : InteracterableObject
     private void Start()
     {
         _oakBarrelMeshRenderer = GetComponent<MeshRenderer>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Interact();
-        }
     }
 
     public override void Interact()
