@@ -278,7 +278,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
             else
             {
                 Vector3 relPos = m_grabbedObj.transform.position - transform.position;
-                relPos = Quaternion.Inverse(transform.rotation) * relPos;
+               // relPos = Quaternion.Inverse(transform.rotation) * relPos;
+                relPos = transform.rotation * relPos;
                 m_grabbedObjectPosOff = relPos;
             }
 
@@ -292,7 +293,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
             }
             else
             {
-                Quaternion relOri = Quaternion.Inverse(transform.rotation) * m_grabbedObj.transform.rotation;
+                //Quaternion relOri = Quaternion.Inverse(transform.rotation) * m_grabbedObj.transform.rotation;
+                Quaternion relOri = transform.rotation * m_grabbedObj.transform.rotation;
                 m_grabbedObjectRotOff = relOri;
             }
 
