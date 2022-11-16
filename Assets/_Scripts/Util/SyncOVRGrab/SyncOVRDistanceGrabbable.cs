@@ -59,11 +59,11 @@ public class SyncOVRDistanceGrabbable : SyncOVRGrabbable
     {
         base.Start();
         //m_crosshair = gameObject.GetComponentInChildren<GrabbableCrosshair>();
-        m_renderer = gameObject.GetComponent<Renderer>();
+        //m_renderer = gameObject.GetComponent<Renderer>();
         //m_crosshairManager = FindObjectOfType<GrabManager>();
-        m_mpb = new MaterialPropertyBlock();
+        //m_mpb = new MaterialPropertyBlock();
         //RefreshCrosshair();
-        m_renderer.SetPropertyBlock(m_mpb);
+        //m_renderer.SetPropertyBlock(m_mpb);
     }
 }
  //    void RefreshCrosshair()
