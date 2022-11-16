@@ -21,7 +21,7 @@ public class GuideBookInteraction : InteracterableObject
     {
         _isInteracted = true;
         _guideBook.gameObject.SetActive(true);
-        _playerTransform = MenuUIManager.Instance.transform;
+        _playerTransform = MenuUIManager.Instance.transform.root;
     }
 
     private void InteractionOver()
@@ -33,6 +33,9 @@ public class GuideBookInteraction : InteracterableObject
     {
         if(_isInteracted)
         {
+            _guideBookTransform.rotation =
+                Quaternion.Euler(0f, _guideBookTransform.rotation.y, 
+                _guideBookTransform.rotation.z);
             _guideBookTransform.LookAt(_playerTransform);
         }
     }

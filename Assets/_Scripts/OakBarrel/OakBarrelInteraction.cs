@@ -11,7 +11,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(20f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
     private PlayerControllerMove _playerControllerMove;
 
     private MeshRenderer _playerMeshRenderer;
@@ -122,6 +122,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _isInOak = true;
 
         _playerControllerMove.MoveScale -= _speedSlower;
+
+        PlayerControlManager.Instance.IsRayable = false;
     }
 
     private void OutOakBarrel()
@@ -134,6 +136,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _isInOak = false;
 
         _playerControllerMove.MoveScale += _speedSlower;
+
+        PlayerControlManager.Instance.IsRayable = true;
     }
 
     private void OnDisable()
