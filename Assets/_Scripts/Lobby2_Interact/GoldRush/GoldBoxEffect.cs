@@ -21,13 +21,11 @@ public class GoldBoxEffect : MonoBehaviour
 
     private void Awake()
     {
-        _spawner = transform.root.GetComponent<GoldBoxSpawner>();
         _sencer = transform.parent.GetComponent<GoldBoxSencer>();
 
         _audioSource = GetComponent<AudioSource>();
 
         _waitForEffectEnd = new WaitForSeconds(_effectEndTime);
-        gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -35,8 +33,9 @@ public class GoldBoxEffect : MonoBehaviour
         StartCoroutine(CoEndEffect());
     }
 
-    public void SetEffect(int giveGold, int coinGrade)
+    public void SetEffect(int giveGold, int coinGrade, GoldBoxSpawner spawner)
     {
+        _spawner = spawner;
         _audioSource.PlayOneShot(_goldCoinAudioClips[coinGrade]);
         _giveGoldText.text = $"+{giveGold}";
     }

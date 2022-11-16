@@ -38,5 +38,6 @@ public class GoldBoxSpawner : MonoBehaviour
     public void ReturnToPoll(GameObject goldBox)
     {
         _goldBoxQueue.Enqueue(goldBox);
+        goldBox.transform.parent = _goldBoxParent.transform;
     }
 }

@@ -26,6 +26,7 @@ public class GoldBoxSencer : MonoBehaviour
         _outline = GetComponent<Outlinable>();
         _outline.AddAllChildRenderersToRenderingList();
         _outline.OutlineParameters.Color = _outlineColor;
+        _outline.enabled = false;
     }
 
     private void OnEnable()

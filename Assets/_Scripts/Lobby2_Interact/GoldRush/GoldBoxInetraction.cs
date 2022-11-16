@@ -21,7 +21,7 @@ public class GoldBoxInetraction : MonoBehaviour
     private GoldBoxSpawner _spawner;
     private Rigidbody _rigidbody;
     private GoldBoxSencer _sencer;
-    private GoldBoxEffect _effect;
+    [SerializeField] private GoldBoxEffect _effect;
 
     private FirstMoveAttackPlayer _playerFaintScript;
     private PlayerGoldRushInteraction _playerInteractionScript;
@@ -35,7 +35,6 @@ public class GoldBoxInetraction : MonoBehaviour
         _spawner = transform.root.GetComponent<GoldBoxSpawner>();
         _rigidbody = transform.parent.GetComponent<Rigidbody>();
         _sencer = transform.parent.GetComponent<GoldBoxSencer>();
-        _effect = transform.parent.GetComponentInChildren<GoldBoxEffect>();
 
         // È®·ü °è»êÀ» À§ÇÑ ÃÑ È®·ü ±¸ÇÏ±â
         _maxGoldCoinRate = 0f;
@@ -78,7 +77,7 @@ public class GoldBoxInetraction : MonoBehaviour
 
     private void Update()
     {
-        _elapsedTime = Time.deltaTime;
+        _elapsedTime += Time.deltaTime;
         if (_elapsedTime >= _giveGoldGrabTime)
         {
             _elapsedTime = 0f;
@@ -107,13 +106,12 @@ public class GoldBoxInetraction : MonoBehaviour
     private int GiveCoinEffect(int grade)
     {
         gameObject.transform.localScale = _originalScale;
-        transform.parent.parent = _spawner.transform;
 
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         _effect.gameObject.SetActive(true);
-        _effect.SetEffect(_goldCoinGiveCount[grade], grade);
+        _effect.SetEffect(_goldCoinGiveCount[grade], grade, _spawner);
 
         this.enabled = false;
         gameObject.SetActive(false);
