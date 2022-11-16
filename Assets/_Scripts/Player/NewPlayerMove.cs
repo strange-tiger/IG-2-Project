@@ -6,6 +6,7 @@ public class NewPlayerMove : MonoBehaviour
 {
     private PlayerInput _playerInput;
     private CharacterController _playerController;
+    private SwitchController _switchController;
 
     [Header("플레이어의 기본 이동속도")]
     [SerializeField] private float _movementSpeed = 2f;
@@ -21,6 +22,7 @@ public class NewPlayerMove : MonoBehaviour
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerController = GetComponent<CharacterController>();
+        _switchController = GetComponent<SwitchController>();
 
         MoveScale = 1f;
     }
@@ -34,20 +36,21 @@ public class NewPlayerMove : MonoBehaviour
             _playerVelocity.y = 0f;
         }
 
-        
-        PlayerMovement(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
-        LookAround(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
-
-        PlayerMovement(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
-        LookAround(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
+        if (_switchController.Type == 0)
+        {
+            PlayerMovement(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
+            LookAround(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
+        }
+        else if (_switchController.Type == 0)
+        {
+            PlayerMovement(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
+            LookAround(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
+        }
     }
-
-    //PrimaryThumbstick
-    //SecondaryThumbstick
 
     private void PlayerMovement(OVRInput.Touch value, OVRInput.Axis2D stick)
     {
-        if (OVRInput.Get(value)) 
+        if (OVRInput.Get(value))
         {
             Vector2 thumbstick = OVRInput.Get(stick);
 
