@@ -5,24 +5,28 @@ using EPOOutline;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using CoinGrade = Defines.ECoinGrade;
 
-public class Tumbleweed : MonoBehaviourPun
+namespace Defines
 {
-    private enum ECoinGrade
+    public enum ECoinGrade
     {
         Common,
         Rare,
         Epic,
         Max,
     }
+}
 
+public class Tumbleweed : MonoBehaviourPun
+{
     [Header("기본 스팩")]
     [SerializeField] private float _lifeTime = 20f;
     [SerializeField] private float _grabToGetGoldTime = 3f;
     [SerializeField] private float _disableAfterGetGoldOffsetTime = 1f;
     [Header("골드 스팩")]
-    [SerializeField] private int[] _goldCoinGiveCount = new int[(int)ECoinGrade.Max];
-    [SerializeField] private float[] _goldCoinRate = new float[(int)ECoinGrade.Max];
+    [SerializeField] private int[] _goldCoinGiveCount = new int[(int)CoinGrade.Max];
+    [SerializeField] private float[] _goldCoinRate = new float[(int)CoinGrade.Max];
     private float _maxGoldCoinRate;
 
     [SerializeField] private Color _outlineColor = new Color(1f, 0.9f, 0.01f);
@@ -39,7 +43,7 @@ public class Tumbleweed : MonoBehaviourPun
     [SerializeField] private TextMeshProUGUI _goldCountText;
 
     [Header("사운드")]
-    [SerializeField] private AudioClip[] _goldCoinAudioClips = new AudioClip[(int)ECoinGrade.Max];
+    [SerializeField] private AudioClip[] _goldCoinAudioClips = new AudioClip[(int)CoinGrade.Max];
     private AudioSource _audioSource;
 
     // 플레이어 인식 관련
@@ -239,7 +243,7 @@ public class Tumbleweed : MonoBehaviourPun
         float randomInt = Random.Range(0f, _maxGoldCoinRate);
 
         float coinRate = 0f;
-        for(int i = 0; i < (int) ECoinGrade.Max; ++i)
+        for(int i = 0; i < (int)CoinGrade.Max; ++i)
         {
             coinRate += _goldCoinRate[i];
             if(randomInt < coinRate)

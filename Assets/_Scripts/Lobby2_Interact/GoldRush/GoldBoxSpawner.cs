@@ -14,12 +14,12 @@ public class GoldBoxSpawner : MonoBehaviour
     {
         _spawnPositions = _spawnPositionParent.GetComponentsInChildren<Transform>();
 
-        foreach(Rigidbody goldBox in 
-            _goldBoxParent.GetComponentsInChildren<Rigidbody>())
+        foreach(GoldBoxSencer goldBox in 
+            _goldBoxParent.GetComponentsInChildren<GoldBoxSencer>())
         {
             _goldBoxQueue.Enqueue(goldBox.gameObject);
             goldBox.gameObject.SetActive(false);
-            goldBox.GetComponent<GoldBoxInetraction>().
+            goldBox.GetComponentInChildren<GoldBoxInetraction>().
                 OnGiveGold.AddListener(SpawnGoldBoxInRandomPosition);
         }
 

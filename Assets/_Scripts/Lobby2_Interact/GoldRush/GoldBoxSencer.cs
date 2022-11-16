@@ -5,21 +5,48 @@ using EPOOutline;
 
 public class GoldBoxSencer : MonoBehaviour
 {
+    [SerializeField] private Vector3 _onPlayerPosition = new Vector3(0f, 2f, 0f);
+    private Vector3 ZERO_VECTOR = Vector3.zero;
+
     [SerializeField] private Color _outlineColor = new Color(1f, 0.9f, 0.01f);
     private Outlinable _outline;
 
     private GameObject _goldBoxInteractionObject;
+    private GoldBoxInetraction _interaction;
 
     private bool _isTherePlayer = false;
     private Transform _playerTransform;
+    private PlayerGoldRushInteraction _playerInteraction;
 
     private void Awake()
     {
-        _goldBoxInteractionObject = GetComponentInChildren<GoldBoxInetraction>().gameObject;
+        _interaction = GetComponentInChildren<GoldBoxInetraction>();
+        _goldBoxInteractionObject = _interaction.gameObject;
 
         _outline = GetComponent<Outlinable>();
         _outline.AddAllChildRenderersToRenderingList();
         _outline.OutlineParameters.Color = _outlineColor;
+    }
+
+    private void OnEnable()
+    {
+        _goldBoxInteractionObject.SetActive(true);
+        _interaction.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GetPlayer(other, "TriggerEnter");
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(_isTherePlayer)
+        {
+            return;
+        }
+
+        GetPlayer(other, "TriggerEnter");
     }
 
     private void GetPlayer(Collider other, string debugMessage)
@@ -45,9 +72,45 @@ public class GoldBoxSencer : MonoBehaviour
 
         _playerTransform = other.transform.root;
 
-        //_playerInteraction = playerInteraction;
-        //_playerInteraction.IsNearTumbleweed = true;
+        _playerInteraction = playerInteraction;
+        _playerInteraction.IsNearGoldRush = true;
 
         _isTherePlayer = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(!other.CompareTag("PlayerBody") || !_isTherePlayer)
+        {
+            return;
+        }
+
+        if(_isTherePlayer && _playerTransform != other.transform.root)
+        {
+            return;
+        }
+
+        _outline.enabled = false;
+
+        _playerInteraction.IsNearGoldRush = false;
+
+        _isTherePlayer = false;
+    }
+
+    private void Update()
+    {
+        if(_isTherePlayer && _playerInteraction.HasInteract)
+        {
+            gameObject.transform.parent = _playerTransform;
+            gameObject.transform.localPosition = _onPlayerPosition;
+            gameObject.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
+
+            _outline.enabled = false;
+            _playerInteraction.IsNearGoldRush = false;
+            _isTherePlayer = false;
+
+            _interaction.enabled = true;
+            this.enabled = false;
+        }
     }
 }
