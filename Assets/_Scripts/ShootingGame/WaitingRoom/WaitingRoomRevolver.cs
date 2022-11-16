@@ -71,26 +71,33 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         Shot();
     }
 
+    [PunRPC]
     public void OnGrabBegin()
     {
         _isGrabbed = true;
         if (photonView.IsMine)
         {
-            photonView.RPC("OnGrabBegin", RpcTarget.Others);
+            photonView.RPC(nameof(OnGrabBegin), RpcTarget.Others);
         }
     }
 
+    [PunRPC]
     public void OnGrabEnd()
     {
         _isGrabbed = false;
         if (photonView.IsMine)
         {
-            photonView.RPC("OnGrabEnd", RpcTarget.Others);
+            photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
         }
     }
 
     private void Reload()
     {
+        //if(BulletCount == _MAX_BULLET_COUNT)
+        //{
+        //    return;
+        //}
+
         // 다시 위로 향하면 장전 종료
         if (_isReloading)
         {
@@ -119,6 +126,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         PlayShotEffect();
     }
 
+    [PunRPC]
     private void PlayShotEffect()
     {
         // 임시로 추가한 컨트롤러 진동
