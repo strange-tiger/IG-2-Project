@@ -14,6 +14,7 @@ public class GoldBoxEffect : MonoBehaviour
     [SerializeField]
     private AudioClip[] _goldCoinAudioClips =
         new AudioClip[(int)CoinGrade.Max];
+    [SerializeField] private AudioClip _fireWorkAudioClip;
 
     private GoldBoxSpawner _spawner;
     private GoldBoxSencer _sencer;
@@ -36,6 +37,7 @@ public class GoldBoxEffect : MonoBehaviour
     public void SetEffect(int giveGold, int coinGrade, GoldBoxSpawner spawner)
     {
         _spawner = spawner;
+        _audioSource.PlayOneShot(_fireWorkAudioClip);
         _audioSource.PlayOneShot(_goldCoinAudioClips[coinGrade]);
         _giveGoldText.text = $"+{giveGold}";
     }

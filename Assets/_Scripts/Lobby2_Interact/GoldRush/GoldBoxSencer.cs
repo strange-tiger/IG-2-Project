@@ -5,7 +5,7 @@ using EPOOutline;
 
 public class GoldBoxSencer : MonoBehaviour
 {
-    [SerializeField] private Vector3 _onPlayerPosition = new Vector3(0f, 2f, 0f);
+    [SerializeField] private Vector3 _onPlayerPosition = new Vector3(0f, 2.35f, 0f);
     private Vector3 ZERO_VECTOR = Vector3.zero;
 
     [SerializeField] private Color _outlineColor = new Color(1f, 0.9f, 0.01f);

@@ -113,6 +113,7 @@ public class GoldBoxInetraction : MonoBehaviour
         _effect.gameObject.SetActive(true);
         _effect.SetEffect(_goldCoinGiveCount[grade], grade, _spawner);
 
+        _elapsedTime = 0f;
         this.enabled = false;
         gameObject.SetActive(false);
 
