@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ControlScrollUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private TextMeshProUGUI voiceUIText;
 
-    // Update is called once per frame
-    void Update()
+    public void TextOutput(Defines.EVoiceType voiceType)
     {
-        
+        voiceUIText.text = voiceType.ToString();
     }
 }
