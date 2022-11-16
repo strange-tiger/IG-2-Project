@@ -105,12 +105,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6517610126619301266}
-  - component: {fileID: 5871902138307515503}
-  - component: {fileID: 5728035795002400287}
-  - component: {fileID: 7953407609824453168}
   - component: {fileID: 4177647214555748148}
-  - component: {fileID: 9054949628816909253}
-  - component: {fileID: 2435612994063300318}
+  - component: {fileID: 4948263395224740375}
   m_Layer: 10
   m_Name: BeerCollider
   m_TagString: Beer
@@ -132,57 +128,6 @@ Transform:
   m_Father: {fileID: 8275704744721549326}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5871902138307515503
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7127947358909019921}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0.25}
---- !u!114 &5728035795002400287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7127947358909019921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a5b2fe6fdc4264d93529b30eb10bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
-  _fullBeer: {fileID: 8268717291742268568}
-  _drinkSound: {fileID: 8300000, guid: 889185375ff2e834f811d61ac55c7418, type: 3}
-  _grabCollider: {fileID: 7404153549318268388}
---- !u!114 &7953407609824453168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7127947358909019921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!82 &4177647214555748148
 AudioSource:
   m_ObjectHideFlags: 0
@@ -279,27 +224,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &9054949628816909253
-MonoBehaviour:
+--- !u!65 &4948263395224740375
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7127947358909019921}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: badca8fb11dbd544a994d506ec65166c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
---- !u!33 &2435612994063300318
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7127947358909019921}
-  m_Mesh: {fileID: 4300000, guid: e90e4ae77f761b74ab31d9bf95ba99fc, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.05, y: 0.2, z: 0.05}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8268717291742268568
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,9 +346,9 @@ GameObject:
   - component: {fileID: 3643322930513002996}
   - component: {fileID: 5088931005297678728}
   - component: {fileID: 8366275784910438280}
-  - component: {fileID: 5922171801919310796}
-  - component: {fileID: 7404153549318268388}
   - component: {fileID: 383444014415168400}
+  - component: {fileID: 1650864810139363385}
+  - component: {fileID: 4535378072681980112}
   m_Layer: 10
   m_Name: Beer
   m_TagString: Untagged
@@ -457,6 +394,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5088931005297678728}
   - {fileID: 8366275784910438280}
+  - {fileID: 4535378072681980112}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -508,36 +446,6 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &5922171801919310796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275704744721549321}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b80e0edc8b0e5c84a839efedc792ee86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints: []
---- !u!65 &7404153549318268388
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275704744721549321}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.2, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &383444014415168400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,8 +459,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_allowOffhandGrab: 1
-  m_snapPosition: 0
+  m_snapPosition: 1
   m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
+  m_snapOffset: {fileID: 6517610126619301266}
   m_grabPoints: []
   m_materialColorField: 
+--- !u!65 &1650864810139363385
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275704744721549321}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.3, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0.25}
+--- !u!114 &4535378072681980112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275704744721549321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61a5b2fe6fdc4264d93529b30eb10bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _fullBeer: {fileID: 8268717291742268568}
+  _drinkSound: {fileID: 8300000, guid: 889185375ff2e834f811d61ac55c7418, type: 3}
+  _grabCollider: {fileID: 4948263395224740375}
