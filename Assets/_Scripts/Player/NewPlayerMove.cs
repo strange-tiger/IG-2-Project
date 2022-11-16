@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class NewPlayerMove : MonoBehaviour
 {
-    private PlayerInput _playerInput;
     private CharacterController _playerController;
     private SwitchController _switchController;
 
@@ -16,13 +16,11 @@ public class NewPlayerMove : MonoBehaviour
 
     private Vector3 _playerVelocity;
     private bool _isgroundedPlayer;
-    private bool _isMoveControllerRight;
 
     void Start()
     {
-        _playerInput = GetComponent<PlayerInput>();
         _playerController = GetComponent<CharacterController>();
-        _switchController = GetComponent<SwitchController>();
+        _switchController = GetComponentInChildren<SwitchController>();
 
         MoveScale = 1f;
     }
@@ -39,12 +37,12 @@ public class NewPlayerMove : MonoBehaviour
         if (_switchController.Type == 0)
         {
             PlayerMovement(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
-            LookAround(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
+            PlayerRotate(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
         }
-        else if (_switchController.Type == 0)
+        else if (_switchController.Type != 0)
         {
             PlayerMovement(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
-            LookAround(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
+            PlayerRotate(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
         }
     }
 
@@ -60,7 +58,7 @@ public class NewPlayerMove : MonoBehaviour
         }
     }
 
-    private void LookAround(OVRInput.Touch value, OVRInput.Axis2D stick)
+    private void PlayerRotate(OVRInput.Touch value, OVRInput.Axis2D stick)
     {
         if (OVRInput.Get(value))
         {
