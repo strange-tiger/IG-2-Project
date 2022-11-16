@@ -21,8 +21,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         get { return _bulletCount; }
         set
         {
-            _bulletCount = value;
-            _bulletCountText.text = _bulletCount.ToString();
+            photonView.RPC(nameof(SetBulletCount), RpcTarget.All, value);
         }
     }
 
@@ -115,7 +114,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
             _isReloading = true;
         }
     }
-
+    
     private void Shot()
     {
         if (!OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || _bulletCount <= 0)
@@ -127,19 +126,32 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     }
 
     [PunRPC]
+    private void SetBulletCount(int value)
+    {
+        _bulletCount = value;
+        _bulletCountText.text = _bulletCount.ToString();
+    }
+
+
     private void PlayShotEffect()
     {
+        photonView.RPC(nameof(ShotEffect), RpcTarget.All);
+
         // 임시로 추가한 컨트롤러 진동
         StartCoroutine(CoVibrateController());
+       
+        _audioSource.PlayOneShot(_shotAudioClip);
+    }
 
-        // 총알쏘기
+    [PunRPC]
+    private void ShotEffect()
+    {
         ShotBullet();
 
         foreach (ParticleSystem effect in _shootEffects)
         {
             effect.Play();
         }
-        _audioSource.PlayOneShot(_shotAudioClip);
     }
 
     private IEnumerator CoVibrateController()
