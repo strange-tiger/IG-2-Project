@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static PetUIManager;
 
 namespace Asset.ParseCSV
 {
@@ -21,16 +23,17 @@ namespace Asset.ParseCSV
         public static List<Dictionary<string, string>> ParseCSV(string fileName, char lineSeparater = '\n', char fieldSeparater = ',')
         {
             TextAsset csvFile = Resources.Load(fileName) as TextAsset;
-            
+
             var container = new List<Dictionary<string, string>>();
 
             string[] lines = csvFile.text.Split(lineSeparater);
             string[] fieldName = lines[0].Split(fieldSeparater);
+            string[] fields = new string[fieldName.Length];
 
-            for (int i = 1; i < lines.Length - 1; ++i)
-                // lines.Length - 1 : CSV 파일 마지막 공백 한 줄을 넘김
+            for (int i = 0; i < lines.Length - 2; ++i)
+            // lines.Length - 2 : CSV 파일 첫 줄과 마지막 공백 줄을 넘김
             {
-                string[] fields = lines[i].Split(fieldSeparater);
+                fields = lines[i + 1].Split(fieldSeparater);
 
                 var field = new Dictionary<string, string>();
                 for (int j = 0; j < fields.Length; ++j)
@@ -42,6 +45,30 @@ namespace Asset.ParseCSV
             }
 
             return container;
+        }
+
+        public static PetShopList ParseCSV(string fileName, PetShopList petShopList, char lineSeparater = '\n', char fieldSeparater = ',')
+        {
+            TextAsset csvFile = Resources.Load(fileName) as TextAsset;
+
+            //var container = new List<Dictionary<string, string>>();
+
+            string[] lines = csvFile.text.Split(lineSeparater);
+            string[] fieldName = lines[0].Split(fieldSeparater);
+            string[] fields = new string[fieldName.Length];
+
+            for (int i = 0; i < lines.Length - 2; ++i)
+            // lines.Length - 2 : CSV 파일 첫 줄과 마지막 공백 줄을 넘김
+            {
+                fields = lines[i + 1].Split(fieldSeparater);
+
+                petShopList.Name[i] = fields[1];
+                petShopList.Price[i] = int.Parse(fields[2]);
+                petShopList.Grade[i] = (PetProfile.EGrade)Enum.Parse(typeof(PetProfile.EGrade), fields[3]);
+                petShopList.Explanation[i] = fields[4];
+            }
+
+            return petShopList;
         }
     }
 }
