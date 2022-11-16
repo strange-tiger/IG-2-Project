@@ -31,6 +31,18 @@ public class OakBarrel : InteracterableObject
         _oakBarrelMeshRenderer = GetComponent<MeshRenderer>();
     }
 
+    private void Update()
+    {
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Interact();
+        }
+#else
+#endif
+    }
+
     public override void Interact()
     {
         base.Interact();
