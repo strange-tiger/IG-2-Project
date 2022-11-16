@@ -40,7 +40,7 @@ public class Beer : InteracterableObject, IPunObservable
     public void Start()
     {
         _initBeerPosition = transform.position;
-        _grabCollider = GetComponent<BoxCollider>();
+        _beerCollider = GetComponent<BoxCollider>();
         _audioSource = GetComponent<AudioSource>();
     }
 
