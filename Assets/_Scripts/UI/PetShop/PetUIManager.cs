@@ -56,15 +56,18 @@ public class PetUIManager : UIManager
         public int AssetIndex { get; private set; }
         public int Level { get; private set; }
 
-        private NavMeshAgent _tempAgent;
-        private Transform _currentChildTransform;
+        private NavMeshAgent[] _tempAgent;
         public void SetPrefab(GameObject prefab)
         {
             PetObject = Instantiate(prefab);
-            _currentChildTransform = PetObject.transform.GetChild(AssetIndex);
-            _currentChildTransform.gameObject.SetActive(true);
-            //_tempAgent = _currentChildTransform.GetComponent<NavMeshAgent>();
-            //_tempAgent.enabled = false;
+            PetObject.transform.GetChild(AssetIndex).gameObject.SetActive(true);
+            _tempAgent = PetObject.transform.GetComponentsInChildren<NavMeshAgent>();
+            
+            foreach (NavMeshAgent agent in _tempAgent)
+            {
+                agent.enabled = false;
+            }
+
             PetObject.SetActive(false);
         }
         public void SetName(string name = "Temp") => Name = name;
