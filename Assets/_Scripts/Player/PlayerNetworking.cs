@@ -19,6 +19,7 @@ public class PlayerNetworking : BasicPlayerNetworking
 
             // 플레이어 컨트롤러 부착
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
+            NewPlayerMove newPlayerMove = gameObject.AddComponent<NewPlayerMove>();
             playercontroller.CameraRig = cameraRig.GetComponent<OVRCameraRig>();
 
             // 플레이어 모델 연결
@@ -48,10 +49,6 @@ public class PlayerNetworking : BasicPlayerNetworking
 
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
-
-            PlayerTumbleweedInteraction tumbleweedInteraction = GetComponent<PlayerTumbleweedInteraction>();
-            tumbleweedInteraction.Grabbers = cameraRig.GetComponentsInChildren<SyncOVRGrabber>();
-            tumbleweedInteraction.Input = cameraRig.GetComponent<PlayerInput>();
         }
         else
         {

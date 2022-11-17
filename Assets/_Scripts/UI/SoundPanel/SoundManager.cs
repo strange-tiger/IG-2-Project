@@ -1,4 +1,4 @@
-using Photon.Voice.Unity;
+﻿using Photon.Voice.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,19 +18,24 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private AudioSource _sfxPlayer;
-    public float SFXVolume { get { return _sfxPlayer.volume; } }
-    [SerializeField]
-    private AudioSource _bgmPlayer;
-    public float BGMVolume { get { return _bgmPlayer.volume; } }
-    [SerializeField]
-    private AudioClip[] _sfxClip;
+    // ���� �� ����ֱ�
+    private float _masterVolume;
+    private float _backgroundVolume;
+    private float _effectVolume;
+    private float _inputVolume;
+    private float _outputVolume;
+    public float MasterVolume { get => _masterVolume; set => _masterVolume = value; }
+    public float BackgroundVolume { get => _backgroundVolume; set => _backgroundVolume = value; }
+    public float EffectVolume { get => _effectVolume; set => _effectVolume = value; }
+    public float InputVolume { get => _inputVolume; set => _inputVolume = value; }
+    public float OutputVolume { get => _outputVolume; set => _outputVolume = value; }
 
-    private Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
+    // PushToTalk ����
+    private bool _isPushToTalk;
+    public bool IsPushToTalk { get => _isPushToTalk; set => _isPushToTalk = value; }
+
     private Recorder _lobbyRecoder;
     public Recorder LobbyRecorder { get { return _lobbyRecoder; } }
-    public AudioSource PlayerAudioSource { get; set; }
 
     public readonly static string[] VOLUME_CONTROLLER =
        { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
@@ -45,14 +50,11 @@ public class SoundManager : MonoBehaviour
             InitValue(VOLUME_CONTROLLER[i]);
         }
         SoundManager.Instance.Refresh();
-
-        _bgmPlayer.volume = BGMVolume;
-        _bgmPlayer.Play();
     }
 
     private float _initVolume = 0.5f;
     private void InitValue(string key)
-    {
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
         if (PlayerPrefs.HasKey(key) == false)
         {
             PlayerPrefs.SetFloat(key, _initVolume);
@@ -60,32 +62,36 @@ public class SoundManager : MonoBehaviour
     }
     public void Refresh()
     {
-        AudioListener.volume = 
+        MasterVolume =
             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.MasterVolume]);
-
-        if(_bgmPlayer != null) _bgmPlayer.volume = 
+        BackgroundVolume =
             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]);
-
-        if (_sfxPlayer != null) _sfxPlayer.volume =
+        EffectVolume =
              PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.EffectVolume]);
-
-        if (PlayerAudioSource != null) PlayerAudioSource.volume =
+        InputVolume =
             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.InputVolume]);
-
+        OutputVolume =
+            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.OutputVolume]);
     }
 
-    public void PlaySFXSound(string name, float volume = 1f)
+    private void CheckPushToTalkInput()
     {
-        if (_audioClips.ContainsKey(name) == false)
+        if (_isPushToTalk == false)
         {
-            Debug.Log(name + " is not Contained audioClips");
             return;
         }
-        _sfxPlayer.PlayOneShot(_audioClips[name], SFXVolume);
-    }
 
-    public void StopBGMSound()
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger))
+        {
+            LobbyRecorder.TransmitEnabled = true;
+        }
+        else if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger))
+        {
+            LobbyRecorder.TransmitEnabled = false;
+        }
+    }
+    private void Update()
     {
-        _bgmPlayer.Stop();
+        CheckPushToTalkInput();
     }
 }

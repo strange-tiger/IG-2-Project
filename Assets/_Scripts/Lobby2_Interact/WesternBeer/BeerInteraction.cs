@@ -36,8 +36,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
             _drinkStack = (int)stream.ReceiveNext();
         }
     }
-
-
+    
     private void Start()
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();

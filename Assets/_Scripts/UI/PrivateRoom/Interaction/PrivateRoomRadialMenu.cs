@@ -65,6 +65,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             _dice = PhotonNetwork.Instantiate("PrivateRoom\\Dice", INSTANTIATE_POS, transform.rotation);
+
+            _spawnDice = _dice.GetComponent<SpawnDice>();
+            _spawnDice.SetPlayerTransform(transform);
         }
         else
         {
@@ -73,8 +76,23 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
         _paintbrush = PhotonNetwork.Instantiate("PrivateRoom\\Paintbrush", INSTANTIATE_POS, transform.rotation);
 
-        _spawnDice = _dice.GetComponent<SpawnDice>();
         _spawnPaintbrush = _paintbrush.GetComponent<SpawnPaintbrush>();
+        _spawnPaintbrush.SetPlayerTransform(transform);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _buttonDice.interactable = true;
+
+            _dice = PhotonNetwork.Instantiate("PrivateRoom\\Dice", INSTANTIATE_POS, transform.rotation);
+
+            _spawnDice = _dice.GetComponent<SpawnDice>();
+            _spawnDice.SetPlayerTransform(transform);
+        }
     }
 
     private void Update()
@@ -146,7 +164,7 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
             return;
         }
         Debug.Log("paint");
-        _spawnPaintbrush.SpawnHelper();
+        _spawnPaintbrush.TogglePaintbrush();
     }
 
     void FixedUpdate()

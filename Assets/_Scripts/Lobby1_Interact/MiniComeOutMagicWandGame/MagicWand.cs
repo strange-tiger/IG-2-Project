@@ -27,10 +27,18 @@ public class MagicWand : MonoBehaviourPun
     private float _currentTime;
     private bool _checkCoolTime;
 
-    void Awake()
+    // 원위치에 필요한 변수들
+    private Vector3 _wandPosition;
+    private Rigidbody _rigidbody;
+    private float _resetCurrentTime;
+    private float _resetWandTimer = 600f;
+
+    private void Awake()
     {
         _magicNameText = _magicWandPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         _magicCoolTimeText = _magicWandPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
+        _wandPosition = transform.position;
 
         _magicWandPanel.SetActive(false);
 
@@ -42,7 +50,12 @@ public class MagicWand : MonoBehaviourPun
         }
     }
 
-    void Update()
+    private void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
     {
         if (photonView.IsMine)
         {
@@ -77,23 +90,17 @@ public class MagicWand : MonoBehaviourPun
         }
     }
 
+    private void OnDisable()
+    {
+        transform.position = _wandPosition;
+        _magicWandPanel.SetActive(false);
+    }
+
     [PunRPC]
     public void GetMagic(int num)
     {
-        // int _getMagic = 0;
-
         for (int i = 0; i < transform.childCount; ++i)
         {
-            //if (num - _useMagicChance[i] >= 0)
-            //{
-            //    _getMagic += _useMagicChance[i];
-            //}
-            //else
-            //{
-            //    _magic[i].gameObject.SetActive(true);
-            //    break;
-            //}
-
             if (num < _useMagicChance[i])
             {
                 _magic[i].gameObject.SetActive(true);

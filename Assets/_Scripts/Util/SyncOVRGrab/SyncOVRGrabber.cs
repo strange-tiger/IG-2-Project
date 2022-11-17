@@ -46,6 +46,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
     [SerializeField]
     protected GameObject m_player;
 
+
+
     protected bool m_grabVolumeEnabled = true;
     protected Vector3 m_lastPos;
     protected Quaternion m_lastRot;
@@ -59,6 +61,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
     protected bool m_operatingWithoutOVRCameraRig = true;
 
     protected Collider _grabbedHandCollider;
+
 
     /// <summary>
     /// The currently grabbed object.
@@ -277,7 +280,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
             else
             {
                 Vector3 relPos = m_grabbedObj.transform.position - transform.position;
-                relPos = Quaternion.Inverse(transform.rotation) * relPos;
+               // relPos = Quaternion.Inverse(transform.rotation) * relPos;
+                relPos = transform.rotation * relPos;
                 m_grabbedObjectPosOff = relPos;
             }
 
@@ -287,11 +291,12 @@ public class SyncOVRGrabber : MonoBehaviourPun
                 if (m_grabbedObj.snapOffset)
                 {
                     m_grabbedObjectRotOff = m_grabbedObj.snapOffset.rotation * m_grabbedObjectRotOff;
-                }
+                } 
             }
             else
             {
-                Quaternion relOri = Quaternion.Inverse(transform.rotation) * m_grabbedObj.transform.rotation;
+                //Quaternion relOri = Quaternion.Inverse(transform.rotation) * m_grabbedObj.transform.rotation;
+                Quaternion relOri = transform.rotation * m_grabbedObj.transform.rotation;
                 m_grabbedObjectRotOff = relOri;
             }
 
@@ -331,7 +336,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
 
         Rigidbody grabbedRigidbody = m_grabbedObj.grabbedRigidbody;
         Vector3 grabbablePosition = pos + rot * m_grabbedObjectPosOff;
-        Quaternion grabbableRotation = rot * m_grabbedObjectRotOff;
+        Quaternion grabbableRotation = rot;
+        //Quaternion grabbableRotation = rot * m_grabbedObjectRotOff;
 
         if (forceTeleport)
         {
