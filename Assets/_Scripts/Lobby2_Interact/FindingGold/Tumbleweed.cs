@@ -64,39 +64,33 @@ public class Tumbleweed : MonoBehaviourPun
 
     private void Awake()
     {
-        //if(photonView.IsMine)
+        // 자주 사용하는 WaitForSeconds 생성
+        _waitForLifeTime = new WaitForSeconds(_lifeTime);
+        _waitForDisable = new WaitForSeconds(_disableAfterGetGoldOffsetTime);
+
+        _rigidbody = GetComponent<Rigidbody>();
+
+        _outline = GetComponent<Outlinable>();
+        _outline.AddAllChildRenderersToRenderingList();
+        _outline.OutlineParameters.Color = _outlineColor;
+
+        _spawner = GetComponentInParent<TumbleweedSpawner>();
+
+        _audioSource = GetComponent<AudioSource>();
+
+        _meshRenderer = GetComponent<MeshRenderer>();
+
+        // 확률 계산을 위한 총 확률 구하기
+        _maxGoldCoinRate = 0f;
+        foreach (float rate in _goldCoinRate)
         {
-            // 자주 사용하는 WaitForSeconds 생성
-            _waitForLifeTime = new WaitForSeconds(_lifeTime);
-            _waitForDisable = new WaitForSeconds(_disableAfterGetGoldOffsetTime);
-
-            _rigidbody = GetComponent<Rigidbody>();
-
-            _outline = GetComponent<Outlinable>();
-            _outline.AddAllChildRenderersToRenderingList();
-            _outline.OutlineParameters.Color = _outlineColor;
-
-            _spawner = GetComponentInParent<TumbleweedSpawner>();
-
-            _audioSource = GetComponent<AudioSource>();
-
-            _meshRenderer = GetComponent<MeshRenderer>();
-
-            // 확률 계산을 위한 총 확률 구하기
-            _maxGoldCoinRate = 0f;
-            foreach (float rate in _goldCoinRate)
-            {
-                _maxGoldCoinRate += rate;
-            }
+            _maxGoldCoinRate += rate;
         }
     }
 
     private void OnEnable()
     {
-        //if(photonView.IsMine)
-        {
-            ResetTumbleweed();
-        }
+        ResetTumbleweed();
     }
 
     // 회전초 초기화
@@ -263,16 +257,6 @@ public class Tumbleweed : MonoBehaviourPun
         _getGoldPanel.SetActive(true);
 
         return _goldCoinGiveCount[grade];
-    }
-
-    private void OnDisable()
-    {
-        if(!photonView.IsMine)
-        {
-            return;
-        }
-
-        _spawner.ReturnToTumbleweedStack(gameObject);
     }
 
     [PunRPC]
