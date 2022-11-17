@@ -32,7 +32,13 @@ public class GoldBoxSpawner : MonoBehaviourPun
 
     private void SpawnGoldBoxInRandomPosition()
     {
-        photonView.RPC(nameof(SpawnGoldBox), RpcTarget.All);
+        int positionIndex = Random.Range(1, _spawnPositions.Length);
+        GameObject goldBox = _goldBoxPoll[_currentGoldBox].gameObject;
+        goldBox.transform.position = _spawnPositions[positionIndex].position;
+        goldBox.transform.rotation = _spawnPositions[positionIndex].rotation;
+        goldBox.SetActive(true);
+        _currentGoldBox = (_currentGoldBox + 1) % _goldBoxCount;
+        //photonView.RPC(nameof(SpawnGoldBox), RpcTarget.All);
     }
     
     [PunRPC]
@@ -40,12 +46,6 @@ public class GoldBoxSpawner : MonoBehaviourPun
     {
         if(PhotonNetwork.IsMasterClient)
         {
-            int positionIndex = Random.Range(1, _spawnPositions.Length);
-            GameObject goldBox = _goldBoxPoll[_currentGoldBox].gameObject;
-            goldBox.transform.position = _spawnPositions[positionIndex].position;
-            goldBox.transform.rotation = _spawnPositions[positionIndex].rotation;
-            goldBox.SetActive(true);
-            _currentGoldBox = (_currentGoldBox + 1) % _goldBoxCount;
         }
     }
 

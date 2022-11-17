@@ -54,7 +54,7 @@ public class GoldBoxInetraction : MonoBehaviour
         gameObject.transform.localScale = 
             new Vector3(_changedScale, _changedScale, _changedScale);
 
-        _playerInteractionScript = transform.root.GetComponent<PlayerGoldRushInteraction>();
+        _playerInteractionScript = transform.root.GetComponentInChildren<PlayerGoldRushInteraction>();
 
         _playerFaintScript = transform.root.GetComponent<FirstMoveAttackPlayer>();
         _playerFaintScript.OnFaint.RemoveListener(DropBox);

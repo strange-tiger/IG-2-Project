@@ -38,14 +38,14 @@ public class PlayerTumbleweedInteraction : PlayerInteractionSencer
             return;
         }
 
-        foreach (SyncOVRGrabber grabber in Grabbers)
-        {
-            if (grabber.grabbedObject)
-            {
-                InteractingTime = 0f;
-                return;
-            }
-        }
+        //foreach (SyncOVRGrabber grabber in Grabbers)
+        //{
+        //    if (grabber.grabbedObject)
+        //    {
+        //        InteractingTime = 0f;
+        //        return;
+        //    }
+        //}
 
         InteractingTime += Time.fixedDeltaTime;
     }

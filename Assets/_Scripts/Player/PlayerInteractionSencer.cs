@@ -15,8 +15,11 @@ public class PlayerInteractionSencer : MonoBehaviour
         }
     }
 
-    public PlayerInput Input { get; set; }
-    public SyncOVRGrabber[] Grabbers { get; set; }
+    [SerializeField] private PlayerInput _input;
+    public PlayerInput Input { get => _input; set => _input = value; }
+
+    [SerializeField] private SyncOVRGrabber[] _grabbers;
+    public SyncOVRGrabber[] Grabbers { get => _grabbers; set => _grabbers = value; }
 
     protected string _nickname = "";
 
