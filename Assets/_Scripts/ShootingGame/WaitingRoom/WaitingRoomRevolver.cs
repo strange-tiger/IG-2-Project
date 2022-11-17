@@ -9,10 +9,19 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     private bool _isGrabbed = false;
     private SyncOVRGrabbable _syncGrabbable;
     private bool _isReloading = false;
+    private bool IsReloading
+    {
+        get { return _isReloading; }
+        set
+        {
+            photonView.RPC(nameof(SetReloadingValue), RpcTarget.All, value);
+        }
+    }
 
-    //private SphereCollider _collider;
+    private BoxCollider _boxCollider;
 
     // 총알 관련
+    [SerializeField] private TextMeshProUGUI _bulletCountText;
     [SerializeField] private Transform _bulletSpawnTransform;
     [SerializeField] private Transform _bulletShotPoint;
     private Stack<GameObject> _bulletTrailPull = new Stack<GameObject>();
@@ -27,7 +36,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         }
     }
 
-    [SerializeField] private TextMeshProUGUI _bulletCountText;
 
     // 사운드 관련
     [SerializeField] private AudioClip _shotAudioClip;
@@ -45,7 +53,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void Awake()
     {
-        //_collider = GetComponent<SphereCollider>();
+        _boxCollider = GetComponent<BoxCollider>();
 
         // 그랩 상태 받아오기
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
@@ -88,6 +96,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     public void OnGrabBegin()
     {
         _isGrabbed = true;
+        _boxCollider.enabled = true;
         if (photonView.IsMine)
         {
             photonView.RPC(nameof(OnGrabBegin), RpcTarget.Others);
@@ -98,6 +107,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     public void OnGrabEnd()
     {
         _isGrabbed = false;
+        _boxCollider.enabled = false;
         if (photonView.IsMine)
         {
             photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
@@ -130,6 +140,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
             return;
         }
         --BulletCount;
+
         PlayShotEffect();
     }
 
@@ -139,7 +150,11 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         _bulletCount = value;
         _bulletCountText.text = _bulletCount.ToString();
     }
-
+    [PunRPC]
+    private void SetReloadingValue(bool value)
+    {
+        _isReloading = value;
+    }
 
     private void PlayShotEffect()
     {
