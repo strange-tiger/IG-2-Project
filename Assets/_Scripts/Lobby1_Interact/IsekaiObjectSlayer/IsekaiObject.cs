@@ -8,20 +8,20 @@ public class IsekaiObject : MonoBehaviourPun
 {
     public event Action ObjectSlashed;
 
-    private MeshRenderer _renderer;
+    [SerializeField] MeshRenderer _renderer;
 
-    private void Awake()
-    {
-        _renderer = GetComponent<MeshRenderer>();
-    }
+    private static readonly WaitForSeconds FLICK_TIME = new WaitForSeconds(0.05f);
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("IsekaiWeapon"))
         {
-            StartCoroutine(Flick());
+            photonView.RPC("FlickHelper", RpcTarget.All);
         }
     }
+
+    [PunRPC]
+    private void FlickHelper() => StartCoroutine(Flick());
 
     private IEnumerator Flick()
     {
@@ -29,7 +29,20 @@ public class IsekaiObject : MonoBehaviourPun
 
         while (count > 0)
         {
-            yield return null;
+            _renderer.enabled = false;
+
+            yield return FLICK_TIME;
+
+            _renderer.enabled = true;
+
+            yield return FLICK_TIME;
+
+            --count;
         }
+
+        ObjectSlashed.Invoke();
+
+        transform.position = Vector3.zero;
+        gameObject.SetActive(false);
     }
 }
