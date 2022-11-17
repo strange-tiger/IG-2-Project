@@ -40,13 +40,13 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
         _spawner = spawner;
         _coinGrade = coinGrade;
         _giveGoldText.text = $"+{giveGold}";
+        _canvas.SetActive(true);
     }
 
     public override void OnEnable()
     {
         base.OnEnable();
 
-        _canvas.SetActive(true);
         photonView.RPC(nameof(ShowEffect), RpcTarget.All);
         StartCoroutine(CoEndEffect());
     }
