@@ -15,6 +15,7 @@ public class PlayerGoldRushInteraction : PlayerInteractionSencer
         {
             _isNearGoldRush = value;
             IsNearInteraction = value;
+            Debug.Log($"[GoldRush] {_isNearGoldRush} {IsNearInteraction}");
         }
     }
 

@@ -18,10 +18,14 @@ public class GoldBoxSencer : MonoBehaviour
     private Transform _playerTransform;
     private PlayerGoldRushInteraction _playerInteraction;
 
+    private Collider _sencer;
+
     private void Awake()
     {
         _interaction = GetComponentInChildren<GoldBoxInetraction>();
         _goldBoxInteractionObject = _interaction.gameObject;
+
+        _sencer = GetComponent<Collider>();
 
         _outline = GetComponent<Outlinable>();
         _outline.AddAllChildRenderersToRenderingList();
@@ -33,6 +37,26 @@ public class GoldBoxSencer : MonoBehaviour
     {
         _goldBoxInteractionObject.SetActive(true);
         _interaction.enabled = false;
+        _sencer.enabled = true;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_isTherePlayer && _playerInteraction.HasInteract)
+        {
+            _sencer.enabled = false;
+
+            gameObject.transform.parent = _playerTransform;
+            gameObject.transform.localPosition = _onPlayerPosition;
+            gameObject.transform.localRotation = Quaternion.Euler(ZERO_VECTOR);
+
+            _outline.enabled = false;
+            _playerInteraction.IsNearGoldRush = false;
+            _isTherePlayer = false;
+
+            _interaction.enabled = true;
+            this.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -72,7 +96,7 @@ public class GoldBoxSencer : MonoBehaviour
         _outline.enabled = true;
 
         _playerTransform = 
-            other.transform.root.GetComponentInChildren<OVRCameraRig>().transform;
+            other.transform.root.transform;
 
         _playerInteraction = playerInteraction;
         _playerInteraction.IsNearGoldRush = true;
@@ -97,22 +121,5 @@ public class GoldBoxSencer : MonoBehaviour
         _playerInteraction.IsNearGoldRush = false;
 
         _isTherePlayer = false;
-    }
-
-    private void Update()
-    {
-        if(_isTherePlayer && _playerInteraction.HasInteract)
-        {
-            gameObject.transform.parent = _playerTransform;
-            gameObject.transform.localPosition = _onPlayerPosition;
-            gameObject.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
-
-            _outline.enabled = false;
-            _playerInteraction.IsNearGoldRush = false;
-            _isTherePlayer = false;
-
-            _interaction.enabled = true;
-            this.enabled = false;
-        }
     }
 }

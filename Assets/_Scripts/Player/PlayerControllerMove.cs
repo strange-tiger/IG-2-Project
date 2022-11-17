@@ -180,7 +180,7 @@ public class PlayerControllerMove : MonoBehaviourPun
 
         InitialYRotation = transform.rotation.eulerAngles.y;
 
-        _animator = GetComponentInChildren<Animator>();
+        _animators = GetComponentsInChildren<Animator>();
         _switchController = GetComponentInChildren<SwitchController>();
     }
 
