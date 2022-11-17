@@ -70,6 +70,5 @@ public class PlayerInput : MonoBehaviourPun
         
         IsMove = OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
         IsInventoryOn = (OVRInput.Get(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
-        IsInventoryOff = IsInventoryOn == true && (OVRInput.Get(OVRInput.Button.Start));
     }
 }
