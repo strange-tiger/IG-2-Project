@@ -103,7 +103,7 @@ public class PlayerFocus : MonoBehaviour
             }
             else
             {
-                focusObject = hit.collider.transform.root.GetComponent<FocusableObjects>();
+                focusObject = hit.collider.gameObject.GetComponentInParent<FocusableObjects>();
                 if(focusObject)
                 {
                     FocusedObject = focusObject;

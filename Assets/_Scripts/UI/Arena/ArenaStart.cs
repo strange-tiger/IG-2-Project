@@ -39,7 +39,7 @@ public class ArenaStart : MonoBehaviourPun
     public void OnClickStartBattle()
     {
         photonView.RPC("StartTournament", RpcTarget.All);
-        _StartBattleButton.interactable = false;
+     
     }
 
     [PunRPC]
@@ -48,6 +48,7 @@ public class ArenaStart : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate("Tournament", Vector3.zero, Quaternion.identity);
+            _StartBattleButton.interactable = false;
             OnTournamentStart.Invoke();
         }
     }

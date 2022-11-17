@@ -9,7 +9,7 @@ public class WoodPile : InteracterableObject, IPunObservable
     [SerializeField] GameObject _wood;
     private static readonly YieldInstruction INTERACT_COOLTIME = new WaitForSeconds(5f);
     private static readonly Vector3[] SPAWN_DIRECTION = new Vector3[4] { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
-    private const float SPAWN_WOOD_FORCE = 2f;
+    private const float SPAWN_WOOD_FORCE = 1f;
     private bool _onCooltime = false;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
