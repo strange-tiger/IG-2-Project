@@ -133,6 +133,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     protected OVRCameraRig _cameraRig = null;
     public OVRCameraRig CameraRig { get; set; }
 
+    private Animator _animator;
+    private SwitchController _switchController;
     private InventoryUIManager _inventoryUIManager = new InventoryUIManager();
     private Vector3 _moveThrottle = Vector3.zero;
     private OVRPose? _initialPose;
@@ -143,7 +145,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     private bool _playerControllerEnabled = false;
     private bool _isControllerRight;
 
-    // ÇÃ·¹ÀÌ¾î ¾Ö´Ï¸ÞÀÌ¼Ç
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
     private Animator[] _animators;
 
     private void Start()
@@ -153,10 +155,10 @@ public class PlayerControllerMove : MonoBehaviourPun
         p.z = OVRManager.profile.eyeDepth;
         _cameraRig.transform.localPosition = p;
 
-        //_controllerScrollButton.SwitchController.AddListener(SwitchController);
+
+        _switchController.SwitchControllerEvent.RemoveListener(SwitchController);
+        _switchController.SwitchControllerEvent.AddListener(SwitchController);
     }
-
-
 
     private void Awake()
     {
@@ -178,7 +180,8 @@ public class PlayerControllerMove : MonoBehaviourPun
 
         InitialYRotation = transform.rotation.eulerAngles.y;
 
-        _animators = GetComponentsInChildren<Animator>();
+        _animator = GetComponentInChildren<Animator>();
+        _switchController = GetComponentInChildren<SwitchController>();
     }
 
     private void OnEnable()
@@ -483,9 +486,10 @@ public class PlayerControllerMove : MonoBehaviourPun
         }
     }
 
-    private void SwitchController(bool isLeft)
+    private void SwitchController(bool value)
     {
-        _isControllerRight = isLeft;
+        Debug.Log($"ï¿½Ìºï¿½Æ® : {value}");
+        _isControllerRight = value;
     }
 }
 
