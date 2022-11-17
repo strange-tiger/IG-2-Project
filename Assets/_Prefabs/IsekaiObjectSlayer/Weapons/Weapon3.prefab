@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 6874554887020829635}
   - component: {fileID: 3252608933270236331}
   - component: {fileID: 6968624486635597643}
-  - component: {fileID: 915585595077002677}
   - component: {fileID: 7604801776676565258}
   - component: {fileID: 3013823093607969732}
   - component: {fileID: 5818541796258061297}
   - component: {fileID: 5398738502552840752}
   - component: {fileID: 9066418275080222029}
+  - component: {fileID: -5680047614894576882}
   m_Layer: 0
   m_Name: Weapon3
   m_TagString: IsekaiWeapon
@@ -119,23 +119,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &915585595077002677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6874554887022619009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b80e0edc8b0e5c84a839efedc792ee86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints: []
 --- !u!135 &7604801776676565258
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -216,3 +199,21 @@ MonoBehaviour:
   _attackPoints:
   - {fileID: 7604801776676565258}
   - {fileID: 3013823093607969732}
+--- !u!114 &-5680047614894576882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6874554887022619009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4cae247bc0b404bb564ad307d3d71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_allowOffhandGrab: 1
+  m_snapPosition: 0
+  m_snapOrientation: 0
+  m_snapOffset: {fileID: 0}
+  m_grabPoints: []
+  m_materialColorField: 

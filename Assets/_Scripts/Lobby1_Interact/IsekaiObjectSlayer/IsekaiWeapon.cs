@@ -9,7 +9,7 @@ public class IsekaiWeapon : MonoBehaviourPun
     
     private static readonly WaitForSeconds RETURN_DELAY = new WaitForSeconds(0.5f);
     
-    private SyncOVRGrabbable _grabbable;
+    private SyncOVRDistanceGrabbable _grabbable;
     private Rigidbody _rigidbody;
     private Coroutine _coroutine;
     private Vector3 _initPosition;
@@ -17,7 +17,7 @@ public class IsekaiWeapon : MonoBehaviourPun
 
     private void Awake()
     {
-        _grabbable = GetComponent<SyncOVRGrabbable>();
+        _grabbable = GetComponent<SyncOVRDistanceGrabbable>();
         _rigidbody = GetComponent<Rigidbody>();
     }
 

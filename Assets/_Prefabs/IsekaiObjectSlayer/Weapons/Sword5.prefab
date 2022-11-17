@@ -13,11 +13,11 @@ GameObject:
   - component: {fileID: 2668433483325663291}
   - component: {fileID: 7025912790093236098}
   - component: {fileID: 2527042887658629230}
-  - component: {fileID: 3241291693102309996}
   - component: {fileID: 8155007335389780}
   - component: {fileID: 2803706759808247566}
   - component: {fileID: 4124689316992495005}
   - component: {fileID: 8911488397093165389}
+  - component: {fileID: 4015945490045496120}
   m_Layer: 0
   m_Name: Sword5
   m_TagString: IsekaiWeapon
@@ -118,23 +118,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3241291693102309996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2692195108304644687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b80e0edc8b0e5c84a839efedc792ee86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints: []
 --- !u!65 &8155007335389780
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -201,3 +184,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackPoints:
   - {fileID: 8155007335389780}
+--- !u!114 &4015945490045496120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2692195108304644687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4cae247bc0b404bb564ad307d3d71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_allowOffhandGrab: 1
+  m_snapPosition: 0
+  m_snapOrientation: 0
+  m_snapOffset: {fileID: 0}
+  m_grabPoints: []
+  m_materialColorField: 
