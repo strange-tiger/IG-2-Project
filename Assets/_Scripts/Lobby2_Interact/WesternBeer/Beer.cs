@@ -19,18 +19,20 @@ public class Beer : InteracterableObject, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(_fullBeer.activeSelf);
-            stream.SendNext(_beerCollider.enabled);
-            stream.SendNext(_grabCollider.enabled);
-        }
-        else if (stream.IsReading)
-        {
-            _fullBeer.SetActive((bool)stream.ReceiveNext());
-            _beerCollider.enabled = (bool)stream.ReceiveNext();
-            _grabCollider.enabled = (bool)stream.ReceiveNext();
-        }
+        
+            if (stream.IsWriting)
+            {
+                stream.SendNext(_fullBeer.activeSelf);
+                stream.SendNext(_beerCollider.enabled);
+                stream.SendNext(_grabCollider.enabled);
+            }
+            else if (stream.IsReading)
+            {
+                _fullBeer.SetActive((bool)stream.ReceiveNext());
+                _beerCollider.enabled = (bool)stream.ReceiveNext();
+                _grabCollider.enabled = (bool)stream.ReceiveNext();
+            }
+        
     }
 
 
@@ -38,7 +40,7 @@ public class Beer : InteracterableObject, IPunObservable
     public void Start()
     {
         _initBeerPosition = transform.position;
-        _grabCollider = GetComponent<BoxCollider>();
+        _beerCollider = GetComponent<BoxCollider>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -56,7 +58,6 @@ public class Beer : InteracterableObject, IPunObservable
         _grabCollider.enabled = false;
         StartCoroutine(ReGenerateBeer());
     }
-
 
 
     private IEnumerator ReGenerateBeer()
