@@ -11,22 +11,44 @@ public class SpawnPaintbrush : MonoBehaviourPun
 
     private Transform _clientPlayer;
     
-    public void SpawnHelper()
+    public void SetPlayerTransform(Transform player)
+    {
+        _clientPlayer = player;
+    }
+
+    public void TogglePaintbrush()
     {
         if (!photonView.IsMine)
         {
             return;
         }
 
-        photonView.RPC("Spawn", RpcTarget.AllBuffered);
+        if (!_legalPad.activeSelf)
+        {
+            photonView.RPC("Spawn", RpcTarget.AllBuffered);
+        }
+        else
+        {
+            photonView.RPC("Despawn", RpcTarget.AllBuffered);
+        }
     }
 
-    private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 1.5f, 4f);
+    private static readonly Vector3 SPAWN_PAD_POSITION = new Vector3(0f, 0f, 1.5f);
     [PunRPC]
     private void Spawn()
     {
-        transform.position = SPAWN_PAD_POSITION;
+        if (photonView.IsMine)
+        {
+            transform.position = _clientPlayer.position + SPAWN_PAD_POSITION;
+        }
         _legalPad.SetActive(true);
         _pencil.SetActive(true);
+    }
+
+    [PunRPC]
+    private void Despawn()
+    {
+        _legalPad.SetActive(false);
+        _pencil.SetActive(false);
     }
 }
