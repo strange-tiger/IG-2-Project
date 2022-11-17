@@ -6,7 +6,9 @@ using EAIState = Defines.Estate;
 public class AISkill : AIState
 {
     [Header("내 스킬 이펙트을 넣어주세요")]
-    [SerializeField] GameObject _skillEffect;
+    [SerializeField] private GameObject _skillEffect;
+
+    [SerializeField] private AudioClip _skillAudioClip; 
 
     private float _curTime;
     private bool _isSkill;
@@ -14,6 +16,7 @@ public class AISkill : AIState
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
 
         _isSkill = true;
     }
@@ -27,6 +30,11 @@ public class AISkill : AIState
         }
         
         _isSkill = true;
+
+        if (_skillAudioClip != null)
+        {
+            _audioSource.PlayOneShot(_skillAudioClip);
+        }
     }
 
     public override void OnUpdate()

@@ -125,6 +125,15 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     InteractionOakBarrel.Invoke();
                 }
+                //else if (interacterableObject.gameObject.CompareTag("Player"))
+                //{
+                //    MeshRenderer meshRenderer = interacterableObject.gameObject.transform.Find("OakBarrel").gameObject.GetComponent<MeshRenderer>();
+
+                //    if (meshRenderer.enabled == true)
+                //    {
+                //        InteractionOakBarrel.Invoke();
+                //    }
+                //}
             }
         }
     }
