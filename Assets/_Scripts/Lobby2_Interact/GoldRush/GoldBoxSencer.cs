@@ -32,12 +32,28 @@ public class GoldBoxSencer : GoldBoxState
         _outline.enabled = false;
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
+        if(!_isJoinedRoom)
+        {
+            return;
+        }
+
+        Debug.Log("[GoldBox] Sencer OnEnable");
         //_goldBoxInteractionObject.SetActive(true);
         //_interaction.enabled = false;
-        _interaction.SetActiveObject(true);
-        _interaction.EnableScript(false);
+        _interaction.SetActiveObject(false, _interaction.name);
+        _interaction.EnableScript(false, _interaction.name);
+        _sencerCollider.enabled = true;
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        _interaction.SetActiveObject(true, _interaction.name);
+        _interaction.EnableScript(false, _interaction.name);
         _sencerCollider.enabled = true;
     }
 
@@ -56,8 +72,8 @@ public class GoldBoxSencer : GoldBoxState
             _isTherePlayer = false;
 
             //_interaction.enabled = true;
-            _interaction.EnableScript(true);
-            EnableScript(false);
+            _interaction.EnableScript(true, _interaction.name);
+            EnableScript(false, this.name);
         }
     }
 
@@ -123,5 +139,18 @@ public class GoldBoxSencer : GoldBoxState
         _playerInteraction.IsNearGoldRush = false;
 
         _isTherePlayer = false;
+    }
+
+
+    [PunRPC]
+    private void EnableScriptByRPC(bool value)
+    {
+        this.enabled = value;
+    }
+
+    [PunRPC]
+    private void SetActiveObjectByRPC(bool value)
+    {
+        gameObject.SetActive(value);
     }
 }

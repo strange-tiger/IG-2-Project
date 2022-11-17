@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 using CoinGrade = Defines.ECoinGrade;
 
 public class GoldBoxInetraction : GoldBoxState
@@ -43,13 +44,18 @@ public class GoldBoxInetraction : GoldBoxState
         {
             _maxGoldCoinRate += rate;
         }
-
-        //this.enabled = false;
-        EnableScript(false);
     }
 
-    private void OnEnable()
+    public override void OnJoinedRoom()
     {
+        //this.enabled = false;
+        EnableScript(false, this.name);
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
@@ -74,9 +80,9 @@ public class GoldBoxInetraction : GoldBoxState
         _rigidbody.constraints = RigidbodyConstraints.None;
 
         //_sencer.enabled = true;
-        _sencer.EnableScript(true);
+        _sencer.EnableScript(true, _sencer.name);
         //this.enabled = false;
-        EnableScript(false);
+        EnableScript(false, this.name);
     }
 
     private void Update()
@@ -115,20 +121,35 @@ public class GoldBoxInetraction : GoldBoxState
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         _effect.SetEffect(_goldCoinGiveCount[grade], grade, _spawner);
-        _effect.SetActiveObject(true);
+        _effect.SetActiveObject(true, _effect.name);
         //_effect.gameObject.SetActive(true);
 
         _elapsedTime = 0f;
         //this.enabled = false;
         //gameObject.SetActive(false);
-        EnableScript(false);
-        SetActiveObject(false);
+        EnableScript(false, this.name);
+        SetActiveObject(false, this.name);
 
         return _goldCoinGiveCount[grade];
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
         _playerFaintScript.OnFaint.RemoveListener(DropBox);
+    }
+
+    [PunRPC]
+    protected override void EnableScriptByRPC(bool value)
+    {
+        base.EnableScriptByRPC(value);
+        this.enabled = value;
+    }
+
+    [PunRPC]
+    protected override void SetActiveObjectByRPC(bool value)
+    {
+        base.SetActiveObjectByRPC(value);
+        gameObject.SetActive(value);
     }
 }

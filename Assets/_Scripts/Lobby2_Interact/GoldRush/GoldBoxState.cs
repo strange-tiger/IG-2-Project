@@ -3,25 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class GoldBoxState : MonoBehaviourPun
+public abstract class GoldBoxState : MonoBehaviourPunCallbacks
 {
-    public void EnableScript(bool value)
+    protected bool _isJoinedRoom = false;
+
+    public override void OnJoinedRoom()
     {
-        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.All, value);
-    }
-    [PunRPC]
-    protected virtual void EnableScriptByRPC(bool value)
-    {
-        this.enabled = value;
+        _isJoinedRoom = true;
     }
 
-    public void SetActiveObject(bool value)
-    {
-        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.All, value);
-    }
-    [PunRPC]
-    protected virtual void SetActiveObjectByRPC(bool value)
-    {
-        gameObject.SetActive(value);
-    }
+    public abstract void EnableScript(bool value);
+
+    public abstract void SetActiveObject(bool value);
 }

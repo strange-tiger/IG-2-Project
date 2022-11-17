@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class GoldBoxSpawner : MonoBehaviourPun
+public class GoldBoxSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _spawnPositionParent;
     private Transform[] _spawnPositions;
 
     [SerializeField] private GameObject _goldBoxParent;
+    public Transform GoldBoxParent { get; private set; }
 
     private GoldBoxSencer[] _goldBoxPoll;
     private int _goldBoxCount;
@@ -19,11 +20,20 @@ public class GoldBoxSpawner : MonoBehaviourPun
         _spawnPositions = _spawnPositionParent.GetComponentsInChildren<Transform>();
 
         _goldBoxPoll = _goldBoxParent.GetComponentsInChildren<GoldBoxSencer>();
-        foreach(GoldBoxSencer goldBox in _goldBoxPoll)
+
+        GoldBoxParent = _goldBoxParent.transform;
+    }
+
+    public override void OnJoinedRoom()
+    {
+        foreach (GoldBoxSencer goldBox in _goldBoxPoll)
         {
             goldBox.GetComponentInChildren<GoldBoxInetraction>().
                 OnGiveGold.AddListener(SpawnGoldBoxInRandomPosition);
-            goldBox.SetActiveObject(false);
+            if(PhotonNetwork.IsMasterClient)
+            {
+                goldBox.SetActiveObject(false, goldBox.name);
+            }
         }
         _goldBoxCount = _goldBoxPoll.Length;
 
@@ -44,13 +54,9 @@ public class GoldBoxSpawner : MonoBehaviourPun
             GameObject goldBox = _goldBoxPoll[_currentGoldBox].gameObject;
             goldBox.transform.position = _spawnPositions[positionIndex].position;
             goldBox.transform.rotation = _spawnPositions[positionIndex].rotation;
-            goldBox.GetComponent<GoldBoxSencer>().SetActiveObject(true);
+            goldBox.GetComponent<GoldBoxSencer>().SetActiveObject(true, goldBox.name);
+
             _currentGoldBox = (_currentGoldBox + 1) % _goldBoxCount;
         }
-    }
-
-    public void ReturnToPoll(GameObject goldBox)
-    {
-        goldBox.transform.parent = _goldBoxParent.transform;
     }
 }

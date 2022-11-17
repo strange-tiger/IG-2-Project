@@ -42,8 +42,10 @@ public class GoldBoxEffect : GoldBoxState
         _giveGoldText.text = $"+{giveGold}";
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         _canvas.SetActive(true);
         photonView.RPC(nameof(ShowEffect), RpcTarget.All);
         StartCoroutine(CoEndEffect());
@@ -60,21 +62,37 @@ public class GoldBoxEffect : GoldBoxState
     private IEnumerator CoEndEffect()
     {
         yield return _waitForEffectEnd;
-        _spawner.ReturnToPoll(gameObject.transform.parent.gameObject);
         photonView.RPC(nameof(ResetGoldBox), RpcTarget.All);
         //gameObject.SetActive(false);
-        SetActiveObject(false);
+        SetActiveObject(false, this.name);
     }
     
     [PunRPC]
     private void ResetGoldBox()
     {
+        //_spawner.ReturnToPoll(gameObject.transform.parent.gameObject);
+        transform.parent.parent = _spawner.GoldBoxParent;
+
         //_sencer.enabled = true;
         //transform.parent.gameObject.SetActive(false);
-        _sencer.EnableScript(true);
-        _sencer.SetActiveObject(false);
+        _sencer.EnableScript(true, _sencer.name);
+        _sencer.SetActiveObject(false, _sencer.name);
 
         _canvas.SetActive(false);
         _effect.SetActive(false);
+    }
+
+    [PunRPC]
+    protected override void EnableScriptByRPC(bool value)
+    {
+        base.EnableScriptByRPC(value);
+        this.enabled = value;
+    }
+
+    [PunRPC]
+    protected override void SetActiveObjectByRPC(bool value)
+    {
+        base.SetActiveObjectByRPC(value);
+        gameObject.SetActive(value);
     }
 }
