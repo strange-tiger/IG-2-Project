@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 using CoinGrade = Defines.ECoinGrade;
 
-public class GoldBoxEffect : MonoBehaviour
+public class GoldBoxEffect : GoldBoxState
 {
     [SerializeField] private float _effectEndTime = 3f;
     private WaitForSeconds _waitForEffectEnd;
@@ -16,9 +17,14 @@ public class GoldBoxEffect : MonoBehaviour
         new AudioClip[(int)CoinGrade.Max];
     [SerializeField] private AudioClip _fireWorkAudioClip;
 
+    [SerializeField] private GameObject _canvas;
+    [SerializeField] private GameObject _effect;
+
     private GoldBoxSpawner _spawner;
     private GoldBoxSencer _sencer;
     private AudioSource _audioSource;
+
+    private int _coinGrade;
 
     private void Awake()
     {
@@ -29,25 +35,46 @@ public class GoldBoxEffect : MonoBehaviour
         _waitForEffectEnd = new WaitForSeconds(_effectEndTime);
     }
 
-    private void OnEnable()
-    {
-        StartCoroutine(CoEndEffect());
-    }
-
     public void SetEffect(int giveGold, int coinGrade, GoldBoxSpawner spawner)
     {
         _spawner = spawner;
-        _audioSource.PlayOneShot(_fireWorkAudioClip);
-        _audioSource.PlayOneShot(_goldCoinAudioClips[coinGrade]);
+        _coinGrade = coinGrade;
         _giveGoldText.text = $"+{giveGold}";
+    }
+
+    private void OnEnable()
+    {
+        _canvas.SetActive(true);
+        photonView.RPC(nameof(ShowEffect), RpcTarget.All);
+        StartCoroutine(CoEndEffect());
+    }
+
+    [PunRPC]
+    private void ShowEffect()
+    {
+        _audioSource.PlayOneShot(_fireWorkAudioClip);
+        _audioSource.PlayOneShot(_goldCoinAudioClips[_coinGrade]);
+        _effect.SetActive(true);
     }
 
     private IEnumerator CoEndEffect()
     {
         yield return _waitForEffectEnd;
         _spawner.ReturnToPoll(gameObject.transform.parent.gameObject);
-        _sencer.enabled = true;
-        gameObject.SetActive(false);
-        transform.parent.gameObject.SetActive(false);
+        photonView.RPC(nameof(ResetGoldBox), RpcTarget.All);
+        //gameObject.SetActive(false);
+        SetActiveObject(false);
+    }
+    
+    [PunRPC]
+    private void ResetGoldBox()
+    {
+        //_sencer.enabled = true;
+        //transform.parent.gameObject.SetActive(false);
+        _sencer.EnableScript(true);
+        _sencer.SetActiveObject(false);
+
+        _canvas.SetActive(false);
+        _effect.SetActive(false);
     }
 }

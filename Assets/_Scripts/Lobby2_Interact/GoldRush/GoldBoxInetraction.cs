@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using CoinGrade = Defines.ECoinGrade;
 
-public class GoldBoxInetraction : MonoBehaviour
+public class GoldBoxInetraction : GoldBoxState
 {
     [Header("Gold")]
     [SerializeField] private int[] _goldCoinGiveCount = new int[(int)CoinGrade.Max];
@@ -18,8 +18,9 @@ public class GoldBoxInetraction : MonoBehaviour
     [SerializeField] private float _giveGoldGrabTime = 60f;
 
     public UnityEvent OnGiveGold = new UnityEvent();
-    private GoldBoxSpawner _spawner;
+
     private Rigidbody _rigidbody;
+    private GoldBoxSpawner _spawner;
     private GoldBoxSencer _sencer;
     [SerializeField] private GoldBoxEffect _effect;
 
@@ -43,7 +44,8 @@ public class GoldBoxInetraction : MonoBehaviour
             _maxGoldCoinRate += rate;
         }
 
-        this.enabled = false;
+        //this.enabled = false;
+        EnableScript(false);
     }
 
     private void OnEnable()
@@ -71,8 +73,10 @@ public class GoldBoxInetraction : MonoBehaviour
         _rigidbody.useGravity = true;
         _rigidbody.constraints = RigidbodyConstraints.None;
 
-        _sencer.enabled = true;
-        this.enabled = false;
+        //_sencer.enabled = true;
+        _sencer.EnableScript(true);
+        //this.enabled = false;
+        EnableScript(false);
     }
 
     private void Update()
@@ -110,12 +114,15 @@ public class GoldBoxInetraction : MonoBehaviour
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
-        _effect.gameObject.SetActive(true);
         _effect.SetEffect(_goldCoinGiveCount[grade], grade, _spawner);
+        _effect.SetActiveObject(true);
+        //_effect.gameObject.SetActive(true);
 
         _elapsedTime = 0f;
-        this.enabled = false;
-        gameObject.SetActive(false);
+        //this.enabled = false;
+        //gameObject.SetActive(false);
+        EnableScript(false);
+        SetActiveObject(false);
 
         return _goldCoinGiveCount[grade];
     }
