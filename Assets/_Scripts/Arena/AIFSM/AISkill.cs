@@ -30,6 +30,11 @@ public class AISkill : AIState
         }
         
         _isSkill = true;
+
+        if (_skillAudioClip != null)
+        {
+            _audioSource.PlayOneShot(_skillAudioClip);
+        }
     }
 
     public override void OnUpdate()

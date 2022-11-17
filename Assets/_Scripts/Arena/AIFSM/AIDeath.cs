@@ -17,11 +17,18 @@ public class AIDeath : AIState
 
     public override void OnEnter()
     {
+        if (_deathAudioClip != null)
+        {
+            _audioSource.PlayOneShot(_deathAudioClip);
+        }
+
         Invoke("OffCollider", 1f);
 
         _animator.SetTrigger(AIAnimatorID.onDeath);
 
         Invoke("Delete", 5f);
+
+
     }
 
     public override void OnUpdate()

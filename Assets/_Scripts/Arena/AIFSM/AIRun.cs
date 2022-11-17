@@ -22,6 +22,11 @@ public class AIRun : AIState
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isRun, true);
+
+        if (_runAudioClip != null)
+        {
+            _audioSource.PlayOneShot(_runAudioClip);
+        }
     }
 
     public override void OnUpdate()
