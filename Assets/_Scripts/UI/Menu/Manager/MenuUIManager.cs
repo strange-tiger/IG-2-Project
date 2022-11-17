@@ -30,6 +30,10 @@ public class MenuUIManager : GlobalInstance<MenuUIManager>
     {
         _inventoryUIManager.ShowInventoryUI();
     }
+    public void HideInventory()
+    {
+        _inventoryUIManager.HideInventoryUI();
+    }
     public void ShowSocialUI(UserInteraction targetUserNickname)
     {
         _socialUIManager.ShowFriendPanel(targetUserNickname);
