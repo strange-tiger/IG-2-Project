@@ -11,14 +11,26 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
     private PlayerControllerMove _playerControllerMove;
 
+    private MeshCollider _oakBarrelMeshCollider;
     private MeshRenderer _playerMeshRenderer;
+    private MeshRenderer _oakBarrelMeshRenderer;
+
     private Color _color = new Color(0, 0, 0, 0);
     
     private float _speedSlower = 0.2f;
     private bool _isInOak;
+
+    private void Awake()
+    {
+        _oakBarrelMeshRenderer = _playerOakBarrel.GetComponent<MeshRenderer>();
+        _oakBarrelMeshCollider = _playerOakBarrel.GetComponent<MeshCollider>();
+
+        _oakBarrelMeshRenderer.enabled = false;
+        _oakBarrelMeshCollider.enabled = false;
+    }
 
     private void Start()
     {
@@ -27,9 +39,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
         _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
         _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
-
-        _playerInteraction.InteractionPlayerOakBarrel.RemoveListener(InteractionPlayerOakBarrel);
-        _playerInteraction.InteractionPlayerOakBarrel.AddListener(InteractionPlayerOakBarrel);
 
         _playerMeshRenderer = GameObject.Find("CenterEyeAnchor").GetComponentInChildren<MeshRenderer>();
     }
@@ -42,43 +51,22 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
             OutOakBarrel();
         }
+
+        if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
+        {
+            _playerMeshRenderer.material.color = Color.black;
+            StartCoroutine(FadeOutPlayerScreen());
+
+            OutOakBarrel();
+        }
     }
 
     private void BecomeOakBarrel()
     {
         if (photonView.IsMine)
         {
-            if (_playerModel.activeSelf == true)
-            {
-                InOakBarrel();
-
-                StartCoroutine(OakBarrelIsGone());
-            }
-
-            else if (_playerModel.activeSelf == false)
-            {
-                OutOakBarrel();
-            }
-        }
-    }
-
-    private void InteractionPlayerOakBarrel()
-    {
-        if (photonView.IsMine)
-        {
-            if (_playerModel.activeSelf == true)
-            {
-                InOakBarrel();
-
-                StartCoroutine(OakBarrelIsGone());
-            }
-
-            else if (_playerModel.activeSelf == false)
-            {
-                OutOakBarrel();
-                _playerMeshRenderer.material.color = Color.black;
-                StartCoroutine(FadeOutPlayerScreen());
-            }
+            InOakBarrel();
+            StartCoroutine(OakBarrelIsGone());
         }
     }
 
@@ -96,26 +84,23 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerMeshRenderer.material.color = _color;
     }
 
+
     [PunRPC]
     public void ActivePlayer(bool value)
     {
-        // Debug.Log($"ActivePlayer : {value}");
-
         _playerModel.SetActive(value);
+        _oakBarrelMeshCollider.enabled = value;
     }
 
     [PunRPC]
     public void ActiveOakBarrel(bool value)
     {
-        // Debug.Log($"ActiveOakBarrel: {value}");
-
-        _playerOakBarrel.SetActive(value);
+        _oakBarrelMeshRenderer.enabled = value;
+        _oakBarrelMeshCollider.enabled = value;
     }
 
     private void InOakBarrel()
     {
-        // Debug.Log("InOakBarrel");
-
         photonView.RPC("ActiveOakBarrel", RpcTarget.All, true);
         photonView.RPC("ActivePlayer", RpcTarget.All, false);
 
@@ -128,8 +113,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void OutOakBarrel()
     {
-        // Debug.Log("OutOakBarrel");
-
         photonView.RPC("ActiveOakBarrel", RpcTarget.All, false);
         photonView.RPC("ActivePlayer", RpcTarget.All, true);
 
@@ -143,6 +126,5 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private void OnDisable()
     {
         _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
-        _playerInteraction.InteractionPlayerOakBarrel.RemoveListener(InteractionPlayerOakBarrel);
     }
 }
