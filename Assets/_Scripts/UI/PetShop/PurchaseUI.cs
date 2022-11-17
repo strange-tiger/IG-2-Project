@@ -6,10 +6,10 @@ using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
-using UnityEngine.EventSystems;
 
 public class PurchaseUI : MonoBehaviour
 {
