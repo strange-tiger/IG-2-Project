@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Events;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
+    public UnityEvent OnFaint = new UnityEvent();
+
     [PunRPC]
     public void OnDamageByBottle()
     {
@@ -17,6 +20,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         GetComponentInChildren<OVRScreenFade>()?.FadeOut(0.0f);
         StartCoroutine(Invincible(20f));
         StartCoroutine(ReviveCooldown());
+        OnFaint.Invoke();
     }
 
     public void Revive()
