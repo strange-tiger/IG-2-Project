@@ -18,10 +18,12 @@ public class PetUIManager : UIManager
     [SerializeField] PetShopInteract _npc;
     public PetShopInteract Npc { get => _npc; }
 
-    private BasicPlayerNetworking[] _playerNetworkings;
-    private BasicPlayerNetworking _playerNetworking;
     public string PlayerNickname { get; private set; }
     public static PetSpawner PlayerPetSpawner { get; set; }
+
+    private const int MAX_PET_CHILD_COUNT = 20;
+    private BasicPlayerNetworking[] _playerNetworkings;
+    private BasicPlayerNetworking _playerNetworking;
 
     public class PetProfile
     {
@@ -56,7 +58,7 @@ public class PetUIManager : UIManager
         public int AssetIndex { get; private set; }
         public int Level { get; private set; }
 
-        private NavMeshAgent[] _tempAgent;
+        private NavMeshAgent[] _tempAgent = new NavMeshAgent[MAX_PET_CHILD_COUNT];
         public void SetPrefab(GameObject prefab)
         {
             PetObject = Instantiate(prefab);
@@ -65,7 +67,14 @@ public class PetUIManager : UIManager
             
             foreach (NavMeshAgent agent in _tempAgent)
             {
-                agent.enabled = false;
+                if (agent != null)
+                {
+                    agent.enabled = false;
+                }
+                else
+                {
+                    break;
+                }
             }
 
             PetObject.SetActive(false);

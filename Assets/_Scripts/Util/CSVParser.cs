@@ -57,6 +57,8 @@ namespace Asset.ParseCSV
             string[] fieldName = lines[0].Split(fieldSeparater);
             string[] fields = new string[fieldName.Length];
 
+            Debug.Log("필드" + fieldName.Length);
+
             for (int i = 0; i < lines.Length - 2; ++i)
             // lines.Length - 2 : CSV 파일 첫 줄과 마지막 공백 줄을 넘김
             {
