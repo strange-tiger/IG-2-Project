@@ -9,7 +9,9 @@ public class WeaponRack : MonoBehaviourPun
     [SerializeField] Transform[] _weapons;
 
     public Vector3[] InitWeaponPositions { get; private set; }
-    
+
+    private static readonly WaitForSeconds SPAWN_DELAY = new WaitForSeconds(0.5f);
+
     private int[] _weaponIndexGroup;
     private int[] _weaponMaxIndexGroup;
 
@@ -54,23 +56,31 @@ public class WeaponRack : MonoBehaviourPun
             return;
         }
 
-        int currentIndex = 0;
+        int currentGroupIndex = 0;
+
         for (int i = 0; i < _weapons.Length; ++i)
         {
             if (other.transform.IsChildOf(_weapons[i]))
             {
-                ++_weaponIndexGroup[i];
-                currentIndex = i;
+                currentGroupIndex = i;
+                ++_weaponIndexGroup[currentGroupIndex];
 
                 break;
             }
         }
 
-        if (_weaponIndexGroup[currentIndex] >= _weaponMaxIndexGroup[currentIndex])
+        if (_weaponIndexGroup[currentGroupIndex] >= _weaponMaxIndexGroup[currentGroupIndex])
         {
-            _weaponIndexGroup[currentIndex] = 0;
+            _weaponIndexGroup[currentGroupIndex] = 0;
         }
 
-        _weapons[currentIndex].GetChild(_weaponIndexGroup[currentIndex]).gameObject.SetActive(true);
+        StartCoroutine(SpawnWeapon(currentGroupIndex));
+    }
+
+    private IEnumerator SpawnWeapon(int groupIndex)
+    {
+        yield return SPAWN_DELAY;
+
+        _weapons[groupIndex].GetChild(_weaponIndexGroup[groupIndex]).gameObject.SetActive(true);
     }
 }

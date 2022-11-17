@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 6416671187628622091}
   - component: {fileID: 5640573023695584844}
   - component: {fileID: 4355863950555960925}
-  - component: {fileID: 7134386538051633263}
   - component: {fileID: 350976735611131941}
   m_Layer: 0
   m_Name: Weapon2
@@ -188,19 +187,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!65 &7134386538051633263
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1516507799864197500}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.40133953, y: 1.5479918, z: 0.4634273}
-  m_Center: {x: 0.00000047683716, y: 0.5668042, z: 0.00000023841858}
 --- !u!114 &350976735611131941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,3 +199,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632a7459cd7f93e4cb1b50e33fe25b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackPoints:
+  - {fileID: 6416671187628622091}
