@@ -1,6 +1,7 @@
 namespace Asset {
 	public enum ETableType {
 		accountdb,
+		bettingamountdb,
 		bettingdb,
 		characterdb,
 		petinventorydb,
@@ -17,8 +18,16 @@ namespace Asset {
 		HaveCharacter,
 		Max,
 	}
+	public enum EbettingamountdbColumns {
+		OneAmount,
+		TwoAmount,
+		ThreeAmount,
+		FourAmount,
+		Amount,
+		Max,
+	}
 	public enum EbettingdbColumns {
-		NickName,
+		Nickname,
 		BettingGold,
 		BettingChampionNumber,
 		HaveGold,
@@ -47,12 +56,6 @@ namespace Asset {
 		UserA,
 		UserB,
 		State,
-		Timestamp,
-		Max,
-	}
-	public enum ErequestdbColumns {
-		Requester,
-		Respondent,
 		Timestamp,
 		Max,
 	}
