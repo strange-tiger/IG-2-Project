@@ -4,7 +4,7 @@ using UnityEngine;
 using EPOOutline;
 using Photon.Pun;
 
-public class GoldBoxSencer : GoldBoxState
+public class GoldBoxSencer : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Vector3 _onPlayerPosition = new Vector3(0f, 2.35f, 0f);
     private Vector3 ZERO_VECTOR = Vector3.zero;
@@ -19,6 +19,7 @@ public class GoldBoxSencer : GoldBoxState
     private PlayerGoldRushInteraction _playerInteraction;
 
     private Collider _sencerCollider;
+    private bool _isJoinedRoom = false;
 
     private void Awake()
     {
@@ -35,25 +36,11 @@ public class GoldBoxSencer : GoldBoxState
     public override void OnEnable()
     {
         base.OnEnable();
-
-        if(!_isJoinedRoom)
-        {
-            return;
-        }
-
         Debug.Log("[GoldBox] Sencer OnEnable");
         //_goldBoxInteractionObject.SetActive(true);
         //_interaction.enabled = false;
-        _interaction.SetActiveObject(false, _interaction.name);
-        _interaction.EnableScript(false, _interaction.name);
-        _sencerCollider.enabled = true;
-    }
-
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-        _interaction.SetActiveObject(true, _interaction.name);
-        _interaction.EnableScript(false, _interaction.name);
+        _interaction.SetActiveObject(true);
+        _interaction.EnableScript(false);
         _sencerCollider.enabled = true;
     }
 
@@ -72,8 +59,8 @@ public class GoldBoxSencer : GoldBoxState
             _isTherePlayer = false;
 
             //_interaction.enabled = true;
-            _interaction.EnableScript(true, _interaction.name);
-            EnableScript(false, this.name);
+            _interaction.EnableScript(true);
+            EnableScript(false);
         }
     }
 
@@ -141,16 +128,25 @@ public class GoldBoxSencer : GoldBoxState
         _isTherePlayer = false;
     }
 
-
+    public void EnableScript(bool value)
+    {
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.All, value);
+    }
     [PunRPC]
     private void EnableScriptByRPC(bool value)
     {
+        Debug.Log($"[GoldRush] Sencer script {value}");
         this.enabled = value;
     }
 
+    public void SetActiveObject(bool value)
+    {
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.All, value);
+    }
     [PunRPC]
     private void SetActiveObjectByRPC(bool value)
     {
+        Debug.Log($"[GoldRush] Sencer Obejct {value}");
         gameObject.SetActive(value);
     }
 }

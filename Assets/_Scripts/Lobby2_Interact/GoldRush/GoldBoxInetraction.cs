@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using Photon.Pun;
 using CoinGrade = Defines.ECoinGrade;
 
-public class GoldBoxInetraction : GoldBoxState
+public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 {
     [Header("Gold")]
     [SerializeField] private int[] _goldCoinGiveCount = new int[(int)CoinGrade.Max];
@@ -44,13 +44,9 @@ public class GoldBoxInetraction : GoldBoxState
         {
             _maxGoldCoinRate += rate;
         }
+        EnableScript(false);
     }
 
-    public override void OnJoinedRoom()
-    {
-        //this.enabled = false;
-        EnableScript(false, this.name);
-    }
 
     public override void OnEnable()
     {
@@ -80,9 +76,9 @@ public class GoldBoxInetraction : GoldBoxState
         _rigidbody.constraints = RigidbodyConstraints.None;
 
         //_sencer.enabled = true;
-        _sencer.EnableScript(true, _sencer.name);
+        _sencer.EnableScript(true);
         //this.enabled = false;
-        EnableScript(false, this.name);
+        EnableScript(false);
     }
 
     private void Update()
@@ -121,14 +117,14 @@ public class GoldBoxInetraction : GoldBoxState
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         _effect.SetEffect(_goldCoinGiveCount[grade], grade, _spawner);
-        _effect.SetActiveObject(true, _effect.name);
+        _effect.SetActiveObject(true);
         //_effect.gameObject.SetActive(true);
 
         _elapsedTime = 0f;
         //this.enabled = false;
         //gameObject.SetActive(false);
-        EnableScript(false, this.name);
-        SetActiveObject(false, this.name);
+        EnableScript(false);
+        SetActiveObject(false);
 
         return _goldCoinGiveCount[grade];
     }
@@ -139,17 +135,25 @@ public class GoldBoxInetraction : GoldBoxState
         _playerFaintScript.OnFaint.RemoveListener(DropBox);
     }
 
-    [PunRPC]
-    protected override void EnableScriptByRPC(bool value)
+    public void EnableScript(bool value)
     {
-        base.EnableScriptByRPC(value);
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.All, value);
+    }
+    [PunRPC]
+    private void EnableScriptByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Sencer Script {value}");
         this.enabled = value;
     }
 
-    [PunRPC]
-    protected override void SetActiveObjectByRPC(bool value)
+    public void SetActiveObject(bool value)
     {
-        base.SetActiveObjectByRPC(value);
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.All, value);
+    }
+    [PunRPC]
+    private void SetActiveObjectByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Interaction Obejct {value}");
         gameObject.SetActive(value);
     }
 }

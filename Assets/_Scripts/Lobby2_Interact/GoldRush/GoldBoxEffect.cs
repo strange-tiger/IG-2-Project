@@ -5,7 +5,7 @@ using TMPro;
 using Photon.Pun;
 using CoinGrade = Defines.ECoinGrade;
 
-public class GoldBoxEffect : GoldBoxState
+public class GoldBoxEffect : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float _effectEndTime = 3f;
     private WaitForSeconds _waitForEffectEnd;
@@ -64,7 +64,7 @@ public class GoldBoxEffect : GoldBoxState
         yield return _waitForEffectEnd;
         photonView.RPC(nameof(ResetGoldBox), RpcTarget.All);
         //gameObject.SetActive(false);
-        SetActiveObject(false, this.name);
+        SetActiveObject(false);
     }
     
     [PunRPC]
@@ -75,24 +75,32 @@ public class GoldBoxEffect : GoldBoxState
 
         //_sencer.enabled = true;
         //transform.parent.gameObject.SetActive(false);
-        _sencer.EnableScript(true, _sencer.name);
-        _sencer.SetActiveObject(false, _sencer.name);
+        _sencer.EnableScript(true);
+        _sencer.SetActiveObject(false);
 
         _canvas.SetActive(false);
         _effect.SetActive(false);
     }
 
-    [PunRPC]
-    protected override void EnableScriptByRPC(bool value)
+    public void EnableScript(bool value)
     {
-        base.EnableScriptByRPC(value);
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.All, value);
+    }
+    [PunRPC]
+    private void EnableScriptByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Effect Scripts {value}");
         this.enabled = value;
     }
 
-    [PunRPC]
-    protected override void SetActiveObjectByRPC(bool value)
+    public void SetActiveObject(bool value)
     {
-        base.SetActiveObjectByRPC(value);
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.All, value);
+    }
+    [PunRPC]
+    private void SetActiveObjectByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Effect Obejct {value}");
         gameObject.SetActive(value);
     }
 }
