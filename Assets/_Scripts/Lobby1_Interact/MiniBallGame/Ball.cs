@@ -14,7 +14,7 @@ public class Ball : MonoBehaviourPunCallbacks
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
 
-    private float _currentTime;
+    private float _ballNoTouchTime;
     private bool[] _isGrabBall = new bool[2];
 
     private void Awake()
@@ -32,40 +32,36 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         SetBall();
 
-        if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && _isGrabBall[0] == true || _isGrabBall[1] == true)
+        if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && (_isGrabBall[0] == true || _isGrabBall[1] == true))
         {
             _rigidbody.AddForce(0, 40f, 20f);
         }
-
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    _rigidbody.AddForce(0, 60f, 30f);
-        //}
     }
 
     private void SetBall()
     {
         if (_rigidbody.velocity == Vector3.zero)
         {
-            _currentTime += Time.deltaTime;
+            _ballNoTouchTime += Time.deltaTime;
 
-            if (_currentTime > _resetBallTimer)
+            if (_ballNoTouchTime > _resetBallTimer)
             {
                 transform.position = _ballPosition;
-                _currentTime -= _currentTime;
+                _ballNoTouchTime -= _ballNoTouchTime;
             }
         }
         else
         {
-            if (_currentTime != 0f)
+            if (_ballNoTouchTime != 0f)
             {
-                _currentTime -= _currentTime;
+                _ballNoTouchTime -= _ballNoTouchTime;
             }
         }
     }
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag.Contains("Player"))
         {
             if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
             {
@@ -83,7 +79,7 @@ public class Ball : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BallGameCourtFloor")
+        if (collision.gameObject.tag.Contains("BallGameCourtFloor"))
         {
             _audioSource.Play();
         }
@@ -91,7 +87,7 @@ public class Ball : MonoBehaviourPunCallbacks
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag.Contains("Player"))
         {
             for (int i = 0; i < _isGrabBall.Length; ++i)
             {

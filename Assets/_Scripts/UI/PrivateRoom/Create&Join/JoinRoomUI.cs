@@ -37,9 +37,15 @@ public class JoinRoomUI : MonoBehaviour
     private static int _pageCount = 0;
     
     private const int PAGE_ROOM_COUNT = 4;
+    private static readonly WaitForSeconds INIT_ROOMLIST_DELAY = new WaitForSeconds(1f);
 
     private List<Dictionary<string, string>> _roomList = new List<Dictionary<string, string>>();
     private List<Dictionary<string, string>[]> _roomPage = new List<Dictionary<string, string>[]>();
+
+    private void Awake()
+    {
+        StartCoroutine(InitRoomList());
+    }
 
     private void OnEnable()
     {
@@ -54,6 +60,11 @@ public class JoinRoomUI : MonoBehaviour
 
         _closeButton.onClick.RemoveListener(Close);
         _closeButton.onClick.AddListener(Close);
+    }
+
+    private IEnumerator InitRoomList()
+    {
+        yield return INIT_ROOMLIST_DELAY;
 
         RoomListUpdate();
     }

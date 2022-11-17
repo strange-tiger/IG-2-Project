@@ -88,48 +88,19 @@ public class MagicWand : MonoBehaviourPun
                 }
             }
         }
-
-        SetWand();
     }
 
-    private void SetWand()
+    private void OnDisable()
     {
-        if (_rigidbody.velocity == Vector3.zero)
-        {
-            _resetCurrentTime += Time.deltaTime;
-
-            if (_resetCurrentTime > _resetWandTimer)
-            {
-                transform.position = _wandPosition;
-                _resetCurrentTime -= _resetCurrentTime;
-            }
-        }
-        else
-        {
-            if (_resetCurrentTime != 0f)
-            {
-                _resetCurrentTime -= _resetCurrentTime;
-            }
-        }
+        transform.position = _wandPosition;
+        _magicWandPanel.SetActive(false);
     }
 
     [PunRPC]
     public void GetMagic(int num)
     {
-        // int _getMagic = 0;
-
         for (int i = 0; i < transform.childCount; ++i)
         {
-            //if (num - _useMagicChance[i] >= 0)
-            //{
-            //    _getMagic += _useMagicChance[i];
-            //}
-            //else
-            //{
-            //    _magic[i].gameObject.SetActive(true);
-            //    break;
-            //}
-
             if (num < _useMagicChance[i])
             {
                 _magic[i].gameObject.SetActive(true);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUIManger : MonoBehaviour
+public class PlayerUIManager : MonoBehaviour
 {
     private PlayerInput _input;
 

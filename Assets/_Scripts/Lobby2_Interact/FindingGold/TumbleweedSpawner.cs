@@ -11,19 +11,21 @@ public class TumbleweedSpawner : MonoBehaviourPun
     [SerializeField] private Transform _spawnPosition;
     private float _elapsedTime = 0f;
 
-    private Stack<GameObject> _tumbleweedStack = new Stack<GameObject>();
+    private Rigidbody[] _tumbleweedPoll;
+    private int _tumbleweedCount;
+    private int _currentTumbelweed = 0;
 
     private readonly static Vector3 ZERO_VECTOR = Vector3.zero;
 
     private void Awake()
     {
-        Rigidbody[] _tumbleweeds = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody tumbleweed in _tumbleweeds)
+        _tumbleweedPoll = GetComponentsInChildren<Rigidbody>();
+        foreach(Rigidbody tumbleweed in _tumbleweedPoll)
         {
             tumbleweed.gameObject.SetActive(false);
-            _tumbleweedStack.Push(tumbleweed.gameObject);
             tumbleweed.GetComponent<Tumbleweed>().enabled = true;
         }
+        _tumbleweedCount = _tumbleweedPoll.Length;
     }
 
     private void FixedUpdate()
@@ -35,11 +37,12 @@ public class TumbleweedSpawner : MonoBehaviourPun
             {
                 SetRandomSpawnPosition();
 
-                GameObject tumbleweed = _tumbleweedStack.Pop();
+                GameObject tumbleweed = _tumbleweedPoll[_currentTumbelweed].gameObject;
                 tumbleweed.transform.position = _spawnPosition.position;
                 tumbleweed.transform.rotation = Quaternion.Euler(ZERO_VECTOR);
                 tumbleweed.GetComponent<Tumbleweed>().photonView.RPC("ActiveSelf", RpcTarget.All);
-                //tumbleweed.SetActive(true);
+
+                _currentTumbelweed = (_currentTumbelweed + 1) % _tumbleweedCount;
 
                 _elapsedTime -= _tumbleweedSpawnOffsetTime;
             }
@@ -54,13 +57,5 @@ public class TumbleweedSpawner : MonoBehaviourPun
         float randomZOffset = Random.Range(-randomZRange, randomZRange);
         _spawnPosition.position = new Vector3(transform.position.x + randomXOffset, 
             _spawnPosition.position.y, transform.position.z + randomZOffset);
-    }
-
-    public void ReturnToTumbleweedStack(GameObject tumbleweed)
-    {
-        if(photonView.IsMine)
-        {
-            _tumbleweedStack.Push(tumbleweed);
-        }
     }
 }

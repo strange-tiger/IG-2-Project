@@ -56,11 +56,9 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     {
         try
         {
-            // 规 积己阑 龋胶飘俊 夸没
             _userId = PhotonNetwork.LocalPlayer.UserId;
 
             MakeRoom();
-            // PhotonNetwork.JoinRoom("规 捞抚");
         }
         catch
         {
@@ -117,7 +115,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
                 "displayname"
             };
 
-            _DB.AddNewRoomInfo(_userId, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
+            _DB.AddNewRoomInfo(roomName, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
             PhotonNetwork.CreateRoom(roomName, _roomOptions, null);
             Debug.Log("规 积己 己傍");
         }

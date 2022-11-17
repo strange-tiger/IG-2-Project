@@ -80,6 +80,21 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         _spawnPaintbrush.SetPlayerTransform(transform);
     }
 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _buttonDice.interactable = true;
+
+            _dice = PhotonNetwork.Instantiate("PrivateRoom\\Dice", INSTANTIATE_POS, transform.rotation);
+
+            _spawnDice = _dice.GetComponent<SpawnDice>();
+            _spawnDice.SetPlayerTransform(transform);
+        }
+    }
+
     private void Update()
     {
         if (!photonView.IsMine)
