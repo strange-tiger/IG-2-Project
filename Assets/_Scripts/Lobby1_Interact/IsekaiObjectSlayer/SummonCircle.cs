@@ -1,3 +1,4 @@
+#define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,22 @@ public class SummonCircle : MonoBehaviourPun
 
     private static readonly WaitForSeconds SPAWN_DELAY = new WaitForSeconds(1f);
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
-    private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
+    private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -0.5f, 0f);
     private const float RISE_TIME = 1f;
 
     private void OnEnable()
     {
+#if debug
+        foreach (IsekaiObject obj in _objects)
+        {
+            obj.ObjectSlashed -= SpawnHelper;
+            obj.ObjectSlashed += SpawnHelper;
+
+            obj.gameObject.SetActive(false);
+        }
+
+        SpawnHelper();
+#else
         foreach (IsekaiObject obj in _objects)
         {
             obj.ObjectSlashed -= SpawnRPCHelper;
@@ -23,6 +35,7 @@ public class SummonCircle : MonoBehaviourPun
         }
 
         SpawnRPCHelper();
+#endif
     }
 
     private void SpawnRPCHelper() => photonView.RPC("SpawnHelper", RpcTarget.AllBuffered);
@@ -43,7 +56,7 @@ public class SummonCircle : MonoBehaviourPun
         {
             _elapsedTime += Time.deltaTime;
             
-            _objects[_currentIndex].transform.position = Vector3.Lerp(WAIT_POSITION, FLOAT_POSITION, _elapsedTime);
+            _objects[_currentIndex].transform.localPosition = Vector3.Lerp(WAIT_POSITION, FLOAT_POSITION, _elapsedTime);
 
             yield return null;
         }

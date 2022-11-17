@@ -1,3 +1,4 @@
+#define debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,16 @@ public class IsekaiObject : MonoBehaviourPun
         }
     }
 
+#if debug
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            StartCoroutine(Flick());
+        }
+    }
+#endif
+
     [PunRPC]
     private void FlickHelper() => StartCoroutine(Flick());
 
@@ -48,7 +59,7 @@ public class IsekaiObject : MonoBehaviourPun
 
         ObjectSlashed.Invoke();
 
-        transform.position = Vector3.zero;
+        transform.localPosition = Vector3.zero;
         gameObject.SetActive(false);
     }
 }
