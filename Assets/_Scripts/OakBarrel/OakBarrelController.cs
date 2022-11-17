@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class OakBarrelController : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _oakBarrelList;
+    private List<GameObject> _oakBarrelList = new List<GameObject>();
 
     void Start()
     {
-        for (int i = 0; i < _oakBarrelList.Count; ++i)
+        for (int i = 0; i < gameObject.transform.childCount; ++i)
         {
             _oakBarrelList.Add(transform.GetChild(i).gameObject);
         }
