@@ -5,12 +5,14 @@ using EAIState = Defines.Estate;
 
 public class AIDeath : AIState
 {
-    [SerializeField]
-    private Collider[] _isDeathOffCollider;
+    [SerializeField] private Collider[] _isDeathOffCollider;
+
+    [SerializeField] private AudioClip _deathAudioClip;
 
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public override void OnEnter()

@@ -7,6 +7,7 @@ public abstract class AIState : MonoBehaviour
     protected AIFSM aiFSM;
 
     protected Animator _animator;
+    protected AudioSource _audioSource; 
 
     public void Initialize(AIFSM aiFSM)
     {
