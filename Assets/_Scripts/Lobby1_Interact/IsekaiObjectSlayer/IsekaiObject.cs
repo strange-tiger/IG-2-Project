@@ -11,9 +11,15 @@ public class IsekaiObject : MonoBehaviourPun
     [SerializeField] MeshRenderer _renderer;
 
     private static readonly WaitForSeconds FLICK_TIME = new WaitForSeconds(0.05f);
+    private const float FLOAT_POINT = 1.2f;
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!transform.position.y.Equals(FLOAT_POINT))
+        {
+            return;
+        }
+
         if (other.CompareTag("IsekaiWeapon"))
         {
             photonView.RPC("FlickHelper", RpcTarget.All);
