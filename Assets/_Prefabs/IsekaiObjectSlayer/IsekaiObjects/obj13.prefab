@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2708242006274997327}
   - component: {fileID: 1355690804351468113}
+  - component: {fileID: 6510105933017317068}
   m_Layer: 0
   m_Name: obj13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2708242006274997327
 Transform:
   m_ObjectHideFlags: 0
@@ -27,7 +28,6 @@ Transform:
   m_LocalRotation: {x: -0.15304585, y: 0.6903456, z: 0.15304585, w: 0.6903456}
   m_LocalPosition: {x: 0.2, y: 1.2, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2705304897852530839}
   m_Father: {fileID: 0}
@@ -46,6 +46,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 60
+--- !u!114 &6510105933017317068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702207234335407441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671da3370f5442c44a6ed251c526006f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2702891290360744875
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +86,6 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2708242006274997327}
   m_RootOrder: 0
@@ -98,7 +109,6 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

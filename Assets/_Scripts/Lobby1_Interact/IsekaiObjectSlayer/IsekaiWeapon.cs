@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class IsekaiWeapon : MonoBehaviour
+public class IsekaiWeapon : MonoBehaviourPun
 {
     [SerializeField] Collider[] _attackPoints;
     

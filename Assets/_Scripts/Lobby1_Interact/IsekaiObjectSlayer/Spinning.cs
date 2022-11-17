@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Spinning : MonoBehaviour
+public class Spinning : MonoBehaviourPun
 {
-    public float rotateSpeed;
-
+    [SerializeField] private float rotateSpeed;
 
     // Update is called once per frame
     void Update()
