@@ -55,10 +55,10 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     {
         _boxCollider = GetComponent<BoxCollider>();
 
-        // 그랩 상태 받아오기
-        _syncGrabbable = GetComponent<SyncOVRGrabbable>();
-        _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
-        _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
+        //// 그랩 상태 받아오기
+        //_syncGrabbable = GetComponent<SyncOVRGrabbable>();
+        //_syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
+        //_syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
 
         // 이펙트를 위한 기타 컴포넌트 가져오기
         _shootEffects = GetComponentsInChildren<ParticleSystem>();
@@ -92,27 +92,29 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         Shot();
     }
 
-    [PunRPC]
-    public void OnGrabBegin()
-    {
-        _isGrabbed = true;
-        _boxCollider.enabled = true;
-        if (photonView.IsMine)
-        {
-            photonView.RPC(nameof(OnGrabBegin), RpcTarget.Others);
-        }
-    }
+    //[PunRPC]
+    //public void OnGrabBegin()
+    //{
+    //    Debug.Log("OnGrabBegin");
+    //    _isGrabbed = true;
+    //    _boxCollider.isTrigger = true;
+    //    if (photonView.IsMine)
+    //    {
+    //        photonView.RPC(nameof(OnGrabBegin), RpcTarget.Others);
+    //    }
+    //}
 
-    [PunRPC]
-    public void OnGrabEnd()
-    {
-        _isGrabbed = false;
-        _boxCollider.enabled = false;
-        if (photonView.IsMine)
-        {
-            photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
-        }
-    }
+    //[PunRPC]
+    //public void OnGrabEnd()
+    //{
+    //    Debug.Log("OnGrabEnd");
+    //    _isGrabbed = false;
+    //    _boxCollider.isTrigger = false;
+    //    if (photonView.IsMine)
+    //    {
+    //        photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
+    //    }
+    //}
 
     private void Reload()
     {
