@@ -25,7 +25,8 @@ public class AIRun : AIState
 
         if (_runAudioClip != null)
         {
-            _audioSource.PlayOneShot(_runAudioClip);
+            _audioSource.loop = true;
+            _audioSource.Play();
         }
     }
 
@@ -43,6 +44,12 @@ public class AIRun : AIState
     public override void OnExit()
     {
         _animator.SetBool(AIAnimatorID.isRun, false);
+
+        if (_runAudioClip != null)
+        {
+            _audioSource.loop = false;
+            _audioSource.Stop();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
