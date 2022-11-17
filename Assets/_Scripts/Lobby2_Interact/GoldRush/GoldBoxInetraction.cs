@@ -55,8 +55,9 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
-        gameObject.transform.localScale = 
-            new Vector3(_changedScale, _changedScale, _changedScale);
+        //gameObject.transform.localScale = 
+        //    new Vector3(_changedScale, _changedScale, _changedScale);
+        photonView.RPC(nameof(SetLocalScale), RpcTarget.All, new Vector3(_changedScale, _changedScale, _changedScale));
 
         _playerInteractionScript = transform.root.GetComponentInChildren<PlayerGoldRushInteraction>();
 
@@ -67,9 +68,16 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         PlayerControlManager.Instance.IsInvincible = false;
     }
 
+    [PunRPC]
+    private void SetLocalScale(Vector3 newScale)
+    {
+        gameObject.transform.localScale = newScale;
+    }
+
     private void DropBox()
     {
-        gameObject.transform.localScale = _originalScale;
+        //gameObject.transform.localScale = _originalScale;
+        photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
         transform.parent.parent = _spawner.transform;
         
         _rigidbody.useGravity = true;
