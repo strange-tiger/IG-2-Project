@@ -63,8 +63,8 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             _playerInteraction.IsNearGoldRush = false;
             _isTherePlayer = false;
 
-            //_interaction.enabled = true;
-            _interaction.EnableScript(true);
+            _interaction.enabled = true;
+            //_interaction.EnableScript(true);
             EnableScript(false);
         }
     }

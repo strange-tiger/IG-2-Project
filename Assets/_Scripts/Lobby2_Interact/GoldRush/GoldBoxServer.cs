@@ -9,6 +9,9 @@ public class GoldBoxServer : TestInPhoton
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.Instantiate(_spawner.name, Vector3.zero, Quaternion.identity);
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate(_spawner.name, Vector3.zero, Quaternion.identity);
+        }
     }
 }

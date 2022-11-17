@@ -19,9 +19,10 @@ public class GoldBoxSpawner : MonoBehaviourPunCallbacks
     {
         _spawnPositions = _spawnPositionParent.GetComponentsInChildren<Transform>();
 
-        _goldBoxPoll = _goldBoxParent.GetComponentsInChildren<GoldBoxSencer>();
-
         GoldBoxParent = _goldBoxParent.transform;
+        
+        _goldBoxPoll = _goldBoxParent.GetComponentsInChildren<GoldBoxSencer>();
+        _goldBoxCount = _goldBoxPoll.Length;
 
         foreach (GoldBoxSencer goldBox in _goldBoxPoll)
         {
@@ -32,9 +33,11 @@ public class GoldBoxSpawner : MonoBehaviourPunCallbacks
                 goldBox.SetActiveObject(false);
             }
         }
-        _goldBoxCount = _goldBoxPoll.Length;
 
-        SpawnGoldBoxInRandomPosition();
+        if(PhotonNetwork.IsMasterClient)
+        {
+            SpawnGoldBoxInRandomPosition();
+        }
     }
 
     private void SpawnGoldBoxInRandomPosition()
