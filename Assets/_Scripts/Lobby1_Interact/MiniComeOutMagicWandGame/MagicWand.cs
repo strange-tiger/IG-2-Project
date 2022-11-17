@@ -93,6 +93,7 @@ public class MagicWand : MonoBehaviourPun
     private void OnDisable()
     {
         transform.position = _wandPosition;
+        _magicWandPanel.SetActive(false);
     }
 
     [PunRPC]
