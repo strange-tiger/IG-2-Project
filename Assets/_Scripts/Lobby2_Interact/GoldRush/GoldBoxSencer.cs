@@ -1,3 +1,4 @@
+#define _DEV_MODE_
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,7 +47,11 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
+#if _DEV_MODE_
+        if(_isTherePlayer && Input.GetKeyDown(KeyCode.A))
+#else
         if (_isTherePlayer && _playerInteraction.HasInteract)
+#endif
         {
             _sencerCollider.enabled = false;
 
