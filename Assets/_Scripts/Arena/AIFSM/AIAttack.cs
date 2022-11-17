@@ -9,6 +9,8 @@ public class AIAttack : AIState
     [Header("내 스킬 쿨타임을 넣어주세요")]
     [SerializeField] int _skillCoolTime;
 
+    [SerializeField] private AudioClip _attackAudioClip;
+
     public UnityEvent<int> EnemyDamage;
     public UnityEvent<int> EnemySkillDamage;
 
@@ -26,6 +28,7 @@ public class AIAttack : AIState
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         EnemyDamage = new UnityEvent<int>();
         EnemySkillDamage = new UnityEvent<int>();
     }
@@ -35,7 +38,12 @@ public class AIAttack : AIState
         _animator.SetBool(AIAnimatorID.isAttack, true);
         _isSkillCoolTime = true;
         _changeStateAttackToDamage = false;
-        _isAnd = false; 
+        _isAnd = false;
+
+        if (_attackAudioClip != null)
+        {
+            _audioSource.PlayOneShot(_attackAudioClip);
+        }
     }
 
     public override void OnUpdate()
