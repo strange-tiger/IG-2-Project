@@ -12,8 +12,7 @@ public class ArenaStart : MonoBehaviourPun
     [SerializeField] private Button _StartBattleButton;
 
     [SerializeField] private float _reStartCoolTime;
-
-    private bool _onClick;
+    
     private float _curTime;
 
     void Start()
