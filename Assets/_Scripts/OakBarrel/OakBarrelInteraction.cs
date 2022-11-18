@@ -33,7 +33,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
             _isInOak = value;
         }
     }
-    
 
     private void Awake()
     {

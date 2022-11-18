@@ -128,7 +128,7 @@ public class PlayerInteraction : MonoBehaviour
                 }
                 else if (interacterableObject.CompareTag("Player"))
                 {
-                    _oakBarrelInteraction = interacterableObject.GetComponentInChildren<OakBarrelInteraction>();
+                    _oakBarrelInteraction = interacterableObject.GetComponentInParent<OakBarrelInteraction>();
                     
                     _isOak = _oakBarrelInteraction.IsInOak;
 
