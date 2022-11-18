@@ -10,6 +10,7 @@ public class ArenaStart : MonoBehaviourPun
     public static UnityEvent OnTournamentStart = new UnityEvent();
 
     [SerializeField] private Button _StartBattleButton;
+    [SerializeField] private GameObject _shutDown;
 
     [SerializeField] private float _reStartCoolTime;
     
@@ -30,22 +31,14 @@ public class ArenaStart : MonoBehaviourPun
             if (_curTime >= _reStartCoolTime)
             {
                 _StartBattleButton.interactable = true;
+                _shutDown.SetActive(true);
                 _curTime -= _curTime;
             }
         }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            //OnClickStartBattle();
-
-            photonView.RPC("StartTournament", RpcTarget.All, false);
-        }
-#endif
     }
-
     public void OnClickStartBattle()
     {
-        photonView.RPC("StartTournament", RpcTarget.All);
+        photonView.RPC("StartTournament", RpcTarget.All, false);
      
     }
 
@@ -55,6 +48,7 @@ public class ArenaStart : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate("Tournament", Vector3.zero, Quaternion.identity);
+            _shutDown.SetActive(value);
             OnTournamentStart.Invoke();
         }
         _StartBattleButton.interactable = value;

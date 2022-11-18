@@ -49,18 +49,21 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
-        //SetChampionInfo();
-         photonView.RPC("SetChampionInfo", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("SetChampionInfo", RpcTarget.All);
+        }
     }
 
     private void Update()
     {
-        FlowingTime();
-       // UpdateTimerText(_minute, _second);
-        photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
-        
-        // SetChampionHp();
-        photonView.RPC("SetChampionHp", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            FlowingTime();
+            photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
+
+            photonView.RPC("SetChampionHp", RpcTarget.All);
+        }
     }
 
     /// <summary>

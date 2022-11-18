@@ -103,7 +103,9 @@ public class SyncOVRGrabbable : MonoBehaviourPun
     {
         m_grabbedBy = hand;
         m_grabbedCollider = grabPoint;
+
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        gameObject.GetComponent<Collider>().isTrigger = true;
 
         CallbackOnGrabBegin?.Invoke();
         CallbackGrabberSetting?.Invoke(hand.transform.root.gameObject.GetPhotonView(), hand.GetComponent<SyncOVRGrabber>());
@@ -118,6 +120,9 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         rb.isKinematic = m_grabbedKinematic;
         rb.velocity = linearVelocity;
         rb.angularVelocity = angularVelocity;
+
+        gameObject.GetComponent<Collider>().isTrigger = false;
+
         m_grabbedBy = null;
         m_grabbedCollider = null;
 
