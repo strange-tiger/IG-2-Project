@@ -27,6 +27,9 @@ public class SummonCircle : MonoBehaviourPun
             obj.ObjectSlashed -= SpawnHelper;
             obj.ObjectSlashed += SpawnHelper;
 
+            obj.ObjectSlashed -= GetGold;
+            obj.ObjectSlashed += GetGold;
+
             obj.gameObject.SetActive(false);
         }
 
