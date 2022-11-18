@@ -7,7 +7,7 @@ using Photon.Realtime;
 using Asset.MySql;
 public class TestInPhoton : MonoBehaviourPunCallbacks
 {
-    private const string ROOM_NAME = "PrivateTest";
+    private const string ROOM_NAME = "GoldRush";
 
     private void Awake()
     {
