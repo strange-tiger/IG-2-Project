@@ -86,7 +86,6 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             _isTherePlayer = false;
 
             _interaction.enabled = true;
-            //_interaction.EnableScript(true);
             EnableScript(false);
         }
     }

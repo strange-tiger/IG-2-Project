@@ -24,6 +24,7 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     private GoldBoxSpawner _spawner;
     private GoldBoxSencer _sencer;
     [SerializeField] private GoldBoxEffect _effect;
+    [SerializeField] private float _dropForce = 2;
 
     private FirstMoveAttackPlayer _playerFaintScript;
     private PlayerGoldRushInteraction _playerInteractionScript;
@@ -79,6 +80,8 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     private void DropBox()
     {
+        _rigidbody.AddForce(transform.forward * _dropForce, ForceMode.Impulse);
+
         //gameObject.transform.localScale = _originalScale;
         photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
         transform.parent.parent = _spawner.transform;
@@ -99,6 +102,11 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         {
             _elapsedTime = 0f;
             _playerInteractionScript.GetGold(GiveRandomGold());
+        }
+
+        if(PlayerControlManager.Instance.IsInvincible)
+        {
+            DropBox();
         }
     }
 
