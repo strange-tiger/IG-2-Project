@@ -9,8 +9,8 @@ public class FocusableObjects : MonoBehaviourPun
     protected Outlinable _outlineable;
     protected FocusableObjectsSencer _sencer;
 
-    [SerializeField] private Color _sencedoutlineColor = new Color(1f, 0.9f, 0.01f);
-    [SerializeField] private Color _onFocusOutlineColor = new Color(0f, 0.9f, 0.01f);
+    [SerializeField] private Color _sencedoutlineColor = new Color(0.576f, 0.745f, 1f);
+    [SerializeField] private Color _onFocusOutlineColor = new Color(0.408f, 1f, 0f);
     [SerializeField] private float _outlineDilate = 1f;
 
     [SerializeField] private float _sencerRadius = 3.75f;
