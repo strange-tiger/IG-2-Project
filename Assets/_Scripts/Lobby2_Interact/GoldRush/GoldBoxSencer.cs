@@ -36,13 +36,23 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
 
     public override void OnEnable()
     {
-        base.OnEnable();
-        Debug.Log("[GoldBox] Sencer OnEnable");
-        //_goldBoxInteractionObject.SetActive(true);
-        //_interaction.enabled = false;
-        _interaction.SetActiveObject(true);
-        _interaction.EnableScript(false);
-        _sencerCollider.enabled = true;
+        if(_isJoinedRoom)
+        {
+            base.OnEnable();
+            Debug.Log("[GoldBox] Sencer OnEnable");
+            //_goldBoxInteractionObject.SetActive(true);
+            //_interaction.enabled = false;
+            _interaction.SetActiveObject(true);
+            _interaction.EnableScript(false);
+            _sencerCollider.enabled = true;
+        }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        _isJoinedRoom = true;
+        OnEnable();
     }
 
     private void FixedUpdate()
@@ -135,7 +145,7 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
 
     public void EnableScript(bool value)
     {
-        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.All, value);
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.AllBuffered, value);
     }
     [PunRPC]
     private void EnableScriptByRPC(bool value)
@@ -146,7 +156,7 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
 
     public void SetActiveObject(bool value)
     {
-        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.All, value);
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.AllBuffered, value);
     }
     [PunRPC]
     private void SetActiveObjectByRPC(bool value)

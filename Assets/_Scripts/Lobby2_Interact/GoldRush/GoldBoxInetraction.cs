@@ -44,9 +44,12 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         {
             _maxGoldCoinRate += rate;
         }
-        EnableScript(false);
     }
 
+    public override void OnJoinedRoom()
+    {
+        EnableScript(false);
+    }
 
     public override void OnEnable()
     {
@@ -145,7 +148,7 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     public void EnableScript(bool value)
     {
-        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.All, value);
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.AllBuffered, value);
     }
     [PunRPC]
     private void EnableScriptByRPC(bool value)
@@ -156,7 +159,7 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     public void SetActiveObject(bool value)
     {
-        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.All, value);
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.AllBuffered, value);
     }
     [PunRPC]
     private void SetActiveObjectByRPC(bool value)

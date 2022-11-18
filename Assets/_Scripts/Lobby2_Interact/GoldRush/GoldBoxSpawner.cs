@@ -23,7 +23,10 @@ public class GoldBoxSpawner : MonoBehaviourPunCallbacks
         
         _goldBoxPoll = _goldBoxParent.GetComponentsInChildren<GoldBoxSencer>();
         _goldBoxCount = _goldBoxPoll.Length;
+    }
 
+    public override void OnJoinedRoom()
+    {
         foreach (GoldBoxSencer goldBox in _goldBoxPoll)
         {
             goldBox.GetComponentInChildren<GoldBoxInetraction>().
@@ -34,7 +37,7 @@ public class GoldBoxSpawner : MonoBehaviourPunCallbacks
             }
         }
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             SpawnGoldBoxInRandomPosition();
         }
@@ -42,7 +45,7 @@ public class GoldBoxSpawner : MonoBehaviourPunCallbacks
 
     private void SpawnGoldBoxInRandomPosition()
     {
-        photonView.RPC(nameof(SpawnGoldBox), RpcTarget.All);
+        photonView.RPC(nameof(SpawnGoldBox), RpcTarget.AllBuffered);
     }
     
     [PunRPC]

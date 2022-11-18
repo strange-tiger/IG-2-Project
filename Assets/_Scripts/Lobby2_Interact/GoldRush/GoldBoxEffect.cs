@@ -26,6 +26,9 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
 
     private int _coinGrade;
 
+    private bool _isJoinedRoom = false;
+    private bool _isMyEffect;
+
     private void Awake()
     {
         _sencer = transform.parent.GetComponent<GoldBoxSencer>();
@@ -35,20 +38,40 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
         _waitForEffectEnd = new WaitForSeconds(_effectEndTime);
     }
 
+    public override void OnJoinedRoom()
+    {
+        _isJoinedRoom = true;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            SetActiveObject(false);
+        }
+    }
+
     public void SetEffect(int giveGold, int coinGrade, GoldBoxSpawner spawner)
     {
         _spawner = spawner;
         _coinGrade = coinGrade;
         _giveGoldText.text = $"+{giveGold}";
         _canvas.SetActive(true);
+        _isMyEffect = true;
     }
 
     public override void OnEnable()
     {
+        if(PhotonNetwork.IsMasterClient && !_isJoinedRoom)
+        {
+            return;
+        }
+
         base.OnEnable();
 
-        photonView.RPC(nameof(ShowEffect), RpcTarget.All);
-        StartCoroutine(CoEndEffect());
+        photonView.RPC(nameof(ShowEffect), RpcTarget.AllBuffered);
+        if (_isMyEffect)
+        {
+            StartCoroutine(CoEndEffect());
+        }
+
+        _isMyEffect = false;
     }
 
     [PunRPC]
@@ -84,7 +107,7 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
 
     public void EnableScript(bool value)
     {
-        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.All, value);
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.AllBuffered, value);
     }
     [PunRPC]
     private void EnableScriptByRPC(bool value)
@@ -95,7 +118,7 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
 
     public void SetActiveObject(bool value)
     {
-        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.All, value);
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.AllBuffered, value);
     }
     [PunRPC]
     private void SetActiveObjectByRPC(bool value)

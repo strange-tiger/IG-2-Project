@@ -1,4 +1,4 @@
-#define debugMaster
+//#define debugMaster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
