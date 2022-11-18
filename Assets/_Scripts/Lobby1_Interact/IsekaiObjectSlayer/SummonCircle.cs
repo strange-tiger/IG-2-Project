@@ -18,8 +18,8 @@ public class SummonCircle : MonoBehaviourPun
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -0.5f, 0f);
     private const float RISE_TIME = 1f;
-    private const int PERCENT_TO_HIT = 100;
-    private const int HIT_POINT = 0;
+    private const int MAX_TO_HIT = 100;
+    private const int PERCENT_TO_POINT = 0;
     private const int EARN_GOLD = 500;
 
 
@@ -111,16 +111,16 @@ public class SummonCircle : MonoBehaviourPun
     
     private void GetGold(Vector3 playerPos)
     {
-#if !debug
-        if (HIT_POINT != Random.Range(0, PERCENT_TO_HIT)) ;
+        if (PERCENT_TO_POINT < Random.Range(0, MAX_TO_HIT))
         {
             return;
         }
+#if !debug
+
+        _DB.EarnGold(_playerNetworking.MyNickname, EARN_GOLD);
 #endif
 
         StartCoroutine(ShowGoldUI(playerPos));
-
-        _DB.EarnGold(_playerNetworking.MyNickname, EARN_GOLD);
     }
 
     private IEnumerator ShowGoldUI(Vector3 playerPos)
