@@ -26,10 +26,21 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     [SerializeField] private GoldBoxEffect _effect;
     [SerializeField] private float _dropForce = 2;
 
-    private FirstMoveAttackPlayer _playerFaintScript;
     private PlayerGoldRushInteraction _playerInteractionScript;
 
     private float _elapsedTime = 0f;
+    private float _ElapsedTime
+    {
+        get
+        {
+            return _elapsedTime;
+        }
+
+        set
+        {
+            photonView.RPC(nameof(SetElapsedTime), RpcTarget.AllBuffered, value);
+        }
+    }
 
     private readonly Vector3 _originalScale = new Vector3(1f, 1f, 1f);
 
@@ -56,6 +67,8 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
 
+        _sencer.photonView.RequestOwnership();
+
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
@@ -64,10 +77,6 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         photonView.RPC(nameof(SetLocalScale), RpcTarget.All, new Vector3(_changedScale, _changedScale, _changedScale));
 
         _playerInteractionScript = transform.root.GetComponentInChildren<PlayerGoldRushInteraction>();
-
-        _playerFaintScript = transform.root.GetComponent<FirstMoveAttackPlayer>();
-        _playerFaintScript.OnFaint.RemoveListener(DropBox);
-        _playerFaintScript.OnFaint.AddListener(DropBox);
 
         PlayerControlManager.Instance.IsInvincible = false;
     }
@@ -80,34 +89,41 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     private void DropBox()
     {
-        _rigidbody.AddForce(transform.forward * _dropForce, ForceMode.Impulse);
+        photonView.RPC(nameof(BoxDropped), RpcTarget.AllBuffered);
 
         //gameObject.transform.localScale = _originalScale;
         photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
         transform.parent.parent = _spawner.transform;
-        
-        _rigidbody.useGravity = true;
-        _rigidbody.constraints = RigidbodyConstraints.None;
 
+        Debug.Log("µé¾î¿È");
         //_sencer.enabled = true;
         _sencer.EnableScript(true);
         //this.enabled = false;
         EnableScript(false);
     }
 
+    [PunRPC]
+    private void BoxDropped()
+    {
+        _rigidbody.useGravity = true;
+        _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        _rigidbody.AddForce(transform.forward * _dropForce, ForceMode.Impulse);
+    }
+
     private void Update()
     {
+        if (PlayerControlManager.Instance.IsInvincible)
+        {
+            DropBox();
+        }
+        
         _elapsedTime += Time.deltaTime;
         if (_elapsedTime >= _giveGoldGrabTime)
         {
             _elapsedTime = 0f;
             _playerInteractionScript.GetGold(GiveRandomGold());
         }
-
-        if(PlayerControlManager.Instance.IsInvincible)
-        {
-            DropBox();
-        }
+        Debug.Log($"[GoldRush] GrabbedTime {_elapsedTime}");
     }
 
     private int GiveRandomGold()
@@ -149,12 +165,6 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         return _goldCoinGiveCount[grade];
     }
 
-    public override void OnDisable()
-    {
-        base.OnDisable();
-        _playerFaintScript.OnFaint.RemoveListener(DropBox);
-    }
-
     public void EnableScript(bool value)
     {
         photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.AllBuffered, value);
@@ -175,5 +185,11 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     {
         Debug.Log($"[GoldRush] Interaction Obejct {value}");
         gameObject.SetActive(value);
+    }
+
+    [PunRPC]
+    private void SetElapsedTime(int elapsedTime)
+    {
+        _elapsedTime = elapsedTime;
     }
 }

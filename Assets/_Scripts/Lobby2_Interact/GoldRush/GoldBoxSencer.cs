@@ -22,6 +22,11 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
     private Collider _sencerCollider;
     private bool _isJoinedRoom = false;
 
+    [SerializeField] private GameObject _lightLine;
+    private readonly Vector3 _ZERO_VECTOR = Vector3.zero;
+
+    private Rigidbody _rigidBody;
+
     private void Awake()
     {
         _interaction = GetComponentInChildren<GoldBoxInetraction>();
@@ -32,6 +37,8 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
         _outline.AddAllChildRenderersToRenderingList();
         _outline.OutlineParameters.Color = _outlineColor;
         _outline.enabled = false;
+
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     public override void OnEnable()
@@ -80,6 +87,9 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             gameObject.transform.parent = _playerTransform;
             gameObject.transform.localPosition = _onPlayerPosition;
             gameObject.transform.localRotation = Quaternion.Euler(ZERO_VECTOR);
+            _rigidBody.useGravity = false;
+            _rigidBody.velocity = _ZERO_VECTOR;
+            _rigidBody.constraints = RigidbodyConstraints.FreezeAll;
 
             _outline.enabled = false;
             _playerInteraction.IsNearGoldRush = false;
@@ -88,8 +98,9 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             _interaction.enabled = true;
             EnableScript(false);
         }
-    }
 
+        _lightLine.transform.rotation = Quaternion.Euler(_ZERO_VECTOR);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
