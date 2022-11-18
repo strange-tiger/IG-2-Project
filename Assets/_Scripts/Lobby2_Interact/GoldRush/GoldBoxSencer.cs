@@ -36,16 +36,18 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
 
     public override void OnEnable()
     {
-        if(_isJoinedRoom)
+        if(PhotonNetwork.IsMasterClient && !_isJoinedRoom)
         {
-            base.OnEnable();
-            Debug.Log("[GoldBox] Sencer OnEnable");
-            //_goldBoxInteractionObject.SetActive(true);
-            //_interaction.enabled = false;
-            _interaction.SetActiveObject(true);
-            _interaction.EnableScript(false);
-            _sencerCollider.enabled = true;
+            return;
         }
+
+        base.OnEnable();
+        Debug.Log("[GoldBox] Sencer OnEnable");
+        //_goldBoxInteractionObject.SetActive(true);
+        //_interaction.enabled = false;
+        _interaction.SetActiveObject(true);
+        _interaction.EnableScript(false);
+        _sencerCollider.enabled = true;
     }
 
     public override void OnJoinedRoom()
@@ -64,6 +66,7 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
 #endif
         {
             _sencerCollider.enabled = false;
+            photonView.RequestOwnership();
 
             gameObject.transform.parent = _playerTransform;
             gameObject.transform.localPosition = _onPlayerPosition;
@@ -78,6 +81,7 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             EnableScript(false);
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -106,6 +110,7 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             return;
         }
 
+        Debug.Log("[GoldRush] Player ¹Þ¾Æ¿È");
         PlayerGoldRushInteraction playerInteraction =
             other.transform.root.GetComponentInChildren<PlayerGoldRushInteraction>();
         if (!playerInteraction || playerInteraction.IsNearGoldRush)
@@ -141,6 +146,12 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
         _playerInteraction.IsNearGoldRush = false;
 
         _isTherePlayer = false;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        _outline.enabled = false;
     }
 
     public void EnableScript(bool value)

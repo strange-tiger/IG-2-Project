@@ -19,9 +19,10 @@ public class PlayerGoldRushInteraction : PlayerInteractionSencer
         }
     }
 
-    public bool HasInteract
+    public bool HasInteract { get; private set; }
+    private void Update()
     {
-        get => Input.InputADown;
+        HasInteract = Input.InputADown;
     }
 
     public override void GetGold(int gold)

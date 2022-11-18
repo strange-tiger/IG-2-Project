@@ -122,7 +122,8 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     private int GiveCoinEffect(int grade)
     {
-        gameObject.transform.localScale = _originalScale;
+        //gameObject.transform.localScale = _originalScale;
+        photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
 
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
@@ -153,7 +154,7 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     [PunRPC]
     private void EnableScriptByRPC(bool value)
     {
-        Debug.Log($"[GoldRush] Sencer Script {value}");
+        Debug.Log($"[GoldRush] Interaction Script {value}");
         this.enabled = value;
     }
 

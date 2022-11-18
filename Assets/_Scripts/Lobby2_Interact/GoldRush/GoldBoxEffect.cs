@@ -70,8 +70,6 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
         {
             StartCoroutine(CoEndEffect());
         }
-
-        _isMyEffect = false;
     }
 
     [PunRPC]
@@ -93,8 +91,13 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
     [PunRPC]
     private void ResetGoldBox()
     {
-        //_spawner.ReturnToPoll(gameObject.transform.parent.gameObject);
-        transform.parent.parent = _spawner.GoldBoxParent;
+        if(_isMyEffect)
+        {
+            //_spawner.ReturnToPoll(gameObject.transform.parent.gameObject);
+            transform.parent.parent = _spawner.GoldBoxParent;
+
+            _isMyEffect = false;
+        }
 
         //_sencer.enabled = true;
         //transform.parent.gameObject.SetActive(false);
