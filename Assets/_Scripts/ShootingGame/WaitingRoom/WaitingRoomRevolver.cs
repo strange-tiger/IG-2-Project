@@ -129,7 +129,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         else if (Vector3.Dot(transform.forward, Vector3.down) >= 0.8f)
         {
             Debug.Log("[Gun] Reload");
-            _bulletCount = _MAX_BULLET_COUNT;
+            BulletCount = _MAX_BULLET_COUNT;
             _isReloading = true;
             _audioSource.PlayOneShot(_reloadAudioClip);
         }
@@ -137,7 +137,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void Shot()
     {
-        if (!OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || _bulletCount <= 0)
+        if (!OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || _bulletCount <= 0)
         {
             return;
         }
@@ -146,26 +146,12 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         PlayShotEffect();
     }
 
-    [PunRPC]
-    private void SetBulletCount(int value)
-    {
-        _bulletCount = value;
-        _bulletCountText.text = _bulletCount.ToString();
-    }
-    [PunRPC]
-    private void SetReloadingValue(bool value)
-    {
-        _isReloading = value;
-    }
-
     private void PlayShotEffect()
     {
-        photonView.RPC(nameof(ShotEffect), RpcTarget.All);
-
+        _audioSource.PlayOneShot(_shotAudioClip);
         // 임시로 추가한 컨트롤러 진동
         StartCoroutine(CoVibrateController());
-
-        _audioSource.PlayOneShot(_shotAudioClip);
+        photonView.RPC(nameof(ShotEffect), RpcTarget.All);
     }
 
     [PunRPC]
