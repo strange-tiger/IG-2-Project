@@ -34,11 +34,12 @@ public class ArenaStart : MonoBehaviourPun
                 _curTime -= _curTime;
             }
         }
-
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.G))
         {
             OnClickStartBattle();
         }
+#endif
     }
 
     public void OnClickStartBattle()
