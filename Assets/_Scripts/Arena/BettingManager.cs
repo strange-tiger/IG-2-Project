@@ -82,6 +82,8 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
     private void DistributeGold()
     {
+        UpdateBettingAmount();
+
         MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
 
         ResetAllBetting();
