@@ -31,19 +31,11 @@ public class ArenaStart : MonoBehaviourPun
             if (_curTime >= _reStartCoolTime)
             {
                 _StartBattleButton.interactable = true;
+                _shutDown.SetActive(true);
                 _curTime -= _curTime;
             }
         }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            //OnClickStartBattle();
-
-            photonView.RPC("StartTournament", RpcTarget.All, false);
-        }
-#endif
     }
-
     public void OnClickStartBattle()
     {
         photonView.RPC("StartTournament", RpcTarget.All, false);

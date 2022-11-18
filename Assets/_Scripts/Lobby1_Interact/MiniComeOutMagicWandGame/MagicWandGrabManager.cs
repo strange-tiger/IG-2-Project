@@ -17,10 +17,10 @@ public class MagicWandGrabManager : MonoBehaviourPun
             _magicWand.enabled = false;
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+ 
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             for (int i = 0; i < _isReady.Length; ++i)
             {
@@ -34,9 +34,9 @@ public class MagicWandGrabManager : MonoBehaviourPun
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision collision)
     {
-        if (other.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             for (int i = 1; i >= 0; --i)
             {
