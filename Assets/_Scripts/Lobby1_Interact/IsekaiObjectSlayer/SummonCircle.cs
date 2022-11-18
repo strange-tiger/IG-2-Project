@@ -22,7 +22,6 @@ public class SummonCircle : MonoBehaviourPun
     private const int HIT_POINT = 0;
     private const int EARN_GOLD = 500;
 
-    public string PlayerNickname { get; private set; }
 
     private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
@@ -81,7 +80,6 @@ public class SummonCircle : MonoBehaviourPun
                 _playerNetworking = player;
             }
         }
-        PlayerNickname = _playerNetworking.MyNickname;
     }
 
     private void SpawnRPCHelper(Vector3 playerPos) => photonView.RPC("SpawnHelper", RpcTarget.AllBuffered, playerPos);
@@ -122,7 +120,7 @@ public class SummonCircle : MonoBehaviourPun
 
         StartCoroutine(ShowGoldUI(playerPos));
 
-        _DB.EarnGold(, EARN_GOLD);
+        _DB.EarnGold(_playerNetworking.MyNickname, EARN_GOLD);
     }
 
     private IEnumerator ShowGoldUI(Vector3 playerPos)
