@@ -15,7 +15,7 @@ public class PlayerNetworking : BasicPlayerNetworking
             // CameraRig 부착
             GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
             //GameObject cameraRig = GetComponentInChildren<OVRCameraRig>().gameObject;
-            cameraRig.transform.position = _ovrCameraPosition;
+            cameraRig.transform.localPosition = _ovrCameraPosition;
 
             // 플레이어 컨트롤러 부착
             PlayerControllerMove playercontroller = gameObject.AddComponent<PlayerControllerMove>();
