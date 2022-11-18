@@ -24,7 +24,6 @@ public class IsekaiObject : MonoBehaviourPun
 
         if (other.CompareTag("IsekaiWeapon"))
         {
-            _audioSource.PlayOneShot(_audioSource.clip);
             Vector3 position = new Vector3(other.transform.position.x, 2f, other.transform.position.z);
             photonView.RPC("FlickHelper", RpcTarget.All, position);
         }
@@ -45,6 +44,8 @@ public class IsekaiObject : MonoBehaviourPun
 
     private IEnumerator Flick(Vector3 playerPos)
     {
+        _audioSource.PlayOneShot(_audioSource.clip);
+        
         int count = 3;
 
         while (count > 0)
