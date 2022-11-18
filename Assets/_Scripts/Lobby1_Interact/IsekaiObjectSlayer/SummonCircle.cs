@@ -16,7 +16,7 @@ public class SummonCircle : MonoBehaviourPun
 
     private static readonly WaitForSeconds SPAWN_DELAY = new WaitForSeconds(1f);
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
-    private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -0.5f, 0f);
+    private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
     private const float RISE_TIME = 1f;
     private const int MAX_TO_HIT = 100;
     private const int PERCENT_TO_POINT = 0;
@@ -88,8 +88,6 @@ public class SummonCircle : MonoBehaviourPun
     {
         yield return SPAWN_DELAY;
 
-        
-
         _objects[currentIndex].gameObject.SetActive(true);
         
         while (_elapsedTime <= RISE_TIME)
@@ -112,7 +110,6 @@ public class SummonCircle : MonoBehaviourPun
             return;
         }
 #if !debug
-
         _DB.EarnGold(_playerNetworking.MyNickname, EARN_GOLD);
 #endif
 
