@@ -23,7 +23,8 @@ public class IsekaiObject : MonoBehaviourPun
 
         if (other.CompareTag("IsekaiWeapon"))
         {
-            photonView.RPC("FlickHelper", RpcTarget.All, other.transform.position);
+            Vector3 position = new Vector3(other.transform.position.x, 2f, other.transform.position.z);
+            photonView.RPC("FlickHelper", RpcTarget.All, position);
         }
     }
 

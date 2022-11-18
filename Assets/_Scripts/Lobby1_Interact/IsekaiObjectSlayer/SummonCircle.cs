@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+using _DB = Asset.MySql.MySqlSetting;
+
 public class SummonCircle : MonoBehaviourPun
 {
     [Header("Isekai Objects")]
@@ -16,7 +18,14 @@ public class SummonCircle : MonoBehaviourPun
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -0.5f, 0f);
     private const float RISE_TIME = 1f;
+    private const int PERCENT_TO_HIT = 100;
+    private const int HIT_POINT = 0;
+    private const int EARN_GOLD = 500;
 
+    public string PlayerNickname { get; private set; }
+
+    private BasicPlayerNetworking[] _playerNetworkings;
+    private BasicPlayerNetworking _playerNetworking;
     private Vector3 _playerPosition = new Vector3();
 
     private void OnEnable()
@@ -34,8 +43,6 @@ public class SummonCircle : MonoBehaviourPun
         }
 
         SpawnHelper(_playerPosition);
-
-        _goldUI.SetActive(false);
 #else
         foreach (IsekaiObject obj in _objects)
         {
@@ -45,10 +52,36 @@ public class SummonCircle : MonoBehaviourPun
             obj.gameObject.SetActive(false);
         }
         
-        SpawnRPCHelper();
-
-        _goldUI.SetActive(false);
+        SpawnRPCHelper(_playerPosition);
 #endif
+        _goldUI.SetActive(false);
+
+        StartCoroutine(SetPlayerNetworking());
+    }
+
+    private void OnDisable()
+    {
+        foreach (IsekaiObject obj in _objects)
+        {
+            obj.ObjectSlashed -= SpawnHelper;
+            obj.ObjectSlashed -= GetGold;
+        }
+    }
+
+    private IEnumerator SetPlayerNetworking()
+    {
+        yield return new WaitForSeconds(3f);
+
+        _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
+
+        foreach (var player in _playerNetworkings)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                _playerNetworking = player;
+            }
+        }
+        PlayerNickname = _playerNetworking.MyNickname;
     }
 
     private void SpawnRPCHelper(Vector3 playerPos) => photonView.RPC("SpawnHelper", RpcTarget.AllBuffered, playerPos);
@@ -77,12 +110,19 @@ public class SummonCircle : MonoBehaviourPun
         _elapsedTime = 0f;
     }
 
+    
     private void GetGold(Vector3 playerPos)
     {
+#if !debug
+        if (HIT_POINT != Random.Range(0, PERCENT_TO_HIT)) ;
+        {
+            return;
+        }
+#endif
+
         StartCoroutine(ShowGoldUI(playerPos));
-        
 
-
+        _DB.EarnGold(, EARN_GOLD);
     }
 
     private IEnumerator ShowGoldUI(Vector3 playerPos)
