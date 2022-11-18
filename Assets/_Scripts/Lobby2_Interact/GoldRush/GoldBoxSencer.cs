@@ -87,9 +87,6 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             gameObject.transform.parent = _playerTransform;
             gameObject.transform.localPosition = _onPlayerPosition;
             gameObject.transform.localRotation = Quaternion.Euler(ZERO_VECTOR);
-            _rigidBody.useGravity = false;
-            _rigidBody.velocity = _ZERO_VECTOR;
-            _rigidBody.constraints = RigidbodyConstraints.FreezeAll;
 
             _outline.enabled = false;
             _playerInteraction.IsNearGoldRush = false;
@@ -179,6 +176,10 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
         }
 
         _sencerCollider.enabled = false;
+
+        _rigidBody.useGravity = false;
+        _rigidBody.velocity = _ZERO_VECTOR;
+        _rigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public void EnableScript(bool value)
