@@ -124,8 +124,6 @@ public class GroupManager : MonoBehaviourPun
             _memberIndexList.Add(_randomIndex);
         }
 
-        Debug.Log($"{_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
-
         for (int i = 0; i < _member.Length; ++i)
         {
             int index;
@@ -142,8 +140,6 @@ public class GroupManager : MonoBehaviourPun
     [PunRPC]
     public void ClientsSettingGroup(int list_0, int list_1, int list_2, int list_3)
     {
-        Debug.Log($"{list_0}, {list_1}, {list_2}, {list_3}");
-
         a = list_0;
         b = list_1;
         c = list_2;

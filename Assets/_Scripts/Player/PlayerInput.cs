@@ -30,7 +30,7 @@ public class PlayerInput : MonoBehaviourPun
 
     public bool IsMove { get; private set; }
     public bool IsInventoryOn { get; private set; }
-
+    public bool IsInventoryOff { get; private set; }
     public bool IsGrab { get; private set; }
     public bool[] IsGrabs { get; private set; }
     public bool IsLeftGrab { get; private set; }
@@ -71,5 +71,4 @@ public class PlayerInput : MonoBehaviourPun
         IsMove = OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
         IsInventoryOn = (OVRInput.Get(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
     }
-
 }
