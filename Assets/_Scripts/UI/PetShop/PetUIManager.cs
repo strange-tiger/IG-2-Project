@@ -115,6 +115,8 @@ public class PetUIManager : UIManager
             if (player.GetComponent<PhotonView>().IsMine)
             {
                 _playerNetworking = player;
+
+                break;
             }
         }
         PlayerNickname = _playerNetworking.MyNickname;

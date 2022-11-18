@@ -14,6 +14,12 @@ public class SummonCircle : MonoBehaviourPun
     [Header("UI")]
     [SerializeField] GameObject _goldUI;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource _audioSource;
+    [SerializeField] AudioClip _fallAudioClip;
+    [SerializeField] AudioClip _riseAudioClip;
+
+    private static readonly WaitForSeconds CONGRAT_DELAY = new WaitForSeconds(0.5f);
     private static readonly WaitForSeconds SPAWN_DELAY = new WaitForSeconds(1f);
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
@@ -65,6 +71,8 @@ public class SummonCircle : MonoBehaviourPun
             if (player.GetComponent<PhotonView>().IsMine)
             {
                 _playerNetworking = player;
+
+                break;
             }
         }
     }
@@ -86,7 +94,11 @@ public class SummonCircle : MonoBehaviourPun
     private float _elapsedTime = 0f;
     private IEnumerator SpawnObject(int currentIndex)
     {
+        _audioSource.PlayOneShot(_fallAudioClip);
+     
         yield return SPAWN_DELAY;
+
+        _audioSource.PlayOneShot(_riseAudioClip);
 
         _objects[currentIndex].gameObject.SetActive(true);
         
@@ -118,6 +130,10 @@ public class SummonCircle : MonoBehaviourPun
 
     private IEnumerator ShowGoldUI(Vector3 playerPos)
     {
+        yield return CONGRAT_DELAY;
+
+        _audioSource.PlayOneShot(_audioSource.clip);
+
         _goldUI.transform.LookAt(playerPos);
 
         _goldUI.SetActive(true);
