@@ -6,15 +6,20 @@ using UnityEngine.UI;
 public class RadialCursor : MonoBehaviour
 {
 
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Button"))
         {
+            if (RadialMenu._buttonOne != null)
+            {
+                RadialMenu._buttonOne.transform.GetChild(1).gameObject.SetActive(false);
+                RadialMenu._buttonOne = null;
+                RadialMenu._buttonOneImage = null;
+            }
+
             RadialMenu._buttonOne = collision.GetComponent<Button>();
             RadialMenu._buttonOneImage = RadialMenu._buttonOne.transform.GetChild(0).GetComponent<Image>();
-            RadialMenu._buttonOne.transform.GetChild(1).GetComponent<Image>().enabled = true; 
+            RadialMenu._buttonOne.transform.GetChild(1).gameObject.SetActive(true); 
         }
     }
 
@@ -22,9 +27,12 @@ public class RadialCursor : MonoBehaviour
     {
         if (collision.CompareTag("Button"))
         {
-            RadialMenu._buttonOne.transform.GetChild(1).GetComponent<Image>().enabled = false;
-            RadialMenu._buttonOne = null;
-            RadialMenu._buttonOneImage = null;
+            if(RadialMenu._buttonOne != null)
+            {
+                RadialMenu._buttonOne.transform.GetChild(1).gameObject.SetActive(false);
+                RadialMenu._buttonOne = null;
+                RadialMenu._buttonOneImage = null;
+            }
         }
     }
 
