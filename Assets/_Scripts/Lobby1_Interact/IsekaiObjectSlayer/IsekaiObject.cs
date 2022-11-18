@@ -10,6 +10,7 @@ public class IsekaiObject : MonoBehaviourPun
     public event Action<Vector3> ObjectSlashed;
 
     [SerializeField] MeshRenderer _renderer;
+    [SerializeField] AudioSource _audioSource;
 
     private static readonly WaitForSeconds FLICK_TIME = new WaitForSeconds(0.05f);
     private const float FLOAT_POINT = 1.2f;
@@ -23,6 +24,7 @@ public class IsekaiObject : MonoBehaviourPun
 
         if (other.CompareTag("IsekaiWeapon"))
         {
+            _audioSource.PlayOneShot(_audioSource.clip);
             Vector3 position = new Vector3(other.transform.position.x, 2f, other.transform.position.z);
             photonView.RPC("FlickHelper", RpcTarget.All, position);
         }
