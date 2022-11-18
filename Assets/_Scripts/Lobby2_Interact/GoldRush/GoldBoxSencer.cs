@@ -47,6 +47,15 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
         //_interaction.enabled = false;
         _interaction.SetActiveObject(true);
         _interaction.EnableScript(false);
+
+        _outline.enabled = false;
+
+        if (_isTherePlayer)
+        {
+            _playerInteraction.IsNearGoldRush = false;
+            _isTherePlayer = false;
+        }
+
         _sencerCollider.enabled = true;
     }
 
@@ -110,7 +119,6 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
             return;
         }
 
-        Debug.Log("[GoldRush] Player ¹Þ¾Æ¿È");
         PlayerGoldRushInteraction playerInteraction =
             other.transform.root.GetComponentInChildren<PlayerGoldRushInteraction>();
         if (!playerInteraction || playerInteraction.IsNearGoldRush)
@@ -151,7 +159,16 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
     public override void OnDisable()
     {
         base.OnDisable();
+
         _outline.enabled = false;
+
+        if (_isTherePlayer)
+        {
+            _playerInteraction.IsNearGoldRush = false;
+            _isTherePlayer = false;
+        }
+
+        _sencerCollider.enabled = false;
     }
 
     public void EnableScript(bool value)

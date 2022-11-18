@@ -28,6 +28,7 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
 
     private bool _isJoinedRoom = false;
     private bool _isMyEffect;
+    private bool _isInitialized = false;
 
     private void Awake()
     {
@@ -65,11 +66,16 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
 
         base.OnEnable();
 
-        photonView.RPC(nameof(ShowEffect), RpcTarget.AllBuffered);
+        if(_isInitialized)
+        {
+            photonView.RPC(nameof(ShowEffect), RpcTarget.AllBuffered);
+        }
         if (_isMyEffect)
         {
             StartCoroutine(CoEndEffect());
         }
+
+        _isInitialized = true;
     }
 
     [PunRPC]
