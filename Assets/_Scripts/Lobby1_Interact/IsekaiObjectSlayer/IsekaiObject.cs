@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public class IsekaiObject : MonoBehaviourPun
 {
-    public event Action ObjectSlashed;
+    public event Action<Vector3> ObjectSlashed;
 
     [SerializeField] MeshRenderer _renderer;
 
@@ -23,7 +23,8 @@ public class IsekaiObject : MonoBehaviourPun
 
         if (other.CompareTag("IsekaiWeapon"))
         {
-            photonView.RPC("FlickHelper", RpcTarget.All);
+            Vector3 position = new Vector3(other.transform.position.x, 2f, other.transform.position.z);
+            photonView.RPC("FlickHelper", RpcTarget.All, position);
         }
     }
 
@@ -32,15 +33,15 @@ public class IsekaiObject : MonoBehaviourPun
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            StartCoroutine(Flick());
+            StartCoroutine(Flick(new Vector3(1f, 2f, 0f)));
         }
     }
 #endif
 
     [PunRPC]
-    private void FlickHelper() => StartCoroutine(Flick());
+    private void FlickHelper(Vector3 playerPos) => StartCoroutine(Flick(playerPos));
 
-    private IEnumerator Flick()
+    private IEnumerator Flick(Vector3 playerPos)
     {
         int count = 3;
 
@@ -57,7 +58,7 @@ public class IsekaiObject : MonoBehaviourPun
             --count;
         }
 
-        ObjectSlashed.Invoke();
+        ObjectSlashed.Invoke(playerPos);
 
         transform.localPosition = Vector3.zero;
         gameObject.SetActive(false);
