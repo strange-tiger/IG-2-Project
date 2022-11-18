@@ -193,6 +193,13 @@ public class BettingUI : MonoBehaviourPun
         return false;
     }
 
+    private void InputFieldClear()
+    {
+        for (int i = 0; i < _betChampionInputField.Length; ++i)
+        {
+            _betChampionInputField[i].text = null;
+        }
+    }
 
     [PunRPC]
     public void BetChampionAmount(int index, double bettingGold)
@@ -206,7 +213,8 @@ public class BettingUI : MonoBehaviourPun
         {
             _popUpPanel.SetActive(true);
             _popUpMessage.text = "베팅액이 부족합니다.";
-            _betChampionInputField[index].text = null;
+
+            InputFieldClear();
 
             return;
         }
@@ -217,7 +225,7 @@ public class BettingUI : MonoBehaviourPun
 
         _isBetting[index] = true;
 
-        _betChampionInputField[index].text = null;
+        InputFieldClear();
 
         _popUpPanel.SetActive(true);
 
@@ -237,7 +245,10 @@ public class BettingUI : MonoBehaviourPun
     {
         _isBetting[index] = false;
 
+        InputFieldClear();
+
         _popUpPanel.SetActive(true);
+
 
         _popUpMessage.text = "베팅 취소가 완료되었습니다.";
     }
