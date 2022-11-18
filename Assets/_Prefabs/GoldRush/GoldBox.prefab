@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 226330094353142228}
   - component: {fileID: 6757212407687515435}
   - component: {fileID: 6504426949288896141}
+  - component: {fileID: 8621651391955515533}
   m_Layer: 0
   m_Name: GiveGold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &226330094353142228
 Transform:
   m_ObjectHideFlags: 0
@@ -53,6 +54,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cec5d39e44a6cf44a81fd9630028e65c, type: 3}
   - {fileID: 8300000, guid: 7743f0d9fe3936145a95360c52881092, type: 3}
   _fireWorkAudioClip: {fileID: 8300000, guid: 5f23f9829a5ceca4193bad92085e3436, type: 3}
+  _canvas: {fileID: 6735275584150975780}
+  _effect: {fileID: 2288989039709661718}
 --- !u!82 &6504426949288896141
 AudioSource:
   m_ObjectHideFlags: 0
@@ -149,6 +152,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8621651391955515533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226330094353142229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &226330095324491067
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +218,8 @@ GameObject:
   - component: {fileID: 7431418341059635846}
   - component: {fileID: 1458467250379835489}
   - component: {fileID: 4346166247199474509}
+  - component: {fileID: 2618123869331470065}
+  - component: {fileID: 3608228658912221761}
   m_Layer: 0
   m_Name: GoldBox
   m_TagString: Untagged
@@ -226,7 +253,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -246,6 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onPlayerPosition: {x: 0, y: 2.35, z: 0}
   _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _lightLine: {fileID: 226330095324491067}
 --- !u!114 &1458467250379835489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,8 +358,60 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2618123869331470065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226330095544155335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 3608228658912221761}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &3608228658912221761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226330095544155335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 0
+--- !u!65 &4307250634475938042
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439690878013295125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1144347, y: 0.24322899, z: 0.66314375}
+  m_Center: {x: -0.00019320846, y: 0.12161451, z: 0.33157188}
 --- !u!114 &832410787203329379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,11 +529,34 @@ MonoBehaviour:
   - 35
   - 25
   _changedScale: 0.5
-  _giveGoldGrabTime: 5
+  _giveGoldGrabTime: 10
   OnGiveGold:
     m_PersistentCalls:
       m_Calls: []
   _effect: {fileID: 6757212407687515435}
+  _dropForce: 2
+--- !u!114 &4731725431502683410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6108513707139605503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6667967350605678491
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &719454838077863969
 RectTransform:
   m_ObjectHideFlags: 0
@@ -670,7 +773,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4377435412967579101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,8 +958,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Firework
       objectReference: {fileID: 0}
+    - target: {fileID: 2080673346646454130, guid: 72251722b33d82544b9c03d09b413bc0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72251722b33d82544b9c03d09b413bc0, type: 3}
+--- !u!1 &2288989039709661718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2080673346646454130, guid: 72251722b33d82544b9c03d09b413bc0, type: 3}
+  m_PrefabInstance: {fileID: 226330095878669668}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2288989039709661739 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2080673346646454095, guid: 72251722b33d82544b9c03d09b413bc0, type: 3}
@@ -869,6 +981,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 226330095544155334}
     m_Modifications:
+    - target: {fileID: 420422272125980804, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 421627220795311928, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6332583206018288178, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
       propertyPath: m_Name
       value: Gold_Box
@@ -917,7 +1037,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 421627220795311928, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
 --- !u!1 &6108513707139605503 stripped
 GameObject:

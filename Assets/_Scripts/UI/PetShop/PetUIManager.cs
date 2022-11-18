@@ -108,13 +108,15 @@ public class PetUIManager : UIManager
     {
         yield return new WaitForSeconds(3f);
 
-        _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
+        _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
 
         foreach (var player in _playerNetworkings)
         {
             if (player.GetComponent<PhotonView>().IsMine)
             {
                 _playerNetworking = player;
+
+                break;
             }
         }
         PlayerNickname = _playerNetworking.MyNickname;

@@ -18,12 +18,12 @@ public class TournamentManager : MonoBehaviourPun
     public GameObject[] Groups { get { return _groups; } }
 
     private int _selectGroupNum;
-    public int SelectGroupNum { get { return _selectGroupNum; } }
+    public int SelectGroupNum { get { return _selectGroupNum; } private set { _selectGroupNum = value; } }
 
     private int _finalWinnerIndex;
     public int FinalWinnerIndex { get { return _finalWinnerIndex; } private set { _finalWinnerIndex = value; } }
 
-    private void Start()
+    private void Awake()
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -35,13 +35,13 @@ public class TournamentManager : MonoBehaviourPun
     {
         _selectGroupNum = UnityEngine.Random.Range(0, _groups.Length);
 
-        photonView.RPC("ClientsSetUI", RpcTarget.All);
+        photonView.RPC("ClientsSetUI", RpcTarget.All, _selectGroupNum);
 
         StartCoroutine(GameStart());
     }
 
     [PunRPC]
-    public void ClientsSetUI()
+    public void ClientsSetUI(int num)
     {
         if (_vrUI.activeSelf == false)
         {
