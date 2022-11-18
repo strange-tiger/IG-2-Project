@@ -289,6 +289,7 @@ public class GroupManager : MonoBehaviourPun
         {
             _winnerIndex = _secondWinnerIndex;
         }
+        Debug.Log(_winnerIndex);
     }
 
     /// <summary>
