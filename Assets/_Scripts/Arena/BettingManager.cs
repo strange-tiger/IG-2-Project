@@ -36,12 +36,14 @@ public class BettingManager : MonoBehaviourPunCallbacks
         //    BettingStart();
         //}
 
+        BettingStart();
         UpdateBettingAmount();
     }
 
     public override void OnEnable()
     {
         base.OnEnable();
+
 
         _playGroupNum = _tournamentManager.SelectGroupNum;
 
@@ -51,8 +53,8 @@ public class BettingManager : MonoBehaviourPunCallbacks
         _bettingUI.OnBetCancelChampion.RemoveListener(CallBetCancelAmountUpdate);
         _bettingUI.OnBetCancelChampion.AddListener(CallBetCancelAmountUpdate);
 
-        _groupManager[_playGroupNum]._finishTournament.RemoveListener(DistributeGold);
-        _groupManager[_playGroupNum]._finishTournament.AddListener(DistributeGold);
+        _groupManager[_playGroupNum]._finishTournament.RemoveListener(BettingEnd);
+        _groupManager[_playGroupNum]._finishTournament.AddListener(BettingEnd);
     }
 
     private void Update()
@@ -74,18 +76,6 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
         //}
 
-        if(PhotonNetwork.IsMasterClient)
-        {
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                 BettingStart();
-            }
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                BettingEnd();
-            }
-
-        }
 
     }
 
@@ -209,7 +199,7 @@ public class BettingManager : MonoBehaviourPunCallbacks
     public override void OnDisable()
     {
         base.OnEnable();
-        _groupManager[_playGroupNum]._finishTournament.RemoveListener(DistributeGold);
+        _groupManager[_playGroupNum]._finishTournament.RemoveListener(BettingEnd);
         _bettingUI.OnBetChampion.RemoveListener(CallBetAmountUpdate);
         _bettingUI.OnBetCancelChampion.RemoveListener(CallBetCancelAmountUpdate);
 
