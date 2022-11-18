@@ -11,6 +11,7 @@ public class OakBarrel : InteracterableObject
     [SerializeField] private bool _isPlayerHave;
 
     private MeshRenderer _oakBarrelMeshRenderer;
+    private MeshCollider _oakBarrelMeshCollider;
 
     private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
 
@@ -29,8 +30,9 @@ public class OakBarrel : InteracterableObject
     private void Start()
     {
         _oakBarrelMeshRenderer = GetComponent<MeshRenderer>();
+        _oakBarrelMeshCollider = GetComponent<MeshCollider>();
     }
-
+#if UNITY_EDITOR
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.G))
@@ -38,7 +40,7 @@ public class OakBarrel : InteracterableObject
             Interact();
         }
     }
-
+#endif
     public override void Interact()
     {
         base.Interact();
@@ -52,9 +54,10 @@ public class OakBarrel : InteracterableObject
     }
 
     [PunRPC]
-    public void SomeoneInteractedOakBarrel(bool isTrueFalse)
+    public void SomeoneInteractedOakBarrel(bool value)
     {
-        _oakBarrelMeshRenderer.enabled = isTrueFalse;
+        _oakBarrelMeshRenderer.enabled = value;
+        _oakBarrelMeshCollider.enabled = value;
     }
 
     private IEnumerator SetOakBarrelOriginalPosition()

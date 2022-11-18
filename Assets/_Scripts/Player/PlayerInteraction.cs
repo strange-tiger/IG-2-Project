@@ -12,8 +12,9 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private OVRGazePointer _pointer;
     private OVRInputModule _eventSystemInputModule;
     private OVRRaycaster _ovrRaycaster;
+    private OakBarrelInteraction _oakBarrelInteraction;
     private bool _isThereUI;
-
+    private bool _isOak;
     public UnityEvent InteractionOakBarrel = new UnityEvent();
 
     private void OnEnable()
@@ -32,7 +33,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if(_input.IsRay)
+        if (_input.IsRay)
         {
             SettingUIInteraction();
             Interact();
@@ -45,14 +46,14 @@ public class PlayerInteraction : MonoBehaviour
 
     private void SettingUIInteraction()
     {
-        if(!_isThereUI)
+        if (!_isThereUI)
         {
             return;
         }
 
-        if(_input.PrimaryController == Defines.EPrimaryController.Left)
+        if (_input.PrimaryController == Defines.EPrimaryController.Left)
         {
-            if(_input.IsLeftRay)
+            if (_input.IsLeftRay)
             {
                 SetPointerTransform(_playerFocus[0]);
             }
@@ -83,7 +84,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Interact()
     {
-        if(!_input.InputADown)
+        if (!_input.InputADown)
         {
             return;
         }
@@ -117,23 +118,25 @@ public class PlayerInteraction : MonoBehaviour
         if (playerFocus.HaveFocuseObject)
         {
             InteracterableObject interacterableObject = playerFocus.FocusedObject.gameObject.GetComponent<InteracterableObject>();
-            if(interacterableObject)
+            if (interacterableObject)
             {
                 interacterableObject.Interact();
 
-                if (interacterableObject.gameObject.CompareTag("OakBarrel"))
+                if (interacterableObject.CompareTag("OakBarrel"))
                 {
                     InteractionOakBarrel.Invoke();
                 }
-                //else if (interacterableObject.gameObject.CompareTag("Player"))
-                //{
-                //    MeshRenderer meshRenderer = interacterableObject.gameObject.transform.Find("OakBarrel").gameObject.GetComponent<MeshRenderer>();
+                else if (interacterableObject.CompareTag("Player"))
+                {
+                    _oakBarrelInteraction = interacterableObject.GetComponentInParent<OakBarrelInteraction>();
+                    
+                    _isOak = _oakBarrelInteraction.IsInOak;
 
-                //    if (meshRenderer.enabled == true)
-                //    {
-                //        InteractionOakBarrel.Invoke();
-                //    }
-                //}
+                    if (_isOak)
+                    {
+                        InteractionOakBarrel.Invoke();
+                    }
+                }
             }
         }
     }

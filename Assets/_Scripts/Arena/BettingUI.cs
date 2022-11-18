@@ -12,8 +12,8 @@ using Asset.MySql;
 public class BettingUI : MonoBehaviourPun
 {
 
-    public UnityEvent<int,double> OnBetChampion = new UnityEvent<int,double>();
-    public UnityEvent<int,double> OnBetCancelChampion = new UnityEvent<int,double>();
+    public UnityEvent<int, double> OnBetChampion = new UnityEvent<int, double>();
+    public UnityEvent<int, double> OnBetCancelChampion = new UnityEvent<int, double>();
 
     [Header("Betting Panel")]
     [SerializeField] GameObject _bettingPanel;
@@ -127,6 +127,16 @@ public class BettingUI : MonoBehaviourPun
         }
     }
 
+    private void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            BettingPanelOn();
+        }
+
+    }
+
     private void BettingUIInit()
     {
         _bettingManager = FindObjectOfType<BettingManager>();
@@ -140,7 +150,7 @@ public class BettingUI : MonoBehaviourPun
     private void BettingStart()
     {
         _bettingPanelButton.gameObject.SetActive(true);
-        for(int i = 0; i < BetRateText.Length; ++i)
+        for (int i = 0; i < BetRateText.Length; ++i)
         {
             BetRateText[i].text = null;
             _isBetting[i] = false;
@@ -150,7 +160,7 @@ public class BettingUI : MonoBehaviourPun
     }
 
 
-private void BettingEnd()
+    private void BettingEnd()
     {
         _bettingPanelButton.gameObject.SetActive(false);
         _bettingPanel.SetActive(false);
@@ -173,9 +183,9 @@ private void BettingEnd()
 
     private bool BettingExist()
     {
-        for(int i = 0; i < _isBetting.Length; ++i)
+        for (int i = 0; i < _isBetting.Length; ++i)
         {
-            if(_isBetting[i])
+            if (_isBetting[i])
             {
                 return true;
             }
@@ -187,12 +197,12 @@ private void BettingEnd()
     [PunRPC]
     public void BetChampionAmount(int index, double bettingGold)
     {
-         OnBetChampion.Invoke(index, bettingGold);
+        OnBetChampion.Invoke(index, bettingGold);
     }
 
     private void BetChampion(int index)
     {
-        if(MySqlSetting.CheckHaveGold(_playerNetworking.MyNickname) < double.Parse(_betChampionInputField[index].text))
+        if (MySqlSetting.CheckHaveGold(_playerNetworking.MyNickname) < double.Parse(_betChampionInputField[index].text))
         {
             _popUpPanel.SetActive(true);
             _popUpMessage.text = "베팅액이 부족합니다.";
@@ -234,9 +244,9 @@ private void BettingEnd()
 
     private void BetChampionOne()
     {
-        if(BettingExist() == false)
+        if (BettingExist() == false)
         {
-            photonView.RPC("BetChampionAmount",RpcTarget.MasterClient, 0, double.Parse(_betChampionInputField[0].text));
+            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 0, double.Parse(_betChampionInputField[0].text));
             BetChampion(0);
         }
         else
@@ -248,7 +258,7 @@ private void BettingEnd()
 
     private void BetChampionTwo()
     {
-        if(BettingExist() == false)
+        if (BettingExist() == false)
         {
             photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 1, double.Parse(_betChampionInputField[1].text));
             BetChampion(1);
