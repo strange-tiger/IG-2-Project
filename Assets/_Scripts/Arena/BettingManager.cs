@@ -36,7 +36,6 @@ public class BettingManager : MonoBehaviourPunCallbacks
         //    BettingStart();
         //}
 
-        BettingStart();
         UpdateBettingAmount();
     }
 
@@ -55,6 +54,8 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
         _groupManager[_playGroupNum]._finishTournament.RemoveListener(BettingEnd);
         _groupManager[_playGroupNum]._finishTournament.AddListener(BettingEnd);
+
+        BettingStart();
     }
 
     private void Update()
