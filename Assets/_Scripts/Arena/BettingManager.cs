@@ -21,12 +21,13 @@ public class BettingManager : MonoBehaviourPunCallbacks
     private bool _isBettingStart;
     private int[] _startTime = { 55, 60, 25, 30 };
     private bool _isDraw;
+    private int _playGroupNum;
 
     private List<double> _bettingAmountList = new List<double>();
 
-    [SerializeField] BettingUI _bettingUI;
-
-    [SerializeField] GroupManager _groupManager;
+    [SerializeField] private BettingUI _bettingUI;
+    [SerializeField] private TournamentManager _tournamentManager;
+    [SerializeField] private GroupManager[] _groupManager;
 
     private void Start()
     {
@@ -41,14 +42,17 @@ public class BettingManager : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
+
+        _playGroupNum = _tournamentManager.SelectGroupNum;
+
         _bettingUI.OnBetChampion.RemoveListener(CallBetAmountUpdate);
         _bettingUI.OnBetChampion.AddListener(CallBetAmountUpdate);
 
         _bettingUI.OnBetCancelChampion.RemoveListener(CallBetCancelAmountUpdate);
         _bettingUI.OnBetCancelChampion.AddListener(CallBetCancelAmountUpdate);
 
-        _groupManager._finishTournament.RemoveListener(DistributeGold);
-        _groupManager._finishTournament.AddListener(DistributeGold);
+        _groupManager[_playGroupNum]._finishTournament.RemoveListener(DistributeGold);
+        _groupManager[_playGroupNum]._finishTournament.AddListener(DistributeGold);
     }
 
     private void Update()
@@ -205,7 +209,7 @@ public class BettingManager : MonoBehaviourPunCallbacks
     public override void OnDisable()
     {
         base.OnEnable();
-        _groupManager._finishTournament.RemoveListener(DistributeGold);
+        _groupManager[_playGroupNum]._finishTournament.RemoveListener(DistributeGold);
         _bettingUI.OnBetChampion.RemoveListener(CallBetAmountUpdate);
         _bettingUI.OnBetCancelChampion.RemoveListener(CallBetCancelAmountUpdate);
 

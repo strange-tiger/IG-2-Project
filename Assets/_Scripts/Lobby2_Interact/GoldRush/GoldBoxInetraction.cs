@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 using CoinGrade = Defines.ECoinGrade;
 
-public class GoldBoxInetraction : MonoBehaviour
+public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 {
     [Header("Gold")]
     [SerializeField] private int[] _goldCoinGiveCount = new int[(int)CoinGrade.Max];
@@ -18,8 +19,9 @@ public class GoldBoxInetraction : MonoBehaviour
     [SerializeField] private float _giveGoldGrabTime = 60f;
 
     public UnityEvent OnGiveGold = new UnityEvent();
-    private GoldBoxSpawner _spawner;
+
     private Rigidbody _rigidbody;
+    private GoldBoxSpawner _spawner;
     private GoldBoxSencer _sencer;
     [SerializeField] private GoldBoxEffect _effect;
 
@@ -42,17 +44,23 @@ public class GoldBoxInetraction : MonoBehaviour
         {
             _maxGoldCoinRate += rate;
         }
-
-        this.enabled = false;
     }
 
-    private void OnEnable()
+    public override void OnJoinedRoom()
     {
+        EnableScript(false);
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
-        gameObject.transform.localScale = 
-            new Vector3(_changedScale, _changedScale, _changedScale);
+        //gameObject.transform.localScale = 
+        //    new Vector3(_changedScale, _changedScale, _changedScale);
+        photonView.RPC(nameof(SetLocalScale), RpcTarget.All, new Vector3(_changedScale, _changedScale, _changedScale));
 
         _playerInteractionScript = transform.root.GetComponentInChildren<PlayerGoldRushInteraction>();
 
@@ -63,16 +71,25 @@ public class GoldBoxInetraction : MonoBehaviour
         PlayerControlManager.Instance.IsInvincible = false;
     }
 
+    [PunRPC]
+    private void SetLocalScale(Vector3 newScale)
+    {
+        gameObject.transform.localScale = newScale;
+    }
+
     private void DropBox()
     {
-        gameObject.transform.localScale = _originalScale;
+        //gameObject.transform.localScale = _originalScale;
+        photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
         transform.parent.parent = _spawner.transform;
         
         _rigidbody.useGravity = true;
         _rigidbody.constraints = RigidbodyConstraints.None;
 
-        _sencer.enabled = true;
-        this.enabled = false;
+        //_sencer.enabled = true;
+        _sencer.EnableScript(true);
+        //this.enabled = false;
+        EnableScript(false);
     }
 
     private void Update()
@@ -105,23 +122,50 @@ public class GoldBoxInetraction : MonoBehaviour
 
     private int GiveCoinEffect(int grade)
     {
-        gameObject.transform.localScale = _originalScale;
+        //gameObject.transform.localScale = _originalScale;
+        photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
 
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
-        _effect.gameObject.SetActive(true);
         _effect.SetEffect(_goldCoinGiveCount[grade], grade, _spawner);
+        _effect.SetActiveObject(true);
+        //_effect.gameObject.SetActive(true);
 
         _elapsedTime = 0f;
-        this.enabled = false;
-        gameObject.SetActive(false);
+        //this.enabled = false;
+        //gameObject.SetActive(false);
+        EnableScript(false);
+        SetActiveObject(false);
 
         return _goldCoinGiveCount[grade];
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
         _playerFaintScript.OnFaint.RemoveListener(DropBox);
+    }
+
+    public void EnableScript(bool value)
+    {
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.AllBuffered, value);
+    }
+    [PunRPC]
+    private void EnableScriptByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Interaction Script {value}");
+        this.enabled = value;
+    }
+
+    public void SetActiveObject(bool value)
+    {
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.AllBuffered, value);
+    }
+    [PunRPC]
+    private void SetActiveObjectByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Interaction Obejct {value}");
+        gameObject.SetActive(value);
     }
 }

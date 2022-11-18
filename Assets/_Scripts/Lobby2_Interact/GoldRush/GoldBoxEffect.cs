@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 using CoinGrade = Defines.ECoinGrade;
 
-public class GoldBoxEffect : MonoBehaviour
+public class GoldBoxEffect : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float _effectEndTime = 3f;
     private WaitForSeconds _waitForEffectEnd;
@@ -16,9 +17,18 @@ public class GoldBoxEffect : MonoBehaviour
         new AudioClip[(int)CoinGrade.Max];
     [SerializeField] private AudioClip _fireWorkAudioClip;
 
+    [SerializeField] private GameObject _canvas;
+    [SerializeField] private GameObject _effect;
+
     private GoldBoxSpawner _spawner;
     private GoldBoxSencer _sencer;
     private AudioSource _audioSource;
+
+    private int _coinGrade;
+
+    private bool _isJoinedRoom = false;
+    private bool _isMyEffect;
+    private bool _isInitialized = false;
 
     private void Awake()
     {
@@ -29,25 +39,100 @@ public class GoldBoxEffect : MonoBehaviour
         _waitForEffectEnd = new WaitForSeconds(_effectEndTime);
     }
 
-    private void OnEnable()
+    public override void OnJoinedRoom()
     {
-        StartCoroutine(CoEndEffect());
+        _isJoinedRoom = true;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            SetActiveObject(false);
+        }
     }
 
     public void SetEffect(int giveGold, int coinGrade, GoldBoxSpawner spawner)
     {
         _spawner = spawner;
-        _audioSource.PlayOneShot(_fireWorkAudioClip);
-        _audioSource.PlayOneShot(_goldCoinAudioClips[coinGrade]);
+        _coinGrade = coinGrade;
         _giveGoldText.text = $"+{giveGold}";
+        _canvas.SetActive(true);
+        _isMyEffect = true;
+    }
+
+    public override void OnEnable()
+    {
+        if(PhotonNetwork.IsMasterClient && !_isJoinedRoom)
+        {
+            return;
+        }
+
+        base.OnEnable();
+
+        if(_isInitialized)
+        {
+            photonView.RPC(nameof(ShowEffect), RpcTarget.AllBuffered);
+        }
+        if (_isMyEffect)
+        {
+            StartCoroutine(CoEndEffect());
+        }
+
+        _isInitialized = true;
+    }
+
+    [PunRPC]
+    private void ShowEffect()
+    {
+        _audioSource.PlayOneShot(_fireWorkAudioClip);
+        _audioSource.PlayOneShot(_goldCoinAudioClips[_coinGrade]);
+        _effect.SetActive(true);
     }
 
     private IEnumerator CoEndEffect()
     {
         yield return _waitForEffectEnd;
-        _spawner.ReturnToPoll(gameObject.transform.parent.gameObject);
-        _sencer.enabled = true;
-        gameObject.SetActive(false);
-        transform.parent.gameObject.SetActive(false);
+        photonView.RPC(nameof(ResetGoldBox), RpcTarget.All);
+        //gameObject.SetActive(false);
+        SetActiveObject(false);
+    }
+    
+    [PunRPC]
+    private void ResetGoldBox()
+    {
+        if(_isMyEffect)
+        {
+            //_spawner.ReturnToPoll(gameObject.transform.parent.gameObject);
+            transform.parent.parent = _spawner.GoldBoxParent;
+
+            _isMyEffect = false;
+        }
+
+        //_sencer.enabled = true;
+        //transform.parent.gameObject.SetActive(false);
+        _sencer.EnableScript(true);
+        _sencer.SetActiveObject(false);
+
+        _canvas.SetActive(false);
+        _effect.SetActive(false);
+    }
+
+    public void EnableScript(bool value)
+    {
+        photonView.RPC(nameof(EnableScriptByRPC), RpcTarget.AllBuffered, value);
+    }
+    [PunRPC]
+    private void EnableScriptByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Effect Scripts {value}");
+        this.enabled = value;
+    }
+
+    public void SetActiveObject(bool value)
+    {
+        photonView.RPC(nameof(SetActiveObjectByRPC), RpcTarget.AllBuffered, value);
+    }
+    [PunRPC]
+    private void SetActiveObjectByRPC(bool value)
+    {
+        Debug.Log($"[GoldRush] Effect Obejct {value}");
+        gameObject.SetActive(value);
     }
 }

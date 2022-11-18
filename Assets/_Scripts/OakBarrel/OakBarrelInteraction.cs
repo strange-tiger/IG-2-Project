@@ -19,9 +19,21 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private MeshRenderer _oakBarrelMeshRenderer;
 
     private Color _color = new Color(0, 0, 0, 0);
-    
+
     private float _speedSlower = 0.2f;
     private bool _isInOak;
+    public bool IsInOak
+    {
+        get
+        {
+            return _isInOak;
+        }
+        private set
+        {
+            _isInOak = value;
+        }
+    }
+    
 
     private void Awake()
     {

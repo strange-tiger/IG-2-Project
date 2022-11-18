@@ -12,8 +12,7 @@ public class ArenaStart : MonoBehaviourPun
     [SerializeField] private Button _StartBattleButton;
 
     [SerializeField] private float _reStartCoolTime;
-
-    private bool _onClick;
+    
     private float _curTime;
 
     void Start()
@@ -34,11 +33,14 @@ public class ArenaStart : MonoBehaviourPun
                 _curTime -= _curTime;
             }
         }
-
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.G))
         {
-            OnClickStartBattle();
+            //OnClickStartBattle();
+
+            photonView.RPC("StartTournament", RpcTarget.All, false);
         }
+#endif
     }
 
     public void OnClickStartBattle()
@@ -48,14 +50,14 @@ public class ArenaStart : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void StartTournament()
+    public void StartTournament(bool value)
     {
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate("Tournament", Vector3.zero, Quaternion.identity);
-            _StartBattleButton.interactable = false;
             OnTournamentStart.Invoke();
         }
+        _StartBattleButton.interactable = value;
     }
 
     private void OnDisable()
