@@ -43,13 +43,16 @@ public class FocusableObjects : MonoBehaviourPun
 
     protected void SetSencer()
     {
-        _sencer = GetComponent<FocusableObjectsSencer>();
+        _sencer = GetComponentInChildren<FocusableObjectsSencer>();
         if(!_sencer)
         {
-            _sencer = gameObject.AddComponent<FocusableObjectsSencer>();
+            GameObject sencerObejct = new GameObject();
+            sencerObejct.transform.parent = transform;
+            sencerObejct.transform.position = transform.position;
+            _sencer = sencerObejct.AddComponent<FocusableObjectsSencer>();
         }
 
-        _sencer.SetSencer(_sencerRadius);
+        _sencer.SetSencer(_sencerRadius, this);
     }
 
     public void OnFocus()
