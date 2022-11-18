@@ -22,8 +22,8 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
 
     private static readonly YieldInstruction _waitSecond = new WaitForSeconds(0.0001f);
     private Vector2 _cursorInitPosition;
-    private float _cursorMovementLimit = 45f;
-    private float _cursorSpeed = 100f;
+    private float _cursorMovementLimit = 60f;
+    private float _cursorSpeed = 120f;
     private float _coolTime = 4f;
     private float _colorData;
     private int _buttonIndex;
@@ -71,6 +71,13 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
             }
             else
             {
+                if(_buttonOne != null)
+                {
+                    _buttonOne.transform.GetChild(1).gameObject.SetActive(false);
+                    _buttonOne = null;
+                    _buttonOneImage = null;
+                }
+
                 _radialMenu.gameObject.SetActive(false);
             }
 
@@ -119,7 +126,7 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
                 _feelingImage.color = new Color(1, 1, 1, _colorData);
                 if (photonView.IsMine)
                 {
-                    for (int i = 0; i < _buttonOnes.Length - 1; ++i)
+                    for (int i = 0; i < _buttonOnes.Length; ++i)
                     {
                         if (_buttonOnes[i].name == _buttonOne.name)
                         {
