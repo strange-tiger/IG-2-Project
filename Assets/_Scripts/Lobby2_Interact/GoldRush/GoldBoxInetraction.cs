@@ -56,12 +56,13 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         {
             _maxGoldCoinRate += rate;
         }
-    }
-
-    public override void OnJoinedRoom()
-    {
         EnableScript(false);
     }
+
+    //public override void OnJoinedRoom()
+    //{
+    //    EnableScript(false);
+    //}
 
     public override void OnEnable()
     {
