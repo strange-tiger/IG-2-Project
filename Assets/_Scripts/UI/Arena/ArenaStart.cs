@@ -36,7 +36,9 @@ public class ArenaStart : MonoBehaviourPun
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.G))
         {
-            OnClickStartBattle();
+            //OnClickStartBattle();
+
+            photonView.RPC("StartTournament", RpcTarget.All, false);
         }
 #endif
     }
@@ -48,14 +50,14 @@ public class ArenaStart : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void StartTournament()
+    public void StartTournament(bool value)
     {
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate("Tournament", Vector3.zero, Quaternion.identity);
-            _StartBattleButton.interactable = false;
             OnTournamentStart.Invoke();
         }
+        _StartBattleButton.interactable = value;
     }
 
     private void OnDisable()

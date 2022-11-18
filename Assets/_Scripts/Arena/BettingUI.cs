@@ -129,12 +129,12 @@ public class BettingUI : MonoBehaviourPun
 
     private void Update()
     {
-#if UNITY_EDITOR
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             BettingPanelOn();
         }
-#endif
+
     }
 
     private void BettingUIInit()
