@@ -58,10 +58,15 @@ public class Ball : MonoBehaviourPunCallbacks
             }
         }
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.tag.Contains("Player"))
+        if (collision.gameObject.tag.Contains("BallGameCourtFloor"))
+        {
+            _audioSource.Play();
+        }
+
+        if (collision.gameObject.tag.Contains("Player"))
         {
             if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
             {
@@ -74,14 +79,6 @@ public class Ball : MonoBehaviourPunCallbacks
                     }
                 }
             }
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag.Contains("BallGameCourtFloor"))
-        {
-            _audioSource.Play();
         }
     }
 

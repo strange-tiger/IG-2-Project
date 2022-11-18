@@ -13,7 +13,7 @@ public class PlayerFocus : MonoBehaviour
     private LineRenderer _lineRenderer;
 
     private Vector3[] _rayPositions = new Vector3[2];
-    [SerializeField] private Color _RayColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
+    [SerializeField] private Color _rayColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
 
     private float _rayLength = 5.0f;
     private float _alpha = 1.0f;
@@ -135,7 +135,7 @@ public class PlayerFocus : MonoBehaviour
         Gradient RayMaterialGradient = new Gradient();
 
         RayMaterialGradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(_RayColor, 0.0f), new GradientColorKey(_RayColor, 1.0f) },
+            new GradientColorKey[] { new GradientColorKey(_rayColor, 0.0f), new GradientColorKey(_rayColor, 1.0f) },
             new GradientAlphaKey[] { new GradientAlphaKey(_alpha, 0.0f), new GradientAlphaKey(0.0f, _alpha) }
             );
         _lineRenderer.colorGradient = RayMaterialGradient;
