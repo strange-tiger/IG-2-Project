@@ -25,6 +25,9 @@ public class IsekaiObject : MonoBehaviourPun
         if (other.CompareTag("IsekaiWeapon"))
         {
             Vector3 position = new Vector3(other.transform.position.x, 2f, other.transform.position.z);
+
+            StartCoroutine(Vibration());
+
             photonView.RPC("FlickHelper", RpcTarget.All, position);
         }
     }
@@ -65,5 +68,14 @@ public class IsekaiObject : MonoBehaviourPun
 
         transform.localPosition = Vector3.zero;
         gameObject.SetActive(false);
+    }
+
+    private IEnumerator Vibration()
+    {
+        OVRInput.SetControllerVibration(0.3f, 0.3f);
+
+        yield return FLICK_TIME;
+
+        OVRInput.SetControllerVibration(0f, 0f);
     }
 }
