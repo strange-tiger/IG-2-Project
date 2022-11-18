@@ -182,7 +182,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2614231236949322961, guid: c0ac83f56c5ff914ca1690770e90fa6f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c0ac83f56c5ff914ca1690770e90fa6f, type: 3}
 --- !u!1 &173816509
 GameObject:
@@ -279,6 +280,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1148600217 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2187075481226113056, guid: 58fadc0d17831f349961325bd7b4713a, type: 3}
+  m_PrefabInstance: {fileID: 1495053704}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1216444604
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,6 +385,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3552304155427611175, guid: 58fadc0d17831f349961325bd7b4713a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3957224227159473293, guid: 58fadc0d17831f349961325bd7b4713a, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -423,6 +433,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3962708869512036516, guid: 58fadc0d17831f349961325bd7b4713a, type: 3}
+      propertyPath: _bulletShotPoint
+      value: 
+      objectReference: {fileID: 1148600217}
+    - target: {fileID: 3962708869512036516, guid: 58fadc0d17831f349961325bd7b4713a, type: 3}
+      propertyPath: _bulletSpawnTransform
+      value: 
+      objectReference: {fileID: 1148600217}
     - target: {fileID: 3962708869512036519, guid: 58fadc0d17831f349961325bd7b4713a, type: 3}
       propertyPath: m_Name
       value: WaitingRoomRevolver
@@ -496,7 +514,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 724544731673417672, guid: fa947fa937de7e447af754c4878b5323, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fa947fa937de7e447af754c4878b5323, type: 3}
 --- !u!1 &1697490960
 GameObject:
@@ -846,5 +865,5 @@ Transform:
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
