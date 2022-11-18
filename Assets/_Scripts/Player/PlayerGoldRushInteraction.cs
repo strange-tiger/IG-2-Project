@@ -13,15 +13,16 @@ public class PlayerGoldRushInteraction : PlayerInteractionSencer
         }
         set
         {
+            Debug.Log($"[GoldRush] Player {value}");
             _isNearGoldRush = value;
             IsNearInteraction = value;
-            Debug.Log($"[GoldRush] {_isNearGoldRush} {IsNearInteraction}");
         }
     }
 
-    public bool HasInteract
+    public bool HasInteract { get; private set; }
+    private void Update()
     {
-        get => Input.InputADown;
+        HasInteract = Input.InputADown;
     }
 
     public override void GetGold(int gold)
