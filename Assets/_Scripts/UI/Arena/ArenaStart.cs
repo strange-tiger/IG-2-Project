@@ -34,6 +34,11 @@ public class ArenaStart : MonoBehaviourPun
                 _curTime -= _curTime;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            OnClickStartBattle();
+        }
     }
 
     public void OnClickStartBattle()

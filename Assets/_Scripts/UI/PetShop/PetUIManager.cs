@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.AI;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
 using _CSV = Asset.ParseCSV.CSVParser;
-using Photon.Pun;
-using UnityEngine.AI;
 
 public class PetUIManager : UIManager
 {
