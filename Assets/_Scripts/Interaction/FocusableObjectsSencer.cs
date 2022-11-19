@@ -15,8 +15,6 @@ public class FocusableObjectsSencer : MonoBehaviour
         _sencerCollider.isTrigger = true;
         _sencerCollider.radius = 0f;
 
-        _focusableObject = GetComponent<FocusableObjects>();
-
         SetRigidbody();
     }
 
@@ -25,14 +23,22 @@ public class FocusableObjectsSencer : MonoBehaviour
         Rigidbody _rigidbody = GetComponent<Rigidbody>();
         if(!_rigidbody)
         {
-            _rigidbody = gameObject.AddComponent<Rigidbody>();
-            _rigidbody.useGravity = false;
+            _rigidbody = GetComponentInParent<Rigidbody>();
+            if(!_rigidbody)
+            {
+                _rigidbody = gameObject.AddComponent<Rigidbody>();
+                _rigidbody.useGravity = false;
+                _rigidbody.angularDrag = 1000;
+                _rigidbody.mass = 1000;
+                _rigidbody.drag = 1000;
+            }
         }
     }
 
-    public void SetSencer(float sencerRadius)
+    public void SetSencer(float sencerRadius, FocusableObjects focusableObject)
     {
         _sencerCollider.radius = sencerRadius;
+        _focusableObject = focusableObject;
         _focusableObject.enabled = false;
     }
 
@@ -42,7 +48,7 @@ public class FocusableObjectsSencer : MonoBehaviour
         {
             return;
         }
-        Debug.Log("[FocusableObject] 플레이어 들어옴");
+        Debug.Log($"[FocusableObject] 플레이어 들어옴 {other.gameObject.transform.parent.name}");
 
         _isTherePlayer = true;
         _focusableObject.enabled = true;
@@ -54,7 +60,7 @@ public class FocusableObjectsSencer : MonoBehaviour
         {
             return;
         }
-        Debug.Log("[FocusableObject] 플레이어 나감");
+        Debug.Log($"[FocusableObject] 플레이어 나감 {other.gameObject.transform.parent.name}");
 
         _isTherePlayer = false;
         _focusableObject.enabled = false;
