@@ -165,6 +165,18 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
+    private void SetBulletCount(int value)
+    {
+        _bulletCount = value;
+        _bulletCountText.text = _bulletCount.ToString();
+    }
+    [PunRPC]
+    private void SetReloadingValue(bool value)
+    {
+        _isReloading = value;
+    }
+
     private IEnumerator CoVibrateController()
     {
         OVRInput.SetControllerVibration(_vibrationFrequency, _vibrationAmplitude, OVRInput.Controller.RHand);
