@@ -56,6 +56,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void Update()
     {
+        Debug.Log(IsInOak);
+
         if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
         {
             StopCoroutine(OakBarrelIsGone());
