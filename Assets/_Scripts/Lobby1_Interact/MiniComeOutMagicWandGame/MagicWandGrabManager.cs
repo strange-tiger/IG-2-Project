@@ -8,7 +8,9 @@ public class MagicWandGrabManager : MonoBehaviourPun
     [SerializeField]
     private MagicWand _magicWand;
 
-    private bool[] _isReady = new bool[2];
+    private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
+
+    private bool _isReady;
 
     private void Start()
     {
@@ -16,47 +18,16 @@ public class MagicWandGrabManager : MonoBehaviourPun
         {
             _magicWand.enabled = false;
         }
-    }
- 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            for (int i = 0; i < _isReady.Length; ++i)
-            {
-                if (_isReady[i] != true)
-                {
-                    _isReady[i] = true;
-                    break;
-                }
-            }
-            WandState();
-        }
+        _syncOVRDistanceGrabbable = GetComponent<SyncOVRDistanceGrabbable>();
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void Update()
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            for (int i = 1; i >= 0; --i)
-            {
-                if (_isReady[i] != false)
-                {
-                    _isReady[i] = false;
-                    break;
-                }
-            }
-            WandState();
-        }
-    }
-
-    private void WandState()
-    {
-        if (_isReady[0] == true || _isReady[1] == true)
+        if (_syncOVRDistanceGrabbable.isGrabbed == true)
         {
             _magicWand.enabled = true;
         }
-        else
+        else if (_syncOVRDistanceGrabbable.isGrabbed == false)
         {
             _magicWand.enabled = false;
         }
