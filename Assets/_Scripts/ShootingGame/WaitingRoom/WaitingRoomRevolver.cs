@@ -87,7 +87,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         {
             return;
         }
-
         Reload();
         Shot();
     }
@@ -95,7 +94,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     [PunRPC]
     public void OnGrabBegin()
     {
-        Debug.Log("OnGrabBegin");
         _isGrabbed = true;
         _boxCollider.isTrigger = true;
         if (photonView.IsMine)
@@ -107,7 +105,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     [PunRPC]
     public void OnGrabEnd()
     {
-        Debug.Log("OnGrabEnd");
         _isGrabbed = false;
         _boxCollider.isTrigger = false;
         if (photonView.IsMine)
@@ -118,11 +115,11 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void Reload()
     {
-        if (_isReloading)
+        if (IsReloading)
         {
             if (Vector3.Dot(transform.forward, Vector3.down) <= 0.5f)
             {
-                _isReloading = false;
+                IsReloading = false;
             }
         }
         // 아래를 보고 있다면 장전
@@ -130,14 +127,15 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         {
             Debug.Log("[Gun] Reload");
             BulletCount = _MAX_BULLET_COUNT;
-            _isReloading = true;
+            IsReloading = true;
             _audioSource.PlayOneShot(_reloadAudioClip);
         }
     }
 
     private void Shot()
     {
-        if (!OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || _bulletCount <= 0)
+        Debug.Log(BulletCount);
+        if (!OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || BulletCount <= 0)
         {
             return;
         }
