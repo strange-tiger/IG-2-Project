@@ -52,6 +52,8 @@ public class PlayerNetworking : BasicPlayerNetworking
 
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
+
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
         }
         else
         {
@@ -60,28 +62,18 @@ public class PlayerNetworking : BasicPlayerNetworking
 
         }
         gameObject.AddComponent<UserInteraction>().RequestAlarmImage = _requestAlarmImage;
+
+
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    private void OnDestroy()
     {
-        base.OnPlayerEnteredRoom(newPlayer);
-
-        if (PhotonNetwork.IsMasterClient)
+        if(photonView.IsMine)
         {
-            Debug.Log(newPlayer.NickName);
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, newPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 1);
-        }
-    }
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
 
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log(otherPlayer.NickName);
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, otherPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 0);
         }
 
     }
+
 }
