@@ -21,6 +21,9 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
     [Header("타이머 텍스트")]
     [SerializeField] private TextMeshProUGUI _timeText;
 
+    [Header("베팅률 텍스트")]
+    [SerializeField] private TextMeshProUGUI[] _betRateText;
+
     private float[] _hp = new float[4];
 
     private int _minute;
