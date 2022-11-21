@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using SceneNumber = Defines.ESceneNumder;
+using Asset.MySql;
 
 public class LobbyChanger : MonoBehaviourPunCallbacks
 {
@@ -91,5 +92,23 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
             Debug.Log("[LogOut] LobbyChanger OnJoinedRoom");
             PhotonNetwork.LoadLevel((int)_nextScene);
         }
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, newPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 1);
+        }
+    }
+
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, otherPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+        }
+
     }
 }
