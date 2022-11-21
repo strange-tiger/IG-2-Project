@@ -80,9 +80,9 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
     private void FixedUpdate()
     {
 #if _DEV_MODE_
-        if(_isTherePlayer && Input.GetKeyDown(KeyCode.A))
+        if(_isTherePlayer && Input.GetKeyDown(KeyCode.A) && !_playerInteraction.IsGrabbing)
 #else
-        if (_isTherePlayer && _playerInteraction.HasInteract)
+        if (_isTherePlayer && _playerInteraction.HasInteract && !_playerInteraction.IsGrabbing)
 #endif
         {
             _sencerCollider.enabled = false;
