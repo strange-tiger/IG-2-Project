@@ -41,22 +41,22 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
+    private static readonly Vector3 MOVE_KEYBOARD = new Vector3(0f, -90f, -10f);
     public static void OpenKeyboard()
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
         _typedText.gameObject.SetActive(true);
 
-        _keyboard.localPosition = _moveKeyboard;
+        _keyboard.localPosition = MOVE_KEYBOARD;
 
         ChangeLayout(EKeyboardLayout.QWERTY);
     }
 
-    private static readonly Vector3 _moveKeyboard = new Vector3(0f, -90f, -10f);
     public static void OpenKeyboard(EKeyboardLayout type)
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
 
-        _keyboard.localPosition = _moveKeyboard;
+        _keyboard.localPosition = MOVE_KEYBOARD;
 
         _typedText.gameObject.SetActive(true);
 
