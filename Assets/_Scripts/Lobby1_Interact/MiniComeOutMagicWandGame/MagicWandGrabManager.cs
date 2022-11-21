@@ -23,13 +23,15 @@ public class MagicWandGrabManager : MonoBehaviourPun
 
     private void Update()
     {
-        if (_syncOVRDistanceGrabbable.isGrabbed == true)
+        if (_syncOVRDistanceGrabbable.isGrabbed == true && !_isReady)
         {
             _magicWand.enabled = true;
+            _isReady = true;
         }
-        else if (_syncOVRDistanceGrabbable.isGrabbed == false)
+        else if (_syncOVRDistanceGrabbable.isGrabbed == false && _isReady)
         {
             _magicWand.enabled = false;
+            _isReady = false; 
         }
     }
 }
