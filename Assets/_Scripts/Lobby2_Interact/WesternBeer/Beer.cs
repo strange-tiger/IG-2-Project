@@ -12,7 +12,7 @@ public class Beer : InteracterableObject, IPunObservable
     [SerializeField] GameObject _fullBeer;
     [SerializeField] AudioClip _drinkSound;
     [SerializeField] BoxCollider _grabCollider;
-    private BoxCollider _beerCollider;
+    [SerializeField] BoxCollider _beerCollider;
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
     private AudioSource _audioSource;
@@ -23,13 +23,11 @@ public class Beer : InteracterableObject, IPunObservable
             if (stream.IsWriting)
             {
                 stream.SendNext(_fullBeer.activeSelf);
-                stream.SendNext(_beerCollider.enabled);
                 stream.SendNext(_grabCollider.enabled);
             }
             else if (stream.IsReading)
             {
                 _fullBeer.SetActive((bool)stream.ReceiveNext());
-                _beerCollider.enabled = (bool)stream.ReceiveNext();
                 _grabCollider.enabled = (bool)stream.ReceiveNext();
             }
         
@@ -40,7 +38,6 @@ public class Beer : InteracterableObject, IPunObservable
     public void Start()
     {
         _initBeerPosition = transform.position;
-        _beerCollider = GetComponent<BoxCollider>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -54,7 +51,6 @@ public class Beer : InteracterableObject, IPunObservable
     {
         _audioSource.PlayOneShot(_drinkSound);
         _fullBeer.SetActive(false);
-        _beerCollider.enabled = false;
         _grabCollider.enabled = false;
         StartCoroutine(ReGenerateBeer());
     }
@@ -68,7 +64,6 @@ public class Beer : InteracterableObject, IPunObservable
 
         _fullBeer.SetActive(true);
 
-        _beerCollider.enabled = true;
 
         _grabCollider.enabled = true;
 
