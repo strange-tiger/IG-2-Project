@@ -124,7 +124,6 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
             _elapsedTime = 0f;
             _playerInteractionScript.GetGold(GiveRandomGold());
         }
-        Debug.Log($"[GoldRush] GrabbedTime {_elapsedTime}");
     }
 
     private int GiveRandomGold()
