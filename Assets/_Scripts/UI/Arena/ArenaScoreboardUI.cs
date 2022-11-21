@@ -24,6 +24,9 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
     [Header("베팅률 텍스트")]
     [SerializeField] private TextMeshProUGUI[] _betRateText;
 
+    [Header("챔피언 베팅률 텍스트")]
+    [SerializeField] private TextMeshProUGUI[] _championBetRateText;
+
     private float[] _hp = new float[4];
 
     private int _minute;
@@ -133,6 +136,11 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
         for (int i = 0; i < _championSlider.Length; ++i)
         {
             _hp[i] = _championHp[i].Hp;
+        }
+
+        for (int i = 0; i < _betRateText.Length; ++i)
+        {
+            _championBetRateText[i].text = _betRateText[i].text;
         }
     }
 }
