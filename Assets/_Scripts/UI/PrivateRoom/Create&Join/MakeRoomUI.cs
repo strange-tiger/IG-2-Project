@@ -131,12 +131,13 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         Debug.Log("规 积己");
     }
 
+    private const string PREV_SCENE = "PrevScene";
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        // 烙矫 内靛
         Debug.Log("规 涝厘");
-        PhotonNetwork.LoadLevel("PrivateRoom");
+        PlayerPrefs.SetInt(PREV_SCENE, SceneManagerHelper.ActiveSceneBuildIndex);
+        PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
     }
 
     private void ActivePasswordInput(bool isOn)

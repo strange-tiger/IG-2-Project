@@ -73,6 +73,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+        PlayerPrefs.SetInt("PrevScene", SceneManagerHelper.ActiveSceneBuildIndex);
         PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
     }
 

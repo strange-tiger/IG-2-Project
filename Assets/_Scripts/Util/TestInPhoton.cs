@@ -1,4 +1,4 @@
-#define debugMaster
+//#define debugMaster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +7,7 @@ using Photon.Realtime;
 using Asset.MySql;
 public class TestInPhoton : MonoBehaviourPunCallbacks
 {
-    private const string ROOM_NAME = "GoldRush";
+    private const string ROOM_NAME = "FirstMoveAttack";
 
     private void Awake()
     {

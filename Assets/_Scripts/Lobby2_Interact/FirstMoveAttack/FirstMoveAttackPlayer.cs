@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
-    public UnityEvent OnFaint = new UnityEvent();
 
     [PunRPC]
     public void OnDamageByBottle()
@@ -20,12 +19,11 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         GetComponentInChildren<OVRScreenFade>()?.FadeOut(0.0f);
         StartCoroutine(Invincible(20f));
         StartCoroutine(ReviveCooldown());
-        OnFaint.Invoke();
     }
 
     public void Revive()
     {
-        GetComponentInChildren<OVRScreenFade>().FadeIn(2.0f);
+        GetComponentInChildren<OVRScreenFade>()?.FadeIn(2.0f);
     }
 
     IEnumerator Invincible(float coolTime)

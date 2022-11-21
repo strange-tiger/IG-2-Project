@@ -8,14 +8,15 @@ public class Ball : MonoBehaviourPunCallbacks
 {
     private Vector3 _ballPosition;
 
-    [SerializeField]
-    private float _resetBallTimer;
+    [SerializeField] private float _resetBallTimer;
 
+    private ThrowBall _ThrowBall;
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
+    private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
 
     private float _ballNoTouchTime;
-    private bool[] _isGrabBall = new bool[2];
+    private bool _isGrabBall;
 
     private void Awake()
     {
@@ -26,16 +27,23 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         _rigidbody = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
+        _syncOVRDistanceGrabbable = GetComponent<SyncOVRDistanceGrabbable>();
+        _ThrowBall = GetComponent<ThrowBall>();
     }
 
     private void Update()
     {
         SetBall();
 
-        if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && (_isGrabBall[0] == true || _isGrabBall[1] == true))
+        if (_syncOVRDistanceGrabbable.isGrabbed == true)
         {
-            _rigidbody.AddForce(0, 40f, 20f);
+            _ThrowBall.enabled = false;
         }
+        else if (_syncOVRDistanceGrabbable.isGrabbed == false)
+        {
+            _ThrowBall.enabled = true;
+        }
+
     }
 
     private void SetBall()
@@ -64,36 +72,6 @@ public class Ball : MonoBehaviourPunCallbacks
         if (collision.gameObject.tag.Contains("BallGameCourtFloor"))
         {
             _audioSource.Play();
-        }
-
-        if (collision.gameObject.tag.Contains("Player"))
-        {
-            if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
-            {
-                for (int i = 0; i < _isGrabBall.Length; ++i)
-                {
-                    if (_isGrabBall[i] != true)
-                    {
-                        _isGrabBall[i] = true;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag.Contains("Player"))
-        {
-            for (int i = 0; i < _isGrabBall.Length; ++i)
-            {
-                if (_isGrabBall[i] != false)
-                {
-                    _isGrabBall[i] = false;
-                    break;
-                }
-            }
         }
     }
 }

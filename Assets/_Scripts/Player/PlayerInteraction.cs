@@ -12,7 +12,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private OVRGazePointer _pointer;
     private OVRInputModule _eventSystemInputModule;
     private OVRRaycaster _ovrRaycaster;
-    private OakBarrelInteraction _oakBarrelInteraction;
+    
     private bool _isThereUI;
     private bool _isOak;
     public UnityEvent InteractionOakBarrel = new UnityEvent();
@@ -121,16 +121,20 @@ public class PlayerInteraction : MonoBehaviour
             if (interacterableObject)
             {
                 interacterableObject.Interact();
+                Debug.Log(interacterableObject.name);
 
                 if (interacterableObject.CompareTag("OakBarrel"))
                 {
                     InteractionOakBarrel.Invoke();
                 }
-                else if (interacterableObject.CompareTag("Player"))
+
+                if (interacterableObject.CompareTag("Player"))
                 {
-                    _oakBarrelInteraction = interacterableObject.GetComponentInChildren<OakBarrelInteraction>();
-                    
-                    _isOak = _oakBarrelInteraction.IsInOak;
+                    OakBarrelInteraction _oakBarrelInteraction;
+                    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
+
+                    Debug.Log($"123123 : {_oakBarrelInteraction.IsInOak}");
+
 
                     InteractionOakBarrel.Invoke();
                 }
