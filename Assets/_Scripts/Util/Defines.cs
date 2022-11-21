@@ -174,6 +174,7 @@ namespace Defines
 
     public enum EPetUIIndex
     {
+        CHAT,
         POPUP,
         PURCHASE,
         TRANSFORM,
