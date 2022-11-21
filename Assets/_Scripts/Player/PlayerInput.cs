@@ -69,10 +69,7 @@ public class PlayerInput : MonoBehaviourPun
         IsGrabs[1] = IsRightGrab;
         
         IsMove = OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
+        
         IsInventoryOn = (OVRInput.GetDown(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
-        if (IsInventoryOn == true)
-        {
-            IsInventoryOff = (OVRInput.GetDown(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
-        }
     }
 }

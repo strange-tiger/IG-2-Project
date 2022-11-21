@@ -13,11 +13,11 @@ public class PlayerUIManager : MonoBehaviour
 
     private void Update()
     {
-        if(_input.IsInventoryOn)
+        if(!MenuUIManager.Instance.IsUIOn && _input.IsInventoryOn)
         {
             MenuUIManager.Instance.ShowInventory();
         }
-        else if(_input.IsInventoryOff)
+        else if (MenuUIManager.Instance.IsUIOn && _input.IsInventoryOn)
         {
             MenuUIManager.Instance.HideInventory();
         }
