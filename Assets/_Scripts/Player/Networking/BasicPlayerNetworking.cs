@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using Asset.MySql;
 
 public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
 {
@@ -38,6 +39,10 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
 
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
+
+            
+            
+
         }
     }
 
@@ -67,6 +72,8 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         photonView.RPC("SetNickname", newPlayer, MyUserId, MyNickname);
+
+
     }
 
     public void CanvasSetting(OVRRaycaster[] ovrRaycasters)
@@ -75,5 +82,7 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
         {
             canvas.pointer = _pointer;
         }
+
     }
+
 }
