@@ -8,11 +8,11 @@ using _DB = Asset.MySql.MySqlSetting;
 
 public class RoomDestroyer : MonoBehaviourPunCallbacks
 {
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnLeftRoom()
     {
-        base.OnPlayerLeftRoom(otherPlayer);
+        base.OnLeftRoom();
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 0)
+        if (PhotonNetwork.CurrentRoom.PlayerCount <= 1)
         {
             _DB.DeleteRowByComparator(Asset.EroomlistdbColumns.UserID, $"{PhotonNetwork.CurrentRoom.Name}");
         }
