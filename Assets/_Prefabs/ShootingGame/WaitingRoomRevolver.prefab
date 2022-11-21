@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &17853166749071996
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1185317146785036776}
+  m_Layer: 0
+  m_Name: ShotPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1185317146785036776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17853166749071996}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.073, z: 1.601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3957224227159473293}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2224122415593830596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3552304155427611175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83dd1e8aba27814458fd508a115495c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _revolver: {fileID: 0}
+  _bulletSpeed: 110
+  _fadeDistancePoint: 2
+  _fadeTime: 1
 --- !u!1 &3961409629865825937
 GameObject:
   m_ObjectHideFlags: 0
@@ -14839,6 +14885,8 @@ Transform:
   - {fileID: 3961495910270508161}
   - {fileID: 3957181154640739424}
   - {fileID: 2187075481226113056}
+  - {fileID: 1286332569100847734}
+  - {fileID: 1185317146785036776}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14920,8 +14968,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletCountText: {fileID: 3961495911110561236}
-  _bulletSpawnTransform: {fileID: 0}
-  _bulletShotPoint: {fileID: 0}
+  _bulletSpawnTransform: {fileID: 1286332569100847734}
+  _bulletShotPoint: {fileID: 1185317146785036776}
   _shotAudioClip: {fileID: 8300000, guid: a41cd064b14d99c4b809fec08d7f6472, type: 3}
   _reloadAudioClip: {fileID: 8300000, guid: 3de881625ad426545b7dc3589a1a27a6, type: 3}
   _vibrationTime: 0.1
@@ -15616,6 +15664,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4501138077040580528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1286332569100847734}
+  m_Layer: 0
+  m_Name: BulletPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1286332569100847734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4501138077040580528}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.066, z: 0.415}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3957224227159473293}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &701707377258317133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15675,8 +15753,14 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2205350210269486815, guid: 478659234f5e1694dbfc1bcfa3ed6571, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 478659234f5e1694dbfc1bcfa3ed6571, type: 3}
+--- !u!1 &3552304155427611175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4102962787635488618, guid: 478659234f5e1694dbfc1bcfa3ed6571, type: 3}
+  m_PrefabInstance: {fileID: 701707377258317133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2187075481226113056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1722339559837152621, guid: 478659234f5e1694dbfc1bcfa3ed6571, type: 3}

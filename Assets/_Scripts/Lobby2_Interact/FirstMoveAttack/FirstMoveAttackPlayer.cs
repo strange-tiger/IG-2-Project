@@ -10,12 +10,19 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
     [PunRPC]
     public void OnDamageByBottle()
     {
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
         if (PlayerControlManager.Instance.IsInvincible == true)
         {
             return;
         }
 
         Debug.Log("OnDamageByBottle");
+        PlayerControlManager.Instance.IsMoveable = false;
+        PlayerControlManager.Instance.IsRayable = false;
         GetComponentInChildren<OVRScreenFade>()?.FadeOut(0.0f);
         StartCoroutine(Invincible(20f));
         StartCoroutine(ReviveCooldown());
@@ -24,6 +31,8 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
     public void Revive()
     {
         GetComponentInChildren<OVRScreenFade>()?.FadeIn(2.0f);
+        PlayerControlManager.Instance.IsMoveable = true;
+        PlayerControlManager.Instance.IsRayable = true;
     }
 
     IEnumerator Invincible(float coolTime)

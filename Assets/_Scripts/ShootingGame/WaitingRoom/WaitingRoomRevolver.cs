@@ -20,6 +20,8 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private BoxCollider _boxCollider;
 
+    [SerializeField] private float _gunRange = 18f;
+
     // ÃÑ¾Ë °ü·Ã
     [SerializeField] private TextMeshProUGUI _bulletCountText;
     [SerializeField] private Transform _bulletSpawnTransform;
@@ -51,6 +53,8 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     [SerializeField] private float _vibrationAmplitude = 0.3f;
     private WaitForSeconds _waitForViBrationTime;
 
+    private LayerMask _breakableObjectLayer;
+
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
@@ -73,8 +77,10 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         {
             _bulletTrailPull.Push(bulltTrial.gameObject);
             bulltTrial.gameObject.SetActive(false);
-            bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
+            bulltTrial.GetComponent<WaitingRoomBulletTrail>().enabled = true;
         }
+
+        _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
     }
 
     void Update()
@@ -141,8 +147,21 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         }
         --BulletCount;
 
+        HitTarget();
         PlayShotEffect();
     }
+
+    private void HitTarget()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(_bulletSpawnTransform.position, _bulletSpawnTransform.forward);
+        if (Physics.Raycast(ray, out hit, _gunRange, _breakableObjectLayer))
+        {
+            Scarecrow scarecrow = hit.collider.GetComponent<Scarecrow>();
+            scarecrow?.Hit(hit.point);
+        }
+    }
+
 
     private void PlayShotEffect()
     {
