@@ -19,6 +19,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     }
 
     private BoxCollider _boxCollider;
+    private Vector3 _objSpawnPos;
 
     [SerializeField] private float _gunRange = 18f;
 
@@ -58,6 +59,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
+        _objSpawnPos = transform.position;
 
         // 그랩 상태 받아오기
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
@@ -113,6 +115,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     {
         _isGrabbed = false;
         _boxCollider.isTrigger = false;
+        ObjPosReset();
         if (photonView.IsMine)
         {
             photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
@@ -140,7 +143,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void Shot()
     {
-        Debug.Log(BulletCount);
         if (!OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || BulletCount <= 0)
         {
             return;
@@ -212,5 +214,10 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     public void ReturnToBulletPull(GameObject bulletTrail)
     {
         _bulletTrailPull.Push(bulletTrail);
+    }
+    private void ObjPosReset()
+    {
+        gameObject.transform.rotation = Quaternion.identity;
+        gameObject.transform.position = _objSpawnPos;
     }
 }
