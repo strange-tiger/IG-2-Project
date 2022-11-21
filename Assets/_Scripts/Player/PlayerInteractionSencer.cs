@@ -27,12 +27,12 @@ public class PlayerInteractionSencer : MonoBehaviour
     {
         Debug.Log("Gold ¹ÞÀ½ " + gold);
 
-        //if (_nickname == "")
-        //{
-        //    _nickname = GetComponent<BasicPlayerNetworking>().MyNickname;
-        //}
+        if (_nickname == "")
+        {
+            _nickname = GetComponent<BasicPlayerNetworking>().MyNickname;
+        }
 
-        //MySqlSetting.EarnGold(_nickname, gold);
-        //IsNearInteraction = false;
+        MySqlSetting.EarnGold(_nickname, gold);
+        IsNearInteraction = false;
     }
 }

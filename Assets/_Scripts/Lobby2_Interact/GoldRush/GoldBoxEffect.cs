@@ -37,16 +37,22 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
         _audioSource = GetComponent<AudioSource>();
 
         _waitForEffectEnd = new WaitForSeconds(_effectEndTime);
-    }
 
-    public override void OnJoinedRoom()
-    {
         _isJoinedRoom = true;
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             SetActiveObject(false);
         }
     }
+
+    //public override void OnJoinedRoom()
+    //{
+    //    _isJoinedRoom = true;
+    //    if(PhotonNetwork.IsMasterClient)
+    //    {
+    //        SetActiveObject(false);
+    //    }
+    //}
 
     public void SetEffect(int giveGold, int coinGrade, GoldBoxSpawner spawner)
     {
@@ -66,7 +72,7 @@ public class GoldBoxEffect : MonoBehaviourPunCallbacks
 
         base.OnEnable();
 
-        if(_isInitialized)
+        //if(_isInitialized)
         {
             photonView.RPC(nameof(ShowEffect), RpcTarget.AllBuffered);
         }

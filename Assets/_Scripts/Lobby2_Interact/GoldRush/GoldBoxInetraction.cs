@@ -56,12 +56,13 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         {
             _maxGoldCoinRate += rate;
         }
-    }
-
-    public override void OnJoinedRoom()
-    {
         EnableScript(false);
     }
+
+    //public override void OnJoinedRoom()
+    //{
+    //    EnableScript(false);
+    //}
 
     public override void OnEnable()
     {
@@ -123,7 +124,6 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
             _elapsedTime = 0f;
             _playerInteractionScript.GetGold(GiveRandomGold());
         }
-        Debug.Log($"[GoldRush] GrabbedTime {_elapsedTime}");
     }
 
     private int GiveRandomGold()
