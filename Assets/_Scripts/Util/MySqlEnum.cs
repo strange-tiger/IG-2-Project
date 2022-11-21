@@ -16,6 +16,7 @@ namespace Asset {
 		Question,
 		Answer,
 		HaveCharacter,
+		IsOnline,
 		Max,
 	}
 	public enum EbettingamountdbColumns {
