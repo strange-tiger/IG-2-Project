@@ -85,6 +85,12 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
+    }
+
     public override void OnJoinedRoom()
     {
         if (_needSceneChange)
