@@ -109,14 +109,14 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         _oakBarrelMeshRenderer.enabled = value;
         _oakBarrelMeshCollider.enabled = value;
+
+        _isInOak = value;
     }
 
     private void InOakBarrel()
     {
         photonView.RPC("ActiveOakBarrel", RpcTarget.All, true);
         photonView.RPC("ActivePlayer", RpcTarget.All, false);
-
-        _isInOak = true;
 
         _playerControllerMove.MoveScale -= _speedSlower;
 
@@ -127,8 +127,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         photonView.RPC("ActiveOakBarrel", RpcTarget.All, false);
         photonView.RPC("ActivePlayer", RpcTarget.All, true);
-
-        _isInOak = false;
 
         _playerControllerMove.MoveScale += _speedSlower;
 

@@ -14,13 +14,12 @@ GameObject:
   - component: {fileID: 2262228174284643}
   - component: {fileID: 67535260638798376}
   - component: {fileID: 67535260638798378}
-  - component: {fileID: 67535260638798373}
   - component: {fileID: 67535260638798375}
   - component: {fileID: 67535260638798369}
   - component: {fileID: 67535260638798374}
   - component: {fileID: 3245738403707029550}
   - component: {fileID: -1459010885662385938}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LightMagic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,19 +138,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &67535260638798373
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67535260638798377}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.23, z: 0.3}
-  m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!114 &67535260638798375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +232,7 @@ GameObject:
   - component: {fileID: 6421330661251287116}
   - component: {fileID: 6615046046036343812}
   - component: {fileID: 6615330379804991042}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_Heal_Sparkles_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5122,7 +5108,7 @@ GameObject:
   - component: {fileID: 6613804708006728992}
   - component: {fileID: 6417199502473757897}
   - component: {fileID: 8448079311482720550}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_Heal_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10106,7 +10092,7 @@ GameObject:
   - component: {fileID: 7732219706266786005}
   - component: {fileID: 7610057722557433221}
   - component: {fileID: 7609822591433828651}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_LevelUp_Swirl_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14989,7 +14975,7 @@ GameObject:
   - component: {fileID: 7732474854919293895}
   - component: {fileID: 7610930423658167995}
   - component: {fileID: 7609782228990357829}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_LevelUp_Sparkles_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19865,7 +19851,7 @@ GameObject:
   - component: {fileID: 7610322288627974457}
   - component: {fileID: 7735986503254462804}
   - component: {fileID: 4870627186251650990}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_LevelUp_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24851,7 +24837,7 @@ GameObject:
   - component: {fileID: 7732488089044628853}
   - component: {fileID: 7610898324999266435}
   - component: {fileID: 7608939258532785373}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_LevelUp_Beams_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29725,6 +29711,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VRCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8207156521027552005, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8207156521027552009, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -29828,6 +29818,10 @@ PrefabInstance:
       value: MagicWandPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7021285559567352477, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021285559567352477, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -29927,6 +29921,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7021285560386842468, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7021285560386842470, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_fontSize
       value: 20
@@ -29934,6 +29932,10 @@ PrefabInstance:
     - target: {fileID: 7021285560386842470, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021285560953794128, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7021285560953794130, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_fontSize

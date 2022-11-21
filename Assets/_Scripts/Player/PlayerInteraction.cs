@@ -128,14 +128,11 @@ public class PlayerInteraction : MonoBehaviour
                 }
                 else if (interacterableObject.CompareTag("Player"))
                 {
-                    _oakBarrelInteraction = interacterableObject.GetComponentInParent<OakBarrelInteraction>();
+                    _oakBarrelInteraction = interacterableObject.GetComponentInChildren<OakBarrelInteraction>();
                     
                     _isOak = _oakBarrelInteraction.IsInOak;
 
-                    if (_isOak)
-                    {
-                        InteractionOakBarrel.Invoke();
-                    }
+                    InteractionOakBarrel.Invoke();
                 }
             }
         }
