@@ -15,6 +15,22 @@ public class PlayerInteractionSencer : MonoBehaviour
         }
     }
 
+    public bool IsGrabbing
+    {
+        get
+        {
+            foreach(SyncOVRGrabber grabber in Grabbers)
+            {
+                if(grabber.grabbedObject)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
     [SerializeField] private PlayerInput _input;
     public PlayerInput Input { get => _input; set => _input = value; }
 
