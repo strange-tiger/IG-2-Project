@@ -17,5 +17,9 @@ public class PlayerUIManager : MonoBehaviour
         {
             MenuUIManager.Instance.ShowInventory();
         }
+        else if(_input.IsInventoryOff)
+        {
+            MenuUIManager.Instance.HideInventory();
+        }
     }
 }
