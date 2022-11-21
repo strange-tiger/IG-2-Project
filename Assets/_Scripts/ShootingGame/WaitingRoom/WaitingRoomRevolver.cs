@@ -69,7 +69,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         _audioSource = GetComponent<AudioSource>();
 
         // 총 쏘기 관련 초기화
-        BulletCount = _MAX_BULLET_COUNT;
+        _bulletCount = _MAX_BULLET_COUNT;
         _waitForViBrationTime = new WaitForSeconds(_vibrationTime);
 
         // 총알 효과 스택에 넣기
