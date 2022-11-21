@@ -68,7 +68,6 @@ public class PlayerNetworking : BasicPlayerNetworking
 
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log(newPlayer.NickName);
             MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, newPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 1);
         }
     }
@@ -79,9 +78,17 @@ public class PlayerNetworking : BasicPlayerNetworking
 
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log(otherPlayer.NickName);
             MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, otherPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 0);
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+
+        }
     }
 }
