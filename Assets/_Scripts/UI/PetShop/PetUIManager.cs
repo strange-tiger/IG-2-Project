@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.AI;
+using TMPro;
 
 using _UI = Defines.EPetUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
@@ -14,6 +15,8 @@ public class PetUIManager : UIManager
     [SerializeField] Collider _npcCollider;
     [SerializeField] PetData _petData;
     [SerializeField] PetShopList _petShopList;
+    [SerializeField] GameObject _npcChat;
+
 
     [SerializeField] PetShopInteract _npc;
     public PetShopInteract Npc { get => _npc; }
@@ -134,6 +137,14 @@ public class PetUIManager : UIManager
     {
         ShutUI();
         _npcCollider.enabled = true;
+    }
+
+    private void Update()
+    {
+        if(OVRInput.Get(OVRInput.RawButton.A) && _npcChat.activeSelf)
+        {
+            LoadUI(_UI.POPUP);
+        }
     }
 
     private void InitializePetInventory()

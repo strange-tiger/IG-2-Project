@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5358650127275136939}
   - component: {fileID: 7422041074094942772}
   - component: {fileID: 798272111010556132}
-  - component: {fileID: 880951360171150884}
   m_Layer: 0
   m_Name: Turkey_Cooked_Dish
   m_TagString: Untagged
@@ -61,9 +60,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _foodSatietyLevel: 2
   _food: {fileID: 3191832097667406596}
+  _foodCollider: {fileID: 5358650127275136939}
 --- !u!114 &798272111010556132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,19 +90,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &880951360171150884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5294337276658325998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: badca8fb11dbd544a994d506ec65166c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
 --- !u!1001 &2596103726973502625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -230,7 +220,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64951985246917274, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
 --- !u!1 &3191832097667406596 stripped
 GameObject:
