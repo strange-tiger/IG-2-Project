@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 public class KeyboardManager : GlobalInstance<KeyboardManager>
 {
@@ -94,6 +95,20 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    private static string s_koreanSentence = string.Empty;
+    public static void PressKoreanKey()
+    {
+        s_koreanSentence += EventSystem.current.currentSelectedGameObject.name;
+
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private static void SubmitKorean()
+    {
+        _typedText.text += s_koreanSentence;
+        s_koreanSentence = string.Empty;
+    }
+
     public static void PressSpace()
     {
         _typedText.text += " ";
@@ -112,7 +127,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     public static void Clear()
     {
         if (_typedText.text.Length == 0) return;
-        _typedText.text = "";
+        _typedText.text = string.Empty;
     }
 
     public static void Shift()
