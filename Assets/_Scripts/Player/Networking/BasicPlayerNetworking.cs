@@ -9,6 +9,7 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
 {
     [SerializeField] protected Vector3 _ovrCameraPosition = new Vector3(0f, 0.7f, 0.8f);
     [SerializeField] protected GameObject _ovrCameraRigPrefab;
+    protected GameObject _myOVRCameraRig;
 
     protected const int HAND_COUNT = 2;
     [SerializeField] protected Transform[] _modelHandTransforms;
@@ -27,6 +28,7 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
         {
             // CameraRig 부착
             GameObject cameraRig = Instantiate(_ovrCameraRigPrefab, gameObject.transform);
+            _myOVRCameraRig = cameraRig;
             cameraRig.transform.localPosition = _ovrCameraPosition;
 
             // 손을 받아와 연결함
