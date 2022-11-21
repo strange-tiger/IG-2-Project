@@ -41,9 +41,8 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
 
             
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
-
             
+
         }
     }
 
@@ -73,6 +72,8 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         photonView.RPC("SetNickname", newPlayer, MyUserId, MyNickname);
+
+
     }
 
     public void CanvasSetting(OVRRaycaster[] ovrRaycasters)
@@ -84,11 +85,4 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
 
     }
 
-    private void OnDestroy()
-    {
-        if (photonView.IsMine)
-        {
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
-        }
-    }
 }
