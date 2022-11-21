@@ -15,6 +15,22 @@ public class PlayerInteractionSencer : MonoBehaviour
         }
     }
 
+    public bool IsGrabbing
+    {
+        get
+        {
+            foreach(SyncOVRGrabber grabber in Grabbers)
+            {
+                if(grabber.grabbedObject)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
     [SerializeField] private PlayerInput _input;
     public PlayerInput Input { get => _input; set => _input = value; }
 
@@ -27,12 +43,12 @@ public class PlayerInteractionSencer : MonoBehaviour
     {
         Debug.Log("Gold ¹ÞÀ½ " + gold);
 
-        //if (_nickname == "")
-        //{
-        //    _nickname = GetComponent<BasicPlayerNetworking>().MyNickname;
-        //}
+        if (_nickname == "")
+        {
+            _nickname = GetComponent<BasicPlayerNetworking>().MyNickname;
+        }
 
-        //MySqlSetting.EarnGold(_nickname, gold);
-        //IsNearInteraction = false;
+        MySqlSetting.EarnGold(_nickname, gold);
+        IsNearInteraction = false;
     }
 }

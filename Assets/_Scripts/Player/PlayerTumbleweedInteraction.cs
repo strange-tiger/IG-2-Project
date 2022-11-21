@@ -29,23 +29,14 @@ public class PlayerTumbleweedInteraction : PlayerInteractionSencer
     private void FixedUpdate()
     {
 #if _PC_TEST
-        if(!IsNearTumbleweed || !Input.GetKey(KeyCode.A))
+        if(!IsNearTumbleweed || !Input.GetKey(KeyCode.A) || IsGrabbing)
 #else
-        if(!IsNearTumbleweed || !Input.InputA)
+        if(!IsNearTumbleweed || !Input.InputA || IsGrabbing)
 #endif
         {
             InteractingTime = 0f;
             return;
         }
-
-        //foreach (SyncOVRGrabber grabber in Grabbers)
-        //{
-        //    if (grabber.grabbedObject)
-        //    {
-        //        InteractingTime = 0f;
-        //        return;
-        //    }
-        //}
 
         InteractingTime += Time.fixedDeltaTime;
     }
