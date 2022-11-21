@@ -1,5 +1,3 @@
-#define _VR
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +10,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     [SerializeField] GameObject _privateRoomRadialMenu;
     [SerializeField] Image _privateRoomRadialCursor;
     [SerializeField] GameObject _dice;
-    //[SerializeField] 
     [SerializeField] GameObject _paintbrush;
     [SerializeField] Button _buttonDice;
 
@@ -60,8 +57,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     private void PrivateRoomEnterance()
     {
-        Debug.Log("입장 성공");
-
         if (PhotonNetwork.IsMasterClient)
         {
             _dice = PhotonNetwork.Instantiate("PrivateRoom\\Dice", INSTANTIATE_POS, transform.rotation);
@@ -102,7 +97,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
             return;
         }
 
-#if _VR
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
         {
             _privateRoomRadialMenu.SetActive(true);
@@ -115,13 +109,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         {
             _privateRoomRadialMenu.SetActive(false);
         }
-#else
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Debug.Log(ClickButton.name); 
-            CallMethod();
-        }
-#endif
     }
 
     [PunRPC]
@@ -132,13 +119,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         {
             ButtonAMethod();
         }
-        else if (ClickButton.name == "ButtonB")
-        {
-            ButtonBMethod();
-        }
         else
         {
-            ButtonCMethod();
+            ButtonBMethod();
         }
     }
 
@@ -154,11 +137,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     private void ButtonBMethod()
     {
-
-    }
-
-    private void ButtonCMethod()
-    {
         if (!_spawnPaintbrush.photonView.IsMine)
         {
             return;
@@ -169,7 +147,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-#if _VR
         if (OVRInput.Get(OVRInput.Touch.SecondaryThumbstick))
         {
             MoveCursor();
@@ -178,26 +155,12 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         {
             ResetCursor();
         }
-#else
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
-        {
-            MoveCursor();
-        }
-        else
-        {
-            ResetCursor();
-        }
-#endif
     }
-
 
     void MoveCursor()
     {
-#if _VR
         Vector3 direction = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-#else
-        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-#endif
+
 
         direction.Normalize();
 
