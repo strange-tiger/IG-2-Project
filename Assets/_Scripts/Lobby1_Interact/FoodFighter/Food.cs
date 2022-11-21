@@ -24,9 +24,9 @@ public class Food : InteracterableObject, IPunObservable
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
     private BoxCollider _foodCollider;
 
-    public void Start()
+    public void Awake()
     {
-        _foodCollider = GetComponentInParent<BoxCollider>();
+        _foodCollider = GetComponent<BoxCollider>();
     }
 
 
@@ -87,12 +87,12 @@ public class Food : InteracterableObject, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(_food.activeSelf);
-            stream.SendNext(_foodCollider.gameObject.activeSelf);
+            stream.SendNext(_foodCollider.enabled);
         }
         else if (stream.IsReading)
         {
             _food.SetActive((bool)stream.ReceiveNext());
-            _foodCollider.gameObject.SetActive((bool)stream.ReceiveNext());
+            _foodCollider.enabled = (bool)stream.ReceiveNext();
         }
     }
 }

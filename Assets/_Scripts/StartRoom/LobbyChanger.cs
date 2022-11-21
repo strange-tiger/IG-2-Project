@@ -99,22 +99,5 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel((int)_nextScene);
         }
     }
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        if(PhotonNetwork.IsMasterClient)
-        {
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, newPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 1);
-        }
-    }
-
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, otherPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 0);
-        }
-
-    }
+   
 }

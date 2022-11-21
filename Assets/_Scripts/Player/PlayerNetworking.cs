@@ -1,3 +1,6 @@
+using Asset.MySql;
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,5 +60,28 @@ public class PlayerNetworking : BasicPlayerNetworking
 
         }
         gameObject.AddComponent<UserInteraction>().RequestAlarmImage = _requestAlarmImage;
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log(newPlayer.NickName);
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, newPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 1);
+        }
+    }
+
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log(otherPlayer.NickName);
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, otherPlayer.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+        }
+
     }
 }
