@@ -12,6 +12,7 @@ public class StartRoomTutorial : MonoBehaviour
 
     [SerializeField] private NewPlayerMove _newPlayerMove;
     [SerializeField] private PlayerControllerMove _playerControllerMove;
+    [SerializeField] private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
 
     public enum TurtorialType
     {
@@ -23,7 +24,7 @@ public class StartRoomTutorial : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _tutorialRunText;
     [SerializeField] private TurtorialType _turtorialType;
-    public int TurtorialTypeNum { get { return (int)_turtorialType; }}
+    public int TurtorialTypeNum { get { return (int)_turtorialType; } }
 
     private WaitForSeconds _delayTime = new WaitForSeconds(0.1f);
 
@@ -31,66 +32,101 @@ public class StartRoomTutorial : MonoBehaviour
     private bool _isNext;
     private int _dialogueMaxNum;
 
-    private int _dialogueNum;
-    public int DialogueNum { get { return _dialogueNum; }}
+    private bool _isRunText = true;
+    private bool _isGrabberText = true;
+    private bool _isRayText = true;
+
+    private float _curTime;
+    private float _requestClearTime = 3f;
+
+    private int _dialogueNum = 0;
+    public int DialogueNum { get { return _dialogueNum; } }
+
+    private bool _isTutorialRunQuest;
+    public bool IsTutorialRunQuest { get { return _isTutorialRunQuest; } }
 
     void Start()
     {
         _newPlayerMove.enabled = false;
         _playerControllerMove.enabled = false;
 
-        if (_turtorialType == TurtorialType.Run)
+        _CSV.ParseCSV("StartRoomTutorialRun", _tutorialRunList, '\n', ',');
+        _CSV.ParseCSV("StartRoomTutorialGrabber", _tutorialGrabberList, '\n', ',');
+        _CSV.ParseCSV("StartRoomTutorialRay", _tutorialRayList, '\n', ',');
+
+        if (_turtorialType == TurtorialType.Run && _isRunText)
         {
-            _CSV.ParseCSV("StartRoomTutorialRun", _tutorialRunList, '\n', ',');
             _dialogueMaxNum = _tutorialRunList.Count;
             StartCoroutine(TextTyping(_tutorialRunList[_dialogueNum]));
         }
-
-        else if (_turtorialType == TurtorialType.Grabber)
+        if (_turtorialType == TurtorialType.Grabber)
         {
-            _CSV.ParseCSV("StartRoomTutorialGrabber", _tutorialGrabberList, '\n', ',');
-            _dialogueMaxNum = _tutorialGrabberList.Count;
             StartCoroutine(TextTyping(_tutorialGrabberList[_dialogueNum]));
         }
-
-        else if (_turtorialType == TurtorialType.Ray)
+        if (_turtorialType == TurtorialType.Ray)
         {
-            _CSV.ParseCSV("StartRoomTutorialRay", _tutorialRayList, '\n', ',');
-            _dialogueMaxNum = _tutorialRayList.Count;
             StartCoroutine(TextTyping(_tutorialRayList[_dialogueNum]));
         }
     }
 
     private void Update()
     {
-        if (_isDialogueEnd == true && _isNext == true)
+        
+        if (_isDialogueEnd == true && _isNext == true && !_isTutorialRunQuest)
         {
-            if (_turtorialType == TurtorialType.Run)
-            {
                 DialogueNumCount();
-                StartCoroutine(TextTyping(_tutorialRunList[_dialogueNum]));
-                if (_dialogueNum >= 4)
+
+            if (_turtorialType == TurtorialType.Run && _isRunText)
+            {
+                StartCoroutine(TextTyping(_tutorialRunList[_dialogueNum]));                
+                if (_dialogueNum == 4)
                 {
                     _newPlayerMove.enabled = true;
                     _playerControllerMove.enabled = true;
+
+                    _isTutorialRunQuest = true;
+                }
+                else
+                {
+                    _isTutorialRunQuest = false;
                 }
             }
 
-            else if (_turtorialType == TurtorialType.Grabber)
+            if (_turtorialType == TurtorialType.Grabber && _isGrabberText)
             {
-                DialogueNumCount();
+                _dialogueMaxNum = _tutorialGrabberList.Count;
                 StartCoroutine(TextTyping(_tutorialGrabberList[_dialogueNum]));
+
+                if (_dialogueNum == 1)
+                {
+                    _isTutorialRunQuest = true;
+                }
+                else if (_syncOVRDistanceGrabbable.isGrabbed)
+                {
+                    _isTutorialRunQuest = false;
+                }
             }
 
-            else if (_turtorialType == TurtorialType.Ray)
+            if (_turtorialType == TurtorialType.Ray && _isRayText)
             {
-                DialogueNumCount();
+                _dialogueMaxNum = _tutorialRayList.Count;
                 StartCoroutine(TextTyping(_tutorialRayList[_dialogueNum]));
+
+                if (_dialogueNum == 1)
+                {
+                    _isTutorialRunQuest = true;
+                }
+                else if (_syncOVRDistanceGrabbable.isGrabbed)
+                {
+                    _isTutorialRunQuest = false;
+                }
             }
 
             _isDialogueEnd = false;
         }
+
         NextDialogue();
+        RunQuest();
     }
 
     /// <summary>
@@ -117,7 +153,7 @@ public class StartRoomTutorial : MonoBehaviour
                 yield break;
             }
 #endif
-            if (OVRInput.GetDown(OVRInput.Button.Two))
+            if (OVRInput.GetDown(OVRInput.Button.One))
             {
                 _tutorialRunText.text = dialogue;
 
@@ -133,34 +169,46 @@ public class StartRoomTutorial : MonoBehaviour
     }
 
     /// <summary>
-    /// CSV다음 대화를 불러옴
+    /// List의 다음 인덱스 값으로 넘어감
     /// </summary>
     private void DialogueNumCount()
     {
         if (_isDialogueEnd == true && _isNext == true)
         {
-            if (_turtorialType == TurtorialType.Run)
-            {
-                ++_dialogueNum;
-                DialogueEnd();
-            }
+            ++_dialogueNum;
 
-            else if (_turtorialType == TurtorialType.Grabber)
+            if (_dialogueNum > _dialogueMaxNum - 1)
             {
-                ++_dialogueNum;
-                DialogueEnd();
-            }
+                ++_turtorialType;
 
-            else if (_turtorialType == TurtorialType.Ray)
-            {
-                ++_dialogueNum;
-                DialogueEnd();
+                if (_turtorialType == TurtorialType.Grabber)
+                {
+                    _isRunText = false;
+                    _isGrabberText = true;
+                    _isRayText = false;
+                }
+
+                if (_turtorialType == TurtorialType.Ray)
+                {
+                    _isRunText = false;
+                    _isGrabberText = false;
+                    _isRayText = true;
+                }
+
+                if (_turtorialType == TurtorialType.End)
+                {
+                    gameObject.SetActive(false);
+                }
+
+                _isNext = false;
+
+                _dialogueNum -= _dialogueNum;
             }
         }
     }
 
     /// <summary>
-    /// 대화 스킾 기능
+    /// 다음 대화
     /// </summary>
     private void NextDialogue()
     {
@@ -186,14 +234,27 @@ public class StartRoomTutorial : MonoBehaviour
 #endif
     }
 
-    /// <summary>
-    /// 대화 종료
-    /// </summary>
-    private void DialogueEnd()
+
+    private void RunQuest()
     {
-        if (_dialogueNum > _dialogueMaxNum)
+        if (_isTutorialRunQuest == true)
         {
-            gameObject.SetActive(false);
+            if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
+            {
+                _curTime += Time.deltaTime;
+                Debug.Log("퀘 진행 중");
+                if (_curTime >= _requestClearTime)
+                {
+                    Debug.Log("퀘 완료");
+                    _isTutorialRunQuest = false;
+                    _curTime -= _curTime;
+                }
+            }
+            else
+            {
+                Debug.Log("퀘 진행중 아님");
+                _curTime -= _curTime;
+            }
         }
     }
 }

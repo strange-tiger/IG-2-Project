@@ -13,7 +13,7 @@ public class QuestController : MonoBehaviour
     {
         if (_startRoomTutorial.TurtorialTypeNum == (int)StartRoomTutorial.TurtorialType.Run)
         {
-            if (_startRoomTutorial.DialogueNum == 4)
+            if (_startRoomTutorial.IsTutorialRunQuest)
             {
                 _questText.text = "달리기 기능 3초 유지 시 다음으로 넘어감";
             }
@@ -25,9 +25,9 @@ public class QuestController : MonoBehaviour
 
         if (_startRoomTutorial.TurtorialTypeNum == (int)StartRoomTutorial.TurtorialType.Grabber)
         {
-            if (_startRoomTutorial.DialogueNum == 2)
+            if (_startRoomTutorial.DialogueNum == 1)
             {
-                _questText.text = "집가고싶다";
+                _questText.text = "그랩 해 보세요";
             }
             else
             {
@@ -37,9 +37,9 @@ public class QuestController : MonoBehaviour
 
         if (_startRoomTutorial.TurtorialTypeNum == (int)StartRoomTutorial.TurtorialType.Ray)
         {
-            if (_startRoomTutorial.DialogueNum == 2)
+            if (_startRoomTutorial.DialogueNum == 1)
             {
-                _questText.text = "자고싶다";
+                _questText.text = "레이캐스트를 이용 해 그랩 해 보세요";
             }
             else
             {
