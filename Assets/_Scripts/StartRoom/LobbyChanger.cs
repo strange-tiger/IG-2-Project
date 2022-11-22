@@ -69,6 +69,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     private RoomOptions _roomOptions = new RoomOptions
     {
+        PublishUserId = true,
         MaxPlayers = 30
     };
     public override void OnJoinedLobby()
