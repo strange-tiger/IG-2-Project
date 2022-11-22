@@ -87,12 +87,14 @@ public class SummonCircle : MonoBehaviourPun
 #if debug
         SpawnHelper(_currentIndex);
 #else
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "SpawnHelper");
         photonView.RPC("SpawnHelper", RpcTarget.AllBuffered, _currentIndex);
 #endif
     }
 
+    [PunRPC]
     private void SpawnHelper(int currentIndex) => StartCoroutine(SpawnObject(currentIndex));
-
+    
     private int _currentIndex = 0;
     private float _elapsedTime = 0f;
     private IEnumerator SpawnObject(int currentIndex)

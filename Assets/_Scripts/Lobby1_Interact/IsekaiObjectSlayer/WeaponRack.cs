@@ -74,8 +74,11 @@ public class WeaponRack : MonoBehaviourPun
             _weaponIndexGroup[currentGroupIndex] = 0;
         }
 
-        StartCoroutine(SpawnWeapon(currentGroupIndex));
+        photonView.RPC("SpawnWeaponRPCHelper", RpcTarget.All);
     }
+
+    [PunRPC]
+    private void SpawnWeaponRPCHelper(int index) => StartCoroutine(SpawnWeapon(index));
 
     private IEnumerator SpawnWeapon(int groupIndex)
     {

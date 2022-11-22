@@ -64,11 +64,19 @@ public class IsekaiObject : MonoBehaviourPun
             --count;
         }
 
-        ObjectSlashed.Invoke(playerPos);
+        if (photonView.IsMine)
+        {
+            ObjectSlashed.Invoke(playerPos);
+        }
 
         transform.localPosition = Vector3.zero;
-        gameObject.SetActive(false);
+
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "ObjectDisabled");
+        photonView.RPC("ObjectDisabled", RpcTarget.AllBuffered);
     }
+
+    [PunRPC]
+    private void ObjectDisabled(Vector3 playerPos) => gameObject.SetActive(false);
 
     private IEnumerator Vibration()
     {
