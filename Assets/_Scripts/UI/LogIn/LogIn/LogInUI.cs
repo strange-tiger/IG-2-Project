@@ -48,6 +48,7 @@ public class LogInUI : MonoBehaviour
         Sql.Init();
     }
 
+    private const string IS_ONLINE = "1";
     /// <summary>
     /// 입력된 계정 정보(Email, Password)를 계정 DB와 비교해
     /// 일치하면 다음 씬을 로드한다.
@@ -64,6 +65,13 @@ public class LogInUI : MonoBehaviour
             Column.Password, Hash.Compute(_passwordInput.text)))
         {
             _errorPopup.ErrorPopup(Error.PASSWORD);
+            return;
+        }
+
+        if (Sql.CheckValueByBase(Column.Email, _idInput.text,
+            Column.IsOnline, IS_ONLINE))
+        {
+            _errorPopup.ErrorPopup(Error.ID);
             return;
         }
 

@@ -8,14 +8,15 @@ public class Ball : MonoBehaviourPunCallbacks
 {
     private Vector3 _ballPosition;
 
-    [SerializeField]
-    private float _resetBallTimer;
+    [SerializeField] private float _resetBallTimer;
 
+    private ThrowBall _ThrowBall;
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
+    private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
 
-    private float _currentTime;
-    private bool[] _isGrabBall = new bool[2];
+    private float _ballNoTouchTime;
+    private bool _isGrabBall;
 
     private void Awake()
     {
@@ -26,81 +27,51 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         _rigidbody = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
+        _syncOVRDistanceGrabbable = GetComponent<SyncOVRDistanceGrabbable>();
+        _ThrowBall = GetComponent<ThrowBall>();
     }
 
     private void Update()
     {
         SetBall();
 
-        if ((OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) && _isGrabBall[0] == true || _isGrabBall[1] == true)
+        if (_syncOVRDistanceGrabbable.isGrabbed == true)
         {
-            _rigidbody.AddForce(0, 40f, 20f);
+            _ThrowBall.enabled = false;
+        }
+        else if (_syncOVRDistanceGrabbable.isGrabbed == false)
+        {
+            _ThrowBall.enabled = true;
         }
 
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    _rigidbody.AddForce(0, 60f, 30f);
-        //}
     }
 
     private void SetBall()
     {
         if (_rigidbody.velocity == Vector3.zero)
         {
-            _currentTime += Time.deltaTime;
+            _ballNoTouchTime += Time.deltaTime;
 
-            if (_currentTime > _resetBallTimer)
+            if (_ballNoTouchTime > _resetBallTimer)
             {
                 transform.position = _ballPosition;
-                _currentTime -= _currentTime;
+                _ballNoTouchTime -= _ballNoTouchTime;
             }
         }
         else
         {
-            if (_currentTime != 0f)
+            if (_ballNoTouchTime != 0f)
             {
-                _currentTime -= _currentTime;
-            }
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
-            {
-                for (int i = 0; i < _isGrabBall.Length; ++i)
-                {
-                    if (_isGrabBall[i] != true)
-                    {
-                        _isGrabBall[i] = true;
-                        break;
-                    }
-                }
+                _ballNoTouchTime -= _ballNoTouchTime;
             }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BallGameCourtFloor")
+        if (collision.gameObject.tag.Contains("BallGameCourtFloor"))
         {
             _audioSource.Play();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            for (int i = 0; i < _isGrabBall.Length; ++i)
-            {
-                if (_isGrabBall[i] != false)
-                {
-                    _isGrabBall[i] = false;
-                    break;
-                }
-            }
         }
     }
 }

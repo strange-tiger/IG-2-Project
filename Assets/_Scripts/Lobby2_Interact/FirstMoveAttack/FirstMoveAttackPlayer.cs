@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Events;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
+
     [PunRPC]
     public void OnDamageByBottle()
     {
@@ -21,7 +23,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
 
     public void Revive()
     {
-        GetComponentInChildren<OVRScreenFade>().FadeIn(2.0f);
+        GetComponentInChildren<OVRScreenFade>()?.FadeIn(2.0f);
     }
 
     IEnumerator Invincible(float coolTime)

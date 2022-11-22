@@ -21,6 +21,12 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
     [Header("타이머 텍스트")]
     [SerializeField] private TextMeshProUGUI _timeText;
 
+    [Header("베팅률 텍스트")]
+    [SerializeField] private TextMeshProUGUI[] _betRateText;
+
+    [Header("챔피언 베팅률 텍스트")]
+    [SerializeField] private TextMeshProUGUI[] _championBetRateText;
+
     private float[] _hp = new float[4];
 
     private int _minute;
@@ -49,18 +55,21 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
-        //SetChampionInfo();
-         photonView.RPC("SetChampionInfo", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("SetChampionInfo", RpcTarget.All);
+        }
     }
 
     private void Update()
     {
-        FlowingTime();
-       // UpdateTimerText(_minute, _second);
-        photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
-        
-        // SetChampionHp();
-        photonView.RPC("SetChampionHp", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            FlowingTime();
+            photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
+
+            photonView.RPC("SetChampionHp", RpcTarget.All);
+        }
     }
 
     /// <summary>
@@ -127,6 +136,11 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
         for (int i = 0; i < _championSlider.Length; ++i)
         {
             _hp[i] = _championHp[i].Hp;
+        }
+
+        for (int i = 0; i < _betRateText.Length; ++i)
+        {
+            _championBetRateText[i].text = _betRateText[i].text;
         }
     }
 }

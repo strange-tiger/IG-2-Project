@@ -26,11 +26,13 @@ namespace Asset.MySql
         private const string INSERT_CHARACTER = "INSERT INTO CharacterDB (Nickname,Gender) VALUES ";
         private const string INSERT_RELATIONSHIP = "INSERT INTO RelationshipDB (UserA,UserB,State) VALUES ";
         private const string INSERT_BETTING = "INSERT INTO BettingDB (Nickname,BettingGold,BettingChampionNumber,HaveGold) VALUES ";
+        private const string INSERT_BETTINGAMOUNT = "INSERT INTO BettingDB (Nickname,BettingGold,BettingChampionNumber,HaveGold) VALUES ";
         private const string INSERT_PETINVENTORY = "INSERT INTO PetInventoryDB (Nickname) VALUES ";
         private const string INSERT_ROOMLIST = "INSERT INTO RoomListDB (UserId, Password, DisplayName, RoomNumber) VALUES ";
         public static readonly string[] INSERT =
         {
             INSERT_ACCOUNT,
+            INSERT_BETTINGAMOUNT,
             INSERT_BETTING,
             INSERT_CHARACTER,
             INSERT_PETINVENTORY,
@@ -987,11 +989,13 @@ namespace Asset.MySql
         {
             try
             {
-                double result = double.Parse(GetValueByBase(EbettingdbColumns.NickName, nickname, EbettingdbColumns.BettingGold));
+                double result = double.Parse(GetValueByBase(EbettingdbColumns.Nickname, nickname, EbettingdbColumns.BettingGold));
 
-                DeleteRowByComparator(EbettingdbColumns.NickName, nickname);
+                double updateGold = double.Parse(GetValueByBase(EbettingdbColumns.Nickname, nickname, EbettingdbColumns.HaveGold)) + result;
 
-                UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, result.ToString());
+                DeleteRowByComparator(EbettingdbColumns.Nickname, nickname);
+
+                UpdateValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold, updateGold.ToString());
 
                 return result;
             }
@@ -1032,7 +1036,7 @@ namespace Asset.MySql
 
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 
-                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.NickName.ToString()]}';";
+                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.Nickname.ToString()]}';";
 
                             MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
 
@@ -1051,7 +1055,7 @@ namespace Asset.MySql
 
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 
-                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.NickName.ToString()]}';";
+                            string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.Nickname.ToString()]}';";
 
                             MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
                             command.ExecuteNonQuery();
@@ -1105,6 +1109,62 @@ namespace Asset.MySql
                 return false;
             }
         }
+
+        public static List<double> CheckBettingAmount()
+        {
+           
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string selectBettingAmountString = $"Select * from {ETableType.bettingamountdb};";
+
+                    DataSet bettingAmount = GetUserData(selectBettingAmountString);
+
+                    List<double> resultList = new List<double>();
+
+                    foreach (DataRow _dataRow in bettingAmount.Tables[0].Rows)
+                    {
+                        resultList.Add(double.Parse(_dataRow["Amount"].ToString()));
+                        resultList.Add(double.Parse(_dataRow["OneAmount"].ToString()));
+                        resultList.Add(double.Parse(_dataRow["TwoAmount"].ToString()));
+                        resultList.Add(double.Parse(_dataRow["ThreeAmount"].ToString()));
+                        resultList.Add(double.Parse(_dataRow["FourAmount"].ToString()));
+                    }
+
+                    return resultList;
+                }
+            
+        }
+
+        public static bool UpdateBettingAmountDB(int index, double amount, double championAmount)
+        {
+
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    string updateBettingAmountString = $"Update {ETableType.bettingamountdb} set Amount = '{amount}',{(ChampionNumber)Enum.Parse(typeof(ChampionNumber),index.ToString())} = '{championAmount}' ;";
+
+                    
+                    MySqlCommand updateBettingAmountCommand = new MySqlCommand(updateBettingAmountString, _mysqlConnection);
+
+                    
+                   _mysqlConnection.Open();
+                   updateBettingAmountCommand.ExecuteNonQuery();
+                   _mysqlConnection.Close();
+                   
+                }
+                return true;
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError(error.Message);
+                return false;
+            }
+        }
+
+
+
+
 
         #endregion
 

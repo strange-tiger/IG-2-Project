@@ -67,4 +67,11 @@ public class InventoryUIManager : MonoBehaviour
     {
         _inventoryUI.SetActive(true);
     }
+    /// <summary>
+    /// Invantory UI æ»∫∏ø©¡‹
+    /// </summary>
+    public void HideInventoryUI()
+    {
+        _inventoryUI.SetActive(false);
+    }
 }

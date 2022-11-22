@@ -12,8 +12,8 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     [SerializeField] PetData _petData;
     [SerializeField] GameObject _petObject;
 
-    private static readonly WaitForSeconds DELAY_GET_NICKNAME = new WaitForSeconds(2f);
-    private BasicPlayerNetworking _player;
+    private static readonly WaitForSeconds DELAY_GET_NICKNAME = new WaitForSeconds(1f);
+    private PlayerNetworking _player;
 
     private int _eqiupNum;
     private int _testNum = -1;
@@ -47,6 +47,8 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     private IEnumerator PetInitialize()
     {
+        _player = FindObjectOfType<PlayerNetworking>();
+
         yield return DELAY_GET_NICKNAME;
 
         PetDataInitializeFromDB();
@@ -66,7 +68,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     {
         MySqlSetting.Init();
 
-        _player = FindObjectOfType<BasicPlayerNetworking>();
+        Debug.Log("´Ð³×ÀÓ "+_player.MyNickname);
 
         _petData = MySqlSetting.GetPetInventoryData(_player.MyNickname, _petData);
 

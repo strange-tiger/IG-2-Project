@@ -15,6 +15,6 @@ public class PetShopInteract : InteracterableObject
 
         OutFocus();
 
-        _petUI.LoadUI(_UI.POPUP);
+        _petUI.LoadUI(_UI.CHAT);
     }
 }

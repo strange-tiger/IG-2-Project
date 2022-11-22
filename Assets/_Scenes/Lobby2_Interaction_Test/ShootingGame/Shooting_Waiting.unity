@@ -793,7 +793,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdf4a49d36a01744ba96aaecd542540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _exitComfirmMessage: "\uB098\uAC00\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   _lobbyChanger: {fileID: 1741170125}
 --- !u!23 &1361613452
@@ -1101,7 +1104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isStartRoom: 0
   _canvases: []
-  _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+  _playerPrefab: {fileID: 6072405480879903498, guid: cb7d7a8cc6496a94d9917c69aabeb34c, type: 3}
   _door: {fileID: 237002648}
   _playerCountText: {fileID: 6176339810574344575}
   _countDownSeconds: 3

@@ -5,21 +5,30 @@ using EAIState = Defines.Estate;
 
 public class AIDeath : AIState
 {
-    [SerializeField]
-    private Collider[] _isDeathOffCollider;
+    [SerializeField] private Collider[] _isDeathOffCollider;
+
+    [SerializeField] private AudioClip _deathAudioClip;
 
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public override void OnEnter()
     {
+        if (_deathAudioClip != null)
+        {
+            _audioSource.PlayOneShot(_deathAudioClip);
+        }
+
         Invoke("OffCollider", 1f);
 
         _animator.SetTrigger(AIAnimatorID.onDeath);
 
         Invoke("Delete", 5f);
+
+
     }
 
     public override void OnUpdate()

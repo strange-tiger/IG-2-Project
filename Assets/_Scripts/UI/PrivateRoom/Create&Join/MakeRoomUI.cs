@@ -56,11 +56,9 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     {
         try
         {
-            // 规 积己阑 龋胶飘俊 夸没
             _userId = PhotonNetwork.LocalPlayer.UserId;
 
             MakeRoom();
-            // PhotonNetwork.JoinRoom("规 捞抚");
         }
         catch
         {
@@ -117,7 +115,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
                 "displayname"
             };
 
-            _DB.AddNewRoomInfo(_userId, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
+            _DB.AddNewRoomInfo(roomName, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
             PhotonNetwork.CreateRoom(roomName, _roomOptions, null);
             Debug.Log("规 积己 己傍");
         }
@@ -133,12 +131,13 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         Debug.Log("规 积己");
     }
 
+    private const string PREV_SCENE = "PrevScene";
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        // 烙矫 内靛
         Debug.Log("规 涝厘");
-        PhotonNetwork.LoadLevel("PrivateRoom");
+        PlayerPrefs.SetInt(PREV_SCENE, SceneManagerHelper.ActiveSceneBuildIndex);
+        PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
     }
 
     private void ActivePasswordInput(bool isOn)

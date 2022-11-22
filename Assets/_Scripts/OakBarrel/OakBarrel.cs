@@ -1,36 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using EPOOutline;
 using Photon.Pun;
 using UnityEngine.Events;
 
 public class OakBarrel : InteracterableObject
 {
-    // public UnityEvent CoveredOakBarrel = new UnityEvent();
-    
-    private float _oakBarrelReturnTime = 120f;
+    [SerializeField] private bool _isPlayerHave;
+
+    private MeshRenderer _oakBarrelMeshRenderer;
+    private MeshCollider _oakBarrelMeshCollider;
+
+    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
+
+    private void OnEnable()
+    {
+        if (gameObject.transform.root.tag.Contains("Player"))
+        {
+            _isPlayerHave = true;
+        }
+        else
+        {
+            _isPlayerHave = false;
+        }
+    }
+
+    private void Start()
+    {
+        _oakBarrelMeshRenderer = GetComponent<MeshRenderer>();
+        _oakBarrelMeshCollider = GetComponent<MeshCollider>();
+    }
 
     public override void Interact()
     {
         base.Interact();
 
-       // CoveredOakBarrel.Invoke();
-
-        Invoke("SetOakBarrelOriginalPosition", _oakBarrelReturnTime);
+        if (_isPlayerHave == false)
+        {
+            StartCoroutine(SetOakBarrelOriginalPosition());
+        }
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, false);
     }
 
     [PunRPC]
-    public void SomeoneInteractedOakBarrel(bool isTrueFalse)
+    public void SomeoneInteractedOakBarrel(bool value)
     {
-        gameObject.SetActive(isTrueFalse);
+        _oakBarrelMeshRenderer.enabled = value;
+        _oakBarrelMeshCollider.enabled = value;
     }
 
-    private void SetOakBarrelOriginalPosition()
+    private IEnumerator SetOakBarrelOriginalPosition()
     {
-        base.Interact();
+        yield return _oakBarrelReturnTime;
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, true);
     }
