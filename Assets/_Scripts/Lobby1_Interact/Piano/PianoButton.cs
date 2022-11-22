@@ -15,7 +15,7 @@ public class PianoButton : MonoBehaviourPunCallbacks
         get { return _steppedCount; }
         set 
         { 
-            photonView.RPC(nameof(SetSteppedCount), RpcTarget.All); 
+            photonView.RPC(nameof(SetSteppedCount), RpcTarget.All, value); 
         }
     }
     private void Awake()
