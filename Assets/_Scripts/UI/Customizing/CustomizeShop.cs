@@ -10,17 +10,22 @@ using Photon.Pun;
 
 public class CustomizeShop : MonoBehaviourPun
 {
+    [Header("Avatar Info")]
+    [SerializeField] TextMeshProUGUI[] _avatarName;
+    [SerializeField] TextMeshProUGUI[] _avatarValue;
+    [SerializeField] GameObject[] _avatarPanel;
 
-    [SerializeField] TextMeshProUGUI _avatarName;
-    [SerializeField] TextMeshProUGUI _avatarValue;
-    [SerializeField] Button _purchaseButton;
+    [Header("Button")]
     [SerializeField] Button _leftAvatarButton;
     [SerializeField] Button _rightAvatarButton;
-    [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
-    [SerializeField] GameObject _smMeshRendererObject;
-    [SerializeField] GameObject _characterMeshRendererObject;
+    [SerializeField] Button _purchaseButton;
+
+    [Header("Avatar")]
+    [SerializeField] SkinnedMeshRenderer[] _skinnedMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer[] _smMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer[] _characterMeshRenderer;
+    [SerializeField] GameObject[] _smMeshRendererObject;
+    [SerializeField] GameObject[] _characterMeshRendererObject;
 
 
     public CustomizeData _customizeDatas;
@@ -32,7 +37,7 @@ public class CustomizeShop : MonoBehaviourPun
     private Color _enoughGoldColor = new Color(255, 212, 0);
     private Color _notEnoughGoldColor = new Color(128, 128, 128);
 
-    private List<int> _notHaveAvatarList = new List<int>();
+    private List<Queue<int>> _notHaveAvatarList = new List<Queue<int>>();
     private PlayerCustomize _playerCustomize;
     private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
@@ -42,6 +47,7 @@ public class CustomizeShop : MonoBehaviourPun
     private int _setMaterialNum;
     private int _equipNum;
     private int _startNum;
+
     private bool _isFemale;
 
     private void OnEnable()
@@ -67,7 +73,7 @@ public class CustomizeShop : MonoBehaviourPun
             }
         }
 
-        _playerNickname = _playerNetworking.MyNickname;
+        _playerNickname = "aaa";
 
 
         AvatarShopInit();
@@ -101,31 +107,49 @@ public class CustomizeShop : MonoBehaviourPun
         }
         // 유저의 색 데이터를 불러옴
         _userCustomizeData.UserMaterial = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
-
+        Queue<int> shopIndex = new Queue<int>();
         // 착용중이었던 아바타의 데이터를 불러옴.
         for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
             if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
             {
-                _notHaveAvatarList.Add(i);
+                shopIndex.Enqueue(i);
+
+                if (i % 3 == 2)
+                {
+                    _notHaveAvatarList.Add(shopIndex);
+                    shopIndex.Clear();
+                }
             }
             if (_userCustomizeData.AvatarState[i] == EAvatarState.EQUIPED)
             {
                 _equipNum = i;
             }
+            
         }
         _startNum = 0;
-         _setAvatarNum = _notHaveAvatarList[_startNum];
 
         RootSet();
 
         // Material과 유저의 아바타 데이터를 커스터마이즈 창에 적용시킴
         _setMaterialNum = _userCustomizeData.UserMaterial;
-        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+        _skinnedMeshRenderer[0].sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
         // 상점에서 아바타의 이름과 가격을 적용시킴.
-        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+        _avatarName[0].text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarValue[0].text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+
+        for (int i = 1; i < _skinnedMeshRenderer.Length; ++i)
+        {
+            _setAvatarNum = _notHaveAvatarList[_startNum].Dequeue();
+            Debug.Log(_setAvatarNum);
+            Debug.Log(_startNum);
+            Debug.Log(_notHaveAvatarList.Count);
+            _skinnedMeshRenderer[i].sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+            _avatarName[i].text = _userCustomizeData.AvatarName[_setAvatarNum];
+            _avatarValue[i].text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+            _notHaveAvatarList[_startNum].Enqueue(_setAvatarNum);
+        }
     }
 
     void PurchaseButton()
@@ -139,7 +163,7 @@ public class CustomizeShop : MonoBehaviourPun
             _equipNum = _setAvatarNum;
             _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
 
-            _notHaveAvatarList.Remove(_setAvatarNum);
+           // _notHaveAvatarList.Remove(_setAvatarNum);
 
             RootSet();
 
@@ -161,58 +185,73 @@ public class CustomizeShop : MonoBehaviourPun
             }
 
 
-            if (_startNum == _notHaveAvatarList.Count)
-            {
-                _startNum = 0;
-                _setAvatarNum = _notHaveAvatarList[_startNum];
-            }
-            else
-            {
-                _startNum++;
-                _setAvatarNum = _notHaveAvatarList[_startNum];
-            }
+            //if (_startNum == _notHaveAvatarList.Count)
+            //{
+            //    _startNum = 0;
+            //    _setAvatarNum = _notHaveAvatarList[_startNum];
+            //}
+            //else
+            //{
+            //    _startNum++;
+            //    _setAvatarNum = _notHaveAvatarList[_startNum];
+            //}
         }
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
 
+    private void AvatarShopPage()
+    {
+
+       for (int i = 0; i < _skinnedMeshRenderer.Length - 1; ++i)
+        {
+            _setAvatarNum = _notHaveAvatarList[_startNum].Dequeue();
+            Debug.Log(_setAvatarNum);
+
+            _skinnedMeshRenderer[i + 1].sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+            _avatarName[i + 1].text = _userCustomizeData.AvatarName[_setAvatarNum];
+            _avatarValue[i + 1].text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
+            _notHaveAvatarList[_startNum].Enqueue(_setAvatarNum);
+        }
+    }
+
+
 
     private void RootSet()
     {
-        if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
+        for(int i = 1; i < _skinnedMeshRenderer.Length; ++i)
         {
-            _smMeshRendererObject.SetActive(true);
-            _characterMeshRendererObject.SetActive(false);
-            _skinnedMeshRenderer = _smMeshRenderer;
-        }
-        else
-        {
-            _smMeshRendererObject.SetActive(false);
-            _characterMeshRendererObject.SetActive(true);
-            _skinnedMeshRenderer = _characterMeshRenderer;
+            if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
+            {
+                _smMeshRendererObject[i].SetActive(true);
+                _characterMeshRendererObject[i].SetActive(false);
+                _skinnedMeshRenderer = _smMeshRenderer;
+            }
+            else
+            {
+                _smMeshRendererObject[i].SetActive(false);
+                _characterMeshRendererObject[i].SetActive(true);
+                _skinnedMeshRenderer = _characterMeshRenderer;
+            }
         }
     }
 
     void LeftAvartarButton()
     {
-        if (_startNum == 0)
+        if(_startNum == 0)
         {
             _startNum = _notHaveAvatarList.Count - 1;
-            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
         else
         {
             _startNum--;
-            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
+        AvatarShopPage();
 
         RootSet();
 
-        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
 
-        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
 
         if (MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
         {
@@ -235,22 +274,18 @@ public class CustomizeShop : MonoBehaviourPun
         if (_startNum == _notHaveAvatarList.Count - 1)
         {
             _startNum = 0;
-            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
         else
         {
             _startNum++;
-            _setAvatarNum = _notHaveAvatarList[_startNum];
         }
+
+        AvatarShopPage();
 
         RootSet();
 
-        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
-
-        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-        _avatarValue.text = _userCustomizeData.AvatarValue[_setAvatarNum].ToString();
-
-        if(MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
+      
+        if (MySqlSetting.CheckHaveGold(_playerNickname) >= _userCustomizeData.AvatarValue[_setAvatarNum])
         {
             _purchaseButton.image.color = _enoughGoldColor;
             _purchaseButton.interactable = true;
