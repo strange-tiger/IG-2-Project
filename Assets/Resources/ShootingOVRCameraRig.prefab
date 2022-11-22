@@ -191,7 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 1893914564186621608}
   isLeft: 1
-  _RayColor: {r: 0.16470589, g: 0.95686275, b: 0.14509805, a: 1}
+  _rayColor: {r: 0.16470589, g: 0.95686275, b: 0.14509805, a: 1}
 --- !u!1 &5745592700138840100
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,7 +593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 1893914564186621608}
   isLeft: 0
-  _RayColor: {r: 0.16470589, g: 0.95686275, b: 0.14509805, a: 1}
+  _rayColor: {r: 0.16470589, g: 0.95686275, b: 0.14509805, a: 1}
 --- !u!1 &7567529842783510401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,6 +1018,9 @@ MonoBehaviour:
   - {fileID: 2018300858195115721}
   - {fileID: 707471706081963196}
   _pointer: {fileID: 5252762228435098601}
+  InteractionOakBarrel:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1893914564186621608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,6 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34a5c0964bb2ad242ad97bf328961e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isInvincible: 0
 --- !u!114 &7256893809294795564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1697,7 +1701,7 @@ MonoBehaviour:
   dimOnHideRequest: 1
   depthScaleMultiplier: 0.03
   matchNormalOnPhysicsColliders: 0
-  rayTransform: {fileID: 0}
+  rayTransform: {fileID: 2088810017169332551}
 --- !u!1001 &1343995253597784918
 PrefabInstance:
   m_ObjectHideFlags: 0
