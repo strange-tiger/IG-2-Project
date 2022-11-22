@@ -6,8 +6,24 @@ using Photon.Pun;
 
 public class WaitingRoomRevolver : MonoBehaviourPun
 {
+    // 그랩 관련
     private bool _isGrabbed = false;
+    private bool IsGrabbed
+    {
+        get { return _isGrabbed; }
+        set
+        {
+            photonView.RPC(nameof(SetGrabbed), RpcTarget.All, value);
+        }
+    }
     private SyncOVRGrabbable _syncGrabbable;
+    private PlayerInput _input;
+
+    // 오브젝트 관련
+    private BoxCollider _boxCollider;
+    private Vector3 _objSpawnPos;
+
+    //재장전
     private bool _isReloading = false;
     private bool IsReloading
     {
@@ -18,12 +34,8 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         }
     }
 
-    private BoxCollider _boxCollider;
-    private Vector3 _objSpawnPos;
-
-    [SerializeField] private float _gunRange = 18f;
-
     // 총알 관련
+    [SerializeField] private float _gunRange = 18f;
     [SerializeField] private TextMeshProUGUI _bulletCountText;
     [SerializeField] private Transform _bulletSpawnTransform;
     [SerializeField] private Transform _bulletShotPoint;
@@ -39,13 +51,11 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         }
     }
 
-
-    // 사운드 관련
+    // Effect
     [SerializeField] private AudioClip _shotAudioClip;
     [SerializeField] private AudioClip _reloadAudioClip;
     private AudioSource _audioSource;
 
-    // 이펙트 관련
     private ParticleSystem[] _shootEffects = new ParticleSystem[2];
 
     // 진동 효과
@@ -63,7 +73,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
         // 그랩 상태 받아오기
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
-        _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
+        _syncGrabbable.CallbackOnGrabHand = OnGrabBegin;
         _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
 
         // 이펙트를 위한 기타 컴포넌트 가져오기
@@ -99,27 +109,28 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         Shot();
     }
 
-    [PunRPC]
-    public void OnGrabBegin()
+    public void OnGrabBegin(SyncOVRGrabber hand)
     {
         _isGrabbed = true;
-        _boxCollider.isTrigger = true;
-        if (photonView.IsMine)
-        {
-            photonView.RPC(nameof(OnGrabBegin), RpcTarget.Others);
-        }
+        _input = hand.transform.parent.GetComponent<PlayerInput>();
+        // _primaryController = 
     }
 
-    [PunRPC]
     public void OnGrabEnd()
     {
         _isGrabbed = false;
-        _boxCollider.isTrigger = false;
         ObjPosReset();
-        if (photonView.IsMine)
-        {
-            photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
-        }
+    }
+    private void ObjPosReset()
+    {
+        gameObject.transform.rotation = Quaternion.identity;
+        gameObject.transform.position = _objSpawnPos;
+    }
+
+    public void SetGrabbed(bool value)
+    {
+        _isGrabbed = value;
+        _boxCollider.isTrigger = value;
     }
 
     private void Reload()
@@ -163,7 +174,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
             scarecrow?.Hit(hit.point);
         }
     }
-
 
     private void PlayShotEffect()
     {
@@ -214,10 +224,5 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     public void ReturnToBulletPull(GameObject bulletTrail)
     {
         _bulletTrailPull.Push(bulletTrail);
-    }
-    private void ObjPosReset()
-    {
-        gameObject.transform.rotation = Quaternion.identity;
-        gameObject.transform.position = _objSpawnPos;
     }
 }
