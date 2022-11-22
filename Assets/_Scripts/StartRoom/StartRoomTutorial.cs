@@ -47,8 +47,8 @@ public class StartRoomTutorial : MonoBehaviour
 
     void Start()
     {
-        _newPlayerMove.enabled = false;
-        _playerControllerMove.enabled = false;
+       // _newPlayerMove.enabled = false;
+       // _playerControllerMove.enabled = false;
 
         _CSV.ParseCSV("StartRoomTutorialRun", _tutorialRunList, '\n', ',');
         _CSV.ParseCSV("StartRoomTutorialGrabber", _tutorialGrabberList, '\n', ',');
@@ -141,18 +141,18 @@ public class StartRoomTutorial : MonoBehaviour
             _tutorialRunText.text += c;
 
             yield return _delayTime;
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                _tutorialRunText.text = dialogue;
+//#if UNITY_EDITOR
+//            if (Input.GetKeyDown(KeyCode.K))
+//            {
+//                _tutorialRunText.text = dialogue;
 
-                StopCoroutine(TextTyping(dialogue));
+//                StopCoroutine(TextTyping(dialogue));
 
-                _isDialogueEnd = true;
+//                _isDialogueEnd = true;
 
-                yield break;
-            }
-#endif
+//                yield break;
+//            }
+//#endif
             if (OVRInput.GetDown(OVRInput.Button.One))
             {
                 _tutorialRunText.text = dialogue;
@@ -212,7 +212,7 @@ public class StartRoomTutorial : MonoBehaviour
     /// </summary>
     private void NextDialogue()
     {
-        if (OVRInput.GetDown(OVRInput.Button.Two) && _isDialogueEnd == true)
+        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true)
         {
             _tutorialRunText.text = null;
             _isNext = true;
@@ -221,17 +221,17 @@ public class StartRoomTutorial : MonoBehaviour
         {
             _isNext = false;
         }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-        {
-            _tutorialRunText.text = null;
-            _isNext = true;
-        }
-        else
-        {
-            _isNext = false;
-        }
-#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+//        {
+//            _tutorialRunText.text = null;
+//            _isNext = true;
+//        }
+//        else
+//        {
+//            _isNext = false;
+//        }
+//#endif
     }
 
 
