@@ -7,7 +7,7 @@ public class Scarecrow : MonoBehaviourPun
 {
     private AudioSource _audioSource;
     [SerializeField]
-    private ParticleSystem _hitEffect;
+    private GameObject _hitEffect;
 
     private void Awake()
     {
@@ -19,12 +19,13 @@ public class Scarecrow : MonoBehaviourPun
         photonView.RPC(nameof(PlayEffect), RpcTarget.All, hitPoint);
     }
 
+    //배열 사용해서 오브젝트 풀링
     [PunRPC]
     private void PlayEffect(Vector3 hitPoint)
     {
         //hitPoint 위치에 효과를 재생시키면 된다
         _hitEffect.transform.position = hitPoint;
-        _hitEffect.Play();
+        
         _audioSource.Play();
     }
 }

@@ -6,6 +6,9 @@ using Photon.Pun;
 
 public class WaitingRoomRevolver : MonoBehaviourPun
 {
+    private LineRenderer _lineRenderer;
+    private Vector3[] _rayPositions = new Vector3[2];
+
     // 그랩 관련
     private bool _isGrabbed = false;
     private bool IsGrabbed
@@ -68,6 +71,8 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void Awake()
     {
+        _lineRenderer = GetComponent<LineRenderer>();
+
         _boxCollider = GetComponent<BoxCollider>();
         _objSpawnPos = transform.position;
 
@@ -105,6 +110,10 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         {
             return;
         }
+        _rayPositions[0] = _bulletSpawnTransform.position;
+        _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
+        _lineRenderer.SetPositions(_rayPositions);
+
         Reload();
         Shot();
     }
@@ -177,6 +186,7 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void PlayShotEffect()
     {
+        Debug.Log("PlayShotEffect");
         _audioSource.PlayOneShot(_shotAudioClip);
         // 임시로 추가한 컨트롤러 진동
         StartCoroutine(CoVibrateController());
