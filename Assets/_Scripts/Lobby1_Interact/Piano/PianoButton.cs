@@ -7,76 +7,64 @@ using Photon.Realtime;
 
 public class PianoButton : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private AudioClip _myAudioClip = null;
-
     private AudioSource _audioSource;
+
     private int _steppedCount = 0;
     public int SteppedCount
     {
         get { return _steppedCount; }
-        set { _steppedCount = value; }
+        set 
+        { 
+            photonView.RPC(nameof(SetSteppedCount), RpcTarget.All); 
+        }
     }
     private void Awake()
     {
-        if (!PlayerPrefs.HasKey("EffectVolume"))
-        {
-            PlayerPrefs.SetFloat("EffectVolume", 50f);
-        }
-
         _audioSource = GetComponent<AudioSource>();
-        _audioSource.clip = _myAudioClip;
         _audioSource.spatialBlend = 1;
+        _audioSource.volume = 1;
     }
     
     [PunRPC]
     private void PlayerJoined(int steppedCount)
     {
-        SteppedCount = steppedCount;
+        _steppedCount = steppedCount;
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        photonView.RPC("PlayerJoined", newPlayer, SteppedCount);
+        photonView.RPC(nameof(PlayerJoined), newPlayer, SteppedCount);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "PlayerBody")
+        if (collision.gameObject.CompareTag("PlayerBody"))
         {
-            photonView.RPC("AddSteppedCount", RpcTarget.All);
+            SteppedCount++;
 
             if (SteppedCount == 1)
             {
-                photonView.RPC("PlayPianoSound", RpcTarget.All);
+                photonView.RPC(nameof(PlayPianoSound),RpcTarget.MasterClient);
             }
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "PlayerBody")
+        if (collision.gameObject.CompareTag("PlayerBody"))
         {
-            photonView.RPC("SubtractSteppedCount", RpcTarget.All);
+            SteppedCount--;
         }
     }
 
     [PunRPC]
     public void PlayPianoSound()
     {
-        _audioSource.PlayOneShot(_myAudioClip, _audioSource.volume
-                    * PlayerPrefs.GetFloat("EffectVolume"));
+        _audioSource.Play();
     }
 
     [PunRPC]
-    public void AddSteppedCount()
+    public void SetSteppedCount(int value)
     {
-        ++_steppedCount;
-        Debug.Log("[Sound] " + _steppedCount);
-    }
-    [PunRPC]
-    public void SubtractSteppedCount()
-    {
-        --_steppedCount;
-        Debug.Log("[Sound] " + _steppedCount);
+        _steppedCount = value;
     }
 }
