@@ -11,6 +11,7 @@ using SceneType = Defines.ESceneNumder;
 
 public class MakeCharacterManager : MonoBehaviour
 {
+    public UnityEvent OnClickFemaleButton = new UnityEvent();
 
     [SerializeField] PlayerCustomize _playerCustomize;
     [SerializeField] Button _maleSelectButton;
@@ -18,6 +19,7 @@ public class MakeCharacterManager : MonoBehaviour
     [SerializeField] Button _makeCharacterButton;
     [SerializeField] GameObject _femalePanel;
     [SerializeField] GameObject _malePanel;
+    [SerializeField] GameObject _rayPlane;
 
     void Start()
     {
@@ -52,10 +54,12 @@ public class MakeCharacterManager : MonoBehaviour
     }
     private void SelectFemale()
     {
+        OnClickFemaleButton.Invoke();
         _playerCustomize.IsFemale = true;
         _playerCustomize.MakeAvatarData();
         _malePanel.SetActive(false);
         _femalePanel.SetActive(true);
+        _rayPlane.SetActive(false);
     }
 
 

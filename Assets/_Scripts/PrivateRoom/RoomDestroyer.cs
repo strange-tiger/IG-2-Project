@@ -8,12 +8,13 @@ using _DB = Asset.MySql.MySqlSetting;
 
 public class RoomDestroyer : MonoBehaviourPunCallbacks
 {
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    private void OnDestroy()
     {
-        base.OnPlayerLeftRoom(otherPlayer);
+        Debug.Log("[삭제 전] " + PhotonNetwork.CurrentRoom.Name);
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 0)
+        if ((int)PhotonNetwork.CurrentRoom.PlayerCount <= 1)
         {
+            Debug.Log("[삭제 중] " + PhotonNetwork.CurrentRoom.Name);
             _DB.DeleteRowByComparator(Asset.EroomlistdbColumns.UserID, $"{PhotonNetwork.CurrentRoom.Name}");
         }
     }
