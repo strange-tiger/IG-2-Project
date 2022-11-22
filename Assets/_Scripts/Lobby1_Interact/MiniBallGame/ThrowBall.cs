@@ -5,15 +5,17 @@ using UnityEngine;
 public class ThrowBall : MonoBehaviour
 {
     private Rigidbody _rigidbody;
+    private Vector3 _throwPower;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _throwPower = new Vector3(0f, 3f, 1.5f);
     }
 
     private void OnEnable()
     {
-        _rigidbody.AddForce(0, 3, 1.5f, ForceMode.Impulse);
+        _rigidbody.AddRelativeForce(_throwPower, ForceMode.Force);
     }
 
     void Start()
