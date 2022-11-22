@@ -42,7 +42,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
-    private static readonly Vector3 MOVE_KEYBOARD = new Vector3(0f, -90f, -10f);
+    private static readonly Vector3 MOVE_KEYBOARD = new Vector3(0f, -60f, -10f);
     public static void OpenKeyboard()
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
@@ -503,19 +503,19 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     {
         new Dictionary<int, int>()
         {
-            { FINAL_CONSONANT.IndexOf('た'), FINAL_CONSONANT.IndexOf('と') },
-            { FINAL_CONSONANT.IndexOf('だ'), FINAL_CONSONANT.IndexOf('ど') },
-            { FINAL_CONSONANT.IndexOf('び'), FINAL_CONSONANT.IndexOf('な') }
+            { NEUTRAL_VOWEL.IndexOf('た'), NEUTRAL_VOWEL.IndexOf('と') },
+            { NEUTRAL_VOWEL.IndexOf('だ'), NEUTRAL_VOWEL.IndexOf('ど') },
+            { NEUTRAL_VOWEL.IndexOf('び'), NEUTRAL_VOWEL.IndexOf('な') }
         },
         new Dictionary<int, int>()
         {
-            { FINAL_CONSONANT.IndexOf('っ'), FINAL_CONSONANT.IndexOf('ね') },
-            { FINAL_CONSONANT.IndexOf('つ'), FINAL_CONSONANT.IndexOf('の') },
-            { FINAL_CONSONANT.IndexOf('び'), FINAL_CONSONANT.IndexOf('は') }
+            { NEUTRAL_VOWEL.IndexOf('っ'), NEUTRAL_VOWEL.IndexOf('ね') },
+            { NEUTRAL_VOWEL.IndexOf('つ'), NEUTRAL_VOWEL.IndexOf('の') },
+            { NEUTRAL_VOWEL.IndexOf('び'), NEUTRAL_VOWEL.IndexOf('は') }
         },
         new Dictionary<int, int>()
         {
-            { FINAL_CONSONANT.IndexOf('び'), FINAL_CONSONANT.IndexOf('ひ') }
+            { NEUTRAL_VOWEL.IndexOf('び'), NEUTRAL_VOWEL.IndexOf('ひ') }
         }
     };
 
