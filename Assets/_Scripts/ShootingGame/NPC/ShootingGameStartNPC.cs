@@ -13,13 +13,21 @@ public class ShootingGameStartNPC : InteracterableObject
         MaxPlayers = ShootingGameManager._MAX_PLAYER_COUNT,
         CleanupCacheOnLeave = true,
         PublishUserId = true,
+        CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { ShootingServerManager.RoomPropertyKey, 1 } },
+        CustomRoomPropertiesForLobby = new string[]
+                {
+                    ShootingServerManager.RoomPropertyKey,
+                },
+        IsVisible = true,
+        IsOpen = true,
     };
 
     public override void Interact()
     {
         MenuUIManager.Instance.ShowCheckPanel("Play?",
             () => {
-                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, _waitingRoomOption, true);
+                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, _waitingRoomOption, true,
+                    _waitingRoomOption.CustomRoomProperties, (byte) _waitingRoomOption.MaxPlayers);
             },
             () => { }
             );

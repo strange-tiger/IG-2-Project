@@ -36,6 +36,13 @@ public class EndResultPanel : MonoBehaviourPun
         MaxPlayers = ShootingGameManager._MAX_PLAYER_COUNT,
         CleanupCacheOnLeave = true,
         PublishUserId = true,
+        CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { ShootingServerManager.RoomPropertyKey, 1 } },
+        CustomRoomPropertiesForLobby = new string[]
+                {
+                    ShootingServerManager.RoomPropertyKey,
+                },
+        IsVisible = true,
+        IsOpen = true,
     };
 
     private void Awake()
@@ -94,7 +101,8 @@ public class EndResultPanel : MonoBehaviourPun
             () =>
             {
                 Debug.Log("[Shooting] 게임 재시작");
-                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, _waitingRoomOption, true);
+                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, _waitingRoomOption, true,
+                    _waitingRoomOption.CustomRoomProperties, (byte)_waitingRoomOption.MaxPlayers);
             },
             () =>
             {
