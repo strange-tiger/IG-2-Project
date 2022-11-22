@@ -10,7 +10,7 @@ public class ThrowBall : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _throwPower = new Vector3(0f, 3f, 1.5f);
+        _throwPower = new Vector3(0f, 30f, 15f);
     }
 
     private void OnEnable()
