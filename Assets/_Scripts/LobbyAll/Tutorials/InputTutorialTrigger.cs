@@ -8,10 +8,10 @@ public class InputTutorialTrigger : FocusableObjects
 
     public UnityEvent OnTriggered = new UnityEvent();
     
-    [SerializeField] GameObject _player;
+    [SerializeField] Transform _player;
     [SerializeField] Vector3 _triggerPosition;
     [SerializeField] Quaternion _triggerRotation;
-
+    [SerializeField] Quaternion[] _triggeredRotation;
 
     private void Start()
     {
@@ -20,9 +20,9 @@ public class InputTutorialTrigger : FocusableObjects
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject == _player)
+        if(other.CompareTag("Player"))
         {
-            if(_player.transform.rotation.y <= -70 && _player.transform.rotation.y >= -105)
+            if(_player.localRotation.y <= _triggeredRotation[0].y && _player.localRotation.y >= -_triggeredRotation[1].y || _player.localRotation.y <= _triggeredRotation[2].y && _player.localRotation.y >= _triggeredRotation[3].y)
             {
                 OnTriggered.Invoke();
                 gameObject.SetActive(false);
