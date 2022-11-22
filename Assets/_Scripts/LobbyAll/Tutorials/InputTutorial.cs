@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using TMPro;
 
 using _CSV = Asset.ParseCSV.CSVParser;
-using UnityEditorInternal;
 
 public class InputTutorial : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class InputTutorial : MonoBehaviour
 
     private List<string> _conversationList = new List<string>();
     private int _indexNum = 0;
-    private bool _conversationEnd = true;
+    private Coroutine ConversationCoroutine;
     private bool _isPause;
     private int[] _pauseNum = { 4,7,11,13 };
     private int _pauseIndexNum;
@@ -38,8 +37,7 @@ public class InputTutorial : MonoBehaviour
     void Start()
     {
         _conversationList = _CSV.ParseCSV("InputTutorial", _conversationList);
-        _conversationEnd = false;
-        StartCoroutine(ConversationPrint());
+        ConversationCoroutine = StartCoroutine(ConversationPrint());
 
     }
 
@@ -68,38 +66,35 @@ public class InputTutorial : MonoBehaviour
     }
     private IEnumerator ConversationPrint()
     {
-        _conversationEnd = false;
 
         for (int i = 0; i < _conversationList[_indexNum].Length; ++i)
         {
             yield return new WaitForSeconds(0.1f);
-            Debug.Log(i);
             _conversationText.text += _conversationList[_indexNum][i];
-            if (_conversationEnd == false)
-            {
-                if (OVRInput.GetDown(OVRInput.RawButton.A))
-                {
-                    _conversationText.text = _conversationList[_indexNum];
-                    _conversationEnd = true;
-                    yield return null;
-                }
-            }
         }
 
-        _conversationEnd = true;
     }
 
     private void ConversationSkip()
     {
-
-        if (_conversationEnd)
+        if(_conversationText.text != null)
         {
-            if (OVRInput.GetDown(OVRInput.RawButton.A))
+            if (_conversationText.text.Length != _conversationList[_indexNum].Length)
             {
-                _conversationText.text = null;
-                ++_indexNum;
-                StartCoroutine(ConversationPrint());
-
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                     StopCoroutine(ConversationCoroutine);
+                    _conversationText.text = _conversationList[_indexNum];
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    ++_indexNum;
+                    _conversationText.text = null;
+                    ConversationCoroutine = StartCoroutine(ConversationPrint());
+                }
             }
         }
     }
@@ -139,7 +134,6 @@ public class InputTutorial : MonoBehaviour
     {
         _isPause = false;
         _conversationUI.SetActive(true);
-        _conversationEnd = true;
     }
 
     private void OnDisable()
