@@ -16,7 +16,16 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     private SceneNumber _nextScene;
     private string _nextSceneRoomName;
+    private RoomOptions _nextRoomOption;
     private bool _needSceneChange = false;
+    private bool _canBeManyRooms = false;
+    private RoomOptions _roomOptions = new RoomOptions
+    {
+        PublishUserId = true,
+        MaxPlayers = 30
+    };
+
+    private int _roomCount = 0;
 
     protected virtual void Awake()
     {
@@ -33,13 +42,25 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     public void ChangeLobby(SceneNumber sceneNumber)
     {
-        ChangeLobby(sceneNumber, sceneNumber.ToString());
+        ChangeLobby(sceneNumber, sceneNumber.ToString(), _roomOptions);
     }
 
-    public void ChangeLobby(SceneNumber sceneNumber, string roomName)
+    public void ChangeLobby(SceneNumber sceneNumber, RoomOptions roomOption)
+    {
+        ChangeLobby(sceneNumber, sceneNumber.ToString(), roomOption);
+    }
+
+    public void ChangeLobby(SceneNumber sceneNumber, RoomOptions roomOption, bool canBeManyRoom = false)
+    {
+        ChangeLobby(sceneNumber, sceneNumber.ToString(), roomOption, canBeManyRoom);
+    }
+
+    public void ChangeLobby(SceneNumber sceneNumber, string roomName, RoomOptions roomOption, bool canBeManyRoom = false)
     {
         _nextSceneRoomName = roomName;
         _nextScene = sceneNumber;
+        _nextRoomOption = roomOption;
+        _canBeManyRooms = canBeManyRoom;
         _needSceneChange = true;
 
         OVRScreenFade.instance.FadeOut();
@@ -54,7 +75,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         else
         {
             Debug.LogError("[LobbyChanger] " + roomName);
-            PhotonNetwork.JoinOrCreateRoom(roomName, _roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinOrCreateRoom(roomName, _nextRoomOption, TypedLobby.Default);
         }
     }
 
@@ -67,11 +88,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         }
     }
 
-    private RoomOptions _roomOptions = new RoomOptions
-    {
-        PublishUserId = true,
-        MaxPlayers = 30
-    };
     public override void OnJoinedLobby()
     {
         if (_needSceneChange)
@@ -82,13 +98,15 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
                 return;
             }
-            PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _roomOptions, TypedLobby.Default);
+            Debug.Log("[LogOut] LobbyChanger OnJoinedLobby");
+            PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
         }
     }
 
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
+        Debug.Log("[LogOut] LobbyChanger OnCreatedRoom" + PhotonNetwork.CurrentRoom.Name);
         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
     }
 
@@ -96,9 +114,23 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         if (_needSceneChange)
         {
-            Debug.Log("[LogOut] LobbyChanger OnJoinedRoom");
+            Debug.Log("[LogOut] LobbyChanger OnCreatedRoom" + PhotonNetwork.CurrentRoom.Name);
             PhotonNetwork.LoadLevel((int)_nextScene);
         }
     }
-   
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        if (_canBeManyRooms)
+        {
+            Debug.Log("[LogOut] LobbyChanger OnJoinRoomFailed, Reconnecting with new name");
+            PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName + _roomCount.ToString(), _nextRoomOption, TypedLobby.Default);
+            ++_roomCount;
+        }
+        else
+        {
+            Debug.Log("[LogOut] LobbyChanger OnJoinRoomFailed, Reconnecting with same name");
+            PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
+        }
+    }
 }

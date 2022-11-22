@@ -57,6 +57,7 @@ public class WaitingServerManager : LobbyChanger
         if (playerCount == _MAX_PLAYER_COUNT)
         {
             Debug.Log("[ShootingWaiting] 모든 플레이어 모임");
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             StartGame();
         }
     }
