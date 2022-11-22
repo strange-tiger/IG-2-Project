@@ -67,11 +67,13 @@ public class IsekaiWeapon : MonoBehaviourPun
 
     private void ChangeSetting(bool isGrabbed)
     {
+        _isUsing = isGrabbed;
+        _rigidbody.isKinematic = !isGrabbed;
+
         foreach (Collider attackPoint in _attackPoints)
         {
             attackPoint.enabled = isGrabbed;
         }
-        _rigidbody.isKinematic = !isGrabbed;
     }
 
     [PunRPC]
