@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 
 using _DB = Asset.MySql.MySqlSetting;
+using _IRM = Defines.RPC.IsekaiRPCMethodName;
 
 public class SummonCircle : MonoBehaviourPun
 {
@@ -35,7 +36,6 @@ public class SummonCircle : MonoBehaviourPun
 
     private void OnEnable()
     {
-
         foreach (IsekaiObject obj in _objects)
         {
             obj.ObjectSlashed -= SpawnRPCHelper;
@@ -46,9 +46,9 @@ public class SummonCircle : MonoBehaviourPun
 
             obj.gameObject.SetActive(false);
         }
-        
+
         SpawnRPCHelper(_playerPosition);
-      
+
         _goldUI.SetActive(false);
 
         StartCoroutine(SetPlayerNetworking());
@@ -87,8 +87,8 @@ public class SummonCircle : MonoBehaviourPun
 #if debug
         SpawnHelper(_currentIndex);
 #else
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "SpawnHelper");
-        photonView.RPC("SpawnHelper", RpcTarget.AllBuffered, _currentIndex);
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.SpawnHelper);
+        photonView.RPC(_IRM.SpawnHelper, RpcTarget.AllBuffered, _currentIndex);
 #endif
     }
 

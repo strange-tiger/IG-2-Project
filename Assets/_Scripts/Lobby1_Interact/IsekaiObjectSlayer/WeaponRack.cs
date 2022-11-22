@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+using _IRM = Defines.RPC.IsekaiRPCMethodName;
+
 public class WeaponRack : MonoBehaviourPun
 {
     [Header("Weapons")]
     [SerializeField] Transform[] _weapons;
+
+    private const string WEAPON_TAG = "IsekaiWeapon";
 
     public Vector3[] InitWeaponPositions { get; private set; }
 
@@ -51,7 +55,7 @@ public class WeaponRack : MonoBehaviourPun
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("IsekaiWeapon"))
+        if (!other.CompareTag(WEAPON_TAG))
         {
             return;
         }
@@ -74,7 +78,8 @@ public class WeaponRack : MonoBehaviourPun
             _weaponIndexGroup[currentGroupIndex] = 0;
         }
 
-        photonView.RPC("SpawnWeaponRPCHelper", RpcTarget.All);
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.SpawnWeaponRPCHelper);
+        photonView.RPC(_IRM.SpawnWeaponRPCHelper, RpcTarget.AllBuffered, currentGroupIndex);
     }
 
     [PunRPC]

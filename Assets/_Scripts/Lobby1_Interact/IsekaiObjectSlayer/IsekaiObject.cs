@@ -1,12 +1,16 @@
-#define debug
+//#define debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+using _IRM = Defines.RPC.IsekaiRPCMethodName;
+
 public class IsekaiObject : MonoBehaviourPun
 {
+    private const string WEAPON_TAG = "IsekaiWeapon";
+
     public event Action<Vector3> ObjectSlashed;
 
     [SerializeField] MeshRenderer _renderer;
@@ -22,13 +26,13 @@ public class IsekaiObject : MonoBehaviourPun
             return;
         }
 
-        if (other.CompareTag("IsekaiWeapon"))
+        if (other.CompareTag(WEAPON_TAG))
         {
             Vector3 position = new Vector3(other.transform.position.x, 2f, other.transform.position.z);
 
             StartCoroutine(Vibration());
 
-            photonView.RPC("FlickHelper", RpcTarget.All, position);
+            photonView.RPC(_IRM.FlickHelper, RpcTarget.All, position);
         }
     }
 
@@ -71,8 +75,8 @@ public class IsekaiObject : MonoBehaviourPun
 
         transform.localPosition = Vector3.zero;
 
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "ObjectDisabled");
-        photonView.RPC("ObjectDisabled", RpcTarget.AllBuffered);
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.ObjectDisabled);
+        photonView.RPC(_IRM.ObjectDisabled, RpcTarget.AllBuffered);
     }
 
     [PunRPC]

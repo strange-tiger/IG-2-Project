@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+using _IRM = Defines.RPC.IsekaiRPCMethodName;
+
 public class IsekaiWeapon : MonoBehaviourPun
 {
     [SerializeField] Collider[] _attackPoints;
@@ -62,7 +64,7 @@ public class IsekaiWeapon : MonoBehaviourPun
         transform.position = _initPosition;
         transform.rotation = Quaternion.Euler(_initRotation);
 
-        photonView.RPC("ReturnWeapon", RpcTarget.All);
+        photonView.RPC(_IRM.ReturnWeapon, RpcTarget.All);
     }
 
     private void ChangeSetting(bool isGrabbed)
