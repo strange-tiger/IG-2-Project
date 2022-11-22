@@ -779,6 +779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 189086225}
   - component: {fileID: 189086224}
+  - component: {fileID: 189086226}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -815,6 +816,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &189086226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189086223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde7634cad79f914490a12b3c4d94928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &225597804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2840,14 +2853,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PrivateRoomDoor
       objectReference: {fileID: 0}
-    - target: {fileID: 1234241081126631706, guid: f82e17bec513fcd489dc76522636aadb, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1234963368898906936, guid: f82e17bec513fcd489dc76522636aadb, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1240246388946472028, guid: f82e17bec513fcd489dc76522636aadb, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2892,7 +2897,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7287643405105453575, guid: f82e17bec513fcd489dc76522636aadb, type: 3}
+    - target: {fileID: 4166202441760081129, guid: f82e17bec513fcd489dc76522636aadb, type: 3}
       propertyPath: _lobbyManager
       value: 
       objectReference: {fileID: 189086224}

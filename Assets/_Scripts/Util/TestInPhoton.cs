@@ -9,9 +9,13 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
 {
     private const string ROOM_NAME = "FirstMoveAttack";
 
+
+
     private void Awake()
     {
+
         PhotonNetwork.ConnectUsingSettings();
+
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -34,6 +38,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
 
+        
         Debug.Log("됐지?");
 
 #if debugMaster
@@ -55,7 +60,9 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         Debug.Log("된거구나?");
         MySqlSetting.Init();
-
         PhotonNetwork.Instantiate("NewPlayer", new Vector3(1,1,1), Quaternion.identity);
     }
+
+
+
 }

@@ -22,18 +22,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private float _speedSlower = 0.2f;
     private bool _isInOak;
-    public bool IsInOak
-    {
-        get
-        {
-            return _isInOak;
-        }
-        private set
-        {
-            _isInOak = value;
-        }
-    }
-    
+    public bool IsInOak { get { return _isInOak; } private set { _isInOak = value; } }
 
     private void Awake()
     {
@@ -115,8 +104,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void InOakBarrel()
     {
-        photonView.RPC("ActiveOakBarrel", RpcTarget.All, true);
-        photonView.RPC("ActivePlayer", RpcTarget.All, false);
+        photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, true);
+        photonView.RPC(nameof(ActivePlayer), RpcTarget.All, false);
 
         _playerControllerMove.MoveScale -= _speedSlower;
 
@@ -125,8 +114,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void OutOakBarrel()
     {
-        photonView.RPC("ActiveOakBarrel", RpcTarget.All, false);
-        photonView.RPC("ActivePlayer", RpcTarget.All, true);
+        photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, false);
+        photonView.RPC(nameof(ActivePlayer), RpcTarget.All, true);
 
         _playerControllerMove.MoveScale += _speedSlower;
 

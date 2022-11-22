@@ -1,4 +1,4 @@
-#define debug
+// #define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +40,9 @@ public class SummonCircle : MonoBehaviourPun
         {
             obj.ObjectSlashed -= SpawnRPCHelper;
             obj.ObjectSlashed += SpawnRPCHelper;
+
+            obj.ObjectSlashed -= GetGold;
+            obj.ObjectSlashed += GetGold;
 
             obj.gameObject.SetActive(false);
         }

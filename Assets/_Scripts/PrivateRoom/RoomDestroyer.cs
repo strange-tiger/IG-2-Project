@@ -5,7 +5,6 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using _DB = Asset.MySql.MySqlSetting;
-using Photon.Pun.Demo.Cockpit;
 
 public class RoomDestroyer : MonoBehaviourPunCallbacks
 {

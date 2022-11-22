@@ -29,9 +29,6 @@ public class MagicWand : MonoBehaviourPun
 
     // 원위치에 필요한 변수들
     private Vector3 _wandPosition;
-    private Rigidbody _rigidbody;
-    private float _resetCurrentTime;
-    private float _resetWandTimer = 600f;
 
     private void Awake()
     {
@@ -50,11 +47,6 @@ public class MagicWand : MonoBehaviourPun
         }
     }
 
-    private void Start()
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
-
     private void Update()
     {
         if (photonView.IsMine)
@@ -63,7 +55,7 @@ public class MagicWand : MonoBehaviourPun
             {
                 int RandomNumber = Random.Range(0, _totalProbability + 1);
 
-                photonView.RPC("GetMagic", RpcTarget.All, RandomNumber);
+                photonView.RPC(nameof(GetMagic), RpcTarget.All, RandomNumber);
 
                 _magicWandPanel.SetActive(true);
                 _magicNameText.text = gameObject.name;

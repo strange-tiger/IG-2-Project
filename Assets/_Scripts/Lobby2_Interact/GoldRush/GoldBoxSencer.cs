@@ -1,4 +1,4 @@
-#define _DEV_MODE_
+//#define _DEV_MODE_
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +39,10 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
         _outline.enabled = false;
 
         _rigidBody = GetComponent<Rigidbody>();
+
+        base.OnJoinedRoom();
+        _isJoinedRoom = true;
+        OnEnable();
     }
 
     public override void OnEnable()
@@ -66,19 +70,19 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
         _sencerCollider.enabled = true;
     }
 
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-        _isJoinedRoom = true;
-        OnEnable();
-    }
+    //public override void OnJoinedRoom()
+    //{
+    //    base.OnJoinedRoom();
+    //    _isJoinedRoom = true;
+    //    OnEnable();
+    //}
 
     private void FixedUpdate()
     {
 #if _DEV_MODE_
-        if(_isTherePlayer && Input.GetKeyDown(KeyCode.A))
+        if(_isTherePlayer && Input.GetKeyDown(KeyCode.A) && !_playerInteraction.IsGrabbing)
 #else
-        if (_isTherePlayer && _playerInteraction.HasInteract)
+        if (_isTherePlayer && _playerInteraction.HasInteract && !_playerInteraction.IsGrabbing)
 #endif
         {
             _sencerCollider.enabled = false;

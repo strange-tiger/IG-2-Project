@@ -880,7 +880,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 978e11d99681a9548bcd99dd6ef1fd0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _sceneType: 3
   _lobbyManager: {fileID: 2130659732}
   _checkMessage: 
@@ -1321,7 +1324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2946,7 +2949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isStartRoom: 0
   _canvases: []
-  _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+  _playerPrefab: {fileID: 6072405480879903498, guid: cb7d7a8cc6496a94d9917c69aabeb34c, type: 3}
 --- !u!4 &2130659733
 Transform:
   m_ObjectHideFlags: 0
@@ -3040,5 +3043,6 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6142737998268131855, guid: 487c44c1e3d01d1408ea8cfe7459885d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 487c44c1e3d01d1408ea8cfe7459885d, type: 3}
