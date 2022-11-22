@@ -393,7 +393,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
                         if (initialIndex != -1 && middleIndex != -1 && finalVowelIndex != -1)
                         {
-                            middleIndex = CombineTwoConsonant(middleIndex, finalVowelIndex);
+                            middleIndex = CombineTwoVowel(middleIndex, finalVowelIndex);
 
                             finalConsonantIndex = 0;
 
