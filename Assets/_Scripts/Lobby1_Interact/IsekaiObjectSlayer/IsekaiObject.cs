@@ -32,7 +32,9 @@ public class IsekaiObject : MonoBehaviourPun
 
             StartCoroutine(Vibration());
 
-            photonView.RPC(_IRM.FlickHelper, RpcTarget.All, position);
+            photonView.RPC(_IRM.FlickHelper, RpcTarget.All);
+
+            ObjectSlashed.Invoke(position);
         }
     }
 
@@ -47,9 +49,9 @@ public class IsekaiObject : MonoBehaviourPun
 #endif
 
     [PunRPC]
-    private void FlickHelper(Vector3 playerPos) => StartCoroutine(Flick(playerPos));
+    private void FlickHelper() => StartCoroutine(Flick());
 
-    private IEnumerator Flick(Vector3 playerPos)
+    private IEnumerator Flick()
     {
         _audioSource.PlayOneShot(_audioSource.clip);
         
@@ -68,11 +70,6 @@ public class IsekaiObject : MonoBehaviourPun
             --count;
         }
 
-        if (photonView.IsMine)
-        {
-            ObjectSlashed.Invoke(playerPos);
-        }
-
         transform.localPosition = Vector3.zero;
 
         PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.ObjectDisabled);
@@ -80,7 +77,7 @@ public class IsekaiObject : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void ObjectDisabled(Vector3 playerPos) => gameObject.SetActive(false);
+    private void ObjectDisabled() => gameObject.SetActive(false);
 
     private IEnumerator Vibration()
     {
