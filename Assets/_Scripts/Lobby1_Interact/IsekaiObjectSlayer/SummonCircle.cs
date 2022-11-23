@@ -25,8 +25,8 @@ public class SummonCircle : MonoBehaviourPun
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
     private const float RISE_TIME = 1f;
-    private const int MAX_TO_HIT = 100;
-    private const int PERCENT_TO_POINT = 0;
+    private const int MAX_TO_HIT = 101;
+    private const int PERCENT_TO_POINT = 1; // 원하는 % 수
     private const int EARN_GOLD = 500;
 
 
@@ -46,6 +46,8 @@ public class SummonCircle : MonoBehaviourPun
 
             obj.gameObject.SetActive(false);
         }
+
+        _audioSource.volume = 0f;
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -69,6 +71,8 @@ public class SummonCircle : MonoBehaviourPun
     private IEnumerator SetPlayerNetworking()
     {
         yield return FIND_PLAYERNETWORKING_DELAY;
+
+        _audioSource.volume = 1f;
 
         _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
 
@@ -123,10 +127,10 @@ public class SummonCircle : MonoBehaviourPun
     
     private void GetGold(Vector3 playerPos)
     {
-        //if (PERCENT_TO_POINT < Random.Range(0, MAX_TO_HIT))
-        //{
-        //    return;
-        //}
+        if (PERCENT_TO_POINT < Random.Range(1, MAX_TO_HIT))
+        {
+            return;
+        }
 
         _DB.EarnGold(_playerNetworking.MyNickname, EARN_GOLD);
 

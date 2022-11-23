@@ -19,13 +19,20 @@ public class MiningSlider : MonoBehaviour
     [SerializeField]
     private float _delay = 10;
 
+    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _miningClip;
+
     private void Awake()
     {
         _slider = gameObject.GetComponent<Slider>();
+        _audioSource = GetComponentInParent<AudioSource>();
     }
     private void OnEnable()
     {
         _isHitCircleEnable = false;
+        _audioSource.Stop();
+        _audioSource.clip = _miningClip;
         SliderInit();
     }
     private void Update()
@@ -47,10 +54,15 @@ public class MiningSlider : MonoBehaviour
         {
             HitCircleEnable();
             IsHitCircleEnable = true;
+            _audioSource.Pause();
         }
         else
         {
-            _slider.value = Mathf.Lerp(0, 1, _elapsedTime /_delay);
+            _slider.value = Mathf.Lerp(0, 1, _elapsedTime / _delay);
+            if(_audioSource.isPlaying == false)
+            {
+                _audioSource.Play();
+            }
         }
     }
 
