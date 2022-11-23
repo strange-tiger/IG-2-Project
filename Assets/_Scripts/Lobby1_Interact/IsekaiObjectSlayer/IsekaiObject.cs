@@ -33,7 +33,8 @@ public class IsekaiObject : MonoBehaviourPun
 
             StartCoroutine(Vibration());
 
-            photonView.RPC(_IRM.FlickHelper, RpcTarget.All);
+            PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.FlickHelper);
+            photonView.RPC(_IRM.FlickHelper, RpcTarget.AllBuffered);
 
             ObjectSlashed.Invoke(position);
         }
@@ -65,12 +66,8 @@ public class IsekaiObject : MonoBehaviourPun
 
         transform.localPosition = Vector3.zero;
 
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.ObjectDisabled);
-        photonView.RPC(_IRM.ObjectDisabled, RpcTarget.AllBuffered);
+        gameObject.SetActive(false);
     }
-
-    [PunRPC]
-    private void ObjectDisabled() => gameObject.SetActive(false);
 
     private IEnumerator Vibration()
     {

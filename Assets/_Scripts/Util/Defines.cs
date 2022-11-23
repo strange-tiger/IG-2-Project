@@ -190,7 +190,6 @@ namespace Defines.RPC
         public const string SpawnHelper = "SpawnHelper";
         public const string ReturnWeapon = "ReturnWeapon";
         public const string FlickHelper = "FlickHelper";
-        public const string ObjectDisabled = "ObjectDisabled";
     }
     
 }
