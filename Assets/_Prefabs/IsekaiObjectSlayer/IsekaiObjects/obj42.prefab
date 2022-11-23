@@ -11,19 +11,19 @@ GameObject:
   - component: {fileID: 5795644428775227939}
   - component: {fileID: 4298100013321571899}
   - component: {fileID: 4006545205518290031}
-  - component: {fileID: 1258085614638140726}
   - component: {fileID: -2599657271559108466}
   - component: {fileID: 4422506375819561920}
   - component: {fileID: 4767578218910262531}
   - component: {fileID: 7899340657322335832}
   - component: {fileID: 5321094922047433725}
+  - component: {fileID: 6760561522869494206}
   m_Layer: 0
   m_Name: obj42
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5795644428775227939
 Transform:
   m_ObjectHideFlags: 0
@@ -87,20 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1258085614638140726
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344048339196028519}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6645184482741812201, guid: 2d8c4fd0ea489da4492b8602ba331b04, type: 2}
 --- !u!114 &-2599657271559108466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +174,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -223,7 +209,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -263,3 +249,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &6760561522869494206
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5344048339196028519}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.48, y: 0.64, z: 0.12}
+  m_Center: {x: 0, y: 0.03999999, z: 0}

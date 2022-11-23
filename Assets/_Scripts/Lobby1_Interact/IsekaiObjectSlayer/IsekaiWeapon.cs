@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+using _IRM = Defines.RPC.IsekaiRPCMethodName;
+
 public class IsekaiWeapon : MonoBehaviourPun
 {
     [SerializeField] Collider[] _attackPoints;
@@ -13,6 +15,7 @@ public class IsekaiWeapon : MonoBehaviourPun
     private Rigidbody _rigidbody;
     private Coroutine _coroutine;
     private Vector3 _initPosition;
+    private Vector3 _initRotation;
     private bool _isUsing = false;
 
     private void Awake()
@@ -24,6 +27,7 @@ public class IsekaiWeapon : MonoBehaviourPun
     private void OnEnable()
     {
         _initPosition = transform.position;
+        _initRotation = transform.rotation.eulerAngles;
 
         ChangeSetting(false);
     }
@@ -49,23 +53,30 @@ public class IsekaiWeapon : MonoBehaviourPun
             yield return null;
         }
 
+        _rigidbody.useGravity = true;
+
         yield return RETURN_DELAY;
+
+        _rigidbody.useGravity = false;
 
         ChangeSetting(_grabbable.isGrabbed);
 
         transform.position = _initPosition;
-        gameObject.SetActive(false);
+        transform.rotation = Quaternion.Euler(_initRotation);
+
+        photonView.RPC(_IRM.ReturnWeapon, RpcTarget.All);
     }
 
     private void ChangeSetting(bool isGrabbed)
     {
+        _isUsing = isGrabbed;
+
         foreach (Collider attackPoint in _attackPoints)
         {
             attackPoint.enabled = isGrabbed;
         }
-        _rigidbody.useGravity = isGrabbed;
-        _rigidbody.isKinematic = !isGrabbed;
     }
 
-
+    [PunRPC]
+    private void ReturnWeapon() => gameObject.SetActive(false);
 }

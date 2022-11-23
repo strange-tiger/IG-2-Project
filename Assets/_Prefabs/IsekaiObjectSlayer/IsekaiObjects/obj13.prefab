@@ -14,13 +14,15 @@ GameObject:
   - component: {fileID: 4579171132161690894}
   - component: {fileID: 2099503590123599995}
   - component: {fileID: 9135745705806790593}
+  - component: {fileID: 2990112277279219379}
+  - component: {fileID: 7938781710965677952}
   m_Layer: 0
   m_Name: obj13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2708242006274997327
 Transform:
   m_ObjectHideFlags: 0
@@ -123,7 +125,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -158,7 +160,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -198,6 +200,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &2990112277279219379
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702207234335407441}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.14, y: 3.7, z: 0.13}
+  m_Center: {x: 0.07, y: 1.85, z: 0}
+--- !u!65 &7938781710965677952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702207234335407441}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.13, y: 2, z: 2}
+  m_Center: {x: -0.07, y: 3.8, z: 0}
 --- !u!1 &2702891290360744875
 GameObject:
   m_ObjectHideFlags: 0
