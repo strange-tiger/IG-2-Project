@@ -39,6 +39,9 @@ public class SignInUI : MonoBehaviour
 
     [Header("Popup")]
     [SerializeField] GameObject _successPopup;
+    [SerializeField] GameObject _idConfiremPopup;
+    [SerializeField] GameObject _passwordConfiremPopup;
+    [SerializeField] GameObject _nicknameConfiremPopup;
 
     private bool _hasNicknameCheck;
     private bool _hasIdCheck;
@@ -66,6 +69,9 @@ public class SignInUI : MonoBehaviour
         _idErrorText?.SetActive(false);
 
         _successPopup.SetActive(false);
+        _idConfiremPopup.SetActive(false);
+        _passwordConfiremPopup.SetActive(false);
+        _nicknameConfiremPopup.SetActive(false);
 
         _hasIdCheck = false;
         _hasPasswordCheck = false;
@@ -110,6 +116,7 @@ public class SignInUI : MonoBehaviour
     {
         if (!Sql.HasValue(Column.Email, _idInput.text))
         {
+            _idConfiremPopup.SetActive(true);
             _hasIdCheck = true;
             _idErrorText.SetActive(false);
         }
@@ -127,6 +134,7 @@ public class SignInUI : MonoBehaviour
     {
         if (_passwordInput.text == _passwordCheckInput.text)
         {
+            _passwordConfiremPopup.SetActive(true);
             _hasPasswordCheck = true;
             _passwordErrorText.SetActive(false);
         }
@@ -144,6 +152,7 @@ public class SignInUI : MonoBehaviour
     {
         if (!Sql.HasValue(Column.Nickname, _nicknameInput.text))
         {
+            _nicknameConfiremPopup.SetActive(true);
             _hasNicknameCheck = true;
             _nicknameErrorText.SetActive(false);
         }

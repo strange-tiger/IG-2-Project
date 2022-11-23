@@ -58,6 +58,10 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         {
             _userId = PhotonNetwork.LocalPlayer.UserId;
 
+            Debug.Log("[Room] " + PhotonNetwork.CurrentRoom.PublishUserId);
+
+            Debug.Log("[Room] " + _userId);
+
             MakeRoom();
         }
         catch

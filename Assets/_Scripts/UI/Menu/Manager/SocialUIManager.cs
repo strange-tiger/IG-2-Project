@@ -65,7 +65,11 @@ public class SocialUIManager : MonoBehaviour
     private void InitializeButtons()
     {
         // 0. 사전 조건 판별: 대상 유저의 Nickname을 받음
-        Debug.Assert(_isTargetUserNicknameSet, "상대 닉네임 없음");
+        //Debug.Assert(_isTargetUserNicknameSet, "상대 닉네임 없음");
+        if(!_isTargetUserNicknameSet)
+        {
+            return;
+        }
 
         // 1. 둘 사이의 관계를 확인함
         bool isLeft;
