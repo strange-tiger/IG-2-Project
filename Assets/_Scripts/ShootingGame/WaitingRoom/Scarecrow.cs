@@ -10,6 +10,7 @@ public class Scarecrow : MonoBehaviourPun
     private GameObject _hitEffect;
     [SerializeField]
     private int _count = 6;
+    [SerializeField]
     private GameObject[] _hitEffects;
     private int _currentIndex = 0;
     private float _resetCoolTime = 0.5f;
@@ -22,6 +23,7 @@ public class Scarecrow : MonoBehaviourPun
         for (int i = 0; i < _count; i++)
         {
             _hitEffects[i] = Instantiate(_hitEffect);
+            _hitEffects[i].transform.parent = transform;
             _hitEffects[i].SetActive(false);
         }
         _audioSource = GetComponent<AudioSource>();

@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitEffect: {fileID: 446151711633348118, guid: fbe44b7306df7c1449eece57e75d47c1, type: 3}
+  _count: 6
+  _hitEffects: []
 --- !u!114 &5496493705774864852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,8 +147,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 54e58273900999b4897775dccf4aebd1, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -155,8 +157,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 10
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
