@@ -77,32 +77,37 @@ public class LobbyMapManager : MonoBehaviour
             return;
         }
 
-        _playerTransform = transform.parent;
+        _playerTransform = transform.root;
 
         SetPlayerPositionOnMap();
-        SetPlayerRotationOnMap();
     }
 
     private void SetPlayerPositionOnMap()
     {
-        Debug.Log("SetPlayerPosition");
-
         Vector3 relativePosition = _playerTransform.position - _mapCenterPivot;
 
         float playerSpriteXPosition = _mapUIWidth / _mapWidth * relativePosition.x;
         float playerSpriteZPosition = _mapUIHeight / _mapHeight * relativePosition.z;
 
-        _playerSprite.transform.localPosition = new Vector3(playerSpriteXPosition, 0f, playerSpriteZPosition);
+        _playerSprite.transform.localPosition = new Vector3(playerSpriteXPosition, playerSpriteZPosition, 0f);
     }
 
     private void SetPlayerRotationOnMap()
     {
-        _playerSprite.transform.localRotation = Quaternion.Euler(0f, 0f, _playerTransform.rotation.z);
+        Debug.Log($"SetPlayerRotation {_playerTransform.rotation.y}");
+
+        _playerSprite.transform.rotation = _playerTransform.rotation;
+        _playerSprite.transform.rotation = Quaternion.Euler(0f, 0f, _playerSprite.transform.rotation.z);
     }
 
     private void Update()
     {
-        
+        if(_isFixedPosition)
+        {
+            return;
+        }
+
+        SetPlayerRotationOnMap();
     }
 
     private void OnDisable()

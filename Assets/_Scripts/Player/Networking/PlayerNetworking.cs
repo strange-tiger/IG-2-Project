@@ -45,6 +45,9 @@ public class PlayerNetworking : BasicPlayerNetworking
             VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
             volumeController.PlayerAudioSource = _newPlayerAudioSource;
 
+            // 맵 기능 연결
+            _mapManager = cameraRig.GetComponentInChildren<MapPanelManager>();
+
             // UI 다시 비활성화
             volumeController.transform.parent.gameObject.SetActive(false);
 
