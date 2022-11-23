@@ -21,6 +21,7 @@ public class SummonCircle : MonoBehaviourPun
 
     private static readonly WaitForSeconds CONGRAT_DELAY = new WaitForSeconds(0.5f);
     private static readonly WaitForSeconds SPAWN_DELAY = new WaitForSeconds(1f);
+    private static readonly WaitForSeconds FIND_PLAYERNETWORKING_DELAY = new WaitForSeconds(2f);
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
     private const float RISE_TIME = 1f;
@@ -46,7 +47,10 @@ public class SummonCircle : MonoBehaviourPun
             obj.gameObject.SetActive(false);
         }
 
-        SpawnRPCHelper(_playerPosition);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            SpawnRPCHelper(_playerPosition);
+        }
 
         _goldUI.SetActive(false);
 
@@ -64,7 +68,7 @@ public class SummonCircle : MonoBehaviourPun
 
     private IEnumerator SetPlayerNetworking()
     {
-        yield return new WaitForSeconds(3f);
+        yield return FIND_PLAYERNETWORKING_DELAY;
 
         _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
 
