@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2018223552135781578}
   - component: {fileID: 2052177258970797472}
   - component: {fileID: 2044189035297611990}
-  - component: {fileID: 1646118099461782069}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1646118099461782069
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2020753582934805066}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.4, y: 8.400001, z: 4.8}
-  m_Center: {x: 0, y: 4.2000003, z: 0}
 --- !u!1 &2020909309785832696
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,13 +95,14 @@ GameObject:
   - component: {fileID: 9061266701663015684}
   - component: {fileID: 1978355945269461774}
   - component: {fileID: -6998752110417822752}
+  - component: {fileID: 9148752434288119254}
   m_Layer: 0
   m_Name: obj1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2018188281284787334
 Transform:
   m_ObjectHideFlags: 0
@@ -218,7 +205,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -253,7 +240,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -293,3 +280,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &9148752434288119254
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020909309785832696}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.4, y: 8.400001, z: 4.8}
+  m_Center: {x: 0, y: 4.2000003, z: 0}

@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 313912428584301560}
   - component: {fileID: 3132327922693879119}
   - component: {fileID: -221545568773291681}
+  - component: {fileID: 3698289989842710890}
   m_Layer: 0
   m_Name: obj28
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4863075951364430790
 Transform:
   m_ObjectHideFlags: 0
@@ -123,7 +124,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -158,7 +159,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -198,6 +199,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &3698289989842710890
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717216797899257802}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.42, y: 0.42, z: 0.42}
+  m_Center: {x: 0.019999996, y: 0, z: 0.019999996}
 --- !u!1 &2452226235643600980
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +223,6 @@ GameObject:
   - component: {fileID: 636426021121540499}
   - component: {fileID: 4025183745571619929}
   - component: {fileID: 1828325313176714482}
-  - component: {fileID: 6615841625620943163}
   m_Layer: 0
   m_Name: Diffuse
   m_TagString: Untagged
@@ -280,17 +293,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6615841625620943163
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2452226235643600980}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -323219672704847630, guid: 06ca100fe9d5254449533037e9870b5e, type: 2}

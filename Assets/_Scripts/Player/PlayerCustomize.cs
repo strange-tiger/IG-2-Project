@@ -24,28 +24,19 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     [SerializeField] GameObject _characterMeshRendererObject;
     private int _setAvatarNum;
     private int _setMaterialNum;
-    private PlayerNetworking _playerInfo;
     private string _playerNickname;
     
     void Start()
     {
 
 
+
         if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
         {
-            if (SceneManager.GetActiveScene().name == "StartRoom")
+            if (SceneManager.GetActiveScene().name != "Login")
             {
-                _playerNickname = TempAccountDB.Nickname;
+                _playerNickname = PhotonNetwork.NickName;
 
-            }
-            else if(SceneManager.GetActiveScene().name == "LogIn")
-            {
-                _playerNickname = "aaa";
-            }
-            else
-            {
-                _playerInfo = GetComponentInParent<PlayerNetworking>();
-                _playerNickname = _playerInfo.MyNickname;
             }
 
             LoadAvatarData();
@@ -85,7 +76,8 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
     private void LoadAvatarData()
     {
-        
+
+        Debug.Log(_playerNickname);
         bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
         // 성별에 맞는 데이터를 불러옴

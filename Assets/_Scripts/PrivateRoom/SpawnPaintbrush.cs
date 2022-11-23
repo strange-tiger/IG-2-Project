@@ -23,6 +23,9 @@ public class SpawnPaintbrush : MonoBehaviourPun
             return;
         }
 
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "Spawn");
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "Despawn");
+
         if (!_legalPad.activeSelf)
         {
             photonView.RPC("Spawn", RpcTarget.AllBuffered);

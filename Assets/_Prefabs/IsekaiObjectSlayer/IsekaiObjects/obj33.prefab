@@ -11,19 +11,19 @@ GameObject:
   - component: {fileID: 7456901955749226570}
   - component: {fileID: 2991481261439588308}
   - component: {fileID: 4115385051192579605}
-  - component: {fileID: 5126820376828357789}
   - component: {fileID: -1815127981309451408}
   - component: {fileID: 1549799064365288003}
   - component: {fileID: 297847446216360924}
   - component: {fileID: 8560568082328477066}
   - component: {fileID: 6669459635379142067}
+  - component: {fileID: 3137714188738570754}
   m_Layer: 0
   m_Name: obj33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7456901955749226570
 Transform:
   m_ObjectHideFlags: 0
@@ -87,20 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5126820376828357789
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4357072433708508046}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3354081934508621360, guid: a450cb312f2878344a063e750d77bf4a, type: 2}
 --- !u!114 &-1815127981309451408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +174,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -223,7 +209,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -263,3 +249,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &3137714188738570754
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4357072433708508046}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.22000001
+  m_Height: 0.76
+  m_Direction: 1
+  m_Center: {x: 0.04, y: 0.0000000011920929, z: 0.04}

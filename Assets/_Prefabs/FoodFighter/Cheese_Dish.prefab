@@ -53,7 +53,6 @@ MonoBehaviour:
   _sencerRadius: 3.75
   _foodSatietyLevel: 1
   _food: {fileID: 9009035406926610441}
-  _foodCollider: {fileID: 1739569725432968192}
 --- !u!114 &2561239058888553735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +89,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.1, z: 0.3}
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &3489789564319010492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008570856105303493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3631380753480465673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9009035406926610441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9007341128614019761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -232,6 +255,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 64951985246917274, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
+--- !u!1 &9008570856105303493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
+  m_PrefabInstance: {fileID: 9007341129092944087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9011966657665341951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4625532936735016, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
