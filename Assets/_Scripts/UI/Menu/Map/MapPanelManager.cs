@@ -15,21 +15,23 @@ namespace Defines
 public class MapPanelManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _maps;
-    [SerializeField] private Defines.EMapType _mapType = Defines.EMapType.None;
+    //[SerializeField] private Defines.EMapType _mapType = Defines.EMapType.None;
+    //
+    //[SerializeField] private bool _isFixedPosition = false;
+    //[SerializeField] private Vector3 _fixedPosition = Vector3.zero;
+    //[SerializeField] private Vector3 _fixedRotation = Vector3.zero;
 
-    [SerializeField] private bool _isFixedPosition = false;
-    [SerializeField] private Vector3 _fixedPosition = Vector3.zero;
-    [SerializeField] private Vector3 _fixedRotation = Vector3.zero;
+    private GameObject _currentMap;
 
-    private void Awake()
+    public void SetMap(Defines.EMapType mapType)
     {
-        GameObject map = _maps[(int)_mapType];
+        _currentMap = _maps[(int)mapType];
+        _currentMap.SetActive(true);
+    }
 
-        map.SetActive(true);
-        if(_mapType != Defines.EMapType.None && _isFixedPosition)
-        {
-            LobbyMapManager mapManager = map.GetComponent<LobbyMapManager>();
-            mapManager.SetFixedPlayerPosition(_fixedPosition, _fixedRotation);
-        }
+    public void SetFixedPlayerPosition(Vector3 fixedPosition, Vector3 fixedRotation)
+    {
+        LobbyMapManager mapManager = _currentMap.GetComponent<LobbyMapManager>();
+        mapManager.SetFixedPlayerPosition(fixedPosition, fixedRotation);
     }
 }

@@ -39,8 +39,6 @@ public class LobbyMapManager : MonoBehaviour
         _mapUIWidth = rectTransfrom.rect.width;
         _mapUIHeight = rectTransfrom.rect.height;
 
-        _playerTransform = transform.parent;
-
         SetToggles();
     }
     private void SetToggles()
@@ -78,7 +76,9 @@ public class LobbyMapManager : MonoBehaviour
         {
             return;
         }
-        
+
+        _playerTransform = transform.parent;
+
         SetPlayerPositionOnMap();
         SetPlayerRotationOnMap();
     }
