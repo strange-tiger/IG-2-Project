@@ -488,7 +488,6 @@ public class PlayerControllerMove : MonoBehaviourPun
 
     private void SwitchController(bool value)
     {
-        Debug.Log($"�̺�Ʈ : {value}");
         _isControllerRight = value;
     }
 }

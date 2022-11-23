@@ -40,7 +40,6 @@ public class SwitchController : MonoBehaviourPun
         {
             SwitchControllerEvent.Invoke(false);
             --Type;
-            Debug.Log("왼쪽버튼클릭");
         }
     }
 
@@ -50,7 +49,6 @@ public class SwitchController : MonoBehaviourPun
         {
             SwitchControllerEvent.Invoke(true);
             ++Type;
-            Debug.Log("오른쪽버튼클릭");
         }
     }
 }
