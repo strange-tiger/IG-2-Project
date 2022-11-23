@@ -29,11 +29,12 @@ public class IsekaiObject : MonoBehaviourPun
             && other.GetComponent<Rigidbody>().velocity.magnitude >= WEAPON_VALID_VELOCITY
             && _isNotFlick)
         {
-            Vector3 position = transform.localPosition;
+            Vector3 position = other.GetComponent<SyncOVRDistanceGrabbable>().grabbedBy.transform.position;
 
             StartCoroutine(Vibration());
 
-            photonView.RPC(_IRM.FlickHelper, RpcTarget.All);
+            PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.FlickHelper);
+            photonView.RPC(_IRM.FlickHelper, RpcTarget.AllBuffered);
 
             ObjectSlashed.Invoke(position);
         }
@@ -65,16 +66,12 @@ public class IsekaiObject : MonoBehaviourPun
 
         transform.localPosition = Vector3.zero;
 
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.ObjectDisabled);
-        photonView.RPC(_IRM.ObjectDisabled, RpcTarget.AllBuffered);
+        gameObject.SetActive(false);
     }
-
-    [PunRPC]
-    private void ObjectDisabled() => gameObject.SetActive(false);
 
     private IEnumerator Vibration()
     {
-        OVRInput.SetControllerVibration(0.7f, 0.7f);
+        OVRInput.SetControllerVibration(1f, 1f);
 
         yield return FLICK_TIME;
 
