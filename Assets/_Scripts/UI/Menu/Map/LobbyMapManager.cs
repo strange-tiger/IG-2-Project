@@ -7,12 +7,16 @@ public class LobbyMapManager : MonoBehaviour
 {
     [Header("Map Pivot")]
     [SerializeField] private Vector3[] _mapPositionPivot = new Vector3[2];
+    private Vector3 _mapCenterPivot;
     private float _mapWidth;
     private float _mapHeight;
 
+    private float _mapUIWidth;
+    private float _mapUIHeight;
+
     [Header("Player")]
     [SerializeField] private GameObject _playerSprite;
-
+    private Transform _playerTransform;
     private bool _isFixedPosition;
 
     [Header("Icons")]
@@ -24,8 +28,18 @@ public class LobbyMapManager : MonoBehaviour
 
     private void Awake()
     {
+        _mapCenterPivot = new Vector3(
+            (_mapPositionPivot[0].x + _mapPositionPivot[1].x) / 2, 0f,
+            (_mapPositionPivot[0].z + _mapPositionPivot[1].z) / 2);
+
         _mapWidth = Mathf.Abs(_mapPositionPivot[0].x - _mapPositionPivot[1].x);
         _mapHeight = Mathf.Abs(_mapPositionPivot[0].z - _mapPositionPivot[1].z);
+
+        RectTransform rectTransfrom = GetComponent<RectTransform>();
+        _mapUIWidth = rectTransfrom.rect.width;
+        _mapUIHeight = rectTransfrom.rect.height;
+
+        _playerTransform = transform.parent;
 
         SetToggles();
     }
@@ -66,11 +80,24 @@ public class LobbyMapManager : MonoBehaviour
         }
         
         SetPlayerPositionOnMap();
+        SetPlayerRotationOnMap();
     }
 
     private void SetPlayerPositionOnMap()
     {
         Debug.Log("SetPlayerPosition");
+
+        Vector3 relativePosition = _playerTransform.position - _mapCenterPivot;
+
+        float playerSpriteXPosition = _mapUIWidth / _mapWidth * relativePosition.x;
+        float playerSpriteZPosition = _mapUIHeight / _mapHeight * relativePosition.z;
+
+        _playerSprite.transform.localPosition = new Vector3(playerSpriteXPosition, 0f, playerSpriteZPosition);
+    }
+
+    private void SetPlayerRotationOnMap()
+    {
+        _playerSprite.transform.localRotation = Quaternion.Euler(0f, 0f, _playerTransform.rotation.z);
     }
 
     private void Update()
