@@ -1,4 +1,3 @@
-#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -73,11 +72,8 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         if (!_isDraw)
         {
             _isDraw = true;
-#if _Photon
+            
             photonView.RPC("CreateLine", RpcTarget.AllBuffered, _currentPoint);
-#else
-            CreateLine(_currentPoint);
-#endif
         }
     }
 
@@ -112,11 +108,8 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
     {
         while (_isDraw)
         {
-#if _Photon
             photonView.RPC("ConnectLineHelper", RpcTarget.AllBuffered, _prevPoint, _currentPoint);
-#else
-            ConnectLineHelper(_prevPoint, _currentPoint);
-#endif
+
             _prevPoint = _currentPoint;
             yield return null;
         }
@@ -133,5 +126,11 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void StopDraw() => _isDraw = false;
+    private void StopDraw()
+    {
+        _isDraw = false;
+
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "CreateLine");
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "ConnectLineHelper");
+    }
 }

@@ -1,4 +1,3 @@
-// #define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -84,12 +83,8 @@ public class SummonCircle : MonoBehaviourPun
     {
         _currentIndex = Random.Range(0, _objects.Length);
 
-#if debug
-        SpawnHelper(_currentIndex);
-#else
         PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.SpawnHelper);
         photonView.RPC(_IRM.SpawnHelper, RpcTarget.AllBuffered, _currentIndex);
-#endif
     }
 
     [PunRPC]
@@ -117,18 +112,19 @@ public class SummonCircle : MonoBehaviourPun
         }
 
         _elapsedTime = 0f;
+
+        _objects[currentIndex].ReturnIsNotFlick();
     }
 
     
     private void GetGold(Vector3 playerPos)
     {
-        if (PERCENT_TO_POINT < Random.Range(0, MAX_TO_HIT))
-        {
-            return;
-        }
-#if !debug
+        //if (PERCENT_TO_POINT < Random.Range(0, MAX_TO_HIT))
+        //{
+        //    return;
+        //}
+
         _DB.EarnGold(_playerNetworking.MyNickname, EARN_GOLD);
-#endif
 
         StartCoroutine(ShowGoldUI(playerPos));
     }
@@ -139,7 +135,7 @@ public class SummonCircle : MonoBehaviourPun
 
         _audioSource.PlayOneShot(_audioSource.clip);
 
-        _goldUI.transform.LookAt(playerPos);
+        _goldUI.transform.LookAt(playerPos, Vector3.up);
 
         _goldUI.SetActive(true);
 
