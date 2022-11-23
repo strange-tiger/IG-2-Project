@@ -42,13 +42,13 @@ public class StartRoomTutorial : MonoBehaviour
     private int _dialogueNum = 0;
     public int DialogueNum { get { return _dialogueNum; } }
 
-    private bool _isTutorialRunQuest;
-    public bool IsTutorialRunQuest { get { return _isTutorialRunQuest; } }
+    private bool _isTutorialQuest;
+    public bool IsTutorialQuest { get { return _isTutorialQuest; } }
 
     void Start()
     {
-       // _newPlayerMove.enabled = false;
-       // _playerControllerMove.enabled = false;
+        // _newPlayerMove.enabled = false;
+        // _playerControllerMove.enabled = false;
 
         _CSV.ParseCSV("StartRoomTutorialRun", _tutorialRunList, '\n', ',');
         _CSV.ParseCSV("StartRoomTutorialGrabber", _tutorialGrabberList, '\n', ',');
@@ -71,24 +71,24 @@ public class StartRoomTutorial : MonoBehaviour
 
     private void Update()
     {
-        
-        if (_isDialogueEnd == true && _isNext == true && !_isTutorialRunQuest)
+
+        if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
-                DialogueNumCount();
+            DialogueNumCount();
 
             if (_turtorialType == TurtorialType.Run && _isRunText)
             {
-                StartCoroutine(TextTyping(_tutorialRunList[_dialogueNum]));                
+                StartCoroutine(TextTyping(_tutorialRunList[_dialogueNum]));
                 if (_dialogueNum == 4)
                 {
                     _newPlayerMove.enabled = true;
                     _playerControllerMove.enabled = true;
 
-                    _isTutorialRunQuest = true;
+                    _isTutorialQuest = true;
                 }
                 else
                 {
-                    _isTutorialRunQuest = false;
+                    _isTutorialQuest = false;
                 }
             }
 
@@ -97,13 +97,9 @@ public class StartRoomTutorial : MonoBehaviour
                 _dialogueMaxNum = _tutorialGrabberList.Count;
                 StartCoroutine(TextTyping(_tutorialGrabberList[_dialogueNum]));
 
-                if (_dialogueNum == 1)
+                if (_dialogueNum == 1 && !_syncOVRDistanceGrabbable.isGrabbed)
                 {
-                    _isTutorialRunQuest = true;
-                }
-                else if (_syncOVRDistanceGrabbable.isGrabbed)
-                {
-                    _isTutorialRunQuest = false;
+                    _isTutorialQuest = true;
                 }
             }
 
@@ -112,13 +108,9 @@ public class StartRoomTutorial : MonoBehaviour
                 _dialogueMaxNum = _tutorialRayList.Count;
                 StartCoroutine(TextTyping(_tutorialRayList[_dialogueNum]));
 
-                if (_dialogueNum == 1)
+                if (_dialogueNum == 1 && !_syncOVRDistanceGrabbable.isGrabbed)
                 {
-                    _isTutorialRunQuest = true;
-                }
-                else if (_syncOVRDistanceGrabbable.isGrabbed)
-                {
-                    _isTutorialRunQuest = false;
+                    _isTutorialQuest = true;
                 }
             }
 
@@ -141,18 +133,18 @@ public class StartRoomTutorial : MonoBehaviour
             _tutorialRunText.text += c;
 
             yield return _delayTime;
-//#if UNITY_EDITOR
-//            if (Input.GetKeyDown(KeyCode.K))
-//            {
-//                _tutorialRunText.text = dialogue;
+            //#if UNITY_EDITOR
+            //            if (Input.GetKeyDown(KeyCode.K))
+            //            {
+            //                _tutorialRunText.text = dialogue;
 
-//                StopCoroutine(TextTyping(dialogue));
+            //                StopCoroutine(TextTyping(dialogue));
 
-//                _isDialogueEnd = true;
+            //                _isDialogueEnd = true;
 
-//                yield break;
-//            }
-//#endif
+            //                yield break;
+            //            }
+            //#endif
             if (OVRInput.GetDown(OVRInput.Button.One))
             {
                 _tutorialRunText.text = dialogue;
@@ -221,36 +213,54 @@ public class StartRoomTutorial : MonoBehaviour
         {
             _isNext = false;
         }
-//#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-//        {
-//            _tutorialRunText.text = null;
-//            _isNext = true;
-//        }
-//        else
-//        {
-//            _isNext = false;
-//        }
-//#endif
+        //#if UNITY_EDITOR
+        //        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+        //        {
+        //            _tutorialRunText.text = null;
+        //            _isNext = true;
+        //        }
+        //        else
+        //        {
+        //            _isNext = false;
+        //        }
+        //#endif
     }
-
 
     private void RunQuest()
     {
-        if (_isTutorialRunQuest == true)
+        if (_isTutorialQuest == true)
         {
-            if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
+            if (_turtorialType == TurtorialType.Run && _isRunText)
             {
-                _curTime += Time.deltaTime;
-                if (_curTime >= _requestClearTime)
+                if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
                 {
-                    _isTutorialRunQuest = false;
+                    _curTime += Time.deltaTime;
+                    if (_curTime >= _requestClearTime)
+                    {
+                        _isTutorialQuest = false;
+                        _curTime -= _curTime;
+                    }
+                }
+                else
+                {
                     _curTime -= _curTime;
                 }
             }
-            else
+        }
+
+        if (_turtorialType == TurtorialType.Grabber && _isGrabberText)
+        {
+            if (_syncOVRDistanceGrabbable.isGrabbed)
             {
-                _curTime -= _curTime;
+                _isTutorialQuest = false;
+            }
+        }
+
+        if (_turtorialType == TurtorialType.Ray && _isRayText)
+        {
+            if (_syncOVRDistanceGrabbable.isGrabbed)
+            {
+                _isTutorialQuest = false;
             }
         }
     }
