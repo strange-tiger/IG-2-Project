@@ -10,6 +10,7 @@ public class CustomizeUIManager : UIManager
     [SerializeField] Button _customizeMenuOffButton;
     [SerializeField] Button _customizeShopOnButton;
     [SerializeField] Button _customizeShopOffButton;
+    [SerializeField] Button _customizeShopOffCanvasButton;
     [SerializeField] Button _customizeNPCOffButton;
     [SerializeField] GameObject _customizeMenu;
     [SerializeField] GameObject _customizeShop;
@@ -33,6 +34,9 @@ public class CustomizeUIManager : UIManager
 
         _customizeNPCOffButton.onClick.RemoveListener(NPCMenuOff);
         _customizeNPCOffButton.onClick.AddListener(NPCMenuOff);
+
+        _customizeShopOffCanvasButton.onClick.RemoveListener(CustomizeCanvasOff);
+        _customizeShopOffCanvasButton.onClick.AddListener(CustomizeCanvasOff);
 
     }
 
@@ -75,6 +79,16 @@ public class CustomizeUIManager : UIManager
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    private void CustomizeCanvasOff()
+    {
+        _customizeShop.SetActive(false);
+        _customizeNPCMenu.SetActive(true);
+        gameObject.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+
+    }
+
     private void OnDisable()
     {
         _customizeMenuOnButton.onClick.RemoveListener(MenuOn);
@@ -86,6 +100,8 @@ public class CustomizeUIManager : UIManager
         _customizeShopOffButton.onClick.RemoveListener(ShopOff);
 
         _customizeNPCOffButton.onClick.RemoveListener(NPCMenuOff);
+
+        _customizeShopOffCanvasButton.onClick.RemoveListener(CustomizeCanvasOff);
 
     }
 }
