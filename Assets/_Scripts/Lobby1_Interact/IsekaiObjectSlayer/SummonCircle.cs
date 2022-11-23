@@ -1,10 +1,10 @@
-// #define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
 using _DB = Asset.MySql.MySqlSetting;
+using _IRM = Defines.RPC.IsekaiRPCMethodName;
 
 public class SummonCircle : MonoBehaviourPun
 {
@@ -21,6 +21,7 @@ public class SummonCircle : MonoBehaviourPun
 
     private static readonly WaitForSeconds CONGRAT_DELAY = new WaitForSeconds(0.5f);
     private static readonly WaitForSeconds SPAWN_DELAY = new WaitForSeconds(1f);
+    private static readonly WaitForSeconds FIND_PLAYERNETWORKING_DELAY = new WaitForSeconds(2f);
     private static readonly Vector3 FLOAT_POSITION = new Vector3(0f, 1.2f, 0f);
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
     private const float RISE_TIME = 1f;
@@ -35,7 +36,6 @@ public class SummonCircle : MonoBehaviourPun
 
     private void OnEnable()
     {
-
         foreach (IsekaiObject obj in _objects)
         {
             obj.ObjectSlashed -= SpawnRPCHelper;
@@ -46,9 +46,12 @@ public class SummonCircle : MonoBehaviourPun
 
             obj.gameObject.SetActive(false);
         }
-        
-        SpawnRPCHelper(_playerPosition);
-      
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            SpawnRPCHelper(_playerPosition);
+        }
+
         _goldUI.SetActive(false);
 
         StartCoroutine(SetPlayerNetworking());
@@ -65,7 +68,7 @@ public class SummonCircle : MonoBehaviourPun
 
     private IEnumerator SetPlayerNetworking()
     {
-        yield return new WaitForSeconds(3f);
+        yield return FIND_PLAYERNETWORKING_DELAY;
 
         _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
 
@@ -84,15 +87,13 @@ public class SummonCircle : MonoBehaviourPun
     {
         _currentIndex = Random.Range(0, _objects.Length);
 
-#if debug
-        SpawnHelper(_currentIndex);
-#else
-        photonView.RPC("SpawnHelper", RpcTarget.AllBuffered, _currentIndex);
-#endif
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.SpawnHelper);
+        photonView.RPC(_IRM.SpawnHelper, RpcTarget.AllBuffered, _currentIndex);
     }
 
+    [PunRPC]
     private void SpawnHelper(int currentIndex) => StartCoroutine(SpawnObject(currentIndex));
-
+    
     private int _currentIndex = 0;
     private float _elapsedTime = 0f;
     private IEnumerator SpawnObject(int currentIndex)
@@ -115,18 +116,19 @@ public class SummonCircle : MonoBehaviourPun
         }
 
         _elapsedTime = 0f;
+
+        _objects[currentIndex].ReturnIsNotFlick();
     }
 
     
     private void GetGold(Vector3 playerPos)
     {
-        if (PERCENT_TO_POINT < Random.Range(0, MAX_TO_HIT))
-        {
-            return;
-        }
-#if !debug
+        //if (PERCENT_TO_POINT < Random.Range(0, MAX_TO_HIT))
+        //{
+        //    return;
+        //}
+
         _DB.EarnGold(_playerNetworking.MyNickname, EARN_GOLD);
-#endif
 
         StartCoroutine(ShowGoldUI(playerPos));
     }
@@ -137,7 +139,7 @@ public class SummonCircle : MonoBehaviourPun
 
         _audioSource.PlayOneShot(_audioSource.clip);
 
-        _goldUI.transform.LookAt(playerPos);
+        _goldUI.transform.LookAt(playerPos, Vector3.up);
 
         _goldUI.SetActive(true);
 
