@@ -37,6 +37,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     //}
     #endregion
 
+    #region Variable
+
     /// <summary>
     /// The rate acceleration during movement.
     /// </summary>
@@ -121,7 +123,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     /// When true, user input will be applied to rotation. Set this to false whenever the player controller needs to ignore input for rotation.
     /// </summary>
     [SerializeField] bool _enableRotation = false;
-
+    #endregion
     /// <summary>
     /// Rotation defaults to secondary thumbstick. You can allow either here. Note that this won't behave well if EnableLinearMovement is true.
     /// </summary>
@@ -133,9 +135,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     protected OVRCameraRig _cameraRig = null;
     public OVRCameraRig CameraRig { get; set; }
 
-    private Animator _animator;
+
     private SwitchController _switchController;
-    private InventoryUIManager _inventoryUIManager = new InventoryUIManager();
     private Vector3 _moveThrottle = Vector3.zero;
     private OVRPose? _initialPose;
     private float _fallSpeed = 0.0f;
@@ -154,7 +155,6 @@ public class PlayerControllerMove : MonoBehaviourPun
         var p = _cameraRig.transform.localPosition;
         p.z = OVRManager.profile.eyeDepth;
         _cameraRig.transform.localPosition = p;
-
 
         _switchController.SwitchControllerEvent.RemoveListener(SwitchController);
         _switchController.SwitchControllerEvent.AddListener(SwitchController);
@@ -182,6 +182,11 @@ public class PlayerControllerMove : MonoBehaviourPun
 
         _animators = GetComponentsInChildren<Animator>();
         _switchController = GetComponentInChildren<SwitchController>();
+
+        if (PlayerPrefs.HasKey("WhatIsTheMainController"))
+        {
+            _isControllerRight = Convert.ToBoolean(PlayerPrefs.GetInt("WhatIsTheMainController"));
+        }
     }
 
     private void OnEnable()
@@ -265,7 +270,7 @@ public class PlayerControllerMove : MonoBehaviourPun
             CameraUpdated();
         }
 
-        if(PlayerControlManager.Instance.IsMoveable && !MenuUIManager.Instance.IsUIOn)
+        if (PlayerControlManager.Instance.IsMoveable && !MenuUIManager.Instance.IsUIOn)
         {
             UpdateMovement();
         }
@@ -489,6 +494,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     private void SwitchController(bool value)
     {
         _isControllerRight = value;
+
+        PlayerPrefs.SetInt("WhatIsTheMainController", Convert.ToInt16(_isControllerRight));
     }
 }
 

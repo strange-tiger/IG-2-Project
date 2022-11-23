@@ -26,8 +26,6 @@ public class SwitchController : MonoBehaviourPun
         }
     }
 
-    private delegate void ControllerTypeDelegate();
-
     private void Awake()
     {
         _controllerScrollUI = GetComponent<ControlScrollUI>();
