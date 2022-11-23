@@ -29,7 +29,7 @@ public class IsekaiObject : MonoBehaviourPun
             && other.GetComponent<Rigidbody>().velocity.magnitude >= WEAPON_VALID_VELOCITY
             && _isNotFlick)
         {
-            Vector3 position = transform.localPosition;
+            Vector3 position = other.GetComponent<SyncOVRDistanceGrabbable>().grabbedBy.transform.position;
 
             StartCoroutine(Vibration());
 
@@ -74,7 +74,7 @@ public class IsekaiObject : MonoBehaviourPun
 
     private IEnumerator Vibration()
     {
-        OVRInput.SetControllerVibration(0.7f, 0.7f);
+        OVRInput.SetControllerVibration(1f, 1f);
 
         yield return FLICK_TIME;
 
