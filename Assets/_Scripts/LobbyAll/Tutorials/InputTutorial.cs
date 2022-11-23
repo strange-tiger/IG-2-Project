@@ -81,7 +81,7 @@ public class InputTutorial : MonoBehaviour
         {
             if (_conversationText.text.Length != _conversationList[_indexNum].Length)
             {
-                if (Input.GetKeyDown(KeyCode.K))
+                if (OVRInput.GetDown(OVRInput.RawButton.A))
                 {
                      StopCoroutine(ConversationCoroutine);
                     _conversationText.text = _conversationList[_indexNum];
@@ -89,7 +89,7 @@ public class InputTutorial : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.K))
+                if (OVRInput.GetDown(OVRInput.RawButton.A))
                 {
                     ++_indexNum;
                     _conversationText.text = null;
