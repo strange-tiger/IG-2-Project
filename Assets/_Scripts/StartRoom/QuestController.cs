@@ -9,6 +9,13 @@ public class QuestController : MonoBehaviour
 
     [SerializeField] private StartRoomTutorial _startRoomTutorial;
 
+    [SerializeField] private TextMeshProUGUI _startRoomNPCName;
+
+    private void Start()
+    {
+        _startRoomNPCName.text = "ø‰¡§";
+    }
+
     void Update()
     {
         if (_startRoomTutorial.TurtorialTypeNum == (int)StartRoomTutorial.TurtorialType.Run)

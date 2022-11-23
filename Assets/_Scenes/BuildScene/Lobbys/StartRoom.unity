@@ -718,7 +718,9 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 13
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 648649782547370799, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+    - {fileID: 673069922295274241, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
 --- !u!4 &48985277 stripped
 Transform:
@@ -1152,6 +1154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _questText: {fileID: 1192239654}
   _startRoomTutorial: {fileID: 268166412}
+  _startRoomNPCName: {fileID: 1722936625}
 --- !u!1 &299992080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,9 +1653,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 160640417621920002, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 261666468969160935, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: sceneViewId
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 304778754031029112, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 971891850876029811, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: _leftHand
@@ -1670,11 +1681,19 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1822357777904590071, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2135040989342771927, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2135040989342771931, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167418548363180658, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1760,6 +1779,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7985481654022924773, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+    - {fileID: 910853988713603084, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+    - {fileID: 3338769942497867043, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+    - {fileID: 5142788475454486305, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
 --- !u!4 &651344139 stripped
 Transform:
@@ -2776,7 +2798,7 @@ GameObject:
   - component: {fileID: 953255491}
   - component: {fileID: 953255490}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NPCdialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4214,7 +4236,7 @@ GameObject:
   - component: {fileID: 1722936626}
   - component: {fileID: 1722936625}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: NPCname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4259,7 +4281,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC694\uC815"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
   m_sharedMaterial: {fileID: -6311795966102851171, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
