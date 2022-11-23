@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using Photon.Pun;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviourPun
 {
     [SerializeField] private PlayerInput _input;
     [SerializeField] private PlayerFocus[] _playerFocus = new PlayerFocus[2];
@@ -12,7 +13,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private OVRGazePointer _pointer;
     private OVRInputModule _eventSystemInputModule;
     private OVRRaycaster _ovrRaycaster;
-    
+
     private bool _isThereUI;
     private bool _isOak;
     public UnityEvent InteractionOakBarrel = new UnityEvent();
@@ -123,20 +124,20 @@ public class PlayerInteraction : MonoBehaviour
                 interacterableObject.Interact();
                 Debug.Log(interacterableObject.name);
 
-                if (interacterableObject.CompareTag("OakBarrel"))
+                if (!photonView.IsMine)
                 {
-                    InteractionOakBarrel.Invoke();
-                }
+                    if (interacterableObject.CompareTag("OakBarrel"))
+                    {
+                        InteractionOakBarrel.Invoke();
+                    }
 
-                if (interacterableObject.CompareTag("Player"))
-                {
-                    OakBarrelInteraction _oakBarrelInteraction;
-                    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
+                    //if (interacterableObject.CompareTag("Player"))
+                    //{
+                    //    OakBarrelInteraction _oakBarrelInteraction;
+                    //    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
 
-                    Debug.Log($"123123 : {_oakBarrelInteraction.IsInOak}");
-
-
-                    InteractionOakBarrel.Invoke();
+                    //    InteractionOakBarrel.Invoke();
+                    //}
                 }
             }
         }
