@@ -242,17 +242,14 @@ public class StartRoomTutorial : MonoBehaviour
             if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
             {
                 _curTime += Time.deltaTime;
-                Debug.Log("퀘 진행 중");
                 if (_curTime >= _requestClearTime)
                 {
-                    Debug.Log("퀘 완료");
                     _isTutorialRunQuest = false;
                     _curTime -= _curTime;
                 }
             }
             else
             {
-                Debug.Log("퀘 진행중 아님");
                 _curTime -= _curTime;
             }
         }
