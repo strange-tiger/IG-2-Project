@@ -83,7 +83,7 @@ public class CustomizeUIManager : UIManager
     {
         _customizeShop.SetActive(false);
         _customizeNPCMenu.SetActive(true);
-        gameObject.SetActive(false);
+        _collider.enabled = true;
 
         EventSystem.current.SetSelectedGameObject(null);
 

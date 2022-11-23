@@ -122,7 +122,7 @@ public class CustomizeShop : MonoBehaviourPun
             }
         }
 
-        _playerNickname = "aaa";
+        _playerNickname = _playerNetworking.MyNickname;
 
 
         AvatarShopInit();
@@ -322,7 +322,6 @@ public class CustomizeShop : MonoBehaviourPun
             _startNum -= 3;
         }
 
-        Debug.Log(_startNum);
 
         ShopIndexRootSet();
         AvatarShopPage();
@@ -345,7 +344,6 @@ public class CustomizeShop : MonoBehaviourPun
             _startNum += 3;
         }
 
-        Debug.Log(_startNum);
 
         ShopIndexRootSet();
 

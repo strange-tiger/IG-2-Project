@@ -20,8 +20,7 @@ public class Food : InteracterableObject, IPunObservable
 
     [SerializeField] EFoodSatietyLevel _foodSatietyLevel;
     [SerializeField] GameObject _food;
-    [SerializeField] BoxCollider _foodCollider;
-
+    [SerializeField] Collider _collider;
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
 
 
@@ -49,15 +48,15 @@ public class Food : InteracterableObject, IPunObservable
     [PunRPC]
     public void EatFoodState()
     {
-        _foodCollider.enabled = false;
         _food.SetActive(false);
+        _collider.enabled = false;
     }
 
     [PunRPC]
     public void RegenerateFoodState()
     {
-        _foodCollider.enabled = true;
         _food.SetActive(true);
+        _collider.enabled = true;
     }
 
 
@@ -68,14 +67,16 @@ public class Food : InteracterableObject, IPunObservable
         {
             if (photonView.isActiveAndEnabled)
             {
-                _foodCollider.enabled = true;
                 _food.SetActive(true);
+                _collider.enabled = true;
+
 
             }
             else
             {
-                _foodCollider.enabled = false;
                 _food.SetActive(false);
+                _collider.enabled = false;
+
 
             }
         }
@@ -86,12 +87,12 @@ public class Food : InteracterableObject, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(_food.activeSelf);
-            stream.SendNext(_foodCollider.enabled);
+            stream.SendNext(_collider.enabled);
         }
         else if (stream.IsReading)
         {
             _food.SetActive((bool)stream.ReceiveNext());
-            _foodCollider.enabled = (bool)stream.ReceiveNext();
+            _collider.enabled = (bool)stream.ReceiveNext();
         }
     }
 }
