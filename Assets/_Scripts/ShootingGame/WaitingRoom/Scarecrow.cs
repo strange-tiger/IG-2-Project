@@ -5,12 +5,23 @@ using Photon.Pun;
 
 public class Scarecrow : MonoBehaviourPun
 {
-    private AudioSource _audioSource;
     [SerializeField]
     private GameObject _hitEffect;
+    [SerializeField]
+    private int _count = 6;
+    private GameObject[] _hitEffects;
+    private int _currentIndex = 0;
+    private float _resetCoolTime = 0.5f;
+
+    private AudioSource _audioSource;
 
     private void Awake()
     {
+        _hitEffects = new GameObject[_count];
+        for (int i = 0; i < _count; i++)
+        {
+            _hitEffects[i] = Instantiate(_hitEffect);
+        }
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -25,7 +36,21 @@ public class Scarecrow : MonoBehaviourPun
     {
         //hitPoint 위치에 효과를 재생시키면 된다
         _hitEffect.transform.position = hitPoint;
-        
+        _hitEffects[_currentIndex].SetActive(true);
         _audioSource.Play();
+        StartCoroutine(EffectReset(_currentIndex));
+
+        ++_currentIndex;
+
+        if (_currentIndex == _count)
+        {
+            _currentIndex = 0;
+        }
+    }
+
+    IEnumerator EffectReset(int index)
+    {
+        yield return _resetCoolTime;
+        _hitEffects[index].SetActive(false);
     }
 }

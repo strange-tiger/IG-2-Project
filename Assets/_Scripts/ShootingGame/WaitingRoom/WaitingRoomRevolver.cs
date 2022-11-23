@@ -1,3 +1,5 @@
+#define _DEV_MODE_
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,8 +73,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void Awake()
     {
-        _lineRenderer = GetComponent<LineRenderer>();
-
         _boxCollider = GetComponent<BoxCollider>();
         _objSpawnPos = transform.position;
 
@@ -98,6 +98,13 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         }
 
         _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
+
+        _lineRenderer = GetComponent<LineRenderer>();
+#if _DEV_MODE_
+        _lineRenderer.enabled = true;
+#else
+        _lineRenderer.enabled = false;
+#endif
     }
 
     void Update()
@@ -110,9 +117,11 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         {
             return;
         }
+#if _DEV_MODE_
         _rayPositions[0] = _bulletSpawnTransform.position;
         _rayPositions[1] = _bulletSpawnTransform.position + _bulletSpawnTransform.forward * 1000f;
         _lineRenderer.SetPositions(_rayPositions);
+#endif
 
         Reload();
         Shot();
@@ -154,7 +163,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         // 아래를 보고 있다면 장전
         else if (Vector3.Dot(transform.forward, Vector3.down) >= 0.8f)
         {
-            Debug.Log("[Gun] Reload");
             BulletCount = _MAX_BULLET_COUNT;
             IsReloading = true;
             _audioSource.PlayOneShot(_reloadAudioClip);
@@ -186,7 +194,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
     private void PlayShotEffect()
     {
-        Debug.Log("PlayShotEffect");
         _audioSource.PlayOneShot(_shotAudioClip);
         // 임시로 추가한 컨트롤러 진동
         StartCoroutine(CoVibrateController());
