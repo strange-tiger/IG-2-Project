@@ -29,9 +29,7 @@ public class MapPanelManager : MonoBehaviour
         if(_mapType != Defines.EMapType.None && _isFixedPosition)
         {
             LobbyMapManager mapManager = map.GetComponent<LobbyMapManager>();
-            mapManager.IsFixedPosition = _isFixedPosition;
-            mapManager.FixedPosition = _fixedPosition;
-            mapManager.FixedRotation = _fixedRotation;
+            mapManager.SetFixedPlayerPosition(_fixedPosition, _fixedRotation);
         }
     }
 }

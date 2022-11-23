@@ -14,25 +14,6 @@ public class LobbyMapManager : MonoBehaviour
     [SerializeField] private GameObject _playerSprite;
 
     private bool _isFixedPosition;
-    public bool IsFixedPosition 
-    { 
-        get => _isFixedPosition; 
-        set => _isFixedPosition = value; 
-    }
-    
-    private Vector3 _fixedPosition = Vector3.zero;
-    public Vector3 FixedPosition 
-    { 
-        get => _fixedPosition; 
-        set => _fixedPosition = value; 
-    }
-
-    private Vector3 _fixedRotation = Vector3.zero;
-    public Vector3 FixedRotation
-    {
-        get => _fixedRotation;
-        set => _fixedRotation = value;
-    }
 
     [Header("Icons")]
     [SerializeField] private int _iconCounts = 10;
@@ -48,20 +29,6 @@ public class LobbyMapManager : MonoBehaviour
 
         SetToggles();
     }
-
-    private void OnEnable()
-    {
-        if(_isFixedPosition)
-        {
-            _playerSprite.transform.localPosition = _fixedPosition;
-            _playerSprite.transform.localRotation = Quaternion.Euler(_fixedRotation);
-        }
-        else
-        {
-            SetPlayerPositionOnMap();
-        }
-    }
-
     private void SetToggles()
     {
         for (int i = 0; i < _iconCounts; ++i)
@@ -71,19 +38,39 @@ public class LobbyMapManager : MonoBehaviour
 
             Toggle toggle = _mapToggleIcons.GetChild(i).GetComponentInChildren<Toggle>();
             toggle.onValueChanged.AddListener((bool value) =>
-           {
-               icon.SetActive(value);
-               marker.SetActive(value);
-           });
+            {
+                icon.SetActive(value);
+                marker.SetActive(value);
+            });
             toggle.isOn = false;
 
             _toggleList.Add(toggle);
         }
     }
 
+    public void SetFixedPlayerPosition(Vector3 fixedPosition, Vector3 fixedRotation)
+    {
+        _isFixedPosition = true;
+
+        _playerSprite.transform.localPosition = fixedPosition;
+        _playerSprite.transform.localRotation = Quaternion.Euler(fixedRotation);
+
+        Debug.Log(fixedPosition + " " + fixedRotation);
+    }
+
+    private void OnEnable()
+    {
+        if(_isFixedPosition)
+        {
+            return;
+        }
+        
+        SetPlayerPositionOnMap();
+    }
+
     private void SetPlayerPositionOnMap()
     {
-
+        Debug.Log("SetPlayerPosition");
     }
 
     private void Update()
