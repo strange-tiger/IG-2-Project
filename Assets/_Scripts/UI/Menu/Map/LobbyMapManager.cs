@@ -39,7 +39,7 @@ public class LobbyMapManager : MonoBehaviour
     [SerializeField] private Transform _onMapIcons;
     [SerializeField] private Transform _onMapMarkers;
     [SerializeField] private Transform _mapToggleIcons;
-    private List<Toggle> _toggleList;
+    private List<Toggle> _toggleList = new List<Toggle>();
 
     private void Awake()
     {

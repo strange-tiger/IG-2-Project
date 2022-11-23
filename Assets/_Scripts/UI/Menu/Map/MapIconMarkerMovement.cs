@@ -6,9 +6,11 @@ public class MapIconMarkerMovement : MonoBehaviour
 {
     [SerializeField] private float _moveDistance = 5f;
     [SerializeField] private float _moveSpeed = 1.5f;
+    private float _originalY;
 
     private void Awake()
     {
+        _originalY = transform.localPosition.y;
         StartCoroutine(CoMarkerFloat());
     }
 
@@ -31,7 +33,9 @@ public class MapIconMarkerMovement : MonoBehaviour
 
                 elapsedTime = 0f;
             }
-            transform.localPosition = new Vector3(0f, currentYPosition, 0f);
+            transform.localPosition = 
+                new Vector3(transform.localPosition.x,
+                _originalY + currentYPosition, transform.localPosition.z);
             yield return null;
         }
     }
