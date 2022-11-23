@@ -1,12 +1,16 @@
-#define debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+using _IRM = Defines.RPC.IsekaiRPCMethodName;
+
 public class IsekaiObject : MonoBehaviourPun
 {
+    private const string WEAPON_TAG = "IsekaiWeapon";
+    private const float WEAPON_VALID_VELOCITY = 1f;
+
     public event Action<Vector3> ObjectSlashed;
 
     [SerializeField] MeshRenderer _renderer;
@@ -15,40 +19,35 @@ public class IsekaiObject : MonoBehaviourPun
     private static readonly WaitForSeconds FLICK_TIME = new WaitForSeconds(0.05f);
     private const float FLOAT_POINT = 1.2f;
 
+    private bool _isNotFlick = true;
+
+    public void ReturnIsNotFlick() => _isNotFlick = true;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (!transform.position.y.Equals(FLOAT_POINT))
+        if (other.CompareTag(WEAPON_TAG)
+            && other.GetComponent<Rigidbody>().velocity.magnitude >= WEAPON_VALID_VELOCITY
+            && _isNotFlick)
         {
-            return;
-        }
-
-        if (other.CompareTag("IsekaiWeapon"))
-        {
-            Vector3 position = new Vector3(other.transform.position.x, 2f, other.transform.position.z);
+            Vector3 position = transform.localPosition;
 
             StartCoroutine(Vibration());
 
-            photonView.RPC("FlickHelper", RpcTarget.All, position);
-        }
-    }
+            photonView.RPC(_IRM.FlickHelper, RpcTarget.All);
 
-#if debug
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            StartCoroutine(Flick(new Vector3(1f, 2f, 0f)));
+            ObjectSlashed.Invoke(position);
         }
     }
-#endif
 
     [PunRPC]
-    private void FlickHelper(Vector3 playerPos) => StartCoroutine(Flick(playerPos));
+    private void FlickHelper() => StartCoroutine(Flick());
 
-    private IEnumerator Flick(Vector3 playerPos)
+    private IEnumerator Flick()
     {
         _audioSource.PlayOneShot(_audioSource.clip);
-        
+
+        _isNotFlick = false;
+
         int count = 3;
 
         while (count > 0)
@@ -64,15 +63,18 @@ public class IsekaiObject : MonoBehaviourPun
             --count;
         }
 
-        ObjectSlashed.Invoke(playerPos);
-
         transform.localPosition = Vector3.zero;
-        gameObject.SetActive(false);
+
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.ObjectDisabled);
+        photonView.RPC(_IRM.ObjectDisabled, RpcTarget.AllBuffered);
     }
+
+    [PunRPC]
+    private void ObjectDisabled() => gameObject.SetActive(false);
 
     private IEnumerator Vibration()
     {
-        OVRInput.SetControllerVibration(0.3f, 0.3f);
+        OVRInput.SetControllerVibration(0.7f, 0.7f);
 
         yield return FLICK_TIME;
 

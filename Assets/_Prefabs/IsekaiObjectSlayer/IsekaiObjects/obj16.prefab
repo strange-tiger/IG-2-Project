@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 36081516555321185}
   - component: {fileID: 8682859882178242635}
   - component: {fileID: 1248513816403684966}
+  - component: {fileID: 9075129053087796907}
   m_Layer: 0
   m_Name: obj16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2629424505466570683
 Transform:
   m_ObjectHideFlags: 0
@@ -123,7 +124,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -158,7 +159,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -198,6 +199,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &9075129053087796907
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624222128043153875}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.6000001, y: 3.3000002, z: 2.4}
+  m_Center: {x: 0, y: 1.6500001, z: 0}
 --- !u!1 &2624469744661169927
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +223,6 @@ GameObject:
   - component: {fileID: 2629097537831096951}
   - component: {fileID: 2599991147480589723}
   - component: {fileID: 2610181871652950237}
-  - component: {fileID: 8102074422583286474}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -280,16 +293,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8102074422583286474
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2624469744661169927}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.6000001, y: 3.3000002, z: 2.4}
-  m_Center: {x: 0, y: 1.6500001, z: 0}

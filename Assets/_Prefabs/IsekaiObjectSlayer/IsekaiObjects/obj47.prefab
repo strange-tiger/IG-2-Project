@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 7372035628847587060}
   - component: {fileID: 7365493846865010982}
   - component: {fileID: 7355219174486824436}
-  - component: {fileID: 7396631005408891028}
   m_Layer: 0
   m_Name: wardrobe_door
   m_TagString: Untagged
@@ -113,20 +112,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7396631005408891028
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7369096152536107938}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 3a39fba9071c2f343a40e89a0926f396, type: 3}
 --- !u!1 &7369294235990971358
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +154,6 @@ GameObject:
   - component: {fileID: 7372721616867983126}
   - component: {fileID: 7365797600348591960}
   - component: {fileID: 7354841045507193840}
-  - component: {fileID: 7396833661107818978}
   m_Layer: 0
   m_Name: wardrobe_door
   m_TagString: Untagged
@@ -240,20 +224,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7396833661107818978
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7369740352157421106}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 3a39fba9071c2f343a40e89a0926f396, type: 3}
 --- !u!1 &7369752630207018380
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,19 +235,19 @@ GameObject:
   - component: {fileID: 7372220123621405400}
   - component: {fileID: 7365626463377645534}
   - component: {fileID: 7355177506400870932}
-  - component: {fileID: 7396841482238840802}
   - component: {fileID: 7604990133013785666}
   - component: {fileID: 8386376978159996432}
   - component: {fileID: 7716249826101691160}
   - component: {fileID: 6324051561828056414}
   - component: {fileID: 5966116585484747868}
+  - component: {fileID: 8776064195323542157}
   m_Layer: 0
   m_Name: obj47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7372220123621405400
 Transform:
   m_ObjectHideFlags: 0
@@ -343,20 +313,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7396841482238840802
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7369752630207018380}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 8aad2a194ff362547942c2721f281acf, type: 3}
 --- !u!114 &7604990133013785666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +400,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -479,7 +435,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -519,3 +475,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &8776064195323542157
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7369752630207018380}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 17.00001, y: 23.000002, z: 8.000004}
+  m_Center: {x: -0.0000013709068, y: 11.5, z: 0}
