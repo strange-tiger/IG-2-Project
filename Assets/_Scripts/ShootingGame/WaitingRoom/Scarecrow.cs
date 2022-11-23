@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Reflection;
 
 public class Scarecrow : MonoBehaviourPun
 {
@@ -21,12 +22,14 @@ public class Scarecrow : MonoBehaviourPun
         for (int i = 0; i < _count; i++)
         {
             _hitEffects[i] = Instantiate(_hitEffect);
+            _hitEffects[i].SetActive(false);
         }
         _audioSource = GetComponent<AudioSource>();
     }
 
     public void Hit(Vector3 hitPoint)
     {
+        Debug.Log("피격당함");
         photonView.RPC(nameof(PlayEffect), RpcTarget.All, hitPoint);
     }
 
@@ -34,8 +37,9 @@ public class Scarecrow : MonoBehaviourPun
     [PunRPC]
     private void PlayEffect(Vector3 hitPoint)
     {
+        Debug.Log("이펙트 재생");
         //hitPoint 위치에 효과를 재생시키면 된다
-        _hitEffect.transform.position = hitPoint;
+        _hitEffects[_currentIndex].transform.position = hitPoint;
         _hitEffects[_currentIndex].SetActive(true);
         _audioSource.Play();
         StartCoroutine(EffectReset(_currentIndex));
