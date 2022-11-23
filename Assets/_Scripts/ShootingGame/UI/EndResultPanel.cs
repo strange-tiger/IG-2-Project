@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
 using PlayerInfo = ShootingGameManager.ShootingPlayerInfo;
 using SceneNumber = Defines.ESceneNumder;
 
-public class EndResultPanel : MonoBehaviour
+public class EndResultPanel : MonoBehaviourPun
 {
     [SerializeField] private LobbyChanger _lobbyChanger;
 
@@ -28,6 +30,20 @@ public class EndResultPanel : MonoBehaviour
     private TextMeshProUGUI[] _playerGoldTexts;
 
     private Image[] _goldStars;
+
+    private RoomOptions _waitingRoomOption = new RoomOptions
+    {
+        MaxPlayers = ShootingGameManager._MAX_PLAYER_COUNT,
+        CleanupCacheOnLeave = true,
+        PublishUserId = true,
+        CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { ShootingServerManager.RoomPropertyKey, 1 } },
+        CustomRoomPropertiesForLobby = new string[]
+                {
+                    ShootingServerManager.RoomPropertyKey,
+                },
+        IsVisible = true,
+        IsOpen = true,
+    };
 
     private void Awake()
     {
@@ -76,12 +92,17 @@ public class EndResultPanel : MonoBehaviour
 
     public void ShowRestartPanel()
     {
+        if (PhotonNetwork.IsMessageQueueRunning)
+        {
+            PhotonNetwork.RemoveBufferedRPCs();
+        }
         _regamePanel.SetActive(true);
         _regameCheckScript.ShowCheckPanel("REGAME?",
             () =>
             {
                 Debug.Log("[Shooting] 게임 재시작");
-                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom);
+                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, _waitingRoomOption, true,
+                    _waitingRoomOption.CustomRoomProperties, (byte)_waitingRoomOption.MaxPlayers);
             },
             () =>
             {
