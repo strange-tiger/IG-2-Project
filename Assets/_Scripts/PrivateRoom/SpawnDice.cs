@@ -17,6 +17,9 @@ public class SpawnDice : MonoBehaviourPun
 
     public void ToggleDice()
     {
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "Spawn");
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "Despawn");
+
         if (!_dice.activeSelf)
         {
             photonView.RPC("Spawn", RpcTarget.AllBuffered);

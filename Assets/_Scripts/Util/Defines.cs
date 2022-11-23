@@ -181,3 +181,15 @@ namespace Defines
         MAX
     }
 }
+
+namespace Defines.RPC
+{
+    public struct IsekaiRPCMethodName
+    {
+        public const string SpawnWeaponRPCHelper = "SpawnWeaponRPCHelper";
+        public const string SpawnHelper = "SpawnHelper";
+        public const string ReturnWeapon = "ReturnWeapon";
+        public const string FlickHelper = "FlickHelper";
+    }
+    
+}

@@ -156,8 +156,6 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
     public static void PressShift()
     {
-        CutKoreanType();
-
         if (_currentLayout == EKeyboardLayout.QWERTY
             || _currentLayout == EKeyboardLayout.KOREAN)
         {
@@ -405,6 +403,8 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                         }
                         else if (initialIndex != -1 && middleIndex != -1 && finalConsonantIndex != -1)
                         {
+                            ++finalConsonantIndex;
+
                             int i = CalculateLetterCode(initialIndex, middleIndex, finalConsonantIndex);
                             char letter = Convert.ToChar(i);
                             output += letter.ToString();

@@ -146,13 +146,16 @@ GameObject:
   - component: {fileID: 1518437824040431098}
   - component: {fileID: 207468487334151130}
   - component: {fileID: 1332468598483753355}
+  - component: {fileID: 74134111357195385}
+  - component: {fileID: 2818311790174871645}
+  - component: {fileID: 6508122927138559733}
   m_Layer: 0
   m_Name: obj9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1923700452141996408
 Transform:
   m_ObjectHideFlags: 0
@@ -256,7 +259,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -291,7 +294,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -331,6 +334,45 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &74134111357195385
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923700452141698392}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.39999998, y: 0.7999999, z: 0.4}
+  m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!65 &2818311790174871645
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923700452141698392}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.19999999, y: 0.49999988, z: 0.6}
+  m_Center: {x: 0.0000000037252903, y: 0.45, z: 0}
+--- !u!65 &6508122927138559733
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923700452141698392}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 0.49999988, z: 0.19999997}
+  m_Center: {x: 0, y: 0.45, z: 0}
 --- !u!1 &1923700452141698394
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1923700452141996410
 Transform:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-#define _Photon
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,11 +25,7 @@ public class PaintbrushReset : MonoBehaviourPun
 
     private void ResetPad()
     {
-#if _Photon
         photonView.RPC("ResetDraw", RpcTarget.AllBuffered);
-#else
-        ResetDraw();
-#endif
     }
 
     [PunRPC]

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SatietyUI : MonoBehaviour
@@ -13,6 +14,7 @@ public class SatietyUI : MonoBehaviour
 
     private void Awake()
     {
+        
         _foodInteraction = transform.root.GetComponent<FoodInteraction>();
 
     }
