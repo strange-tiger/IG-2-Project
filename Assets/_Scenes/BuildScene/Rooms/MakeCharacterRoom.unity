@@ -177,7 +177,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43576477}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -278,7 +278,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 160250150}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1292,6 +1292,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4449215289044925556}
     m_Modifications:
+    - target: {fileID: 4534814277281154948, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
+      propertyPath: _rayPlane
+      value: 
+      objectReference: {fileID: 819571170}
+    - target: {fileID: 4534814277281154948, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
+      propertyPath: _malePanel
+      value: 
+      objectReference: {fileID: 1993849296}
+    - target: {fileID: 4534814277281154948, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
+      propertyPath: _femalePanel
+      value: 
+      objectReference: {fileID: 1256348825}
+    - target: {fileID: 4534814277281154948, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
+      propertyPath: _playerCustomize
+      value: 
+      objectReference: {fileID: 8693990510085832123}
     - target: {fileID: 4534814279259786932, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
       propertyPath: m_Name
       value: NEW_MakeCharacterCanvas
@@ -1388,7 +1404,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4534814277281154949, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
 --- !u!224 &936521816 stripped
 RectTransform:
@@ -1449,7 +1466,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149253554}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1603,6 +1620,11 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &1256348825 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6833954393332340721, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
+  m_PrefabInstance: {fileID: 936521815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1565673505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1703,7 +1725,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675280892}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1874,7 +1896,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764535483}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1958,6 +1980,11 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1993849296 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4620910640376746504, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
+  m_PrefabInstance: {fileID: 936521815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2143951713
 PrefabInstance:
   m_ObjectHideFlags: 0
