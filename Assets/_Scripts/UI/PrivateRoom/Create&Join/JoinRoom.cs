@@ -48,6 +48,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
+
         PhotonNetwork.JoinLobby();
     }
 
@@ -61,6 +62,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         catch
         {
             Debug.LogError("방 입장 실패");
+            PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.StartRoom);
         }
     }
 
