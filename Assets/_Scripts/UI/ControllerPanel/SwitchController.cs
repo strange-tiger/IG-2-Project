@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
+using System;
 using _Controller = Defines.ESwitchController;
 
 
@@ -12,6 +13,8 @@ public class SwitchController : MonoBehaviourPun
 
     private ControlScrollUI _controllerScrollUI;
     private _Controller _type = _Controller.Left;
+
+    private bool _isControllerRight;
 
     public _Controller Type
     {
@@ -29,7 +32,20 @@ public class SwitchController : MonoBehaviourPun
     private void Awake()
     {
         _controllerScrollUI = GetComponent<ControlScrollUI>();
-        Type = _Controller.Left;
+
+        if (PlayerPrefs.HasKey("WhatIsTheMainController"))
+        {
+            _isControllerRight = Convert.ToBoolean(PlayerPrefs.GetInt("WhatIsTheMainController"));
+        }
+
+        if (_isControllerRight)
+        {
+            Type = _Controller.Right;
+        }
+        else
+        {
+            Type = _Controller.Left;
+        }
     }
 
     public void OnClickLeftButton()

@@ -13,7 +13,7 @@ public class Rock : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if(other.gameObject.CompareTag("PlayerBody"))
         {
             _player = other.gameObject.transform.root.GetComponent<BasicPlayerNetworking>();
             if(_player == null)
@@ -25,7 +25,7 @@ public class Rock : MonoBehaviour
     }
     public void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if(other.gameObject.CompareTag("PlayerBody"))
         {
             MiningUIDisable();
             _player = null;

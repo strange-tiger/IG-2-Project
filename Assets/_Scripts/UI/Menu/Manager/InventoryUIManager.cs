@@ -18,33 +18,33 @@ namespace Defines
 public class InventoryUIManager : MonoBehaviour
 {
     [Header("Buttons")]
-    [SerializeField] private Button _inventoryButton;
+    [SerializeField] private Button _mapButton;
     [SerializeField] private Button _settingButton;
     [SerializeField] private Button _socialButton;
 
     [Header("Inventory Panels")]
-    [SerializeField] private GameObject _inventoryUI;
-    [SerializeField] private GameObject _inventoryPanel;
+    [SerializeField] private GameObject _menuUI;
+    [SerializeField] private GameObject _mapPanel;
     [SerializeField] private GameObject _settingPanel;
     [SerializeField] private GameObject _socialPanel;
 
     /// <summary>
     /// Inventory UI가 켜져있는지 여부
     /// </summary>
-    public bool IsInventoryUIOn { get { return _inventoryUI.activeSelf; } }
+    public bool IsInventoryUIOn { get { return _menuUI.activeSelf; } }
 
     private GameObject _currentShownPanel;
 
     private void Awake()
     {
-        _currentShownPanel = _inventoryPanel;
+        _currentShownPanel = _mapPanel;
 
         SettingButtons();
     }
 
     private void SettingButtons()
     {
-        _inventoryButton.onClick.AddListener(() => { ShowMenuPanel(_inventoryPanel); });
+        _mapButton.onClick.AddListener(() => { ShowMenuPanel(_mapPanel); });
         _settingButton.onClick.AddListener(() => { ShowMenuPanel(_settingPanel); });
         _socialButton.onClick.AddListener(() => { ShowMenuPanel(_socialPanel); });
     }
@@ -65,13 +65,13 @@ public class InventoryUIManager : MonoBehaviour
     /// </summary>
     public void ShowInventoryUI()
     {
-        _inventoryUI.SetActive(true);
+        _menuUI.SetActive(true);
     }
     /// <summary>
     /// Invantory UI 안보여줌
     /// </summary>
     public void HideInventoryUI()
     {
-        _inventoryUI.SetActive(false);
+        _menuUI.SetActive(false);
     }
 }

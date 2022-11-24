@@ -28,7 +28,7 @@ public class GoldPanelManager : MonoBehaviour
         {
             if (_isGoldUpdateComplete == false)
             {
-                _myGold.text = MySqlSetting.CheckHaveGold(_playerNetworking.MyNickname).ToString();
+                _myGold.text = MySqlSetting.CheckHaveGold(_playerNetworking?.MyNickname).ToString();
             }
             _isGoldUpdateComplete = true;
         }

@@ -5,20 +5,22 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using Asset.MySql;
+using MapType = Defines.EMapType;
 
-public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
+public class BasicPlayerNetworking : PlayerHandRigging
 {
     [SerializeField] protected Vector3 _ovrCameraPosition = new Vector3(0f, 0.7f, 0.8f);
     [SerializeField] protected GameObject _ovrCameraRigPrefab;
     protected GameObject _myOVRCameraRig;
 
     protected const int HAND_COUNT = 2;
-    [SerializeField] protected Transform[] _modelHandTransforms;
     protected Transform[] _ovrCameraHandTransforms = new Transform[2];
 
     [SerializeField] protected TextMeshProUGUI _nicknameText;
 
     protected GameObject _pointer;
+
+    protected MapPanelManager _mapManager;
 
     public string MyNickname { get; private set; }
     public string MyUserId { get; private set; }
@@ -40,13 +42,11 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
 
-            
-            
-
+            _mapManager = cameraRig.GetComponentInChildren<MapPanelManager>();
         }
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
         if (!photonView.IsMine)
         {
@@ -72,8 +72,6 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         photonView.RPC("SetNickname", newPlayer, MyUserId, MyNickname);
-
-
     }
 
     public void CanvasSetting(OVRRaycaster[] ovrRaycasters)
@@ -82,7 +80,19 @@ public class BasicPlayerNetworking : MonoBehaviourPunCallbacks
         {
             canvas.pointer = _pointer;
         }
-
     }
 
+    public void SetMap(MapType mapType, bool isFixedPosition, Vector3 fixedPosition, Vector3 fixedRotation)
+    {
+        if(!_mapManager)
+        { 
+            return;
+        }
+
+        _mapManager.SetMap(mapType);
+        if(isFixedPosition)
+        {
+            _mapManager.SetFixedPlayerPosition(fixedPosition, fixedRotation);
+        }
+    }
 }

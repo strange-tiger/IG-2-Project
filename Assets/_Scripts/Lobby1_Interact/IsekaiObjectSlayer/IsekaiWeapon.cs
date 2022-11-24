@@ -64,7 +64,8 @@ public class IsekaiWeapon : MonoBehaviourPun
         transform.position = _initPosition;
         transform.rotation = Quaternion.Euler(_initRotation);
 
-        photonView.RPC(_IRM.ReturnWeapon, RpcTarget.All);
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.ReturnWeapon);
+        photonView.RPC(_IRM.ReturnWeapon, RpcTarget.AllBuffered);
     }
 
     private void ChangeSetting(bool isGrabbed)

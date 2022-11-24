@@ -122,8 +122,8 @@ public class CustomizeShop : MonoBehaviourPun
             }
         }
 
-        _playerNickname = "aaa";
-
+        //_playerNickname = _playerNetworking.MyNickname;
+        _playerNickname = "ccc";
 
         AvatarShopInit();
     }
@@ -278,13 +278,13 @@ public class CustomizeShop : MonoBehaviourPun
                 {
                     _smMeshRendererObject[i].SetActive(true);
                     _characterMeshRendererObject[i].SetActive(false);
-                    _skinnedMeshRenderer = _smMeshRenderer;
+                    _skinnedMeshRenderer[i] = _smMeshRenderer[i];
                 }
                 else
                 {
                     _smMeshRendererObject[i].SetActive(false);
                     _characterMeshRendererObject[i].SetActive(true);
-                    _skinnedMeshRenderer = _characterMeshRenderer;
+                    _skinnedMeshRenderer[i] = _characterMeshRenderer[i];
                 }
             }
         }
@@ -322,7 +322,6 @@ public class CustomizeShop : MonoBehaviourPun
             _startNum -= 3;
         }
 
-        Debug.Log(_startNum);
 
         ShopIndexRootSet();
         AvatarShopPage();
@@ -345,7 +344,6 @@ public class CustomizeShop : MonoBehaviourPun
             _startNum += 3;
         }
 
-        Debug.Log(_startNum);
 
         ShopIndexRootSet();
 
