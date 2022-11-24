@@ -256,8 +256,8 @@ public class BettingUI : MonoBehaviourPun
     {
         if (BettingExist() == false)
         {
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 0, int.Parse(_betChampionInputField[0].text));
             BetChampion(0);
+            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 0, int.Parse(_betChampionInputField[0].text));
         }
         else
         {
@@ -270,8 +270,8 @@ public class BettingUI : MonoBehaviourPun
     {
         if (BettingExist() == false)
         {
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 1, int.Parse(_betChampionInputField[1].text));
             BetChampion(1);
+            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 1, int.Parse(_betChampionInputField[1].text));
         }
         else
         {
@@ -284,8 +284,8 @@ public class BettingUI : MonoBehaviourPun
     {
         if (BettingExist() == false)
         {
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 2, int.Parse(_betChampionInputField[2].text));
             BetChampion(2);
+            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 2, int.Parse(_betChampionInputField[2].text));
         }
         else
         {
@@ -297,8 +297,8 @@ public class BettingUI : MonoBehaviourPun
     {
         if (BettingExist() == false)
         {
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 3, int.Parse(_betChampionInputField[3].text));
             BetChampion(3);
+            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 3, int.Parse(_betChampionInputField[3].text));
         }
         else
         {
