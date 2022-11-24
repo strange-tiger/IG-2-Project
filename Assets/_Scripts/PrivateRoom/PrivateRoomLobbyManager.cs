@@ -32,10 +32,15 @@ public class PrivateRoomLobbyManager : LobbyChanger
         if(PlayerPrefs.HasKey("PrevScene"))
         {
             int prevScene = PlayerPrefs.GetInt("PrevScene");
+            Debug.Log($"prevScene: {prevScene} {prevScene >= (int)SceneNumber.FantasyLobby && prevScene <= (int)SceneNumber.WesternLobby}");
+
             if(prevScene >= (int) SceneNumber.FantasyLobby &&
                 prevScene <= (int) SceneNumber.WesternLobby)
             {
                 int mapinfoNumber = prevScene - (int)SceneNumber.FantasyLobby;
+
+                _mapType = (MapType)(mapinfoNumber + 1);
+                _isFixedPosition = true;
 
                 _fixedPosition = _fixedMapInfos[mapinfoNumber].FixedPosition;
                 _fixedRotation = _fixedMapInfos[mapinfoNumber].FixedRotation;
