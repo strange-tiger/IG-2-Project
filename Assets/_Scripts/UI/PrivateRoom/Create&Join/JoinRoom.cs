@@ -84,6 +84,8 @@ public class JoinRoom : MonoBehaviourPunCallbacks
 
         Debug.Log("[ÇöÀç ¹æ] " + PhotonNetwork.CurrentRoom.Name);
 
+        OVRScreenFade.instance.FadeOut();
+
         PlayerPrefs.SetInt("PrevScene", SceneManagerHelper.ActiveSceneBuildIndex);
         PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
     }

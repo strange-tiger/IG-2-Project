@@ -8,11 +8,6 @@ using _DB = Asset.MySql.MySqlSetting;
 
 public class RoomDestroyer : MonoBehaviourPunCallbacks
 {
-    private void Start()
-    {
-        Debug.Log("[현방] " + PhotonNetwork.CurrentRoom.Name);
-    }
-
     private void OnDestroy()
     {
         Debug.Log("[삭제 전] " + PhotonNetwork.CurrentRoom.Name);

@@ -122,6 +122,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
 
             _DB.AddNewRoomInfo(_roomName, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
             PhotonNetwork.CreateRoom(_roomName, _roomOptions, null);
+            
             Debug.Log("规 积己 己傍");
         }
         catch
@@ -140,7 +141,11 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+
         Debug.Log("规 涝厘");
+
+        OVRScreenFade.instance.FadeOut();
+
         PlayerPrefs.SetInt(PREV_SCENE, SceneManagerHelper.ActiveSceneBuildIndex);
         PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
     }
