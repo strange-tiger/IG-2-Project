@@ -13,7 +13,6 @@ public class VolumeController : MonoBehaviour
     private Slider[] _slider;
 
     private Dictionary<Slider, TextMeshProUGUI> _textDict = new Dictionary<Slider, TextMeshProUGUI>();
-    public AudioSource PlayerAudioSource { get; set; }
 
     private void OnEnable()
     { 
