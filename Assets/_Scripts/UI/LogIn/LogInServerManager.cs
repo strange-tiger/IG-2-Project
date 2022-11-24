@@ -11,16 +11,10 @@ using SceneType = Defines.ESceneNumder;
 
 public class LogInServerManager : MonoBehaviourPunCallbacks
 {
-    void LogOut(string str)
-    {
-        Debug.Log("[Logout] " + str);
-    }
-
     [SerializeField] private Button _loginButton;
 
     private void Awake()
     {
-        LogOut("LogIn¾À Awake");
         _loginButton.interactable = PhotonNetwork.IsConnected;
         if(!PhotonNetwork.IsConnected)
         {
@@ -30,13 +24,11 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        LogOut("OnConnectedToMaster");
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        LogOut("OnDisconnected");
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -47,7 +39,6 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
 
     public void LogIn()
     {
-        LogOut("LogIn");
         PlayerControlManager.Instance.IsRayable = false;
         PlayerControlManager.Instance.IsMoveable = false;
 
