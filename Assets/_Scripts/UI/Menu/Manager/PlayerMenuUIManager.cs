@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
+using Asset.MySql;
 
 namespace Defines
 {
@@ -15,7 +17,7 @@ namespace Defines
     }
 }
 
-public class InventoryUIManager : MonoBehaviour
+public class PlayerMenuUIManager : MonoBehaviour
 {
     [Header("Buttons")]
     [SerializeField] private Button _mapButton;
@@ -27,6 +29,10 @@ public class InventoryUIManager : MonoBehaviour
     [SerializeField] private GameObject _mapPanel;
     [SerializeField] private GameObject _settingPanel;
     [SerializeField] private GameObject _socialPanel;
+
+    [Header("Gold")]
+    [SerializeField] private TextMeshProUGUI _goldText;
+    private string _myNickname;
 
     /// <summary>
     /// Inventory UI가 켜져있는지 여부
@@ -40,6 +46,8 @@ public class InventoryUIManager : MonoBehaviour
         _currentShownPanel = _mapPanel;
 
         SettingButtons();
+
+        _myNickname = PhotonNetwork.NickName;
     }
 
     private void SettingButtons()
@@ -63,14 +71,16 @@ public class InventoryUIManager : MonoBehaviour
     /// <summary>
     /// Inventory UI 보여줌
     /// </summary>
-    public void ShowInventoryUI()
+    public void ShowMenuUI()
     {
+        _goldText.text =
+            MySqlSetting.CheckHaveGold(_myNickname).ToString();
         _menuUI.SetActive(true);
     }
     /// <summary>
     /// Invantory UI 안보여줌
     /// </summary>
-    public void HideInventoryUI()
+    public void HideMenuUI()
     {
         _menuUI.SetActive(false);
     }

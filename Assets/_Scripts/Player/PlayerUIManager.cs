@@ -15,11 +15,11 @@ public class PlayerUIManager : MonoBehaviour
     {
         if(!MenuUIManager.Instance.IsUIOn && _input.IsInventoryOn)
         {
-            MenuUIManager.Instance.ShowInventory();
+            MenuUIManager.Instance.ShowMenu();
         }
         else if (MenuUIManager.Instance.IsUIOn && _input.IsInventoryOn)
         {
-            MenuUIManager.Instance.HideInventory();
+            MenuUIManager.Instance.HideMenu();
         }
     }
 }
