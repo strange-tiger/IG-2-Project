@@ -86,7 +86,7 @@ public class CustomizeMenu : MonoBehaviourPun
             }
         }
 
-        _playerNickname = "aaa";
+        _playerNickname = _playerNetworking.MyNickname;
 
         IsCustomizeChanged = false;
 
