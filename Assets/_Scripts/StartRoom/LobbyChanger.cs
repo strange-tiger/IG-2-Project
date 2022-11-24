@@ -14,10 +14,10 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     [SerializeField] private OVRRaycaster[] _canvases;
     [SerializeField] private GameObject _playerPrefab;
 
-    [SerializeField] private MapType _mapType;
-    [SerializeField] private bool _isFixedPosition;
-    [SerializeField] private Vector3 _fixedPosition;
-    [SerializeField] private Vector3 _fixedRotation;
+    [SerializeField] protected MapType _mapType;
+    [SerializeField] protected bool _isFixedPosition;
+    [SerializeField] protected Vector3 _fixedPosition;
+    [SerializeField] protected Vector3 _fixedRotation;
     
     protected GameObject _myPlayer;
 

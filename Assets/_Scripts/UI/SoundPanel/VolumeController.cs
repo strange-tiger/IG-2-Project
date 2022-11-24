@@ -1,4 +1,4 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -13,10 +13,9 @@ public class VolumeController : MonoBehaviour
     private Slider[] _slider;
 
     private Dictionary<Slider, TextMeshProUGUI> _textDict = new Dictionary<Slider, TextMeshProUGUI>();
-    public AudioSource PlayerAudioSource { get; set; }
 
     private void OnEnable()
-    {
+    { 
         for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
         {
             _textDict.Add(_slider[i], _text[i]);
@@ -57,6 +56,6 @@ public class VolumeController : MonoBehaviour
             (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.OutputVolume], slider.value);
         _textDict[slider].text = (int)(slider.value * 100) + "%";
         //SoundManager.Instance.Refresh();
-        // ï¿½Ì±ï¿½ï¿½ï¿½
+        // ¹Ì±¸Çö
     }
 }

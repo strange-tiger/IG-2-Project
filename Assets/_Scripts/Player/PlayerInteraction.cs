@@ -20,7 +20,12 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void OnEnable()
     {
-        _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
+        _eventSystemInputModule = transform.root.GetComponentInChildren<OVRInputModule>();
+        if(!_eventSystemInputModule)
+        {
+            _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
+        }
+
         if (_eventSystemInputModule)
         {
             _eventSystemInputModule.m_Cursor = _pointer;
