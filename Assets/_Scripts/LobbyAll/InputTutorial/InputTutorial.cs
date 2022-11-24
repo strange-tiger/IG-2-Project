@@ -18,12 +18,14 @@ public class InputTutorial : MonoBehaviour
     [SerializeField] MakeCharacterManager _makeCharacterManager;
     [SerializeField] Button _characterMakeButton;
     [SerializeField] Button _femaleButton;
+    [SerializeField] AudioClip _dialogueSound;
 
+    private AudioSource _audioSource;
     private List<string> _conversationList = new List<string>();
-    private int _indexNum = 0;
     private Coroutine ConversationCoroutine;
     private bool _isPause;
     private int[] _pauseNum = { 4,7,11,13 };
+    private int _indexNum = 0;
     private int _pauseIndexNum;
 
     private void OnEnable()
@@ -36,6 +38,8 @@ public class InputTutorial : MonoBehaviour
 
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         _conversationList = _CSV.ParseCSV("InputTutorial", _conversationList);
         ConversationCoroutine = StartCoroutine(ConversationPrint());
 
@@ -92,6 +96,7 @@ public class InputTutorial : MonoBehaviour
                 if (OVRInput.GetDown(OVRInput.RawButton.A))
                 {
                     ++_indexNum;
+                    _audioSource.PlayOneShot(_dialogueSound);
                     _conversationText.text = null;
                     ConversationCoroutine = StartCoroutine(ConversationPrint());
                 }
