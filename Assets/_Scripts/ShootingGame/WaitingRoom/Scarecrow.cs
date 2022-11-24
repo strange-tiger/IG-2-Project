@@ -26,28 +26,16 @@ public class Scarecrow : MonoBehaviourPun
         photonView.RPC(nameof(PlayEffect), RpcTarget.All, hitPoint);
     }
 
-    //배열 사용해서 오브젝트 풀링
     [PunRPC]
     private void PlayEffect(Vector3 hitPoint)
     {
         Debug.Log("이펙트 재생");
         //hitPoint 위치에 효과를 재생시키면 된다
+        _hitEffects[_currentIndex].gameObject.SetActive(false);
         _hitEffects[_currentIndex].gameObject.transform.position = hitPoint;
         _hitEffects[_currentIndex].gameObject.SetActive(true);
         _audioSource.Play();
-        StartCoroutine(EffectReset(_currentIndex));
 
-        ++_currentIndex;
-
-        if (_currentIndex == _hitEffects.Count)
-        {
-            _currentIndex = 0;
-        }
-    }
-
-    IEnumerator EffectReset(int index)
-    {
-        yield return _resetCoolTime;
-        _hitEffects[index].gameObject.SetActive(false);
+        _currentIndex = (_currentIndex + 1) % _hitEffects.Count;
     }
 }
