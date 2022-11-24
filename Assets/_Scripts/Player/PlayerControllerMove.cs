@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -36,6 +36,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     //    }
     //}
     #endregion
+
+    #region Variable
 
     /// <summary>
     /// The rate acceleration during movement.
@@ -121,7 +123,7 @@ public class PlayerControllerMove : MonoBehaviourPun
     /// When true, user input will be applied to rotation. Set this to false whenever the player controller needs to ignore input for rotation.
     /// </summary>
     [SerializeField] bool _enableRotation = false;
-
+    #endregion
     /// <summary>
     /// Rotation defaults to secondary thumbstick. You can allow either here. Note that this won't behave well if EnableLinearMovement is true.
     /// </summary>
@@ -133,7 +135,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     protected OVRCameraRig _cameraRig = null;
     public OVRCameraRig CameraRig { get; set; }
 
-    private InventoryUIManager _inventoryUIManager = new InventoryUIManager();
+
+    private SwitchController _switchController;
     private Vector3 _moveThrottle = Vector3.zero;
     private OVRPose? _initialPose;
     private float _fallSpeed = 0.0f;
@@ -143,8 +146,8 @@ public class PlayerControllerMove : MonoBehaviourPun
     private bool _playerControllerEnabled = false;
     private bool _isControllerRight;
 
-    // ÇÃ·¹ÀÌ¾î ¾Ö´Ï¸ÞÀÌ¼Ç
-    private Animator _animator;
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
+    private Animator[] _animators;
 
     private void Start()
     {
@@ -153,10 +156,9 @@ public class PlayerControllerMove : MonoBehaviourPun
         p.z = OVRManager.profile.eyeDepth;
         _cameraRig.transform.localPosition = p;
 
-        //_controllerScrollButton.SwitchController.AddListener(SwitchController);
+        _switchController.SwitchControllerEvent.RemoveListener(SwitchController);
+        _switchController.SwitchControllerEvent.AddListener(SwitchController);
     }
-
-
 
     private void Awake()
     {
@@ -178,7 +180,13 @@ public class PlayerControllerMove : MonoBehaviourPun
 
         InitialYRotation = transform.rotation.eulerAngles.y;
 
-        _animator = GetComponentInChildren<Animator>();
+        _animators = GetComponentsInChildren<Animator>();
+        _switchController = GetComponentInChildren<SwitchController>();
+
+        if (PlayerPrefs.HasKey("WhatIsTheMainController"))
+        {
+            _isControllerRight = Convert.ToBoolean(PlayerPrefs.GetInt("WhatIsTheMainController"));
+        }
     }
 
     private void OnEnable()
@@ -262,13 +270,14 @@ public class PlayerControllerMove : MonoBehaviourPun
             CameraUpdated();
         }
 
-        if(PlayerControlManager.Instance.IsMoveable && !MenuUIManager.Instance.IsUIOn)
+        if (PlayerControlManager.Instance.IsMoveable && !MenuUIManager.Instance.IsUIOn)
         {
             UpdateMovement();
         }
         else
         {
-            _animator.SetBool(AniamtionHash.IsWalking, false);
+            _animators[0].SetBool(AniamtionHash.IsWalking, false);
+            _animators[1].SetBool(AniamtionHash.IsWalking, false);
         }
 
         Vector3 moveDirection = Vector3.zero;
@@ -401,7 +410,8 @@ public class PlayerControllerMove : MonoBehaviourPun
                     primaryAxis.x = Mathf.Round(primaryAxis.x * _fixedSpeedSteps) / _fixedSpeedSteps;
                 }
 
-                _animator.SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
+                _animators[0].SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
+                _animators[1].SetBool(AniamtionHash.IsWalking, primaryAxis.y != 0.0f || primaryAxis.x != 0.0f);
 
                 if (primaryAxis.y > 0.0f)
                     _moveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);
@@ -481,9 +491,11 @@ public class PlayerControllerMove : MonoBehaviourPun
         }
     }
 
-    private void SwitchController(bool isLeft)
+    private void SwitchController(bool value)
     {
-        _isControllerRight = isLeft;
+        _isControllerRight = value;
+
+        PlayerPrefs.SetInt("WhatIsTheMainController", Convert.ToInt16(_isControllerRight));
     }
 }
 

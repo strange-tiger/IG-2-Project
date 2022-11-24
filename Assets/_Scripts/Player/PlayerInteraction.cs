@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
+using Photon.Pun;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviourPun
 {
     [SerializeField] private PlayerInput _input;
     [SerializeField] private PlayerFocus[] _playerFocus = new PlayerFocus[2];
@@ -11,11 +13,14 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private OVRGazePointer _pointer;
     private OVRInputModule _eventSystemInputModule;
     private OVRRaycaster _ovrRaycaster;
+
     private bool _isThereUI;
+    private bool _isOak;
+    public UnityEvent InteractionOakBarrel = new UnityEvent();
 
     private void OnEnable()
     {
-        _eventSystemInputModule = FindObjectOfType<OVRInputModule>();
+        _eventSystemInputModule = transform.root.GetComponentInChildren<OVRInputModule>();
         if (_eventSystemInputModule)
         {
             _eventSystemInputModule.m_Cursor = _pointer;
@@ -29,7 +34,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if(_input.IsRay)
+        if (_input.IsRay)
         {
             SettingUIInteraction();
             Interact();
@@ -42,14 +47,14 @@ public class PlayerInteraction : MonoBehaviour
 
     private void SettingUIInteraction()
     {
-        if(!_isThereUI)
+        if (!_isThereUI)
         {
             return;
         }
 
-        if(_input.PrimaryController == Defines.EPrimaryController.Left)
+        if (_input.PrimaryController == Defines.EPrimaryController.Left)
         {
-            if(_input.IsLeftRay)
+            if (_input.IsLeftRay)
             {
                 SetPointerTransform(_playerFocus[0]);
             }
@@ -80,7 +85,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Interact()
     {
-        if(!_input.InputADown)
+        if (!_input.InputADown)
         {
             return;
         }
@@ -114,9 +119,26 @@ public class PlayerInteraction : MonoBehaviour
         if (playerFocus.HaveFocuseObject)
         {
             InteracterableObject interacterableObject = playerFocus.FocusedObject.gameObject.GetComponent<InteracterableObject>();
-            if(interacterableObject)
+            if (interacterableObject)
             {
                 interacterableObject.Interact();
+                Debug.Log(interacterableObject.name);
+
+                if (!photonView.IsMine)
+                {
+                    if (interacterableObject.CompareTag("OakBarrel"))
+                    {
+                        InteractionOakBarrel.Invoke();
+                    }
+
+                    //if (interacterableObject.CompareTag("Player"))
+                    //{
+                    //    OakBarrelInteraction _oakBarrelInteraction;
+                    //    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
+
+                    //    InteractionOakBarrel.Invoke();
+                    //}
+                }
             }
         }
     }

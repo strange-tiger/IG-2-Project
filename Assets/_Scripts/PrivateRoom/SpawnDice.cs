@@ -10,8 +10,16 @@ public class SpawnDice : MonoBehaviourPun
 
     private Transform _hostPlayer;
 
+    public void SetPlayerTransform(Transform player)
+    {
+        _hostPlayer = player;
+    }
+
     public void ToggleDice()
     {
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "Spawn");
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "Despawn");
+
         if (!_dice.activeSelf)
         {
             photonView.RPC("Spawn", RpcTarget.AllBuffered);
@@ -22,7 +30,7 @@ public class SpawnDice : MonoBehaviourPun
         }
     }
 
-    private static readonly Vector3 SPAWN_POSITION = new Vector3(0f, 2f, 5f);
+    private static readonly Vector3 SPAWN_POSITION = new Vector3(-1f, 2f, 4.8f);
     [PunRPC]
     private void Spawn()
     {

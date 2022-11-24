@@ -208,7 +208,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1471580754961385929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5008,6 +5008,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc531c3ae62c8504680de7a5add821fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnBetChampion:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBetCancelChampion:
+    m_PersistentCalls:
+      m_Calls: []
   _bettingPanel: {fileID: 8015510778987080436}
   _bettingPanelButton: {fileID: 3602157306783260786}
   _bettingPanelOffButton: {fileID: 8015510778610309170}
@@ -5029,13 +5035,8 @@ MonoBehaviour:
   - {fileID: 697862191309398342}
   - {fileID: 8168715003525683255}
   - {fileID: 2857318663609267124}
-  _betRateText:
-  - {fileID: 8015510777355549415}
-  - {fileID: 2346653455346999732}
-  - {fileID: 266112818474258681}
-  - {fileID: 2933302283508330229}
+  BetRateText: []
   _bettingManager: {fileID: 0}
-  _playerNickname: aaa
 --- !u!114 &5917108226675766543
 MonoBehaviour:
   m_ObjectHideFlags: 0

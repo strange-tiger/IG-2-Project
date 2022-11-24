@@ -30,7 +30,7 @@ public class PlayerInput : MonoBehaviourPun
 
     public bool IsMove { get; private set; }
     public bool IsInventoryOn { get; private set; }
-
+    public bool IsInventoryOff { get; private set; }
     public bool IsGrab { get; private set; }
     public bool[] IsGrabs { get; private set; }
     public bool IsLeftGrab { get; private set; }
@@ -38,12 +38,27 @@ public class PlayerInput : MonoBehaviourPun
 
     public Defines.EPrimaryController PrimaryController { get; private set; }
 
+    private SwitchController _switchController;
+
     private void Awake()
     {
+        _switchController = GetComponentInChildren<SwitchController>();
+        if(_switchController)
+        {
+            _switchController.SwitchControllerEvent.RemoveListener(SetPrimaryController);
+            _switchController.SwitchControllerEvent.AddListener(SetPrimaryController);
+        }
+
         PrimaryController = Defines.EPrimaryController.Left;
         IsRays = new bool[2];
         IsRayDowns = new bool[2];
         IsGrabs = new bool[2];
+    }
+
+    private void SetPrimaryController(bool isRight)
+    {
+        PrimaryController = isRight ? 
+            Defines.EPrimaryController.Right : Defines.EPrimaryController.Left;
     }
 
     void Update()
@@ -69,7 +84,15 @@ public class PlayerInput : MonoBehaviourPun
         IsGrabs[1] = IsRightGrab;
         
         IsMove = OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
-        IsInventoryOn = (OVRInput.Get(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
+        
+        IsInventoryOn = (OVRInput.GetDown(OVRInput.Button.Start)) || (Input.GetKeyDown(KeyCode.Y));
     }
 
+    private void OnDisable()
+    {
+        if(_switchController)
+        {
+            _switchController.SwitchControllerEvent.RemoveListener(SetPrimaryController);
+        }
+    }
 }

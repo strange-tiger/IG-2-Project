@@ -8,17 +8,26 @@ public class AIRun : AIState
     [Header("이동속도를 입력 해 주세요")]
     [SerializeField] private float _speed;
 
+    [SerializeField] private AudioClip _runAudioClip;
+
     private bool _changeStateRunToAttack;
 
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         _changeStateRunToAttack = false;
     }
 
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isRun, true);
+
+        if (_runAudioClip != null)
+        {
+            _audioSource.loop = true;
+            _audioSource.Play();
+        }
     }
 
     public override void OnUpdate()
@@ -35,6 +44,12 @@ public class AIRun : AIState
     public override void OnExit()
     {
         _animator.SetBool(AIAnimatorID.isRun, false);
+
+        if (_runAudioClip != null)
+        {
+            _audioSource.loop = false;
+            _audioSource.Stop();
+        }
     }
 
     private void OnTriggerEnter(Collider other)

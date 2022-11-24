@@ -24,7 +24,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         try
         {
             _currentJoinRoom = CUSTOM_ROOM_PROPERTIES_UNLOCKED;
-            PhotonNetwork.JoinLobby();
+            PhotonNetwork.LeaveRoom();
         }
         catch
         {
@@ -37,7 +37,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         try
         {
             _currentJoinRoom = roomInfo;
-            PhotonNetwork.JoinLobby();
+            PhotonNetwork.LeaveRoom();
         }
         catch
         {
@@ -48,6 +48,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
+
         PhotonNetwork.JoinLobby();
     }
 
@@ -61,6 +62,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         catch
         {
             Debug.LogError("방 입장 실패");
+            PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.StartRoom);
         }
     }
 
@@ -73,8 +75,8 @@ public class JoinRoom : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        // 임시 코드
-        PhotonNetwork.LoadLevel("PrivateRoom_Interaction");
+        PlayerPrefs.SetInt("PrevScene", SceneManagerHelper.ActiveSceneBuildIndex);
+        PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
     }
 
 }

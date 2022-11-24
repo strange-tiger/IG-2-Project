@@ -14,13 +14,12 @@ GameObject:
   - component: {fileID: 1737132552640670374}
   - component: {fileID: 1800243632553537527}
   - component: {fileID: 1800243632553537525}
-  - component: {fileID: 1800243632553537524}
   - component: {fileID: 1800243632553537522}
   - component: {fileID: 1800243632553537520}
   - component: {fileID: 1800243632553537521}
   - component: {fileID: 2120472330886855303}
-  - component: {fileID: 3749498011222906425}
-  m_Layer: 0
+  - component: {fileID: -6071768397099128510}
+  m_Layer: 10
   m_Name: CoinMagic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,19 +137,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &1800243632553537524
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1800243632553537528}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.2, z: 0.3}
-  m_Center: {x: 0, y: 0.24, z: 0}
 --- !u!114 &1800243632553537522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +166,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1800243632553537521}
@@ -215,8 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
---- !u!114 &3749498011222906425
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
+--- !u!114 &-6071768397099128510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,15 +214,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1800243632553537528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b80e0edc8b0e5c84a839efedc792ee86, type: 3}
+  m_Script: {fileID: 11500000, guid: ca4cae247bc0b404bb564ad307d3d71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_allowOffhandGrab: 1
   m_snapPosition: 0
   m_snapOrientation: 0
   m_snapOffset: {fileID: 0}
-  m_grabPoints:
-  - {fileID: 1800243632553537524}
+  m_grabPoints: []
+  m_materialColorField: 
 --- !u!1 &5342738344557365447
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +236,7 @@ GameObject:
   - component: {fileID: 5253370931982379989}
   - component: {fileID: 5342738344557365446}
   - component: {fileID: 7656511592752618212}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_Money_Coins_Burst_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5239,6 +5228,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VRCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8207156521027552005, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8207156521027552009, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5342,6 +5335,10 @@ PrefabInstance:
       value: MagicWandPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7021285559567352477, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021285559567352477, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -5442,6 +5439,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7021285560386842468, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021285560386842468, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -5452,6 +5453,10 @@ PrefabInstance:
     - target: {fileID: 7021285560386842470, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021285560953794128, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7021285560953794128, guid: 1dc34c8127b0835429d11c16ed50df31, type: 3}
       propertyPath: m_IsActive

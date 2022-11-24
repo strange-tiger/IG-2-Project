@@ -1,55 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using EPOOutline;
 using Photon.Pun;
 using UnityEngine.Events;
 
 public class OakBarrel : InteracterableObject
 {
-    private Outlinable _outlinable;
-    public UnityEvent CoveredOakBarrel = new UnityEvent();
-    
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(120f);
+    [SerializeField] private bool _isPlayerHave;
+
+    private MeshRenderer _oakBarrelMeshRenderer;
+    private MeshCollider _oakBarrelMeshCollider;
+
+    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
+
+    private void OnEnable()
+    {
+        if (gameObject.transform.root.tag.Contains("Player"))
+        {
+            _isPlayerHave = true;
+        }
+        else
+        {
+            _isPlayerHave = false;
+        }
+    }
 
     private void Start()
     {
-        _outlinable = GetComponent<Outlinable>();
+        _oakBarrelMeshRenderer = GetComponent<MeshRenderer>();
+        _oakBarrelMeshCollider = GetComponent<MeshCollider>();
     }
 
     public override void Interact()
     {
         base.Interact();
 
-        CoveredOakBarrel.Invoke();
+        if (_isPlayerHave == false)
+        {
+            StartCoroutine(SetOakBarrelOriginalPosition());
+        }
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, false);
-
-        StartCoroutine(SetOakBarrelOriginalPosition());
     }
 
     [PunRPC]
-    private void SomeoneInteractedOakBarrel(bool isTrueFalse)
+    public void SomeoneInteractedOakBarrel(bool value)
     {
-        if (photonView.IsMine)
-        {
-            if (_outlinable.enabled == true)
-            {
-                gameObject.SetActive(isTrueFalse);
-            }
-            else
-            {
-                gameObject.SetActive(isTrueFalse);
-            }
-        }
+        _oakBarrelMeshRenderer.enabled = value;
+        _oakBarrelMeshCollider.enabled = value;
     }
 
     private IEnumerator SetOakBarrelOriginalPosition()
     {
-        base.Interact();
-
-        CoveredOakBarrel.Invoke();
-
         yield return _oakBarrelReturnTime;
 
         photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, true);

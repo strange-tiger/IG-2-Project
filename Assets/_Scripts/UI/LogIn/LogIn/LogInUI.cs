@@ -31,6 +31,8 @@ public class LogInUI : MonoBehaviour
     [Header("Popup")]
     [SerializeField] LogInErrorPopupUI _errorPopup;
 
+    private const bool IS_ONLINE = true;
+    
     private void OnEnable()
     {
         _logInButton.onClick.RemoveListener(LogIn);
@@ -64,6 +66,16 @@ public class LogInUI : MonoBehaviour
             Column.Password, Hash.Compute(_passwordInput.text)))
         {
             _errorPopup.ErrorPopup(Error.PASSWORD);
+            return;
+        }
+
+        Debug.Log("¿Â¶óÀÎ? " + Sql.GetValueByBase(Column.Email, _idInput.text,
+            Column.IsOnline));
+
+        if (IS_ONLINE == bool.Parse(Sql.GetValueByBase(Column.Email, _idInput.text,
+            Column.IsOnline)))
+        {
+            _errorPopup.ErrorPopup(Error.ID);
             return;
         }
 

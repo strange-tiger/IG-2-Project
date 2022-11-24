@@ -124,14 +124,15 @@ public class GroupManager : MonoBehaviourPun
             _memberIndexList.Add(_randomIndex);
         }
 
-        Debug.Log($"{_memberIndexList[0]}, {_memberIndexList[1]}, {_memberIndexList[2]}, {_memberIndexList[3]}");
-
         for (int i = 0; i < _member.Length; ++i)
         {
             int index;
             index = _memberIndexList[i];
             _member[i] = transform.GetChild(index).gameObject;
         }
+
+        Debug.Log($"<color=blue>{_memberIndexList[0]},{_memberIndexList[1]},{_memberIndexList[2]},{_memberIndexList[3]}</color>");
+        Debug.Log($"<color=blue>{_member[0].name},{_member[1].name},{_member[2].name},{_member[3].name}</color>");
 
         photonView.RPC("ClientsSettingGroup", RpcTarget.Others, _memberIndexList[0], _memberIndexList[1], _memberIndexList[2], _memberIndexList[3]);
     }
@@ -142,12 +143,12 @@ public class GroupManager : MonoBehaviourPun
     [PunRPC]
     public void ClientsSettingGroup(int list_0, int list_1, int list_2, int list_3)
     {
-        Debug.Log($"{list_0}, {list_1}, {list_2}, {list_3}");
-
         a = list_0;
         b = list_1;
         c = list_2;
         d = list_3;
+
+        Debug.Log($"<color=green>{a},{b},{c},{d}</green>");
 
         _member[0] = transform.GetChild(a).gameObject;
         _member[1] = transform.GetChild(b).gameObject;
@@ -218,6 +219,9 @@ public class GroupManager : MonoBehaviourPun
             {
                 _firstWinnerIndex = a;
             }
+
+            Debug.Log($"Ã¹ °æ±â ¿ì½ÂÀÚ ÀÎµ¦½º : {_firstWinnerIndex}");
+
             _finalBattle[0] = _member[0];
             _member[0].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
             _member[0].SetActive(false);
@@ -233,6 +237,9 @@ public class GroupManager : MonoBehaviourPun
             {
                 _firstWinnerIndex = b;
             }
+
+            Debug.Log($"Ã¹ °æ±â ¿ì½ÂÀÚ ÀÎµ¦½º : {_firstWinnerIndex}");
+
             _finalBattle[0] = _member[1];
             _member[1].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
             _member[1].SetActive(false);
@@ -251,12 +258,15 @@ public class GroupManager : MonoBehaviourPun
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                _firstWinnerIndex = _memberIndexList[2];
+                _secondWinnerIndex = _memberIndexList[2];
             }
             else
             {
-                _firstWinnerIndex = c;
+                _secondWinnerIndex = c;
             }
+
+            Debug.Log($"µÎ¹øÂ° °æ±â ¿ì½ÂÀÚ ÀÎµ¦½º : {_secondWinnerIndex}");
+
             _finalBattle[1] = _member[2];
             _member[2].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
             _member[2].SetActive(false);
@@ -266,12 +276,15 @@ public class GroupManager : MonoBehaviourPun
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                _firstWinnerIndex = _memberIndexList[3];
+                _secondWinnerIndex = _memberIndexList[3];
             }
             else
             {
-                _firstWinnerIndex = d;            
+                _secondWinnerIndex = d;            
             }
+
+            Debug.Log($"µÎ¹øÂ° °æ±â ¿ì½ÂÀÚ ÀÎµ¦½º : {_secondWinnerIndex}");
+
             _finalBattle[1] = _member[3];
             _member[3].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
             _member[3].SetActive(false);
@@ -293,6 +306,7 @@ public class GroupManager : MonoBehaviourPun
         {
             _winnerIndex = _secondWinnerIndex;
         }
+        Debug.Log(_winnerIndex);
     }
 
     /// <summary>
@@ -311,7 +325,7 @@ public class GroupManager : MonoBehaviourPun
         _isDraw = false;
         _firstWinnerIndex = 0;
         _secondWinnerIndex = 0;
-        _winnerIndex = 0;
+        //_winnerIndex = 0;
         _randomIndex = 0;
 
         _member = new GameObject[4];
@@ -327,10 +341,11 @@ public class GroupManager : MonoBehaviourPun
     /// </summary>
     private void Finish()
     {
+        SendWinnerIndex();
+
         _finalBattle[0].SetActive(false);
         _finalBattle[1].SetActive(false);
 
-        SendWinnerIndex();
         _finishTournament.Invoke();
         gameObject.SetActive(false);
     }

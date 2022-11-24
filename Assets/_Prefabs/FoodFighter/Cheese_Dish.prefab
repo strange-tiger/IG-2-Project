@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7440902231247700451}
   - component: {fileID: 2561239058888553735}
   - component: {fileID: 1739569725432968192}
-  - component: {fileID: 3163210885959635628}
   m_Layer: 0
   m_Name: Cheese_Dish
   m_TagString: Untagged
@@ -48,7 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0fb53f48b383440a6e140e2c263e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _foodSatietyLevel: 1
   _food: {fileID: 9009035406926610441}
 --- !u!114 &2561239058888553735
@@ -87,19 +89,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.1, z: 0.3}
   m_Center: {x: 0, y: 0.1, z: 0}
---- !u!114 &3163210885959635628
+--- !u!114 &3489789564319010492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189181641731488901}
+  m_GameObject: {fileID: 9008570856105303493}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: badca8fb11dbd544a994d506ec65166c, type: 3}
+  m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+--- !u!114 &-3631380753480465673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9009035406926610441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9007341128614019761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,7 +168,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 64128816156045860, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 64128816156045860, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cb37a3e27f84a7b4da2c303064c506b9, type: 3}
 --- !u!1 &9009035406926610441 stripped
 GameObject:
@@ -237,6 +255,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 64951985246917274, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
+--- !u!1 &9008570856105303493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1229796882124050, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}
+  m_PrefabInstance: {fileID: 9007341129092944087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9011966657665341951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4625532936735016, guid: 3f026bbfde3191143a898ea8e925f519, type: 3}

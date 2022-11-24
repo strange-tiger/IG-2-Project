@@ -36,8 +36,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
             _drinkStack = (int)stream.ReceiveNext();
         }
     }
-
-
+    
     private void Start()
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
@@ -211,7 +210,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
             if(!_isCoolTime)
             {
                 photonView.RPC("CallDrinkBeer",RpcTarget.All);
-                other.GetComponent<Beer>().CallDrinkBeer();
+                other.GetComponentInParent<Beer>().CallDrinkBeer();
                 Debug.Log(_drinkStack);
             }
         }

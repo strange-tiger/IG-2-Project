@@ -6,16 +6,20 @@ using Photon.Realtime;
 
 public class BallManager : MonoBehaviourPun
 {
-    [SerializeField]
     private Vector3 _ballSspawnVector;
 
     private bool _isball = true;
+
+    private void Start()
+    {
+        _ballSspawnVector = new Vector3(22f, 6f, 8f);
+    }
 
     private void Update()
     {
         if(PhotonNetwork.IsMasterClient && _isball)
         {
-            PhotonNetwork.Instantiate("Ball", transform.position + _ballSspawnVector, Quaternion.identity);
+            PhotonNetwork.Instantiate("Ball", _ballSspawnVector, Quaternion.identity);
 
             _isball = false;
         }

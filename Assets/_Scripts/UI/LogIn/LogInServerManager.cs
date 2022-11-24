@@ -24,7 +24,6 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
         _loginButton.interactable = PhotonNetwork.IsConnected;
         if(!PhotonNetwork.IsConnected)
         {
-            Debug.LogError("서버 접속 중");
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -54,10 +53,12 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
 
         if (MySqlSetting.CheckValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "True"))
         {
+            PhotonNetwork.NickName = TempAccountDB.Nickname;
             SceneManager.LoadScene((int)SceneType.StartRoom);
         }
         else
         {
+            PhotonNetwork.NickName = TempAccountDB.Nickname;
             SceneManager.LoadScene((int)SceneType.MakeCharacterRoom);
         }
     }

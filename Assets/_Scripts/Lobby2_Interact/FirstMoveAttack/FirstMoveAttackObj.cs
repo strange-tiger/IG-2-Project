@@ -62,7 +62,6 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [PunRPC]
     public void OnGrabBegin()
     {
-        Debug.Log("OnGrabBegin");
         _isGrabbed = true;
         if(photonView.IsMine)
         {
@@ -73,10 +72,10 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     [PunRPC]
     public void OnGrabEnd()
     {
-        Debug.Log("OnGrabEnd");
         _isGrabbed = false;
         _objCollider.isTrigger = false;
         _grabberPhotonView = null;
+        _grabber = null;
         ObjPosReset();
 
         if (photonView.IsMine)
@@ -99,19 +98,19 @@ public class FirstMoveAttackObj : MonoBehaviourPun
             _audioSource.Play();
         }
         _grabber?.GrabEnd();
-        TurnOff();
-        Invoke("Respawn", 2f);
+        TurnOnOff(false);
+        StartCoroutine(ReviveCooldown());
     }
 
-    private void TurnOff()
+    private void TurnOnOff(bool value)
     {
-        _objMeshRenderer.enabled = false;
-        _objCollider.enabled = false;
+        _objMeshRenderer.enabled = value;
+        _objCollider.enabled = value;
     }
     public void Respawn()
     {
         ObjPosReset();
-        TurnOn();
+        TurnOnOff(true);
     }
     private void ObjPosReset()
     {
@@ -119,10 +118,10 @@ public class FirstMoveAttackObj : MonoBehaviourPun
         gameObject.transform.position = _objSpawnPos;
     }
 
-    private void TurnOn()
+    YieldInstruction _respawnCooldown = new WaitForSeconds(2.0f);
+    IEnumerator ReviveCooldown()
     {
-        _objMeshRenderer.enabled = true;
-        _objCollider.enabled = true;
+        yield return _respawnCooldown;
+        Respawn();
     }
-
 }
