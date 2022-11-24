@@ -22,8 +22,8 @@ public class RoomInfoTextUI : MonoBehaviour
     [SerializeField] UnlockPopupUI _popup;
     [SerializeField] GameObject _errorPopup;
 
-    private string _roomName = "";
-    private string _roomInfo = "";
+    private string _roomName = string.Empty;
+    private string _roomInfo = string.Empty;
     private bool _isLocked = false;
 
     private void Awake()
@@ -73,11 +73,16 @@ public class RoomInfoTextUI : MonoBehaviour
     {
         if (_isLocked)
         {
-            _popup.PopupUnlock(_roomName);
+            _popup.PopupUnlock(_roomName, _roomInfo);
             return;
         }
 
-        _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _roomName } };
+        _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() 
+        { 
+            { "roomname", _roomName }, 
+            { "password", string.Empty }, 
+            { "displayname", _roomInfo }
+        };
 
         try
         {

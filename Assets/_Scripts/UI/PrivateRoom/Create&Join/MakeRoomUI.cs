@@ -28,7 +28,6 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Toggle _passwordToggle;
 
     private RoomOptions _roomOptions = new RoomOptions();
-    private string _userId;
 
     private void Awake()
     {
@@ -47,21 +46,15 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         _closeButton.onClick.RemoveListener(Close);
         _closeButton.onClick.AddListener(Close);
 
-        _passwordToggle.isOn = false;
         _passwordToggle.onValueChanged.RemoveListener(ActivePasswordInput);
         _passwordToggle.onValueChanged.AddListener(ActivePasswordInput);
+        _passwordToggle.isOn = false;
     }
 
     public void RequestMakeRoom()
     {
         try
         {
-            _userId = PhotonNetwork.LocalPlayer.UserId;
-
-            Debug.Log("[Room] " + PhotonNetwork.CurrentRoom.PublishUserId);
-
-            Debug.Log("[Room] " + _userId);
-
             MakeRoom();
         }
         catch
@@ -78,7 +71,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         }
         catch
         {
-            Debug.LogError("로비 입장 실패");
+            Debug.LogError("방 퇴장 실패");
         }
 
         Debug.Log("방 생성 시도");
@@ -88,7 +81,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
-        Debug.Log("됐나?");
+        Debug.Log("마스터 서버 입장");
     }
 
     public override void OnJoinedLobby()
@@ -98,9 +91,10 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         CreatePrivateRoom();
     }
 
+    private string _roomName;
     private void CreatePrivateRoom()
     {
-        string roomName = _userId + "_" + _passwordInput.text;
+        _roomName = PhotonNetwork.LocalPlayer.UserId + "_" + _passwordInput.text;
 
         try
         {
@@ -115,7 +109,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
 
             _roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
             {
-                { "roomname", roomName },
+                { "roomname", _roomName },
                 { "password", _passwordInput.text },
                 { "displayname", _roomNameInput.text }
             };
@@ -126,8 +120,8 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
                 "displayname"
             };
 
-            _DB.AddNewRoomInfo(roomName, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
-            PhotonNetwork.CreateRoom(roomName, _roomOptions, null);
+            _DB.AddNewRoomInfo(_roomName, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
+            PhotonNetwork.CreateRoom(_roomName, _roomOptions, null);
             Debug.Log("방 생성 성공");
         }
         catch
@@ -154,7 +148,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     private void ActivePasswordInput(bool isOn)
     {
         _passwordInput.interactable = isOn;
-        Debug.Log(isOn);
+        
         if(!_passwordInput.IsInteractable())
         {
             Debug.Log(_passwordInput.text);
@@ -170,9 +164,9 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
     {
         base.OnDisable();
 
-        _roomNameInput.text = "";
-        _passwordInput.text = "";
-        _roomNumberInput.text = "";
+        _roomNameInput.text = string.Empty;
+        _passwordInput.text = string.Empty;
+        _roomNumberInput.text = string.Empty;
 
         _makeRoomButton.onClick.RemoveListener(RequestMakeRoom);
         _closeButton.onClick.RemoveListener(Close);

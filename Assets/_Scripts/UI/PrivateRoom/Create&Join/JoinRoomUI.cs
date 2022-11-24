@@ -60,6 +60,8 @@ public class JoinRoomUI : MonoBehaviour
 
         _closeButton.onClick.RemoveListener(Close);
         _closeButton.onClick.AddListener(Close);
+
+        RefreshRoomList();
     }
 
     private IEnumerator InitRoomList()
@@ -96,7 +98,7 @@ public class JoinRoomUI : MonoBehaviour
     {
         _roomList = _DB.GetRoomList();
 
-        PageCount = _roomList.Count / PAGE_ROOM_COUNT + 1;
+        PageCount = _roomList.Count / PAGE_ROOM_COUNT + _roomList.Count % PAGE_ROOM_COUNT == 0 ? 0 : 1;
 
         UpdateRoomPageList(_roomList);
     }
