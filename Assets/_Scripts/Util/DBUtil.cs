@@ -908,7 +908,7 @@ namespace Asset.MySql
         /// <param name="betGold">베팅 금액</param>
         /// <param name="championNum"> 베팅한 참가자의 인덱스 ZeroBase</param>
         /// <returns></returns>
-        public static bool InsertBetting(string nickname, double betGold, int championNum)
+        public static bool InsertBetting(string nickname, int betGold, int championNum)
         {
            
             try
@@ -944,7 +944,7 @@ namespace Asset.MySql
             }
         }
 
-        public static bool UpdateGoldAfterBetting(string nickname, double betGold)
+        public static bool UpdateGoldAfterBetting(string nickname, int betGold)
         {
 
             try
@@ -985,13 +985,13 @@ namespace Asset.MySql
         /// </summary>
         /// <param name="nickname">취소한 유저의 닉네임</param>
         /// <returns>취소된 베팅금액을 반환하고, BettingDB에서 정보를 찾을수 없다면 -1을 반환한다.</returns>
-        public static double CancelBetting(string nickname)
+        public static int CancelBetting(string nickname)
         {
             try
             {
-                double result = double.Parse(GetValueByBase(EbettingdbColumns.Nickname, nickname, EbettingdbColumns.BettingGold));
+                int result = int.Parse(GetValueByBase(EbettingdbColumns.Nickname, nickname, EbettingdbColumns.BettingGold));
 
-                double updateGold = double.Parse(GetValueByBase(EbettingdbColumns.Nickname, nickname, EbettingdbColumns.HaveGold)) + result;
+                int updateGold = int.Parse(GetValueByBase(EbettingdbColumns.Nickname, nickname, EbettingdbColumns.HaveGold)) + result;
 
                 DeleteRowByComparator(EbettingdbColumns.Nickname, nickname);
 
@@ -1013,7 +1013,7 @@ namespace Asset.MySql
         /// <param name="championBetAmount"> 베팅한 참가자에게 베팅한 총 금액</param>
         /// <param name="isDraw"> 무승부 여부 </param>
         /// <returns></returns>
-        public static bool DistributeBet(int winChampionNumber, double betAmount, double championBetAmount, bool isDraw)
+        public static bool DistributeBet(int winChampionNumber, int betAmount, int championBetAmount, bool isDraw)
         {
 
             try
@@ -1051,7 +1051,7 @@ namespace Asset.MySql
                     
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
-                            int betGold = (int)Math.Round((betAmount * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / championBetAmount)));
+                            int betGold = (int)Math.Round((double.Parse(betAmount.ToString()) * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / championBetAmount)));
 
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 
@@ -1110,7 +1110,7 @@ namespace Asset.MySql
             }
         }
 
-        public static List<double> CheckBettingAmount()
+        public static List<int> CheckBettingAmount()
         {
            
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
@@ -1119,15 +1119,15 @@ namespace Asset.MySql
 
                     DataSet bettingAmount = GetUserData(selectBettingAmountString);
 
-                    List<double> resultList = new List<double>();
+                    List<int> resultList = new List<int>();
 
                     foreach (DataRow _dataRow in bettingAmount.Tables[0].Rows)
                     {
-                        resultList.Add(double.Parse(_dataRow["Amount"].ToString()));
-                        resultList.Add(double.Parse(_dataRow["OneAmount"].ToString()));
-                        resultList.Add(double.Parse(_dataRow["TwoAmount"].ToString()));
-                        resultList.Add(double.Parse(_dataRow["ThreeAmount"].ToString()));
-                        resultList.Add(double.Parse(_dataRow["FourAmount"].ToString()));
+                        resultList.Add(int.Parse(_dataRow["Amount"].ToString()));
+                        resultList.Add(int.Parse(_dataRow["OneAmount"].ToString()));
+                        resultList.Add(int.Parse(_dataRow["TwoAmount"].ToString()));
+                        resultList.Add(int.Parse(_dataRow["ThreeAmount"].ToString()));
+                        resultList.Add(int.Parse(_dataRow["FourAmount"].ToString()));
                     }
 
                     return resultList;
@@ -1135,7 +1135,7 @@ namespace Asset.MySql
             
         }
 
-        public static bool UpdateBettingAmountDB(int index, double amount, double championAmount)
+        public static bool UpdateBettingAmountDB(int index, int amount, int championAmount)
         {
 
             try
