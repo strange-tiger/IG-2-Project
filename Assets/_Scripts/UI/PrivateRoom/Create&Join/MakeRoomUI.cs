@@ -104,7 +104,14 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
 
         try
         {
-            _roomOptions.MaxPlayers = byte.Parse(_roomNumberInput.text);
+            if (_roomNameInput.text != string.Empty)
+            {
+                _roomOptions.MaxPlayers = byte.Parse(_roomNumberInput.text);
+            }
+            else
+            {
+                _roomOptions.MaxPlayers = 0;
+            }
 
             _roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
             {
