@@ -44,9 +44,10 @@ public class TutorialController : MonoBehaviour
     {
         if (_tutorialType == TutorialType.StartRoom)
         {
-            _tutorialNPCName.text = "요정";
             // _newPlayerMove.enabled = false;
             // _playerControllerMove.enabled = false;
+
+            _tutorialNPCName.text = "요정";
 
             _startRoomQuestList = _CSV.ParseCSV("StartRoomTutorialCSV", _startRoomQuestList);
 
@@ -59,7 +60,11 @@ public class TutorialController : MonoBehaviour
         {
             _tutorialNPCName.text = "이시고르 경";
 
-            
+            _lobby1QuestList = _CSV.ParseCSV("Lobby1TutorialCSV", _lobby1QuestList);
+
+            _dialogueNum = _lobby1QuestList.Dialogue.Length;
+
+            StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
         }
     }
 
@@ -80,7 +85,11 @@ public class TutorialController : MonoBehaviour
 
             if (_tutorialType == TutorialType.Lobby1)
             {
-                
+                StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
+
+                _isTutorialQuest = _lobby1QuestList.IsQuest[_dialogueNum];
+
+                StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
             }
         }
         NextDialogue();
@@ -182,46 +191,55 @@ public class TutorialController : MonoBehaviour
     {
         if (_isTutorialQuest == true)
         {
-            if (_tutorialType == TutorialType.StartRoom && _dialogueNum == 4)
+            if (_tutorialType == TutorialType.StartRoom)
             {
-                _questText.text = "달리기 기능 3초 유지 시 다음으로 넘어감";
-
-                if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
+                if (_dialogueNum == 4)
                 {
-                    _curTime += Time.deltaTime;
-                    if (_curTime >= _requestClearTime)
+                    _questText.text = "달리기 기능 3초 유지 시 다음으로 넘어감";
+
+                    if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
                     {
-                        _isTutorialQuest = false;
-                        _questText.text = null;
+                        _curTime += Time.deltaTime;
+                        if (_curTime >= _requestClearTime)
+                        {
+                            _isTutorialQuest = false;
+                            _questText.text = null;
+                            _curTime -= _curTime;
+                        }
+                    }
+                    else
+                    {
                         _curTime -= _curTime;
                     }
                 }
-                else
+
+
+                if (_dialogueNum == 7)
                 {
-                    _curTime -= _curTime;
+                    _questText.text = "그랩 해 보세요";
+
+                    if (_syncOVRDistanceGrabbable.isGrabbed)
+                    {
+                        _isTutorialQuest = false;
+                        _questText.text = null;
+                    }
+                }
+
+                if (_dialogueNum == 10)
+                {
+                    _questText.text = "레이캐스트를 이용 해 그랩 해 보세요";
+
+                    if (_syncOVRDistanceGrabbable.isGrabbed)
+                    {
+                        _isTutorialQuest = false;
+                        _questText.text = null;
+                    }
                 }
             }
-        }
 
-        if (_tutorialType == TutorialType.StartRoom && _dialogueNum == 7)
-        {
-            _questText.text = "그랩 해 보세요";
-
-            if (_syncOVRDistanceGrabbable.isGrabbed)
+            if (_tutorialType == TutorialType.Lobby1)
             {
-                _isTutorialQuest = false;
-                _questText.text = null;
-            }
-        }
 
-        if (_tutorialType == TutorialType.StartRoom && _dialogueNum == 10)
-        {
-            _questText.text = "레이캐스트를 이용 해 그랩 해 보세요";
-
-            if (_syncOVRDistanceGrabbable.isGrabbed)
-            {
-                _isTutorialQuest = false;
-                _questText.text = null;
             }
         }
     }

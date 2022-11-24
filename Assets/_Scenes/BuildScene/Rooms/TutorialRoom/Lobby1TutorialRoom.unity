@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1924888
 Transform:
   m_ObjectHideFlags: 0
@@ -2105,7 +2105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &251699449
 Transform:
   m_ObjectHideFlags: 0
@@ -3664,11 +3664,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5230483715131536215, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
   m_PrefabInstance: {fileID: 421265767}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &421265769 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2438714895072723827, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
-  m_PrefabInstance: {fileID: 421265767}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &421265770 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8083008721734037844, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
@@ -4344,6 +4339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 607167150}
   - component: {fileID: 607167149}
+  - component: {fileID: 607167151}
   m_Layer: 0
   m_Name: TutorialController
   m_TagString: Untagged
@@ -4366,7 +4362,7 @@ MonoBehaviour:
   _startRoomQuestList: {fileID: 11400000, guid: 74aed9d13ee345840be9d6e8fb2a2091, type: 2}
   _lobby1QuestList: {fileID: 11400000, guid: 86d5eff7b06937144a6e689cb5d198f2, type: 2}
   _tutorialNPCName: {fileID: 1803744568}
-  _questText: {fileID: 1625913906}
+  _questText: {fileID: 5647800627473572404}
   _newPlayerMove: {fileID: 50145322}
   _playerControllerMove: {fileID: 50145323}
   _syncOVRDistanceGrabbable: {fileID: 2072066353}
@@ -4386,6 +4382,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &607167151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607167148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1855548c6e6dfd34ca42a09a55cf54e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _perfectPitchButton: {fileID: 5647800627048338558}
+  _ballGameButton: {fileID: 5647800627127250949}
+  _magicWandButton: {fileID: 5647800627364564280}
+  _foodFighterButton: {fileID: 5647800628187892337}
+  _minerJButton: {fileID: 5647800626388126515}
+  _isekaiCuttingObjectButton: {fileID: 5647800627375688591}
+  _perfectPitch: {fileID: 0}
+  _ballGame: {fileID: 0}
+  _magicWand: {fileID: 0}
+  _foodFighter: {fileID: 0}
+  _minerJ: {fileID: 0}
+  _isekaiCuttingObject: {fileID: 0}
 --- !u!1001 &616274279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7368,7 +7388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1307293934
 Transform:
   m_ObjectHideFlags: 0
@@ -8791,140 +8811,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4773186458092486, guid: b134f3b15eaeff041bc28faf7b5dc10c, type: 3}
   m_PrefabInstance: {fileID: 1618375368}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1625913904
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1625913905}
-  - component: {fileID: 1625913907}
-  - component: {fileID: 1625913906}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1625913905
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1625913904}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 421265769}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230, y: -20}
-  m_SizeDelta: {x: 500, y: 50}
-  m_Pivot: {x: 0, y: 1}
---- !u!114 &1625913906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1625913904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: 
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
-  m_sharedMaterial: {fileID: -6311795966102851171, guid: 612c8d5f3bd94f843b80907029f89e37, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1625913907
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1625913904}
-  m_CullTransparentMesh: 1
 --- !u!1001 &1632802810
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12357,7 +12243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2007845957
 Transform:
   m_ObjectHideFlags: 0
@@ -12449,7 +12335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2010668255
 Transform:
   m_ObjectHideFlags: 0
@@ -13527,7 +13413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2131305671
 Transform:
   m_ObjectHideFlags: 0
@@ -13851,12 +13737,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5647800627875844111}
-  - {fileID: 5647800627127250948}
-  - {fileID: 5647800626388126514}
-  - {fileID: 5647800628187892336}
   - {fileID: 5647800627048338557}
-  - {fileID: 5647800627375688590}
+  - {fileID: 5647800627127250948}
   - {fileID: 5647800627364564287}
+  - {fileID: 5647800628187892336}
+  - {fileID: 5647800626388126514}
+  - {fileID: 5647800627375688590}
   - {fileID: 5647800626834143452}
   m_Father: {fileID: 5647800626343925169}
   m_RootOrder: 0
@@ -13972,7 +13858,7 @@ GameObject:
   - component: {fileID: 5647800626388126524}
   - component: {fileID: 5647800626388126515}
   m_Layer: 5
-  m_Name: Miner
+  m_Name: MinerJButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13991,7 +13877,7 @@ RectTransform:
   m_Children:
   - {fileID: 5647800627654037184}
   m_Father: {fileID: 5647800626117938304}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -14041,7 +13927,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5647800626388126524}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 607167151}
+        m_TargetAssemblyTypeName: Lobby1TutorialStartButton, Assembly-CSharp
+        m_MethodName: OnClidkMinerJButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5647800626388126524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14589,7 +14487,7 @@ GameObject:
   - component: {fileID: 5647800627048338559}
   - component: {fileID: 5647800627048338558}
   m_Layer: 5
-  m_Name: MusicGame
+  m_Name: PerfectPitchButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14608,7 +14506,7 @@ RectTransform:
   m_Children:
   - {fileID: 5647800627365747716}
   m_Father: {fileID: 5647800626117938304}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -14658,7 +14556,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5647800627048338559}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 607167151}
+        m_TargetAssemblyTypeName: Lobby1TutorialStartButton, Assembly-CSharp
+        m_MethodName: OnClickPerfectPitchButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5647800627048338559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14702,7 +14612,7 @@ RectTransform:
   m_Children:
   - {fileID: 5647800627717364880}
   m_Father: {fileID: 5647800626117938304}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -14752,7 +14662,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5647800627127250950}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 607167151}
+        m_TargetAssemblyTypeName: Lobby1TutorialStartButton, Assembly-CSharp
+        m_MethodName: OnClickBallGameButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5647800627127250950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14804,7 +14726,7 @@ GameObject:
   - component: {fileID: 5647800627127250950}
   - component: {fileID: 5647800627127250949}
   m_Layer: 5
-  m_Name: BallGame
+  m_Name: BallGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14987,7 +14909,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5647800627364564281}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 607167151}
+        m_TargetAssemblyTypeName: Lobby1TutorialStartButton, Assembly-CSharp
+        m_MethodName: OnClidkMagicWandButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5647800627364564281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15039,7 +14973,7 @@ GameObject:
   - component: {fileID: 5647800627364564281}
   - component: {fileID: 5647800627364564280}
   m_Layer: 5
-  m_Name: MagicWand
+  m_Name: MagicWandButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15058,7 +14992,7 @@ RectTransform:
   m_Children:
   - {fileID: 5647800626843391195}
   m_Father: {fileID: 5647800626117938304}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -15250,7 +15184,7 @@ GameObject:
   - component: {fileID: 5647800627375688584}
   - component: {fileID: 5647800627375688591}
   m_Layer: 5
-  m_Name: CuttingGame
+  m_Name: IsekaiCuttingObjectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15269,7 +15203,7 @@ RectTransform:
   m_Children:
   - {fileID: 5647800627036134556}
   m_Father: {fileID: 5647800626117938304}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -15319,7 +15253,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5647800627375688584}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 607167151}
+        m_TargetAssemblyTypeName: Lobby1TutorialStartButton, Assembly-CSharp
+        m_MethodName: OnClidkIsekaiCuttingObjectButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5647800627434276634
 GameObject:
   m_ObjectHideFlags: 0
@@ -15511,8 +15457,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD604\uC7AC \uBAA9\uD45C \uD29C\uD1A0\uB9AC\uC5BC \uD14D\uC2A4\uD2B8
-    \uCD9C\uB825"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
   m_sharedMaterial: {fileID: -413728696600261378, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
@@ -15966,7 +15911,7 @@ GameObject:
   - component: {fileID: 5647800627875844105}
   - component: {fileID: 5647800627875844104}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TytorialTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16046,7 +15991,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5647800628014821959
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16080,7 +16025,7 @@ RectTransform:
   m_Children:
   - {fileID: 5647800627434276635}
   m_Father: {fileID: 5647800626117938304}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -16130,7 +16075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5647800628187892338}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 607167151}
+        m_TargetAssemblyTypeName: Lobby1TutorialStartButton, Assembly-CSharp
+        m_MethodName: OnClidkFoodFighterButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5647800628187892338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16182,7 +16139,7 @@ GameObject:
   - component: {fileID: 5647800628187892338}
   - component: {fileID: 5647800628187892337}
   m_Layer: 5
-  m_Name: FoodFighter
+  m_Name: FoodFighterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
