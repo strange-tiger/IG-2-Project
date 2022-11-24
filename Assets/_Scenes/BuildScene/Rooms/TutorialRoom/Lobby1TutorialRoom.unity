@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1924888}
+  - component: {fileID: 1924889}
   m_Layer: 0
   m_Name: Tu1_PerfectPitch
   m_TagString: Untagged
@@ -155,6 +156,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1924889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60df190f477e29e4ea5c898552ffc45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &19860448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2099,6 +2112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 251699449}
+  - component: {fileID: 251699450}
   m_Layer: 0
   m_Name: Tu4_FoodFighter
   m_TagString: Untagged
@@ -2120,6 +2134,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &251699450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251699448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60df190f477e29e4ea5c898552ffc45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &259525115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4362,6 +4388,7 @@ MonoBehaviour:
   _playerControllerMove: {fileID: 50145323}
   _syncOVRDistanceGrabbable: {fileID: 2072066353}
   _tutorialDialogueText: {fileID: 1754578584}
+  _lobby1TutorialStartButton: {fileID: 0}
   _tutorialType: 1
 --- !u!4 &607167150
 Transform:
@@ -4390,7 +4417,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tutorialButton: []
-  tutorialObject: []
+  _tutorialObject: []
+  QuestClear:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &616274279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7367,6 +7397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1307293934}
+  - component: {fileID: 1307293935}
   m_Layer: 0
   m_Name: Tu5_MinerJ
   m_TagString: Untagged
@@ -7388,6 +7419,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1307293935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307293933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60df190f477e29e4ea5c898552ffc45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1313352020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12222,6 +12265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2007845957}
+  - component: {fileID: 2007845958}
   m_Layer: 0
   m_Name: Tu6_IsekaiCuttingObject
   m_TagString: Untagged
@@ -12243,6 +12287,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2007845958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007845956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60df190f477e29e4ea5c898552ffc45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2009084135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12314,6 +12370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2010668255}
+  - component: {fileID: 2010668256}
   m_Layer: 0
   m_Name: Tu2_BallGame
   m_TagString: Untagged
@@ -12337,6 +12394,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2010668256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010668254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60df190f477e29e4ea5c898552ffc45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2020995391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13392,6 +13461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2131305671}
+  - component: {fileID: 2131305672}
   m_Layer: 0
   m_Name: Tu3_MagicWand
   m_TagString: Untagged
@@ -13415,6 +13485,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2131305672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131305670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60df190f477e29e4ea5c898552ffc45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2131852854
 PrefabInstance:
   m_ObjectHideFlags: 0
