@@ -22,8 +22,8 @@ public class Scarecrow : MonoBehaviourPun
         _hitEffects = new GameObject[_count];
         for (int i = 0; i < _count; i++)
         {
-            _hitEffects[i] = Instantiate(_hitEffect);
-            _hitEffects[i].transform.parent = transform;
+            _hitEffects[i] = PhotonNetwork.Instantiate(_hitEffect.name, Vector3.zero, Quaternion.identity);
+            //_hitEffects[i].transform.parent = transform;
             _hitEffects[i].SetActive(false);
         }
         _audioSource = GetComponent<AudioSource>();
