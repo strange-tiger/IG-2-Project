@@ -14,6 +14,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     [SerializeField] private OVRRaycaster[] _canvases;
     [SerializeField] private GameObject _playerPrefab;
 
+    [SerializeField] private Vector3 _playerSpawnPosition = new Vector3(0f, 1f, 3f);
+    [SerializeField] private Vector3 _playerSpawnRotatinon;
+
     [SerializeField] protected MapType _mapType;
     [SerializeField] protected bool _isFixedPosition;
     [SerializeField] protected Vector3 _fixedPosition;
@@ -39,8 +42,8 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         if (!_isStartRoom)
         {
-            GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(0f, 1f, 3f),
-                Quaternion.Euler(0f, 0f, 0f), 0, null);
+            GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name, _playerSpawnPosition,
+                Quaternion.Euler(_playerSpawnRotatinon), 0, null);
             BasicPlayerNetworking playerNetworking = player.GetComponent<BasicPlayerNetworking>();
             playerNetworking.photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
             playerNetworking.SetMap(_mapType, _isFixedPosition, _fixedPosition, _fixedRotation);
