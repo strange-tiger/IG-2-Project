@@ -7,6 +7,7 @@ using _CSV = Asset.ParseCSV.CSVParser;
 public class TutorialController : MonoBehaviour
 {
     [SerializeField] StartRoomQuestList _startRoomQuestList;
+    [SerializeField] Lobby1QuestList _lobby1QuestList;
 
     [SerializeField] private TextMeshProUGUI _tutorialNPCName;
     [SerializeField] private TextMeshProUGUI _questText;
@@ -30,10 +31,6 @@ public class TutorialController : MonoBehaviour
     private bool _isNext;
     private int _dialogueMaxNum;
 
-    private bool _isRunText = true;
-    private bool _isGrabberText = true;
-    private bool _isRayText = true;
-
     private float _curTime;
     private float _requestClearTime = 3f;
 
@@ -45,7 +42,6 @@ public class TutorialController : MonoBehaviour
 
     void Start()
     {
- 
         if (_tutorialType == TutorialType.StartRoom)
         {
             _tutorialNPCName.text = "요정";
@@ -63,7 +59,7 @@ public class TutorialController : MonoBehaviour
         {
             _tutorialNPCName.text = "이시고르 경";
 
-
+            
         }
     }
 

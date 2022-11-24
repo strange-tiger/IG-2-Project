@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable/StartRoomList", fileName ="StartRoomList")]
-public class StartRoomQuestList : ScriptableObject
+[CreateAssetMenu(menuName = "Scriptable/Lobby1List", fileName = "Lobby1List")]
+public class Lobby1QuestList : ScriptableObject
 {
     [SerializeField] private string[] _dialogue;
     public string[] Dialogue { get { return _dialogue; } }
