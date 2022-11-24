@@ -20,7 +20,7 @@ public class SignInUI : MonoBehaviour
     [SerializeField] Button _idDoubleCheckButton;
     [SerializeField] Button _passwordDoubleCheckButton;
     [SerializeField] Button _nicknameDoubleCheckButton;
-    [SerializeField] Button _logInButton;
+    [SerializeField] Button[] _logInButton;
 
     [Header("Input Field")]
     [SerializeField] TMP_InputField _idInput;
@@ -61,8 +61,11 @@ public class SignInUI : MonoBehaviour
         _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
         _idDoubleCheckButton.onClick.AddListener(EmailDoubleCheck);
 
-        _logInButton.onClick.RemoveListener(LoadLogIn);
-        _logInButton.onClick.AddListener(LoadLogIn);
+        foreach (Button logInButton in _logInButton)
+        {
+            logInButton.onClick.RemoveListener(LoadLogIn);
+            logInButton.onClick.AddListener(LoadLogIn);
+        }
 
         _nicknameErrorText?.SetActive(false);
         _passwordErrorText?.SetActive(false);
@@ -180,6 +183,10 @@ public class SignInUI : MonoBehaviour
         _passwordDoubleCheckButton.onClick.RemoveListener(PasswordDoubleCheck);
         _nicknameDoubleCheckButton.onClick.RemoveListener(NicknameDoubleCheck);
         _idDoubleCheckButton.onClick.RemoveListener(EmailDoubleCheck);
-        _logInButton.onClick.RemoveListener(LoadLogIn);
+
+        foreach (Button logInButton in _logInButton)
+        {
+            logInButton.onClick.RemoveListener(LoadLogIn);
+        }
     }
 }
