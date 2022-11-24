@@ -16,6 +16,10 @@ public class WaitingPlayerNetworking : BasicPlayerNetworking
             NewPlayerMove newPlayerMove = gameObject.AddComponent<NewPlayerMove>();
             playercontroller.CameraRig = _myOVRCameraRig.GetComponent<OVRCameraRig>();
 
+            // 세팅 UI 끄기
+            _myOVRCameraRig.GetComponentInChildren<ControlScrollUI>().
+                transform.parent.parent.gameObject.SetActive(false);
+
             // 소셜 알림 기능 연결
             SocialTabManager socialTabManager = 
                 _myOVRCameraRig.GetComponentInChildren<SocialTabManager>();
@@ -23,6 +27,7 @@ public class WaitingPlayerNetworking : BasicPlayerNetworking
             socialTabManager.gameObject.SetActive(false);
 
             socialTabManager.transform.parent.gameObject.SetActive(false);
+
         }
         else
         {

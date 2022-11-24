@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using Asset.MySql;
+using MapType = Defines.EMapType;
 
 public class BasicPlayerNetworking : PlayerHandRigging
 {
@@ -18,6 +19,8 @@ public class BasicPlayerNetworking : PlayerHandRigging
     [SerializeField] protected TextMeshProUGUI _nicknameText;
 
     protected GameObject _pointer;
+
+    protected MapPanelManager _mapManager;
 
     public string MyNickname { get; private set; }
     public string MyUserId { get; private set; }
@@ -38,6 +41,8 @@ public class BasicPlayerNetworking : PlayerHandRigging
 
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
+
+            _mapManager = cameraRig.GetComponentInChildren<MapPanelManager>();
         }
     }
 
@@ -77,4 +82,17 @@ public class BasicPlayerNetworking : PlayerHandRigging
         }
     }
 
+    public void SetMap(MapType mapType, bool isFixedPosition, Vector3 fixedPosition, Vector3 fixedRotation)
+    {
+        if(!_mapManager)
+        { 
+            return;
+        }
+
+        _mapManager.SetMap(mapType);
+        if(isFixedPosition)
+        {
+            _mapManager.SetFixedPlayerPosition(fixedPosition, fixedRotation);
+        }
+    }
 }

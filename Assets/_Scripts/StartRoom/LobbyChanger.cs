@@ -6,12 +6,18 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Asset.MySql;
 using SceneNumber = Defines.ESceneNumder;
+using MapType = Defines.EMapType;
 
 public class LobbyChanger : MonoBehaviourPunCallbacks
 {
     [SerializeField] private bool _isStartRoom;
     [SerializeField] private OVRRaycaster[] _canvases;
     [SerializeField] private GameObject _playerPrefab;
+
+    [SerializeField] private MapType _mapType;
+    [SerializeField] private bool _isFixedPosition;
+    [SerializeField] private Vector3 _fixedPosition;
+    [SerializeField] private Vector3 _fixedRotation;
     
     protected GameObject _myPlayer;
 
@@ -37,6 +43,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
                 Quaternion.Euler(0f, 0f, 0f), 0, null);
             BasicPlayerNetworking playerNetworking = player.GetComponent<BasicPlayerNetworking>();
             playerNetworking.photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
+            playerNetworking.SetMap(_mapType, _isFixedPosition, _fixedPosition, _fixedRotation);
             playerNetworking.CanvasSetting(_canvases);
             _myPlayer = player;
         }
