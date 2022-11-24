@@ -6,9 +6,26 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class LogInPlayerMove : MonoBehaviour
 {
-    void Update()
+    private bool _isControllerRight;
+
+    private void Awake()
     {
-        PlayerRotate(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
+        if (PlayerPrefs.HasKey("WhatIsTheMainController"))
+        {
+            _isControllerRight = Convert.ToBoolean(PlayerPrefs.GetInt("WhatIsTheMainController"));
+        }
+    }
+
+    private void Update()
+    {
+        if(_isControllerRight)
+        {
+            PlayerRotate(OVRInput.Touch.PrimaryThumbstick, OVRInput.Axis2D.PrimaryThumbstick);
+        }
+        else
+        {
+            PlayerRotate(OVRInput.Touch.SecondaryThumbstick, OVRInput.Axis2D.SecondaryThumbstick);
+        }
     }
 
     private void PlayerRotate(OVRInput.Touch value, OVRInput.Axis2D stick)
