@@ -17,6 +17,7 @@ public class LobbyMapManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] private GameObject _playerSprite;
     private Transform _playerTransform;
+    private float _originalZRotation = 90f;
     private bool _isFixedPosition;
 
     [Header("Icons")]
@@ -38,7 +39,7 @@ public class LobbyMapManager : MonoBehaviour
         RectTransform rectTransfrom = GetComponent<RectTransform>();
         _mapUIWidth = rectTransfrom.rect.width;
         _mapUIHeight = rectTransfrom.rect.height;
-
+        
         SetToggles();
     }
     private void SetToggles()
@@ -87,16 +88,19 @@ public class LobbyMapManager : MonoBehaviour
         Vector3 relativePosition = _playerTransform.position - _mapCenterPivot;
 
         float playerSpriteXPosition = _mapUIWidth / _mapWidth * relativePosition.x;
+        playerSpriteXPosition = Mathf.Clamp(playerSpriteXPosition, -_mapUIWidth / 2, _mapUIWidth / 2);
+
         float playerSpriteZPosition = _mapUIHeight / _mapHeight * relativePosition.z;
+        playerSpriteZPosition = Mathf.Clamp(playerSpriteZPosition, -_mapUIHeight / 2, _mapUIHeight / 2);
 
         _playerSprite.transform.localPosition = new Vector3(playerSpriteXPosition, playerSpriteZPosition, 0f);
     }
 
     private void SetPlayerRotationOnMap()
     {
-        Debug.Log($"SetPlayerRotation {_playerTransform.rotation.y}");
+        Debug.Log($"SetPlayerRotation {_playerTransform.eulerAngles.y}");
 
-        _playerSprite.transform.rotation = _playerTransform.rotation;
+        _playerSprite.transform.eulerAngles = new Vector3(0f, 0f, _playerTransform.eulerAngles.y + _originalZRotation);
         _playerSprite.transform.rotation = Quaternion.Euler(0f, 0f, _playerSprite.transform.rotation.z);
     }
 
