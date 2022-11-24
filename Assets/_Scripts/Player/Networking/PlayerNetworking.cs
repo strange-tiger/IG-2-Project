@@ -43,7 +43,6 @@ public class PlayerNetworking : BasicPlayerNetworking
 
             // 사운드 세팅 스크립트 연결
             VolumeController volumeController = cameraRig.GetComponentInChildren<VolumeController>();
-            volumeController.PlayerAudioSource = _newPlayerAudioSource;
 
             // 맵 기능 연결
             _mapManager = cameraRig.GetComponentInChildren<MapPanelManager>();

@@ -1,4 +1,4 @@
-ï»¿using Photon.Voice.Unity;
+using Photon.Voice.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+    // º¼·ý °ª µé°íÀÖ±â
     private float _masterVolume;
     private float _backgroundVolume;
     private float _effectVolume;
@@ -30,7 +30,7 @@ public class SoundManager : MonoBehaviour
     public float InputVolume { get => _inputVolume; set => _inputVolume = value; }
     public float OutputVolume { get => _outputVolume; set => _outputVolume = value; }
 
-    // PushToTalk ï¿½ï¿½ï¿½ï¿½
+    // PushToTalk °ü·Ã
     private bool _isPushToTalk;
     public bool IsPushToTalk { get => _isPushToTalk; set => _isPushToTalk = value; }
 
@@ -54,7 +54,7 @@ public class SoundManager : MonoBehaviour
 
     private float _initVolume = 0.5f;
     private void InitValue(string key)
-    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    {
         if (PlayerPrefs.HasKey(key) == false)
         {
             PlayerPrefs.SetFloat(key, _initVolume);
@@ -62,9 +62,9 @@ public class SoundManager : MonoBehaviour
     }
     public void Refresh()
     {
-        MasterVolume =
+        MasterVolume = 
             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.MasterVolume]);
-        BackgroundVolume =
+        BackgroundVolume = 
             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]);
         EffectVolume =
              PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.EffectVolume]);
@@ -73,7 +73,7 @@ public class SoundManager : MonoBehaviour
         OutputVolume =
             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.OutputVolume]);
     }
-
+    
     private void CheckPushToTalkInput()
     {
         if (_isPushToTalk == false)

@@ -48,12 +48,13 @@ public class HitPoint : MonoBehaviour
             FailedHitCircle();
         }
         else
-        transform.rotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, _elapsedTime / _delay));
+        transform.localRotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, _elapsedTime / _delay));
     }
 
     public void HitPointInit()
     {
-        transform.rotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, 1f));
+        transform.localRotation = Quaternion.Euler(0, 180, Mathf.Lerp(0f, 360f, 1f));
+        //transform.Rotate(0, 180, Mathf.Lerp(0f, 360f, 1f));
         _currentDegree = 0;
         _elapsedTime = 0f;
         _checkPoint.RandNum();
