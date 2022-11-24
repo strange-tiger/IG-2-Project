@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class StartRoomUI : MonoBehaviour
 {
-    [SerializeField] private GameObject _menuPanel;
+    [SerializeField] private GameObject[] _menuPanels;
 
     void Start()
     {
-        _menuPanel.SetActive(false);
+        foreach(GameObject panel in _menuPanels)
+        {
+            panel.SetActive(false);
+        }
     }
 }

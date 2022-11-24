@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MenuUIManager : GlobalInstance<MenuUIManager>
 {
-    [SerializeField] private InventoryUIManager _inventoryUIManager;
+    [SerializeField] private PlayerMenuUIManager _menuUIManager;
     [SerializeField] private SocialUIManager _socialUIManager;
     [SerializeField] private CheckPanelManager _checkPanelManager;
     [SerializeField] private ConfirmPanelManager _confirmPanelManager;
@@ -26,13 +26,13 @@ public class MenuUIManager : GlobalInstance<MenuUIManager>
         }
     }
 
-    public void ShowInventory()
+    public void ShowMenu()
     {
-        _inventoryUIManager.ShowInventoryUI();
+        _menuUIManager.ShowMenuUI();
     }
-    public void HideInventory()
+    public void HideMenu()
     {
-        _inventoryUIManager.HideInventoryUI();
+        _menuUIManager.HideMenuUI();
     }
     public void ShowSocialUI(UserInteraction targetUserNickname)
     {

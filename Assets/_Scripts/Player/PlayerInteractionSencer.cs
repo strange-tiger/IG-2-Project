@@ -45,7 +45,7 @@ public class PlayerInteractionSencer : MonoBehaviour
 
         if (_nickname == "")
         {
-            _nickname = GetComponent<BasicPlayerNetworking>().MyNickname;
+            _nickname = transform.root.GetComponent<BasicPlayerNetworking>().MyNickname;
         }
 
         MySqlSetting.EarnGold(_nickname, gold);
