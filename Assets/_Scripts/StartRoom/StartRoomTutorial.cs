@@ -226,7 +226,7 @@ public class StartRoomTutorial : MonoBehaviour
         //#endif
     }
 
-    private void RunQuest()
+    public virtual void RunQuest()
     {
         if (_isTutorialQuest == true)
         {
