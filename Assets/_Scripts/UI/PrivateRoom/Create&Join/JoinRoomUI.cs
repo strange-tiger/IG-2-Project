@@ -80,9 +80,13 @@ public class JoinRoomUI : MonoBehaviour
             info.SetRoom(string.Empty);
             info.SetInfo(string.Empty);
             info.SetLock(false, string.Empty);
+
+            info.DeactivateButton();
         }
 
-        for (int i = 0; i < PAGE_ROOM_COUNT; ++i)
+        Debug.Log(_roomPage[page].Length);
+
+        for (int i = 0; i < _roomPage[page].Length; ++i)
         {
             Dictionary<string, string> room = _roomPage[page][i];
 
@@ -91,6 +95,8 @@ public class JoinRoomUI : MonoBehaviour
             _roomInfoTexts[i].SetLock(room["Password"] != string.Empty, room["Password"]);
 
             _roomInfoTexts[i].UpdateRoomInfo();
+
+            _roomInfoTexts[i].ActivateButton();
         }
     }
 

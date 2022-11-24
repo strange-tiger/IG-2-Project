@@ -48,6 +48,16 @@ public class RoomInfoTextUI : MonoBehaviour
         _button.onClick.RemoveListener(JoinInRoom);
     }
 
+    public void DeactivateButton()
+    {
+        _button.interactable = false;
+    }
+
+    public void ActivateButton()
+    {
+        _button.interactable = true;
+    }
+
     public void UpdateRoomInfo()
     {
         _text.gameObject.SetActive(true);
