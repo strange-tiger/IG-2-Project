@@ -31,6 +31,8 @@ public class LogInUI : MonoBehaviour
     [Header("Popup")]
     [SerializeField] LogInErrorPopupUI _errorPopup;
 
+    private const bool IS_ONLINE = true;
+    
     private void OnEnable()
     {
         _logInButton.onClick.RemoveListener(LogIn);
@@ -48,7 +50,6 @@ public class LogInUI : MonoBehaviour
         Sql.Init();
     }
 
-    private const string IS_ONLINE = "1";
     /// <summary>
     /// 입력된 계정 정보(Email, Password)를 계정 DB와 비교해
     /// 일치하면 다음 씬을 로드한다.
@@ -68,8 +69,11 @@ public class LogInUI : MonoBehaviour
             return;
         }
 
-        if (Sql.CheckValueByBase(Column.Email, _idInput.text,
-            Column.IsOnline, IS_ONLINE))
+        Debug.Log("온라인? " + Sql.GetValueByBase(Column.Email, _idInput.text,
+            Column.IsOnline));
+
+        if (IS_ONLINE == bool.Parse(Sql.GetValueByBase(Column.Email, _idInput.text,
+            Column.IsOnline)))
         {
             _errorPopup.ErrorPopup(Error.ID);
             return;
