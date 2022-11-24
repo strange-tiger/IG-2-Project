@@ -526,8 +526,24 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 897930251617972293, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 933419895942095346, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1187238058394674936, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413256107303066720, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1738912892133144183, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2011874439632606528, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
@@ -560,6 +576,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2757071987709241378, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2903522377562549103, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3045157102837779069, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3057901382185151897, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
@@ -662,6 +686,14 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 5738826370065135457, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033786165650829048, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6063945235386335335, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -718,6 +750,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8099052145901286076, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8195805791958106615, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: m_Name
       value: OVRCameraRig
@@ -769,6 +805,10 @@ PrefabInstance:
     - target: {fileID: 8272599072154399610, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
       propertyPath: sceneViewId
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8875621432603817092, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 648649782547370799, guid: 1958071d307f49f4ab37d193f789f02f, type: 3}
@@ -1154,6 +1194,7 @@ GameObject:
   - component: {fileID: 268166413}
   - component: {fileID: 268166412}
   - component: {fileID: 268166415}
+  - component: {fileID: 268166414}
   m_Layer: 0
   m_Name: Tutorial
   m_TagString: Untagged
@@ -1168,7 +1209,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 268166411}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 636679c1ef46ae14097e1f01b4b8c59a, type: 3}
   m_Name: 
@@ -1192,7 +1233,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &268166415
+--- !u!114 &268166414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1201,12 +1242,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 268166411}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3772a236f4e0cf54f8f0eb3ff51f9f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startRoomQuestList: {fileID: 11400000, guid: 74aed9d13ee345840be9d6e8fb2a2091, type: 2}
+  _tutorialNPCName: {fileID: 1722936625}
+  _questText: {fileID: 1192239654}
+  _newPlayerMove: {fileID: 651344143}
+  _playerControllerMove: {fileID: 651344141}
+  _syncOVRDistanceGrabbable: {fileID: 574064837}
+  _tutorialDialogueText: {fileID: 953255490}
+  _tutorialType: 0
+--- !u!114 &268166415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268166411}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 899bcfd799605374cbce3c14dc44660e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _questText: {fileID: 1192239654}
   _startRoomTutorial: {fileID: 268166412}
-  _startRoomNPCName: {fileID: 1722936625}
+  _tutorialController: {fileID: 0}
+  _tutorialType: 0
 --- !u!1 &299992080
 GameObject:
   m_ObjectHideFlags: 0

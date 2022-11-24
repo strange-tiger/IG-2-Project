@@ -73,6 +73,30 @@ namespace Asset.ParseCSV
             return petShopList;
         }
 
+        public static StartRoomQuestList ParseCSV(string fileName, StartRoomQuestList startRoomQuestList, char lineSeparater = '\n', char fieldSeparater = ',')
+        {
+            TextAsset csvFile = Resources.Load(fileName) as TextAsset;
+
+            //var container = new List<Dictionary<string, string>>();
+
+            string[] lines = csvFile.text.Split(lineSeparater);
+            string[] fieldName = lines[0].Split(fieldSeparater);
+            string[] fields = new string[fieldName.Length];
+
+            Debug.Log("필드" + fieldName.Length);
+
+            for (int i = 0; i < lines.Length - 2; ++i)
+            // lines.Length - 2 : CSV 파일 첫 줄과 마지막 공백 줄을 넘김
+            {
+                fields = lines[i + 1].Split(fieldSeparater);
+
+                startRoomQuestList.Dialogue[i] = fields[2];
+                startRoomQuestList.IsQuest[i] = bool.Parse(fields[5]);
+            }
+
+            return startRoomQuestList;
+        }
+
         public static List<string> ParseCSV(string fileName, List<string> conversationList, char lineSeparater = '\n', char fieldSeparater = '@')
         {
             TextAsset csvFile = Resources.Load(fileName) as TextAsset;
