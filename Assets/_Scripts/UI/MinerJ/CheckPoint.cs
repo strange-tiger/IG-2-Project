@@ -13,7 +13,7 @@ public class CheckPoint : MonoBehaviour
     public void RandNum()
     {
         Angle = Random.Range(_minAngle, _maxAngle);
-        //transform.rotation = Quaternion.Euler(0, 180, Angle);
-        transform.Rotate(0, 180, Angle);
+        transform.localRotation = Quaternion.Euler(0, 180, Angle);
+        //transform.Rotate(0, 180, Angle);
     }
 }
