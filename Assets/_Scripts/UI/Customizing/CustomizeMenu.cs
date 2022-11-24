@@ -11,12 +11,14 @@ using Photon.Pun;
 public class CustomizeMenu : MonoBehaviourPun
 {
 
-
+    [Header("Button")]
     [SerializeField] Button _equipButton;
-    [SerializeField] Button _leftAvatarButton;
     [SerializeField] Button _leftMaterialButton;
-    [SerializeField] Button _rightAvatarButton;
     [SerializeField] Button _rightMaterialButton;
+    [SerializeField] Button _leftAvatarButton;
+    [SerializeField] Button _rightAvatarButton;
+
+    [Header("Change Avatar")]
     [SerializeField] TextMeshProUGUI _avatarName;
     [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
     [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
@@ -24,16 +26,31 @@ public class CustomizeMenu : MonoBehaviourPun
     [SerializeField] GameObject _smMeshRendererObject;
     [SerializeField] GameObject _characterMeshRendererObject;
 
+    [Header("Current Avatar")]
+    [SerializeField] TextMeshProUGUI _currentAvatarName;
+    [SerializeField] SkinnedMeshRenderer _currentSkinnedMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _currentSmMeshRenderer;
+    [SerializeField] SkinnedMeshRenderer _currentCharacterMeshRenderer;
+    [SerializeField] GameObject _currentSmMeshRendererObject;
+    [SerializeField] GameObject _currentCharacterMeshRendererObject;
 
-    public CustomizeData _customizeDatas;
-    public UserCustomizeData _maleUserCustomizeData;
-    public UserCustomizeData _femaleUserCustomizeData;
-    public UserCustomizeData _userCustomizeData;
+    [Header("Avatar Data")]
+    [SerializeField] TextMeshProUGUI _materialNum;
+    [SerializeField] TextMeshProUGUI _avatarInfoText;
+    [SerializeField] TextMeshProUGUI _messageText;
+    [SerializeField] CustomizeData _customizeDatas;
+    [SerializeField] UserCustomizeData _maleUserCustomizeData;
+    [SerializeField] UserCustomizeData _femaleUserCustomizeData;
+    [SerializeField] UserCustomizeData _userCustomizeData;
+
+    public bool IsCustomizeChanged;
 
     private PlayerCustomize _playerCustomize;
     private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
     private List<int> _haveAvatarList = new List<int>();
+    private YieldInstruction _fadeTextTime = new WaitForSeconds(0.5f);
+
     private int _setAvatarNum;
     private int _equipNum;
     private int _startNum;
@@ -70,6 +87,8 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         _playerNickname = _playerNetworking.MyNickname;
+
+        IsCustomizeChanged = false;
 
         AvatarMenuInit();
     }
@@ -122,14 +141,21 @@ public class CustomizeMenu : MonoBehaviourPun
 
         _setAvatarNum = _haveAvatarList[_startNum];
 
-        RootSet();
+        InitRootSet();
 
-        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
 
         // 장착중이던 아이템과 Material을 적용시킴.
+        _currentAvatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _setMaterialNum = _userCustomizeData.UserMaterial;
-        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+        _currentSkinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+        _currentSkinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+
+
+        _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _setMaterialNum = 0;
+        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_haveAvatarList[0]];
         _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+
 
     }
 
@@ -161,9 +187,28 @@ public class CustomizeMenu : MonoBehaviourPun
             _playerCustomize = _playerNetworking.GetComponentInChildren<PlayerCustomize>();
             _playerCustomize.photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, _isFemale);
         }
-        
+        if(_messageText.text != null)
+        {
+            IsCustomizeChanged = true;
+        }
+        else
+        {
+            IsCustomizeChanged = false;
+        }
+
+        _messageText.text = "저장이 완료되었습니다.";
+
+        StartCoroutine(TextFade());
 
         EventSystem.current.SetSelectedGameObject(null);
+
+    }
+
+    private IEnumerator TextFade()
+    {
+        yield return _fadeTextTime;
+
+        _messageText.text = null;
 
     }
 
@@ -183,11 +228,27 @@ public class CustomizeMenu : MonoBehaviourPun
         }
     }
 
-   
+    private void InitRootSet()
+    {
+        if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
+        {
+            _currentSmMeshRendererObject.SetActive(true);
+            _currentCharacterMeshRendererObject.SetActive(false);
+            _currentSkinnedMeshRenderer = _currentSmMeshRenderer;
+        }
+        else
+        {
+            _currentSmMeshRendererObject.SetActive(false);
+            _currentCharacterMeshRendererObject.SetActive(true);
+            _currentSkinnedMeshRenderer = _currentCharacterMeshRenderer;
+        }
+        RootSet(); 
+    }
 
 
     void LeftAvartarButton()
     {
+
         if(_startNum == 0)
         {
             _startNum = _haveAvatarList.Count - 1;
@@ -197,6 +258,14 @@ public class CustomizeMenu : MonoBehaviourPun
         {
             _startNum--;
             _setAvatarNum = _haveAvatarList[_startNum];
+        }
+        if (_equipNum != _haveAvatarList[_startNum])
+        {
+            _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
+        }
+        else
+        {
+            _messageText.text = null;
         }
 
         RootSet();
@@ -223,6 +292,15 @@ public class CustomizeMenu : MonoBehaviourPun
             _setAvatarNum = _haveAvatarList[_startNum];
         }
 
+        if (_equipNum != _haveAvatarList[_startNum])
+        {
+            _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
+        }
+        else
+        {
+            _messageText.text = null;
+        }
+
         RootSet();
 
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
@@ -245,6 +323,8 @@ public class CustomizeMenu : MonoBehaviourPun
             _setMaterialNum -= 1;
         }
 
+        _materialNum.text = $"컬러 {_setMaterialNum + 1}";
+
         _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
 
 
@@ -262,6 +342,8 @@ public class CustomizeMenu : MonoBehaviourPun
         {
             _setMaterialNum += 1;
         }
+
+        _materialNum.text = $"컬러 {_setMaterialNum + 1}";
 
         _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
 

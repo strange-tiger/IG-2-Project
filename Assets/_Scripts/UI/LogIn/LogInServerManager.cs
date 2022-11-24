@@ -24,7 +24,6 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
         _loginButton.interactable = PhotonNetwork.IsConnected;
         if(!PhotonNetwork.IsConnected)
         {
-            Debug.LogError("서버 접속 중");
             PhotonNetwork.ConnectUsingSettings();
         }
     }

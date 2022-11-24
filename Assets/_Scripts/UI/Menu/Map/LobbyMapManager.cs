@@ -98,10 +98,8 @@ public class LobbyMapManager : MonoBehaviour
 
     private void SetPlayerRotationOnMap()
     {
-        Debug.Log($"SetPlayerRotation {_playerTransform.eulerAngles.y}");
-
-        _playerSprite.transform.eulerAngles = new Vector3(0f, 0f, _playerTransform.eulerAngles.y + _originalZRotation);
-        _playerSprite.transform.rotation = Quaternion.Euler(0f, 0f, _playerSprite.transform.rotation.z);
+        _playerSprite.transform.localRotation = 
+            Quaternion.AngleAxis(_originalZRotation - _playerTransform.transform.eulerAngles.y, Vector3.forward);
     }
 
     private void Update()
