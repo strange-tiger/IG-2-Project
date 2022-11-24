@@ -6,6 +6,12 @@ using _CSV = Asset.ParseCSV.CSVParser;
 
 public class TutorialController : MonoBehaviour
 {
+    public enum TutorialType
+    {
+        StartRoom,
+        Lobby1,
+    }
+
     [SerializeField] StartRoomQuestList _startRoomQuestList;
     [SerializeField] Lobby1QuestList _lobby1QuestList;
 
@@ -14,18 +20,14 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private NewPlayerMove _newPlayerMove;
     [SerializeField] private PlayerControllerMove _playerControllerMove;
     [SerializeField] private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
-
-    public enum TutorialType
-    {
-        StartRoom,
-        Lobby1,
-    }
-
     [SerializeField] private TextMeshProUGUI _tutorialDialogueText;
+    [SerializeField] private Lobby1TutorialStartButton _lobby1TutorialStartButton;
+
     [SerializeField] private TutorialType _tutorialType;
     public int TurtorialTypeNum { get { return (int)_tutorialType; } }
 
     private WaitForSeconds _delayTime = new WaitForSeconds(0.1f);
+
 
     private bool _isDialogueEnd;
     private bool _isNext;
@@ -42,6 +44,8 @@ public class TutorialController : MonoBehaviour
 
     void Start()
     {
+        
+
         if (_tutorialType == TutorialType.StartRoom)
         {
             // _newPlayerMove.enabled = false;
@@ -239,7 +243,41 @@ public class TutorialController : MonoBehaviour
 
             if (_tutorialType == TutorialType.Lobby1)
             {
+                if (_dialogueNum == 5)
+                {
 
+                }
+
+                _lobby1TutorialStartButton.QuestClear.Invoke();
+
+                if (_dialogueNum == 8)
+                {
+
+                }
+                if (_dialogueNum == 16)
+                {
+
+                }
+                if (_dialogueNum == 23)
+                {
+
+                }
+                if (_dialogueNum == 35)
+                {
+
+                }
+                if (_dialogueNum == 46)
+                {
+
+                }
+                if (_dialogueNum == 48)
+                {
+
+                }
+                if (_dialogueNum == 46)
+                {
+
+                }
             }
         }
     }
