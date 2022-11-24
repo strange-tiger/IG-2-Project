@@ -6,12 +6,10 @@ using System.Reflection;
 
 public class Scarecrow : MonoBehaviourPun
 {
+    [Header("미리 생성해놓은 파티클")]
     [SerializeField]
-    private GameObject _hitEffect;
-    [SerializeField]
-    private int _count = 6;
-    [SerializeField]
-    private GameObject[] _hitEffects;
+    private List<GameObject> _hitEffects = new List<GameObject>();
+
     private int _currentIndex = 0;
     private float _resetCoolTime = 0.5f;
 
@@ -19,13 +17,6 @@ public class Scarecrow : MonoBehaviourPun
 
     private void Awake()
     {
-        _hitEffects = new GameObject[_count];
-        for (int i = 0; i < _count; i++)
-        {
-            _hitEffects[i] = PhotonNetwork.Instantiate(_hitEffect.name, Vector3.zero, Quaternion.identity);
-            //_hitEffects[i].transform.parent = transform;
-            _hitEffects[i].SetActive(false);
-        }
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -41,14 +32,14 @@ public class Scarecrow : MonoBehaviourPun
     {
         Debug.Log("이펙트 재생");
         //hitPoint 위치에 효과를 재생시키면 된다
-        _hitEffects[_currentIndex].transform.position = hitPoint;
-        _hitEffects[_currentIndex].SetActive(true);
+        _hitEffects[_currentIndex].gameObject.transform.position = hitPoint;
+        _hitEffects[_currentIndex].gameObject.SetActive(true);
         _audioSource.Play();
         StartCoroutine(EffectReset(_currentIndex));
 
         ++_currentIndex;
 
-        if (_currentIndex == _count)
+        if (_currentIndex == _hitEffects.Count)
         {
             _currentIndex = 0;
         }
@@ -57,6 +48,6 @@ public class Scarecrow : MonoBehaviourPun
     IEnumerator EffectReset(int index)
     {
         yield return _resetCoolTime;
-        _hitEffects[index].SetActive(false);
+        _hitEffects[index].gameObject.SetActive(false);
     }
 }
