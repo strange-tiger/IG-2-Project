@@ -108,7 +108,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
 
             _roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
             {
-                { "roomname", _userId },
+                { "roomname", roomName },
                 { "password", _passwordInput.text },
                 { "displayname", _roomNameInput.text }
             };
