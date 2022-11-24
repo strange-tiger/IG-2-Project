@@ -19,7 +19,7 @@ public class UnlockPopupUI : PopupUI
     [SerializeField] GameObject _errorPopup;
 
     private string _currentRoomName = string.Empty;
-    private string _currentRoomInfo = string.Empty;
+    private string _currentRoomPassword = string.Empty;
 
     protected override void OnEnable()
     {
@@ -38,25 +38,29 @@ public class UnlockPopupUI : PopupUI
         _passwordInput.text = string.Empty;
     }
 
-    public void PopupUnlock(string room, string info)
+    public void PopupUnlock(string room, string password)
     {
         gameObject.SetActive(true);
-        SetRoom(room, info);
+        SetRoom(room, password);
     }
 
-    private void SetRoom(string room, string info)
+    private void SetRoom(string room, string password)
     {
         _currentRoomName = room;
-        _currentRoomInfo = info;
+        _currentRoomPassword = password;
     }
 
     private void JoinLockedRoom()
     {
+        if (!_currentRoomPassword.Equals(_passwordInput.text))
+        {
+            return;
+        }
+
         _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() 
         { 
             { "roomname", _currentRoomName }, 
-            { "password", _passwordInput.text },
-            { "displayname", _currentRoomInfo }
+            { "password", _currentRoomPassword }
         };
 
         try

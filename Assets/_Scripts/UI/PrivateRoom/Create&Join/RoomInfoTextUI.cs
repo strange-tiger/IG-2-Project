@@ -24,6 +24,7 @@ public class RoomInfoTextUI : MonoBehaviour
 
     private string _roomName = string.Empty;
     private string _roomInfo = string.Empty;
+    private string _roomPassword = string.Empty;
     private bool _isLocked = false;
 
     private void Awake()
@@ -64,24 +65,24 @@ public class RoomInfoTextUI : MonoBehaviour
         _roomInfo = info;
     }
 
-    public void SetLock(bool isLocked)
+    public void SetLock(bool isLocked, string password)
     {
         _isLocked = isLocked;
+        _roomPassword = password;
     }
 
     private void JoinInRoom()
     {
         if (_isLocked)
         {
-            _popup.PopupUnlock(_roomName, _roomInfo);
+            _popup.PopupUnlock(_roomName, _roomPassword);
             return;
         }
 
         _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() 
         { 
             { "roomname", _roomName }, 
-            { "password", string.Empty }, 
-            { "displayname", _roomInfo }
+            { "password", string.Empty }
         };
 
         try

@@ -157,7 +157,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         if(!_passwordInput.IsInteractable())
         {
             Debug.Log(_passwordInput.text);
-            _passwordInput.text = "";
+            _passwordInput.text = string.Empty;
         }
 
         EventSystem.current.SetSelectedGameObject(null);

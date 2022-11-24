@@ -77,9 +77,9 @@ public class JoinRoomUI : MonoBehaviour
     {
         foreach (RoomInfoTextUI info in _roomInfoTexts)
         {
-            info.SetRoom("");
-            info.SetInfo("");
-            info.SetLock(false);
+            info.SetRoom(string.Empty);
+            info.SetInfo(string.Empty);
+            info.SetLock(false, string.Empty);
         }
 
         for (int i = 0; i < PAGE_ROOM_COUNT; ++i)
@@ -88,7 +88,7 @@ public class JoinRoomUI : MonoBehaviour
 
             _roomInfoTexts[i].SetRoom(room["UserID"]);
             _roomInfoTexts[i].SetInfo($"{room["DisplayName"]}\t{room["RoomNumber"]}");
-            _roomInfoTexts[i].SetLock(room["Password"] != "");
+            _roomInfoTexts[i].SetLock(room["Password"] != string.Empty, room["Password"]);
 
             _roomInfoTexts[i].UpdateRoomInfo();
         }
