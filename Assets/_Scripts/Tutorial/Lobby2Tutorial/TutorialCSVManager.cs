@@ -21,20 +21,25 @@ public class TutorialCSVManager : MonoBehaviour
     [SerializeField] private TextAsset _tutorialSettingCSVFile;
     [SerializeField] private TextAsset _dialogCSVFile;
 
+    private char _lineSeparater = '\n';
+    [SerializeField] private char _fieldSeparater = '@';
+
     private List<int> _settingInfos = new List<int>();
     private List<Dictionary<string, string>> _dialogs = new List<Dictionary<string, string>>();
 
     private void Awake()
     {
         // 0. 튜토리얼 세팅 파일 받아오기
-        List<Dictionary<string, string>> tempSettingInfos = CSVParser.ParseCSV(_tutorialSettingCSVFile.name);
+        List<Dictionary<string, string>> tempSettingInfos = 
+            CSVParser.ParseCSV(_tutorialSettingCSVFile.name, _lineSeparater, _fieldSeparater);
         foreach(Dictionary<string, string> info in tempSettingInfos)
         {
             _settingInfos.Add(int.Parse(info[TutorialField.ID]));
         }
 
         // 1. 다이얼 로그 파일 받아오기
-        _dialogs = CSVParser.ParseCSV(_dialogCSVFile.name);
+        _dialogs = CSVParser.ParseCSV(_dialogCSVFile.name, _lineSeparater, _fieldSeparater);
+        Debug.Log(_dialogs);
     }
 
     public int GetTutorialStartPoint(TutorialNumber number)

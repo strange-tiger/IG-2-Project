@@ -6,10 +6,17 @@ using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
-    [Header ("UI")]
-    [SerializeField] private GameObject _tutorialCanvas;
+    [Header ("UIs")]
+    [Header("TutorialButtons")]
+    [SerializeField] private GameObject _tutorialPanel;
+
+    [Header("DialogPanel")]
+    [SerializeField] private GameObject _DialogPanel;
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _dialogText;
+
+    [Header("QuestPanel")]
+    [SerializeField] private GameObject _questPanel;
     [SerializeField] private TextMeshProUGUI _questText;
 
     [Header ("CSV")]
@@ -32,7 +39,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         // 버튼 세팅
-        Button[] tutorialButtons = _tutorialCanvas.GetComponentsInChildren<Button>();
+        Button[] tutorialButtons = _tutorialPanel.GetComponentsInChildren<Button>();
         int buttonCount = tutorialButtons.Length;
         for (int i = 0; i < buttonCount; ++i)
         {
@@ -42,6 +49,8 @@ public class TutorialManager : MonoBehaviour
                 ShowTutorial(tutorialNumber);
             });
         }
+
+        _questPanel.SetActive(false);
 
         // 시작 튜토리얼을 실행시킴
         ShowTutorial(0);
@@ -63,6 +72,7 @@ public class TutorialManager : MonoBehaviour
     {
         _nameText.text = name;
         _dialogText.text = dialog;
+        _DialogPanel.SetActive(true);
     }
     public void ShowDialog(string dialog)
     {
@@ -71,6 +81,7 @@ public class TutorialManager : MonoBehaviour
     public void ShowDialog()
     {
         _nameText.text = _dialogText.text = "";
+        _DialogPanel.SetActive(false);
     }
 
     /// <summary>
@@ -81,5 +92,6 @@ public class TutorialManager : MonoBehaviour
     {
         ShowDialog();
         _questText.text = message;
+        _questPanel.SetActive(true);
     }
 }

@@ -9,7 +9,7 @@ public class TutorialConducter : MonoBehaviour
     [SerializeField] private TutorialNumber _tutorialNumber;
 
     [Header ("Skip")]
-    [SerializeField] private OVRInput.Button _skipButton;
+    [SerializeField] private OVRInput.Button _skipButton = OVRInput.Button.One;
     [SerializeField] private float _letterPassTime = 0.1f;
 
     private TutorialManager _tutorialManager;
@@ -29,7 +29,6 @@ public class TutorialConducter : MonoBehaviour
         _tutorialManager = GetComponentInParent<TutorialManager>();
         
         _csvManager = _tutorialManager.CSVManager;
-        _dialogStartNumber = _csvManager.GetTutorialStartPoint(_tutorialNumber);
 
         _questConducters = GetComponentsInChildren<QuestConducter>();
         foreach(QuestConducter quest in _questConducters)
@@ -44,6 +43,11 @@ public class TutorialConducter : MonoBehaviour
     {
         ResetTutorial();
         ShowNextDialog();
+    }
+
+    private void Start()
+    {
+        _dialogStartNumber = _csvManager.GetTutorialStartPoint(_tutorialNumber);
     }
 
     /// <summary>
