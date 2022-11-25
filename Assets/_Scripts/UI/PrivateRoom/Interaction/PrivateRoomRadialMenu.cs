@@ -16,7 +16,7 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     [Header("Attach")]
     [SerializeField] Canvas _canvas;
 
-    private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(2f);
+    private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(1f);
 
     public static Button ClickButton;
 
