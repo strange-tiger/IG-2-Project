@@ -181,6 +181,16 @@ namespace Defines
         TRANSFORM,
         MAX
     }
+
+    public enum EPetShopUIIndex
+    {
+        CONVERSATION,
+        FIRST,
+        BUY,
+        INFO,
+        EQUIP,
+        MAX
+    }
 }
 
 namespace Defines.RPC
