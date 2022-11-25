@@ -55,7 +55,6 @@ public class PlayerNetworking : BasicPlayerNetworking
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
 
-        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
         }
         else
         {
@@ -68,14 +67,6 @@ public class PlayerNetworking : BasicPlayerNetworking
 
     }
 
-    private void OnDestroy()
-    {
-        if(photonView.IsMine)
-        {
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
 
-        }
-
-    }
 
 }

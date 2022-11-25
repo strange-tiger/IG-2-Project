@@ -51,8 +51,8 @@ public class BettingUI : MonoBehaviourPun
     [SerializeField] BettingManager _bettingManager;
 
     private bool[] _isBetting = { false, false, false, false };
-    private PlayerNetworking[] _playerNetworkings;
-    private PlayerNetworking _playerNetworking;
+    private BasicPlayerNetworking[] _playerNetworkings;
+    private BasicPlayerNetworking _playerNetworking;
 
 
     private void OnEnable()
@@ -103,7 +103,7 @@ public class BettingUI : MonoBehaviourPun
         ArenaStart.OnTournamentStart.AddListener(BettingUIInit);
 
 
-        _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
+        _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
 
         foreach (var player in _playerNetworkings)
         {
@@ -113,9 +113,11 @@ public class BettingUI : MonoBehaviourPun
             }
         }
 
+        Debug.Log(_playerNetworking.MyNickname);
+        Debug.Log(_playerNetworking);
 
-        
-        
+
+
         foreach (TMP_InputField inputfield in _betChampionInputField)
         {
             inputfield.onSelect.AddListener((string temp) =>
@@ -208,6 +210,7 @@ public class BettingUI : MonoBehaviourPun
 
     private void BetChampion(int index)
     {
+
         if (MySqlSetting.CheckHaveGold(_playerNetworking.MyNickname) < int.Parse(_betChampionInputField[index].text))
         {
             _popUpPanel.SetActive(true);
@@ -223,6 +226,9 @@ public class BettingUI : MonoBehaviourPun
         MySqlSetting.UpdateGoldAfterBetting(_playerNetworking.MyNickname, int.Parse(_betChampionInputField[index].text));
 
         _isBetting[index] = true;
+
+        photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, index, int.Parse(_betChampionInputField[index].text));
+
 
         InputFieldClear();
 
@@ -257,7 +263,6 @@ public class BettingUI : MonoBehaviourPun
         if (BettingExist() == false)
         {
             BetChampion(0);
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 0, int.Parse(_betChampionInputField[0].text));
         }
         else
         {
@@ -271,7 +276,6 @@ public class BettingUI : MonoBehaviourPun
         if (BettingExist() == false)
         {
             BetChampion(1);
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 1, int.Parse(_betChampionInputField[1].text));
         }
         else
         {
@@ -285,7 +289,6 @@ public class BettingUI : MonoBehaviourPun
         if (BettingExist() == false)
         {
             BetChampion(2);
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 2, int.Parse(_betChampionInputField[2].text));
         }
         else
         {
@@ -298,7 +301,6 @@ public class BettingUI : MonoBehaviourPun
         if (BettingExist() == false)
         {
             BetChampion(3);
-            photonView.RPC("BetChampionAmount", RpcTarget.MasterClient, 3, int.Parse(_betChampionInputField[3].text));
         }
         else
         {

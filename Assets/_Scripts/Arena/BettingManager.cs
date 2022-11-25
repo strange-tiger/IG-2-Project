@@ -104,7 +104,6 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
     private void CallBetAmountUpdate(int index, int bettingGold)
     {
-        MySqlSetting.UpdateBettingAmountDB(index, BetAmount, ChampionBetAmounts[index]);
 
         photonView.RPC("BetAmountUpdate", RpcTarget.All, index, bettingGold);
         
@@ -112,7 +111,6 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
     private void CallBetCancelAmountUpdate(int index, int cancelGold)
     {
-        MySqlSetting.UpdateBettingAmountDB(index, BetAmount, ChampionBetAmounts[index]);
 
         photonView.RPC("BetCancelAmountUpdate", RpcTarget.All, index, cancelGold);
     }
@@ -145,6 +143,8 @@ public class BettingManager : MonoBehaviourPunCallbacks
         BetAmount -= cancelGold;
 
         ChampionBetAmounts[index] -= cancelGold;
+
+        MySqlSetting.UpdateBettingAmountDB(index, BetAmount, ChampionBetAmounts[index]);
 
         for (int i = 0; i < BetRates.Length; ++i)
         {

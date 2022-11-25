@@ -1048,10 +1048,11 @@ namespace Asset.MySql
                     else
                     {
                         DataSet bettingDBdata = GetUserData(selectAllBettingData);
-                    
+                        
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
-                            int betGold = (int)Math.Round((double.Parse(betAmount.ToString()) * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / championBetAmount)));
+                            int betGold = Convert.ToInt32(Math.Round(((Convert.ToDouble(betAmount) * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / Convert.ToDouble(championBetAmount)))
+                                )));
 
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 

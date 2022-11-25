@@ -92,6 +92,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+
+        
+        
         if (_needSceneChange)
         {
             Debug.Log("[LogOut] LobbyChanger OnConnectedToMaster");
@@ -146,7 +149,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         base.OnCreatedRoom();
         Debug.Log("[LogOut] LobbyChanger OnCreatedRoom" + PhotonNetwork.CurrentRoom.Name);
-        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
     }
 
     public override void OnJoinedRoom()
@@ -161,6 +163,15 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
             Debug.Log($"[LogOut] LobbyChanger OnCreatedRoom {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PropertiesListedInLobby.ToStringFull()}");
             PhotonNetwork.LoadLevel((int)_nextScene);
         }
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+        
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+
+        
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)

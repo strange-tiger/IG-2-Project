@@ -117,6 +117,11 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
 
                 SatietyStack += (int)foodSatietyLevel;
 
+                if(SatietyStack > _maxSatietyStack)
+                {
+                    SatietyStack = _maxSatietyStack;
+                }
+
                 OnChangeSatietyUI.Invoke();
             }
         }
