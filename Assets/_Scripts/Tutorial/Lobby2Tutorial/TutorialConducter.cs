@@ -1,3 +1,5 @@
+#define _DEV_MODE_
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,13 +18,13 @@ public class TutorialConducter : MonoBehaviour
     private TutorialCSVManager _csvManager;
     private QuestConducter[] _questConducters;
 
-    private Dictionary<string, string> _currentDialog;
-    private int _dialogStartNumber;
-    private int _nextDialogID;
+    private Dictionary<string, string> _currentDialogue;
+    private int _dialogueStartNumber = -1;
+    private int _nextDialogueID;
     private int _nextQuestNumber = 0;
 
     private bool _isSkip = false;
-    private bool _isDialogEnd = false;
+    private bool _isDialogueEnd = false;
 
     private void Awake()
     {
@@ -45,11 +47,6 @@ public class TutorialConducter : MonoBehaviour
         ShowNextDialog();
     }
 
-    private void Start()
-    {
-        _dialogStartNumber = _csvManager.GetTutorialStartPoint(_tutorialNumber);
-    }
-
     /// <summary>
     /// 튜토리얼 초기화
     /// </summary>
@@ -61,30 +58,38 @@ public class TutorialConducter : MonoBehaviour
             quest.gameObject.SetActive(false);
         }
 
-        _isDialogEnd = _isSkip = false;
-        _nextDialogID = _dialogStartNumber;
+        _isDialogueEnd = _isSkip = false;
+        if (_dialogueStartNumber == -1)
+        {
+            _dialogueStartNumber = _csvManager.GetTutorialStartPoint(_tutorialNumber);
+        }
+        _nextDialogueID = _dialogueStartNumber;
         _nextQuestNumber = 0;
     }
 
     private void Update()
     {
+#if _DEV_MODE_
+        _isSkip = Input.GetKeyDown(KeyCode.A);
+#else
         _isSkip = OVRInput.GetDown(_skipButton);
+#endif
 
         // 대사가 다 출력된 상황
-        if(_isDialogEnd && _isSkip)
+        if(_isDialogueEnd && _isSkip)
         {
-            _isDialogEnd = _isSkip = false;
+            _isDialogueEnd = _isSkip = false;
 
             // 지금이 퀘스트인지 판별
-            if(_currentDialog[TutorialField.IsQuest].Length > 0)
+            if(_currentDialogue[TutorialField.IsQuest].Length > 0)
             {
                 _questConducters[_nextQuestNumber].gameObject.SetActive(true);
-                _tutorialManager.ShowQuestText(_currentDialog[TutorialField.IsQuest]);
+                _tutorialManager.ShowQuestText(_currentDialogue[TutorialField.IsQuest]);
             }
             // 튜토리얼이 끝났는지 판단
-            else if(_nextDialogID == -1)
+            else if(_nextDialogueID == -1)
             {
-                _tutorialManager.ShowDialog();
+                _tutorialManager.ShowDialogue();
                 gameObject.SetActive(false);
             }
             // 그 외(다음 대화를 출력)
@@ -97,8 +102,10 @@ public class TutorialConducter : MonoBehaviour
 
     private void ShowNextDialog()
     {
-        _currentDialog = _csvManager.GetDialog(_nextDialogID);
-        _nextDialogID = int.Parse(_currentDialog[TutorialField.Next]);
+        Debug.Log($"[Tutorial] {_nextDialogueID}");
+        _currentDialogue = _csvManager.GetDialogue(_nextDialogueID);
+        Debug.Log($"[Tutorial] {_currentDialogue[TutorialField.Next]}");
+        _nextDialogueID = int.Parse(_currentDialogue[TutorialField.Next]);
 
         StartCoroutine(CoShowDialog());
     }
@@ -107,22 +114,22 @@ public class TutorialConducter : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        string currentDialogString = _currentDialog[TutorialField.Dialog];
-        int dialogLength = currentDialogString.Length;
+        string currentDialogueString = _currentDialogue[TutorialField.Dialogue];
+        int dialogueLength = currentDialogueString.Length;
 
-        string shownDialog = "";
-        int currentDialogPosition = 0;
+        string shownDialogue = "";
+        int currentDialoguePosition = 0;
 
         // 초기 대화 세팅
-        shownDialog += GetNextLetter(ref currentDialogString, ref currentDialogPosition);
-        _tutorialManager.ShowDialog(_currentDialog[TutorialField.Name], shownDialog);
+        shownDialogue += GetNextLetter(ref currentDialogueString, ref currentDialoguePosition);
+        _tutorialManager.ShowDialogue(_currentDialogue[TutorialField.Name], shownDialogue);
 
-        while(currentDialogPosition < dialogLength)
+        while(currentDialoguePosition < dialogueLength)
         {
             // 스킵되었는지
             if (_isSkip)
             {
-                _tutorialManager.ShowDialog(currentDialogString);
+                _tutorialManager.ShowDialogue(currentDialogueString);
                 break;
             }
 
@@ -134,26 +141,26 @@ public class TutorialConducter : MonoBehaviour
                 elapsedTime -= _letterPassTime;
 
                 // 다음 글자가 공백( )이라면 그 다음 글자를 한번에 출력함
-                char nextLetter = GetNextLetter(ref currentDialogString, ref currentDialogPosition);
+                char nextLetter = GetNextLetter(ref currentDialogueString, ref currentDialoguePosition);
                 if(nextLetter == ' ')
                 {
-                    shownDialog += nextLetter;
-                    nextLetter = GetNextLetter(ref currentDialogString, ref currentDialogPosition);
+                    shownDialogue += nextLetter;
+                    nextLetter = GetNextLetter(ref currentDialogueString, ref currentDialoguePosition);
                 }
-                shownDialog += nextLetter;
+                shownDialogue += nextLetter;
             }
-            _tutorialManager.ShowDialog(shownDialog);
+            _tutorialManager.ShowDialogue(shownDialogue);
 
             yield return null;
         }
 
         // 대사 출력이 끝남
-        _isDialogEnd = true;
+        _isDialogueEnd = true;
     }
 
-    private char GetNextLetter(ref string dialog, ref int position)
+    private char GetNextLetter(ref string dialogue, ref int position)
     {
-        char nextLetter = dialog[position];
+        char nextLetter = dialogue[position];
         ++position;
         return nextLetter;
     }
@@ -162,5 +169,6 @@ public class TutorialConducter : MonoBehaviour
     {
         // 퀘스트가 끝났을 때
         ShowNextDialog();
+        _tutorialManager.DisableQuestText();
     }
 }

@@ -10,10 +10,10 @@ public class TutorialManager : MonoBehaviour
     [Header("TutorialButtons")]
     [SerializeField] private GameObject _tutorialPanel;
 
-    [Header("DialogPanel")]
-    [SerializeField] private GameObject _DialogPanel;
+    [Header("DialoguePanel")]
+    [SerializeField] private GameObject _DialoguePanel;
     [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _dialogText;
+    [SerializeField] private TextMeshProUGUI _dialogueText;
 
     [Header("QuestPanel")]
     [SerializeField] private GameObject _questPanel;
@@ -67,21 +67,21 @@ public class TutorialManager : MonoBehaviour
     /// 대화 출력
     /// </summary>
     /// <param name="name">이름</param>
-    /// <param name="dialog">대화 내용</param>
-    public void ShowDialog(string name, string dialog)
+    /// <param name="dialogue">대화 내용</param>
+    public void ShowDialogue(string name, string dialogue)
     {
         _nameText.text = name;
-        _dialogText.text = dialog;
-        _DialogPanel.SetActive(true);
+        _dialogueText.text = dialogue;
+        _DialoguePanel.SetActive(true);
     }
-    public void ShowDialog(string dialog)
+    public void ShowDialogue(string dialogue)
     {
-        _dialogText.text = dialog;
+        _dialogueText.text = dialogue;
     }
-    public void ShowDialog()
+    public void ShowDialogue()
     {
-        _nameText.text = _dialogText.text = "";
-        _DialogPanel.SetActive(false);
+        _nameText.text = _dialogueText.text = "";
+        _DialoguePanel.SetActive(false);
     }
 
     /// <summary>
@@ -90,8 +90,12 @@ public class TutorialManager : MonoBehaviour
     /// <param name="message">퀘스트 안내문</param>
     public void ShowQuestText(string message)
     {
-        ShowDialog();
+        ShowDialogue();
         _questText.text = message;
         _questPanel.SetActive(true);
+    }
+    public void DisableQuestText()
+    {
+        _questPanel.SetActive(false);
     }
 }
