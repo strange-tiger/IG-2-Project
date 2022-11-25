@@ -81,6 +81,8 @@ public class JoinRoomUI : MonoBehaviour
             info.SetInfo(string.Empty);
             info.SetLock(false, string.Empty);
 
+            info.UpdateRoomInfo();
+
             info.DeactivateButton();
         }
 
@@ -104,7 +106,8 @@ public class JoinRoomUI : MonoBehaviour
     {
         _roomList = _DB.GetRoomList();
 
-        PageCount = _roomList.Count / PAGE_ROOM_COUNT + _roomList.Count % PAGE_ROOM_COUNT == 0 ? 0 : 1;
+        int p = (_roomList.Count / PAGE_ROOM_COUNT) + (_roomList.Count % PAGE_ROOM_COUNT) != 0 ? 1 : 0;
+        PageCount = p;
 
         UpdateRoomPageList(_roomList);
     }
