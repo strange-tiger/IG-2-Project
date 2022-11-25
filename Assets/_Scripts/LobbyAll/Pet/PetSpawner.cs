@@ -68,8 +68,6 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     {
         MySqlSetting.Init();
 
-        Debug.Log("´Ð³×ÀÓ "+_player.MyNickname);
-
         _petData = MySqlSetting.GetPetInventoryData(_player.MyNickname, _petData);
 
         for (int i = 0; i < _petData.Status.Length; ++i)

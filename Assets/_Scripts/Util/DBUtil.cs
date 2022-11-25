@@ -1400,10 +1400,9 @@ namespace Asset.MySql
             string selectString = MySqlStatement.SELECT + $"{ETableType.roomlistdb};";
 
             DataSet roomData = GetUserData(selectString);
-            Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
             foreach (DataRow _dataRow in roomData.Tables[0].Rows)
             {
-                dictionaryList.Clear();
+                Dictionary<string, string> dictionaryList = new Dictionary<string, string>();
                 dictionaryList.Add("UserID", _dataRow[EroomlistdbColumns.UserID.ToString()].ToString());
                 dictionaryList.Add("Password", _dataRow[EroomlistdbColumns.Password.ToString()].ToString());
                 dictionaryList.Add("DisplayName", _dataRow[EroomlistdbColumns.DisplayName.ToString()].ToString());
