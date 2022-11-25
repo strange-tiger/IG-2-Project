@@ -9,6 +9,7 @@ public class LogInErrorPopupUI : PopupUI
 {
     [SerializeField] TextMeshProUGUI _idErrorMessage;
     [SerializeField] TextMeshProUGUI _passwordErrorMessage;
+    [SerializeField] TextMeshProUGUI _duplicatedErrorMessage;
 
     public void ErrorPopup(Error error)
     {
@@ -19,11 +20,19 @@ public class LogInErrorPopupUI : PopupUI
         {
             _idErrorMessage.gameObject.SetActive(true);
             _passwordErrorMessage.gameObject.SetActive(false);
+            _duplicatedErrorMessage.gameObject.SetActive(false);
         }
         else if (error == Error.PASSWORD)
         {
             _idErrorMessage.gameObject.SetActive(false);
             _passwordErrorMessage.gameObject.SetActive(true);
+            _duplicatedErrorMessage.gameObject.SetActive(false);
+        }
+        else if (error == Error.DUPLICATED)
+        {
+            _idErrorMessage.gameObject.SetActive(false);
+            _passwordErrorMessage.gameObject.SetActive(false);
+            _duplicatedErrorMessage.gameObject.SetActive(true);
         }
     }
 }

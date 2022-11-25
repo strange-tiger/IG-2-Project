@@ -18,7 +18,8 @@ public class UnlockPopupUI : PopupUI
     [Header("Popup")]
     [SerializeField] GameObject _errorPopup;
 
-    private string _currentRoomName = "";
+    private string _currentRoomName = string.Empty;
+    private string _currentRoomPassword = string.Empty;
 
     protected override void OnEnable()
     {
@@ -34,29 +35,39 @@ public class UnlockPopupUI : PopupUI
         base.OnDisable();
         _joinButton.onClick.RemoveListener(JoinLockedRoom);
 
-        _passwordInput.text = "";
+        _passwordInput.text = string.Empty;
     }
 
-    public void PopupUnlock(string room)
+    public void PopupUnlock(string room, string password)
     {
         gameObject.SetActive(true);
-        SetRoom(room);
+        SetRoom(room, password);
     }
 
-    private void SetRoom(string room)
+    private void SetRoom(string room, string password)
     {
         _currentRoomName = room;
+        _currentRoomPassword = password;
     }
 
     private void JoinLockedRoom()
     {
-        _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() { { "roomname", _currentRoomName + "_" + _passwordInput.text }, { "password", _passwordInput.text } };
+        if (!_currentRoomPassword.Equals(_passwordInput.text))
+        {
+            return;
+        }
+
+        _PH.Hashtable expectedCustomRoomProperties = new _PH.Hashtable() 
+        { 
+            { "roomname", _currentRoomName }, 
+            { "password", _currentRoomPassword }
+        };
 
         try
         {
             JoinRoom.JoinInRoom(expectedCustomRoomProperties);
 
-            _passwordInput.text = "";
+            _passwordInput.text = string.Empty;
             gameObject.SetActive(false);
         }
         catch

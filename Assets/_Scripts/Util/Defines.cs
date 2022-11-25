@@ -147,6 +147,7 @@ namespace Defines
         NONE,
         ID,
         PASSWORD,
+        DUPLICATED,
         MAX
     }
 
