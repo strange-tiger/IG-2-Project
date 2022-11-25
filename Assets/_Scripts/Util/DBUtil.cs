@@ -10,13 +10,13 @@ using System;
 
 namespace Asset.MySql
 {
-    public enum ESocialStatus
+    public enum ETutorialCompleteState
     {
-        None,
-        Request,
-        Friend,
-        Block,
-        Denied,
+        NONE = 0b_0000,
+        STARTROOM = 0b_1000,
+        LOBBYONE = 0b_0100,
+        LOBBYTWO = 0b_0010,
+        ARENA = 0b_0001,
         Max
     }
 
@@ -42,6 +42,7 @@ namespace Asset.MySql
         public const string SET_ENUM = "SHOW TABLES;\nDESC ";
         public const string SELECT = "SELECT * from ";
         public const string UPDATE_RELATIONSHIP = "UPDATE RelationshipDB SET State = ";
+        public const string UPDATE_COMPLETETUTORIAL = "UPDATE CharacterDB SET Tutorial = ";
     }
 
     public class MySqlSetting
@@ -185,7 +186,7 @@ namespace Asset.MySql
         }
 #endif
 
-#region Add
+        #region Add
         /// <summary>
         /// 계정 추가하기
         /// </summary>
@@ -320,10 +321,10 @@ namespace Asset.MySql
 
             return insertString;
         }
-#endregion
+        #endregion
 
 
-#region Request
+        #region Request
         /// <summary>
         /// 두 사용자 간의 요청이 RequestDB에 존재하는 지 확인.
         /// </summary>
@@ -393,9 +394,94 @@ namespace Asset.MySql
                 return false;
             }
         }
-#endregion
+        #endregion
 
-#region Relationship
+        #region Tutorial
+
+        /// <summary>
+        /// 유저의 튜토리얼 수행 여부를 판단한다.
+        /// </summary>
+        /// <param name="myNickname">유저의 닉네임</param>
+        /// <param name="checkState">판단할 튜토리얼의 종류</param>
+        /// <returns>한번이라도 수행했으면 true, 아니면 false </returns>
+        public static bool CheckCompleteTutorial(string myNickname, ETutorialCompleteState checkState)
+        {
+            int state = CheckCompleteTutorial(myNickname);
+
+            state = state & (int)checkState;
+
+            return state == (int)checkState;
+        }
+
+        private static int CheckCompleteTutorial(string myNickname)
+        {
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+                    int state = (int)ETutorialCompleteState.NONE;
+
+                    string selcetSocialRequestString = SelectDBHelper(ETableType.characterdb) + $" where Nickname = '{myNickname}';";
+
+                    MySqlCommand command = new MySqlCommand(selcetSocialRequestString, _mysqlConnection);
+
+                    _mysqlConnection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+
+
+                    if (reader.Read())
+                    {
+                        state = reader.GetInt32("Tutorial");
+                    }
+
+                    _mysqlConnection.Close();
+
+
+                    return state;
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogError("오류!! CheckRelationship에서 오류남 \n" + error.Message);
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// 튜토리얼을 수행하고, 수행여부를 DB에 저장한다.
+        /// </summary>
+        /// <param name="myNickname">유저의 닉네임</param>
+        /// <param name="state">수행 완료한 튜토리얼의 종류</param>
+        /// <returns>업데이트에 성공하면 true, 아니면 false </returns>
+        public static bool CompleteTutorial(string myNickname, ETutorialCompleteState state)
+        {
+            int updateState = (int)state | CheckCompleteTutorial(myNickname);
+
+            try
+            {
+                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+                {
+
+                    string updateCompleteTutorialString = MySqlStatement.UPDATE_COMPLETETUTORIAL + $"'{updateState | (int)state}' where Nickname = {myNickname};";
+
+                    MySqlCommand updateCompleteTutorialCommand = new MySqlCommand(updateCompleteTutorialString, _mysqlConnection);
+                    _mysqlConnection.Open();
+                    updateCompleteTutorialCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+
+        }
+        #endregion
+
+        #region Relationship
         public const byte _FRIEND_BIT = 0b_0000;
         public const byte _REQUEST_LEFT_BIT = 0b_0100;
         public const byte _REQUEST_RIGHT_BIT = 0b_0001;
@@ -629,7 +715,7 @@ namespace Asset.MySql
                 }
                 else
                 {
-                        state = _BLOCK_LEFT_BIT;
+                    state = _BLOCK_LEFT_BIT;
                 }
 
                 UpdateRelationship(myNickname, targetNickname, state);
@@ -657,27 +743,27 @@ namespace Asset.MySql
 
                 state = UpdateRelationshipToResetHelper(isLeft, state);
 
-                if(state == 0)
+                if (state == 0)
                 {
-                    if(isLeft)
+                    if (isLeft)
                     {
-                       DeleteRowByComparator
-                       (
-                           ErelationshipdbColumns.UserA,
-                           myNickname,
-                           ErelationshipdbColumns.UserB,
-                           targetNickname
-                       );
+                        DeleteRowByComparator
+                        (
+                            ErelationshipdbColumns.UserA,
+                            myNickname,
+                            ErelationshipdbColumns.UserB,
+                            targetNickname
+                        );
                     }
                     else
                     {
-                       DeleteRowByComparator
-                       (
-                           ErelationshipdbColumns.UserA,
-                           targetNickname,
-                           ErelationshipdbColumns.UserB,
-                           myNickname
-                       );
+                        DeleteRowByComparator
+                        (
+                            ErelationshipdbColumns.UserA,
+                            targetNickname,
+                            ErelationshipdbColumns.UserB,
+                            myNickname
+                        );
                     }
                 }
                 else
@@ -706,20 +792,20 @@ namespace Asset.MySql
             {
                 bool isLeft;
                 int state = CheckRelationship(myNickname, targetNickname, out isLeft);
-                if(state != -1)
+                if (state != -1)
                 {
                     state = UpdateRelationshipToRequestHelper(isLeft, state);
                 }
                 else
                 {
-                        state = _REQUEST_LEFT_BIT;
+                    state = _REQUEST_LEFT_BIT;
                 }
 
                 UpdateRelationship(myNickname, targetNickname, state);
 
                 return true;
             }
-            catch(System.Exception error)
+            catch (System.Exception error)
             {
                 Debug.LogError("오류: Fail To Request Social Interaction + \n" + error.Message);
                 return false;
@@ -735,7 +821,7 @@ namespace Asset.MySql
         /// <returns></returns>
         public static bool UpdateRelationshipToUnrequest(string myNickname, string targetNickname)
         {
-            return UpdateRelationshipToUnblock(myNickname,targetNickname);
+            return UpdateRelationshipToUnblock(myNickname, targetNickname);
         }
 
 
@@ -795,7 +881,7 @@ namespace Asset.MySql
             int resetBit = isLeft ? _RESET_LEFT_BIT : _RESET_RIGHT_BIT;
             return state & resetBit;
         }
-        
+
         private static int UpdateRelationshipToBlockHelper(bool isLeft, int state)
         {
             state = UpdateRelationshipToResetHelper(isLeft, state);
@@ -811,7 +897,7 @@ namespace Asset.MySql
             int requestBit = isLeft ? _REQUEST_LEFT_BIT : _REQUEST_RIGHT_BIT;
             return state | requestBit;
         }
-#endregion
+        #endregion
 
         /// <summary>
         /// DataSet에 데이터를 저장함.
@@ -824,7 +910,7 @@ namespace Asset.MySql
             DataSet _dataSet = new DataSet();
             using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
             {
-                if(_sqlConnection.State == ConnectionState.Closed)
+                if (_sqlConnection.State == ConnectionState.Closed)
                 {
                     _sqlConnection.Open();
                 }
@@ -836,7 +922,7 @@ namespace Asset.MySql
             return _dataSet;
         }
 
-#region RelationshipList        
+        #region RelationshipList        
         /// <summary>
         /// 유저의 닉네임을 받아 특정 State의 리스트를 가져옴.
         /// </summary>
@@ -853,7 +939,7 @@ namespace Asset.MySql
                 ErelationshipdbColumns.UserB,
                 nickname,
                 ref resultList
-            ) ;
+            );
 
             // UserB 칼럼에 대한 State 검사 후 리스트 생성
             GetRelationListHelper
@@ -897,9 +983,9 @@ namespace Asset.MySql
             }
         }
 
-#endregion
+        #endregion
 
-#region Betting
+        #region Betting
 
         /// <summary>
         /// BettingDB에 닉네임과 베팅금액, 베팅한 참가자의 인덱스 그리고 현재가지고 있는 금액이 저장된다. 이때, 현재 가지고있는 금액에서 베팅한 금액만큼 빼고 다시 업데이트해준다.
@@ -910,7 +996,7 @@ namespace Asset.MySql
         /// <returns></returns>
         public static bool InsertBetting(string nickname, int betGold, int championNum)
         {
-           
+
             try
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
@@ -922,7 +1008,7 @@ namespace Asset.MySql
                     haveGold = int.Parse(GetValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold)) - (int)betGold;
 
 
-                    string insertBettingString = GetInsertString(ETableType.bettingdb, nickname, betGold.ToString(), championNum.ToString(),haveGold.ToString());
+                    string insertBettingString = GetInsertString(ETableType.bettingdb, nickname, betGold.ToString(), championNum.ToString(), haveGold.ToString());
 
                     MySqlCommand insertBettingCommand = new MySqlCommand(insertBettingString, _mysqlConnection);
 
@@ -1026,7 +1112,7 @@ namespace Asset.MySql
                 {
                     _mysqlConnection.Open();
 
-                    if(isDraw)
+                    if (isDraw)
                     {
                         DataSet bettingDBdata = GetUserData(selectDrawBettingData);
 
@@ -1072,7 +1158,7 @@ namespace Asset.MySql
             catch (System.Exception error)
             {
                 Debug.LogError(error.Message);
-                return false; 
+                return false;
 
             }
         }
@@ -1091,7 +1177,7 @@ namespace Asset.MySql
 
                     MySqlCommand dropBettingDBCommand = new MySqlCommand(dropBettingDBString, _mysqlConnection);
 
-                    if(_mysqlConnection.State == ConnectionState.Closed)
+                    if (_mysqlConnection.State == ConnectionState.Closed)
                     {
                         _mysqlConnection.Open();
                         dropBettingDBCommand.ExecuteNonQuery();
@@ -1113,12 +1199,12 @@ namespace Asset.MySql
 
         public static List<int> CheckBettingAmount()
         {
-           
-                using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
-                {
-                    string selectBettingAmountString = $"Select * from {ETableType.bettingamountdb};";
 
-                    DataSet bettingAmount = GetUserData(selectBettingAmountString);
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            {
+                string selectBettingAmountString = $"Select * from {ETableType.bettingamountdb};";
+
+                DataSet bettingAmount = GetUserData(selectBettingAmountString);
 
                     List<int> resultList = new List<int>();
 
@@ -1131,9 +1217,9 @@ namespace Asset.MySql
                         resultList.Add(int.Parse(_dataRow["FourAmount"].ToString()));
                     }
 
-                    return resultList;
-                }
-            
+                return resultList;
+            }
+
         }
 
         public static bool UpdateBettingAmountDB(int index, int amount, int championAmount)
@@ -1143,16 +1229,16 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    string updateBettingAmountString = $"Update {ETableType.bettingamountdb} set Amount = '{amount}',{(ChampionNumber)Enum.Parse(typeof(ChampionNumber),index.ToString())} = '{championAmount}' ;";
+                    string updateBettingAmountString = $"Update {ETableType.bettingamountdb} set Amount = '{amount}',{(ChampionNumber)Enum.Parse(typeof(ChampionNumber), index.ToString())} = '{championAmount}' ;";
 
-                    
+
                     MySqlCommand updateBettingAmountCommand = new MySqlCommand(updateBettingAmountString, _mysqlConnection);
 
-                    
-                   _mysqlConnection.Open();
-                   updateBettingAmountCommand.ExecuteNonQuery();
-                   _mysqlConnection.Close();
-                   
+
+                    _mysqlConnection.Open();
+                    updateBettingAmountCommand.ExecuteNonQuery();
+                    _mysqlConnection.Close();
+
                 }
                 return true;
             }
@@ -1169,7 +1255,7 @@ namespace Asset.MySql
 
         #endregion
 
-#region GoldSystem
+        #region GoldSystem
 
         /// <summary>
         /// 현재 가진 골드를 확인함.
@@ -1195,7 +1281,7 @@ namespace Asset.MySql
 
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    if(useGold > haveGold)
+                    if (useGold > haveGold)
                     {
                         Debug.LogError("돈이 부족함.");
                         return false;
@@ -1226,8 +1312,8 @@ namespace Asset.MySql
                 int haveGold = CheckHaveGold(nickname);
 
                 int updateGold = haveGold + earnGold;
-                
-                if(maxGold < haveGold)
+
+                if (maxGold < haveGold)
                 {
                     return false;
                 }
@@ -1251,7 +1337,7 @@ namespace Asset.MySql
 
         #endregion
 
-#region PetInventoryList        
+        #region PetInventoryList        
 
 
         public static PetData GetPetInventoryData(string nickname, PetData petData)
@@ -1259,7 +1345,7 @@ namespace Asset.MySql
             string selcetPetInventoryString = $"SELECT * from PetInventoryDB " +
                 $"WHERE {EpetinventorydbColumns.Nickname} = '{nickname}'; ";
 
-            using(MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
+            using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
 
 
@@ -1278,10 +1364,10 @@ namespace Asset.MySql
                     string[] petAssetArray = reader["PetAsset"].ToString().Split(',');
                     string[] petSizeArray = reader["PetSize"].ToString().Split(',');
 
-                    for(int i = 0; i < petStatusArray.Length; ++i)
+                    for (int i = 0; i < petStatusArray.Length; ++i)
                     {
 
-                        petData.Status[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus),petStatusArray[i]);
+                        petData.Status[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus), petStatusArray[i]);
                         petData.Level[i] = int.Parse(petLevelArray[i]);
                         petData.Exp[i] = int.Parse(petExpArray[i]);
                         petData.ChildIndex[i] = int.Parse(petAssetArray[i]);
@@ -1295,7 +1381,7 @@ namespace Asset.MySql
 
                 return petData;
             }
-            
+
         }
 
         public static bool UpdatePetInventoryData(string nickname, PetData petData)
@@ -1322,7 +1408,7 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
                 {
-                    
+
                     MySqlCommand command = new MySqlCommand(updateString, _sqlConnection);
 
                     _sqlConnection.Open();
@@ -1346,26 +1432,26 @@ namespace Asset.MySql
 
         public static bool IsPlayerOnline(string nickname)
         {
-            
+
             try
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     bool isOnOff = false;
 
-                    string selcetOnOffString = SelectDBHelper(ETableType.characterdb) + $" where Nickname = '{nickname}';";
+                    string selcetOnOffString = SelectDBHelper(ETableType.accountdb) + $" where Nickname = '{nickname}';";
 
                     MySqlCommand command = new MySqlCommand(selcetOnOffString, _mysqlConnection);
 
                     _mysqlConnection.Open();
 
                     MySqlDataReader reader = command.ExecuteReader();
-                    
+
 
                     if (reader.Read())
                     {
 
-                        if (reader["OnOff"].ToString() == "1")
+                        if (reader["IsOnline"].ToString() == "1")
                         {
                             isOnOff = true;
                         }
@@ -1375,10 +1461,10 @@ namespace Asset.MySql
                         }
 
                     }
-                     
+
                     _mysqlConnection.Close();
 
-                     return isOnOff;
+                    return isOnOff;
                 }
             }
             catch
@@ -1386,7 +1472,7 @@ namespace Asset.MySql
                 Debug.LogError("오류남: ");
                 return false;
             }
-           
+
         }
 
         /// <summary>
@@ -1456,7 +1542,7 @@ namespace Asset.MySql
             return MySqlStatement.SELECT + db.ToString();
         }
 
-#region ValueByBase
+        #region ValueByBase
         /// <summary>
         /// CharacterDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// </summary>
@@ -1503,7 +1589,7 @@ namespace Asset.MySql
 
         public static string GetValueByBase(EbettingdbColumns baseType, string baseValue, EbettingdbColumns targetType)
         {
-             return GetValueByBase(ETableType.bettingdb, baseType, baseValue, targetType);
+            return GetValueByBase(ETableType.bettingdb, baseType, baseValue, targetType);
         }
 
         /// <summary>
@@ -1644,7 +1730,7 @@ namespace Asset.MySql
                 return false;
             }
         }
-#endregion
+        #endregion
 
 
 
@@ -1652,14 +1738,14 @@ namespace Asset.MySql
 
 
 
-#region DeleteRowByComparator
+        #region DeleteRowByComparator
         public class Comparator<T> where T : System.Enum
         {
             public T Column;
             public string Value;
         }
 
-#region DeleteRowByComparator-RelationshipDB
+        #region DeleteRowByComparator-RelationshipDB
 
         public static bool DeleteRowByComparator
          (ErelationshipdbColumns type_1, string condition_1,
@@ -1758,8 +1844,8 @@ namespace Asset.MySql
 
 
 
-         
-#region DeleteRowByComparator-BettingDB
+
+        #region DeleteRowByComparator-BettingDB
 
         public static bool DeleteRowByComparator
          (EbettingdbColumns type, string condition, string logicOperator = "and")
@@ -1775,10 +1861,10 @@ namespace Asset.MySql
                     Value = condition
                 }
 
-            ) ;
+            );
         }
-        
-#endregion
+
+        #endregion
 
         /// <summary>
         /// roomlistdb의 Row를 삭제
@@ -1804,7 +1890,7 @@ namespace Asset.MySql
                     Value = condition
                 }
 
-            ) ;
+            );
         }
 
         public static bool DeleteRowByComparator<T>
@@ -1840,10 +1926,10 @@ namespace Asset.MySql
                 return false;
             }
         }
-#endregion
+        #endregion
 
 
-        
+
     }
 
 }
