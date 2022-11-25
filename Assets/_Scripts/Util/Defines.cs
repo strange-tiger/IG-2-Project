@@ -147,6 +147,7 @@ namespace Defines
         NONE,
         ID,
         PASSWORD,
+        DUPLICATED,
         MAX
     }
 
@@ -179,6 +180,18 @@ namespace Defines
         PURCHASE,
         TRANSFORM,
         MAX
+    }
+
+    public enum ELobby2TutorialNumber
+    {
+        Start,
+        FirstMoveAttack,
+        WesternBeer,
+        FindingGold,
+        WesternCampfire,
+        OakBarrel,
+        GoldRush,
+        End,
     }
 }
 

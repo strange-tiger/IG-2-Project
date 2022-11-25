@@ -25,7 +25,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     private int _setAvatarNum;
     private int _setMaterialNum;
     private string _playerNickname;
-    
+
     void Start()
     {
 
@@ -33,17 +33,18 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
         if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
         {
-            if (SceneManager.GetActiveScene().name != "Login")
+            if (photonView.IsMine)
             {
-                _playerNickname = PhotonNetwork.NickName;
+                if (SceneManager.GetActiveScene().name != "Login")
+                {
+                    _playerNickname = PhotonNetwork.NickName;
 
+                }
+                LoadAvatarData();
             }
-
-            LoadAvatarData();
-            
         }
-        
-        
+
+
 
     }
 
@@ -51,15 +52,15 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     public void MakeAvatarData()
     {
 
-        if(IsFemale == false)
+        if (IsFemale == false)
         {
             _userData = _maleData;
-           
+
         }
         else
         {
             _userData = _femaleData;
-            
+
         }
 
         _setAvatarNum = 0;
@@ -115,7 +116,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
         // 장착중이던 아이템과 Material을 적용시킴.
         _setMaterialNum = _userData.UserMaterial;
-        if(SceneManager.GetActiveScene().name != "StartRoom")
+        if (SceneManager.GetActiveScene().name != "StartRoom")
         {
             photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, IsFemale);
         }
@@ -132,7 +133,10 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
+        if (photonView.IsMine)
+        {
+            photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
+        }
     }
 
     private void RootSet(int avatarNum)
@@ -154,19 +158,19 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     [PunRPC]
     public void AvatarSetting(int avatarNum, int materialNum, bool genderNum)
     {
-            RootSet(avatarNum);
+        RootSet(avatarNum);
 
-            if (genderNum == true)
-            {
-                _userData = _femaleData;
-            }
-            else
-            {
-                _userData = _maleData;
-            }
+        if (genderNum == true)
+        {
+            _userData = _femaleData;
+        }
+        else
+        {
+            _userData = _maleData;
+        }
 
-            _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
-            _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
+        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
 
     }
 

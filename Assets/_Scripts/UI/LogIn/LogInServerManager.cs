@@ -45,11 +45,13 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
         if (MySqlSetting.CheckValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "True"))
         {
             PhotonNetwork.NickName = TempAccountDB.Nickname;
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
             SceneManager.LoadScene((int)SceneType.StartRoom);
         }
         else
         {
             PhotonNetwork.NickName = TempAccountDB.Nickname;
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 1);
             SceneManager.LoadScene((int)SceneType.MakeCharacterRoom);
         }
     }

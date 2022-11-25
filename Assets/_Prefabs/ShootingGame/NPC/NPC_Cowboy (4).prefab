@@ -2643,6 +2643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7244510757700898513}
   - component: {fileID: 4729190828896012467}
+  - component: {fileID: 3704375149440533484}
   m_Layer: 0
   m_Name: NPC_Cowboy (4)
   m_TagString: Untagged
@@ -2678,8 +2679,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b079adae1dabcc44b1629ff538f355b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _lobbyChanger: {fileID: 0}
+--- !u!65 &3704375149440533484
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244510757700898512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 1.9, z: 0.6}
+  m_Center: {x: 0, y: 0.95, z: 0}
 --- !u!1 &7244510758360258967
 GameObject:
   m_ObjectHideFlags: 0

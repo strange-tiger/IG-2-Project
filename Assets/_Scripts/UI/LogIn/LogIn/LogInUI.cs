@@ -69,19 +69,15 @@ public class LogInUI : MonoBehaviour
             return;
         }
 
-        Debug.Log("온라인? " + Sql.GetValueByBase(Column.Email, _idInput.text,
-            Column.IsOnline));
-
         if (IS_ONLINE == bool.Parse(Sql.GetValueByBase(Column.Email, _idInput.text,
             Column.IsOnline)))
         {
-            _errorPopup.ErrorPopup(Error.ID);
+            _errorPopup.ErrorPopup(Error.DUPLICATED);
             return;
         }
 
         TempAccountDB.SetAccountData(_idInput.text, Sql.GetValueByBase(Column.Email, _idInput.text, Column.Nickname));
-        Debug.Log("로그인 성공!");
-        //PhotonNetwork.LoadLevel((int)Scene.StartRoom);
+        
         _logInServerManager.LogIn();
     }
 

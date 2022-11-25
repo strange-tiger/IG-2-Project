@@ -43,14 +43,25 @@ public class ChangeRoomList : SpinnerUI
         UpdateStates();
     }
 
+    private int _pageCount = 0;
     public void UpdateStates()
     {
-        _states = new string[JoinRoomUI.PageCount + 1];
+        if (JoinRoomUI.PageCount > 0)
+        {
+            _pageCount = JoinRoomUI.PageCount;
+        }
+        else
+        {
+            _pageCount = 1;
+        }
+        
+        _states = new string[_pageCount];
+
         _stateFunctionTable.Clear();
 
-        for (int i = 0; i < JoinRoomUI.PageCount; ++i)
+        for (int i = 0; i < _pageCount; ++i)
         {
-            _states[i] = $"{i + 1} / {JoinRoomUI.PageCount}";
+            _states[i] = $"{i + 1} / {_pageCount}";
         }
 
         Type = _states[0];

@@ -51,6 +51,7 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         }
     }
 
+    private const string PAINT_PAD_TAG = "PaintPad";
     private void RaycastOnClients()
     {
         RaycastHit hit;
@@ -59,7 +60,11 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         if (Physics.Raycast(ray, out hit, RAY_LENGTH, _padMask.value))
         {
             _currentPoint = hit.point;
-            DrawLine();
+
+            if (hit.collider.CompareTag(PAINT_PAD_TAG))
+            {
+                DrawLine();
+            }
         }
         else
         {

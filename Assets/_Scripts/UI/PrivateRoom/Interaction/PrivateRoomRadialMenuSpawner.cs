@@ -6,19 +6,13 @@ using Photon.Realtime;
 
 public class PrivateRoomRadialMenuSpawner : MonoBehaviourPunCallbacks
 {
-    private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(2f);
-    private List<Canvas> _menuList;
-    
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        base.OnPlayerEnteredRoom(newPlayer);
+    private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(1f);
+    private List<Canvas> _menuList = new List<Canvas>();
 
-        photonView.RPC("SpawnMenu", newPlayer);
-    }
-
-    [PunRPC]
-    private void SpawnMenu()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         StartCoroutine(SpawnDelay());
     }
 
@@ -26,7 +20,7 @@ public class PrivateRoomRadialMenuSpawner : MonoBehaviourPunCallbacks
     {
         yield return MENU_DELAY;
 
-        GameObject newMenu = PhotonNetwork.Instantiate("PrivateRoom\\PrivateRoomRadialMenuCanvas", Vector3.zero, Quaternion.identity);
+        GameObject newMenu = PhotonNetwork.Instantiate("PrivateRoom\\NEW_PrivateRoomRadialMenuCanvas", Vector3.zero, Quaternion.identity);
         _menuList.Add(newMenu.GetComponent<Canvas>());
     }
 

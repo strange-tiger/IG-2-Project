@@ -16,12 +16,14 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     [Header("Attach")]
     [SerializeField] Canvas _canvas;
 
-    private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(2f);
+    private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(1f);
 
     public static Button ClickButton;
 
     private SpawnDice _spawnDice;
     private SpawnPaintbrush _spawnPaintbrush;
+
+    private NewPlayerMove _playerMove;
 
     private Vector2 _priavteRoomRadialCursorInitPosition;
     private float _privateRoomRadialCursorMovementLimit = 25f;
@@ -31,26 +33,28 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     {
         _priavteRoomRadialCursorInitPosition = _privateRoomRadialCursor.rectTransform.localPosition;
 
-        _canvas.renderMode = RenderMode.ScreenSpaceCamera;
-
         PrivateRoomEnterance();
 
         StartCoroutine(FindCamera());
     }
 
+    private const string EYE_CAMERA = "CenterEyeAnchor";
     IEnumerator FindCamera()
     {
         yield return MENU_DELAY;
 
-        GameObject findCamera = GameObject.Find("CenterEyeAnchor");
+        GameObject findCamera = GameObject.Find(EYE_CAMERA);
 
         Debug.Assert(findCamera != null, "카메라 찾기 실패");
-
+        
         if (photonView.IsMine)
         {
+            _canvas.renderMode = RenderMode.ScreenSpaceCamera;
             _canvas.worldCamera = findCamera.GetComponent<Camera>();
-            _canvas.planeDistance = 1f;
+            _canvas.planeDistance = 2f;
         }
+
+        _playerMove = findCamera.transform.root.GetComponent<NewPlayerMove>();
     }
 
     private static readonly Vector3 INSTANTIATE_POS = new Vector3(0f, 2f, 0f);
@@ -90,20 +94,23 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    private const string CALL_METHOD = "CallMethod";
     private void Update()
     {
         if (!photonView.IsMine)
         {
             return;
         }
-
+        
         if (OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
         {
             _privateRoomRadialMenu.SetActive(true);
+            _playerMove.enabled = false;
         }
         else if (OVRInput.GetUp(OVRInput.Button.SecondaryThumbstick))
         {
-            photonView.RPC("CallMethod", RpcTarget.All);
+            photonView.RPC(CALL_METHOD, RpcTarget.All);
+            _playerMove.enabled = true;
         }
         else
         {
@@ -111,11 +118,11 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    private const string BUTTON_A = "ButtonA";
     [PunRPC]
     private void CallMethod()
     {
-        Debug.Log("Call");
-        if (ClickButton.name == "ButtonA")
+        if (ClickButton.name == BUTTON_A)
         {
             ButtonAMethod();
         }
@@ -131,7 +138,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         {
             return;
         }
-        Debug.Log("dice");
         _spawnDice.ToggleDice();
     }
 
@@ -141,7 +147,6 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         {
             return;
         }
-        Debug.Log("paint");
         _spawnPaintbrush.TogglePaintbrush();
     }
 
