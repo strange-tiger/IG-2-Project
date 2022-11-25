@@ -38,9 +38,10 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
                 _playerNickname = PhotonNetwork.NickName;
 
             }
-
-            LoadAvatarData();
-            
+            if (photonView.IsMine)
+            {
+                LoadAvatarData();
+            }
         }
         
         
@@ -132,7 +133,10 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
+        if(photonView.IsMine)
+        {
+            photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
+        }
     }
 
     private void RootSet(int avatarNum)
