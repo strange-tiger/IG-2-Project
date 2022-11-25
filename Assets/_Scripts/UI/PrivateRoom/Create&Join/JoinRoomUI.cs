@@ -78,7 +78,7 @@ public class JoinRoomUI : MonoBehaviour
         foreach (RoomInfoTextUI info in _roomInfoTexts)
         {
             info.SetRoom(string.Empty);
-            info.SetInfo(string.Empty);
+            info.SetDisplay(string.Empty);
             info.SetLock(false, string.Empty);
 
             info.UpdateRoomInfo();
@@ -86,14 +86,22 @@ public class JoinRoomUI : MonoBehaviour
             info.DeactivateButton();
         }
 
-        Debug.Log(_roomPage[page].Length);
+        Debug.Log("[RoomList] " + _roomPage[page].Length);
 
         for (int i = 0; i < _roomPage[page].Length; ++i)
         {
             Dictionary<string, string> room = _roomPage[page][i];
 
+            Debug.Log("[RoomList] UserID " + room["UserID"]);
+
             _roomInfoTexts[i].SetRoom(room["UserID"]);
-            _roomInfoTexts[i].SetInfo($"{room["DisplayName"]}\t{room["RoomNumber"]}");
+
+            Debug.Log("[RoomList] DisplayName " + room["DisplayName"]);
+
+            _roomInfoTexts[i].SetDisplay($"{room["DisplayName"]}\t{room["RoomNumber"]}");
+
+            Debug.Log("[RoomList] Password " + room["Password"]);
+
             _roomInfoTexts[i].SetLock(room["Password"] != string.Empty, room["Password"]);
 
             _roomInfoTexts[i].UpdateRoomInfo();
@@ -106,8 +114,8 @@ public class JoinRoomUI : MonoBehaviour
     {
         _roomList = _DB.GetRoomList();
 
-        int p = (_roomList.Count / PAGE_ROOM_COUNT) + (_roomList.Count % PAGE_ROOM_COUNT) != 0 ? 1 : 0;
-        PageCount = p;
+        int count = _roomList.Count;
+        PageCount = (count / PAGE_ROOM_COUNT) + (count % PAGE_ROOM_COUNT) != 0 ? 1 : 0;
 
         UpdateRoomPageList(_roomList);
     }
@@ -124,14 +132,14 @@ public class JoinRoomUI : MonoBehaviour
         int pageCount = 0;
         int roomCount = 0;
 
-        foreach (Dictionary<string, string> roomInfo in _roomList)
+        foreach (Dictionary<string, string> room in _roomList)
         {
             if (roomCount == PAGE_ROOM_COUNT)
             {
                 roomCount = 0;
                 ++pageCount;
             }
-            _roomPage[pageCount][roomCount] = roomInfo;
+            _roomPage[pageCount][roomCount] = room;
 
             ++roomCount;
         }
