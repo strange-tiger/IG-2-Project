@@ -7805,7 +7805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &578629595
 Transform:
   m_ObjectHideFlags: 0
@@ -18342,6 +18342,7 @@ MonoBehaviour:
   _mapPanel: {fileID: 0}
   _settingPanel: {fileID: 1381279538}
   _socialPanel: {fileID: 314778845}
+  _goldText: {fileID: 0}
 --- !u!4 &1360144556
 Transform:
   m_ObjectHideFlags: 0
@@ -19625,8 +19626,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90341e9a1a3b8104dafd2a87b528d0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myGold: {fileID: 716246156}
-  _goldPanel: {fileID: 678219921}
+  _myGold: {fileID: 0}
+  _goldPanel: {fileID: 0}
+  _playerNetworking: {fileID: 0}
+  _isGoldUpdateComplete: 0
 --- !u!222 &1452696292
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25075,7 +25078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8be80e3a29f1804c80138e7bc0adb63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryUIManager: {fileID: 1360144555}
+  _menuUIManager: {fileID: 0}
   _socialUIManager: {fileID: 119608067}
   _checkPanelManager: {fileID: 1329883181}
   _confirmPanelManager: {fileID: 709701643}
@@ -85037,6 +85040,8 @@ MonoBehaviour:
   - {fileID: 4701892057273924987}
   - {fileID: 206772087421039320}
   - {fileID: 5257293469431575470}
+  _female: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
+  _male: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
 --- !u!224 &6492889649820359269
 RectTransform:
   m_ObjectHideFlags: 0
