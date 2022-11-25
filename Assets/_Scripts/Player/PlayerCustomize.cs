@@ -31,8 +31,6 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
 
 
-        if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
-        {
             if (SceneManager.GetActiveScene().name != "Login")
             {
                 _playerNickname = PhotonNetwork.NickName;
@@ -40,8 +38,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
             }
 
             LoadAvatarData();
-            
-        }
+
         
         
 
