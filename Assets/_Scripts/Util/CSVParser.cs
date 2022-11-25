@@ -27,14 +27,14 @@ namespace Asset.ParseCSV
             var container = new List<Dictionary<string, string>>();
 
             string[] lines = csvFile.text.Split(lineSeparater);
-            lines[0].TrimEnd('\r');
+            lines[0] = lines[0].TrimEnd('\r');
             string[] fieldName = lines[0].Split(fieldSeparater);
             string[] fields = new string[fieldName.Length];
 
             for (int i = 0; i < lines.Length - 2; ++i)
             // lines.Length - 2 : CSV 파일 첫 줄과 마지막 공백 줄을 넘김
             {
-                lines[i + 1].TrimEnd('\r');
+                lines[i + 1] = lines[i + 1].TrimEnd('\r');
                 fields = lines[i + 1].Split(fieldSeparater);
 
                 var field = new Dictionary<string, string>();
