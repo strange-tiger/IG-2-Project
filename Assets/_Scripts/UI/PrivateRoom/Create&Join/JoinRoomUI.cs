@@ -86,21 +86,18 @@ public class JoinRoomUI : MonoBehaviour
             info.DeactivateButton();
         }
 
-        Debug.Log("[RoomList] " + _roomPage[page].Length);
-
         for (int i = 0; i < _roomPage[page].Length; ++i)
         {
-            Dictionary<string, string> room = _roomPage[page][i];
+            if (_roomPage[page][i] == null)
+            {
+                continue;
+            }
 
-            Debug.Log("[RoomList] UserID " + room["UserID"]);
+            Dictionary<string, string> room = _roomPage[page][i];
 
             _roomInfoTexts[i].SetRoom(room["UserID"]);
 
-            Debug.Log("[RoomList] DisplayName " + room["DisplayName"]);
-
             _roomInfoTexts[i].SetDisplay($"{room["DisplayName"]}\t{room["RoomNumber"]}");
-
-            Debug.Log("[RoomList] Password " + room["Password"]);
 
             _roomInfoTexts[i].SetLock(room["Password"] != string.Empty, room["Password"]);
 
