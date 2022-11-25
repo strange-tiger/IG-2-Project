@@ -30,7 +30,7 @@ public class Food : InteracterableObject, IPunObservable
     {
         base.Interact();
 
-        _foodInteraction = GetComponent<PlayerInteraction>().transform.root.GetComponent<FoodInteraction>();
+        _foodInteraction = FindObjectOfType<PlayerInteraction>().transform.root.GetComponent<FoodInteraction>();
 
 
         if(_foodInteraction.SatietyStack != 6)
