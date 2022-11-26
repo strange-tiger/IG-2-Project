@@ -13,6 +13,9 @@ using _CSV = Asset.ParseCSV.CSVParser;
 public class PetShopUIManager : UIManager
 {
     [SerializeField] Collider _npcCollider;
+    [SerializeField] PetData _petData;
+    [SerializeField] PetShopList _petShopList;
+    [SerializeField] GameObject _npcChat;
 
     public static PetSpawner PlayerPetSpawner { get; set; }
     public String PlayerNickname { get; private set; }
@@ -31,8 +34,8 @@ public class PetShopUIManager : UIManager
 
     private void OnEnable()
     {
-        
-        
+
+
         PlayerNickname = PhotonNetwork.NickName;
     }
 
@@ -40,5 +43,15 @@ public class PetShopUIManager : UIManager
     {
         _npcCollider.enabled = false;
         LoadUI((int)ui);
+    }
+
+    public void LoadInfo()
+    {
+        _ui[(int)_UI.INFO].SetActive(true);
+    }
+
+    private void InitializePetShop()
+    {
+
     }
 }
