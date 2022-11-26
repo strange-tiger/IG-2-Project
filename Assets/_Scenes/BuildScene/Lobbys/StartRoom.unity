@@ -224,6 +224,8 @@ MonoBehaviour:
   _isStartRoom: 1
   _canvases: []
   _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+  _playerSpawnPosition: {x: 0, y: 1, z: 3}
+  _playerSpawnRotatinon: {x: 0, y: 0, z: 0}
   _mapType: 0
   _isFixedPosition: 0
   _fixedPosition: {x: 0, y: 0, z: 0}
@@ -918,9 +920,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899bcfd799605374cbce3c14dc44660e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _questText: {fileID: 1192239654}
   _startRoomTutorial: {fileID: 268166412}
-  _startRoomNPCName: {fileID: 1722936625}
+  _tutorialController: {fileID: 0}
+  _tutorialType: 0
 --- !u!1 &299992080
 GameObject:
   m_ObjectHideFlags: 0
@@ -3003,17 +3005,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172475233}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1192239654 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1146504228200080048, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
-  m_PrefabInstance: {fileID: 1146504227007840406}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1230095316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4482,9 +4473,17 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4664552631892890091, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
+      propertyPath: _isStartRoom
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6605856074222316182, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: m_Name
       value: StartRoomPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605856074222316183, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
+      propertyPath: sceneViewId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6605856074222745272, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: m_RootOrder
