@@ -1,4 +1,4 @@
-#define _DEV_MODE_
+//#define _DEV_MODE_
 
 using System.Collections;
 using System.Collections.Generic;
@@ -83,8 +83,8 @@ public class TutorialConducter : MonoBehaviour
             // 지금이 퀘스트인지 판별
             if(_currentDialogue[TutorialField.IsQuest].Length > 0)
             {
-                _questConducters[_nextQuestNumber].gameObject.SetActive(true);
                 _tutorialManager.ShowQuestText(_currentDialogue[TutorialField.IsQuest]);
+                _questConducters[_nextQuestNumber].gameObject.SetActive(true);
             }
             // 튜토리얼이 끝났는지 판단
             else if(_nextDialogueID == -1)
@@ -102,10 +102,10 @@ public class TutorialConducter : MonoBehaviour
 
     private void ShowNextDialog()
     {
-        Debug.Log($"[Tutorial] {_nextDialogueID}");
+        Debug.Log($"[Tutorial] {_tutorialNumber.ToString()} current: {_nextDialogueID}");
         _currentDialogue = _csvManager.GetDialogue(_nextDialogueID);
-        Debug.Log($"[Tutorial] {_currentDialogue[TutorialField.Next]}");
         _nextDialogueID = int.Parse(_currentDialogue[TutorialField.Next]);
+        Debug.Log($"[Tutorial] {_tutorialNumber.ToString()} next:  {_nextDialogueID}");
 
         StartCoroutine(CoShowDialog());
     }
@@ -168,7 +168,18 @@ public class TutorialConducter : MonoBehaviour
     private void QuestEnd()
     {
         // 퀘스트가 끝났을 때
-        ShowNextDialog();
+        Debug.Log("[Tutorial] Quest 끝남을 받음");
         _tutorialManager.DisableQuestText();
+        _questConducters[_nextQuestNumber].gameObject.SetActive(false);
+        ++_nextQuestNumber;
+        
+        if (_nextDialogueID != -1)
+        {
+            ShowNextDialog();
+        } 
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

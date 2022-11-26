@@ -56,6 +56,11 @@ public class TutorialManager : MonoBehaviour
         ShowTutorial(0);
     }
 
+    private void Start()
+    {
+        _tutorialPanel.SetActive(false);
+    }
+
     private void ShowTutorial(int tutorialNumber)
     {
         _tutorialConducters[_currentShowingTutorial].gameObject.SetActive(false);
@@ -97,5 +102,6 @@ public class TutorialManager : MonoBehaviour
     public void DisableQuestText()
     {
         _questPanel.SetActive(false);
+        _questText.text = "";
     }
 }

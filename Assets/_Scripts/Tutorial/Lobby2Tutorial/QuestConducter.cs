@@ -10,10 +10,17 @@ public abstract class QuestConducter : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        OnQuestEnd -= OnQuestEnded;
+        OnQuestEnd += OnQuestEnded;
         StartQuest();
     }
 
     public abstract void StartQuest();
+
+    protected virtual void OnQuestEnded()
+    {
+        Debug.Log("[Tutorial] Quest ³¡³²");
+    }
 
     protected void QuestEnded()
     {
