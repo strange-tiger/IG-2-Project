@@ -6,7 +6,6 @@ public class TempQuest : QuestConducter
 {
     public override void StartQuest()
     {
-        Debug.Log("[Tutorial] Quest ½ÇÇàµÊ");
         StopAllCoroutines();
         StartCoroutine(EndQuest());
     }

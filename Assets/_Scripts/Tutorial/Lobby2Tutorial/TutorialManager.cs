@@ -44,16 +44,18 @@ public class TutorialManager : MonoBehaviour
         for (int i = 0; i < buttonCount; ++i)
         {
             int tutorialNumber = i + 1;
+            string name = tutorialButtons[i].name;
+
             tutorialButtons[i].onClick.RemoveAllListeners();
             tutorialButtons[i].onClick.AddListener(() => {
-                ShowTutorial(tutorialNumber);
+                ShowTutorial(tutorialNumber, name);
             });
         }
 
         _questPanel.SetActive(false);
 
         // 시작 튜토리얼을 실행시킴
-        ShowTutorial(0);
+        ShowTutorial(0, "manager");
     }
 
     private void Start()
@@ -61,8 +63,9 @@ public class TutorialManager : MonoBehaviour
         _tutorialPanel.SetActive(false);
     }
 
-    private void ShowTutorial(int tutorialNumber)
+    private void ShowTutorial(int tutorialNumber, string debug)
     {
+        Debug.Log("[Tutorial] ShowTutorial " + debug);
         _tutorialConducters[_currentShowingTutorial].gameObject.SetActive(false);
         _tutorialConducters[tutorialNumber].gameObject.SetActive(true);
         _currentShowingTutorial = tutorialNumber;

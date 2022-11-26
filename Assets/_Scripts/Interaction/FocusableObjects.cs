@@ -55,13 +55,13 @@ public class FocusableObjects : MonoBehaviourPun
         _sencer.SetSencer(_sencerRadius, this);
     }
 
-    public void OnFocus()
+    public virtual void OnFocus()
     {
         Debug.Log(gameObject.name + ": on");
         _outlineable.OutlineParameters.Color = _onFocusOutlineColor;
     }
 
-    public void OutFocus()
+    public virtual void OutFocus()
     {
         Debug.Log(gameObject.name + ": off");
         _outlineable.OutlineParameters.Color = _sencedoutlineColor;

@@ -57,6 +57,7 @@ public class TutorialConducter : MonoBehaviour
         {
             quest.gameObject.SetActive(false);
         }
+        _nextQuestNumber = 0;
 
         _isDialogueEnd = _isSkip = false;
         if (_dialogueStartNumber == -1)
@@ -64,7 +65,6 @@ public class TutorialConducter : MonoBehaviour
             _dialogueStartNumber = _csvManager.GetTutorialStartPoint(_tutorialNumber);
         }
         _nextDialogueID = _dialogueStartNumber;
-        _nextQuestNumber = 0;
     }
 
     private void Update()
@@ -102,11 +102,10 @@ public class TutorialConducter : MonoBehaviour
 
     private void ShowNextDialog()
     {
-        Debug.Log($"[Tutorial] {_tutorialNumber.ToString()} current: {_nextDialogueID}");
         _currentDialogue = _csvManager.GetDialogue(_nextDialogueID);
         _nextDialogueID = int.Parse(_currentDialogue[TutorialField.Next]);
-        Debug.Log($"[Tutorial] {_tutorialNumber.ToString()} next:  {_nextDialogueID}");
 
+        _isDialogueEnd = _isSkip = false;
         StartCoroutine(CoShowDialog());
     }
 
@@ -168,8 +167,8 @@ public class TutorialConducter : MonoBehaviour
     private void QuestEnd()
     {
         // 퀘스트가 끝났을 때
-        Debug.Log("[Tutorial] Quest 끝남을 받음");
         _tutorialManager.DisableQuestText();
+
         _questConducters[_nextQuestNumber].gameObject.SetActive(false);
         ++_nextQuestNumber;
         
@@ -181,5 +180,10 @@ public class TutorialConducter : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }
