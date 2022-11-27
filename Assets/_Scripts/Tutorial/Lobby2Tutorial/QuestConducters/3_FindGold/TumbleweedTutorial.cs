@@ -57,6 +57,9 @@ public class TumbleweedTutorial : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
 
         _originalPosition = transform.position;
+
+        OnQuestEnd -= GiveCoinEffect;
+        OnQuestEnd += GiveCoinEffect;
     }
 
     private void OnEnable()
@@ -161,22 +164,28 @@ public class TumbleweedTutorial : MonoBehaviour
         _slider.value = _playerInteraction.InteractingTime / _grabToGetGoldTime;
         _slider.gameObject.SetActive(true);
 
+        // 게이지가 모두 참, 퀘스트 종료
         if (_slider.value >= 1f)
         {
             _isGetCoin = true;
-
-            // 성공하면 재자리에 멈추기
-            _rigidbody.velocity = _ZERO_VECTOR;
-
-            StopAllCoroutines();
-
-            _meshRenderer.enabled = false;
-
-            StartCoroutine(DisableSelfAfterGetGold());
-
             OnQuestEnd.Invoke();
         }
     }
+
+    private void GiveCoinEffect()
+    {
+        _audioSource.Play();
+
+        _slider.gameObject.SetActive(false);
+        _goldCountText.text = "+1";
+        _getGoldPanel.SetActive(true);
+        _rigidbody.velocity = _ZERO_VECTOR;
+
+        _meshRenderer.enabled = false;
+
+        StopAllCoroutines();
+        StartCoroutine(DisableSelfAfterGetGold());
+}
 
     private IEnumerator DisableSelfAfterGetGold()
     {
