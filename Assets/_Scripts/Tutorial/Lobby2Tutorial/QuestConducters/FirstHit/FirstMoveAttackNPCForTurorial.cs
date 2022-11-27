@@ -16,6 +16,11 @@ public class FirstMoveAttackNPCForTurorial : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
+    private void OnEnable()
+    {
+        StopAllCoroutines();
+    }
+
     public void onDamageByBottle()
     {
         Debug.Log("[Tutorial: FirstHit] NPC 피격 당함");
