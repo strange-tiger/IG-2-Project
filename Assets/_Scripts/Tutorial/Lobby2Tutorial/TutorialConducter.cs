@@ -1,4 +1,4 @@
-//#define _DEV_MODE_
+#define _DEV_MODE_
 
 using System.Collections;
 using System.Collections.Generic;
