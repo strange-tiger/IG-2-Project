@@ -1,4 +1,3 @@
-﻿//#define debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,15 +9,15 @@ using UnityEngine.EventSystems;
 using _UI = Defines.EPetShopUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
 
-//public enum EPetEvolutionCount
-//{
-//    NONE,
-//    ZERO,
-//    ONE,
-//    TWO,
-//};
+public enum EPetEvolutionCount
+{
+    NONE,
+    ZERO,
+    ONE,
+    TWO,
+};
 
-public class TransformUI : MonoBehaviour
+public class PetEquipUI : MonoBehaviour
 {
     [Header("UIManager")]
     [SerializeField] PetShopUIManager _ui;
@@ -115,32 +114,6 @@ public class TransformUI : MonoBehaviour
         OnCurrentPetChanged -= ShowCurrentPet;
     }
 
-#if debug
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            OnClickLeftButton();
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            OnClickRightButton();
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            OnClickLeftTransformButton();
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            OnClickRightTransformButton();
-        }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {
-            TransformPet();
-        }
-    }
-#endif
-
     private void TransformPet()
     {
         if (_doTransformScale)
@@ -155,29 +128,28 @@ public class TransformUI : MonoBehaviour
 
     private void Close()
     {
-//        PetData petData = _ui.GetPetData();
-//        for (int i = 0; i < _ui.PetList.Length; ++i)
-//        {
-//            petData.Size[i] = _ui.PetList[i].Size;
-//            petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
-//            petData.Status[i] = _ui.PetList[i].Status;
-//        }
+        PetData petData = _ui.GetPetData();
+        for (int i = 0; i < _ui.PetList.Length; ++i)
+        {
+            petData.Size[i] = _ui.PetList[i].Size;
+            petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
+            petData.Status[i] = _ui.PetList[i].Status;
+        }
 
-//#if !debug
-//        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
-//        {
-//            return;
-//        }
-//#endif
-//        if (_equipedIndex != -1)
-//        {
-//            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
-//        }
+        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
+        {
+            return;
+        }
+
+        if (_equipedIndex != -1)
+        {
+            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+        }
 
         _ui.LoadUI(_UI.FIRST);
 
         _applyPopup.SetActive(true);
-        
+
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -376,7 +348,7 @@ public class TransformUI : MonoBehaviour
         }
         else
         {
-            // �ӽ�
+            // ???
             _petTransformOption.text = _currentPetTransform.GetChild(index).name;
         }
 

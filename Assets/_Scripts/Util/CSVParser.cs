@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static PetUIManager;
 
 namespace Asset.ParseCSV
 {
@@ -66,7 +65,7 @@ namespace Asset.ParseCSV
 
                 petShopList.Name[i] = fields[1];
                 petShopList.Price[i] = int.Parse(fields[2]);
-                petShopList.Grade[i] = (PetProfile.EGrade)Enum.Parse(typeof(PetProfile.EGrade), fields[3]);
+                petShopList.Grade[i] = (PetShopUIManager.PetProfile.EGrade)Enum.Parse(typeof(PetShopUIManager.PetProfile.EGrade), fields[3]);
                 petShopList.Explanation[i] = fields[4];
             }
 

@@ -20,6 +20,10 @@ public class PetShopUIManager : UIManager
     public static PetSpawner PlayerPetSpawner { get; set; }
     public String PlayerNickname { get; private set; }
 
+    public BasicPlayerNetworking PlayerNetworking { get; private set; }
+    private BasicPlayerNetworking[] _playerNetworkings;
+    private BasicPlayerNetworking _playerNetworking;
+
     public PetProfile[] PetList { get; private set; }
 
     private void Awake()
@@ -38,7 +42,25 @@ public class PetShopUIManager : UIManager
     {
         InitializePetShop();
 
-        PlayerNickname = PhotonNetwork.NickName;
+        StartCoroutine(SetPlayerNetworking());
+    }
+
+    private IEnumerator SetPlayerNetworking()
+    {
+        yield return new WaitForSeconds(3f);
+
+        _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
+
+        foreach (var player in _playerNetworkings)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                _playerNetworking = player;
+
+                break;
+            }
+        }
+        PlayerNickname = _playerNetworking.MyNickname;
     }
 
     public PetData GetPetData() => _petData;
