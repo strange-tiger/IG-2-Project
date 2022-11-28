@@ -173,6 +173,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         base.OnDisconnected(cause);
         
          MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+        Debug.Log("[PlayerOnline] Offline in Server");
 
     }
 
@@ -195,6 +196,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         if(MySqlSetting.IsPlayerOnline(PhotonNetwork.NickName))
         {
+            Debug.Log("[PlayerOnline] Offline in quit");
             MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
         }
     }
