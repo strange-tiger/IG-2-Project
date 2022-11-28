@@ -8,6 +8,6 @@ public class Lobby1QuestList : ScriptableObject
     [SerializeField] private string[] _dialogue;
     public string[] Dialogue { get { return _dialogue; } }
 
-    [SerializeField] private bool[] _isQuest;
-    public bool[] IsQuest { get { return _isQuest; } }
+    [SerializeField] private string[] _isQuest;
+    public string[] IsQuest { get { return _isQuest; } }
 }

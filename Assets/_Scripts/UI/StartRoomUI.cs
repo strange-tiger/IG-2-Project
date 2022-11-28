@@ -6,7 +6,7 @@ public class StartRoomUI : MonoBehaviour
 {
     [SerializeField] private GameObject[] _menuPanels;
 
-    void Start()
+    private void Start()
     {
         foreach(GameObject panel in _menuPanels)
         {

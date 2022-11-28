@@ -25,22 +25,26 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     private int _setAvatarNum;
     private int _setMaterialNum;
     private string _playerNickname;
-    
+
     void Start()
     {
 
 
 
-            if (SceneManager.GetActiveScene().name != "Login")
+        if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
+        {
+            if (photonView.IsMine)
             {
-                _playerNickname = PhotonNetwork.NickName;
+                if (SceneManager.GetActiveScene().name != "Login")
+                {
+                    _playerNickname = PhotonNetwork.NickName;
 
+                }
+                LoadAvatarData();
             }
+        }
 
-            LoadAvatarData();
 
-        
-        
 
     }
 
@@ -48,15 +52,15 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     public void MakeAvatarData()
     {
 
-        if(IsFemale == false)
+        if (IsFemale == false)
         {
             _userData = _maleData;
-           
+
         }
         else
         {
             _userData = _femaleData;
-            
+
         }
 
         _setAvatarNum = 0;
@@ -77,7 +81,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         Debug.Log(_playerNickname);
         bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
-        // ¼ºº°¿¡ ¸Â´Â µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½
         if (_isFemale)
         {
             IsFemale = _isFemale;
@@ -89,18 +93,18 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
             _userData = _maleData;
         }
 
-        // DB¿¡ ÀúÀåµÇ¾î ÀÖ´ø ¾Æ¹ÙÅ¸ µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ ï¿½Æ¹ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½
         string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
 
-        // ºÒ·¯¿Â µ¥ÀÌÅÍ¸¦ ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®¿¡ ³Ö¾îÁÜ
+        // ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½Íºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½
         for (int i = 0; i < avatarData.Length - 1; ++i)
         {
             _userData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
-        // DB¿¡ ÀúÀåµÇ¾î ÀÖ´ø ¾Æ¹ÙÅ¸ÀÇ MaterialÀ» ºÒ·¯¿È
+        // DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ ï¿½Æ¹ï¿½Å¸ï¿½ï¿½ Materialï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½
         _userData.UserMaterial = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
-        // ¾Æ¹ÙÅ¸ÀÇ Á¤º¸¸¦ µ¹¸é¼­ ÀåÂøÁßÀÌ´ø ¾Æ¹ÙÅ¸¸¦ Ã£¾Æ³¿.
+        // ï¿½Æ¹ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Æ¹ï¿½Å¸ï¿½ï¿½ Ã£ï¿½Æ³ï¿½.
         for (int i = 0; i < _userData.AvatarState.Length - 1; ++i)
         {
             if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
@@ -110,9 +114,9 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
             }
         }
 
-        // ÀåÂøÁßÀÌ´ø ¾ÆÀÌÅÛ°ú MaterialÀ» Àû¿ë½ÃÅ´.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û°ï¿½ Materialï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å´.
         _setMaterialNum = _userData.UserMaterial;
-        if(SceneManager.GetActiveScene().name != "StartRoom")
+        if (SceneManager.GetActiveScene().name != "StartRoom")
         {
             photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, IsFemale);
         }
@@ -129,7 +133,10 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
+        if (photonView.IsMine)
+        {
+            photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
+        }
     }
 
     private void RootSet(int avatarNum)
@@ -151,19 +158,19 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     [PunRPC]
     public void AvatarSetting(int avatarNum, int materialNum, bool genderNum)
     {
-            RootSet(avatarNum);
+        RootSet(avatarNum);
 
-            if (genderNum == true)
-            {
-                _userData = _femaleData;
-            }
-            else
-            {
-                _userData = _maleData;
-            }
+        if (genderNum == true)
+        {
+            _userData = _femaleData;
+        }
+        else
+        {
+            _userData = _maleData;
+        }
 
-            _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
-            _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
+        _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
+        _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
 
     }
 

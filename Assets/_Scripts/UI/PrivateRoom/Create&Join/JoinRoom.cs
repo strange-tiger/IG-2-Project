@@ -57,7 +57,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
         try
         {
-            PhotonNetwork.JoinRandomOrCreateRoom(_currentJoinRoom, ANY_MAX_PLAYER);
+            PhotonNetwork.JoinRandomRoom(_currentJoinRoom, ANY_MAX_PLAYER);
         }
         catch
         {

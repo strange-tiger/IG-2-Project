@@ -30,7 +30,7 @@ public class WaitingServerManager : LobbyChanger
     {
         base.Awake();
 
-        GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.GetChild(0));
+        GameObject countDown = Instantiate(_countDownPrefab, MenuUIManager.Instance.transform.parent.parent.GetChild(0));
         _countDownScript = countDown.GetComponent<StartGameCountDown>();
         _countDownText = countDown.GetComponentInChildren<TextMeshProUGUI>();
         _countDownText.gameObject.SetActive(false);

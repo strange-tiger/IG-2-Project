@@ -7,7 +7,7 @@ using Photon.Realtime;
 public class PrivateRoomRadialMenuSpawner : MonoBehaviourPunCallbacks
 {
     private static readonly YieldInstruction MENU_DELAY = new WaitForSeconds(1f);
-    private List<Canvas> _menuList;
+    private List<Canvas> _menuList = new List<Canvas>();
 
     public override void OnEnable()
     {
