@@ -10,13 +10,17 @@ public class TutorialConducter : MonoBehaviour
 {
     [SerializeField] private TutorialNumber _tutorialNumber;
 
-    [Header ("Skip")]
+    [Header("Skip")]
     [SerializeField] private OVRInput.Button _skipButton = OVRInput.Button.One;
     [SerializeField] private float _letterPassTime = 0.1f;
+
+    [Header("Quest")]
+    [SerializeField] private string _questDisableRequest = "x";
 
     private TutorialManager _tutorialManager;
     private TutorialCSVManager _csvManager;
     private QuestConducter[] _questConducters;
+    private Stack<GameObject> _questStack = new Stack<GameObject>();
 
     private Dictionary<string, string> _currentDialogue;
     private int _dialogueStartNumber = -1;
@@ -80,14 +84,26 @@ public class TutorialConducter : MonoBehaviour
         {
             _isDialogueEnd = _isSkip = false;
 
+            string isQuest = _currentDialogue[TutorialField.IsQuest];
             // 지금이 퀘스트인지 판별
-            if(_currentDialogue[TutorialField.IsQuest].Length > 0)
+            if (isQuest.Length > 0)
             {
-                _tutorialManager.ShowQuestText(_currentDialogue[TutorialField.IsQuest]);
-                _questConducters[_nextQuestNumber].gameObject.SetActive(true);
+                Debug.Log($"[Tutorial] {gameObject.name} {isQuest}");
+                // 퀘스트 종료 요청이면
+                if (isQuest == _questDisableRequest)
+                {
+                    ResetQuestStack();
+                    ShowNextDialog();
+                }
+                else
+                {
+                    _tutorialManager.ShowQuestText(_currentDialogue[TutorialField.IsQuest]);
+                    _questStack.Push(_questConducters[_nextQuestNumber].gameObject); 
+                    _questConducters[_nextQuestNumber].gameObject.SetActive(true);
+                }
             }
             // 튜토리얼이 끝났는지 판단
-            else if(_nextDialogueID == -1)
+            else if (_nextDialogueID == -1)
             {
                 _tutorialManager.ShowDialogue();
                 gameObject.SetActive(false);
@@ -97,6 +113,15 @@ public class TutorialConducter : MonoBehaviour
             {
                 ShowNextDialog();
             }
+        }
+    }
+
+    private void ResetQuestStack()
+    {
+        int stackCount = _questStack.Count;
+        for (int i = 0; i < stackCount; ++i)
+        {
+            _questStack.Pop().SetActive(false);
         }
     }
 
@@ -185,5 +210,6 @@ public class TutorialConducter : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
+        ResetQuestStack();
     }
 }
