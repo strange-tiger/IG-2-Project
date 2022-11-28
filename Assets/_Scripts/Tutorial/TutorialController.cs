@@ -254,7 +254,7 @@ public class TutorialController : MonoBehaviour
             {
                 _isTutorialQuest = value;
 
-                _lobby1TutorialStartButton.IsQuest = true;
+                _lobby1TutorialStartButton.IsQuest = value;
             }
         }
     }
