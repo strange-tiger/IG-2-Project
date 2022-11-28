@@ -22,6 +22,9 @@ public class UserCustomizeData : ScriptableObject
 
     [SerializeField] string[] avatarInfo;
     public string[] AvatarInfo { get { return avatarInfo; } }
+
+    [SerializeField] AvatarMaterialData[] avatarMaterial;
+    public AvatarMaterialData[] AvatarMaterial { get { return avatarMaterial; } }
 }
 
 public enum EAvatarState

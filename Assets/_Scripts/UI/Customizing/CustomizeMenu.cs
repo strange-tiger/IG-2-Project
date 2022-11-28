@@ -38,7 +38,7 @@ public class CustomizeMenu : MonoBehaviourPun
     [SerializeField] TextMeshProUGUI _materialNum;
     [SerializeField] TextMeshProUGUI _avatarInfoText;
     [SerializeField] TextMeshProUGUI _messageText;
-    [SerializeField] CustomizeData _customizeDatas;
+    [SerializeField] AvatarMaterialData _avatarMaterialData;
     [SerializeField] UserCustomizeData _maleUserCustomizeData;
     [SerializeField] UserCustomizeData _femaleUserCustomizeData;
     [SerializeField] UserCustomizeData _userCustomizeData;
@@ -148,13 +148,13 @@ public class CustomizeMenu : MonoBehaviourPun
         _currentAvatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _setMaterialNum = _userCustomizeData.UserMaterial;
         _currentSkinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
-        _currentSkinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+        _currentSkinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
 
 
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _setMaterialNum = 0;
         _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_haveAvatarList[0]];
-        _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+        _skinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
 
 
     }
@@ -316,7 +316,7 @@ public class CustomizeMenu : MonoBehaviourPun
     {
         if (_setMaterialNum == 0)
         {
-            _setMaterialNum = _customizeDatas.AvatarMaterial.Length - 1;
+            _setMaterialNum = _avatarMaterialData.AvatarMaterial.Length - 1;
         }
         else
         {
@@ -325,7 +325,7 @@ public class CustomizeMenu : MonoBehaviourPun
 
         _materialNum.text = $"컬러 {_setMaterialNum + 1}";
 
-        _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+        _skinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
 
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -334,7 +334,7 @@ public class CustomizeMenu : MonoBehaviourPun
 
     void RightMaterialButton()
     {
-        if (_setMaterialNum == _customizeDatas.AvatarMaterial.Length - 1)
+        if (_setMaterialNum == _avatarMaterialData.AvatarMaterial.Length - 1)
         {
             _setMaterialNum = 0;
         }
@@ -345,7 +345,7 @@ public class CustomizeMenu : MonoBehaviourPun
 
         _materialNum.text = $"컬러 {_setMaterialNum + 1}";
 
-        _skinnedMeshRenderer.material = _customizeDatas.AvatarMaterial[_setMaterialNum];
+        _skinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
 
 
         EventSystem.current.SetSelectedGameObject(null);
