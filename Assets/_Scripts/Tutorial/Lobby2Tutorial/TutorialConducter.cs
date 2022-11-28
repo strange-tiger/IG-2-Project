@@ -141,7 +141,7 @@ public class TutorialConducter : MonoBehaviour
 
                 // 다음 글자가 공백( )이라면 그 다음 글자를 한번에 출력함
                 char nextLetter = GetNextLetter(ref currentDialogueString, ref currentDialoguePosition);
-                if(nextLetter == ' ')
+                if(nextLetter == ' ' && currentDialoguePosition < currentDialogueString.Length - 1)
                 {
                     shownDialogue += nextLetter;
                     nextLetter = GetNextLetter(ref currentDialogueString, ref currentDialoguePosition);

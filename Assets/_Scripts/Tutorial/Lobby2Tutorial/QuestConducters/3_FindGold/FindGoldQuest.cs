@@ -9,8 +9,8 @@ public class FindGoldQuest : QuestConducter
     private void Awake()
     {
         TumbleweedTutorial tumbleweed = GetComponentInChildren<TumbleweedTutorial>();
-        tumbleweed.OnQuestEnd -= OnQuestEnded;
-        tumbleweed.OnQuestEnd += OnQuestEnded;
+        tumbleweed.OnQuestEnd -= QuestEnded;
+        tumbleweed.OnQuestEnd += QuestEnded;
     }
 
     public override void StartQuest()
