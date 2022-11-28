@@ -154,15 +154,12 @@ public class PetPurchaseUI : MonoBehaviour
 
                 if (_currentIndex == prevIndex)
                 {
-                    break;
+                    return;
                 }
             }
             while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
 
-            if (_currentIndex != prevIndex)
-            {
-                ShowPet(count, _ui.PetList[_currentIndex]);
-            }
+            ShowPet(count, _ui.PetList[_currentIndex]);
 
             ++count;
         }
@@ -187,15 +184,12 @@ public class PetPurchaseUI : MonoBehaviour
 
                 if (_currentIndex == prevIndex)
                 {
-                    break;
+                    return;
                 }
             }
             while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
 
-            if (_currentIndex != prevIndex)
-            {
-                ShowPet(count, _ui.PetList[_currentIndex]);
-            }
+            ShowPet(count, _ui.PetList[_currentIndex]);
 
             ++count;
         }
