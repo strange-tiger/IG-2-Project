@@ -5,12 +5,13 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 using SceneType = Defines.ESceneNumder;
 using _CSV = Asset.ParseCSV.CSVParser;
+using Asset.MySql;
 
-
-public class ArenaTutorial : MonoBehaviour
+public class ArenaTutorial : MonoBehaviourPun
 {
     [Header("Tutorial Text")]
     [SerializeField] private TextMeshProUGUI _conversationText;
@@ -38,16 +39,17 @@ public class ArenaTutorial : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
 
+        _isFirstVisit = MySqlSetting.CheckCompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
         
         _tutorialBettingUI.BettingPanelOff();
 
         if (_isFirstVisit)
         {
-            _conversationList = _CSV.ParseCSV("FirstVisitArenaTutorial", _conversationList);
+            _conversationList = _CSV.ParseCSV("NotFirstVisitArenaTutorial", _conversationList);
         }
         else
         {
-            _conversationList = _CSV.ParseCSV("NotFirstVisitArenaTutorial", _conversationList);
+            _conversationList = _CSV.ParseCSV("FirstVisitArenaTutorial", _conversationList);
         }
 
 
@@ -70,14 +72,10 @@ public class ArenaTutorial : MonoBehaviour
 
         }
 
-
         if (_isPause == false && _indexNum < _pauseNum + 1)
         {
             ConversationSkip();
         }
-        Debug.Log(_conversationList.Count);
-        Debug.Log(_indexNum + _conversationList[_indexNum]);
-
 
     }
     private IEnumerator ConversationPrint()
@@ -148,8 +146,15 @@ public class ArenaTutorial : MonoBehaviour
         _isPause = false;
     }
 
-    private void TutorialEnd() => SceneManager.LoadScene((int)SceneType.ArenaRoom);
+    private void TutorialEnd()
+    {
+        if(!_isFirstVisit)
+        {
+            MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
+        }
 
+        SceneManager.LoadScene((int)SceneType.ArenaRoom);
+    }
     private void OnDisable()
     {
         _tutorialBettingUI.OnTriggered.RemoveListener(ConversationRestart);

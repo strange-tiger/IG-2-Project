@@ -18,6 +18,8 @@ namespace Defines
         PrivateRoom,
         ShootingWaitingRoom,
         ShootingGameRoom,
+        Lobby1TutorialRoom,
+        ArenaTutorialRoom,
 
         End,
     }

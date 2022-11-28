@@ -21305,6 +21305,7 @@ GameObject:
   - component: {fileID: 1605077678}
   - component: {fileID: 1605077676}
   - component: {fileID: 1605077677}
+  - component: {fileID: 1605077679}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -21424,7 +21425,6 @@ MonoBehaviour:
   _conversationUI: {fileID: 634287302}
   _dialogueSound: {fileID: 8300000, guid: b4abcad4050ef1d4fbc8dc493ca3d762, type: 3}
   _tutorialBettingUI: {fileID: 1049043459246657422}
-  _bettingUI: {fileID: 1049043458565729182}
 --- !u!4 &1605077678
 Transform:
   m_ObjectHideFlags: 0
@@ -21439,6 +21439,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1605077679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605077675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 978e11d99681a9548bcd99dd6ef1fd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
+  _sceneType: 5
+  _lobbyManager: {fileID: 1646904020}
+  _checkMessage: 
+  _nextLobbyName: Go Arena
 --- !u!1 &1607018859
 GameObject:
   m_ObjectHideFlags: 0
@@ -22693,6 +22713,59 @@ Transform:
   - {fileID: 693963436}
   m_Father: {fileID: 1135934246}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1646904019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1646904021}
+  - component: {fileID: 1646904020}
+  m_Layer: 0
+  m_Name: LobbyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1646904020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646904019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isStartRoom: 0
+  _canvases:
+  - {fileID: 8467435989687871934}
+  _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+  _playerSpawnPosition: {x: 0, y: 1, z: 3}
+  _playerSpawnRotatinon: {x: 0, y: 0, z: 0}
+  _mapType: 1
+  _isFixedPosition: 0
+  _fixedPosition: {x: 0, y: 0, z: 0}
+  _fixedRotation: {x: 0, y: 0, z: 0}
+--- !u!4 &1646904021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646904019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1647353897
 GameObject:
