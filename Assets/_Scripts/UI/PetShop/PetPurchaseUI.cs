@@ -73,6 +73,7 @@ public class PetPurchaseUI : MonoBehaviour
             _petInfoButtons[i].onClick.AddListener(() => ShowCurrentPet(_petInfoList[i]));
         }
 
+        // error
         _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
 
         if (_equipedIndex != -1)
@@ -229,6 +230,8 @@ public class PetPurchaseUI : MonoBehaviour
 
     private void ShowCurrentPet(PetShopUIManager.PetProfile pet)
     {
+        _petInfoPopup.SetActive(true);
+
         _currentPet = pet;
 
         _petImage.sprite = pet.Image;

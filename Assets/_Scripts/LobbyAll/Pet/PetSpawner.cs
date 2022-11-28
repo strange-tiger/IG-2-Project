@@ -61,7 +61,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine)
         {
-            PetUIManager.PlayerPetSpawner = this;
+            PetShopUIManager.PlayerPetSpawner = this;
         }
     }
 

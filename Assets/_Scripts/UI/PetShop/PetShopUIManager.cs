@@ -84,6 +84,7 @@ public class PetShopUIManager : UIManager
 
         for (int i = 0; i < PetList.Length; ++i)
         {
+            // error
             PetList[i].SetImage(_petData.Image[i]);
 
             PetList[i] = new PetProfile();
