@@ -38,7 +38,6 @@ namespace Asset {
 		Nickname,
 		Gender,
 		Tutorial,
-		OnOff,
 		AvatarData,
 		AvatarColor,
 		Gold,

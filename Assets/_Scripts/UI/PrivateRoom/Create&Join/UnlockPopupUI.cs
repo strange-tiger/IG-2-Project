@@ -54,6 +54,7 @@ public class UnlockPopupUI : PopupUI
     {
         if (!_currentRoomPassword.Equals(_passwordInput.text))
         {
+            _errorPopup.SetActive(true);
             return;
         }
 

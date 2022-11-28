@@ -23,7 +23,7 @@ public class RoomInfoTextUI : MonoBehaviour
     [SerializeField] GameObject _errorPopup;
 
     private string _roomName = string.Empty;
-    private string _roomInfo = string.Empty;
+    private string _roomDisplay = string.Empty;
     private string _roomPassword = string.Empty;
     private bool _isLocked = false;
 
@@ -60,8 +60,7 @@ public class RoomInfoTextUI : MonoBehaviour
 
     public void UpdateRoomInfo()
     {
-        _text.gameObject.SetActive(true);
-        _text.text = _roomInfo;
+        _text.text = _roomDisplay;
         _lockImage.SetActive(_isLocked);
     }
 
@@ -70,9 +69,9 @@ public class RoomInfoTextUI : MonoBehaviour
         _roomName = room;
     }
 
-    public void SetInfo(string info)
+    public void SetDisplay(string display)
     {
-        _roomInfo = info;
+        _roomDisplay = display;
     }
 
     public void SetLock(bool isLocked, string password)

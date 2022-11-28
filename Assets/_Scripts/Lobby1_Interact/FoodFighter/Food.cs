@@ -21,6 +21,8 @@ public class Food : InteracterableObject, IPunObservable
     [SerializeField] EFoodSatietyLevel _foodSatietyLevel;
     [SerializeField] GameObject _food;
     [SerializeField] Collider _collider;
+
+    private FoodInteraction _foodInteraction;
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
 
 
@@ -28,11 +30,19 @@ public class Food : InteracterableObject, IPunObservable
     {
         base.Interact();
 
-        OnEated.Invoke(_foodSatietyLevel);
+        _foodInteraction = FindObjectOfType<PlayerInteraction>().transform.root.GetComponent<FoodInteraction>();
 
-        photonView.RPC("EatFoodState", RpcTarget.All);
 
-        StartCoroutine(RegenerateFood());
+        if(_foodInteraction.SatietyStack != 6)
+        {
+
+            OnEated.Invoke(_foodSatietyLevel);
+        
+            photonView.RPC("EatFoodState", RpcTarget.All);
+
+            StartCoroutine(RegenerateFood());
+
+        }
     }
 
 
@@ -69,15 +79,11 @@ public class Food : InteracterableObject, IPunObservable
             {
                 _food.SetActive(true);
                 _collider.enabled = true;
-
-
             }
             else
             {
                 _food.SetActive(false);
                 _collider.enabled = false;
-
-
             }
         }
     }
