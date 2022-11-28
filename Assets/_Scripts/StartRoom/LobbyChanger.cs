@@ -172,10 +172,11 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         base.OnDisconnected(cause);
         
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+        Debug.Log("[PlayerOnline] Offline in Server");
 
-        
     }
+
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
@@ -188,6 +189,15 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         {
             Debug.Log("[LogOut] LobbyChanger OnJoinRoomFailed, Reconnecting with same name");
             PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        if(MySqlSetting.IsPlayerOnline(PhotonNetwork.NickName))
+        {
+            Debug.Log("[PlayerOnline] Offline in quit");
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
         }
     }
 }
