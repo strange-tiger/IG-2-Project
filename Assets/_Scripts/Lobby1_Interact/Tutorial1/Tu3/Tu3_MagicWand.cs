@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Photon.Pun;
 
-public class Tu3_MagicWand : MonoBehaviourPun
+public class Tu3_MagicWand : MonoBehaviour
 {
     [Header("확률에 해당하는 숫자를 누적시켜 적어주세요")]
     [SerializeField] private int[] _useMagicChance;

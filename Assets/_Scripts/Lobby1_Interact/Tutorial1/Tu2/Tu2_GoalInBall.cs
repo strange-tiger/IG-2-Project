@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 
-public class Tu2_GoalInBall : MonoBehaviourPunCallbacks
+public class Tu2_GoalInBall : MonoBehaviour
 {
     private ParticleSystem[] _goalIn;
 
@@ -21,14 +20,10 @@ public class Tu2_GoalInBall : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider _goalLine)
     {
-        if (photonView.IsMine)
-        {
             if (_goalLine.gameObject.tag == "Ball" && _goalLine.gameObject.transform.position.y > gameObject.transform.position.y)
             {
                 PlayGoalInParticle();
             }
-
-        }
     }
 
     private void PlayGoalInParticle()

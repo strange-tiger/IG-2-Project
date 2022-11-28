@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Defines;
-using Photon.Pun;
-using Photon.Realtime;
 
-public class Tu1_PianoButton : MonoBehaviourPunCallbacks
+public class Tu1_PianoButton : MonoBehaviour
 {
     private AudioSource _audioSource;
 

@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class Tu3_MagicWandGrabManager : MonoBehaviourPun
+public class Tu3_MagicWandGrabManager : MonoBehaviour
 {
     [SerializeField]
     private Tu3_MagicWand _magicWand;

@@ -10,7 +10,7 @@ public class Tu6_Isekai : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "IsekaiQuest")
+        if (other.tag == "AI")
         {
             if (_syncOVRDistanceGrabbable.isGrabbed)
             {
