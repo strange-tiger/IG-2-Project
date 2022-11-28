@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427182, b: 0.56452405, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427176, b: 0.5645241, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8916,6 +8916,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2859840803064220567, guid: eb0501a8d8edde345ba980438ef2c0e5, type: 3}
+      propertyPath: m_text
+      value: "\uACBD\uBE44\uBCD1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959380269133314679, guid: eb0501a8d8edde345ba980438ef2c0e5, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5821804837128473800, guid: eb0501a8d8edde345ba980438ef2c0e5, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -12222,7 +12230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &844686505
 Transform:
   m_ObjectHideFlags: 0
@@ -12231,11 +12239,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844686504}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 9, y: -259, z: -336.8}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
-  m_Father: {fileID: 1188937605}
-  m_RootOrder: 1
+  m_Father: {fileID: 8467435989687871935}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &844686506
 MonoBehaviour:
@@ -16641,7 +16649,6 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1452696290}
-  - {fileID: 844686505}
   - {fileID: 1806244875}
   m_Father: {fileID: 1693092755}
   m_RootOrder: 2
@@ -19626,10 +19633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90341e9a1a3b8104dafd2a87b528d0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myGold: {fileID: 0}
-  _goldPanel: {fileID: 0}
-  _playerNetworking: {fileID: 0}
-  _isGoldUpdateComplete: 0
 --- !u!222 &1452696292
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21421,6 +21424,7 @@ MonoBehaviour:
   _conversationUI: {fileID: 634287302}
   _dialogueSound: {fileID: 8300000, guid: b4abcad4050ef1d4fbc8dc493ca3d762, type: 3}
   _tutorialBettingUI: {fileID: 1049043459246657422}
+  _bettingUI: {fileID: 1049043458565729182}
 --- !u!4 &1605077678
 Transform:
   m_ObjectHideFlags: 0
@@ -25064,7 +25068,7 @@ Transform:
   - {fileID: 1329883180}
   - {fileID: 709701642}
   m_Father: {fileID: 1188937605}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1806244876
 MonoBehaviour:
@@ -37250,7 +37254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1049043458565729183
 RectTransform:
   m_ObjectHideFlags: 0
@@ -97011,6 +97015,7 @@ RectTransform:
   m_Children:
   - {fileID: 1049043459246657418}
   - {fileID: 2672543761649053099}
+  - {fileID: 844686505}
   m_Father: {fileID: 7470969872514900307}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
