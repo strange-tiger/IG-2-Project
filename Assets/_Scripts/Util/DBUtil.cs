@@ -463,7 +463,7 @@ namespace Asset.MySql
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
 
-                    string updateCompleteTutorialString = MySqlStatement.UPDATE_COMPLETETUTORIAL + $"'{updateState | (int)state}' where Nickname = {myNickname};";
+                    string updateCompleteTutorialString = MySqlStatement.UPDATE_COMPLETETUTORIAL + $"'{updateState}' where Nickname = '{myNickname}';";
 
                     MySqlCommand updateCompleteTutorialCommand = new MySqlCommand(updateCompleteTutorialString, _mysqlConnection);
                     _mysqlConnection.Open();
@@ -472,8 +472,9 @@ namespace Asset.MySql
                 }
                 return true;
             }
-            catch
+            catch(System.Exception error)
             {
+                Debug.LogError(error.Message);
                 return false;
             }
 

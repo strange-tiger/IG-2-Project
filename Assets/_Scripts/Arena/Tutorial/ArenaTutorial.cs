@@ -21,6 +21,7 @@ public class ArenaTutorial : MonoBehaviourPun
     [Header("Restart Trigger")]
     [SerializeField] private TutorialBettingUI _tutorialBettingUI;
 
+    private Transform _player;
     private AudioSource _audioSource;
     private List<string> _conversationList = new List<string>();
     private Coroutine ConversationCoroutine;
@@ -113,8 +114,10 @@ public class ArenaTutorial : MonoBehaviourPun
                     {
                         TutorialEnd();
                     }
-
-                    ++_indexNum;
+                    else
+                    {
+                        ++_indexNum;
+                    }
 
 
                     _audioSource.PlayOneShot(_dialogueSound);
@@ -140,7 +143,9 @@ public class ArenaTutorial : MonoBehaviourPun
 
     private void ConversationRestart()
     {
-        _pauseNum = 19;
+        _player = FindObjectOfType<SatietyUI>().transform;
+        _conversationUI.transform.root.position = _player.transform.position;
+        _pauseNum = 18;
         _tutorialBettingUI.transform.GetChild(0).gameObject.SetActive(false);
         _conversationUI.SetActive(true);
         _isPause = false;
@@ -148,9 +153,9 @@ public class ArenaTutorial : MonoBehaviourPun
 
     private void TutorialEnd()
     {
-        if(_isFirstVisit)
+        if(_isFirstVisit == false)
         {
-            MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
+            Debug.Log(MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA));
         }
 
         SceneManager.LoadScene((int)SceneType.ArenaRoom);
