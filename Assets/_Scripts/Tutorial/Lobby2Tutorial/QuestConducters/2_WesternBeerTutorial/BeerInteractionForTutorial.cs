@@ -41,6 +41,11 @@ public class BeerInteractionForTutorial : MonoBehaviour
     private AudioSource _audioSource;
     private AudioClip _mySound;
 
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void Start()
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();

@@ -5,27 +5,28 @@ using UnityEngine;
 public class WesternBeerQuest1Self : QuestConducter
 {
     [SerializeField] private GameObject _props;
-    [SerializeField] private BeerInteractionForTutorial _beerInteraction;
+    [SerializeField] private GameObject _playerInteraction;
+    private BeerInteractionForTutorial _beerInteraction;
 
     private void Awake()
     {
+        _beerInteraction = _playerInteraction.GetComponent<BeerInteractionForTutorial>();
         _beerInteraction.OnQuestEnd -= QuestEnded;
         _beerInteraction.OnQuestEnd += QuestEnded;
 
-        _beerInteraction.enabled = false;
+        _playerInteraction.SetActive(false);
     }
 
     public override void StartQuest()
     {
         _props.SetActive(true);
-
-        _beerInteraction.enabled = true;
+        _playerInteraction.SetActive(true);
     }
 
     protected override void OnQuestEnded()
     {
         base.OnQuestEnded();
-        _beerInteraction.enabled = false;
+        _playerInteraction.SetActive(false);
     }
 
     private void OnDisable()
