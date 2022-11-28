@@ -30,5 +30,4 @@ public class Tu4_Food : MonoBehaviour
             }
         }
     }
-
 }

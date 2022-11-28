@@ -57,7 +57,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             OnButtonAction?.Invoke();
             _isButton = true;
         }
-//        #region input
+       #region input
 //#if UNITY_EDITOR
 //        if (Input.GetKeyDown(KeyCode.Alpha1))
 //        {
@@ -94,7 +94,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 //            ClickExitButton();
 //        }
 //#endif
-//        #endregion
+       #endregion
 
         if (_isOne)
         {
