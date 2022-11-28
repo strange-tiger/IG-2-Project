@@ -99,6 +99,8 @@ public class PetShopUIManager : UIManager
 
             PetList[i].SetStatus(_petData.Status[i]);
 
+            PetList[i].SetEvolCount(_petData.MaxExp[i]);
+
             PetList[i].SetSize(_petData.Size[i]);
 
             PetList[i].SetAssetIndex(_petData.ChildIndex[i]);
@@ -128,6 +130,7 @@ public class PetShopUIManager : UIManager
             SetExplanation();
             SetPrice();
             SetStatus();
+            SetEvolCount();
             SetSize();
             SetAssetIndex();
             SetLevel();
@@ -139,6 +142,7 @@ public class PetShopUIManager : UIManager
         public string Explanation { get; private set; }
         public int Price { get; private set; }
         public EPetStatus Status { get; private set; }
+        public EPetMaxExp EvolCount { get; private set; }
         public float Size { get; private set; }
         public int AssetIndex { get; private set; }
         public int Level { get; private set; }
@@ -149,6 +153,7 @@ public class PetShopUIManager : UIManager
         public void SetExplanation(string explain = AIR_EXPLAIN) => Explanation = explain;
         public void SetPrice(int price = 0) => Price = price;
         public void SetStatus(EPetStatus status = EPetStatus.NONE) => Status = status;
+        public void SetEvolCount(EPetMaxExp evolCount = EPetMaxExp.NONE) => EvolCount = evolCount;
         public void SetSize(float size = 1f) => Size = size;
         public void SetAssetIndex(int assetIndex = 0) => AssetIndex = assetIndex;
         public void SetLevel(int level = 0) => Level = level;

@@ -9,14 +9,6 @@ using UnityEngine.EventSystems;
 using _UI = Defines.EPetShopUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
 
-public enum EPetEvolutionCount
-{
-    NONE,
-    ZERO,
-    ONE,
-    TWO,
-};
-
 public class PetEquipUI : MonoBehaviour
 {
     [Header("UIManager")]
@@ -29,9 +21,14 @@ public class PetEquipUI : MonoBehaviour
     [SerializeField] Button _leftTransformButton;
     [SerializeField] Button _rightTransformButton;
     [SerializeField] Button _closeButton;
+    [SerializeField] Button _saveButton;
 
-    [Header("Display")]
-    [SerializeField] GameObject _petObject;
+    [Header("Equiped Pet Info")]
+    [SerializeField] Image _equipedPetImage;
+    [SerializeField] TextMeshProUGUI _equipedPetName;
+
+    [Header("Current Pet")]
+    [SerializeField] Image _petImage;
     [SerializeField] TextMeshProUGUI _petName;
     [SerializeField] TextMeshProUGUI _petGrade;
     [SerializeField] TextMeshProUGUI _petExplanation;
@@ -50,19 +47,17 @@ public class PetEquipUI : MonoBehaviour
         set
         {
             _currentPet = value;
-            //_currentPetTransform = _currentPet.PetObject.transform;
             OnCurrentPetChanged.Invoke();
         }
     }
     private PetShopUIManager.PetProfile _currentPet = new PetShopUIManager.PetProfile();
-    private Transform _currentPetTransform;
 
     private int _currentIndex = 0;
     private int _equipedIndex = -1;
     private int _transformIndex = 0;
     private int _maxTransformIndex = 0;
     private bool _doTransformScale = false;
-    private EPetEvolutionCount _currentPetEvolutionCount;
+    private EPetMaxExp _currentPetEvolutionCount;
 
     private void OnEnable()
     {
@@ -89,18 +84,18 @@ public class PetEquipUI : MonoBehaviour
 
         _petTransformOption = _transformButton.GetComponentInChildren<TextMeshProUGUI>();
 
-        for (int i = 0; i < _ui.PetList.Length; ++i)
-        {
-            if (_ui.PetList[i].Status == EPetStatus.EQUIPED)
-            {
-                _equipedIndex = i;
-                break;
-            }
-        }
+        _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
+
         _currentIndex = _equipedIndex;
 
         if (_equipedIndex != -1)
+        {
             CurrentPet = _ui.PetList[_equipedIndex];
+        }
+        else
+        {
+            CurrentPet = new PetShopUIManager.PetProfile();
+        }
 
         _applyPopup.SetActive(false);
     }
@@ -208,10 +203,15 @@ public class PetEquipUI : MonoBehaviour
         UpdateCurrentPet();
     }
 
-    private void UpdateCurrentPet()
+    private void SaveOption()
     {
         _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
         _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
+    }
+
+    private void UpdateCurrentPet()
+    {
+        
         CurrentPet = _ui.PetList[_currentIndex];
         _transformIndex = 0;
 
@@ -240,7 +240,7 @@ public class PetEquipUI : MonoBehaviour
             {
                 break;
             }
-            currentPetEvolutionCount = (int)_currentPetTransform.GetChild(_transformIndex).GetComponent<PetInteract>().PetEvolutionCount - 1;
+            //currentPetEvolutionCount;
         }
         while (CurrentPet.Level < currentPetEvolutionCount);
 
@@ -269,7 +269,7 @@ public class PetEquipUI : MonoBehaviour
             {
                 break;
             }
-            currentPetEvolutionCount = (int)_currentPetTransform.GetChild(_transformIndex).GetComponent<PetInteract>().PetEvolutionCount - 1;
+            //currentPetEvolutionCount;
         }
         while (CurrentPet.Level < currentPetEvolutionCount);
 
@@ -281,24 +281,22 @@ public class PetEquipUI : MonoBehaviour
     {
         _ui.PetList[_currentIndex].SetAssetIndex(index);
 
-        for (int i = 0; i < _currentPetTransform.childCount; ++i)
-        {
-            _currentPetTransform.GetChild(i).gameObject.SetActive(false);
-        }
-
-        _currentPetTransform.GetChild(index).gameObject.SetActive(true);
+        //for (int i = 0; i < _currentPetTransform.childCount; ++i)
+        //{
+        //    _currentPetTransform.GetChild(i).gameObject.SetActive(false);
+        //}
     }
 
     private static readonly float[] TRANSFORM_SCALE = new float[3] { 0.3f, 0.5f, 1f };
     private void TransformPetScale(int index)
     {
         _ui.PetList[_currentIndex].SetSize(TRANSFORM_SCALE[index]);
-        _currentPetTransform.localScale = 100f * TRANSFORM_SCALE[index] * Vector3.one;
+        //_currentPetTransform.localScale = 100f * TRANSFORM_SCALE[index] * Vector3.one;
     }
 
     private void ShowCurrentPet()
     {
-        //TogglePetObject(CurrentPet.Image);
+        _petImage.sprite =  CurrentPet.Image;
 
         _petName.text = CurrentPet.Name;
 
@@ -324,7 +322,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void UpdateTransformOption()
     {
-        if (_currentPetTransform.GetComponentInChildren<PetInteract>().PetEvolutionCount == EPetEvolutionCount.NONE)
+        if (CurrentPet.EvolCount == EPetMaxExp.NONE)
         {
             _maxTransformIndex = TRANSFORM_SCALE.Length;
 
@@ -332,7 +330,7 @@ public class PetEquipUI : MonoBehaviour
         }
         else
         {
-            _maxTransformIndex = _currentPetTransform.childCount;
+            //_maxTransformIndex = _currentPetTransform.childCount;
 
             _doTransformScale = false;
         }
@@ -348,8 +346,7 @@ public class PetEquipUI : MonoBehaviour
         }
         else
         {
-            // ???
-            _petTransformOption.text = _currentPetTransform.GetChild(index).name;
+            //_petTransformOption.text = _currentPetTransform.GetChild(index).name;
         }
 
         EventSystem.current.SetSelectedGameObject(null);
