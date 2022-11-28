@@ -86,14 +86,16 @@ public class JoinRoomUI : MonoBehaviour
             info.DeactivateButton();
         }
 
+        if (PageCount == 0) return;
+
         for (int i = 0; i < _roomPage[page].Length; ++i)
         {
-            if (_roomPage[page][i] == null)
+            Dictionary<string, string> room = _roomPage[page][i];
+
+            if (room["UserID"] == string.Empty)
             {
                 continue;
             }
-
-            Dictionary<string, string> room = _roomPage[page][i];
 
             _roomInfoTexts[i].SetRoom(room["UserID"]);
 
@@ -121,7 +123,7 @@ public class JoinRoomUI : MonoBehaviour
     {
         _roomPage.Clear();
 
-        for (int i = 0; i < _pageCount; ++i)
+        for (int i = 0; i < PageCount; ++i)
         {
             _roomPage.Add(new Dictionary<string, string>[PAGE_ROOM_COUNT]);
         }
