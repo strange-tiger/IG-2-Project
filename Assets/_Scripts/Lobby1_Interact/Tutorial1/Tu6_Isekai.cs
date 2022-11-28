@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Tu6_Isekai : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
+    [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.tag == "IsekaiQuest")
+        {
+            if (_syncOVRDistanceGrabbable.isGrabbed)
+            {
+                ++_lobby1TutorialsQuest.AdvanceQuest;
+
+                enabled = false;
+            }
+        }
     }
 }

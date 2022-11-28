@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Tu2_Ball : MonoBehaviour
 {
-    [SerializeField] private Tu2_BallGame _tu2_BallGame;
+    [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Contains("Ball"))
         {
-            ++_tu2_BallGame.AdvanceQuest;
+            ++_lobby1TutorialsQuest.AdvanceQuest;
 
             enabled = false;
         }

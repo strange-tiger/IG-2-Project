@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Tu1_Piano : MonoBehaviour
 {
-    [SerializeField] private Tu1_PerfectPitch _tu1_PerfectPitch;
+    [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Contains("PlayerBody"))
         {
-            ++_tu1_PerfectPitch.AdvanceQuest;
+            ++_lobby1TutorialsQuest.AdvanceQuest;
 
             enabled = false;
         }
