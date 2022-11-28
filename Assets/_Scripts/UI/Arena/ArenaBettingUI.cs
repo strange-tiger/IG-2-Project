@@ -7,18 +7,25 @@ using Photon.Pun;
 
 public class ArenaBettingUI : MonoBehaviourPun
 {
-    
+
     [SerializeField] private TournamentManager _tournamentManager;
-    
+
     [SerializeField] private TextMeshProUGUI _groupNameText;
 
     [Header("참가자들 텍스트")]
     [SerializeField] private TextMeshProUGUI[] _championNameText;
+    [SerializeField] UserCustomizeData _female;
+    [SerializeField] UserCustomizeData _male;
 
     private int _groupNum;
+    private int _maleNum = 0;
+    private int _femaleNum = 0;
 
+
+    
     void Start()
     {
+
         if (PhotonNetwork.IsMasterClient)
         {
             _groupNum = _tournamentManager.SelectGroupNum;
