@@ -21,4 +21,10 @@ public class WesternBeerQuest2NPC : QuestConducter
         _mapNPC.SetActive(false);
         _props.SetActive(true);
     }
+
+    private void OnDisable()
+    {
+        _props.SetActive(false);
+        _mapNPC.SetActive(true);
+    }
 }

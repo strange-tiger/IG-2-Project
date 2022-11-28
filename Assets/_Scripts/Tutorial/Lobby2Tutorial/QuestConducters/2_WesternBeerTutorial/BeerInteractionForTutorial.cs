@@ -14,7 +14,7 @@ public class BeerInteractionForTutorial : MonoBehaviour
 
     private PlayerControllerMove _playerContollerMove;
 
-    private YieldInstruction _coolTime = new WaitForSeconds(10f);
+    private YieldInstruction _coolTime = new WaitForSeconds(5f);
     private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
     private YieldInstruction _stunTime = new WaitForSeconds(5f);
 
@@ -43,6 +43,7 @@ public class BeerInteractionForTutorial : MonoBehaviour
 
     private void Awake()
     {
+        _effect.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -199,5 +200,10 @@ public class BeerInteractionForTutorial : MonoBehaviour
 
         _tremblingSpeed[0] = _initPlayerSpeed;
         _tremblingSpeed[1] = _initPlayerSpeed;
+    }
+
+    private void OnDisable()
+    {
+        _effect.SetActive(false);
     }
 }

@@ -19,6 +19,13 @@ public class BeerInteractionNPCForTutorial : MonoBehaviour
     private void Awake()
     {
         _waitForEffectLast = new WaitForSeconds(_effectLastTime);
+        _collider = GetComponent<Collider>();
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
+        _effect.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,11 +40,12 @@ public class BeerInteractionNPCForTutorial : MonoBehaviour
     private void DrinkBeer()
     {
         ++_drinkStack;
-        if(_drinkStack == 5)
+        if(_drinkStack >= 6)
         {
             _collider.enabled = false;
             _audioSource.Play();
             _effect.SetActive(true);
+            OnQuestEnd.Invoke();
         }
     }
 
