@@ -14,48 +14,54 @@ public class VolumeController : MonoBehaviour
 
     private Dictionary<Slider, TextMeshProUGUI> _textDict = new Dictionary<Slider, TextMeshProUGUI>();
 
-    private void OnEnable()
-    { 
+    private void Awake()
+    {
         for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
         {
             _textDict.Add(_slider[i], _text[i]);
+        }
+    }
+    private void OnEnable()
+    {
+        for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
+        {
             _slider[i].value = PlayerPrefs.GetFloat(SoundManager.VOLUME_CONTROLLER[i]);
         }
 
     }
     public void MasterValueChanged(Slider slider)
     {
+        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         PlayerPrefs.SetFloat
             (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.MasterVolume], slider.value);
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         SoundManager.Instance.Refresh();
     }
     public void EffectValueChanged(Slider slider)
     {
+        _textDict[slider].text = ((int)(slider.value * 100)).ToString()+ "%";
         PlayerPrefs.SetFloat
            (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.EffectVolume], slider.value);
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString()+ "%";
         SoundManager.Instance.Refresh();
     }
     public void BackgroundValueChanged(Slider slider)
     {
+        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         PlayerPrefs.SetFloat
            (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume], slider.value);
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         SoundManager.Instance.Refresh();
     }
     public void InputValueChanged(Slider slider)
     {
+        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         PlayerPrefs.SetFloat
            (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.InputVolume], slider.value);
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         SoundManager.Instance.Refresh();
     }
     public void OutputValueChanged(Slider slider)
     {
+        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         PlayerPrefs.SetFloat
             (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.OutputVolume], slider.value);
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
         SoundManager.Instance.Refresh();
         // ¹Ì±¸Çö
     }
