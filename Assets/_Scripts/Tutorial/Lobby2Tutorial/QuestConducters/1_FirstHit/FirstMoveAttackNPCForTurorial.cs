@@ -19,6 +19,7 @@ public class FirstMoveAttackNPCForTurorial : MonoBehaviour
     private void OnEnable()
     {
         StopAllCoroutines();
+        _stunEffect.SetActive(false);
     }
 
     public void onDamageByBottle()

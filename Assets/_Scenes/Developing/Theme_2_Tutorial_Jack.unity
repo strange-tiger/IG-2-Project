@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3081,6 +3081,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPCToHit
       objectReference: {fileID: 0}
+    - target: {fileID: 1800371080893130, guid: e169e4d9dbd157b498e582065a5f9302, type: 3}
+      propertyPath: m_TagString
+      value: FirstHitNPC
+      objectReference: {fileID: 0}
     - target: {fileID: 4670764120559952, guid: e169e4d9dbd157b498e582065a5f9302, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3251,6 +3255,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stunEffect: {fileID: 2047623682}
   _stunEffectTime: 2
+--- !u!136 &225820937
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225820934}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1001 &241626827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6166,7 +6184,7 @@ BoxCollider:
   m_GameObject: {fileID: 443908368}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 138.47539, y: 50.599636, z: 1.207268}
   m_Center: {x: 68.73771, y: -24.799639, z: -0.10363893}
@@ -6177,7 +6195,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443908368}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b5d68c055fe0a343b083bf0d61553e9, type: 3}
   m_Name: 
@@ -6792,7 +6810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0434fc8d4f912c1478b8912d48446b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tumbleweed: {fileID: 0}
+  _tumbleweed: {fileID: 3262905328152902881}
 --- !u!1001 &476659214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14878,7 +14896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c6f2431d398c8408d04536256743c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tutorialPanel: {fileID: 1638530662}
+  _tutorialPanel: {fileID: 307559990}
   _DialoguePanel: {fileID: 1027689240}
   _nameText: {fileID: 822426534}
   _dialogueText: {fileID: 339716955}
@@ -19390,7 +19408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1367573353
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21687,7 +21705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dcf77f06a455d044941b95a05f3f3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tutorialButtonPanel: {fileID: 1638530662}
+  _tutorialButtonPanel: {fileID: 307559990}
 --- !u!1001 &1531656293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23365,7 +23383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1638530663
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24055,7 +24073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9057643958544757865, guid: 02815118bbf78384db8e88ff276cf61a, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9059321386821698201, guid: 02815118bbf78384db8e88ff276cf61a, type: 3}
       propertyPath: m_RootOrder
@@ -27085,7 +27103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3328509509990662502, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3328509509990662506, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: rayTransform

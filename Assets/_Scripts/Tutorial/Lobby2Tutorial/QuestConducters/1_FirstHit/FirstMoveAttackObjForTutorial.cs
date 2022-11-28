@@ -17,7 +17,7 @@ public class FirstMoveAttackObjForTutorial : MonoBehaviour
     private SyncOVRGrabber _grabber = null;
     private SyncOVRGrabbable _syncGrabbable;
 
-    private void Start()
+    private void Awake()
     {
         _objSpawnPos = transform.position;
 
@@ -26,6 +26,14 @@ public class FirstMoveAttackObjForTutorial : MonoBehaviour
 
         _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
         _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
+    }
+
+    private void OnEnable()
+    {
+        ObjPosReset();
+
+        _objMeshRenderer.enabled = true;
+        _objCollider.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)

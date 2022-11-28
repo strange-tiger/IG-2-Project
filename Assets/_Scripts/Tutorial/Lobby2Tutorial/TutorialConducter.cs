@@ -1,4 +1,4 @@
-#define _DEV_MODE_
+//#define _DEV_MODE_
 
 using System.Collections;
 using System.Collections.Generic;
@@ -169,7 +169,7 @@ public class TutorialConducter : MonoBehaviour
         // Äù½ºÆ®°¡ ³¡³µÀ» ¶§
         _tutorialManager.DisableQuestText();
 
-        _questConducters[_nextQuestNumber].gameObject.SetActive(false);
+        //_questConducters[_nextQuestNumber].gameObject.SetActive(false);
         ++_nextQuestNumber;
         
         if (_nextDialogueID != -1)

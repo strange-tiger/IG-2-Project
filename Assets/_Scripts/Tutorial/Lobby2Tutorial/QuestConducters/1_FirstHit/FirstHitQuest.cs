@@ -11,8 +11,8 @@ public class FirstHitQuest : QuestConducter
     private void Awake()
     {
         _npc = _props.GetComponentInChildren<FirstMoveAttackNPCForTurorial>();
-        _npc.OnNPCHit -= OnQuestEnded;
-        _npc.OnNPCHit += OnQuestEnded;
+        _npc.OnNPCHit -= QuestEnded;
+        _npc.OnNPCHit += QuestEnded;
     }
 
     public override void StartQuest()
