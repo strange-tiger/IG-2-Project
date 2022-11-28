@@ -111,6 +111,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOn = true;
                 _isOne = false;
                 _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
@@ -130,6 +131,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOn = true;
                 _isTwo = false;
                 _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
@@ -149,6 +151,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOn = true;
                 _isThree = false;
                 _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
@@ -168,6 +171,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOn = true;
                 _isFour = false;
                 _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
@@ -187,6 +191,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOn = true;
                 _isFive = false;
                 _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
@@ -212,6 +217,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOn = true;
                 _isSix = false;
                 _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }

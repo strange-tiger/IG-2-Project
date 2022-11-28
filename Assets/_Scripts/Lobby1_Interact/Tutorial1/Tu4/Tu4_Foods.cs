@@ -17,6 +17,7 @@ public class Tu4_Foods : InteracterableObject
     [SerializeField] EFoodSatietyLevels _foodSatietyLevel;
     [SerializeField] GameObject _food;
     [SerializeField] Collider _collider;
+    [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
     private FoodInteraction _foodInteraction;
     private static readonly YieldInstruction _waitSecondRegenerate = new WaitForSeconds(60f);
@@ -38,6 +39,7 @@ public class Tu4_Foods : InteracterableObject
             StartCoroutine(RegenerateFood());
 
         }
+        ++_lobby1TutorialsQuest.AdvanceQuest;
     }
 
     private IEnumerator RegenerateFood()

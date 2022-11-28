@@ -6,6 +6,11 @@ public class Tu1_Piano : MonoBehaviour
 {
     [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
+    private void Start()
+    {
+        
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Contains("PlayerBody"))
