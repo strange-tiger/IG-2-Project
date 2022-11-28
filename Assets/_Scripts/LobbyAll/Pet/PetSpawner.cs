@@ -15,6 +15,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     private static readonly WaitForSeconds DELAY_GET_NICKNAME = new WaitForSeconds(1f);
     private PlayerNetworking _player;
 
+    public int EquipedNum { get => _eqiupNum; }
     private int _eqiupNum;
     private int _testNum = -1;
     private bool _havePet = false;
@@ -80,6 +81,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
             }
             else
             {
+                _eqiupNum = -1;
                 _havePet = false;
             }
         }

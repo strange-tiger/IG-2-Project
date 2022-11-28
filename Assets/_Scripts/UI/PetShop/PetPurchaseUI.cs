@@ -19,35 +19,33 @@ public class PetPurchaseUI : MonoBehaviour
     [SerializeField] Button _leftButton;
     [SerializeField] Button _rightButton;
     [SerializeField] Button _purchaseButton;
-    [SerializeField] Button _closeButton;
+    [SerializeField] Button[] _closeButtons;
+    [SerializeField] Button[] _petInfoButtons;
+
+    [Header("Equiped Pet Info")]
+    [SerializeField] Image _equipedPetImage;
+    [SerializeField] TextMeshProUGUI _equipedPetName;
+    [SerializeField] TextMeshProUGUI _equipedPetGrade;
+    [SerializeField] TextMeshProUGUI _haveGold;
 
     [Header("Pet Info")]
-    [SerializeField] Sprite[] _petImages;
+    [SerializeField] Image[] _petImages;
     [SerializeField] TextMeshProUGUI[] _petNames;
     [SerializeField] TextMeshProUGUI[] _petGrades;
-    [SerializeField] TextMeshProUGUI[] _petExplanations;
     [SerializeField] TextMeshProUGUI[] _petPrices;
+    private PetShopUIManager.PetProfile[] _petInfoList = new PetShopUIManager.PetProfile[3];
 
-    [Header("Display")]
-    [SerializeField] Sprite _petImage;
+    [Header("Popup")]
+    [SerializeField] GameObject _petInfoPopup;
+    [SerializeField] GameObject _purchaseSuccessPopup;
+
+    [Header("Pet Info Popup")]
+    [SerializeField] Image _petImage;
     [SerializeField] TextMeshProUGUI _petName;
     [SerializeField] TextMeshProUGUI _petGrade;
     [SerializeField] TextMeshProUGUI _petExplanation;
     [SerializeField] TextMeshProUGUI _petPrice;
 
-    public event Action OnCurrentPetChanged;
-    public PetShopUIManager.PetProfile CurrentPet
-    {
-        get
-        {
-            return _currentPet;
-        }
-        set
-        {
-            _currentPet = value;
-            OnCurrentPetChanged.Invoke();
-        }
-    }
     private PetShopUIManager.PetProfile _currentPet = new PetShopUIManager.PetProfile();
 
     private int _currentIndex = -1;
@@ -64,11 +62,29 @@ public class PetPurchaseUI : MonoBehaviour
         _purchaseButton.onClick.RemoveListener(Purchase);
         _purchaseButton.onClick.AddListener(Purchase);
 
-        _closeButton.onClick.RemoveListener(Close);
-        _closeButton.onClick.AddListener(Close);
+        foreach (Button close in _closeButtons)
+        {
+            close.onClick.RemoveListener(Close);
+            close.onClick.AddListener(Close);
+        }
 
-        OnCurrentPetChanged -= ShowCurrentPet;
-        OnCurrentPetChanged += ShowCurrentPet;
+        for (int i = 0; i < _petInfoButtons.Length; ++i)
+        {
+            _petInfoButtons[i].onClick.AddListener(() => ShowCurrentPet(_petInfoList[i]));
+        }
+
+        _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
+
+        if (_equipedIndex != -1)
+        {
+            ShowEquipedPet(_ui.PetList[_equipedIndex]);
+        }
+        else
+        {
+            ShowEquipedPet(new PetShopUIManager.PetProfile());
+        }
+
+        _purchaseSuccessPopup.SetActive(false);
 
         _currentIndex = -1;
         OnClickRightButton();
@@ -76,12 +92,12 @@ public class PetPurchaseUI : MonoBehaviour
 
     private void Purchase()
     {
-        if (!_ui.PlayerNetworking.GetComponent<PhotonView>().IsMine)
+        if (!_ui.PlayerNetworking.photonView.IsMine)
         {
             return;
         }
 
-        int price = CurrentPet.Price;
+        int price = _currentPet.Price;
 
         if (!_DB.UseGold(_ui.PlayerNickname, price))
         {
@@ -94,32 +110,27 @@ public class PetPurchaseUI : MonoBehaviour
         }
 
         _equipedIndex = _currentIndex;
-        CurrentPet.SetStatus(EPetStatus.EQUIPED);
-        _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
+        _currentPet.SetStatus(EPetStatus.EQUIPED);
+        _ui.PetList[_equipedIndex].SetStatus(EPetStatus.EQUIPED);
 
-        if (_equipedIndex != -1)
-        {
-            PetShopUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
-        }
+        PetShopUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+
+        PetData petData = _ui.GetPetData();
+        petData.Status[_equipedIndex] = _ui.PetList[_equipedIndex].Status;
+
+        _DB.UpdatePetInventoryData(_ui.PlayerNickname, petData);
+
+        PetShopUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
 
         _purchaseButton.enabled = false;
+
+        _purchaseSuccessPopup.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void Close()
     {
-        PetData petData = _ui.GetPetData();
-        for (int i = 0; i < _ui.PetList.Length; ++i)
-        {
-            petData.Status[i] = _ui.PetList[i].Status;
-        }
-
-        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
-        {
-            return;
-        }
-        
         _ui.LoadUI(_UI.FIRST);
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -127,62 +138,109 @@ public class PetPurchaseUI : MonoBehaviour
 
     private void OnClickLeftButton()
     {
-        int prevIndex = _currentIndex;
-        do
+        int count = 0;
+
+        while (count < _petInfoButtons.Length)
         {
-            if (_currentIndex - 1 < 0)
+            int prevIndex = _currentIndex;
+            do
             {
-                _currentIndex = _ui.PetList.Length;
-            }
-            --_currentIndex;
+                if (_currentIndex - 1 < 0)
+                {
+                    _currentIndex = _ui.PetList.Length;
+                }
+                --_currentIndex;
 
-            if (_currentIndex == prevIndex)
-            {
-                break;
+                if (_currentIndex == prevIndex)
+                {
+                    break;
+                }
             }
+            while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
+
+            if (_currentIndex != prevIndex)
+            {
+                ShowPet(count, _ui.PetList[_currentIndex]);
+            }
+
+            ++count;
         }
-        while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
-
-        CurrentPet = _ui.PetList[_currentIndex];
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnClickRightButton()
     {
-        int prevIndex = _currentIndex;
-        do
+        int count = 0;
+
+        while (count < _petInfoButtons.Length)
         {
-            if (_currentIndex + 1 >= _ui.PetList.Length)
+            int prevIndex = _currentIndex;
+            do
             {
-                _currentIndex = -1;
-            }
-            ++_currentIndex;
+                if (_currentIndex + 1 >= _ui.PetList.Length)
+                {
+                    _currentIndex = -1;
+                }
+                ++_currentIndex;
 
-            if (_currentIndex == prevIndex)
-            {
-                break;
+                if (_currentIndex == prevIndex)
+                {
+                    break;
+                }
             }
+            while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
+
+            if (_currentIndex != prevIndex)
+            {
+                ShowPet(count, _ui.PetList[_currentIndex]);
+            }
+
+            ++count;
         }
-        while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
-
-        CurrentPet = _ui.PetList[_currentIndex];
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    private void ShowCurrentPet()
+    private void ShowPet(int index, PetShopUIManager.PetProfile pet)
     {
-        ChangePetImage(CurrentPet.Image);
+        _petImages[index].sprite = pet.Image;
 
-        _petName.text = CurrentPet.Name;
+        _petNames[index].text = pet.Name;
 
-        ShowPetGrade(CurrentPet.Grade);
+        ShowPetGrade(index, pet.Grade);
 
-        _petExplanation.text = CurrentPet.Explanation;
-        _petPrice.text = CurrentPet.Price.ToString();
+        _petPrices[index].text = pet.Price.ToString();
 
-        if (int.Parse(_petPrice.text) > _DB.CheckHaveGold(_ui.PlayerNickname))
+        _petInfoList[index] = pet;
+    }
+
+    private void ShowEquipedPet(PetShopUIManager.PetProfile pet)
+    {
+        _equipedPetImage.sprite = pet.Image;
+
+        _equipedPetName.text = pet.Name;
+
+        _equipedPetGrade.text = pet.Grade.ToString();
+        _equipedPetGrade.color = GRADE_COLOR[(int)pet.Grade];
+
+        _haveGold.text = _DB.CheckHaveGold(_ui.PlayerNickname).ToString();
+    }
+
+    private void ShowCurrentPet(PetShopUIManager.PetProfile pet)
+    {
+        _currentPet = pet;
+
+        _petImage.sprite = pet.Image;
+
+        _petName.text = pet.Name;
+
+        ShowPetGrade(pet.Grade);
+
+        _petExplanation.text = pet.Explanation;
+        _petPrice.text = $"가격은 {pet.Price} 골드 입니다.\n구입 하시겠습니까?";
+
+        if (pet.Price > _DB.CheckHaveGold(_ui.PlayerNickname))
         {
             _purchaseButton.enabled = false;
         }
@@ -190,11 +248,6 @@ public class PetPurchaseUI : MonoBehaviour
         {
             _purchaseButton.enabled = true;
         }
-    }
-
-    private void ChangePetImage(Sprite currentPet)
-    {
-        _petImage = currentPet;
     }
 
     private static readonly Color[] GRADE_COLOR = new Color[4]
@@ -208,5 +261,11 @@ public class PetPurchaseUI : MonoBehaviour
     {
         _petGrade.text = grade.ToString();
         _petGrade.color = GRADE_COLOR[(int)grade];
+    }
+
+    private void ShowPetGrade(int index, PetShopUIManager.PetProfile.EGrade grade)
+    {
+        _petGrades[index].text = grade.ToString();
+        _petGrades[index].color = GRADE_COLOR[(int)grade];
     }
 }
