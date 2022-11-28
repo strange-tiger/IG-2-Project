@@ -13,11 +13,12 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private Action OnButtonAction;
 
-    private bool asdasd;
+    private bool isButton;
+    private bool isOn = true;
 
     private void Start()
     {
-        for (int i = 0; i < _tutorialObject.Length; ++i)
+        for (int i = 0; i < _tutorialButton.Length; ++i)
         {
             _tutorialButton[i].interactable = false;
         }
@@ -40,10 +41,12 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void Update()
     {
-        if (_tutorialController.DialogueNum == 3 && !asdasd)
+        Debug.Log(isOn);
+
+        if (_tutorialController.DialogueNum == 3 && !isButton)
         {
             OnButtonAction?.Invoke();
-            asdasd = true;
+            isButton = true;
         }
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -58,7 +61,18 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             OnClickButton(2);
         }
-
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            OnClickButton(3);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            OnClickButton(4);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            OnClickButton(5);
+        }
 #endif
     }
 
@@ -68,36 +82,40 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             if (_tutorialObject[i].activeSelf)
             {
+                isOn = false;
                 return;
             }
         }
 
-        switch (num)
+        if (isOn)
         {
-            case 0:
-                _tutorialController.QuestAcceptEvent.Invoke(3);
-                break;
-            case 1:
-                _tutorialController.QuestAcceptEvent.Invoke(6);
-                break;
-            case 2:
-                _tutorialController.QuestAcceptEvent.Invoke(10);
-                break;
-            case 3:
-                _tutorialController.QuestAcceptEvent.Invoke(17);
-                break;
-            case 4:
-                _tutorialController.QuestAcceptEvent.Invoke(24);
-                break;
-            case 5:
-                _tutorialController.QuestAcceptEvent.Invoke(36);
-                break;
-            default:
-                break;
+            switch (num)
+            {
+                case 0:
+                    _tutorialController.QuestAcceptEvent.Invoke(3);
+                    break;
+                case 1:
+                    _tutorialController.QuestAcceptEvent.Invoke(6);
+                    break;
+                case 2:
+                    _tutorialController.QuestAcceptEvent.Invoke(10);
+                    break;
+                case 3:
+                    _tutorialController.QuestAcceptEvent.Invoke(17);
+                    break;
+                case 4:
+                    _tutorialController.QuestAcceptEvent.Invoke(24);
+                    break;
+                case 5:
+                    _tutorialController.QuestAcceptEvent.Invoke(36);
+                    break;
+                default:
+                    break;
+            }
+            Debug.Log("이게 또나오면 안되는데..");
+            _tutorialObject[num].SetActive(true);
+            _tutorialButton[num].interactable = false;
         }
-
-        _tutorialObject[num].SetActive(true);
-        _tutorialButton[num].interactable = false;
     }
 
     private void OnButtons()
