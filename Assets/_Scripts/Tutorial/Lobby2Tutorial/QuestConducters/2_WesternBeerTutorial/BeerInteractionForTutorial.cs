@@ -9,6 +9,7 @@ public class BeerInteractionForTutorial : MonoBehaviour
     public OnQuestEnd OnQuestEnd;
 
     [SerializeField] private Material _fadeMaterial;
+    [SerializeField] private GameObject _centerEyeAnchor;
     private MeshRenderer _fadeRenderer;
 
     private PlayerControllerMove _playerContollerMove;
@@ -41,7 +42,7 @@ public class BeerInteractionForTutorial : MonoBehaviour
     IEnumerator FindFadeImage()
     {
         yield return new WaitForSeconds(4f);
-        _fadeRenderer = GameObject.Find("CenterEyeAnchor").GetComponent<MeshRenderer>();
+        _fadeRenderer = _centerEyeAnchor.GetComponent<MeshRenderer>();
         _fadeRenderer.material = _fadeMaterial;
         _fadeMaterial.color = _initUIColor;
         _fadeRenderer.enabled = true;
