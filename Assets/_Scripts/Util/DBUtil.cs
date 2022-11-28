@@ -1467,9 +1467,9 @@ namespace Asset.MySql
                     return isOnOff;
                 }
             }
-            catch
+            catch(System.Exception error)
             {
-                Debug.LogError("오류남: ");
+                Debug.LogError("오류남: " + error);
                 return false;
             }
 

@@ -148,7 +148,7 @@ public class ArenaTutorial : MonoBehaviourPun
 
     private void TutorialEnd()
     {
-        if(!_isFirstVisit)
+        if(_isFirstVisit)
         {
             MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
         }
