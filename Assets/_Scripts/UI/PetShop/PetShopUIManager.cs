@@ -43,25 +43,6 @@ public class PetShopUIManager : UIManager
         InitializePetShop();
 
         StartCoroutine(SetPlayerNetworking());
-
-        LoadUI(_UI.CONVERSATION);
-        StartCoroutine(Conversation());
-    }
-
-    private IEnumerator Conversation()
-    {
-        bool hasNoConversation = true;
-        while (hasNoConversation)
-        {
-            if (OVRInput.GetDown(OVRInput.Button.One))
-            {
-                hasNoConversation = false;
-            }
-
-            yield return null;
-        }
-
-        LoadUI(_UI.FIRST);
     }
 
     private IEnumerator SetPlayerNetworking()
