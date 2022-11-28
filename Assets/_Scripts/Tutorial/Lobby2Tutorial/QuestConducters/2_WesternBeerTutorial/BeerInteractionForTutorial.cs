@@ -32,9 +32,21 @@ public class BeerInteractionForTutorial : MonoBehaviour
     private float _initPlayerSpeed = 1.0f;
     private float _animatedFadeAlpha;
 
+    [Header("Effect")]
+    [SerializeField] private GameObject _effect;
+    [Header("EffectSound")]
+    [SerializeField] private AudioClip _maleSound;
+    [SerializeField] private AudioClip _femaleSound;
+    [SerializeField] private PlayerCustomize _customize;
+    private AudioSource _audioSource;
+    private AudioClip _mySound;
+
     private void Start()
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
+        
+        _audioSource = GetComponent<AudioSource>();
+        _mySound = _customize.IsFemale ? _femaleSound : _maleSound;
 
         StartCoroutine(FindFadeImage());
     }
@@ -122,6 +134,9 @@ public class BeerInteractionForTutorial : MonoBehaviour
         float elapsedTime = 0.0f;
         float fadeTime = 3f;
 
+        _audioSource.PlayOneShot(_mySound);
+        _effect.SetActive(true);
+
         while (elapsedTime < fadeTime)
         {
             elapsedTime += Time.deltaTime;
@@ -168,5 +183,6 @@ public class BeerInteractionForTutorial : MonoBehaviour
         _tremblingSpeed[1] = _initPlayerSpeed;
 
         OnQuestEnd.Invoke();
+        _effect.SetActive(false);
     }
 }

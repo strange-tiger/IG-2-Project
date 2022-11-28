@@ -22,8 +22,9 @@ public class WesternBeerQuest1Self : QuestConducter
         _beerInteraction.enabled = true;
     }
 
-    private void OnDisable()
+    protected override void OnQuestEnded()
     {
+        base.OnQuestEnded();
         _beerInteraction.enabled = false;
     }
 }
