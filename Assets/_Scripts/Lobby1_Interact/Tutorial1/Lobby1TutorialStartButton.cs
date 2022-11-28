@@ -15,6 +15,8 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private bool _isButton;
     private bool _isOn = true;
+    private bool _isQuest;
+
 
     private bool _isOne;
     private bool _isTwo;
@@ -94,9 +96,10 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isOne)
         {
-            if (_tutorialController.DialogueNum == 5)
+            if (_tutorialController.DialogueNum == 5 && !_isQuest)
             {
                 _tutorialController.IsTutorialQuest = true;
+                _isQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 6)
