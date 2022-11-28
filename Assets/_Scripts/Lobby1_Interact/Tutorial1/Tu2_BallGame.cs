@@ -12,7 +12,7 @@ public class Tu2_BallGame : Lobby1TutorialObject
 
     void Update()
     {
-        _clearQuestNum.text = $"{_advanceQuest}/7";
+        _clearQuestNum.text = $"{_advanceQuest}/1";
 
         if (_advanceQuest == 1)
         {
