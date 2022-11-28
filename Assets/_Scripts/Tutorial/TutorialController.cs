@@ -121,18 +121,18 @@ public class TutorialController : MonoBehaviour
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                _tutorialDialogueText.text = dialogue;
+//#if UNITY_EDITOR
+//            if (Input.GetKeyDown(KeyCode.K))
+//            {
+//                _tutorialDialogueText.text = dialogue;
 
-                StopCoroutine(TextTyping(dialogue));
+//                StopCoroutine(TextTyping(dialogue));
 
-                _isDialogueEnd = true;
+//                _isDialogueEnd = true;
 
-                yield break;
-            }
-#endif
+//                yield break;
+//            }
+//#endif
             if (OVRInput.GetDown(OVRInput.Button.One))
             {
                 _tutorialDialogueText.text = dialogue;
@@ -184,17 +184,17 @@ public class TutorialController : MonoBehaviour
         {
             _isNext = false;
         }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-        {
-            _tutorialDialogueText.text = null;
-            _isNext = true;
-        }
-        else
-        {
-            _isNext = false;
-        }
-#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+//        {
+//            _tutorialDialogueText.text = null;
+//            _isNext = true;
+//        }
+//        else
+//        {
+//            _isNext = false;
+//        }
+//#endif
     }
 
     /// <summary>

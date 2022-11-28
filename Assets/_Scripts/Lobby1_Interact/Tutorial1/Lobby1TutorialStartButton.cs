@@ -57,44 +57,44 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             OnButtonAction?.Invoke();
             _isButton = true;
         }
-        #region input
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            OnClickButton(0);
-            Debug.Log("1번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            OnClickButton(1);
-            Debug.Log("2번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            OnClickButton(2);
-            Debug.Log("3번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            OnClickButton(3);
-            Debug.Log("4번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            OnClickButton(4);
-            Debug.Log("5번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            OnClickButton(5);
-            Debug.Log("6번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ClickExitButton();
-        }
-#endif
-        #endregion
+//        #region input
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.Alpha1))
+//        {
+//            OnClickButton(0);
+//            Debug.Log("1번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha2))
+//        {
+//            OnClickButton(1);
+//            Debug.Log("2번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha3))
+//        {
+//            OnClickButton(2);
+//            Debug.Log("3번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha4))
+//        {
+//            OnClickButton(3);
+//            Debug.Log("4번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha5))
+//        {
+//            OnClickButton(4);
+//            Debug.Log("5번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha6))
+//        {
+//            OnClickButton(5);
+//            Debug.Log("6번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.R))
+//        {
+//            ClickExitButton();
+//        }
+//#endif
+//        #endregion
 
         if (_isOne)
         {
