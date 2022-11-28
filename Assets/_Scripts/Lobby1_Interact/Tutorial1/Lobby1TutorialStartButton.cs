@@ -16,7 +16,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     private bool _isButton;
     private bool _isOn = true;
     private bool _isQuest;
-
+    public bool IsQuest { get { return _isQuest; } set { _isQuest = value; } }
 
     private bool _isOne;
     private bool _isTwo;
@@ -99,7 +99,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             if (_tutorialController.DialogueNum == 5 && !_isQuest)
             {
                 _tutorialController.IsTutorialQuest = true;
-                _isQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 6)
@@ -114,6 +113,11 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isTwo)
         {
+            if (_tutorialController.DialogueNum == 8 && !_isQuest)
+            {
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 10)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
@@ -126,6 +130,11 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isThree)
         {
+            if (_tutorialController.DialogueNum == 16 && !_isQuest)
+            {
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 17)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
@@ -138,6 +147,11 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isFour)
         {
+            if (_tutorialController.DialogueNum == 23 && !_isQuest)
+            {
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 24)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
@@ -150,6 +164,11 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isFive)
         {
+            if (_tutorialController.DialogueNum == 35 && !_isQuest)
+            {
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 36)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
@@ -162,6 +181,16 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isSix)
         {
+            if (_tutorialController.DialogueNum == 45 && !_isQuest)
+            {
+                _tutorialController.IsTutorialQuest = true;
+            }
+
+            if (_tutorialController.DialogueNum == 47 && !_isQuest)
+            {
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 54)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);

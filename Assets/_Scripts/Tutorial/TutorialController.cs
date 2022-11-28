@@ -253,6 +253,8 @@ public class TutorialController : MonoBehaviour
             if (_tutorialType == TutorialType.Lobby1)
             {
                 _isTutorialQuest = value;
+
+                _lobby1TutorialStartButton.IsQuest = true;
             }
         }
     }
