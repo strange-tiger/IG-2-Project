@@ -21,7 +21,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     [SerializeField] protected bool _isFixedPosition;
     [SerializeField] protected Vector3 _fixedPosition;
     [SerializeField] protected Vector3 _fixedRotation;
-    
+
     protected GameObject _myPlayer;
 
     private SceneNumber _nextScene;
@@ -70,7 +70,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         _nextSceneRoomName = roomName;
         _nextRoomOption = roomOption;
         _joinRandomRoom = joinRamdonRoom;
-        if(_joinRandomRoom)
+        if (_joinRandomRoom)
         {
             _expectedCustromRoomProperties = expectedCustomRoomProperties;
             _expectedMaxPlayers = expectedMaxPlayers;
@@ -96,18 +96,18 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
 
-        
-        
+
+
         if (_needSceneChange)
         {
             Debug.Log("[LogOut] LobbyChanger OnConnectedToMaster");
 
-            if(_joinRandomRoom)
+            if (_joinRandomRoom)
             {
                 Debug.Log($"[LogOut] LobbyChanger {_defaultRoomOptions.CustomRoomPropertiesForLobby.ToStringFull()} {_defaultRoomOptions.CustomRoomProperties}");
                 PhotonNetwork.JoinRandomOrCreateRoom(
-                    expectedCustomRoomProperties: _expectedCustromRoomProperties, 
-                    expectedMaxPlayers: _expectedMaxPlayers, 
+                    expectedCustomRoomProperties: _expectedCustromRoomProperties,
+                    expectedMaxPlayers: _expectedMaxPlayers,
                     roomOptions: _nextRoomOption);
             }
             else
@@ -171,8 +171,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
-        
-         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+        Debug.Log("[Server] Offline Update");
+
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
 
     }
 
@@ -193,9 +194,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     private void OnApplicationQuit()
     {
-        if(MySqlSetting.IsPlayerOnline(PhotonNetwork.NickName))
-        {
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
-        }
+
+        Debug.Log("[Player] Offline Update");
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+
     }
 }
