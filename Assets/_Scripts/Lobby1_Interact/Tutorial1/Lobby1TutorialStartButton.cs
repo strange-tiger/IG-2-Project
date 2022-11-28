@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
+using TMPro;
 
 public class Lobby1TutorialStartButton : MonoBehaviour
 {
     [SerializeField] private Button[] _tutorialButton;
     [SerializeField] private GameObject[] _tutorialObject;
     [SerializeField] private TutorialController _tutorialController;
+    [SerializeField] private TextMeshProUGUI _questText;
 
     private Action OnButtonAction;
 
@@ -98,6 +100,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             if (_tutorialController.DialogueNum == 5 && !_isQuest)
             {
+                _questText.text = "발판 7개를 모두 밟아보세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -107,6 +110,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isButton = false;
                 _isOn = true;
                 _isOne = false;
+                _questText.text = null;
                 ClickExitButton();
             }
         }
@@ -115,6 +119,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             if (_tutorialController.DialogueNum == 8 && !_isQuest)
             {
+                _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -124,6 +129,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isButton = false;
                 _isOn = true;
                 _isTwo = false;
+                _questText.text = null;
                 ClickExitButton();
             }
         }
@@ -132,6 +138,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             if (_tutorialController.DialogueNum == 16 && !_isQuest)
             {
+                _questText.text = "마법봉을 주워서 마법을 사용하세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -141,6 +148,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isButton = false;
                 _isOn = true;
                 _isThree = false;
+                _questText.text = null;
                 ClickExitButton();
             }
         }
@@ -149,6 +157,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             if (_tutorialController.DialogueNum == 23 && !_isQuest)
             {
+                _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -158,6 +167,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isButton = false;
                 _isOn = true;
                 _isFour = false;
+                _questText.text = null;
                 ClickExitButton();
             }
         }
@@ -166,6 +176,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             if (_tutorialController.DialogueNum == 35 && !_isQuest)
             {
+                _questText.text = "채광에 성공하여 골드를 획득하세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -175,6 +186,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isButton = false;
                 _isOn = true;
                 _isFive = false;
+                _questText.text = null;
                 ClickExitButton();
             }
         }
@@ -183,11 +195,13 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         {
             if (_tutorialController.DialogueNum == 45 && !_isQuest)
             {
+                _questText.text = "무기를 집어 이시고르에게 돌아가세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 47 && !_isQuest)
             {
+                _questText.text = "물건을 4개 베세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -197,6 +211,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isButton = false;
                 _isOn = true;
                 _isSix = false;
+                _questText.text = null;
                 ClickExitButton();
             }
         }
