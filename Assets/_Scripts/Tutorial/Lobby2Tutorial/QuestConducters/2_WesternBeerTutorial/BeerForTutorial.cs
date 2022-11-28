@@ -21,6 +21,7 @@ public class BeerForTutorial : MonoBehaviour
     private void OnEnable()
     {
         transform.position = _initBeerPosition;
+        transform.rotation = Quaternion.identity;
         _fullBeer.SetActive(true);
         _grabCollider.enabled = true;
     }

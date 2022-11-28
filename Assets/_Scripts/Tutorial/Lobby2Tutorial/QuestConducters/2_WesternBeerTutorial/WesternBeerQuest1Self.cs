@@ -27,4 +27,9 @@ public class WesternBeerQuest1Self : QuestConducter
         base.OnQuestEnded();
         _beerInteraction.enabled = false;
     }
+
+    private void OnDisable()
+    {
+        _beerInteraction.ResetPlayer();
+    }
 }

@@ -211,5 +211,6 @@ public class TutorialConducter : MonoBehaviour
     {
         StopAllCoroutines();
         ResetQuestStack();
+        _tutorialManager.DisableQuestText();
     }
 }

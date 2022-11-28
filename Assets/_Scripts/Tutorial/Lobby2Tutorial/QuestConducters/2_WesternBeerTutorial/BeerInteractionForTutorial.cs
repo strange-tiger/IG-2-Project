@@ -185,4 +185,14 @@ public class BeerInteractionForTutorial : MonoBehaviour
         OnQuestEnd.Invoke();
         _effect.SetActive(false);
     }
+
+    public void ResetPlayer()
+    {
+        _drinkStack = -1;
+
+        _fadeMaterial.color = _initUIColor;
+
+        _tremblingSpeed[0] = _initPlayerSpeed;
+        _tremblingSpeed[1] = _initPlayerSpeed;
+    }
 }
