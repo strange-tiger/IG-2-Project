@@ -6,16 +6,18 @@ public class GoldRushQuest1Get : QuestConducter
 {
     [SerializeField] private GameObject _goldBox;
     [SerializeField] private PlayerGoldRushInteraction _goldRushInteraction;
+    private GoldBoxSencerForTutorial _goldBoxSencer;
 
     private void Awake()
     {
-        GoldBoxSencerForTutorial goldboxSencer = _goldBox.GetComponent<GoldBoxSencerForTutorial>();
-        goldboxSencer.OnQuestEnd -= QuestEnded;
-        goldboxSencer.OnQuestEnd += QuestEnded;
+        _goldBoxSencer = _goldBox.GetComponent<GoldBoxSencerForTutorial>();
+        _goldBoxSencer.OnQuestEnd -= QuestEnded;
+        _goldBoxSencer.OnQuestEnd += QuestEnded;
     }
 
     public override void StartQuest()
     {
+        _goldBoxSencer.enabled = true;
         _goldBox.SetActive(true);
         _goldRushInteraction.enabled = true;
     }
