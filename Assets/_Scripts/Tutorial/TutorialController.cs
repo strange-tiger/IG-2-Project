@@ -44,7 +44,7 @@ public class TutorialController : MonoBehaviour
     public int DialogueNum { get { return _dialogueNum; } }
 
     private bool _isTutorialQuest;
-    public bool IsTutorialQuest { get { return _isTutorialQuest; } }
+    public bool IsTutorialQuest { get { return _isTutorialQuest; } set { _isTutorialQuest = value; } }
 
     void Start()
     {
@@ -56,9 +56,6 @@ public class TutorialController : MonoBehaviour
 
         if (_tutorialType == TutorialType.StartRoom)
         {
-            // _newPlayerMove.enabled = false;
-            // _playerControllerMove.enabled = false;
-
             _tutorialNPCName.text = "ø‰¡§";
 
             _startRoomQuestList = _CSV.ParseCSV("StartRoomTutorialCSV", _startRoomQuestList);
@@ -103,19 +100,7 @@ public class TutorialController : MonoBehaviour
                 }
                 else
                 {
-                    if (_dialogueNum == 5)
-                    {
-                        Debug.Log("∏ÿ√Á");
-                        _isTutorialQuest = true;
-                    }
-                    else
-                    {
-                        Debug.Log("∏ÿ√ﬂ¡ˆ∏∂");
-                        _isTutorialQuest = false;
-                    }
-
                     StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
-
                     _isDialogueEnd = false;
                     _sendMessage = false;
                 }
