@@ -8,18 +8,14 @@ public class Tu5_minerJ1 : MonoBehaviour
     [SerializeField] private Slider _minerJSlider;
     [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
-    void Start()
-    {
-        
-    }
+    private bool _isFirst;
 
     void Update()
     {
-        if (_minerJSlider.value >= 1)
+        if (_minerJSlider.value >= 1 && !_isFirst)
         {
             ++_lobby1TutorialsQuest.AdvanceQuest;
-
-            enabled = false;
+            _isFirst = true;
         }
     }
 }

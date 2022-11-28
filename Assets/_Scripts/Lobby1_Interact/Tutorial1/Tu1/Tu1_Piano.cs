@@ -6,18 +6,14 @@ public class Tu1_Piano : MonoBehaviour
 {
     [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
-    private void Start()
-    {
-        
-    }
+    private bool _isFirst;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag.Contains("PlayerBody"))
+        if (collision.gameObject.tag.Contains("PlayerBody") && !_isFirst)
         {
             ++_lobby1TutorialsQuest.AdvanceQuest;
-
-            enabled = false;
+            _isFirst = true;
         }
     }
 }

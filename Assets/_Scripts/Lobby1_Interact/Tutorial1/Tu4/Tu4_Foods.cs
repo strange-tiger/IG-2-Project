@@ -40,6 +40,11 @@ public class Tu4_Foods : InteracterableObject
 
         }
         ++_lobby1TutorialsQuest.AdvanceQuest;
+
+        if (_lobby1TutorialsQuest.AdvanceQuest >= 5)
+        {
+            _lobby1TutorialsQuest.AdvanceQuest = 5;
+        }
     }
 
     private IEnumerator RegenerateFood()

@@ -7,18 +7,14 @@ public class Tu3_Magic : MonoBehaviour
     [SerializeField] private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
     [SerializeField] private Lobby1TutorialsQuest _lobby1TutorialsQuest;
 
-    private void Start()
-    {
-        
-    }
+    private bool _isFirst;
 
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.Two) && _syncOVRDistanceGrabbable.isGrabbed)
+        if (OVRInput.GetDown(OVRInput.Button.Two) && _syncOVRDistanceGrabbable.isGrabbed && !_isFirst)
         {
             ++_lobby1TutorialsQuest.AdvanceQuest;
-
-            enabled = false;
+            _isFirst = true;
         }
     }
 }
