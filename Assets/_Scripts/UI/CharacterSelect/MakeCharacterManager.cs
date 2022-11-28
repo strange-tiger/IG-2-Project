@@ -54,6 +54,7 @@ public class MakeCharacterManager : MonoBehaviour
     }
     private void SelectFemale()
     {
+        Debug.Log("dd");
         OnClickFemaleButton.Invoke();
         _playerCustomize.IsFemale = true;
         _playerCustomize.MakeAvatarData();
