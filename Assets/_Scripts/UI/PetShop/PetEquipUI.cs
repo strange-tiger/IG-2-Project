@@ -14,6 +14,9 @@ public class PetEquipUI : MonoBehaviour
     [Header("UIManager")]
     [SerializeField] PetShopUIManager _ui;
 
+    [Header("Scriptable Object")]
+    [SerializeField] PetTransformList[] _transformList;
+
     [Header("Button")]
     [SerializeField] Button _leftButton;
     [SerializeField] Button _rightButton;
@@ -34,8 +37,12 @@ public class PetEquipUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _petExplanation;
     private TextMeshProUGUI _petTransformOption;
 
-    [Header("Popup")]
-    [SerializeField] GameObject _applyPopup;
+    [Header("Apply Text")]
+    [SerializeField] TextMeshProUGUI _applyText;
+
+    private const string DEFAULT_APPLY_TEXT = "저장하기를 누르면 변환이 반영됩니다.";
+    private const string SAVED_APPLY_TEXT = "저장되었습니다!";
+    private static readonly WaitForSeconds APPLY_TEXT_DURATION = new WaitForSeconds(1f);
 
     public event Action OnCurrentPetChanged;
     public PetShopUIManager.PetProfile CurrentPet
@@ -57,7 +64,6 @@ public class PetEquipUI : MonoBehaviour
     private int _transformIndex = 0;
     private int _maxTransformIndex = 0;
     private bool _doTransformScale = false;
-    private EPetMaxExp _currentPetEvolutionCount;
 
     private void OnEnable()
     {
@@ -79,6 +85,9 @@ public class PetEquipUI : MonoBehaviour
         _closeButton.onClick.RemoveListener(Close);
         _closeButton.onClick.AddListener(Close);
 
+        _saveButton.onClick.RemoveListener(SaveOption);
+        _saveButton.onClick.AddListener(SaveOption);
+
         OnCurrentPetChanged -= ShowCurrentPet;
         OnCurrentPetChanged += ShowCurrentPet;
 
@@ -97,7 +106,10 @@ public class PetEquipUI : MonoBehaviour
             CurrentPet = new PetShopUIManager.PetProfile();
         }
 
-        _applyPopup.SetActive(false);
+        _equipedPetImage.sprite = CurrentPet.Image;
+        _equipedPetName.text = CurrentPet.Name;
+
+        _applyText.text = DEFAULT_APPLY_TEXT;
     }
 
     private void OnDisable()
@@ -123,27 +135,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void Close()
     {
-        PetData petData = _ui.GetPetData();
-        for (int i = 0; i < _ui.PetList.Length; ++i)
-        {
-            petData.Size[i] = _ui.PetList[i].Size;
-            petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
-            petData.Status[i] = _ui.PetList[i].Status;
-        }
-
-        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
-        {
-            return;
-        }
-
-        if (_equipedIndex != -1)
-        {
-            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
-        }
-
         _ui.LoadUI(_UI.FIRST);
-
-        _applyPopup.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -207,11 +199,44 @@ public class PetEquipUI : MonoBehaviour
     {
         _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
         _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
+
+        _equipedPetImage.sprite = CurrentPet.Image;
+        _equipedPetName.text = CurrentPet.Name;
+
+        _equipedIndex = _currentIndex;
+
+        PetData petData = _ui.GetPetData();
+        for (int i = 0; i < _ui.PetList.Length; ++i)
+        {
+            petData.Size[i] = _ui.PetList[i].Size;
+            petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
+            petData.Status[i] = _ui.PetList[i].Status;
+        }
+
+        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
+        {
+            return;
+        }
+
+        if (_equipedIndex != -1)
+        {
+            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+        }
+
+        StartCoroutine(ChangeApplyText());
+    }
+
+    private IEnumerator ChangeApplyText()
+    {
+        _applyText.text = SAVED_APPLY_TEXT;
+
+        yield return APPLY_TEXT_DURATION;
+
+        _applyText.text = DEFAULT_APPLY_TEXT;
     }
 
     private void UpdateCurrentPet()
     {
-        
         CurrentPet = _ui.PetList[_currentIndex];
         _transformIndex = 0;
 
@@ -224,8 +249,6 @@ public class PetEquipUI : MonoBehaviour
         {
             return;
         }
-
-        int currentPetEvolutionCount = 0;
 
         int prevIndex = _transformIndex;
         do
@@ -240,9 +263,9 @@ public class PetEquipUI : MonoBehaviour
             {
                 break;
             }
-            //currentPetEvolutionCount;
+
         }
-        while (CurrentPet.Level < currentPetEvolutionCount);
+        while (CurrentPet.Level < (int)_transformList[_currentIndex].Level[_transformIndex]);
 
         ShowTransformOption(_transformIndex);
     }
@@ -253,8 +276,6 @@ public class PetEquipUI : MonoBehaviour
         {
             return;
         }
-
-        int currentPetEvolutionCount = 0;
 
         int prevIndex = _transformIndex;
         do
@@ -269,10 +290,9 @@ public class PetEquipUI : MonoBehaviour
             {
                 break;
             }
-            //currentPetEvolutionCount;
-        }
-        while (CurrentPet.Level < currentPetEvolutionCount);
 
+        }
+        while (CurrentPet.Level < _transformList[_currentIndex].Level[_transformIndex]);
 
         ShowTransformOption(_transformIndex);
     }
@@ -280,23 +300,17 @@ public class PetEquipUI : MonoBehaviour
     private void TransformPetChildAsset(int index)
     {
         _ui.PetList[_currentIndex].SetAssetIndex(index);
-
-        //for (int i = 0; i < _currentPetTransform.childCount; ++i)
-        //{
-        //    _currentPetTransform.GetChild(i).gameObject.SetActive(false);
-        //}
     }
 
     private static readonly float[] TRANSFORM_SCALE = new float[3] { 0.3f, 0.5f, 1f };
     private void TransformPetScale(int index)
     {
         _ui.PetList[_currentIndex].SetSize(TRANSFORM_SCALE[index]);
-        //_currentPetTransform.localScale = 100f * TRANSFORM_SCALE[index] * Vector3.one;
     }
 
     private void ShowCurrentPet()
     {
-        _petImage.sprite =  CurrentPet.Image;
+        _petImage.sprite = CurrentPet.Image;
 
         _petName.text = CurrentPet.Name;
 
@@ -346,7 +360,7 @@ public class PetEquipUI : MonoBehaviour
         }
         else
         {
-            //_petTransformOption.text = _currentPetTransform.GetChild(index).name;
+            _petTransformOption.text = _transformList[_currentIndex].Name[index];
         }
 
         EventSystem.current.SetSelectedGameObject(null);

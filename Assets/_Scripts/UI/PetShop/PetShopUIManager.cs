@@ -53,7 +53,7 @@ public class PetShopUIManager : UIManager
 
         foreach (var player in _playerNetworkings)
         {
-            if (player.GetComponent<PhotonView>().IsMine)
+            if (player.photonView.IsMine)
             {
                 _playerNetworking = player;
 

@@ -10,13 +10,13 @@ using UnityEngine.EventSystems;
 using _UI = Defines.EPetShopUIIndex;
 using _DB = Asset.MySql.MySqlSetting;
 
-//public enum EPetEvolutionCount
-//{
-//    NONE,
-//    ZERO,
-//    ONE,
-//    TWO,
-//};
+public enum EPetEvolutionCount
+{
+    NONE,
+    ZERO,
+    ONE,
+    TWO,
+};
 
 public class TransformUI : MonoBehaviour
 {

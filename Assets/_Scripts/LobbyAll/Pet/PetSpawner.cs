@@ -22,7 +22,10 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        StartCoroutine(PetInitialize());
+        if (photonView.IsMine)
+        {
+            StartCoroutine(PetInitialize());
+        }
     }
 
 #if debug
