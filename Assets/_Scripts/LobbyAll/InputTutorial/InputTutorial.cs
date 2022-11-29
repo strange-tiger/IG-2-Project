@@ -9,24 +9,29 @@ using _CSV = Asset.ParseCSV.CSVParser;
 
 public class InputTutorial : MonoBehaviour
 {
+    [Header("Tutorial Conversation")]
+    [SerializeField] private GameObject _conversationUI;
+    [SerializeField] private TextMeshProUGUI _conversationText;
+    [SerializeField] private AudioClip _dialogueSound;
 
-    [SerializeField] TextMeshProUGUI _conversationText;
-    [SerializeField] GameObject _conversationUI;
-    [SerializeField] InputTutorialTrigger _trigger;
-    [SerializeField] GameObject _triggerObject;
-    [SerializeField] FocusableObjects _buttonTriggerObject;
-    [SerializeField] MakeCharacterManager _makeCharacterManager;
-    [SerializeField] Button _characterMakeButton;
-    [SerializeField] Button _femaleButton;
-    [SerializeField] AudioClip _dialogueSound;
+    [Header("Trigger")]
+    [SerializeField] private InputTutorialTrigger _trigger;
+    [SerializeField] private GameObject _triggerObject;
+    [SerializeField] private FocusableObjects _buttonTriggerObject;
 
-    private AudioSource _audioSource;
+    [Header("MakeCharacter UI")]
+    [SerializeField] private MakeCharacterManager _makeCharacterManager;
+    [SerializeField] private Button _characterMakeButton;
+    [SerializeField] private Button _femaleButton;
+
     private List<string> _conversationList = new List<string>();
+    private AudioSource _audioSource;
     private Coroutine ConversationCoroutine;
-    private bool _isPause;
-    private int[] _pauseNum = { 4,7,11,13 };
+
     private int _indexNum = 0;
+    private int[] _pauseNum = { 4, 8, 11, 15, 18 };
     private int _pauseIndexNum;
+    private bool _isPause;
 
     private void OnEnable()
     {
@@ -41,14 +46,12 @@ public class InputTutorial : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _conversationList = _CSV.ParseCSV("InputTutorial", _conversationList);
-        ConversationCoroutine = StartCoroutine(ConversationPrint());
-
+        ConversationCoroutine = StartCoroutine(CoConversationPrint());
     }
 
     private void Update()
     {
-       
-        if(_conversationUI.activeSelf)
+        if (_conversationUI.activeSelf)
         {
             PlayerControlManager.Instance.IsMoveable = false;
         }
@@ -66,28 +69,26 @@ public class InputTutorial : MonoBehaviour
         {
             ConversationSkip();
         }
-
     }
-    private IEnumerator ConversationPrint()
-    {
 
+    private IEnumerator CoConversationPrint()
+    {
         for (int i = 0; i < _conversationList[_indexNum].Length; ++i)
         {
             yield return new WaitForSeconds(0.1f);
             _conversationText.text += _conversationList[_indexNum][i];
         }
-
     }
 
     private void ConversationSkip()
     {
-        if(_conversationText.text != null)
+        if (_conversationText.text != null)
         {
             if (_conversationText.text.Length != _conversationList[_indexNum].Length)
             {
                 if (OVRInput.GetDown(OVRInput.RawButton.A))
                 {
-                     StopCoroutine(ConversationCoroutine);
+                    StopCoroutine(ConversationCoroutine);
                     _conversationText.text = _conversationList[_indexNum];
                 }
             }
@@ -98,7 +99,7 @@ public class InputTutorial : MonoBehaviour
                     ++_indexNum;
                     _audioSource.PlayOneShot(_dialogueSound);
                     _conversationText.text = null;
-                    ConversationCoroutine = StartCoroutine(ConversationPrint());
+                    ConversationCoroutine = StartCoroutine(CoConversationPrint());
                 }
             }
         }
@@ -107,6 +108,7 @@ public class InputTutorial : MonoBehaviour
     private void ConversationPause()
     {
         _isPause = true;
+
         _conversationUI.SetActive(false);
 
         switch (_pauseIndexNum)
@@ -117,22 +119,33 @@ public class InputTutorial : MonoBehaviour
                 _pauseIndexNum++;
                 return;
             case 1:
+                StartCoroutine(CoRotatePlayerTutorialDelay());
+                _pauseIndexNum++;
+                return;
+            case 2:
                 _triggerObject.gameObject.SetActive(true);
                 _trigger.enabled = true;
                 _pauseIndexNum++;
                 return;
-            case 2:
+            case 3:
                 _buttonTriggerObject.enabled = true;
                 _buttonTriggerObject.OnFocus();
                 _femaleButton.interactable = true;
                 _pauseIndexNum++;
                 return;
-            case 3:
+            case 4:
                 _characterMakeButton.interactable = true;
                 _makeCharacterManager.OnClickFemaleButton.RemoveListener(ConversationRestart);
                 return;
         }
+    }
 
+    private IEnumerator CoRotatePlayerTutorialDelay()
+    {
+        yield return new WaitForSeconds(5f);
+
+
+        ConversationRestart();
     }
 
     private void ConversationRestart()
@@ -144,6 +157,5 @@ public class InputTutorial : MonoBehaviour
     private void OnDisable()
     {
         _trigger.OnTriggered.RemoveListener(ConversationRestart);
-
     }
 }
