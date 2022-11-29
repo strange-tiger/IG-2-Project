@@ -301,16 +301,23 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             if (_tutorialObject[i].activeSelf)
             {
                 _tutorialObject[i].SetActive(false);
-                return;
             }
         }
 
         for (int i = 0; i < _tutorialObject.Length; ++i)
         {
-            _tutorialButton[i].enabled = true;
+            if (_tutorialButton[i].enabled == false)
+            {
+                _tutorialButton[i].enabled = true;
+            }
         }
-        _questText.text = null;
+
         _tutorialController.QuestAcceptEvent.Invoke(2);
+
+        if (_questText.text != null)
+        {
+            _questText.text = null;
+        }
         _tutorialController.IsTutorialQuest = false;
         _isOn = true;
         _isQuest = false;
