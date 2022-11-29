@@ -51,14 +51,16 @@ public class SocialTabManager : MonoBehaviour
             foreach(TextMeshProUGUI nicknameText in _nicknameTextList)
             {
                 bool isOnline = MySqlSetting.IsPlayerOnline(nicknameText.text.ToString());
-                if(isOnline)
-                {
-                    nicknameText.color = _onLineTextColor;
-                }
-                else
-                {
-                    nicknameText.color = _offLineTextColor;
-                }
+                nicknameText.color = isOnline ? _onLineTextColor : _offLineTextColor;
+
+                //if(isOnline)
+                //{
+                //    nicknameText.color = _onLineTextColor;
+                //}
+                //else
+                //{
+                //    nicknameText.color = _offLineTextColor;
+                //}
             }
         }
     }
@@ -72,7 +74,7 @@ public class SocialTabManager : MonoBehaviour
 
     private void ShowFriendList()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
 
         // 버튼 활성화 처리
         _friendListButton.interactable = false;
@@ -92,12 +94,12 @@ public class SocialTabManager : MonoBehaviour
             }
         }
 
-        //StartCoroutine(OnOfflineSetting());
+        StartCoroutine(OnOfflineSetting());
     }
 
     private void ShowBlockList()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
 
         // 버튼 활성화 처리
         _friendListButton.interactable = true;
@@ -129,7 +131,7 @@ public class SocialTabManager : MonoBehaviour
     
     private void ShowRequestList()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
 
         if(RequestAlarmImage.activeSelf)
         {
