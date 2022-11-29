@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
-using SceneType = Defines.ESceneNumder;
+using SceneType = Defines.ESceneNumber;
 using _CSV = Asset.ParseCSV.CSVParser;
 using Asset.MySql;
 

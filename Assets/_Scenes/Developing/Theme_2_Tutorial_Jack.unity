@@ -10646,7 +10646,7 @@ GameObject:
   - component: {fileID: 551306750}
   - component: {fileID: 551306751}
   m_Layer: 0
-  m_Name: Quest1 (6)
+  m_Name: ExitTutorialQuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19649,6 +19649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tutorialPanel: {fileID: 307559990}
+  _tutorialEndCheckMessage: "\uB098\uAC00\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   _DialoguePanel: {fileID: 1027689240}
   _nameText: {fileID: 822426534}
   _dialogueText: {fileID: 339716955}
@@ -21851,6 +21852,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4365054245417938, guid: 827cdc91ce656b54e907953e440024d0, type: 3}
   m_PrefabInstance: {fileID: 1116505388}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1121848173 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9104742575017019517, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
+  m_PrefabInstance: {fileID: 1873103810}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1122887581
 PrefabInstance:
@@ -34572,7 +34578,7 @@ PrefabInstance:
     - target: {fileID: 3328509509990662506, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: rayTransform
       value: 
-      objectReference: {fileID: 450944062}
+      objectReference: {fileID: 1121848173}
     - target: {fileID: 3328509509990662506, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: joyPadClickButton
       value: 1
@@ -35583,6 +35589,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4144860735299958, guid: e4b402567332fb249bf7fe623866d497, type: 3}
   m_PrefabInstance: {fileID: 1929870826}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1946656463 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8207156521027552008, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
+  m_PrefabInstance: {fileID: 1494497631}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aaf960227867044282d921171d2d7ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1947377953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38696,6 +38713,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4050703955317428, guid: 610309a373c4b7f46b12627b75a32511, type: 3}
   m_PrefabInstance: {fileID: 2061598223}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2067093832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2067093834}
+  - component: {fileID: 2067093833}
+  m_Layer: 0
+  m_Name: LobbyChanger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2067093833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067093832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isInLobby: 1
+  _canvases:
+  - {fileID: 1946656463}
+  _playerPrefab: {fileID: 0}
+  _playerSpawnPosition: {x: 0, y: 1, z: 3}
+  _playerSpawnRotatinon: {x: 0, y: 0, z: 0}
+  _mapType: 0
+  _isFixedPosition: 0
+  _fixedPosition: {x: 0, y: 0, z: 0}
+  _fixedRotation: {x: 0, y: 0, z: 0}
+--- !u!4 &2067093834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067093832}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.45718634, y: 1.956453, z: -21.876293}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2073801997
 GameObject:
   m_ObjectHideFlags: 0

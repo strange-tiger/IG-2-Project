@@ -5,12 +5,12 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Asset.MySql;
-using SceneNumber = Defines.ESceneNumder;
+using SceneNumber = Defines.ESceneNumber;
 using MapType = Defines.EMapType;
 
 public class LobbyChanger : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private bool _isStartRoom;
+    [SerializeField] private bool _isInLobby;
     [SerializeField] private OVRRaycaster[] _canvases;
     [SerializeField] private GameObject _playerPrefab;
 
@@ -40,7 +40,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     protected virtual void Awake()
     {
-        if (!_isStartRoom)
+        if (!_isInLobby)
         {
             GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name, _playerSpawnPosition,
                 Quaternion.Euler(_playerSpawnRotatinon), 0, null);
@@ -83,7 +83,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         PlayerControlManager.Instance.IsRayable = false;
         PlayerControlManager.Instance.IsMoveable = false;
 
-        if (!_isStartRoom)
+        if (!_isInLobby)
         {
             PhotonNetwork.LeaveRoom();
         }
