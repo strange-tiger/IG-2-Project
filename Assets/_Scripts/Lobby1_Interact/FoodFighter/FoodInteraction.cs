@@ -16,13 +16,16 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
 
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _eatingSound;
-    
+
     private Vector3 _initPosition;
     private Vector3 _nullPosition = new Vector3(0, 0, 0);
+
     private float _speedSlower = 0.0001f;
     private float _fatterCharacter = 0.1f;
+
     private float _walkCount;
     private int _dietWalkCount = 100;
+
     private int _maxSatietyStack = 6;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -36,6 +39,7 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
             transform.GetChild(2).localScale = (Vector3)stream.ReceiveNext();
         }
     }
+
     private void OnEnable()
     {
         Food.OnEated.RemoveListener(EatFood);
@@ -43,14 +47,12 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
 
         _audioSource = GetComponentInChildren<AudioSource>();
     }
-
-
     private void Start()
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
     }
 
-    void Update()
+    private void Update()
     {
         if (photonView.IsMine)
         {
@@ -61,13 +63,12 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
         }
     }
 
-
-
-    void Diet()
+    private void Diet()
     {
         if (_initPosition == _nullPosition)
+        {
             _initPosition = transform.position;
-
+        }
 
         if (Vector3.Distance(_initPosition, transform.position) >= 1)
         {
@@ -85,7 +86,6 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
 
             photonView.RPC("CharacterScaleDecrease", RpcTarget.All);
 
-
             if (SatietyStack == 0)
             {
                 OnDeactivateSatietyUI.Invoke();
@@ -98,14 +98,12 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
         }
     }
 
-
     public void EatFood(EFoodSatietyLevel foodSatietyLevel)
     {
         if (photonView.IsMine)
         {
             if (SatietyStack < _maxSatietyStack)
             {
-
                 _playerContollerMove.MoveScale -= _speedSlower * (int)foodSatietyLevel;
 
                 photonView.RPC("CharacterScaleIncrease", RpcTarget.All, (int)foodSatietyLevel);
@@ -117,7 +115,7 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
 
                 SatietyStack += (int)foodSatietyLevel;
 
-                if(SatietyStack > _maxSatietyStack)
+                if (SatietyStack > _maxSatietyStack)
                 {
                     SatietyStack = _maxSatietyStack;
                 }
@@ -131,6 +129,7 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
     public void CharacterScaleIncrease(EFoodSatietyLevel foodSatietyLevel)
     {
         _audioSource.PlayOneShot(_eatingSound);
+
         transform.GetChild(2).localScale = new Vector3(transform.GetChild(2).localScale.x, transform.GetChild(2).localScale.y, transform.GetChild(2).localScale.z + (_fatterCharacter * (int)foodSatietyLevel));
     }
 
