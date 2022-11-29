@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using EGrade = PetUIManager.PetProfile.EGrade;
+using EGrade = PetShopUIManager.PetProfile.EGrade;
 
 [CreateAssetMenu(menuName = "Scriptable/PetShopList", fileName = "PetShopList")]
 public class PetShopList : ScriptableObject

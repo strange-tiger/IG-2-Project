@@ -29,15 +29,15 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7499679476775421589}
-  - {fileID: 5732510541724638873}
   - {fileID: 3929045512931734297}
-  - {fileID: 4397956043065203727}
-  - {fileID: 6946669508926832207}
+  - {fileID: 5732510541724638873}
+  - {fileID: 7499679476775421589}
   - {fileID: 188930819614529754}
-  - {fileID: 5863050203099067106}
-  - {fileID: 6817384334525139024}
+  - {fileID: 6946669508926832207}
+  - {fileID: 4397956043065203727}
   - {fileID: 6592674905352281502}
+  - {fileID: 6817384334525139024}
+  - {fileID: 5863050203099067106}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -399,7 +399,7 @@ Transform:
   - {fileID: 188930819614529756}
   - {fileID: 188930819614529758}
   m_Father: {fileID: 2091228229215102666}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &188930819621500712
 Animator:
@@ -432,7 +432,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 2
 --- !u!65 &1220057182146139416
 BoxCollider:
@@ -501,8 +504,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsWalk
+  - Type: 3
+    SynchronizeType: 0
+    Name: animation
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &2426289166928359594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,7 +925,7 @@ Transform:
   - {fileID: 3929045512931734299}
   - {fileID: 3929045512931734301}
   m_Father: {fileID: 2091228229215102666}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3929045512924536041
 Animator:
@@ -947,7 +958,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 1
 --- !u!65 &194810837926154978
 BoxCollider:
@@ -1016,8 +1030,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsWalk
+  - Type: 3
+    SynchronizeType: 0
+    Name: animation
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &2944733487904023902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1456,7 +1478,7 @@ Transform:
   - {fileID: 4397956043065203721}
   - {fileID: 4397956043065203723}
   m_Father: {fileID: 2091228229215102666}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4397956043057525757
 Animator:
@@ -1489,7 +1511,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 2
 --- !u!65 &8480941110257896859
 BoxCollider:
@@ -1558,8 +1583,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsWalk
+  - Type: 3
+    SynchronizeType: 0
+    Name: animation
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &1934963835748025684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2067,7 +2100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 1
 --- !u!65 &8586494629462464483
 BoxCollider:
@@ -2136,8 +2172,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsWalk
+  - Type: 3
+    SynchronizeType: 0
+    Name: animation
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &707674721036614708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2455,7 +2499,7 @@ Transform:
   - {fileID: 5863050203099067104}
   - {fileID: 5863050203099067110}
   m_Father: {fileID: 2091228229215102666}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5863050203108908306
 Animator:
@@ -2488,7 +2532,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 3
 --- !u!65 &6500059959632105319
 BoxCollider:
@@ -3506,7 +3553,7 @@ Transform:
   - {fileID: 6592674905352281500}
   - {fileID: 6592674905352281498}
   m_Father: {fileID: 2091228229215102666}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6592674905361314414
 Animator:
@@ -3539,7 +3586,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 3
 --- !u!65 &5450837197401229865
 BoxCollider:
@@ -4002,7 +4052,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 3
 --- !u!65 &6055828728506592104
 BoxCollider:
@@ -4649,7 +4702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 2
 --- !u!65 &6854714142950138933
 BoxCollider:
@@ -5225,7 +5281,7 @@ Transform:
   - {fileID: 7499679476775421591}
   - {fileID: 7499679476775421585}
   m_Father: {fileID: 2091228229215102666}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7499679476782623077
 Animator:
@@ -5258,7 +5314,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 1
 --- !u!65 &3133640604988740435
 BoxCollider:

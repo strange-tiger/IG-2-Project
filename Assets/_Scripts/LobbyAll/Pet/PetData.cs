@@ -6,6 +6,9 @@ public class PetData : ScriptableObject
     [SerializeField] GameObject[] _object;
     public GameObject[] Object { get { return _object; } }
 
+    [SerializeField] Sprite[] _image;
+    public Sprite[] Image { get { return _image; } }
+
     [SerializeField] EPetMaxExp[] _maxExp;
     public EPetMaxExp[] MaxExp { get { return _maxExp; } }
 

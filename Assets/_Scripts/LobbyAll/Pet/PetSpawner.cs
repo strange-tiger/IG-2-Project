@@ -15,13 +15,17 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     private static readonly WaitForSeconds DELAY_GET_NICKNAME = new WaitForSeconds(1f);
     private PlayerNetworking _player;
 
+    public int EquipedNum { get => _eqiupNum; }
     private int _eqiupNum;
     private int _testNum = -1;
     private bool _havePet = false;
 
     void Awake()
     {
-        StartCoroutine(PetInitialize());
+        if (photonView.IsMine)
+        {
+            StartCoroutine(PetInitialize());
+        }
     }
 
 #if debug
@@ -60,7 +64,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine)
         {
-            PetUIManager.PlayerPetSpawner = this;
+            PetShopUIManager.PlayerPetSpawner = this;
         }
     }
 
@@ -80,6 +84,7 @@ public class PetSpawner : MonoBehaviourPunCallbacks
             }
             else
             {
+                _eqiupNum = -1;
                 _havePet = false;
             }
         }
@@ -88,17 +93,13 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetInstantiate(int index)
     {
-        if (photonView.IsMine)
+        if (_petObject != null)
         {
-            if (_petObject != null)
-            {
-                PhotonNetwork.Destroy(_petObject);
-            }
-
-            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
-            _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
-
+            PhotonNetwork.Destroy(_petObject);
         }
+
+        _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
+        _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

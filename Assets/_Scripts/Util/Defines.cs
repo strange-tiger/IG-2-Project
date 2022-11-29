@@ -184,6 +184,16 @@ namespace Defines
         MAX
     }
 
+    public enum EPetShopUIIndex
+    {
+        CONVERSATION,
+        FIRST,
+        BUY,
+        INFO,
+        EQUIP,
+        MAX
+    }
+
     public enum ELobby2TutorialNumber
     {
         Start,
