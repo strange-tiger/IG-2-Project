@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class OakBarrelQuest2Move : QuestConducter
 {
-    [SerializeField] private GameObject _barrel;
     [SerializeField] private float _questEndTime;
     private WaitForSeconds _waitForQuestEnd;
 
@@ -22,11 +21,5 @@ public class OakBarrelQuest2Move : QuestConducter
     {
         yield return _waitForQuestEnd;
         QuestEnded();
-    }
-
-    protected override void OnQuestEnded()
-    {
-        base.OnQuestEnded();
-        _barrel.SetActive(false);
     }
 }
