@@ -92,11 +92,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1ca8d1b45fe1e44a1ec7c080d0ff0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnClickFemaleButton:
+    m_PersistentCalls:
+      m_Calls: []
+  _playerCustomize: {fileID: 0}
   _maleSelectButton: {fileID: 4534814278836848232}
   _femaleSelectButton: {fileID: 4534814277977053197}
   _makeCharacterButton: {fileID: 4534814277375836248}
   _femalePanel: {fileID: 0}
   _malePanel: {fileID: 0}
+  _rayPlane: {fileID: 0}
 --- !u!114 &4534814277281154949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1113,7 +1118,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4534814279259786933
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,21 +6,23 @@ using UnityEngine.EventSystems;
 
 public class CustomizeUIManager : UIManager
 {
-    [Header("Button")]
+    [Header("CustomizeMenu Button")]
     [SerializeField] Button _customizeMenuOnButton;
     [SerializeField] Button _customizeMenuCloseButton;
     [SerializeField] Button _customizeMenuOffButton;
+
+    [Header("CustomizeShop Button")]
     [SerializeField] Button _customizeShopOnButton;
     [SerializeField] Button _customizeShopCloseButton;
     [SerializeField] Button _customizeShopOffButton;
+
+    [Header("CustomizeNPC Button")]
     [SerializeField] Button _customizeNPCCloseButton;
-    [SerializeField] Button _customizeCompletePopUpCloseButton;
 
     [Header("Panel")]
     [SerializeField] CustomizeMenu _customizeMenu;
     [SerializeField] GameObject _customizeShop;
     [SerializeField] GameObject _customizeNPCMenu;
-    [SerializeField] GameObject _customizeCompletePopUp;
 
     [Header("NPC Collider")]
     [SerializeField] MeshCollider _collider;
@@ -48,10 +50,6 @@ public class CustomizeUIManager : UIManager
 
         _customizeMenuOffButton.onClick.RemoveListener(CustomizeMenuOff);
         _customizeMenuOffButton.onClick.AddListener(CustomizeMenuOff);
-
-        _customizeCompletePopUpCloseButton.onClick.RemoveListener(CustomizeCompletePopupClose);
-        _customizeCompletePopUpCloseButton.onClick.AddListener(CustomizeCompletePopupClose);
-
     }
 
     private void MenuOn()
@@ -66,11 +64,6 @@ public class CustomizeUIManager : UIManager
     {
         _customizeMenu.gameObject.SetActive(false);
         _customizeNPCMenu.SetActive(true);
-
-        if (_customizeMenu.IsCustomizeChanged)
-        {
-            _customizeCompletePopUp.SetActive(true);
-        }
 
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -114,22 +107,12 @@ public class CustomizeUIManager : UIManager
         _customizeShop.SetActive(false);
         _customizeNPCMenu.SetActive(false);
 
-        if(_customizeMenu.IsCustomizeChanged)
-        {
-            _customizeCompletePopUp.SetActive(true);
-        }
-
         _collider.enabled = true;
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    private void CustomizeCompletePopupClose()
-    {
-        _customizeCompletePopUp.SetActive(false);
 
-        EventSystem.current.SetSelectedGameObject(null);
-    }
 
     private void OnDisable()
     {
@@ -146,8 +129,6 @@ public class CustomizeUIManager : UIManager
         _customizeShopOffButton.onClick.RemoveListener(CustomizeShopOff);
 
         _customizeMenuOffButton.onClick.RemoveListener(CustomizeShopOff);
-
-        _customizeCompletePopUpCloseButton.onClick.RemoveListener(CustomizeCompletePopupClose);
 
     }
 }

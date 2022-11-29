@@ -8,7 +8,7 @@ using TMPro;
 using Column = Asset.EaccountdbColumns;
 using UI = Defines.ELogInUIIndex;
 using Error = Defines.ELogInErrorType;
-using Scene = Defines.ESceneNumder;
+using Scene = Defines.ESceneNumber;
 using Sql = Asset.MySql.MySqlSetting;
 using Hash = Encryption.Hash256;
 

@@ -1834,7 +1834,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7a2897962ecb743b573890fc793087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _customizeNPCMenu: {fileID: 800744558230837447}
 --- !u!64 &800744556661703431
 MeshCollider:
@@ -3171,13 +3174,18 @@ MonoBehaviour:
   - {fileID: 800744558213945118}
   - {fileID: 800744558230837447}
   _customizeMenuOnButton: {fileID: 800744558053443015}
+  _customizeMenuCloseButton: {fileID: 0}
   _customizeMenuOffButton: {fileID: 800744557055873049}
   _customizeShopOnButton: {fileID: 800744557545732763}
+  _customizeShopCloseButton: {fileID: 0}
   _customizeShopOffButton: {fileID: 800744557843850218}
-  _customizeNPCOffButton: {fileID: 800744558348999119}
-  _customizeMenu: {fileID: 800744558672809705}
+  _customizeNPCCloseButton: {fileID: 0}
+  _customizeCompletePopUpCloseButton: {fileID: 0}
+  _customizeMenu: {fileID: 0}
   _customizeShop: {fileID: 800744558213945118}
   _customizeNPCMenu: {fileID: 800744558230837447}
+  _customizeCompletePopUp: {fileID: 0}
+  _collider: {fileID: 0}
 --- !u!114 &800744556886209343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6605,16 +6613,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede09e6cb0ca24347979005e6a7cebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avatarName: {fileID: 800744557203665713}
-  _avatarValue: {fileID: 800744557706244386}
-  _purchaseButton: {fileID: 800744557320950221}
   _leftAvatarButton: {fileID: 800744557139448545}
   _rightAvatarButton: {fileID: 800744556894554552}
-  _skinnedMeshRenderer: {fileID: 4634148158475684877}
-  _smMeshRenderer: {fileID: 4634148158475684877}
-  _characterMeshRenderer: {fileID: 4749647748467652549}
-  _smMeshRendererObject: {fileID: 4732083080539001011}
-  _characterMeshRendererObject: {fileID: 4613885189499471707}
+  _avatarInfoButton: []
+  _purchasePopUp: {fileID: 0}
+  _purchasePopUpCloseButton: {fileID: 0}
+  _purchaseButton: {fileID: 800744557320950221}
+  _haveGoldText: {fileID: 0}
+  _askPurchaseAvatarText: {fileID: 0}
+  _purchasePopUpCloseButtonText: {fileID: 0}
+  _purchaseCompletePopUp: {fileID: 0}
+  _purchaseCompletePopUpCloseButton: {fileID: 0}
+  _currentAvatarName: {fileID: 0}
+  _currentAvatarValue: {fileID: 0}
+  _currentSkinnedMeshRenderer: {fileID: 0}
+  _currentSmMeshRenderer: {fileID: 0}
+  _currentCharacterMeshRenderer: {fileID: 0}
+  _currentSmMeshRendererObject: {fileID: 0}
+  _currentCharacterMeshRendererObject: {fileID: 0}
+  _avatarName:
+  - {fileID: 0}
+  _avatarValue:
+  - {fileID: 0}
+  _avatarPanel: []
+  _skinnedMeshRenderer:
+  - {fileID: 0}
+  _smMeshRenderer:
+  - {fileID: 0}
+  _characterMeshRenderer:
+  - {fileID: 0}
+  _smMeshRendererObject:
+  - {fileID: 0}
+  _characterMeshRendererObject:
+  - {fileID: 0}
+  _purchaseAvatarName: {fileID: 0}
+  _purchaseSkinnedMeshRenderer: {fileID: 0}
+  _purchaseSmMeshRenderer: {fileID: 0}
+  _purchaseCharacterMeshRenderer: {fileID: 0}
+  _purchaseSmMeshRendererObject: {fileID: 0}
+  _purchaseCharacterMeshRendererObject: {fileID: 0}
   _customizeDatas: {fileID: 11400000, guid: 0eb480d9a1792e4458eedef990de8e80, type: 2}
   _maleUserCustomizeData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
   _femaleUserCustomizeData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
@@ -7069,7 +7106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &800744558672809704
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7110,20 +7147,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _equipButton: {fileID: 800744557684761939}
-  _leftAvatarButton: {fileID: 800744557469186973}
   _leftMaterialButton: {fileID: 800744557503339349}
-  _rightAvatarButton: {fileID: 800744556897346177}
   _rightMaterialButton: {fileID: 800744556851411411}
+  _leftAvatarButton: {fileID: 800744557469186973}
+  _rightAvatarButton: {fileID: 800744556897346177}
   _avatarName: {fileID: 800744557768082418}
   _skinnedMeshRenderer: {fileID: 7449107169855737287}
   _smMeshRenderer: {fileID: 7405437062835189263}
   _characterMeshRenderer: {fileID: 7449107169855737287}
   _smMeshRendererObject: {fileID: 7431243443371584177}
   _characterMeshRendererObject: {fileID: 7389695420013329753}
+  _currentAvatarName: {fileID: 0}
+  _currentSkinnedMeshRenderer: {fileID: 0}
+  _currentSmMeshRenderer: {fileID: 0}
+  _currentCharacterMeshRenderer: {fileID: 0}
+  _currentSmMeshRendererObject: {fileID: 0}
+  _currentCharacterMeshRendererObject: {fileID: 0}
+  _materialNum: {fileID: 0}
+  _avatarInfoText: {fileID: 0}
+  _messageText: {fileID: 0}
   _customizeDatas: {fileID: 11400000, guid: 0eb480d9a1792e4458eedef990de8e80, type: 2}
   _maleUserCustomizeData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
   _femaleUserCustomizeData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
   _userCustomizeData: {fileID: 0}
+  IsCustomizeChanged: 0
 --- !u!222 &800744558672809709
 CanvasRenderer:
   m_ObjectHideFlags: 0
