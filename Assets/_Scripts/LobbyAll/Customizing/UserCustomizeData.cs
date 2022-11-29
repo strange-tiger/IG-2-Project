@@ -9,8 +9,6 @@ public class UserCustomizeData : ScriptableObject
     [SerializeField] EAvatarState[] avatarState;
     public EAvatarState[] AvatarState { get { return avatarState; } }
 
-    public int UserMaterial { get; set; }
-
     [SerializeField] int[] avatarValue;
     public int[] AvatarValue { get { return avatarValue; } }
 

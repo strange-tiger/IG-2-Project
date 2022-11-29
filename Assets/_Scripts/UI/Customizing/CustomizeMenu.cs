@@ -12,52 +12,52 @@ public class CustomizeMenu : MonoBehaviourPun
 {
 
     [Header("Button")]
-    [SerializeField] Button _equipButton;
-    [SerializeField] Button _leftMaterialButton;
-    [SerializeField] Button _rightMaterialButton;
-    [SerializeField] Button _leftAvatarButton;
-    [SerializeField] Button _rightAvatarButton;
+    [SerializeField] private Button _saveButton;
+    [SerializeField] private Button _leftMaterialButton;
+    [SerializeField] private Button _rightMaterialButton;
+    [SerializeField] private Button _leftAvatarButton;
+    [SerializeField] private Button _rightAvatarButton;
 
     [Header("Change Avatar")]
-    [SerializeField] TextMeshProUGUI _avatarName;
-    [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
-    [SerializeField] GameObject _smMeshRendererObject;
-    [SerializeField] GameObject _characterMeshRendererObject;
+    [SerializeField] private AvatarMaterialData _avatarMaterialData;
+    [SerializeField] private Image _avatarImage;
+
+
+    [Header("Change Avatar Info")]
+    [SerializeField] private TextMeshProUGUI _avatarName;
+    [SerializeField] private TextMeshProUGUI _avatarNickname;
+    [SerializeField] private TextMeshProUGUI _avatarMaterialNum;
+    [SerializeField] private TextMeshProUGUI _avatarInfoText;
+    [SerializeField] private TextMeshProUGUI _messageText;
 
     [Header("Current Avatar")]
-    [SerializeField] TextMeshProUGUI _currentAvatarName;
-    [SerializeField] SkinnedMeshRenderer _currentSkinnedMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _currentSmMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _currentCharacterMeshRenderer;
-    [SerializeField] GameObject _currentSmMeshRendererObject;
-    [SerializeField] GameObject _currentCharacterMeshRendererObject;
+    [SerializeField] private AvatarMaterialData _currentAvatarMaterialData;
+    [SerializeField] private Image _currentAvatarImage;
 
     [Header("Avatar Data")]
-    [SerializeField] TextMeshProUGUI _materialNum;
-    [SerializeField] TextMeshProUGUI _avatarInfoText;
-    [SerializeField] TextMeshProUGUI _messageText;
-    [SerializeField] AvatarMaterialData _avatarMaterialData;
-    [SerializeField] UserCustomizeData _maleUserCustomizeData;
-    [SerializeField] UserCustomizeData _femaleUserCustomizeData;
-    [SerializeField] UserCustomizeData _userCustomizeData;
+    [SerializeField] private UserCustomizeData _maleUserCustomizeData;
+    [SerializeField] private UserCustomizeData _femaleUserCustomizeData;
+    [SerializeField] private UserCustomizeData _userCustomizeData;
 
     public bool IsCustomizeChanged;
+
+    private List<int> _haveAvatarList = new List<int>();
 
     private PlayerCustomize _playerCustomize;
     private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
-    private List<int> _haveAvatarList = new List<int>();
+
     private YieldInstruction _fadeTextTime = new WaitForSeconds(0.5f);
 
+    private string _saveString;
+    private string _playerNickname;
+
     private int _setAvatarNum;
+    private int _setMaterialNum;
     private int _equipNum;
     private int _startNum;
-    private int _setMaterialNum;
-    private string _saveString;
+
     private bool _isFemale;
-    private string _playerNickname;
 
     private void OnEnable()
     {
@@ -73,8 +73,8 @@ public class CustomizeMenu : MonoBehaviourPun
         _rightMaterialButton.onClick.RemoveListener(RightMaterialButton);
         _rightMaterialButton.onClick.AddListener(RightMaterialButton);
 
-        _equipButton.onClick.RemoveListener(EquipButton);
-        _equipButton.onClick.AddListener(EquipButton);
+        _saveButton.onClick.RemoveListener(SaveButton);
+        _saveButton.onClick.AddListener(SaveButton);
 
         _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
 
@@ -119,8 +119,9 @@ public class CustomizeMenu : MonoBehaviourPun
         {
             _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
+
         // DB에 저장되어 있던 아바타의 Material을 불러옴
-        _userCustomizeData.UserMaterial = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
+        _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
         
         // 아바타의 정보를 돌면서 장착중이던 아바타를 찾아냄.
         for(int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
@@ -141,45 +142,39 @@ public class CustomizeMenu : MonoBehaviourPun
 
         _setAvatarNum = _haveAvatarList[_startNum];
 
-        InitRootSet();
+        // 현재 아바타 정보에 장착중이던 아이템과 Material을 적용시킴.
+        _currentAvatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
+        _currentAvatarImage.sprite = _currentAvatarMaterialData.AvatarImage[_setMaterialNum];
 
+        // 기본 커스터마이징 창에도 현재 장착 아이템을 적용시킴.
+        _avatarMaterialData = _currentAvatarMaterialData;
+        _avatarImage.sprite = _currentAvatarImage.sprite;
 
-        // 장착중이던 아이템과 Material을 적용시킴.
-        _currentAvatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-        _setMaterialNum = _userCustomizeData.UserMaterial;
-        _currentSkinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
-        _currentSkinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
-
-
+        // 커스터마이징 창의 아바타 이름, 닉네임을 적용시킴.
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-        _setMaterialNum = 0;
-        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_haveAvatarList[0]];
-        _skinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
-
-
+        _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
     }
 
 
 
-    void EquipButton()
+    void SaveButton()
     {
         if (_userCustomizeData.AvatarState[_setAvatarNum] == EAvatarState.HAVE)
         {
             _userCustomizeData.AvatarState[_equipNum] = EAvatarState.HAVE;
             _equipNum = _setAvatarNum;
             _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
-            _userCustomizeData.UserMaterial = _setMaterialNum;
         }
 
-        RootSet();
 
         for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
             _saveString += _userCustomizeData.AvatarState[i].ToString() + ',';
         }
 
-        MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor, _userCustomizeData.UserMaterial);
+        MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor, _setMaterialNum);
         MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
+
         _saveString = null;
 
         if(_playerNetworking.GetComponent<PhotonView>().IsMine)
@@ -187,6 +182,7 @@ public class CustomizeMenu : MonoBehaviourPun
             _playerCustomize = _playerNetworking.GetComponentInChildren<PlayerCustomize>();
             _playerCustomize.photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, _isFemale);
         }
+
         if(_messageText.text != null)
         {
             IsCustomizeChanged = true;
@@ -201,7 +197,6 @@ public class CustomizeMenu : MonoBehaviourPun
         StartCoroutine(TextFade());
 
         EventSystem.current.SetSelectedGameObject(null);
-
     }
 
     private IEnumerator TextFade()
@@ -212,43 +207,12 @@ public class CustomizeMenu : MonoBehaviourPun
 
     }
 
-    private void RootSet()
-    {
-        if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
-        {
-            _smMeshRendererObject.SetActive(true);
-            _characterMeshRendererObject.SetActive(false);
-            _skinnedMeshRenderer = _smMeshRenderer;
-        }
-        else
-        {
-            _smMeshRendererObject.SetActive(false);
-            _characterMeshRendererObject.SetActive(true);
-            _skinnedMeshRenderer = _characterMeshRenderer;
-        }
-    }
 
-    private void InitRootSet()
-    {
-        if (_setAvatarNum <= 9 && _setAvatarNum >= 7)
-        {
-            _currentSmMeshRendererObject.SetActive(true);
-            _currentCharacterMeshRendererObject.SetActive(false);
-            _currentSkinnedMeshRenderer = _currentSmMeshRenderer;
-        }
-        else
-        {
-            _currentSmMeshRendererObject.SetActive(false);
-            _currentCharacterMeshRendererObject.SetActive(true);
-            _currentSkinnedMeshRenderer = _currentCharacterMeshRenderer;
-        }
-        RootSet(); 
-    }
 
 
     void LeftAvartarButton()
     {
-
+        // 왼쪽 버튼을 눌렀을 때, 아바타 리스트의 인덱스를 이용하여 아바타를 변경함.
         if(_startNum == 0)
         {
             _startNum = _haveAvatarList.Count - 1;
@@ -259,6 +223,8 @@ public class CustomizeMenu : MonoBehaviourPun
             _startNum--;
             _setAvatarNum = _haveAvatarList[_startNum];
         }
+
+        // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
         if (_equipNum != _haveAvatarList[_startNum])
         {
             _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
@@ -268,19 +234,20 @@ public class CustomizeMenu : MonoBehaviourPun
             _messageText.text = null;
         }
 
-        RootSet();
-
+        // 메테리얼의 인덱스를 초기화 하고, 바뀐 리스트의 인덱스를 이용하여 아바타 정보를 불러옴.
+        _setMaterialNum = 0;
+        _avatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
+        _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-
-        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+        _avatarNickname.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
 
         EventSystem.current.SetSelectedGameObject(null);
-
-
     }
 
     void RightAvatarButton()
     {
+        // 오른쪽 버튼을 눌렀을 때, 아바타 리스트의 인덱스를 이용하여 아바타를 변경함.
         if (_startNum == _haveAvatarList.Count - 1)
         {
             _startNum = 0;
@@ -292,6 +259,7 @@ public class CustomizeMenu : MonoBehaviourPun
             _setAvatarNum = _haveAvatarList[_startNum];
         }
 
+        // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
         if (_equipNum != _haveAvatarList[_startNum])
         {
             _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
@@ -301,19 +269,20 @@ public class CustomizeMenu : MonoBehaviourPun
             _messageText.text = null;
         }
 
-        RootSet();
-
+        // 메테리얼의 인덱스를 초기화 하고, 바뀐 리스트의 인덱스를 이용하여 아바타 정보를 불러옴.
+        _setMaterialNum = 0;
+        _avatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
+        _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-
-        _skinnedMeshRenderer.sharedMesh = _userCustomizeData.AvatarMesh[_setAvatarNum];
+        _avatarNickname.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
 
         EventSystem.current.SetSelectedGameObject(null);
-
-
     }
 
     void LeftMaterialButton()
     {
+        // 왼쪽 컬러 버튼을 눌렀을 때, 메테리얼의 인덱스를 변화시킴.
         if (_setMaterialNum == 0)
         {
             _setMaterialNum = _avatarMaterialData.AvatarMaterial.Length - 1;
@@ -323,17 +292,18 @@ public class CustomizeMenu : MonoBehaviourPun
             _setMaterialNum -= 1;
         }
 
-        _materialNum.text = $"컬러 {_setMaterialNum + 1}";
+        // 현재 컬러의 정보를 Ui에 적용.
+        _avatarMaterialNum.text = $"컬러 {_setMaterialNum + 1}";
 
-        _skinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
-
+        // 아바타 이미지를 메테리얼 인덱스에 맞춰 변경시킴.
+        _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
 
         EventSystem.current.SetSelectedGameObject(null);
-
     }
 
     void RightMaterialButton()
     {
+        // 오른쪽 컬러 버튼을 눌렀을 때, 메테리얼의 인덱스를 변화시킴.
         if (_setMaterialNum == _avatarMaterialData.AvatarMaterial.Length - 1)
         {
             _setMaterialNum = 0;
@@ -343,10 +313,11 @@ public class CustomizeMenu : MonoBehaviourPun
             _setMaterialNum += 1;
         }
 
-        _materialNum.text = $"컬러 {_setMaterialNum + 1}";
+        // 현재 컬러의 정보를 UI에 적용.
+        _avatarMaterialNum.text = $"컬러 {_setMaterialNum + 1}";
 
-        _skinnedMeshRenderer.material = _avatarMaterialData.AvatarMaterial[_setMaterialNum];
-
+        // 아바타 이미지를 메테리얼 인덱스에 맞춰 변경시킴.
+        _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
 
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -357,7 +328,7 @@ public class CustomizeMenu : MonoBehaviourPun
         _rightAvatarButton.onClick.RemoveListener(RightAvatarButton);
         _leftMaterialButton.onClick.RemoveListener(LeftMaterialButton);
         _rightMaterialButton.onClick.RemoveListener(RightMaterialButton);
-        _equipButton.onClick.RemoveListener(EquipButton);
+        _saveButton.onClick.RemoveListener(SaveButton);
 
         _haveAvatarList.Clear();
 
