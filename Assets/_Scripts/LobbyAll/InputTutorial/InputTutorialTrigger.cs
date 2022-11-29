@@ -5,13 +5,13 @@ using UnityEngine.Events;
 
 public class InputTutorialTrigger : FocusableObjects
 {
-
     public UnityEvent OnTriggered = new UnityEvent();
-    
-    [SerializeField] Transform _player;
-    [SerializeField] Vector3 _triggerPosition;
-    [SerializeField] Quaternion _triggerRotation;
-    [SerializeField] Quaternion[] _triggeredRotation;
+
+    [Header("Trigger Transform")]
+    [SerializeField] private Transform _player;
+    [SerializeField] private Vector3 _triggerPosition;
+    [SerializeField] private Quaternion _triggerRotation;
+    [SerializeField] private Quaternion[] _triggeredRotation;
 
     private void Start()
     {
@@ -20,9 +20,9 @@ public class InputTutorialTrigger : FocusableObjects
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if(_player.localRotation.y <= _triggeredRotation[0].y && _player.localRotation.y >= -_triggeredRotation[1].y || _player.localRotation.y <= _triggeredRotation[2].y && _player.localRotation.y >= _triggeredRotation[3].y)
+            if (_player.localRotation.y <= _triggeredRotation[0].y && _player.localRotation.y >= -_triggeredRotation[1].y || _player.localRotation.y <= _triggeredRotation[2].y && _player.localRotation.y >= _triggeredRotation[3].y)
             {
                 OnTriggered.Invoke();
                 gameObject.SetActive(false);

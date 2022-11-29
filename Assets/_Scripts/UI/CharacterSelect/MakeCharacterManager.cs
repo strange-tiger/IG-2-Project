@@ -13,15 +13,20 @@ public class MakeCharacterManager : MonoBehaviour
 {
     public UnityEvent OnClickFemaleButton = new UnityEvent();
 
-    [SerializeField] PlayerCustomize _playerCustomize;
-    [SerializeField] Button _maleSelectButton;
-    [SerializeField] Button _femaleSelectButton;
-    [SerializeField] Button _makeCharacterButton;
-    [SerializeField] GameObject _femalePanel;
-    [SerializeField] GameObject _malePanel;
-    [SerializeField] GameObject _rayPlane;
+    [Header("Player")]
+    [SerializeField] private PlayerCustomize _playerCustomize;
 
-    void Start()
+    [Header("UI")]
+    [SerializeField] private Button _maleSelectButton;
+    [SerializeField] private Button _femaleSelectButton;
+    [SerializeField] private Button _makeCharacterButton;
+
+    [Header("Block Raycast")]
+    [SerializeField] private GameObject _femalePanel;
+    [SerializeField] private GameObject _malePanel;
+    [SerializeField] private GameObject _rayPlane;
+
+    private void Start()
     {
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _maleSelectButton.onClick.AddListener(SelectMale);
@@ -31,19 +36,7 @@ public class MakeCharacterManager : MonoBehaviour
 
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
         _makeCharacterButton.onClick.AddListener(CreateCharacter);
-
-        //StartCoroutine(FindPlayerCustomize());
     }
-
-    //IEnumerator FindPlayerCustomize()
-    //{
-    //    yield return new WaitForSeconds(5f);
-
-    //    _playerCustomize = GameObject.Find("SM_Chr_Peasant_Male_01").GetComponent<PlayerCustomize>();
-
-    //    yield return null;
-
-    //}
 
     private void SelectMale()
     {
@@ -52,9 +45,9 @@ public class MakeCharacterManager : MonoBehaviour
         _malePanel.SetActive(true);
         _femalePanel.SetActive(false);
     }
+
     private void SelectFemale()
     {
-        Debug.Log("dd");
         OnClickFemaleButton.Invoke();
         _playerCustomize.IsFemale = true;
         _playerCustomize.MakeAvatarData();
@@ -63,13 +56,11 @@ public class MakeCharacterManager : MonoBehaviour
         _rayPlane.SetActive(false);
     }
 
-
     private void CreateCharacter()
     {
         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "1");
         MySqlSetting.AddNewCharacter(TempAccountDB.Nickname, $"{Convert.ToInt32(_playerCustomize.IsFemale)}");
         MySqlSetting.AddNewPetInventory(TempAccountDB.Nickname);
-        Debug.Log(_playerCustomize.IsFemale);
         SceneManager.LoadScene((int)SceneType.StartRoom);
     }
 
@@ -78,6 +69,5 @@ public class MakeCharacterManager : MonoBehaviour
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _femaleSelectButton.onClick.RemoveListener(SelectFemale);
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
-
     }
 }

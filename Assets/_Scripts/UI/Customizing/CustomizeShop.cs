@@ -198,56 +198,6 @@ public class CustomizeShop : MonoBehaviourPun
         }
     }
 
-    void PurchaseButton()
-    {
-
-        if (_playerNetworking.GetComponent<PhotonView>().IsMine)
-        {
-            MySqlSetting.UseGold(_playerNickname, _userCustomizeData.AvatarValue[_setAvatarNum]);
-
-            _userCustomizeData.AvatarState[_equipNum] = EAvatarState.HAVE;
-            _equipNum = _setAvatarNum;
-            _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
-
-            // _notHaveAvatarList.Remove(_setAvatarNum);
-
-            for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
-            {
-                _saveString += _userCustomizeData.AvatarState[i].ToString() + ',';
-            }
-
-            MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
-
-            _saveString = null;
-
-            _playerCustomize = _playerNetworking.GetComponentInChildren<PlayerCustomize>();
-            _playerCustomize.photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, _isFemale);
-
-            _purchaseCompletePopUp.SetActive(true);
-            _purchasePopUp.SetActive(false);
-
-            if (_notHaveAvatarList.Count == 0)
-            {
-                return;
-            }
-
-            _notHaveAvatarList.Clear();
-
-            for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
-            {
-                if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
-                {
-                    _notHaveAvatarList.Add(i);
-                }
-            }
-        }
-
-        _playerGold = MySqlSetting.CheckHaveGold(_playerNickname);
-
-        _currentGold.text = _playerGold.ToString();
-
-        EventSystem.current.SetSelectedGameObject(null);
-    }
 
 
     private void AvatarShopPage()
@@ -272,7 +222,7 @@ public class CustomizeShop : MonoBehaviourPun
         }
     }
 
-    void LeftAvartarButton()
+    private void LeftAvartarButton()
     {
 
         if (_startNum == 0)
@@ -290,7 +240,7 @@ public class CustomizeShop : MonoBehaviourPun
 
     }
 
-    void RightAvatarButton()
+    private void RightAvatarButton()
     {
         if (_startNum >= _notHaveAvatarList.Count - 1)
         {
@@ -342,8 +292,60 @@ public class CustomizeShop : MonoBehaviourPun
     private void SecondAvatarInfo() => AvatarInfo(_startNum + 1);
     private void ThirdAvatarInfo() => AvatarInfo(_startNum + 2);
 
+    private void PurchaseButton()
+    {
+        if (_playerNetworking.GetComponent<PhotonView>().IsMine)
+        {
+            MySqlSetting.UseGold(_playerNickname, _userCustomizeData.AvatarValue[_setAvatarNum]);
+
+            _userCustomizeData.AvatarState[_equipNum] = EAvatarState.HAVE;
+            _equipNum = _setAvatarNum;
+            _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
+
+            // _notHaveAvatarList.Remove(_setAvatarNum);
+
+            for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
+            {
+                _saveString += _userCustomizeData.AvatarState[i].ToString() + ',';
+            }
+
+            MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
+
+            _saveString = null;
+
+            _playerCustomize = _playerNetworking.GetComponentInChildren<PlayerCustomize>();
+            _playerCustomize.photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, _isFemale);
+
+            _purchaseCompletePopUp.SetActive(true);
+            _purchasePopUp.SetActive(false);
+
+            if (_notHaveAvatarList.Count == 0)
+            {
+                return;
+            }
+
+            _notHaveAvatarList.Clear();
+
+            for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
+            {
+                if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
+                {
+                    _notHaveAvatarList.Add(i);
+                }
+            }
+        }
+
+        _playerGold = MySqlSetting.CheckHaveGold(_playerNickname);
+
+        _currentGold.text = _playerGold.ToString();
+
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
     private void PopUpClose() => _purchasePopUp.SetActive(false);
+
     private void PurchaseCompletePopUpClose() => _purchaseCompletePopUp.SetActive(false);
+
     private void OnDisable()
     {
         _leftAvatarButton.onClick.RemoveListener(LeftAvartarButton);
