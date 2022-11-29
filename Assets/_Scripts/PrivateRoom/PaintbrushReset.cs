@@ -20,11 +20,12 @@ public class PaintbrushReset : MonoBehaviourPun
     private void OnDisable()
     {
         _resetButton.onClick.RemoveListener(ResetPad);
-        photonView.RPC("ResetDraw", RpcTarget.AllBuffered);
+        ResetPad();
     }
 
     private void ResetPad()
     {
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "ResetDraw");
         photonView.RPC("ResetDraw", RpcTarget.AllBuffered);
     }
 
