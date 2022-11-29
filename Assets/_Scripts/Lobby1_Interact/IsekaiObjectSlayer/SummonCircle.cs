@@ -122,7 +122,7 @@ public class SummonCircle : MonoBehaviourPun
 
         _elapsedTime = 0f;
 
-        _objects[currentIndex].ReturnIsNotFlick();
+        _objects[currentIndex].ReturnHitAllowed();
     }
 
     

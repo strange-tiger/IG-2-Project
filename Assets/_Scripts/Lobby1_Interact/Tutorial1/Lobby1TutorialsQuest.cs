@@ -109,5 +109,7 @@ public class Lobby1TutorialsQuest : Lobby1TutorialObject
     public override void SendQuestClearMessage()
     {
         base.SendQuestClearMessage();
+
+        _clearQuestNum.text = "Clear";
     }
 }

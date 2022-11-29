@@ -11,5 +11,6 @@ public class TutorialEnd : QuestConducter
     public override void StartQuest()
     {
         _lobbyChanger.ChangeLobby(_nextLobby);
+        QuestEnded();
     }
 }
