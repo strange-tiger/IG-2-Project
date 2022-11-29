@@ -85,7 +85,7 @@ public class GroupManager : MonoBehaviourPun
         {
             if ((_finalBattle[0].activeSelf == false || _finalBattle[1].activeSelf == false) && _isFinelBattle)
             {
-                Invoke("Finish", 15f);
+                Invoke("Finish", 5f);
 
                 _isFinelBattle = false;
             }

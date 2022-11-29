@@ -1097,6 +1097,8 @@ namespace Asset.MySql
 
         public static UnityEvent OnBettingLose = new UnityEvent();
 
+        public static UnityEvent OnBettingDraw = new UnityEvent();
+
         /// <summary>
         /// DataSet에 BettingDB의 정보를 불러오고, 배당율을 계산하여 CharacterDB의 골드에 추가하고, BettingDB를 리셋한다. 무승부일 경우, 베팅한 금액 그대로를 다시 반환하고 BettingUI를 리셋한다.
         /// </summary>
@@ -1133,7 +1135,7 @@ namespace Asset.MySql
 
                             command.ExecuteNonQuery();
                         }
-
+                        OnBettingDraw.Invoke();
                         ResetBettingDB();
                     }
                     else
@@ -1147,6 +1149,7 @@ namespace Asset.MySql
 
                             OnBettingWin.Invoke(_dataRow[EbettingdbColumns.Nickname.ToString()].ToString(), betGold);
 
+
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 
                             string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.Nickname.ToString()]}';";
@@ -1156,7 +1159,6 @@ namespace Asset.MySql
                         }
 
                         OnBettingLose.Invoke();
-
                         ResetBettingDB();
                     }
                     _mysqlConnection.Close();
