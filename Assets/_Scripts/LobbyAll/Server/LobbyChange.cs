@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Asset.MySql;
-using SceneNumber = Defines.ESceneNumder;
+using SceneNumber = Defines.ESceneNumber;
 using Photon.Pun;
 
 public class LobbyChange : ServerChange

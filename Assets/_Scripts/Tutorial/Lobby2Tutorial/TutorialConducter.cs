@@ -194,7 +194,6 @@ public class TutorialConducter : MonoBehaviour
         // Äù½ºÆ®°¡ ³¡³µÀ» ¶§
         _tutorialManager.DisableQuestText();
 
-        //_questConducters[_nextQuestNumber].gameObject.SetActive(false);
         ++_nextQuestNumber;
         
         if (_nextDialogueID != -1)
@@ -211,5 +210,6 @@ public class TutorialConducter : MonoBehaviour
     {
         StopAllCoroutines();
         ResetQuestStack();
+        _tutorialManager.DisableQuestText();
     }
 }

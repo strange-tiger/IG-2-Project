@@ -7,7 +7,7 @@ namespace Defines
         End,
     }
 
-    public enum ESceneNumder
+    public enum ESceneNumber
     {
         LogIn,
         StartRoom,
