@@ -6,6 +6,7 @@ using QuestEnd = QuestConducter.QuestEnd;
 public class OakBarrelNPCForTurorial : InteracterableObject
 {
     public event QuestEnd OnQuestEnd;
+    [SerializeField] private GameObject _oakBarrel;
 
     private AudioSource _audioSource;
     [SerializeField] private GameObject _stunEffect;
@@ -22,7 +23,7 @@ public class OakBarrelNPCForTurorial : InteracterableObject
     {
         StopAllCoroutines();
         _stunEffect.SetActive(false);
-        gameObject.SetActive(true);
+        _oakBarrel.SetActive(true);
     }
 
     public override void Interact()
@@ -30,7 +31,7 @@ public class OakBarrelNPCForTurorial : InteracterableObject
         _audioSource.Play();
         _stunEffect.SetActive(true);
         StartCoroutine(CoStunEffectOver());
-        gameObject.SetActive(false);
+        _oakBarrel.SetActive(false);
 
         OnQuestEnd.Invoke();
     }

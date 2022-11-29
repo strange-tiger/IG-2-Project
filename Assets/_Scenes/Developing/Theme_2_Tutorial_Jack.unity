@@ -9035,9 +9035,8 @@ GameObject:
   - component: {fileID: 470282718}
   - component: {fileID: 470282717}
   - component: {fileID: 470282716}
-  - component: {fileID: 470282715}
   m_Layer: 0
-  m_Name: OakBarrel (1)
+  m_Name: OakBarrel
   m_TagString: OakBarrel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9057,24 +9056,6 @@ Transform:
   m_Father: {fileID: 1871839742}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &470282715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 470282713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e53cc50bffe704c94910b4cb225259, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
-  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
-  _outlineDilate: 1
-  _sencerRadius: 3.75
-  _stunEffect: {fileID: 1991541405}
-  _stunEffectTime: 2
 --- !u!64 &470282716
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -34372,7 +34353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670764120559952, guid: e169e4d9dbd157b498e582065a5f9302, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4670764120559952, guid: e169e4d9dbd157b498e582065a5f9302, type: 3}
       propertyPath: m_LocalPosition.y
@@ -34380,7 +34361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670764120559952, guid: e169e4d9dbd157b498e582065a5f9302, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4670764120559952, guid: e169e4d9dbd157b498e582065a5f9302, type: 3}
       propertyPath: m_LocalRotation.w
@@ -34435,9 +34416,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1871839743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0ec14deea719e4ea172e8b4a05c3fd, type: 3}
+  m_Script: {fileID: 11500000, guid: d2e53cc50bffe704c94910b4cb225259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 10
+  _oakBarrel: {fileID: 470282713}
   _stunEffect: {fileID: 1991541405}
   _stunEffectTime: 2
 --- !u!82 &1871839745
@@ -34536,20 +34522,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!136 &1871839746
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871839743}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1001 &1873103810
 PrefabInstance:
   m_ObjectHideFlags: 0

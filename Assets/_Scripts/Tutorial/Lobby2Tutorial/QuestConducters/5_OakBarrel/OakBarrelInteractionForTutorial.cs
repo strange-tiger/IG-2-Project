@@ -22,6 +22,7 @@ public class OakBarrelInteractionForTutorial : MonoBehaviour
 
         _playerControllerMove = transform.root.GetComponentInChildren<PlayerControllerMove>();
         _originalMoveScale = _playerControllerMove.MoveScale;
+        this.enabled = false;
     }
 
     public void GetInToOakBarrel()
