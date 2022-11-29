@@ -39,7 +39,7 @@ public class TutorialManager : MonoBehaviour
     private void Awake()
     {
         // 튜토리얼 완료 안내
-        //MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, _tutorialNumber);
+        MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, _tutorialNumber);
         Debug.Log("튜토리얼 완료");
 
         // 튜토리얼 세팅
