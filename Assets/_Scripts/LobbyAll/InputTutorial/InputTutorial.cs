@@ -24,7 +24,7 @@ public class InputTutorial : MonoBehaviour
     private List<string> _conversationList = new List<string>();
     private Coroutine ConversationCoroutine;
     private bool _isPause;
-    private int[] _pauseNum = { 4,7,11,13 };
+    private int[] _pauseNum = { 4,8,11,15,18 };
     private int _indexNum = 0;
     private int _pauseIndexNum;
 
@@ -41,7 +41,7 @@ public class InputTutorial : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _conversationList = _CSV.ParseCSV("InputTutorial", _conversationList);
-        ConversationCoroutine = StartCoroutine(ConversationPrint());
+        ConversationCoroutine = StartCoroutine(CoConversationPrint());
 
     }
 
@@ -68,7 +68,7 @@ public class InputTutorial : MonoBehaviour
         }
 
     }
-    private IEnumerator ConversationPrint()
+    private IEnumerator CoConversationPrint()
     {
 
         for (int i = 0; i < _conversationList[_indexNum].Length; ++i)
@@ -98,7 +98,7 @@ public class InputTutorial : MonoBehaviour
                     ++_indexNum;
                     _audioSource.PlayOneShot(_dialogueSound);
                     _conversationText.text = null;
-                    ConversationCoroutine = StartCoroutine(ConversationPrint());
+                    ConversationCoroutine = StartCoroutine(CoConversationPrint());
                 }
             }
         }
@@ -117,22 +117,32 @@ public class InputTutorial : MonoBehaviour
                 _pauseIndexNum++;
                 return;
             case 1:
+                StartCoroutine(CoRotatePlayerTutorialDelay());
+                return;
+            case 2:
                 _triggerObject.gameObject.SetActive(true);
                 _trigger.enabled = true;
                 _pauseIndexNum++;
                 return;
-            case 2:
+            case 3:
                 _buttonTriggerObject.enabled = true;
                 _buttonTriggerObject.OnFocus();
                 _femaleButton.interactable = true;
                 _pauseIndexNum++;
                 return;
-            case 3:
+            case 4:
                 _characterMakeButton.interactable = true;
                 _makeCharacterManager.OnClickFemaleButton.RemoveListener(ConversationRestart);
                 return;
         }
 
+    }
+
+    private IEnumerator CoRotatePlayerTutorialDelay()
+    {
+        yield return new WaitForSeconds(5f);
+
+        _indexNum++;
     }
 
     private void ConversationRestart()
