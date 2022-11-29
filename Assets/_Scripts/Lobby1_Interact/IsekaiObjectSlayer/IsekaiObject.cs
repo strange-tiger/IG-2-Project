@@ -36,6 +36,8 @@ public class IsekaiObject : MonoBehaviourPun
             PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.FlickHelper);
             photonView.RPC(_IRM.FlickHelper, RpcTarget.AllBuffered);
 
+            Debug.Log("[Isekai] " + position);
+
             ObjectSlashed.Invoke(position);
         }
     }
