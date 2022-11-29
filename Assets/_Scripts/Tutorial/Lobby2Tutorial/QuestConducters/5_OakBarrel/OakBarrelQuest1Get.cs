@@ -10,7 +10,10 @@ public class OakBarrelQuest1Get : QuestConducter
     private void Awake()
     {
         _oakBarrel.SetActive(false);
+
         _playerInteraction.enabled = false;
+        _playerInteraction.OnQuestEnd -= QuestEnded;
+        _playerInteraction.OnQuestEnd += QuestEnded;
     }
 
     public override void StartQuest()
