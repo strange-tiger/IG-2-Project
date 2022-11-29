@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEditor;
 using System.IO;
 using MySql.Data.MySqlClient;
@@ -1092,6 +1093,10 @@ namespace Asset.MySql
             }
         }
 
+        public static UnityEvent<string,int> OnBettingWin = new UnityEvent<string, int>();
+
+        public static UnityEvent OnBettingLose = new UnityEvent();
+
         /// <summary>
         /// DataSet에 BettingDB의 정보를 불러오고, 배당율을 계산하여 CharacterDB의 골드에 추가하고, BettingDB를 리셋한다. 무승부일 경우, 베팅한 금액 그대로를 다시 반환하고 BettingUI를 리셋한다.
         /// </summary>
@@ -1102,7 +1107,6 @@ namespace Asset.MySql
         /// <returns></returns>
         public static bool DistributeBet(int winChampionNumber, int betAmount, int championBetAmount, bool isDraw)
         {
-
             try
             {
                 string selectAllBettingData = SelectDBHelper(ETableType.bettingdb) + $" where BettingChampionNumber = '{winChampionNumber}'";
@@ -1141,6 +1145,8 @@ namespace Asset.MySql
                             int betGold = Convert.ToInt32(Math.Round(((Convert.ToDouble(betAmount) * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / Convert.ToDouble(championBetAmount)))
                                 )));
 
+                            OnBettingWin.Invoke(_dataRow[EbettingdbColumns.Nickname.ToString()].ToString(), betGold);
+
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 
                             string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.Nickname.ToString()]}';";
@@ -1148,6 +1154,8 @@ namespace Asset.MySql
                             MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
                             command.ExecuteNonQuery();
                         }
+
+                        OnBettingLose.Invoke();
 
                         ResetBettingDB();
                     }
