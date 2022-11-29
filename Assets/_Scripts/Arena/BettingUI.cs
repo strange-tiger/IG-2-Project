@@ -16,44 +16,44 @@ public class BettingUI : MonoBehaviourPun
     public UnityEvent<int, int> OnBetCancelChampion = new UnityEvent<int, int>();
 
     [Header("Betting Panel")]
-    [SerializeField] GameObject _bettingPanel;
-    [SerializeField] Button _bettingPanelButton;
-    [SerializeField] Button _bettingPanelOffButton;
+    [SerializeField] private GameObject _bettingPanel;
+    [SerializeField] private Button _bettingPanelButton;
+    [SerializeField] private Button _bettingPanelOffButton;
 
     [Header("Betting End PopUpPanel")]
-    [SerializeField] GameObject _bettingEndPopUpPanel;
-    [SerializeField] Button _bettingPopUpPanelOffButton;
+    [SerializeField] private GameObject _bettingEndPopUpPanel;
+    [SerializeField] private Button _bettingPopUpPanelOffButton;
 
     [Header("Betting Button")]
-    [SerializeField] Button _betChampionOneButton;
-    [SerializeField] Button _betChampionTwoButton;
-    [SerializeField] Button _betChampionThreeButton;
-    [SerializeField] Button _betChampionFourButton;
+    [SerializeField] private Button _betChampionOneButton;
+    [SerializeField] private Button _betChampionTwoButton;
+    [SerializeField] private Button _betChampionThreeButton;
+    [SerializeField] private Button _betChampionFourButton;
 
     [Header("Betting Cancel Button")]
-    [SerializeField] Button _betCancelChampionOneButton;
-    [SerializeField] Button _betCancelChampionTwoButton;
-    [SerializeField] Button _betCancelChampionThreeButton;
-    [SerializeField] Button _betCancelChampionFourButton;
+    [SerializeField] private Button _betCancelChampionOneButton;
+    [SerializeField] private Button _betCancelChampionTwoButton;
+    [SerializeField] private Button _betCancelChampionThreeButton;
+    [SerializeField] private Button _betCancelChampionFourButton;
 
     [Header("Betting PopUp Panel")]
-    [SerializeField] GameObject _popUpPanel;
-    [SerializeField] TextMeshProUGUI _popUpMessage;
-    [SerializeField] Button _popUpOffButton;
+    [SerializeField] private GameObject _popUpPanel;
+    [SerializeField] private TextMeshProUGUI _popUpMessage;
+    [SerializeField] private Button _popUpOffButton;
 
     [Header("Betting InputField")]
-    [SerializeField] TMP_InputField[] _betChampionInputField;
+    [SerializeField] private TMP_InputField[] _betChampionInputField;
 
     [Header("Betting Rate")]
     [SerializeField] public TextMeshProUGUI[] BetRateText;
 
 
-    [SerializeField] BettingManager _bettingManager;
+    [SerializeField] private BettingManager _bettingManager;
 
-    private bool[] _isBetting = { false, false, false, false };
     private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
 
+    private bool[] _isBetting = { false, false, false, false };
 
     private void OnEnable()
     {
@@ -102,7 +102,6 @@ public class BettingUI : MonoBehaviourPun
         ArenaStart.OnTournamentStart.RemoveListener(BettingUIInit);
         ArenaStart.OnTournamentStart.AddListener(BettingUIInit);
 
-
         _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
 
         foreach (var player in _playerNetworkings)
@@ -112,11 +111,6 @@ public class BettingUI : MonoBehaviourPun
                 _playerNetworking = player;
             }
         }
-
-        Debug.Log(_playerNetworking.MyNickname);
-        Debug.Log(_playerNetworking);
-
-
 
         foreach (TMP_InputField inputfield in _betChampionInputField)
         {
@@ -128,47 +122,24 @@ public class BettingUI : MonoBehaviourPun
         }
     }
 
-    private void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            BettingPanelOn();
-        }
-
-    }
-
     private void BettingUIInit()
     {
         _bettingManager = FindObjectOfType<BettingManager>();
         _bettingPanelButton.gameObject.SetActive(true);
     }
 
-
-
     private void PopUpPanelOff() => _popUpPanel.SetActive(false);
 
     private void BettingStart()
     {
         _bettingPanelButton.gameObject.SetActive(true);
+
         for (int i = 0; i < BetRateText.Length; ++i)
         {
             BetRateText[i].text = null;
             _isBetting[i] = false;
         }
-
-
     }
-
-
-    private void BettingEnd()
-    {
-        _bettingPanelButton.gameObject.SetActive(false);
-        _bettingPanel.SetActive(false);
-        _bettingEndPopUpPanel.SetActive(true);
-    }
-
-    private void BettingEndPopUpOff() => _bettingEndPopUpPanel.SetActive(false);
 
     private void BettingPanelOn()
     {
@@ -180,7 +151,6 @@ public class BettingUI : MonoBehaviourPun
         _bettingPanelButton.gameObject.SetActive(true);
         _bettingPanel.SetActive(false);
     }
-
 
     private bool BettingExist()
     {
@@ -221,7 +191,6 @@ public class BettingUI : MonoBehaviourPun
             return;
         }
 
-
         MySqlSetting.InsertBetting(_playerNetworking.MyNickname, int.Parse(_betChampionInputField[index].text), index);
         MySqlSetting.UpdateGoldAfterBetting(_playerNetworking.MyNickname, int.Parse(_betChampionInputField[index].text));
 
@@ -235,27 +204,6 @@ public class BettingUI : MonoBehaviourPun
         _popUpPanel.SetActive(true);
 
         _popUpMessage.text = "베팅이 완료되었습니다.";
-
-
-    }
-
-
-    [PunRPC]
-    public void BetCancelAmount(int index, int cancelGold)
-    {
-        OnBetCancelChampion.Invoke(index, cancelGold);
-    }
-
-    private void BetCancel(int index)
-    {
-        _isBetting[index] = false;
-
-        InputFieldClear();
-
-        _popUpPanel.SetActive(true);
-
-
-        _popUpMessage.text = "베팅 취소가 완료되었습니다.";
     }
 
     private void BetChampionOne()
@@ -322,6 +270,23 @@ public class BettingUI : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
+    public void BetCancelAmount(int index, int cancelGold)
+    {
+        OnBetCancelChampion.Invoke(index, cancelGold);
+    }
+
+    private void BetCancel(int index)
+    {
+        _isBetting[index] = false;
+
+        InputFieldClear();
+
+        _popUpPanel.SetActive(true);
+
+
+        _popUpMessage.text = "베팅 취소가 완료되었습니다.";
+    }
     private void BetCancelChampionTwo()
     {
         if (BettingExist())
@@ -363,6 +328,15 @@ public class BettingUI : MonoBehaviourPun
             _popUpMessage.text = "베팅 내역이 없습니다.";
         }
     }
+    private void BettingEnd()
+    {
+        _bettingPanelButton.gameObject.SetActive(false);
+        _bettingPanel.SetActive(false);
+        _bettingEndPopUpPanel.SetActive(true);
+    }
+
+    private void BettingEndPopUpOff() => _bettingEndPopUpPanel.SetActive(false);
+
     private void OnDisable()
     {
         _bettingManager.OnBettingStart.RemoveListener(BettingStart);

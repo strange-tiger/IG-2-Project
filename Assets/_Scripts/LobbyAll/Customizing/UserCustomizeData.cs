@@ -3,25 +3,25 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable/UserCustomizeData", fileName = "UserCustomizeData")]
 public class UserCustomizeData : ScriptableObject
 {
-    [SerializeField] Mesh[] avatarMesh;
+    [SerializeField] private Mesh[] avatarMesh;
     public Mesh[] AvatarMesh { get { return avatarMesh; } }
 
-    [SerializeField] EAvatarState[] avatarState;
+    [SerializeField] private EAvatarState[] avatarState;
     public EAvatarState[] AvatarState { get { return avatarState; } }
 
-    [SerializeField] int[] avatarValue;
+    [SerializeField] private int[] avatarValue;
     public int[] AvatarValue { get { return avatarValue; } }
 
-    [SerializeField] string[] avatarName;
+    [SerializeField] private string[] avatarName;
     public string[] AvatarName { get { return avatarName; } }
 
-    [SerializeField] string[] avatarNickname;
+    [SerializeField] private string[] avatarNickname;
     public string[] AvatarNickname { get { return avatarNickname; } }
 
-    [SerializeField] string[] avatarInfo;
+    [SerializeField] private string[] avatarInfo;
     public string[] AvatarInfo { get { return avatarInfo; } }
 
-    [SerializeField] AvatarMaterialData[] avatarMaterial;
+    [SerializeField] private AvatarMaterialData[] avatarMaterial;
     public AvatarMaterialData[] AvatarMaterial { get { return avatarMaterial; } }
 }
 

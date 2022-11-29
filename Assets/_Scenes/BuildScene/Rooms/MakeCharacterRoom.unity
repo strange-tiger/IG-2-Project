@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 182880217}
   - component: {fileID: 182880216}
   - component: {fileID: 182880218}
+  - component: {fileID: 182880219}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -350,15 +351,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c26b3a98cdc69c49a70ee98b62e1555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _conversationText: {fileID: 1639271872}
   _conversationUI: {fileID: 85135087}
+  _conversationText: {fileID: 1639271872}
+  _dialogueSound: {fileID: 8300000, guid: b4abcad4050ef1d4fbc8dc493ca3d762, type: 3}
   _trigger: {fileID: 486470905}
   _triggerObject: {fileID: 486470903}
   _buttonTriggerObject: {fileID: 819571172}
   _makeCharacterManager: {fileID: 936521819}
   _characterMakeButton: {fileID: 936521818}
   _femaleButton: {fileID: 936521817}
-  _dialogueSound: {fileID: 8300000, guid: b4abcad4050ef1d4fbc8dc493ca3d762, type: 3}
 --- !u!4 &182880217
 Transform:
   m_ObjectHideFlags: 0
@@ -469,6 +470,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &182880219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182880215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3e2b7582740d84297240050ba3485b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menuPanels:
+  - {fileID: 1556948284}
+  - {fileID: 1943495543}
 --- !u!1001 &387283699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -835,7 +851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8746266942788568336, guid: eb0501a8d8edde345ba980438ef2c0e5, type: 3}
       propertyPath: m_text
-      value: NPC
+      value: ???
       objectReference: {fileID: 0}
     - target: {fileID: 9218838696017406986, guid: eb0501a8d8edde345ba980438ef2c0e5, type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -1514,6 +1530,10 @@ PrefabInstance:
       propertyPath: pointer
       value: 
       objectReference: {fileID: 8764146502760993415}
+    - target: {fileID: 6833954393332340721, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4534814277281154949, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 262754b286df4904abe7be89e7ff69f4, type: 3}
@@ -2210,6 +2230,11 @@ GameObject:
 --- !u!1 &1556948283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 623723344543502453, guid: 8b9bfa19a31f3e54d8dbfc9ff8a41bea, type: 3}
+  m_PrefabInstance: {fileID: 1556948274}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1556948284 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6350930346261285138, guid: 8b9bfa19a31f3e54d8dbfc9ff8a41bea, type: 3}
   m_PrefabInstance: {fileID: 1556948274}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1565673505
@@ -10350,16 +10375,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _radialMenu: {fileID: 0}
   _cursor: {fileID: 0}
-  _feelingImage: {fileID: 1366862235168275523}
-  _buttonOneImages:
-  - {fileID: 21300000, guid: 5e0e9d8795ea3af49a06b75c3623b4e4, type: 3}
-  - {fileID: 21300000, guid: a7dfbf6d742d5c8459631ec156994a70, type: 3}
-  - {fileID: 21300000, guid: 34ebbf0a1d12407409fb41735a5dd874, type: 3}
-  - {fileID: 21300000, guid: 339445224cdff8f4d803b2264f26da0f, type: 3}
-  - {fileID: 21300000, guid: b3b81e429854bab43956a9bad68ef10a, type: 3}
-  - {fileID: 21300000, guid: b507daa6c7a90964e905846b2a9a4ae9, type: 3}
-  - {fileID: 21300000, guid: 485ded018e50352458d7fbc3088b79d0, type: 3}
-  - {fileID: 21300000, guid: 0b0467aa1f781824a87e1809c40b117d, type: 3}
   _buttonOnes:
   - {fileID: 0}
   - {fileID: 0}
@@ -10369,6 +10384,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _buttonOneImages:
+  - {fileID: 21300000, guid: 5e0e9d8795ea3af49a06b75c3623b4e4, type: 3}
+  - {fileID: 21300000, guid: a7dfbf6d742d5c8459631ec156994a70, type: 3}
+  - {fileID: 21300000, guid: 34ebbf0a1d12407409fb41735a5dd874, type: 3}
+  - {fileID: 21300000, guid: 339445224cdff8f4d803b2264f26da0f, type: 3}
+  - {fileID: 21300000, guid: b3b81e429854bab43956a9bad68ef10a, type: 3}
+  - {fileID: 21300000, guid: b507daa6c7a90964e905846b2a9a4ae9, type: 3}
+  - {fileID: 21300000, guid: 485ded018e50352458d7fbc3088b79d0, type: 3}
+  - {fileID: 21300000, guid: 0b0467aa1f781824a87e1809c40b117d, type: 3}
+  _feelingImage: {fileID: 1366862235168275523}
 --- !u!114 &5791208160853122290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13742,10 +13767,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c97333481d5b4354bb7b71dabf71f353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _femaleData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
-  _maleData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
   _userData: {fileID: 0}
-  _materialData: {fileID: 11400000, guid: 0eb480d9a1792e4458eedef990de8e80, type: 2}
+  _maleData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
+  _femaleData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
+  _materialData: {fileID: 0}
   _skinnedMeshRenderer: {fileID: 0}
   _smMeshRenderer: {fileID: 169160336625193354}
   _characterMeshRenderer: {fileID: 287408125860768322}

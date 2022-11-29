@@ -8,7 +8,7 @@ public class RadialCursor : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.CompareTag("Button"))
+        if (collision.CompareTag("Button"))
         {
             if (RadialMenu._buttonOne != null)
             {
@@ -19,7 +19,7 @@ public class RadialCursor : MonoBehaviour
 
             RadialMenu._buttonOne = collision.GetComponent<Button>();
             RadialMenu._buttonOneImage = RadialMenu._buttonOne.transform.GetChild(0).GetComponent<Image>();
-            RadialMenu._buttonOne.transform.GetChild(1).gameObject.SetActive(true); 
+            RadialMenu._buttonOne.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 
@@ -27,7 +27,7 @@ public class RadialCursor : MonoBehaviour
     {
         if (collision.CompareTag("Button"))
         {
-            if(RadialMenu._buttonOne != null)
+            if (RadialMenu._buttonOne != null)
             {
                 RadialMenu._buttonOne.transform.GetChild(1).gameObject.SetActive(false);
                 RadialMenu._buttonOne = null;
