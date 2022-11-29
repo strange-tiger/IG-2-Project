@@ -12,9 +12,14 @@ public class ArenaStart : MonoBehaviourPun
     [SerializeField] private Button _StartBattleButton;
     [SerializeField] private GameObject _shutDown;
 
+    [Header("게임 재시작 시간초")]
     [SerializeField] private float _reStartCoolTime;
-    
-    private float _curTime;
+
+    [Header("나갈 수 있는 시간")]
+    [SerializeField] private float _youCanOutTime;
+
+    private float _curStartTime;
+    private float _curOutTime;
 
     void Start()
     {
@@ -26,13 +31,19 @@ public class ArenaStart : MonoBehaviourPun
     {
         if (_StartBattleButton.interactable == false)
         {
-            _curTime += Time.deltaTime;
+            _curStartTime += Time.deltaTime;
+            _curOutTime += Time.deltaTime;
 
-            if (_curTime >= _reStartCoolTime)
+            if (_curStartTime >= _reStartCoolTime)
             {
                 _StartBattleButton.interactable = true;
+                _curStartTime -= _curStartTime;
+            }
+
+            if (_curOutTime >= _youCanOutTime)
+            {
                 _shutDown.SetActive(true);
-                _curTime -= _curTime;
+                _curOutTime -= _curOutTime;
             }
         }
     }
