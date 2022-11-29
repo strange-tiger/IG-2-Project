@@ -193,7 +193,7 @@ namespace Defines
         EQUIP,
         MAX
     }
-    
+
     public enum ELobby2TutorialNumber
     {
         Start,
@@ -205,7 +205,7 @@ namespace Defines
         GoldRush,
         End,
     }
-
+}
 
 namespace Defines.RPC
 {
