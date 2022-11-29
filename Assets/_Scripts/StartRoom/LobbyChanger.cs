@@ -127,23 +127,8 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
                 return;
             }
+            
             Debug.Log("[LogOut] LobbyChanger OnJoinedLobby");
-            //if(_joinRandomRoom)
-            //{
-            //    string[] propertyKeys = new string[_expectedCustromRoomProperties.Keys.Count];
-            //    for(int i = 0; i< propertyKeys.Length; ++i)
-            //    {
-            //        _expectedCustromRoomProperties.Keys.CopyTo(propertyKeys, i);
-            //    }
-            //    _roomOptions.CustomRoomPropertiesForLobby = propertyKeys;
-            //    _roomOptions.CustomRoomProperties = _expectedCustromRoomProperties.;
-            //    _roomOptions.MaxPlayers = _expectedMaxPlayers;
-            //    PhotonNetwork.CreateRoom(null, _roomOptions);
-            //}
-            //else
-            //{
-            //    PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
-            //}
             PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
         }
     }
@@ -180,16 +165,8 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        //if (_joinRandomRoom)
-        //{
-        //    Debug.Log("[LogOut] LobbyChanger OnJoinRoomFailed, Reconnecting to Lobby");
-        //    PhotonNetwork.JoinLobby();
-        //}
-        //else
-        {
-            Debug.Log("[LogOut] LobbyChanger OnJoinRoomFailed, Reconnecting with same name");
-            PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
-        }
+        Debug.Log("[LogOut] LobbyChanger OnJoinRoomFailed, Reconnecting with same name");
+        PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
     }
 
     private void OnApplicationQuit()
