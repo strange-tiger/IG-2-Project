@@ -194,10 +194,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     private void OnApplicationQuit()
     {
-        if(MySqlSetting.IsPlayerOnline(PhotonNetwork.NickName))
-        {
+        
             Debug.Log("[PlayerOnline] Offline in quit");
             MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
-        }
+        
     }
 }

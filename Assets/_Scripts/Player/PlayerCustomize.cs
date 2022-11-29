@@ -31,7 +31,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     private int _setAvatarNum;
     private int _setMaterialNum;
     private string _playerNickname;
-
+    private int[] _smRootMeshIndex = {0,7,8,9 };
     void Start()
     {
         if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
@@ -97,6 +97,8 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
         _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
+        Debug.Log(_setAvatarNum);
+        Debug.Log(_setMaterialNum);
         for (int i = 0; i < _userData.AvatarState.Length - 1; ++i)
         {
             if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
@@ -113,7 +115,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         else
         {
             RootSet(_setAvatarNum);
-
+            _materialData = _userData.AvatarMaterial[_setAvatarNum];
             _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
             _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
         }
@@ -121,17 +123,22 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
     private void RootSet(int avatarNum)
     {
-        if (avatarNum <= 9 && avatarNum >= 7)
+        for(int i = 0; i < _smRootMeshIndex.Length; ++i)
         {
-            _smMeshRendererObject.SetActive(true);
-            _characterMeshRendererObject.SetActive(false);
-            _skinnedMeshRenderer = _smMeshRenderer;
-        }
-        else
-        {
-            _smMeshRendererObject.SetActive(false);
-            _characterMeshRendererObject.SetActive(true);
-            _skinnedMeshRenderer = _characterMeshRenderer;
+            if (avatarNum == _smRootMeshIndex[i])
+            {
+                _smMeshRendererObject.SetActive(true);
+                _characterMeshRendererObject.SetActive(false);
+                _skinnedMeshRenderer = _smMeshRenderer;
+                break;
+            }
+            else
+            {
+                _smMeshRendererObject.SetActive(false);
+                _characterMeshRendererObject.SetActive(true);
+                _skinnedMeshRenderer = _characterMeshRenderer;
+            }
+
         }
     }
 
@@ -150,6 +157,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         }
 
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
+        _materialData = _userData.AvatarMaterial[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
     }
 

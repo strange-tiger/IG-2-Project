@@ -120,8 +120,7 @@ public class CustomizeShop : MonoBehaviourPun
             }
         }
 
-        //_playerNickname = _playerNetworking.MyNickname;
-        _playerNickname = "ccc";
+        _playerNickname = _playerNetworking.MyNickname;
 
         _playerGold = MySqlSetting.CheckHaveGold(_playerNickname);
 
@@ -169,7 +168,6 @@ public class CustomizeShop : MonoBehaviourPun
             {
                 _equipNum = i;
             }
-
         }
 
         _startNum = 0;

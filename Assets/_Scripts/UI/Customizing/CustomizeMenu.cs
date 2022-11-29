@@ -96,8 +96,6 @@ public class CustomizeMenu : MonoBehaviourPun
     private void AvatarMenuInit()
     {
 
-        MySqlSetting.Init();
-
         // 성별을 확인함.
         _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
@@ -166,6 +164,8 @@ public class CustomizeMenu : MonoBehaviourPun
             _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
         }
 
+        _currentAvatarMaterialData = _avatarMaterialData;
+        _currentAvatarImage.sprite = _currentAvatarMaterialData.AvatarImage[_setMaterialNum];
 
         for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
@@ -173,6 +173,7 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor, _setMaterialNum);
+
         MySqlSetting.UpdateValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData, _saveString);
 
         _saveString = null;
@@ -225,7 +226,7 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
-        if (_equipNum != _haveAvatarList[_startNum])
+        if (_equipNum != _setAvatarNum)
         {
             _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
         }
@@ -260,7 +261,7 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
-        if (_equipNum != _haveAvatarList[_startNum])
+        if (_equipNum != _setAvatarNum)
         {
             _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
         }
@@ -292,6 +293,14 @@ public class CustomizeMenu : MonoBehaviourPun
             _setMaterialNum -= 1;
         }
 
+        if (_avatarImage.sprite != _currentAvatarImage.sprite)
+        {
+            _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
+        }
+        else
+        {
+            _messageText.text = null;
+        }
         // 현재 컬러의 정보를 Ui에 적용.
         _avatarMaterialNum.text = $"컬러 {_setMaterialNum + 1}";
 
@@ -311,6 +320,15 @@ public class CustomizeMenu : MonoBehaviourPun
         else
         {
             _setMaterialNum += 1;
+        }
+
+        if (_avatarImage.sprite != _currentAvatarImage.sprite)
+        {
+            _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
+        }
+        else
+        {
+            _messageText.text = null;
         }
 
         // 현재 컬러의 정보를 UI에 적용.
