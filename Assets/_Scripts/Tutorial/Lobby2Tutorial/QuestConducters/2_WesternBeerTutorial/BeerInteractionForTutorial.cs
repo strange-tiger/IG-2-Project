@@ -14,7 +14,7 @@ public class BeerInteractionForTutorial : MonoBehaviour
 
     private PlayerControllerMove _playerContollerMove;
 
-    private YieldInstruction _coolTime = new WaitForSeconds(10f);
+    private YieldInstruction _coolTime = new WaitForSeconds(5f);
     private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
     private YieldInstruction _stunTime = new WaitForSeconds(5f);
 
@@ -40,6 +40,12 @@ public class BeerInteractionForTutorial : MonoBehaviour
     [SerializeField] private PlayerCustomize _customize;
     private AudioSource _audioSource;
     private AudioClip _mySound;
+
+    private void Awake()
+    {
+        _effect.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
 
     private void Start()
     {
@@ -183,6 +189,21 @@ public class BeerInteractionForTutorial : MonoBehaviour
         _tremblingSpeed[1] = _initPlayerSpeed;
 
         OnQuestEnd.Invoke();
+        _effect.SetActive(false);
+    }
+
+    public void ResetPlayer()
+    {
+        _drinkStack = -1;
+
+        _fadeMaterial.color = _initUIColor;
+
+        _tremblingSpeed[0] = _initPlayerSpeed;
+        _tremblingSpeed[1] = _initPlayerSpeed;
+    }
+
+    private void OnDisable()
+    {
         _effect.SetActive(false);
     }
 }

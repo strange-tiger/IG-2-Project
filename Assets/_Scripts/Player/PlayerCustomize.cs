@@ -7,104 +7,97 @@ using System;
 using Photon.Pun;
 using Photon.Realtime;
 
-using SceneType = Defines.ESceneNumder;
+using SceneType = Defines.ESceneNumber;
 
 public class PlayerCustomize : MonoBehaviourPunCallbacks
 {
+    [Header("Avatar Data")]
+    [SerializeField] private UserCustomizeData _userData;
+    [SerializeField] private UserCustomizeData _maleData;
+    [SerializeField] private UserCustomizeData _femaleData;
+
+    [Header("Material Data")]
+    [SerializeField] private AvatarMaterialData _materialData;
+
+    [Header("Avatar")]
+    [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer _smMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer _characterMeshRenderer;
+    [SerializeField] private GameObject _smMeshRendererObject;
+    [SerializeField] private GameObject _characterMeshRendererObject;
+
     public bool IsFemale { get; set; }
 
-    [SerializeField] UserCustomizeData _femaleData;
-    [SerializeField] UserCustomizeData _maleData;
-    [SerializeField] UserCustomizeData _userData;
-    [SerializeField] CustomizeData _materialData;
-    [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
-    [SerializeField] GameObject _smMeshRendererObject;
-    [SerializeField] GameObject _characterMeshRendererObject;
+    private int[] _smRootMeshIndex = { 0, 7, 8, 9 };
+
     private int _setAvatarNum;
     private int _setMaterialNum;
+
     private string _playerNickname;
 
     void Start()
     {
-
-
-
         if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
         {
             if (photonView.IsMine)
             {
-                if (SceneManager.GetActiveScene().name != "Login")
-                {
-                    _playerNickname = PhotonNetwork.NickName;
+                _playerNickname = PhotonNetwork.NickName;
 
-                }
                 LoadAvatarData();
             }
         }
-
-
-
     }
-
 
     public void MakeAvatarData()
     {
-
+        // ìºë¦­í„° ìƒì„± ì”¬ì—ì„œ ì„±ë³„ ì„ íƒì— ë”°ë¼ ì»¤ìŠ¤í„°ë§ˆì´ì¦ˆ ë°ì´í„°ë¥¼ ì ìš©ì‹œí‚´.
         if (IsFemale == false)
         {
             _userData = _maleData;
-
         }
         else
         {
             _userData = _femaleData;
-
         }
 
+        // ì•„ë°”íƒ€ì™€ ë©”í…Œë¦¬ì–¼ ì¸ë±ìŠ¤ë¥¼ ì´ˆê¸°í™”
         _setAvatarNum = 0;
         _setMaterialNum = 0;
 
+        // ì•„ë°”íƒ€ì— ë§ëŠ” ë£¨íŠ¸ì…‹íŒ….
         RootSet(_setAvatarNum);
 
+        // ì•„ë°”íƒ€ì™€ ë©”í…Œë¦¬ì–¼ì„ ì ìš©ì‹œí‚´.
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
-
-
     }
-
 
     private void LoadAvatarData()
     {
-
-        Debug.Log(_playerNickname);
+        // ì„±ë³„ì„ DBì—ì„œ ë¶ˆëŸ¬ì˜´.
         bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
-        // ¼ºº°¿¡ ¸Â´Â µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // ì„±ë³„ì— ë”°ë¼ ì»¤ìŠ¤í„°ë§ˆì´ì¦ˆ ë°ì´í„° ì ìš©.
         if (_isFemale)
         {
-            IsFemale = _isFemale;
             _userData = _femaleData;
         }
         else
         {
-            IsFemale = _isFemale;
             _userData = _maleData;
         }
 
-        // DB¿¡ ÀúÀåµÇ¾î ÀÖ´ø ¾Æ¹ÙÅ¸ µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // DBì—ì„œ ì•„ë°”íƒ€ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜´.
         string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
 
-        // ºÒ·¯¿Â µ¥ÀÌÅÍ¸¦ ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®¿¡ ³Ö¾îÁÜ
+        // 
         for (int i = 0; i < avatarData.Length - 1; ++i)
         {
             _userData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
-        // DB¿¡ ÀúÀåµÇ¾î ÀÖ´ø ¾Æ¹ÙÅ¸ÀÇ MaterialÀ» ºÒ·¯¿È
-        _userData.UserMaterial = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
-        // ¾Æ¹ÙÅ¸ÀÇ Á¤º¸¸¦ µ¹¸é¼­ ÀåÂøÁßÀÌ´ø ¾Æ¹ÙÅ¸¸¦ Ã£¾Æ³¿.
+        _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
+
         for (int i = 0; i < _userData.AvatarState.Length - 1; ++i)
         {
             if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
@@ -114,8 +107,6 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
             }
         }
 
-        // ÀåÂøÁßÀÌ´ø ¾ÆÀÌÅÛ°ú MaterialÀ» Àû¿ë½ÃÅ´.
-        _setMaterialNum = _userData.UserMaterial;
         if (SceneManager.GetActiveScene().name != "StartRoom")
         {
             photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, IsFemale);
@@ -123,35 +114,9 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         else
         {
             RootSet(_setAvatarNum);
+            _materialData = _userData.AvatarMaterial[_setAvatarNum];
             _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
             _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
-        }
-
-
-
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        if (photonView.IsMine)
-        {
-            photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
-        }
-    }
-
-    private void RootSet(int avatarNum)
-    {
-        if (avatarNum <= 9 && avatarNum >= 7)
-        {
-            _smMeshRendererObject.SetActive(true);
-            _characterMeshRendererObject.SetActive(false);
-            _skinnedMeshRenderer = _smMeshRenderer;
-        }
-        else
-        {
-            _smMeshRendererObject.SetActive(false);
-            _characterMeshRendererObject.SetActive(true);
-            _skinnedMeshRenderer = _characterMeshRenderer;
         }
     }
 
@@ -170,8 +135,37 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         }
 
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
+        _materialData = _userData.AvatarMaterial[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
+    }
 
+    private void RootSet(int avatarNum)
+    {
+        for (int i = 0; i < _smRootMeshIndex.Length; ++i)
+        {
+            if (avatarNum == _smRootMeshIndex[i])
+            {
+                _smMeshRendererObject.SetActive(true);
+                _characterMeshRendererObject.SetActive(false);
+                _skinnedMeshRenderer = _smMeshRenderer;
+                break;
+            }
+            else
+            {
+                _smMeshRendererObject.SetActive(false);
+                _characterMeshRendererObject.SetActive(true);
+                _skinnedMeshRenderer = _characterMeshRenderer;
+            }
+
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (photonView.IsMine)
+        {
+            photonView.RPC("AvatarSetting", newPlayer, _setAvatarNum, _setMaterialNum, IsFemale);
+        }
     }
 
 }

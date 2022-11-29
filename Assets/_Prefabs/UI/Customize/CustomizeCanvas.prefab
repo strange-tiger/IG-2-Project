@@ -4378,20 +4378,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _equipButton: {fileID: 8481206447525760311}
-  _leftAvatarButton: {fileID: 8481206448286667769}
   _leftMaterialButton: {fileID: 8481206448522949425}
-  _rightAvatarButton: {fileID: 8481206448852273893}
   _rightMaterialButton: {fileID: 8481206448906473911}
+  _leftAvatarButton: {fileID: 8481206448286667769}
+  _rightAvatarButton: {fileID: 8481206448852273893}
   _avatarName: {fileID: 8481206447713954710}
   _skinnedMeshRenderer: {fileID: 1859730717160187299}
   _smMeshRenderer: {fileID: 1759492928430644843}
   _characterMeshRenderer: {fileID: 1859730717160187299}
   _smMeshRendererObject: {fileID: 1841559041520370389}
   _characterMeshRendererObject: {fileID: 1739203575455651133}
+  _currentAvatarName: {fileID: 0}
+  _currentSkinnedMeshRenderer: {fileID: 0}
+  _currentSmMeshRenderer: {fileID: 0}
+  _currentCharacterMeshRenderer: {fileID: 0}
+  _currentSmMeshRendererObject: {fileID: 0}
+  _currentCharacterMeshRendererObject: {fileID: 0}
+  _materialNum: {fileID: 0}
+  _avatarInfoText: {fileID: 0}
+  _messageText: {fileID: 0}
   _customizeDatas: {fileID: 11400000, guid: 0eb480d9a1792e4458eedef990de8e80, type: 2}
   _maleUserCustomizeData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
   _femaleUserCustomizeData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
   _userCustomizeData: {fileID: 0}
+  IsCustomizeChanged: 0
 --- !u!222 &8481206447343085193
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7049,7 +7059,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8481206448844544863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7084,14 +7094,17 @@ MonoBehaviour:
   - {fileID: 8481206446980956026}
   - {fileID: 8481206446964027555}
   _customizeMenuOnButton: {fileID: 8481206447965498787}
+  _customizeMenuCloseButton: {fileID: 0}
   _customizeMenuOffButton: {fileID: 8481206448943183997}
   _customizeShopOnButton: {fileID: 8481206448463876863}
+  _customizeShopCloseButton: {fileID: 0}
   _customizeShopOffButton: {fileID: 2785896557762491003}
-  _customizeShopOffCanvasButton: {fileID: 8481206447621409678}
-  _customizeNPCOffButton: {fileID: 8481206447116267947}
-  _customizeMenu: {fileID: 8481206447343085197}
+  _customizeNPCCloseButton: {fileID: 0}
+  _customizeCompletePopUpCloseButton: {fileID: 0}
+  _customizeMenu: {fileID: 0}
   _customizeShop: {fileID: 8481206446980956026}
   _customizeNPCMenu: {fileID: 8481206446964027555}
+  _customizeCompletePopUp: {fileID: 0}
   _collider: {fileID: 0}
 --- !u!114 &8481206448844544859
 MonoBehaviour:

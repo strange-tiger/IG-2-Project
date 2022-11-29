@@ -13,6 +13,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
     private static readonly _PH.Hashtable CUSTOM_ROOM_PROPERTIES_UNLOCKED =
         new _PH.Hashtable() { { "password", "" } };
     private const int ANY_MAX_PLAYER = 0;
+    private const int DEFAULT_MAX_PLAYER = 8;
 
     private void Awake()
     {
@@ -57,12 +58,11 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
         try
         {
-            PhotonNetwork.JoinRandomRoom(_currentJoinRoom, ANY_MAX_PLAYER);
+            PhotonNetwork.JoinRandomOrCreateRoom(_currentJoinRoom, DEFAULT_MAX_PLAYER);
         }
         catch
         {
             Debug.LogError("방 입장 실패");
-            PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.StartRoom);
         }
     }
 
@@ -74,7 +74,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
             _currentJoinRoom["roomname"].ToString(),
             _currentJoinRoom["password"].ToString(),
             _currentJoinRoom["displayname"].ToString(),
-            ANY_MAX_PLAYER
+            DEFAULT_MAX_PLAYER
         );
     }
 
@@ -87,7 +87,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         OVRScreenFade.instance.FadeOut();
 
         PlayerPrefs.SetInt("PrevScene", SceneManagerHelper.ActiveSceneBuildIndex);
-        PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
+        PhotonNetwork.LoadLevel((int)Defines.ESceneNumber.PrivateRoom);
     }
 
 }

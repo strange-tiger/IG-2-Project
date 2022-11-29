@@ -43,14 +43,25 @@ public class Wood : MonoBehaviourPun
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(CAMPFIRE_TAG))
-            if (_countDown != null) StopCoroutine(_countDown);
+            photonView.RPC(START_COUNTDOWN, RpcTarget.All);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(CAMPFIRE_TAG))
-            _countDown = StartCoroutine(CountDown());
+            photonView.RPC(START_COUNTDOWN, RpcTarget.All);
     }
+
+    private const string STOP_COUNTDOWN = "StopCountDown";
+    [PunRPC]
+    private void StopCountDown()
+    {
+        if (_countDown != null) StopCoroutine(_countDown);
+    }
+
+    private const string START_COUNTDOWN = "StartCountDown";
+    [PunRPC]
+    private void StartCountDown() => _countDown = StartCoroutine(CountDown());
 
     IEnumerator CountDown()
     {

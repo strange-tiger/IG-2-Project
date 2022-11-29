@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 
-using SceneType = Defines.ESceneNumder;
+using SceneType = Defines.ESceneNumber;
 
 
 public class TutorialBettingUI : MonoBehaviourPun
@@ -17,38 +17,39 @@ public class TutorialBettingUI : MonoBehaviourPun
     public UnityEvent OnTriggered = new UnityEvent();
 
     [Header("Betting Panel")]
-    [SerializeField] GameObject _bettingPanel;
-    [SerializeField] GameObject _tutorialConvasationPanel;
+    [SerializeField] private GameObject _bettingPanel;
+    [SerializeField] private GameObject _tutorialConvasationPanel;
 
     [Header("Betting Button")]
-    [SerializeField] Button _betChampionOneButton;
-    [SerializeField] Button _betChampionTwoButton;
-    [SerializeField] Button _betChampionThreeButton;
-    [SerializeField] Button _betChampionFourButton;
+    [SerializeField] private Button _betChampionOneButton;
+    [SerializeField] private Button _betChampionTwoButton;
+    [SerializeField] private Button _betChampionThreeButton;
+    [SerializeField] private Button _betChampionFourButton;
 
     [Header("Betting Cancel Button")]
-    [SerializeField] Button _betCancelChampionOneButton;
-    [SerializeField] Button _betCancelChampionTwoButton;
-    [SerializeField] Button _betCancelChampionThreeButton;
-    [SerializeField] Button _betCancelChampionFourButton;
+    [SerializeField] private Button _betCancelChampionOneButton;
+    [SerializeField] private Button _betCancelChampionTwoButton;
+    [SerializeField] private Button _betCancelChampionThreeButton;
+    [SerializeField] private Button _betCancelChampionFourButton;
 
     [Header("Betting PopUp Panel")]
-    [SerializeField] GameObject _popUpPanel;
-    [SerializeField] TextMeshProUGUI _popUpMessage;
-    [SerializeField] Button _popUpOffButton;
+    [SerializeField] private GameObject _popUpPanel;
+    [SerializeField] private TextMeshProUGUI _popUpMessage;
+    [SerializeField] private Button _popUpOffButton;
 
     [Header("Skip PopUp Panel")]
-    [SerializeField] GameObject _skipPopUpPanel;
-    [SerializeField] Button _skipTutorialButton;
-    [SerializeField] Button _skipButton;
-    [SerializeField] Button _cancelSkipButton;
+    [SerializeField] private GameObject _skipPopUpPanel;
+    [SerializeField] private Button _skipTutorialButton;
+    [SerializeField] private Button _skipButton;
+    [SerializeField] private Button _cancelSkipButton;
 
     [Header("Betting InputField")]
-    [SerializeField] TMP_InputField[] _betChampionInputField;
+    [SerializeField] private TMP_InputField[] _betChampionInputField;
 
     [Header("Betting Rate")]
-    [SerializeField] TextMeshProUGUI[] _betRateText;
+    [SerializeField] private TextMeshProUGUI[] _betRateText;
 
+    private bool _isBettingComplete;
 
     private void OnEnable()
     {
@@ -104,14 +105,13 @@ public class TutorialBettingUI : MonoBehaviourPun
     private void PopUpPanelOff()
     {
         _popUpPanel.SetActive(false);
-
-        if(_popUpMessage.text == "베팅이 완료되었습니다.")
+        if (_isBettingComplete)
         {
             OnTriggered.Invoke();
         }
     }
 
-    private void BettingPanelOn()
+    public void BettingPanelOn()
     {
         _bettingPanel.SetActive(true);
     }
@@ -135,15 +135,18 @@ public class TutorialBettingUI : MonoBehaviourPun
 
     private void BetChampion(int index)
     {
+        if (_betChampionInputField[index].text != null)
+        {
+            InputFieldClear();
 
-        InputFieldClear();
+            _popUpPanel.SetActive(true);
 
-        _popUpPanel.SetActive(true);
+            _popUpMessage.text = "베팅이 완료되었습니다.";
 
-        _popUpMessage.text = "베팅이 완료되었습니다.";
+            _betRateText[index].text = "100";
 
-        _betRateText[index].text = "100";
-
+            _isBettingComplete = true;
+        }
     }
 
     private void BetChampionOne()

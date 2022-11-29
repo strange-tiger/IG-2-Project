@@ -16,14 +16,14 @@ public class FocusableObjects : MonoBehaviourPun
     [SerializeField] private float _sencerRadius = 3.75f;
 
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         SetOutline();
         _outlineable.enabled = false;
         SetSencer();
     }
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         _outlineable.enabled = true;
     }
@@ -67,7 +67,7 @@ public class FocusableObjects : MonoBehaviourPun
         _outlineable.OutlineParameters.Color = _sencedoutlineColor;
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         _outlineable.enabled = false;
     }

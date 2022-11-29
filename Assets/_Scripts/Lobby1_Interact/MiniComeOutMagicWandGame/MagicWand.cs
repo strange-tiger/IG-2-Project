@@ -26,6 +26,9 @@ public class MagicWand : MonoBehaviourPun
     private ParticleSystem[] _magic;
     private float _currentTime;
     private bool _checkCoolTime;
+    public bool CheckCoolTime { get { return _checkCoolTime; } set { _checkCoolTime = value; } }
+
+    private int _coolTimeText;
 
     // 원위치에 필요한 변수들
     private Vector3 _wandPosition;
@@ -47,6 +50,14 @@ public class MagicWand : MonoBehaviourPun
         }
     }
 
+    private void OnEnable()
+    {
+        if (_coolTimeText > 0)
+        {
+            _magicWandPanel.SetActive(true);
+        }
+    }
+
     private void Update()
     {
         if (photonView.IsMine)
@@ -61,23 +72,6 @@ public class MagicWand : MonoBehaviourPun
                 _magicNameText.text = gameObject.name;
 
                 _checkCoolTime = true;
-            }
-
-            if (_checkCoolTime)
-            {
-                _currentTime += Time.deltaTime;
-
-                int _coolTimeText = (int)_coolTime;
-
-                _coolTimeText -= (int)_currentTime;
-                _magicCoolTimeText.text = _coolTimeText.ToString();
-
-                if (_currentTime > (float)_coolTime)
-                {
-                    _currentTime -= _currentTime;
-                    _checkCoolTime = false;
-                    _magicWandPanel.SetActive(false);
-                }
             }
         }
     }

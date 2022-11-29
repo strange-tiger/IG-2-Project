@@ -5,6 +5,7 @@ using Photon.Pun;
 
 using _DB = Asset.MySql.MySqlSetting;
 using _IRM = Defines.RPC.IsekaiRPCMethodName;
+using UnityEngine.SceneManagement;
 
 public class SummonCircle : MonoBehaviourPun
 {
@@ -121,7 +122,7 @@ public class SummonCircle : MonoBehaviourPun
 
         _elapsedTime = 0f;
 
-        _objects[currentIndex].ReturnIsNotFlick();
+        _objects[currentIndex].ReturnHitAllowed();
     }
 
     

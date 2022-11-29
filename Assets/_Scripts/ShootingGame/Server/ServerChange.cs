@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SceneNumber = Defines.ESceneNumder;
+using SceneNumber = Defines.ESceneNumber;
 
 public class ServerChange : InteracterableObject
 {
@@ -13,8 +13,13 @@ public class ServerChange : InteracterableObject
     {
         base.Interact();
         MenuUIManager.Instance.ShowCheckPanel(CheckMessage(),
-            () => { _lobbyManager.ChangeLobby(_sceneType); },
+            () => { ChangeLobby(); },
             () => { });
+    }
+
+    protected virtual void ChangeLobby()
+    {
+        _lobbyManager.ChangeLobby(_sceneType);
     }
 
     protected virtual string CheckMessage()
