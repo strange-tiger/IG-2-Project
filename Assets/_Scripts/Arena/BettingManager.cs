@@ -9,25 +9,26 @@ using Photon.Pun;
 using Photon.Realtime;
 public class BettingManager : MonoBehaviourPunCallbacks
 {
-
-    public int BetAmount;
-    public double[] BetRates;
-    public int[] ChampionBetAmounts;
-    public int WinnerIndex;
-
     public UnityEvent OnBettingStart = new UnityEvent();
     public UnityEvent OnBettingEnd = new UnityEvent();
-
-    private bool _isBettingStart;
-    private int[] _startTime = { 55, 60, 25, 30 };
-    private bool _isDraw;
-    private int _playGroupNum;
-
-    private List<int> _bettingAmountList = new List<int>();
 
     [SerializeField] private BettingUI _bettingUI;
     [SerializeField] private TournamentManager _tournamentManager;
     [SerializeField] private GroupManager[] _groupManager;
+
+    private List<int> _bettingAmountList = new List<int>();
+
+    public int BetAmount;
+    public int[] ChampionBetAmounts;
+    public double[] BetRates;
+
+    public int WinnerIndex;
+
+    private bool _isBettingStart;
+    private int[] _startTime = { 55, 60, 25, 30 };
+
+    private bool _isDraw;
+    private int _playGroupNum;
 
     private void Start()
     {
@@ -35,14 +36,12 @@ public class BettingManager : MonoBehaviourPunCallbacks
         //{
         //    BettingStart();
         //}
-
         UpdateBettingAmount();
     }
 
     public override void OnEnable()
     {
         base.OnEnable();
-
 
         _playGroupNum = _tournamentManager.SelectGroupNum;
 
@@ -76,18 +75,8 @@ public class BettingManager : MonoBehaviourPunCallbacks
         //    //}
 
         //}
-
-
     }
 
-    private void DistributeGold()
-    {
-        UpdateBettingAmount();
-
-        MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
-
-        ResetAllBetting();
-    }
 
     private void BettingStart()
     {
@@ -95,27 +84,33 @@ public class BettingManager : MonoBehaviourPunCallbacks
         OnBettingStart.Invoke();
     }
 
-    private void BettingEnd()
+    public void UpdateBettingAmount()
     {
-        DistributeGold();
-        _isBettingStart = false;
-        OnBettingEnd.Invoke();
+        _bettingAmountList = MySqlSetting.CheckBettingAmount();
+
+        BetAmount = _bettingAmountList[0];
+
+        for (int i = 0; i < ChampionBetAmounts.Length; ++i)
+        {
+            ChampionBetAmounts[i] = _bettingAmountList[i + 1];
+
+            if ((ChampionBetAmounts[i] != 0))
+            {
+                BetRates[i] = (double.Parse(ChampionBetAmounts[i].ToString()) / double.Parse(BetAmount.ToString())) * 100;
+                _bettingUI.BetRateText[i].text = $"{Math.Round(BetRates[i])}";
+            }
+            else
+            {
+                BetRates[i] = 0;
+                _bettingUI.BetRateText[i].text = "0";
+            }
+        }
     }
 
     private void CallBetAmountUpdate(int index, int bettingGold)
     {
-
         photonView.RPC("BetAmountUpdate", RpcTarget.All, index, bettingGold);
-        
     }
-
-    private void CallBetCancelAmountUpdate(int index, int cancelGold)
-    {
-
-        photonView.RPC("BetCancelAmountUpdate", RpcTarget.All, index, cancelGold);
-    }
-
-
 
     [PunRPC]
     public void BetAmountUpdate(int index, int bettingGold)
@@ -124,7 +119,6 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
         ChampionBetAmounts[index] += bettingGold;
 
-
         MySqlSetting.UpdateBettingAmountDB(index, BetAmount, ChampionBetAmounts[index]);
 
         for (int i = 0; i < BetRates.Length; ++i)
@@ -132,8 +126,10 @@ public class BettingManager : MonoBehaviourPunCallbacks
             BetRates[i] = (double.Parse(ChampionBetAmounts[i].ToString()) / double.Parse(BetAmount.ToString())) * 100;
             _bettingUI.BetRateText[i].text = $"{Math.Round(BetRates[i])}";
         }
-
-        
+    }
+    private void CallBetCancelAmountUpdate(int index, int cancelGold)
+    {
+        photonView.RPC("BetCancelAmountUpdate", RpcTarget.All, index, cancelGold);
     }
 
     [PunRPC]
@@ -159,15 +155,21 @@ public class BettingManager : MonoBehaviourPunCallbacks
                 _bettingUI.BetRateText[i].text = "0";
             }
         }
-
-
-
     }
+    private void DistributeGold()
+    {
+        UpdateBettingAmount();
+
+        MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
+
+        ResetAllBetting();
+    }
+
     private void ResetAllBetting()
     {
         BetAmount = 0;
 
-        for(int i = 0; i < BetRates.Length; ++i)
+        for (int i = 0; i < BetRates.Length; ++i)
         {
             BetRates[i] = 0;
             ChampionBetAmounts[i] = 0;
@@ -175,29 +177,12 @@ public class BettingManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void UpdateBettingAmount()
+    private void BettingEnd()
     {
-        _bettingAmountList = MySqlSetting.CheckBettingAmount();
-
-        BetAmount = _bettingAmountList[0];
-
-        for(int i = 0; i < ChampionBetAmounts.Length; ++i)
-        {
-            ChampionBetAmounts[i] = _bettingAmountList[i + 1];
-
-            if ((ChampionBetAmounts[i] != 0))
-            {
-                BetRates[i] = (double.Parse(ChampionBetAmounts[i].ToString()) / double.Parse(BetAmount.ToString())) * 100;
-                _bettingUI.BetRateText[i].text = $"{Math.Round(BetRates[i])}";
-            }
-            else
-            {
-                BetRates[i] = 0;
-                _bettingUI.BetRateText[i].text = "0";
-            }
-        }
+        DistributeGold();
+        _isBettingStart = false;
+        OnBettingEnd.Invoke();
     }
-
 
     public override void OnDisable()
     {
@@ -205,9 +190,9 @@ public class BettingManager : MonoBehaviourPunCallbacks
         _groupManager[_playGroupNum]._finishTournament.RemoveListener(BettingEnd);
         _bettingUI.OnBetChampion.RemoveListener(CallBetAmountUpdate);
         _bettingUI.OnBetCancelChampion.RemoveListener(CallBetCancelAmountUpdate);
-
     }
 }
+
 public enum ChampionNumber
 {
     OneAmount,

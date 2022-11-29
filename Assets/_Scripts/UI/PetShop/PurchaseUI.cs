@@ -100,12 +100,10 @@ public class PurchaseUI : MonoBehaviour
 
     private void Purchase()
     {
-#if !debug
         if (_DB.CheckHaveGold(_ui.PlayerNickname) < _purchaseAmount + int.Parse(_petPrice.text))
         {
             return;
         }
-#endif
         _purchaseAmount += int.Parse(_petPrice.text);
 
         if (_equipedIndex != -1)
@@ -132,12 +130,10 @@ public class PurchaseUI : MonoBehaviour
             petData.Status[i] = _ui.PetList[i].Status;
         }
 
-#if !debug
         if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
         {
             return;
         }
-#endif
         if (_equipedIndex != -1)
         {
             PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
@@ -205,11 +201,7 @@ public class PurchaseUI : MonoBehaviour
         _petExplanation.text = CurrentPet.Explanation;
         _petPrice.text = CurrentPet.Price.ToString();
 
-#if debug
-        if (int.Parse(_petPrice.text) > 100)
-#else
         if (int.Parse(_petPrice.text) > _DB.CheckHaveGold(_ui.PlayerNickname))
-#endif
         {
             _purchaseButton.enabled = false;
         }

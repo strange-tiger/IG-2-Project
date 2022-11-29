@@ -158,7 +158,7 @@ public class PetUIManager : UIManager
 
             PetList[i].SetName(_petShopList.Name[i]);
 
-            PetList[i].SetGrade(_petShopList.Grade[i]);
+            //PetList[i].SetGrade(_petShopList.Grade[i]);
 
             PetList[i].SetExplanation(_petShopList.Explanation[i]);
 

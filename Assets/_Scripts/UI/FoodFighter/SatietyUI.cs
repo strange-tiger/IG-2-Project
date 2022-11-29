@@ -6,21 +6,21 @@ using UnityEngine.UI;
 
 public class SatietyUI : MonoBehaviour
 {
+    [Header("Player")]
+    [SerializeField] private FoodInteraction _foodInteraction;
 
-    [SerializeField] FoodInteraction _foodInteraction;
-    [SerializeField] Image _stomachImage;
-    [SerializeField] Image _currentSatietyStackImage;
-    [SerializeField] Sprite[] _satietyStackImage;
+    [Header("UI Image")]
+    [SerializeField] private Image _stomachImage;
+    [SerializeField] private Image _currentSatietyStackImage;
+    [SerializeField] private Sprite[] _satietyStackImage;
 
     private void Awake()
     {
-        
         _foodInteraction = transform.root.GetComponent<FoodInteraction>();
-
     }
+
     private void OnEnable()
     {
-
         _foodInteraction.OnActivateSatietyUI.RemoveListener(ActivateUI);
         _foodInteraction.OnActivateSatietyUI.AddListener(ActivateUI);
 
@@ -51,7 +51,6 @@ public class SatietyUI : MonoBehaviour
 
         _currentSatietyStackImage.sprite = null;
     }
-
 
     private void OnDisable()
     {
