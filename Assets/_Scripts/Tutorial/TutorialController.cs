@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 using _CSV = Asset.ParseCSV.CSVParser;
 
 public class TutorialController : MonoBehaviour
@@ -28,9 +29,12 @@ public class TutorialController : MonoBehaviour
 
     private WaitForSeconds _delayTime = new WaitForSeconds(0.1f);
 
+    public UnityEvent<int> QuestAcceptEvent = new UnityEvent<int>();
+    public UnityEvent<bool> QuestClearEvent = new UnityEvent<bool>();
 
     private bool _isDialogueEnd;
     private bool _isNext;
+    private bool _sendMessage;
     private int _dialogueMaxNum;
 
     private float _curTime;
@@ -40,17 +44,18 @@ public class TutorialController : MonoBehaviour
     public int DialogueNum { get { return _dialogueNum; } }
 
     private bool _isTutorialQuest;
-    public bool IsTutorialQuest { get { return _isTutorialQuest; } }
+    public bool IsTutorialQuest { get { return _isTutorialQuest; } set { _isTutorialQuest = value; } }
 
     void Start()
     {
-        
+        QuestAcceptEvent.RemoveListener(QuestAccept);
+        QuestAcceptEvent.AddListener(QuestAccept);
+
+        QuestClearEvent.RemoveListener(QuestClear);
+        QuestClearEvent.AddListener(QuestClear);
 
         if (_tutorialType == TutorialType.StartRoom)
         {
-            // _newPlayerMove.enabled = false;
-            // _playerControllerMove.enabled = false;
-
             _tutorialNPCName.text = "요정";
 
             _startRoomQuestList = _CSV.ParseCSV("StartRoomTutorialCSV", _startRoomQuestList);
@@ -66,7 +71,7 @@ public class TutorialController : MonoBehaviour
 
             _lobby1QuestList = _CSV.ParseCSV("Lobby1TutorialCSV", _lobby1QuestList);
 
-            _dialogueNum = _lobby1QuestList.Dialogue.Length;
+            _dialogueMaxNum = _lobby1QuestList.Dialogue.Length;
 
             StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
         }
@@ -74,6 +79,7 @@ public class TutorialController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(_dialogueNum);
         if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
             DialogueNumCount();
@@ -82,22 +88,25 @@ public class TutorialController : MonoBehaviour
             {
                 StartCoroutine(TextTyping(_startRoomQuestList.Dialogue[_dialogueNum]));
 
-                _isTutorialQuest = _startRoomQuestList.IsQuest[_dialogueNum];
-
                 _isDialogueEnd = false;
             }
 
             if (_tutorialType == TutorialType.Lobby1)
             {
-                StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
-
-                _isTutorialQuest = _lobby1QuestList.IsQuest[_dialogueNum];
-
-                StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
+                if (_dialogueNum == 4 && !_sendMessage)
+                {
+                    StopCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
+                    _dialogueNum = 3;
+                }
+                else
+                {
+                    StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
+                    _isDialogueEnd = false;
+                    _sendMessage = false;
+                }
             }
         }
         NextDialogue();
-        RunQuest();
     }
 
     /// <summary>
@@ -112,18 +121,18 @@ public class TutorialController : MonoBehaviour
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
-            //#if UNITY_EDITOR
-            //            if (Input.GetKeyDown(KeyCode.K))
-            //            {
-            //                _tutorialRunText.text = dialogue;
+//#if UNITY_EDITOR
+//            if (Input.GetKeyDown(KeyCode.K))
+//            {
+//                _tutorialDialogueText.text = dialogue;
 
-            //                StopCoroutine(TextTyping(dialogue));
+//                StopCoroutine(TextTyping(dialogue));
 
-            //                _isDialogueEnd = true;
+//                _isDialogueEnd = true;
 
-            //                yield break;
-            //            }
-            //#endif
+//                yield break;
+//            }
+//#endif
             if (OVRInput.GetDown(OVRInput.Button.One))
             {
                 _tutorialDialogueText.text = dialogue;
@@ -175,23 +184,23 @@ public class TutorialController : MonoBehaviour
         {
             _isNext = false;
         }
-        //#if UNITY_EDITOR
-        //        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-        //        {
-        //            _tutorialRunText.text = null;
-        //            _isNext = true;
-        //        }
-        //        else
-        //        {
-        //            _isNext = false;
-        //        }
-        //#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+//        {
+//            _tutorialDialogueText.text = null;
+//            _isNext = true;
+//        }
+//        else
+//        {
+//            _isNext = false;
+//        }
+//#endif
     }
 
     /// <summary>
     /// 퀘스트가 있을 때..?
     /// </summary>
-    public virtual void RunQuest()
+    private void QuestClear(bool value)
     {
         if (_isTutorialQuest == true)
         {
@@ -243,42 +252,23 @@ public class TutorialController : MonoBehaviour
 
             if (_tutorialType == TutorialType.Lobby1)
             {
-                if (_dialogueNum == 5)
-                {
+                _isTutorialQuest = value;
 
-                }
-
-                _lobby1TutorialStartButton.QuestClear.Invoke();
-
-                if (_dialogueNum == 8)
-                {
-
-                }
-                if (_dialogueNum == 16)
-                {
-
-                }
-                if (_dialogueNum == 23)
-                {
-
-                }
-                if (_dialogueNum == 35)
-                {
-
-                }
-                if (_dialogueNum == 46)
-                {
-
-                }
-                if (_dialogueNum == 48)
-                {
-
-                }
-                if (_dialogueNum == 46)
-                {
-
-                }
+                _lobby1TutorialStartButton.IsQuest = value;
             }
         }
+    }
+
+    private void QuestAccept(int num)
+    {
+        _dialogueNum = num;
+
+        _sendMessage = true;
+    }
+
+    private void OnDisable()
+    {
+        QuestAcceptEvent.RemoveListener(QuestAccept);
+        QuestClearEvent.RemoveListener(QuestClear);
     }
 }

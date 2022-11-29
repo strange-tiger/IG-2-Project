@@ -62,7 +62,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         catch
         {
             Debug.LogError("방 입장 실패");
-            PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.StartRoom);
+            PhotonNetwork.LoadLevel((int)Defines.ESceneNumber.StartRoom);
         }
     }
 
@@ -87,7 +87,7 @@ public class JoinRoom : MonoBehaviourPunCallbacks
         OVRScreenFade.instance.FadeOut();
 
         PlayerPrefs.SetInt("PrevScene", SceneManagerHelper.ActiveSceneBuildIndex);
-        PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
+        PhotonNetwork.LoadLevel((int)Defines.ESceneNumber.PrivateRoom);
     }
 
 }

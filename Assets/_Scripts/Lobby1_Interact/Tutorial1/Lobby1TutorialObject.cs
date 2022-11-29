@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class Lobby1TutorialObject : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
+    [SerializeField] private TutorialController _tutorialController;
 
-    void Update()
+    public virtual void SendQuestClearMessage()
     {
-        
+        _tutorialController.QuestClearEvent.Invoke(false);
     }
 }

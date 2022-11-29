@@ -26,13 +26,13 @@ namespace Asset.ParseCSV
             var container = new List<Dictionary<string, string>>();
 
             string[] lines = csvFile.text.Split(lineSeparater);
-            string[] fieldName = lines[0].Split(fieldSeparater);
+            string[] fieldName = lines[0].TrimEnd('\r').Split(fieldSeparater);
             string[] fields = new string[fieldName.Length];
 
             for (int i = 0; i < lines.Length - 2; ++i)
             // lines.Length - 2 : CSV 파일 첫 줄과 마지막 공백 줄을 넘김
             {
-                fields = lines[i + 1].Split(fieldSeparater);
+                fields = lines[i + 1].TrimEnd('\r').Split(fieldSeparater);
 
                 var field = new Dictionary<string, string>();
                 for (int j = 0; j < fields.Length; ++j)
@@ -90,13 +90,13 @@ namespace Asset.ParseCSV
                 fields = lines[i + 1].Split(fieldSeparater);
 
                 startRoomQuestList.Dialogue[i] = fields[2];
-                startRoomQuestList.IsQuest[i] = bool.Parse(fields[5]);
+                //startRoomQuestList.IsQuest[i] = int.Parse(fields[5]);
             }
 
             return startRoomQuestList;
         }
 
-        public static Lobby1QuestList ParseCSV(string fileName, Lobby1QuestList lobby1QuestList, char lineSeparater = '\n', char fieldSeparater = ',')
+        public static Lobby1QuestList ParseCSV(string fileName, Lobby1QuestList lobby1QuestList, char lineSeparater = '\n', char fieldSeparater = '@')
         {
             TextAsset csvFile = Resources.Load(fileName) as TextAsset;
 
@@ -106,15 +106,13 @@ namespace Asset.ParseCSV
             string[] fieldName = lines[0].Split(fieldSeparater);
             string[] fields = new string[fieldName.Length];
 
-            Debug.Log("필드" + fieldName.Length);
-
             for (int i = 0; i < lines.Length - 2; ++i)
             // lines.Length - 2 : CSV 파일 첫 줄과 마지막 공백 줄을 넘김
             {
                 fields = lines[i + 1].Split(fieldSeparater);
 
                 lobby1QuestList.Dialogue[i] = fields[2];
-                lobby1QuestList.IsQuest[i] = bool.Parse(fields[5]);
+                lobby1QuestList.IsQuest[i] = fields[5];
             }
 
             return lobby1QuestList;

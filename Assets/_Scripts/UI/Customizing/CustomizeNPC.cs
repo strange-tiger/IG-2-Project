@@ -24,7 +24,6 @@ public class CustomizeNPC : InteracterableObject
 
         _customizeNPCMenu.SetActive(true);
 
-        _collider.enabled = false;
     }
 
  

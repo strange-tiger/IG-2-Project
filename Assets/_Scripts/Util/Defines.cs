@@ -7,7 +7,7 @@ namespace Defines
         End,
     }
 
-    public enum ESceneNumder
+    public enum ESceneNumber
     {
         LogIn,
         StartRoom,
@@ -18,6 +18,8 @@ namespace Defines
         PrivateRoom,
         ShootingWaitingRoom,
         ShootingGameRoom,
+        Lobby1TutorialRoom,
+        ArenaTutorialRoom,
 
         End,
     }
@@ -191,7 +193,19 @@ namespace Defines
         EQUIP,
         MAX
     }
-}
+    
+    public enum ELobby2TutorialNumber
+    {
+        Start,
+        FirstMoveAttack,
+        WesternBeer,
+        FindingGold,
+        WesternCampfire,
+        OakBarrel,
+        GoldRush,
+        End,
+    }
+
 
 namespace Defines.RPC
 {

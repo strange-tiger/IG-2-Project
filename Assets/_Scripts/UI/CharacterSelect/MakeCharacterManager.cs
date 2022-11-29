@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Asset.MySql;
 using UnityEngine.SceneManagement;
 
-using SceneType = Defines.ESceneNumder;
+using SceneType = Defines.ESceneNumber;
 
 public class MakeCharacterManager : MonoBehaviour
 {
@@ -54,6 +54,7 @@ public class MakeCharacterManager : MonoBehaviour
     }
     private void SelectFemale()
     {
+        Debug.Log("dd");
         OnClickFemaleButton.Invoke();
         _playerCustomize.IsFemale = true;
         _playerCustomize.MakeAvatarData();
