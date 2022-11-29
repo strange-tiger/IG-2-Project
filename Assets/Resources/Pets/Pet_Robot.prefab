@@ -10332,7 +10332,7 @@ MonoBehaviour:
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
   _sencerRadius: 3.75
-  _petEvolutionCount: 3
+  _petEvolutionCount: 0
 --- !u!114 &6498051762978000102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10387,8 +10387,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsWalk
+  - Type: 1
+    SynchronizeType: 0
+    Name: Forward
+  - Type: 1
+    SynchronizeType: 0
+    Name: Strafe
+  - Type: 4
+    SynchronizeType: 0
+    Name: Right Aim
+  - Type: 9
+    SynchronizeType: 0
+    Name: Right Blast Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Left Aim
+  - Type: 9
+    SynchronizeType: 0
+    Name: Left Blast Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Both Aim
+  - Type: 9
+    SynchronizeType: 0
+    Name: Both Blast Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Spin Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Right Rapid Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Left Rapid Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Both Rapid Attack
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
+  - Type: 4
+    SynchronizeType: 0
+    Name: Defend
+  - Type: 9
+    SynchronizeType: 0
+    Name: Take Damage
+  - Type: 9
+    SynchronizeType: 0
+    Name: Die
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!114 &3852810884988117956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25812,7 +25867,7 @@ Transform:
   - {fileID: 2420751593043108827}
   - {fileID: 2420751593043015841}
   m_Father: {fileID: 2927465523700284964}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2420751593035992417
 Animator:
@@ -25862,7 +25917,7 @@ MonoBehaviour:
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
   _sencerRadius: 3.75
-  _petEvolutionCount: 2
+  _petEvolutionCount: 0
 --- !u!114 &8216491964732019136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25917,8 +25972,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsWalk
+  - Type: 1
+    SynchronizeType: 0
+    Name: Forward
+  - Type: 1
+    SynchronizeType: 0
+    Name: Strafe
+  - Type: 4
+    SynchronizeType: 0
+    Name: Right Aim
+  - Type: 9
+    SynchronizeType: 0
+    Name: Right Blast Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Left Aim
+  - Type: 9
+    SynchronizeType: 0
+    Name: Left Blast Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Both Aim
+  - Type: 9
+    SynchronizeType: 0
+    Name: Both Blast Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Spin Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Right Rapid Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Left Rapid Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Both Rapid Attack
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
+  - Type: 4
+    SynchronizeType: 0
+    Name: Defend
+  - Type: 9
+    SynchronizeType: 0
+    Name: Take Damage
+  - Type: 9
+    SynchronizeType: 0
+    Name: Die
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!114 &2765173244070373561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31398,7 +31508,7 @@ Transform:
   - {fileID: 4872054808468601619}
   - {fileID: 4872054808468630455}
   m_Father: {fileID: 2927465523700284964}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4872054808478297387
 Animator:
@@ -31448,7 +31558,7 @@ MonoBehaviour:
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
   _sencerRadius: 3.75
-  _petEvolutionCount: 1
+  _petEvolutionCount: 0
 --- !u!114 &8602599986027208909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46518,8 +46628,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4872054808468587975}
   - {fileID: 2420751593043115599}
+  - {fileID: 4872054808468587975}
   - {fileID: 318048940564959799}
   m_Father: {fileID: 0}
   m_RootOrder: 0
