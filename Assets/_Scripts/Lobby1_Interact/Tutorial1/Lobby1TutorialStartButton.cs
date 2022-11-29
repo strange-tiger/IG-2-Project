@@ -304,8 +304,16 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 return;
             }
         }
-        _isOn = true;
+
+        for (int i = 0; i < _tutorialObject.Length; ++i)
+        {
+            _tutorialButton[i].enabled = true;
+        }
+        _questText.text = null;
+        _tutorialController.QuestAcceptEvent.Invoke(2);
         _tutorialController.IsTutorialQuest = false;
+        _isOn = true;
+        _isQuest = false;
     }
 
     private void OnDisable()
