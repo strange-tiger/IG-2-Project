@@ -4,19 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
+using TMPro;
 
 public class Lobby1TutorialStartButton : MonoBehaviour
 {
     [SerializeField] private Button[] _tutorialButton;
     [SerializeField] private GameObject[] _tutorialObject;
     [SerializeField] private TutorialController _tutorialController;
+    [SerializeField] private TextMeshProUGUI _questText;
 
     private Action OnButtonAction;
 
     private bool _isButton;
     private bool _isOn = true;
     private bool _isQuest;
-
+    public bool IsQuest { get { return _isQuest; } set { _isQuest = value; } }
 
     private bool _isOne;
     private bool _isTwo;
@@ -55,51 +57,51 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             OnButtonAction?.Invoke();
             _isButton = true;
         }
-        #region input
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            OnClickButton(0);
-            Debug.Log("1번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            OnClickButton(1);
-            Debug.Log("2번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            OnClickButton(2);
-            Debug.Log("3번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            OnClickButton(3);
-            Debug.Log("4번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            OnClickButton(4);
-            Debug.Log("5번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            OnClickButton(5);
-            Debug.Log("6번누름");
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ClickExitButton();
-        }
-#endif
-        #endregion
+       #region input
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.Alpha1))
+//        {
+//            OnClickButton(0);
+//            Debug.Log("1번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha2))
+//        {
+//            OnClickButton(1);
+//            Debug.Log("2번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha3))
+//        {
+//            OnClickButton(2);
+//            Debug.Log("3번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha4))
+//        {
+//            OnClickButton(3);
+//            Debug.Log("4번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha5))
+//        {
+//            OnClickButton(4);
+//            Debug.Log("5번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha6))
+//        {
+//            OnClickButton(5);
+//            Debug.Log("6번누름");
+//        }
+//        if (Input.GetKeyDown(KeyCode.R))
+//        {
+//            ClickExitButton();
+//        }
+//#endif
+       #endregion
 
         if (_isOne)
         {
             if (_tutorialController.DialogueNum == 5 && !_isQuest)
             {
+                _questText.text = "발판 7개를 모두 밟아보세요";
                 _tutorialController.IsTutorialQuest = true;
-                _isQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 6)
@@ -108,66 +110,114 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isButton = false;
                 _isOn = true;
                 _isOne = false;
+                _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
 
         if (_isTwo)
         {
+            if (_tutorialController.DialogueNum == 8 && !_isQuest)
+            {
+                _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 10)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
                 _isButton = false;
                 _isOn = true;
                 _isTwo = false;
+                _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
 
         if (_isThree)
         {
+            if (_tutorialController.DialogueNum == 16 && !_isQuest)
+            {
+                _questText.text = "마법봉을 주워서 마법을 사용하세요";
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 17)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
                 _isButton = false;
                 _isOn = true;
                 _isThree = false;
+                _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
 
         if (_isFour)
         {
+            if (_tutorialController.DialogueNum == 23 && !_isQuest)
+            {
+                _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 24)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
                 _isButton = false;
                 _isOn = true;
                 _isFour = false;
+                _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
 
         if (_isFive)
         {
+            if (_tutorialController.DialogueNum == 35 && !_isQuest)
+            {
+                _questText.text = "채광에 성공하여 골드를 획득하세요";
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 36)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
                 _isButton = false;
                 _isOn = true;
                 _isFive = false;
+                _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }
 
         if (_isSix)
         {
+            if (_tutorialController.DialogueNum == 45 && !_isQuest)
+            {
+                _questText.text = "무기를 집어 이시고르에게 돌아가세요";
+                _tutorialController.IsTutorialQuest = true;
+            }
+
+            if (_tutorialController.DialogueNum == 47 && !_isQuest)
+            {
+                _questText.text = "물건을 4개 베세요";
+                _tutorialController.IsTutorialQuest = true;
+            }
+
             if (_tutorialController.DialogueNum == 54)
             {
                 _tutorialController.QuestAcceptEvent.Invoke(2);
                 _isButton = false;
                 _isOn = true;
                 _isSix = false;
+                _questText.text = null;
+                _tutorialController.IsTutorialQuest = false;
                 ClickExitButton();
             }
         }

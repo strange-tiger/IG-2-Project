@@ -147,7 +147,7 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         OVRScreenFade.instance.FadeOut();
 
         PlayerPrefs.SetInt(PREV_SCENE, SceneManagerHelper.ActiveSceneBuildIndex);
-        PhotonNetwork.LoadLevel((int)Defines.ESceneNumder.PrivateRoom);
+        PhotonNetwork.LoadLevel((int)Defines.ESceneNumber.PrivateRoom);
     }
 
     private void ActivePasswordInput(bool isOn)

@@ -7,7 +7,7 @@ using System;
 using Photon.Pun;
 using Photon.Realtime;
 
-using SceneType = Defines.ESceneNumder;
+using SceneType = Defines.ESceneNumber;
 
 public class PlayerCustomize : MonoBehaviourPunCallbacks
 {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
-using SeceneType = Defines.ESceneNumder;
+using SeceneType = Defines.ESceneNumber;
 using Photon.Realtime;
 
 public class LogOutButton : NeedCheckButton

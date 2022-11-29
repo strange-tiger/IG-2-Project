@@ -5,12 +5,12 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Asset.MySql;
-using SceneNumber = Defines.ESceneNumder;
+using SceneNumber = Defines.ESceneNumber;
 using MapType = Defines.EMapType;
 
 public class LobbyChanger : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private bool _isStartRoom;
+    [SerializeField] private bool _isInLobby;
     [SerializeField] private OVRRaycaster[] _canvases;
     [SerializeField] private GameObject _playerPrefab;
 
@@ -21,7 +21,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     [SerializeField] protected bool _isFixedPosition;
     [SerializeField] protected Vector3 _fixedPosition;
     [SerializeField] protected Vector3 _fixedRotation;
-    
+
     protected GameObject _myPlayer;
 
     private SceneNumber _nextScene;
@@ -40,7 +40,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     protected virtual void Awake()
     {
-        if (!_isStartRoom)
+        if (!_isInLobby)
         {
             GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name, _playerSpawnPosition,
                 Quaternion.Euler(_playerSpawnRotatinon), 0, null);
@@ -70,7 +70,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         _nextSceneRoomName = roomName;
         _nextRoomOption = roomOption;
         _joinRandomRoom = joinRamdonRoom;
-        if(_joinRandomRoom)
+        if (_joinRandomRoom)
         {
             _expectedCustromRoomProperties = expectedCustomRoomProperties;
             _expectedMaxPlayers = expectedMaxPlayers;
@@ -83,7 +83,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         PlayerControlManager.Instance.IsRayable = false;
         PlayerControlManager.Instance.IsMoveable = false;
 
-        if (!_isStartRoom)
+        if (!_isInLobby)
         {
             PhotonNetwork.LeaveRoom();
         }
@@ -96,18 +96,18 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
 
-        
-        
+
+
         if (_needSceneChange)
         {
             Debug.Log("[LogOut] LobbyChanger OnConnectedToMaster");
 
-            if(_joinRandomRoom)
+            if (_joinRandomRoom)
             {
                 Debug.Log($"[LogOut] LobbyChanger {_defaultRoomOptions.CustomRoomPropertiesForLobby.ToStringFull()} {_defaultRoomOptions.CustomRoomProperties}");
                 PhotonNetwork.JoinRandomOrCreateRoom(
-                    expectedCustomRoomProperties: _expectedCustromRoomProperties, 
-                    expectedMaxPlayers: _expectedMaxPlayers, 
+                    expectedCustomRoomProperties: _expectedCustromRoomProperties,
+                    expectedMaxPlayers: _expectedMaxPlayers,
                     roomOptions: _nextRoomOption);
             }
             else
@@ -171,9 +171,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
-        
-         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
-        Debug.Log("[PlayerOnline] Offline in Server");
+        Debug.Log("[Server] Offline Update");
+
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
 
     }
 
@@ -194,9 +194,9 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     private void OnApplicationQuit()
     {
-        
-            Debug.Log("[PlayerOnline] Offline in quit");
-            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
-        
+
+        Debug.Log("[Player] Offline Update");
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+
     }
 }

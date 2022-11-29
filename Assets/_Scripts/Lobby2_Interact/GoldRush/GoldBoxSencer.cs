@@ -8,7 +8,6 @@ using Photon.Pun;
 public class GoldBoxSencer : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Vector3 _onPlayerPosition = new Vector3(0f, 2.35f, 0f);
-    private Vector3 ZERO_VECTOR = Vector3.zero;
 
     [SerializeField] private Color _outlineColor = new Color(1f, 0.9f, 0.01f);
     private Outlinable _outline;
@@ -70,13 +69,6 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
         _sencerCollider.enabled = true;
     }
 
-    //public override void OnJoinedRoom()
-    //{
-    //    base.OnJoinedRoom();
-    //    _isJoinedRoom = true;
-    //    OnEnable();
-    //}
-
     private void FixedUpdate()
     {
 #if _DEV_MODE_
@@ -90,7 +82,7 @@ public class GoldBoxSencer : MonoBehaviourPunCallbacks
 
             gameObject.transform.parent = _playerTransform;
             gameObject.transform.localPosition = _onPlayerPosition;
-            gameObject.transform.localRotation = Quaternion.Euler(ZERO_VECTOR);
+            gameObject.transform.localRotation = Quaternion.Euler(_ZERO_VECTOR);
 
             _outline.enabled = false;
             _playerInteraction.IsNearGoldRush = false;

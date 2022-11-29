@@ -6,7 +6,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using PlayerInfo = ShootingGameManager.ShootingPlayerInfo;
-using SceneNumber = Defines.ESceneNumder;
+using SceneNumber = Defines.ESceneNumber;
 
 public class EndResultPanel : MonoBehaviourPun
 {
