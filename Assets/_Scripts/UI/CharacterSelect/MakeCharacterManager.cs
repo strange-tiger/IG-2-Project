@@ -6,10 +6,11 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Asset.MySql;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 using SceneType = Defines.ESceneNumber;
 
-public class MakeCharacterManager : MonoBehaviour
+public class MakeCharacterManager : MonoBehaviourPun
 {
     public UnityEvent OnClickFemaleButton = new UnityEvent();
 
@@ -36,6 +37,8 @@ public class MakeCharacterManager : MonoBehaviour
 
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
         _makeCharacterButton.onClick.AddListener(CreateCharacter);
+
+        _femalePanel.SetActive(false);
     }
 
     private void SelectMale()
@@ -58,7 +61,7 @@ public class MakeCharacterManager : MonoBehaviour
 
     private void CreateCharacter()
     {
-        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, TempAccountDB.Nickname, Asset.EaccountdbColumns.HaveCharacter, "1");
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.HaveCharacter, "1");
         MySqlSetting.AddNewCharacter(TempAccountDB.Nickname, $"{Convert.ToInt32(_playerCustomize.IsFemale)}");
         MySqlSetting.AddNewPetInventory(TempAccountDB.Nickname);
         SceneManager.LoadScene((int)SceneType.StartRoom);
@@ -69,5 +72,11 @@ public class MakeCharacterManager : MonoBehaviour
         _maleSelectButton.onClick.RemoveListener(SelectMale);
         _femaleSelectButton.onClick.RemoveListener(SelectFemale);
         _makeCharacterButton.onClick.RemoveListener(CreateCharacter);
+    }
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("[Player] Offline Update");
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
     }
 }

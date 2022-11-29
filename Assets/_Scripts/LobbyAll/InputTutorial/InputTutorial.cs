@@ -120,6 +120,7 @@ public class InputTutorial : MonoBehaviour
                 return;
             case 1:
                 StartCoroutine(CoRotatePlayerTutorialDelay());
+                _pauseIndexNum++;
                 return;
             case 2:
                 _triggerObject.gameObject.SetActive(true);
@@ -143,7 +144,8 @@ public class InputTutorial : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
 
-        _indexNum++;
+
+        ConversationRestart();
     }
 
     private void ConversationRestart()
