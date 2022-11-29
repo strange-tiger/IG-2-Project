@@ -38,6 +38,8 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     private Hashtable _expectedCustromRoomProperties = null;
     private byte _expectedMaxPlayers = 0;
 
+    private bool _lobbyChangeRoom = false;
+
     protected virtual void Awake()
     {
         if (!_isInLobby)
@@ -54,6 +56,12 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     public void ChangeLobby(SceneNumber sceneNumber)
     {
+        ChangeLobby(sceneNumber, sceneNumber.ToString(), _defaultRoomOptions);
+    }
+
+    public void ChangeLobby(SceneNumber sceneNumber, bool isLobbyChange)
+    {
+        _lobbyChangeRoom = isLobbyChange;
         ChangeLobby(sceneNumber, sceneNumber.ToString(), _defaultRoomOptions);
     }
 
@@ -95,9 +103,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-
-
-
         if (_needSceneChange)
         {
             Debug.Log("[LogOut] LobbyChanger OnConnectedToMaster");
@@ -121,7 +126,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         if (_needSceneChange)
         {
-            if (_nextScene <= SceneNumber.StartRoom)
+            if (_nextScene <= SceneNumber.StartRoom || _lobbyChangeRoom)
             {
                 PhotonNetwork.LoadLevel((int)_nextScene);
 

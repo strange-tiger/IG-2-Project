@@ -42,17 +42,13 @@ public class LobbyChange : ServerChange
 
     protected override void ChangeLobby()
     {
-        SceneNumber nextScene;
-
-        if (MySqlSetting.CheckCompleteTutorial(PhotonNetwork.NickName, _state))
+        if(MySqlSetting.CheckCompleteTutorial(PhotonNetwork.NickName, _state))
         {
-            nextScene = _sceneType;
+            _lobbyManager.ChangeLobby(_sceneType);
         }
         else
         {
-            nextScene = _tutorialSceneNumber;
+            _lobbyManager.ChangeLobby(_tutorialSceneNumber, true);
         }
-
-        _lobbyManager.ChangeLobby(nextScene);
     }
 }

@@ -20,6 +20,7 @@ namespace Defines
         ShootingGameRoom,
         Lobby1TutorialRoom,
         ArenaTutorialRoom,
+        Lobby2TutorialRoom,
 
         End,
     }

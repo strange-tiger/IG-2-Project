@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isStartRoom: 1
+  _isInLobby: 0
   _canvases: []
   _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
   _playerSpawnPosition: {x: 0, y: 1, z: 3}
@@ -3038,6 +3038,9 @@ MonoBehaviour:
   _lobbyManager: {fileID: 16103458}
   _checkMessage: 
   _nextLobbyName: "\uC911\uC138 \uD310\uD0C0\uC9C0 \uC655\uAD6D"
+  _isTutorialExist: 0
+  _tutorialSceneNumber: 0
+  _state: 0
 --- !u!4 &1138978508 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5473812282478564752, guid: 9341bf390e762484fbd3e7dea5dff7c4, type: 3}
@@ -3232,6 +3235,9 @@ MonoBehaviour:
   _lobbyManager: {fileID: 16103458}
   _checkMessage: 
   _nextLobbyName: "\uC11C\uBD80"
+  _isTutorialExist: 1
+  _tutorialSceneNumber: 11
+  _state: 2
 --- !u!4 &1230095319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4331832858961822, guid: 461adae6d8ea6d74fac73e4bd90066cb, type: 3}
