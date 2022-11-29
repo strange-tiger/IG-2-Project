@@ -95,6 +95,11 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LeaveRoom();
         }
+        else if(_lobbyChangeRoom)
+        {
+            Debug.Log("[LogOut] LobbyChanger LoadLevel On Lobby");
+            PhotonNetwork.LoadLevel((int)_nextScene);
+        }
         else
         {
             PhotonNetwork.JoinOrCreateRoom(roomName, _nextRoomOption, TypedLobby.Default);
@@ -128,6 +133,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         {
             if (_nextScene <= SceneNumber.StartRoom || _lobbyChangeRoom)
             {
+                Debug.Log("[LogOut] LobbyChanger LoadLevel On Lobby");
                 PhotonNetwork.LoadLevel((int)_nextScene);
 
                 return;
