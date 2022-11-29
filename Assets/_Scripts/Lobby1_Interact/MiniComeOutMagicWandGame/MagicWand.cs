@@ -14,6 +14,7 @@ public class MagicWand : MonoBehaviourPun
 
     [Header("쿨타임을 골라주세요")]
     [SerializeField] private Defines.CoolTime _coolTime;
+    public Defines.CoolTime CoolTime { get { return _coolTime; } }
 
     [Header("VRUI의 MagicWandPanel을 넣어주세요")]
     [SerializeField]
@@ -29,6 +30,7 @@ public class MagicWand : MonoBehaviourPun
     public bool CheckCoolTime { get { return _checkCoolTime; } set { _checkCoolTime = value; } }
 
     private int _coolTimeText;
+    public int CoolTimeText { get { return _coolTimeText; } set { _coolTimeText = value; } }
 
     // 원위치에 필요한 변수들
     private Vector3 _wandPosition;
@@ -72,6 +74,18 @@ public class MagicWand : MonoBehaviourPun
                 _magicNameText.text = gameObject.name;
 
                 _checkCoolTime = true;
+            }
+
+            if (_checkCoolTime)
+            {
+                _currentTime += Time.deltaTime;
+                _magicCoolTimeText.text = _coolTimeText.ToString();
+
+                if (_currentTime > (float)_coolTime)
+                {
+                    _currentTime -= _currentTime;
+                    _magicWandPanel.SetActive(false);
+                }
             }
         }
     }
