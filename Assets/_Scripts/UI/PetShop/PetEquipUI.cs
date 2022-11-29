@@ -336,32 +336,16 @@ public class PetEquipUI : MonoBehaviour
 
     private void UpdateTransformOption()
     {
-        if (CurrentPet.EvolCount == EPetMaxExp.NONE)
-        {
-            _maxTransformIndex = TRANSFORM_SCALE.Length;
+        _doTransformScale = CurrentPet.EvolCount == EPetMaxExp.NONE;
 
-            _doTransformScale = true;
-        }
-        else
-        {
-            //_maxTransformIndex = _currentPetTransform.childCount;
-
-            _doTransformScale = false;
-        }
+        _maxTransformIndex = _transformList[_currentIndex].Image.Length;
 
         ShowTransformOption(0);
     }
 
     private void ShowTransformOption(int index)
     {
-        if (_doTransformScale)
-        {
-            _petTransformOption.text = $"{(int)100 * TRANSFORM_SCALE[index]}%";
-        }
-        else
-        {
-            _petTransformOption.text = _transformList[_currentIndex].Name[index];
-        }
+        _petTransformOption.text = _transformList[_currentIndex].Name[index];
 
         EventSystem.current.SetSelectedGameObject(null);
     }
