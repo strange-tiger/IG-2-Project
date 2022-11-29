@@ -17,8 +17,7 @@ public class MagicWand : MonoBehaviourPun
     public Defines.CoolTime CoolTime { get { return _coolTime; } }
 
     [Header("VRUI의 MagicWandPanel을 넣어주세요")]
-    [SerializeField]
-    private GameObject _magicWandPanel;
+    [SerializeField] private GameObject _magicWandPanel;
 
     private TextMeshProUGUI _magicNameText;
     private TextMeshProUGUI _magicCoolTimeText;
