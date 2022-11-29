@@ -20,9 +20,9 @@ public class PetEquipUI : MonoBehaviour
     [Header("Button")]
     [SerializeField] Button _leftButton;
     [SerializeField] Button _rightButton;
-    [SerializeField] Button _transformButton;
     [SerializeField] Button _leftTransformButton;
     [SerializeField] Button _rightTransformButton;
+    [SerializeField] Button _backButton;
     [SerializeField] Button _closeButton;
     [SerializeField] Button _saveButton;
 
@@ -35,12 +35,12 @@ public class PetEquipUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _petName;
     [SerializeField] TextMeshProUGUI _petGrade;
     [SerializeField] TextMeshProUGUI _petExplanation;
-    private TextMeshProUGUI _petTransformOption;
+    [SerializeField] TextMeshProUGUI _petTransformOption;
 
     [Header("Apply Text")]
     [SerializeField] TextMeshProUGUI _applyText;
 
-    private const string DEFAULT_APPLY_TEXT = "저장하기를 누르면 변환이 반영됩니다.";
+    private const string DEFAULT_APPLY_TEXT = "[저장하기]를 누르면 변환이 반영됩니다.";
     private const string SAVED_APPLY_TEXT = "저장되었습니다!";
     private static readonly WaitForSeconds APPLY_TEXT_DURATION = new WaitForSeconds(1f);
 
@@ -79,19 +79,17 @@ public class PetEquipUI : MonoBehaviour
         _rightTransformButton.onClick.RemoveListener(OnClickRightTransformButton);
         _rightTransformButton.onClick.AddListener(OnClickRightTransformButton);
 
-        _transformButton.onClick.RemoveListener(TransformPet);
-        _transformButton.onClick.AddListener(TransformPet);
-
         _closeButton.onClick.RemoveListener(Close);
         _closeButton.onClick.AddListener(Close);
+
+        _backButton.onClick.RemoveListener(Back);
+        _backButton.onClick.AddListener(Back);
 
         _saveButton.onClick.RemoveListener(SaveOption);
         _saveButton.onClick.AddListener(SaveOption);
 
         OnCurrentPetChanged -= ShowCurrentPet;
         OnCurrentPetChanged += ShowCurrentPet;
-
-        _petTransformOption = _transformButton.GetComponentInChildren<TextMeshProUGUI>();
 
         _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
 
@@ -116,29 +114,17 @@ public class PetEquipUI : MonoBehaviour
     {
         _leftButton.onClick.RemoveListener(OnClickLeftButton);
         _rightButton.onClick.RemoveListener(OnClickRightButton);
-        _transformButton.onClick.RemoveListener(TransformPet);
+        _leftTransformButton.onClick.RemoveListener(OnClickLeftTransformButton);
+        _rightTransformButton.onClick.RemoveListener(OnClickRightTransformButton);
         _closeButton.onClick.RemoveListener(Close);
+        _backButton.onClick.RemoveListener(Back);
+        _saveButton.onClick.RemoveListener(SaveOption);
         OnCurrentPetChanged -= ShowCurrentPet;
     }
 
-    private void TransformPet()
-    {
-        if (_doTransformScale)
-        {
-            TransformPetScale(_transformIndex);
-        }
-        else
-        {
-            TransformPetChildAsset(_transformIndex);
-        }
-    }
+    private void Back() => _ui.LoadUI(_UI.FIRST);
 
-    private void Close()
-    {
-        _ui.LoadUI(_UI.FIRST);
-
-        EventSystem.current.SetSelectedGameObject(null);
-    }
+    private void Close() => _ui.ShutUI();
 
     private void OnClickLeftButton()
     {
@@ -199,6 +185,8 @@ public class PetEquipUI : MonoBehaviour
     {
         _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
         _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
+
+        TransformPet();
 
         _equipedPetImage.sprite = CurrentPet.Image;
         _equipedPetName.text = CurrentPet.Name;
@@ -263,7 +251,6 @@ public class PetEquipUI : MonoBehaviour
             {
                 break;
             }
-
         }
         while (CurrentPet.Level < (int)_transformList[_currentIndex].Level[_transformIndex]);
 
@@ -290,11 +277,22 @@ public class PetEquipUI : MonoBehaviour
             {
                 break;
             }
-
         }
         while (CurrentPet.Level < _transformList[_currentIndex].Level[_transformIndex]);
 
         ShowTransformOption(_transformIndex);
+    }
+
+    private void TransformPet()
+    {
+        if (_doTransformScale)
+        {
+            TransformPetScale(_transformIndex);
+        }
+        else
+        {
+            TransformPetChildAsset(_transformIndex);
+        }
     }
 
     private void TransformPetChildAsset(int index)
@@ -346,6 +344,10 @@ public class PetEquipUI : MonoBehaviour
     private void ShowTransformOption(int index)
     {
         _petTransformOption.text = _transformList[_currentIndex].Name[index];
+
+        CurrentPet.SetImage(_transformList[_currentIndex].Image[index]);
+
+        _petImage.sprite = CurrentPet.Image;
 
         EventSystem.current.SetSelectedGameObject(null);
     }

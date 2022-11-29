@@ -93,17 +93,13 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetInstantiate(int index)
     {
-        if (photonView.IsMine)
+        if (_petObject != null)
         {
-            if (_petObject != null)
-            {
-                PhotonNetwork.Destroy(_petObject);
-            }
-
-            _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
-            _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
-
+            PhotonNetwork.Destroy(_petObject);
         }
+
+        _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
+        _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

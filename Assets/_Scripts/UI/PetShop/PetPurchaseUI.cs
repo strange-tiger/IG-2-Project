@@ -19,7 +19,8 @@ public class PetPurchaseUI : MonoBehaviour
     [SerializeField] Button _leftButton;
     [SerializeField] Button _rightButton;
     [SerializeField] Button _purchaseButton;
-    [SerializeField] Button[] _closeButtons;
+    [SerializeField] Button _closeButton;
+    [SerializeField] Button[] _backButtons;
     [SerializeField] Button[] _petInfoButtons;
 
     [Header("Equiped Pet Info")]
@@ -62,10 +63,13 @@ public class PetPurchaseUI : MonoBehaviour
         _purchaseButton.onClick.RemoveListener(Purchase);
         _purchaseButton.onClick.AddListener(Purchase);
 
-        foreach (Button close in _closeButtons)
+        _closeButton.onClick.RemoveListener(Close);
+        _closeButton.onClick.AddListener(Close);
+
+        foreach (Button back in _backButtons)
         {
-            close.onClick.RemoveListener(Close);
-            close.onClick.AddListener(Close);
+            back.onClick.RemoveListener(Back);
+            back.onClick.AddListener(Back);
         }
 
         for (int i = 0; i < _petInfoButtons.Length; ++i)
@@ -130,12 +134,9 @@ public class PetPurchaseUI : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    private void Close()
-    {
-        _ui.LoadUI(_UI.FIRST);
+    private void Back() => _ui.LoadUI(_UI.FIRST);
 
-        EventSystem.current.SetSelectedGameObject(null);
-    }
+    private void Close() => _ui.ShutUI();
 
     private void OnClickLeftButton()
     {
