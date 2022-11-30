@@ -80,6 +80,8 @@ public class PetSpawner : MonoBehaviourPunCallbacks
             return;
         }
 
+        _eqiupNum = index;
+
         _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
         _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
     }

@@ -12,7 +12,6 @@ public class Wood : MonoBehaviourPun
     private const float COUNT_DOWN_TIME = 3f;
     private const string CAMPFIRE_TAG = "Campfire";
 
-    private Coroutine _countDown;
     private SyncOVRGrabbable _grabbable;
     private bool _notOnCooltime = true;
 
@@ -42,25 +41,26 @@ public class Wood : MonoBehaviourPun
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(CAMPFIRE_TAG))
+        {
             photonView.RPC(STOP_COUNTDOWN, RpcTarget.All);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(CAMPFIRE_TAG))
+        {
             photonView.RPC(START_COUNTDOWN, RpcTarget.All);
+        }
     }
 
     private const string STOP_COUNTDOWN = "StopCountDown";
     [PunRPC]
-    private void StopCountDown()
-    {
-        if (_countDown != null) StopCoroutine(_countDown);
-    }
+    private void StopCountDown() => StopAllCoroutines();
 
     private const string START_COUNTDOWN = "StartCountDown";
     [PunRPC]
-    private void StartCountDown() => _countDown = StartCoroutine(CountDown());
+    private void StartCountDown() => StartCoroutine(CountDown());
 
     IEnumerator CountDown()
     {

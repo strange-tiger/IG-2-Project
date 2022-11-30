@@ -101,11 +101,11 @@ public class PetEquipUI : MonoBehaviour
         OnCurrentPetChanged -= ShowCurrentPet;
         OnCurrentPetChanged += ShowCurrentPet;
 
-        for (int i = 0; i < _ui.PetList.Length; ++i)
+        for (int i = 0; i < _petDataLength; ++i)
         {
             _petList[i] = _ui.PetList[i];
         }
-        _petList[_petList.Length] = PET_AIR;
+        _petList[_petDataLength] = PET_AIR;
 
         _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
 
@@ -187,7 +187,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void SaveOption()
     {
-        if (_equipedIndex < 0)
+        if (_equipedIndex < 0 || _equipedIndex >= _petDataLength)
         {
             return;
         }
@@ -341,6 +341,7 @@ public class PetEquipUI : MonoBehaviour
         _petGrade.color = GRADE_COLOR[(int)grade];
     }
 
+    private const int BEFORE_S_INDEX = 12;
     private void UpdateTransformOption()
     {
         if (_currentIndex < 0 || _currentIndex > _petDataLength)
@@ -348,7 +349,7 @@ public class PetEquipUI : MonoBehaviour
             return;
         }
 
-        _doTransformScale = (CurrentPet.EvolCount == EPetMaxExp.NONE);
+        _doTransformScale = (_currentIndex > BEFORE_S_INDEX);
 
         _maxTransformIndex = _transformList[_currentIndex].Image.Length;
 

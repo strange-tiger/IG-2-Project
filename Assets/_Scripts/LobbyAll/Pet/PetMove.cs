@@ -31,14 +31,11 @@ public class PetMove : MonoBehaviourPun
     protected NavMeshAgent _agent;
     private Animator _animator;
 
-    private void Awake()
+    private void OnEnable()
     {
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
-    }
 
-    private void OnEnable()
-    {
         OnStateChanged -= ChangeMoveState;
         OnStateChanged += ChangeMoveState;
     }
