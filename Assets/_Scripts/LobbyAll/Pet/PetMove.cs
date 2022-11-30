@@ -25,11 +25,11 @@ public class PetMove : MonoBehaviourPun
             OnStateChanged.Invoke(_state == EPetMoveState.MOVE);
         }
     }
-    private EPetMoveState _state = EPetMoveState.IDLE;
+    protected EPetMoveState _state = EPetMoveState.IDLE;
 
-    private Transform _destination;
+    protected Transform _destination;
+    protected NavMeshAgent _agent;
     private Animator _animator;
-    private NavMeshAgent _agent;
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class PetMove : MonoBehaviourPun
         OnStateChanged -= ChangeMoveState;
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && photonView.IsMine)
         {
@@ -56,7 +56,7 @@ public class PetMove : MonoBehaviourPun
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player") && photonView.IsMine)
         {
@@ -73,6 +73,11 @@ public class PetMove : MonoBehaviourPun
     {
         _animator.SetBool("IsWalk", isMove);
 
+        ChangeMoveStateHelper(isMove);
+    }
+
+    protected void ChangeMoveStateHelper(bool isMove)
+    {
         if (isMove)
         {
             _agent.SetDestination(_destination.position);
