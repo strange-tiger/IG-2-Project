@@ -119,22 +119,22 @@ public class TutorialController : MonoBehaviour
     /// <returns></returns>
     IEnumerator TextTyping(string dialogue)
     {
+        if (_dialogueSkip)
+        {
+            _tutorialDialogueText.text = dialogue;
+
+            StopCoroutine(TextTyping(dialogue));
+
+            _isDialogueEnd = true;
+
+            yield break;
+        }
+
         foreach (char c in dialogue)
         {
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
-
-            if (_dialogueSkip)
-            {
-                _tutorialDialogueText.text = dialogue;
-
-                StopCoroutine(TextTyping(dialogue));
-
-                _isDialogueEnd = true;
-
-                yield break;
-            }
         }
 
         _isDialogueEnd = true;

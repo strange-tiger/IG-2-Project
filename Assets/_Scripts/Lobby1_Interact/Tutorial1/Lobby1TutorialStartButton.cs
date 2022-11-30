@@ -113,7 +113,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOne = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -133,7 +133,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isTwo = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -153,7 +153,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isThree = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -173,7 +173,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isFour = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -193,7 +193,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isFive = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -219,16 +219,26 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isSix = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
     }
 
     private void OnClickButton(int num)
     {
+        //for (int i = 0; i < _tutorialObject.Length; ++i)
+        //{
+        //    if (_tutorialObject[i].activeSelf)
+        //    {
+        //        _isOn = false;
+        //        return;
+        //    }
+        //}
+
         for (int i = 0; i < _tutorialObject.Length; ++i)
         {
-            if (_tutorialObject[i].activeSelf)
+            if (
+                )
             {
                 _isOn = false;
                 return;
@@ -266,9 +276,16 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 default:
                     break;
             }
-            
-            _tutorialObject[num].SetActive(true);
-            _tutorialButton[num].interactable = false;
+
+            if (_tutorialObject[num].activeSelf)
+            {
+                _tutorialObject[num].SetActive(false);
+                _tutorialObject[num].SetActive(true);
+            }
+
+
+            //_tutorialObject[num].SetActive(true);
+            //_tutorialButton[num].interactable = false;
             ExitButton();
         }
 
@@ -296,11 +313,36 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void ClickExitButton()
     {
+        _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
+    }
+
+    private void QuestReset()
+    {
+        for (int i = 0; i < _tutorialObject.Length; ++i)
+        {
+            if (_tutorialObject[i].activeSelf)
+            {
+                _tutorialObject[i].SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < _tutorialObject.Length; ++i)
+        {
+            if (_tutorialButton[i].enabled == false)
+            {
+                _tutorialButton[i].enabled = true;
+            }
+        }
+
+        _tutorialController.QuestAcceptEvent.Invoke(2);
+
+        if (_questText.text != null)
+        {
+            _questText.text = null;
+        }
         _tutorialController.IsTutorialQuest = false;
         _isOn = true;
         _isQuest = false;
-
-        _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
     }
 
     private void OnDisable()
