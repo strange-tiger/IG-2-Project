@@ -1,4 +1,4 @@
-//#define _DEV_MODE_
+#define _DEV_MODE_
 
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +26,6 @@ public class GunShoot : MonoBehaviourPun
     [SerializeField] private TextMeshProUGUI _bulletCountText;
     [SerializeField] private Transform _bulletSpawnTransform;
     [SerializeField] private Transform _bulletShotPoint;
-    private Stack<GameObject> _bulletTrailPull = new Stack<GameObject>();
     private const int _MAX_BULLET_COUNT = 6;
     private int _bulletCount_ = 0;
     private int _bulletCount
@@ -38,9 +37,15 @@ public class GunShoot : MonoBehaviourPun
             _bulletCountText.text = _bulletCount_.ToString();
         }
     }
+    private List<GameObject> _bulletTrailPull = new List<GameObject>();
+    private int _nextBullet = 0;
 
     // 이팩트
     [Header("Effects")]
+    [SerializeField] private Color _lineRendererColor = new Color(1f, 1f, 1f, 0.4f);
+    private LineRenderer _lineRenderer;
+    private Vector3[] _rayPositions = new Vector3[2];
+
     [SerializeField] private Color _playerColor = new Color();
     private Vector3 _playerColorInVector3;
     private PlayerNumber _playerNumber;
@@ -66,9 +71,6 @@ public class GunShoot : MonoBehaviourPun
     private PlayerInput _input;
     private int _primaryController;
     private bool _isReloading;
-
-    private LineRenderer _lineRenderer;
-    private Vector3[] _rayPositions = new Vector3[2];
 
     private bool _isShootable = false;
 
@@ -96,7 +98,7 @@ public class GunShoot : MonoBehaviourPun
         // 총알 효과 스택에 넣기
         foreach (CapsuleCollider bulltTrial in GetComponentsInChildren<CapsuleCollider>())
         {
-            _bulletTrailPull.Push(bulltTrial.gameObject);
+            _bulletTrailPull.Add(bulltTrial.gameObject);
             bulltTrial.gameObject.SetActive(false);
             bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
         }
@@ -104,13 +106,21 @@ public class GunShoot : MonoBehaviourPun
         _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
 
         _lineRenderer = GetComponent<LineRenderer>();
-#if _DEV_MODE_
         _lineRenderer.enabled = true;
-#else
-        _lineRenderer.enabled = false;
-#endif
+        SetRayColor();
     }
-    
+
+    private void SetRayColor()
+    {
+        Gradient RayMaterialGradient = new Gradient();
+
+        RayMaterialGradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(_lineRendererColor, 0.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(_lineRendererColor.a, 0.0f) }
+            );
+        _lineRenderer.colorGradient = RayMaterialGradient;
+    }
+
     public void SetManager(ShootingGameManager shootingGameManager, ShootingPlayerLoadingUI _shootingPlayerLoadingUI)
     {
         _myNickname = transform.root.GetComponentInChildren<BasicPlayerNetworking>().MyNickname;
@@ -203,10 +213,14 @@ public class GunShoot : MonoBehaviourPun
 
     private void ShotBullet()
     {
-        GameObject bulletTrail = _bulletTrailPull.Pop();
+        GameObject bulletTrail = _bulletTrailPull[_nextBullet];
+
+        bulletTrail.SetActive(false);
         bulletTrail.transform.position = _bulletSpawnTransform.position;
         bulletTrail.transform.LookAt(_bulletShotPoint);
         bulletTrail.SetActive(true);
+
+        _nextBullet = (_nextBullet + 1) % _bulletTrailPull.Count;
     }
 
     private IEnumerator CoVibrateController()
@@ -240,10 +254,5 @@ public class GunShoot : MonoBehaviourPun
     {
         _isShootable = false;
         PlayerControlManager.Instance.IsRayable = true;
-    }
-
-    public void ReturnToBulletPull(GameObject bulletTrail)
-    {
-        _bulletTrailPull.Push(bulletTrail);
     }
 }

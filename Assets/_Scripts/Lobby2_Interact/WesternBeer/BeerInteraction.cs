@@ -163,7 +163,6 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
         _isCoolTime = false;
 
-        yield return null;
     }
     private IEnumerator CoFade(float startAlpha, float endAlpha)
     {

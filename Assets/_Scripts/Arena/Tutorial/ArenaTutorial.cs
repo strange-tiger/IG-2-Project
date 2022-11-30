@@ -26,6 +26,8 @@ public class ArenaTutorial : MonoBehaviourPun
     private AudioSource _audioSource;
     private Transform _player;
 
+    private LobbyChange _lobbyChange;
+
     private Coroutine ConversationCoroutine;
 
     private int _pauseNum = 17;
@@ -45,6 +47,8 @@ public class ArenaTutorial : MonoBehaviourPun
         _audioSource = GetComponent<AudioSource>();
 
         _isFirstVisit = MySqlSetting.CheckCompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
+
+        _lobbyChange = GetComponent<LobbyChange>();
 
         _tutorialBettingUI.BettingPanelOff();
 
@@ -152,10 +156,10 @@ public class ArenaTutorial : MonoBehaviourPun
     {
         if (_isFirstVisit == false)
         {
-            Debug.Log(MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA));
+            MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
         }
 
-        PhotonNetwork.LoadLevel((int)SceneType.ArenaRoom);
+        _lobbyChange.Interact();
     }
 
     private void OnDisable()

@@ -500,10 +500,10 @@ GameObject:
   - component: {fileID: 4930894651053048107}
   - component: {fileID: 1788913315610142491}
   - component: {fileID: 5405727066144699837}
-  - component: {fileID: 1166568424148213130}
   - component: {fileID: 1687945565192691726}
   - component: {fileID: 6932314926141107525}
   - component: {fileID: 1296733489379668603}
+  - component: {fileID: 5924191467484183046}
   m_Layer: 0
   m_Name: Husky
   m_TagString: Untagged
@@ -586,7 +586,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 0
 --- !u!114 &4930894651053048107
 MonoBehaviour:
@@ -644,18 +647,6 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters: []
   m_SynchronizeLayers: []
---- !u!114 &1166568424148213130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2290660403153311379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b20e49dc4f40e98419f2a53619d82314, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &1687945565192691726
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -707,6 +698,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5924191467484183046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290660403153311379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9803a33fc38cc834ba0ed9062e3ca315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3655874226755078496
 GameObject:
   m_ObjectHideFlags: 0
