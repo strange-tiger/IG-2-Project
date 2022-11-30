@@ -68,6 +68,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         RootSet(_setAvatarNum);
 
         // 아바타와 메테리얼을 적용시킴.
+        _materialData = _userData.AvatarMaterial[_setAvatarNum];
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
     }
