@@ -85,14 +85,22 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerMeshRenderer.material.color = _color;
     }
 
-
+    /// <summary>
+    /// 플레이어 외관의 변화
+    /// </summary>
+    /// <param name="value"></param>
     [PunRPC]
     public void ActivePlayer(bool value)
     {
         _playerModel.SetActive(value);
         _oakBarrelMeshCollider.enabled = value;
+        _playerInteraction.enabled = value;
     }
 
+    /// <summary>
+    /// 오크통의 변화
+    /// </summary>
+    /// <param name="value"></param>
     [PunRPC]
     public void ActiveOakBarrel(bool value)
     {
@@ -102,16 +110,23 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _isInOak = value;
     }
 
+    /// <summary>
+    /// 오크통에 들어갈 때
+    /// </summary>
     private void InOakBarrel()
     {
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, true);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, false);
 
         _playerControllerMove.MoveScale -= _speedSlower;
+        
 
         PlayerControlManager.Instance.IsRayable = false;
     }
 
+    /// <summary>
+    /// 오크통에서 나올 때
+    /// </summary>
     private void OutOakBarrel()
     {
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, false);
