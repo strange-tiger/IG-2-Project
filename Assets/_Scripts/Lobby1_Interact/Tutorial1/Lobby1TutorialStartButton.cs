@@ -12,6 +12,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     [SerializeField] private GameObject[] _tutorialObject;
     [SerializeField] private TutorialController _tutorialController;
     [SerializeField] private TextMeshProUGUI _questText;
+    [SerializeField] private LobbyChanger _lobbyChanger;
 
     private Action OnButtonAction;
 
@@ -221,7 +222,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 ClickExitButton();
             }
         }
-        
     }
 
     private void OnClickButton(int num)
@@ -296,31 +296,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void ClickExitButton()
     {
-        for (int i = 0; i < _tutorialObject.Length; ++i)
-        {
-            if (_tutorialObject[i].activeSelf)
-            {
-                _tutorialObject[i].SetActive(false);
-            }
-        }
-
-        for (int i = 0; i < _tutorialObject.Length; ++i)
-        {
-            if (_tutorialButton[i].enabled == false)
-            {
-                _tutorialButton[i].enabled = true;
-            }
-        }
-
-        _tutorialController.QuestAcceptEvent.Invoke(2);
-
-        if (_questText.text != null)
-        {
-            _questText.text = null;
-        }
-        _tutorialController.IsTutorialQuest = false;
-        _isOn = true;
-        _isQuest = false;
+        _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
     }
 
     private void OnDisable()
