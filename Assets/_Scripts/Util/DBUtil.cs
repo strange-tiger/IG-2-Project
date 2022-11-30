@@ -1093,9 +1093,7 @@ namespace Asset.MySql
             }
         }
 
-        public static UnityEvent<string,int> OnBettingWin = new UnityEvent<string, int>();
-
-        public static UnityEvent OnBettingLose = new UnityEvent();
+        public static UnityEvent<Dictionary<string, int>> OnBettingWinOrLose = new UnityEvent<Dictionary<string, int>>();
 
         public static UnityEvent OnBettingDraw = new UnityEvent();
 
@@ -1141,14 +1139,15 @@ namespace Asset.MySql
                     else
                     {
                         DataSet bettingDBdata = GetUserData(selectAllBettingData);
-                        
+
+                        Dictionary<string, int> winnerListDictionary = new Dictionary<string, int>();
+
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
                             int betGold = Convert.ToInt32(Math.Round(((Convert.ToDouble(betAmount) * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / Convert.ToDouble(championBetAmount)))
                                 )));
 
-                            OnBettingWin.Invoke(_dataRow[EbettingdbColumns.Nickname.ToString()].ToString(), betGold);
-
+                            winnerListDictionary.Add(_dataRow[EbettingdbColumns.Nickname.ToString()].ToString(), betGold);
 
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
 
@@ -1158,7 +1157,7 @@ namespace Asset.MySql
                             command.ExecuteNonQuery();
                         }
 
-                        OnBettingLose.Invoke();
+                        OnBettingWinOrLose.Invoke(winnerListDictionary);
                         ResetBettingDB();
                     }
                     _mysqlConnection.Close();
