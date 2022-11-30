@@ -198,8 +198,8 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                     _tutorialObject[i].SetActive(false);
                 }
             }
+            _firstClick = true;
         }
-        _firstClick = true;
         
         _tutorialController.IsTutorialQuest = false;
         _tutorialObject[num].SetActive(true);

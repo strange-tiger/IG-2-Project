@@ -121,6 +121,7 @@ public class TutorialController : MonoBehaviour
                 }
                 else
                 {
+                    StopAllCoroutines();
                     StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
                     _isDialogueEnd = false;
                     _sendMessage = false;
@@ -256,7 +257,7 @@ public class TutorialController : MonoBehaviour
 
     private void QuestAccept(int num)
     {
-        _tutorialDialogueText.text = null;
+        //_tutorialDialogueText.text = null;
         _sendMessage = true;
         _dialogueNum = num;
     }
