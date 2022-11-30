@@ -49,7 +49,7 @@ public class ArenaStart : MonoBehaviourPun
     }
     public void OnClickStartBattle()
     {
-        photonView.RPC("StartTournament", RpcTarget.All, false);
+        photonView.RPC("StartTournament", RpcTarget.AllBuffered, false);
      
     }
 
