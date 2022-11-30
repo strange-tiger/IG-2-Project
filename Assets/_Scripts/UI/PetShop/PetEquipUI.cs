@@ -124,7 +124,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void Back() => _ui.LoadUI(_UI.FIRST);
 
-    private void Close() => _ui.ShutUI();
+    private void Close() => _ui.ShutPetUI();
 
     private void OnClickLeftButton()
     {
