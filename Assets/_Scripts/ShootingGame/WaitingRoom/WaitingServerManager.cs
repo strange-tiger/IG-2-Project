@@ -10,7 +10,6 @@ public class WaitingServerManager : LobbyChanger
 {
     [SerializeField] private GameObject _door;
     private GameObject _doorInteraction;
-    private GameObject _doorSencer;
 
     [SerializeField] private TextMeshProUGUI _playerCountText;
 
@@ -39,8 +38,6 @@ public class WaitingServerManager : LobbyChanger
         _audioSource = GetComponent<AudioSource>();
 
         _doorInteraction = _door.GetComponentInChildren<WaitingRoomDoorInteraction>().gameObject;
-        _doorInteraction.SetActive(false);
-        _doorSencer = _door.GetComponentInChildren<DoorSenser>().gameObject;
 
         _playerCountText.text = $"{PhotonNetwork.PlayerList.Length.ToString()}/{_MAX_PLAYER_COUNT}";
         photonView.RPC("PlayerEntered", RpcTarget.All);
@@ -73,7 +70,6 @@ public class WaitingServerManager : LobbyChanger
     {
         _doorInteraction.GetComponent<WaitingRoomDoorInteraction>().OutFocus();
         _doorInteraction.SetActive(false);
-        _doorSencer.SetActive(false);
 
         if(PhotonNetwork.IsMasterClient)
         {

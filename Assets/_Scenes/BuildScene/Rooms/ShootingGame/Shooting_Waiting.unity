@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 237002654}
   - component: {fileID: 237002653}
   - component: {fileID: 237002650}
+  - component: {fileID: 237002649}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -276,6 +277,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &237002649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237002648}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2174652, y: 2.1130784, z: 0.0850946}
+  m_Center: {x: -0.60180163, y: 1.0565392, z: -0.03}
 --- !u!114 &237002650
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -345,7 +359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237002648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.904, y: 0.385, z: -13.696}
+  m_LocalPosition: {x: 6.904, y: 0.385, z: -13.625}
   m_LocalScale: {x: 1.6, y: 1.1, z: 1}
   m_Children:
   - {fileID: 1361613449}
@@ -974,7 +988,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
-  _sencerRadius: 1.5
+  _sencerRadius: 3
   _exitComfirmMessage: "\uB098\uAC00\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   _lobbyChanger: {fileID: 1741170125}
 --- !u!23 &1361613452

@@ -255,9 +255,4 @@ public class GunShoot : MonoBehaviourPun
         _isShootable = false;
         PlayerControlManager.Instance.IsRayable = true;
     }
-
-    public void ReturnToBulletPull(GameObject bulletTrail)
-    {
-        _bulletTrailPull.Push(bulletTrail);
-    }
 }
