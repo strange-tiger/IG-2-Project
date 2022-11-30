@@ -9,12 +9,12 @@ public class BGMPlayer : MonoBehaviour
     private AudioClip _bgmClip;
     private void Awake()
     {
+        SoundManager.Instance.OnChangedBackgroundVolume = UpdateVolume;
+        
         _bgmPlayer = gameObject.AddComponent<AudioSource>();     
         _bgmPlayer.clip = _bgmClip;
         _bgmPlayer.loop = true;
-        _bgmPlayer.playOnAwake = true;
-
-        SoundManager.Instance.OnChangedBackgroundVolume = UpdateVolume;
+        _bgmPlayer.Play();
     }
 
     public void UpdateVolume()

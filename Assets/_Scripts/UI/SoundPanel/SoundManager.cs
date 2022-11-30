@@ -32,7 +32,7 @@ public class SoundManager : MonoBehaviour
         set
         {
             _masterVolume = value;
-            OnChangedMasterVolume.Invoke();
+            OnChangedMasterVolume?.Invoke();
         }
     }
     public float BackgroundVolume
@@ -41,7 +41,7 @@ public class SoundManager : MonoBehaviour
         set
         {
             _backgroundVolume = value;
-            OnChangedBackgroundVolume.Invoke();
+            OnChangedBackgroundVolume?.Invoke();
         }
     }
     public float EffectVolume 
@@ -50,7 +50,7 @@ public class SoundManager : MonoBehaviour
         set 
         {
             _effectVolume = value;
-            OnChangedEffectVolume.Invoke();
+            OnChangedEffectVolume?.Invoke();
         }    
     }
     public float InputVolume
@@ -59,7 +59,7 @@ public class SoundManager : MonoBehaviour
         set
         {
             _inputVolume = value;
-            OnChangedInputVolume.Invoke();
+            OnChangedInputVolume?.Invoke();
         }
     }
     public float OutputVolume
@@ -68,7 +68,7 @@ public class SoundManager : MonoBehaviour
         set
         {
             _outputVolume = value;
-            OnChangedOutputVolume.Invoke();
+            OnChangedOutputVolume?.Invoke();
         }
     }
 
