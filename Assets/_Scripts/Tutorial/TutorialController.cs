@@ -259,6 +259,7 @@ public class TutorialController : MonoBehaviour
     {
         //_tutorialDialogueText.text = null;
         _sendMessage = true;
+        _isTutorialQuest = true;
         _dialogueNum = num;
     }
 

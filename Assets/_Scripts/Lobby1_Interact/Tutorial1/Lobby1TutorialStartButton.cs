@@ -63,9 +63,9 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isOne)
         {
+            _questText.text = "발판 7개를 모두 밟아보세요";
             if (_tutorialController.DialogueNum == 5 && !_isQuest)
             {
-                _questText.text = "발판 7개를 모두 밟아보세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -78,9 +78,9 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isTwo)
         {
+            _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
             if (_tutorialController.DialogueNum == 8 && !_isQuest)
             {
-                _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -93,9 +93,9 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isThree)
         {
+            _questText.text = "마법봉을 주워서 마법을 사용하세요";
             if (_tutorialController.DialogueNum == 16 && !_isQuest)
             {
-                _questText.text = "마법봉을 주워서 마법을 사용하세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -108,9 +108,9 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isFour)
         {
+            _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
             if (_tutorialController.DialogueNum == 23 && !_isQuest)
             {
-                _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -123,9 +123,9 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isFive)
         {
+            _questText.text = "채광에 성공하여 골드를 획득하세요";
             if (_tutorialController.DialogueNum == 35 && !_isQuest)
             {
-                _questText.text = "채광에 성공하여 골드를 획득하세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
@@ -138,13 +138,13 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isSix)
         {
+            _questText.text = "무기를 집어 이시고르에게 돌아가세요";
             if (_tutorialController.DialogueNum == 45 && !_isQuest)
             {
-                _questText.text = "무기를 집어 이시고르에게 돌아가세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
-            if (_tutorialController.DialogueNum == 47 && !_isQuest)
+            if (_tutorialController.DialogueNum == 47)
             {
                 _questText.text = "물건을 4개 베세요";
                 _tutorialController.IsTutorialQuest = true;
@@ -158,32 +158,32 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         }
 
         #region EDITOR
-//#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.Alpha1))
-//        {
-//            OnClickButton(0);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha2))
-//        {
-//            OnClickButton(1);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha3))
-//        {
-//            OnClickButton(2);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha4))
-//        {
-//            OnClickButton(3);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha5))
-//        {
-//            OnClickButton(4);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha6))
-//        {
-//            OnClickButton(5);
-//        }
-//#endif
+        //#if UNITY_EDITOR
+        //        if (Input.GetKeyDown(KeyCode.Alpha1))
+        //        {
+        //            OnClickButton(0);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha2))
+        //        {
+        //            OnClickButton(1);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha3))
+        //        {
+        //            OnClickButton(2);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha4))
+        //        {
+        //            OnClickButton(3);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha5))
+        //        {
+        //            OnClickButton(4);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha6))
+        //        {
+        //            OnClickButton(5);
+        //        }
+        //#endif
         #endregion
     }
 
@@ -200,7 +200,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
             _firstClick = true;
         }
-        
+
         _tutorialController.IsTutorialQuest = false;
         _tutorialObject[num].SetActive(true);
 
@@ -269,7 +269,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         _isQuest = false;
         _isButton = false;
         _questText.text = null;
-        
+
 
         if (_questText.text != null)
         {
