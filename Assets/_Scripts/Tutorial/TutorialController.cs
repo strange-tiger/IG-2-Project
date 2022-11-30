@@ -175,7 +175,7 @@ public class TutorialController : MonoBehaviour
     /// </summary>
     private void NextDialogue()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true && !_sendMessage)
+        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true)
         {
             _tutorialDialogueText.text = null;
             _isNext = true;

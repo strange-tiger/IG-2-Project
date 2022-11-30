@@ -189,19 +189,16 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void OnClickButton(int num)
     {
-        if (_firstClick)
+        for (int i = 0; i < _tutorialObject.Length; ++i)
         {
-            for (int i = 0; i < _tutorialObject.Length; ++i)
+            if (_tutorialObject[i].activeSelf)
             {
-                if (_tutorialObject[i].activeSelf)
-                {
-                    _tutorialObject[i].SetActive(false);
-                }
+                _tutorialObject[i].SetActive(false);
             }
-            _firstClick = true;
         }
 
         _tutorialController.IsTutorialQuest = false;
+        _isQuest = false;
         _tutorialObject[num].SetActive(true);
 
         switch (num)
