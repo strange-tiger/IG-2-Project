@@ -222,7 +222,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 ClickExitButton();
             }
         }
-        _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
     }
 
     private void OnClickButton(int num)
@@ -323,7 +322,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         _isOn = true;
         _isQuest = false;
 
-        
+        _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
     }
 
     private void OnDisable()
