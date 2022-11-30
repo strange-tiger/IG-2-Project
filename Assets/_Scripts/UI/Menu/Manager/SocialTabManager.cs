@@ -45,21 +45,24 @@ public class SocialTabManager : MonoBehaviour
     {
         while(gameObject.activeSelf)
         {
-            yield return _listUpdateWaitForSeconds;
-
             // OnOffline 판단 처리
-            foreach(TextMeshProUGUI nicknameText in _nicknameTextList)
+            foreach (TextMeshProUGUI nicknameText in _nicknameTextList)
             {
                 bool isOnline = MySqlSetting.IsPlayerOnline(nicknameText.text.ToString());
-                if(isOnline)
-                {
-                    nicknameText.color = _onLineTextColor;
-                }
-                else
-                {
-                    nicknameText.color = _offLineTextColor;
-                }
+                nicknameText.color = isOnline ? _onLineTextColor : _offLineTextColor;
+                Debug.Log($"[Social] {nicknameText.text} {isOnline}");
+
+                //if(isOnline)
+                //{
+                //    nicknameText.color = _onLineTextColor;
+                //}
+                //else
+                //{
+                //    nicknameText.color = _offLineTextColor;
+                //}
             }
+
+            yield return _listUpdateWaitForSeconds;
         }
     }
 
@@ -72,7 +75,7 @@ public class SocialTabManager : MonoBehaviour
 
     private void ShowFriendList()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
 
         // 버튼 활성화 처리
         _friendListButton.interactable = false;
@@ -92,12 +95,12 @@ public class SocialTabManager : MonoBehaviour
             }
         }
 
-        //StartCoroutine(OnOfflineSetting());
+        StartCoroutine(OnOfflineSetting());
     }
 
     private void ShowBlockList()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
 
         // 버튼 활성화 처리
         _friendListButton.interactable = true;
@@ -129,7 +132,7 @@ public class SocialTabManager : MonoBehaviour
     
     private void ShowRequestList()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
 
         if(RequestAlarmImage.activeSelf)
         {
