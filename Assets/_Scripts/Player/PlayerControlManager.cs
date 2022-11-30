@@ -9,18 +9,20 @@ public class PlayerControlManager: GlobalInstance<PlayerControlManager>
     [SerializeField] private bool _isInvincible = false;
     public bool IsInvincible { get => _isInvincible; set => _isInvincible = value; }
 
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private ParticleSystem _stundParticle;
+    [SerializeField] 
+    private AudioSource _audioSource;
+    [SerializeField]
+    private List<AudioClip> _audioClipList = new List<AudioClip>();
+    [SerializeField] 
+    private ParticleSystem _stundParticle;
     public bool IsStund
     {
          set
-        {
+         {
             if(value)
             {
                 // 스턴 효과 실행
-                IsMoveable = false;
-                IsRayable = false;
-                _audioSource.Play();
+                _audioSource.PlayOneShot(_audioClipList[1]);
                 _stundParticle.Play();
             }
             else
