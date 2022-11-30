@@ -151,7 +151,6 @@ GameObject:
   - component: {fileID: 8268717291742118706}
   - component: {fileID: 8268717291741331486}
   - component: {fileID: 8268717291739831232}
-  - component: {fileID: 8284147511845145776}
   m_Layer: 10
   m_Name: Beer_Full
   m_TagString: Untagged
@@ -222,19 +221,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8284147511845145776
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8268717291742268568}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0.25}
 --- !u!1 &8275704744721549321
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +385,7 @@ MonoBehaviour:
   _fullBeer: {fileID: 8268717291742268568}
   _drinkSound: {fileID: 8300000, guid: 889185375ff2e834f811d61ac55c7418, type: 3}
   _grabCollider: {fileID: 4948263395224740375}
-  _beerCollider: {fileID: 8284147511845145776}
+  _beerCollider: {fileID: 0}
 --- !u!82 &4863836221134295301
 AudioSource:
   m_ObjectHideFlags: 0
