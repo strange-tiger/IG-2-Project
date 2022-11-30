@@ -66,11 +66,6 @@ public class PetPurchaseUI : MonoBehaviour
         _closeButton.onClick.RemoveListener(Close);
         _closeButton.onClick.AddListener(Close);
 
-        foreach (Button back in _backButtons)
-        {
-            back.onClick.RemoveListener(Back);
-            back.onClick.AddListener(Back);
-        }
 
         _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
 
@@ -87,10 +82,35 @@ public class PetPurchaseUI : MonoBehaviour
 
         _currentIndex = -1;
         OnClickRightButton();
-
-        for (int i = 0; i < _petInfoButtons.Length; ++i)
+        
+        foreach (Button back in _backButtons)
         {
-            _petInfoButtons[i].onClick.AddListener(() => ShowCurrentPet(_petInfoList[i]));
+            back.onClick.RemoveListener(Back);
+            back.onClick.AddListener(Back);
+        }
+
+        foreach (Button petInfoButton in _petInfoButtons)
+        {
+            petInfoButton.onClick.RemoveListener(ShowCurrentPet);
+            petInfoButton.onClick.AddListener(ShowCurrentPet);
+        }
+    }
+
+    private void OnDisable()
+    {
+        _leftButton.onClick.RemoveListener(OnClickLeftButton);
+        _rightButton.onClick.RemoveListener(OnClickRightButton);
+        _purchaseButton.onClick.RemoveListener(Purchase);
+        _closeButton.onClick.RemoveListener(Close);
+
+        foreach (Button back in _backButtons)
+        {
+            back.onClick.RemoveListener(Back);
+        }
+
+        foreach (Button petInfoButton in _petInfoButtons)
+        {
+            petInfoButton.onClick.RemoveListener(ShowCurrentPet);
         }
     }
 
@@ -220,6 +240,17 @@ public class PetPurchaseUI : MonoBehaviour
         _equipedPetGrade.color = GRADE_COLOR[(int)pet.Grade];
 
         _haveGold.text = _DB.CheckHaveGold(_ui.PlayerNickname).ToString();
+    }
+
+    private void ShowCurrentPet()
+    {
+        for (int i = 0; i < _petInfoButtons.Length; ++i)
+        {
+            if (_petInfoButtons[i].name == EventSystem.current.currentSelectedGameObject.name)
+            {
+                ShowCurrentPet(_petInfoList[i]);
+            }
+        }
     }
 
     private void ShowCurrentPet(PetShopUIManager.PetProfile pet)
