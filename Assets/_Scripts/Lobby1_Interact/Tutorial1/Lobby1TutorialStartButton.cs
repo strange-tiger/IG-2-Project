@@ -37,7 +37,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             _tutorialButton[i].interactable = false;
         }
 
-        for (int i = 0; i < _tutorialButton.Length; ++i)
+        for (int i = 0; i < _tutorialObject.Length; ++i)
         {
             int num = i;
             _tutorialButton[i].onClick.RemoveAllListeners();
