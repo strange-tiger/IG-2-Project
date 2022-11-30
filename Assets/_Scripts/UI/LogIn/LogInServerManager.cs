@@ -7,7 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Asset.MySql;
 
-using SceneType = Defines.ESceneNumder;
+using SceneType = Defines.ESceneNumber;
 
 public class LogInServerManager : MonoBehaviourPunCallbacks
 {

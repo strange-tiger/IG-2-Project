@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using SceneNumber = Defines.ESceneNumder;
+using SceneNumber = Defines.ESceneNumber;
 
 public class WaitingServerManager : LobbyChanger
 {

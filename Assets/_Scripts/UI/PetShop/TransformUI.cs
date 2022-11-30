@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-using _UI = Defines.EPetUIIndex;
-using _DB = Asset.MySql.MySqlSetting;
 using UnityEngine.EventSystems;
+
+using _UI = Defines.EPetShopUIIndex;
+using _DB = Asset.MySql.MySqlSetting;
 
 public enum EPetEvolutionCount
 {
@@ -21,7 +21,7 @@ public enum EPetEvolutionCount
 public class TransformUI : MonoBehaviour
 {
     [Header("UIManager")]
-    [SerializeField] PetUIManager _ui;
+    [SerializeField] PetShopUIManager _ui;
 
     [Header("Button")]
     [SerializeField] Button _leftButton;
@@ -42,7 +42,7 @@ public class TransformUI : MonoBehaviour
     [SerializeField] GameObject _applyPopup;
 
     public event Action OnCurrentPetChanged;
-    public PetUIManager.PetProfile CurrentPet
+    public PetShopUIManager.PetProfile CurrentPet
     {
         get
         {
@@ -51,11 +51,11 @@ public class TransformUI : MonoBehaviour
         set
         {
             _currentPet = value;
-            _currentPetTransform = _currentPet.PetObject.transform;
+            //_currentPetTransform = _currentPet.PetObject.transform;
             OnCurrentPetChanged.Invoke();
         }
     }
-    private PetUIManager.PetProfile _currentPet = new PetUIManager.PetProfile();
+    private PetShopUIManager.PetProfile _currentPet = new PetShopUIManager.PetProfile();
     private Transform _currentPetTransform;
 
     private int _currentIndex = 0;
@@ -155,26 +155,26 @@ public class TransformUI : MonoBehaviour
 
     private void Close()
     {
-        PetData petData = _ui.GetPetData();
-        for (int i = 0; i < _ui.PetList.Length; ++i)
-        {
-            petData.Size[i] = _ui.PetList[i].Size;
-            petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
-            petData.Status[i] = _ui.PetList[i].Status;
-        }
+//        PetData petData = _ui.GetPetData();
+//        for (int i = 0; i < _ui.PetList.Length; ++i)
+//        {
+//            petData.Size[i] = _ui.PetList[i].Size;
+//            petData.ChildIndex[i] = _ui.PetList[i].AssetIndex;
+//            petData.Status[i] = _ui.PetList[i].Status;
+//        }
 
-#if !debug
-        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
-        {
-            return;
-        }
-#endif
-        if (_equipedIndex != -1)
-        {
-            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
-        }
+//#if !debug
+//        if (!_DB.UpdatePetInventoryData(_ui.PlayerNickname, petData))
+//        {
+//            return;
+//        }
+//#endif
+//        if (_equipedIndex != -1)
+//        {
+//            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+//        }
 
-        _ui.LoadUI(_UI.POPUP);
+        _ui.LoadUI(_UI.FIRST);
 
         _applyPopup.SetActive(true);
         
@@ -190,7 +190,6 @@ public class TransformUI : MonoBehaviour
 
         int prevIndex = _currentIndex;
 
-        _ui.PetList[prevIndex].SetStatus(EPetStatus.HAVE);
         do
         {
             if (_currentIndex - 1 < 0)
@@ -239,6 +238,7 @@ public class TransformUI : MonoBehaviour
 
     private void UpdateCurrentPet()
     {
+        _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
         _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
         CurrentPet = _ui.PetList[_currentIndex];
         _transformIndex = 0;
@@ -326,7 +326,7 @@ public class TransformUI : MonoBehaviour
 
     private void ShowCurrentPet()
     {
-        TogglePetObject(CurrentPet.PetObject);
+        //TogglePetObject(CurrentPet.Image);
 
         _petName.text = CurrentPet.Name;
 
@@ -337,16 +337,6 @@ public class TransformUI : MonoBehaviour
         UpdateTransformOption();
     }
 
-    private void TogglePetObject(GameObject currentPet)
-    {
-        _petObject.SetActive(false);
-        _petObject = currentPet;
-        _petObject.transform.parent = transform;
-        _petObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        _petObject.transform.localPosition = Vector3.zero;
-        _petObject.SetActive(true);
-    }
-
     private static readonly Color[] GRADE_COLOR = new Color[4]
     {
         new Color(128f, 128f, 128f),
@@ -354,7 +344,7 @@ public class TransformUI : MonoBehaviour
         new Color(0f, 103f, 163f),
         new Color(155f, 17f, 30f)
     };
-    private void ShowPetGrade(PetUIManager.PetProfile.EGrade grade)
+    private void ShowPetGrade(PetShopUIManager.PetProfile.EGrade grade)
     {
         _petGrade.text = grade.ToString();
         _petGrade.color = GRADE_COLOR[(int)grade];

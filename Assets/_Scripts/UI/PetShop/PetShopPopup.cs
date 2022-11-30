@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using _UI = Defines.EPetUIIndex;
+using _UI = Defines.EPetShopUIIndex;
 
 public class PetShopPopup : PopupUI
 {
     [SerializeField] Button _purchaseButton;
-    [SerializeField] Button _transformButton;
+    [SerializeField] Button _equipButton;
 
 
     [Header("UIManager")]
-    [SerializeField] PetUIManager _ui;
+    [SerializeField] PetShopUIManager _ui;
 
     protected override void OnEnable()
     {
@@ -21,23 +21,17 @@ public class PetShopPopup : PopupUI
         _purchaseButton.onClick.RemoveListener(LoadPurchase);
         _purchaseButton.onClick.AddListener(LoadPurchase);
 
-        _transformButton.onClick.RemoveListener(LoadTransform);
-        _transformButton.onClick.AddListener(LoadTransform);
+        _equipButton.onClick.RemoveListener(LoadEquip);
+        _equipButton.onClick.AddListener(LoadEquip);
     }
 
-    private void LoadPurchase() => _ui.LoadUI(_UI.PURCHASE);
-    private void LoadTransform() => _ui.LoadUI(_UI.TRANSFORM);
-    protected override void Close()
-    {
-        _ui.Npc.OnFocus();
-
-        base.Close();
-    }
+    private void LoadPurchase() => _ui.LoadUI(_UI.BUY);
+    private void LoadEquip() => _ui.LoadUI(_UI.EQUIP);
 
     protected override void OnDisable()
     {
         base.OnDisable();
         _purchaseButton.onClick.RemoveListener(LoadPurchase);
-        _transformButton.onClick.RemoveListener(LoadTransform);
+        _equipButton.onClick.RemoveListener(LoadEquip);
     }
 }

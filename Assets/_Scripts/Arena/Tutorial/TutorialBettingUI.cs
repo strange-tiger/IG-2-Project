@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 
-using SceneType = Defines.ESceneNumder;
+using SceneType = Defines.ESceneNumber;
 
 
 public class TutorialBettingUI : MonoBehaviourPun

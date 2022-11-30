@@ -27,42 +27,18 @@ public class VolumeController : MonoBehaviour
         {
             _slider[i].value = PlayerPrefs.GetFloat(SoundManager.VOLUME_CONTROLLER[i]);
         }
+    }
 
+    private void OnDisable()
+    {
+        for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
+        {
+            PlayerPrefs.SetFloat(SoundManager.VOLUME_CONTROLLER[i], _slider[i].value);
+            SoundManager.Instance.Refresh(i);
+        }
     }
-    public void MasterValueChanged(Slider slider)
+    public void VolumeValueChanged(Slider slider)
     {
         _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
-        PlayerPrefs.SetFloat
-            (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.MasterVolume], slider.value);
-        SoundManager.Instance.Refresh();
-    }
-    public void EffectValueChanged(Slider slider)
-    {
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString()+ "%";
-        PlayerPrefs.SetFloat
-           (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.EffectVolume], slider.value);
-        SoundManager.Instance.Refresh();
-    }
-    public void BackgroundValueChanged(Slider slider)
-    {
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
-        PlayerPrefs.SetFloat
-           (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume], slider.value);
-        SoundManager.Instance.Refresh();
-    }
-    public void InputValueChanged(Slider slider)
-    {
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
-        PlayerPrefs.SetFloat
-           (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.InputVolume], slider.value);
-        SoundManager.Instance.Refresh();
-    }
-    public void OutputValueChanged(Slider slider)
-    {
-        _textDict[slider].text = ((int)(slider.value * 100)).ToString() + "%";
-        PlayerPrefs.SetFloat
-            (SoundManager.VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.OutputVolume], slider.value);
-        SoundManager.Instance.Refresh();
-        // ¹Ì±¸Çö
     }
 }

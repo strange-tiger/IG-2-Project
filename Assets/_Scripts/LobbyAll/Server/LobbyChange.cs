@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Asset.MySql;
-using SceneNumber = Defines.ESceneNumder;
+using SceneNumber = Defines.ESceneNumber;
 using Photon.Pun;
 
 public class LobbyChange : ServerChange
@@ -38,5 +38,17 @@ public class LobbyChange : ServerChange
             _sceneType = _tutorialSceneNumber;
         }
 
+    }
+
+    protected override void ChangeLobby()
+    {
+        if(MySqlSetting.CheckCompleteTutorial(PhotonNetwork.NickName, _state))
+        {
+            _lobbyManager.ChangeLobby(_sceneType);
+        }
+        else
+        {
+            _lobbyManager.ChangeLobby(_tutorialSceneNumber, true);
+        }
     }
 }

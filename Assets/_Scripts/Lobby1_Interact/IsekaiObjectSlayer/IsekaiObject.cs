@@ -19,15 +19,19 @@ public class IsekaiObject : MonoBehaviourPun
     private static readonly WaitForSeconds FLICK_TIME = new WaitForSeconds(0.05f);
     private const float FLOAT_POINT = 1.2f;
 
-    private bool _isNotFlick = true;
+    private bool _hitAllowed = true;
 
-    public void ReturnIsNotFlick() => _isNotFlick = true;
+    public void ReturnHitAllowed() => _hitAllowed = true;
+    private void OnEnable()
+    {
+        _hitAllowed = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(WEAPON_TAG)
             && other.GetComponent<Rigidbody>().velocity.magnitude >= WEAPON_VALID_VELOCITY
-            && _isNotFlick)
+            && _hitAllowed)
         {
             Vector3 position = other.GetComponent<SyncOVRDistanceGrabbable>().grabbedBy.transform.position;
 
@@ -35,6 +39,8 @@ public class IsekaiObject : MonoBehaviourPun
 
             PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.FlickHelper);
             photonView.RPC(_IRM.FlickHelper, RpcTarget.AllBuffered);
+
+            Debug.Log("[Isekai] " + position);
 
             ObjectSlashed.Invoke(position);
         }
@@ -47,7 +53,7 @@ public class IsekaiObject : MonoBehaviourPun
     {
         _audioSource.PlayOneShot(_audioSource.clip);
 
-        _isNotFlick = false;
+        _hitAllowed = false;
 
         int count = 3;
 

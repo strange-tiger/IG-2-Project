@@ -168,6 +168,7 @@ public class TumbleweedTutorial : MonoBehaviour
         if (_slider.value >= 1f)
         {
             _isGetCoin = true;
+            _playerInteraction.IsNearTumbleweed = false;
             OnQuestEnd.Invoke();
         }
     }

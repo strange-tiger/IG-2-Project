@@ -7,7 +7,7 @@ namespace Defines
         End,
     }
 
-    public enum ESceneNumder
+    public enum ESceneNumber
     {
         LogIn,
         StartRoom,
@@ -20,6 +20,7 @@ namespace Defines
         ShootingGameRoom,
         Lobby1TutorialRoom,
         ArenaTutorialRoom,
+        Lobby2TutorialRoom,
 
         End,
     }
@@ -181,6 +182,16 @@ namespace Defines
         POPUP,
         PURCHASE,
         TRANSFORM,
+        MAX
+    }
+
+    public enum EPetShopUIIndex
+    {
+        CONVERSATION,
+        FIRST,
+        BUY,
+        INFO,
+        EQUIP,
         MAX
     }
 

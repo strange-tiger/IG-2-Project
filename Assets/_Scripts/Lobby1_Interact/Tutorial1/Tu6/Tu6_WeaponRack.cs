@@ -52,6 +52,11 @@ public class Tu6_WeaponRack : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag(WEAPON_TAG))

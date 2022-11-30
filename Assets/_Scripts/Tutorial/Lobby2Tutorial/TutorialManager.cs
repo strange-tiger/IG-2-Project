@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Asset.MySql;
+using Photon.Pun;
+using TutorialState = Asset.MySql.ETutorialCompleteState;
 
 public class TutorialManager : MonoBehaviour
 {
+    [Header("Tutorial")]
+    [SerializeField] private TutorialState _tutorialNumber;
+
     [Header ("UIs")]
     [Header("TutorialButtons")]
     [SerializeField] private GameObject _tutorialPanel;
+    [SerializeField] private string _tutorialEndCheckMessage = "나가시겠습니까?";
 
     [Header("DialoguePanel")]
     [SerializeField] private GameObject _DialoguePanel;
@@ -31,6 +38,10 @@ public class TutorialManager : MonoBehaviour
 
     private void Awake()
     {
+        // 튜토리얼 완료 안내
+        MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, _tutorialNumber);
+        Debug.Log("튜토리얼 완료");
+
         // 튜토리얼 세팅
         _tutorialConducters = GetComponentsInChildren<TutorialConducter>();
         foreach (TutorialConducter tutorial in _tutorialConducters)
@@ -40,7 +51,7 @@ public class TutorialManager : MonoBehaviour
 
         // 버튼 세팅
         Button[] tutorialButtons = _tutorialPanel.GetComponentsInChildren<Button>();
-        int buttonCount = tutorialButtons.Length;
+        int buttonCount = tutorialButtons.Length - 1; // 마지막 나가기 버튼은 제외
         for (int i = 0; i < buttonCount; ++i)
         {
             int tutorialNumber = i + 1;
@@ -48,14 +59,24 @@ public class TutorialManager : MonoBehaviour
 
             tutorialButtons[i].onClick.RemoveAllListeners();
             tutorialButtons[i].onClick.AddListener(() => {
-                ShowTutorial(tutorialNumber, name);
+                ShowTutorial(tutorialNumber);
             });
         }
+
+        // 나가기 버튼 기능 연결
+        tutorialButtons[buttonCount].onClick.RemoveAllListeners();
+        tutorialButtons[buttonCount].onClick.AddListener(() => {
+            MenuUIManager.Instance.ShowCheckPanel(_tutorialEndCheckMessage,
+                () => {
+                    ShowTutorial(buttonCount + 1);
+                },
+                () => { });
+        });
 
         _questPanel.SetActive(false);
 
         // 시작 튜토리얼을 실행시킴
-        ShowTutorial(0, "manager");
+        ShowTutorial(0);
     }
 
     private void Start()
@@ -63,9 +84,8 @@ public class TutorialManager : MonoBehaviour
         _tutorialPanel.SetActive(false);
     }
 
-    private void ShowTutorial(int tutorialNumber, string debug)
+    private void ShowTutorial(int tutorialNumber)
     {
-        Debug.Log("[Tutorial] ShowTutorial " + debug);
         _tutorialConducters[_currentShowingTutorial].gameObject.SetActive(false);
         _tutorialConducters[tutorialNumber].gameObject.SetActive(true);
         _currentShowingTutorial = tutorialNumber;
