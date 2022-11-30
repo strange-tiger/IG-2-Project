@@ -156,6 +156,33 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.Alpha1))
+//        {
+//            OnClickButton(0);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha2))
+//        {
+//            OnClickButton(1);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha3))
+//        {
+//            OnClickButton(2);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha4))
+//        {
+//            OnClickButton(3);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha5))
+//        {
+//            OnClickButton(4);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha6))
+//        {
+//            OnClickButton(5);
+//        }
+//#endif
+
         if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0)
         {
             _image.SetActive(false);
@@ -168,17 +195,10 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void OnClickButton(int num)
     {
-        //for (int i = 0; i < _tutorialObject.Length; ++i)
-        //{
-        //    if (_tutorialObject[i].activeSelf)
-        //    {
-        //        _isOn = false;
-        //        return;
-        //    }
-        //}
-
         if (_tutorialObject[num].activeSelf)
         {
+            QuestReset();
+
             _tutorialObject[num].SetActive(false);
             _tutorialObject[num].SetActive(true);
 
@@ -186,6 +206,8 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         }
         else
         {
+            QuestReset();
+
             for (int i = 0; i < _tutorialObject.Length; ++i)
             {
                 _tutorialObject[i].SetActive(false);
@@ -193,7 +215,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
             _tutorialObject[num].SetActive(true);
         }
-        
 
         switch (num)
         {

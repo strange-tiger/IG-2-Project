@@ -189,17 +189,17 @@ public class TutorialController : MonoBehaviour
         {
             _isNext = false;
         }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
-        {
-            _tutorialDialogueText.text = null;
-            _isNext = true;
-        }
-        else
-        {
-            _isNext = false;
-        }
-#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
+//        {
+//            _tutorialDialogueText.text = null;
+//            _isNext = true;
+//        }
+//        else
+//        {
+//            _isNext = false;
+//        }
+//#endif
     }
 
     /// <summary>
