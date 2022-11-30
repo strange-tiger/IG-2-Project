@@ -1,4 +1,3 @@
-//#define debug
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +16,6 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
     public int EquipedNum { get => _eqiupNum; }
     private int _eqiupNum;
-    private int _testNum = -1;
     private bool _havePet = false;
 
     void Awake()
@@ -28,30 +26,9 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         }
     }
 
-#if debug
-    private void Update()
-    {
-        if (photonView.IsMine)
-        {
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                if (_testNum == 15)
-                {
-                    _testNum = 0;
-                }
-                else
-                {
-                    _testNum++;
-                }
-                PetChange(_testNum);
-            }
-        }
-    }
-#endif
-
     private IEnumerator PetInitialize()
     {
-        _player = FindObjectOfType<PlayerNetworking>();
+        _player = transform.root.GetComponent<PlayerNetworking>();
 
         yield return DELAY_GET_NICKNAME;
 

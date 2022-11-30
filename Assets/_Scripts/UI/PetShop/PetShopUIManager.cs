@@ -20,7 +20,7 @@ public class PetShopUIManager : UIManager
     public static PetSpawner PlayerPetSpawner { get; set; }
     public String PlayerNickname { get; private set; }
 
-    public BasicPlayerNetworking PlayerNetworking { get; private set; }
+    public BasicPlayerNetworking PlayerNetworking { get => _playerNetworking; }
     private BasicPlayerNetworking[] _playerNetworkings;
     private BasicPlayerNetworking _playerNetworking;
 
@@ -45,9 +45,10 @@ public class PetShopUIManager : UIManager
         StartCoroutine(SetPlayerNetworking());
     }
 
+    private static readonly WaitForSeconds PLAYERNETWORKING_DELAY = new WaitForSeconds(3f);
     private IEnumerator SetPlayerNetworking()
     {
-        yield return new WaitForSeconds(3f);
+        yield return PLAYERNETWORKING_DELAY;
 
         _playerNetworkings = FindObjectsOfType<BasicPlayerNetworking>();
 

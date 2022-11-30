@@ -211,7 +211,7 @@ public class PetEquipUI : MonoBehaviour
             return;
         }
 
-        PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+        PetShopUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
 
         StartCoroutine(ChangeApplyText());
     }
