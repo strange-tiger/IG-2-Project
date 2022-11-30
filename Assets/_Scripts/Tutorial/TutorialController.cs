@@ -91,26 +91,30 @@ public class TutorialController : MonoBehaviour
 
             StartCoroutine(Next());
         }
-
+        NextDialogue();
         if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
+            StopAllCoroutines();
             DialogueNumCount();
 
+            #region StartRoom
+            /* 
             if (_tutorialType == TutorialType.StartRoom)
             {
                 StartCoroutine(TextTyping(_startRoomQuestList.Dialogue[_dialogueNum]));
 
                 _isDialogueEnd = false;
             }
+            */
+            #endregion
 
             if (_tutorialType == TutorialType.Lobby1)
             {
-                if (_dialogueNum == 4 && !_sendMessage)
+                if (_dialogueNum == 3 && !_sendMessage)
                 {
                     StopAllCoroutines();
                     _tutorialDialogueText.text = null;
                     _tutorialDialogueText.text = _lobby1QuestList.Dialogue[3];
-                    _dialogueNum = 3;
                 }
                 else
                 {
@@ -122,7 +126,7 @@ public class TutorialController : MonoBehaviour
             }
         }
         Debug.Log(_dialogueNum);
-        NextDialogue();
+        
     }
 
     /// <summary>
@@ -157,17 +161,6 @@ public class TutorialController : MonoBehaviour
         if (_isDialogueEnd == true && _isNext == true)
         {
             ++_dialogueNum;
-
-            if (_dialogueNum > _dialogueMaxNum - 1)
-            {
-                _tutorialNPCName.text = null;
-
-                gameObject.SetActive(false);
-
-                _isNext = false;
-
-                _dialogueNum -= _dialogueNum;
-            }
         }
     }
 
@@ -176,7 +169,7 @@ public class TutorialController : MonoBehaviour
     /// </summary>
     private void NextDialogue()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
+        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true && !_isTutorialQuest)
         {
             _tutorialDialogueText.text = null;
             _isNext = true;
@@ -267,10 +260,9 @@ public class TutorialController : MonoBehaviour
 
     private void QuestAccept(int num)
     {
-        _dialogueNum = num;
         _tutorialDialogueText.text = null;
-
         _sendMessage = true;
+        _dialogueNum = num;
     }
 
     private void OnDisable()

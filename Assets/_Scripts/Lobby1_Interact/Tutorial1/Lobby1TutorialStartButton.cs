@@ -157,6 +157,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
+        #region EDITOR
         //#if UNITY_EDITOR
         //        if (Input.GetKeyDown(KeyCode.Alpha1))
         //        {
@@ -183,6 +184,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         //            OnClickButton(5);
         //        }
         //#endif
+        #endregion
 
         //if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0)
         //{
