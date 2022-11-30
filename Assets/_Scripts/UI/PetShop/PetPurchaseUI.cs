@@ -78,7 +78,6 @@ public class PetPurchaseUI : MonoBehaviour
             ShowEquipedPet(new PetShopUIManager.PetProfile());
         }
 
-        _purchaseSuccessPopup.SetActive(false);
 
         _currentIndex = -1;
         OnClickRightButton();
@@ -94,6 +93,9 @@ public class PetPurchaseUI : MonoBehaviour
             petInfoButton.onClick.RemoveListener(ShowCurrentPet);
             petInfoButton.onClick.AddListener(ShowCurrentPet);
         }
+
+        _petInfoPopup.SetActive(false);
+        _purchaseSuccessPopup.SetActive(false);
     }
 
     private void OnDisable()
