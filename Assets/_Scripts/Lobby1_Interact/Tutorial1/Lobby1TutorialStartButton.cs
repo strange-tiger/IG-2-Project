@@ -296,32 +296,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void ClickExitButton()
     {
-        for (int i = 0; i < _tutorialObject.Length; ++i)
-        {
-            if (_tutorialObject[i].activeSelf)
-            {
-                _tutorialObject[i].SetActive(false);
-            }
-        }
-
-        for (int i = 0; i < _tutorialObject.Length; ++i)
-        {
-            if (_tutorialButton[i].enabled == false)
-            {
-                _tutorialButton[i].enabled = true;
-            }
-        }
-
-        _tutorialController.QuestAcceptEvent.Invoke(2);
-
-        if (_questText.text != null)
-        {
-            _questText.text = null;
-        }
-        _tutorialController.IsTutorialQuest = false;
-        _isOn = true;
-        _isQuest = false;
-
         _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
     }
 
