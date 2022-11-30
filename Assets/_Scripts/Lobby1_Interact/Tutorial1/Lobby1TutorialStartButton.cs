@@ -207,27 +207,27 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         switch (num)
         {
             case 0:
-                _tutorialController.QuestAcceptEvent.Invoke(3);
+                _tutorialController.QuestAcceptEvent.Invoke(4);
                 _isOne = true;
                 break;
             case 1:
-                _tutorialController.QuestAcceptEvent.Invoke(6);
+                _tutorialController.QuestAcceptEvent.Invoke(7);
                 _isTwo = true;
                 break;
             case 2:
-                _tutorialController.QuestAcceptEvent.Invoke(10);
+                _tutorialController.QuestAcceptEvent.Invoke(11);
                 _isThree = true;
                 break;
             case 3:
-                _tutorialController.QuestAcceptEvent.Invoke(17);
+                _tutorialController.QuestAcceptEvent.Invoke(18);
                 _isFour = true;
                 break;
             case 4:
-                _tutorialController.QuestAcceptEvent.Invoke(24);
+                _tutorialController.QuestAcceptEvent.Invoke(25);
                 _isFive = true;
                 break;
             case 5:
-                _tutorialController.QuestAcceptEvent.Invoke(36);
+                _tutorialController.QuestAcceptEvent.Invoke(37);
                 _isSix = true;
                 break;
             default:

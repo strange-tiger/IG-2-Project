@@ -259,8 +259,9 @@ public class TutorialController : MonoBehaviour
     {
         //_tutorialDialogueText.text = null;
         _sendMessage = true;
-        _isTutorialQuest = true;
+        //_isTutorialQuest = true;
         _dialogueNum = num;
+        _lobby1TutorialStartButton.IsQuest = true;
     }
 
     private void OnDisable()
