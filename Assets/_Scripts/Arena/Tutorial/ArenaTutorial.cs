@@ -155,7 +155,7 @@ public class ArenaTutorial : MonoBehaviourPun
             Debug.Log(MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA));
         }
 
-        SceneManager.LoadScene((int)SceneType.ArenaRoom);
+        PhotonNetwork.LoadLevel((int)SceneType.ArenaRoom);
     }
 
     private void OnDisable()
