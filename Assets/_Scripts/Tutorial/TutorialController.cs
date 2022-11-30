@@ -74,7 +74,7 @@ public class TutorialController : MonoBehaviour
 
             _dialogueMaxNum = _lobby1QuestList.Dialogue.Length;
 
-            _coroutine = StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
+            StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
         }
     }
 
