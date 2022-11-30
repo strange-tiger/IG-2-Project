@@ -262,7 +262,8 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void QuestReset()
     {
-        _tutorialController.QuestAcceptEvent.Invoke(2);
+        _tutorialController.QuestAcceptEvent.Invoke(3);
+        
         _isQuest = false;
         _isButton = false;
         _questText.text = null;

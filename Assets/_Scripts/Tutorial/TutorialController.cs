@@ -117,7 +117,6 @@ public class TutorialController : MonoBehaviour
                     _tutorialDialogueText.text = _lobby1QuestList.Dialogue[3];
                     _dialogueNum = 3;
                     //_sendMessage = true;
-                    Debug.Log("∏ÿ√Á");
                 }
                 else
                 {
@@ -129,7 +128,6 @@ public class TutorialController : MonoBehaviour
             }
         }
         Debug.Log(_dialogueNum);
-        Debug.Log($"_sendMessage : {_sendMessage}");
     }
 
     /// <summary>
@@ -257,11 +255,16 @@ public class TutorialController : MonoBehaviour
 
     private void QuestAccept(int num)
     {
-        //_tutorialDialogueText.text = null;
-        _sendMessage = true;
-        //_isTutorialQuest = true;
-        _dialogueNum = num;
-        _lobby1TutorialStartButton.IsQuest = true;
+        if (num == 3)
+        {
+            _dialogueNum = num;
+        }
+        else
+        {
+            _dialogueNum = num;
+            _sendMessage = true;
+            _isTutorialQuest = false;
+        }
     }
 
     private void OnDisable()
