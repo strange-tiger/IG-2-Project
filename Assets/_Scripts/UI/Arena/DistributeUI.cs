@@ -11,8 +11,8 @@ public class DistributeUI : MonoBehaviourPun
 
     private void OnEnable()
     {
-        MySqlSetting.OnBettingWinOrLose.RemoveListener(WinOrLoseBetting);
-        MySqlSetting.OnBettingWinOrLose.AddListener(WinOrLoseBetting);
+        BettingManager.OnBettingWinOrLose.RemoveListener(WinOrLoseBetting);
+        BettingManager.OnBettingWinOrLose.AddListener(WinOrLoseBetting);
 
         MySqlSetting.OnBettingDraw.RemoveListener(DrawBetting);
         MySqlSetting.OnBettingDraw.AddListener(DrawBetting);
@@ -21,6 +21,7 @@ public class DistributeUI : MonoBehaviourPun
     private void WinOrLoseBetting(Dictionary<string,int> winnerListDictionary)
     {
         Debug.Log("Betting DB Event OutSide");
+        Debug.Log(PhotonNetwork.NickName);
 
         if (winnerListDictionary.ContainsKey(PhotonNetwork.NickName))
         {
@@ -43,7 +44,7 @@ public class DistributeUI : MonoBehaviourPun
 
     private void OnDisable()
     {
-        MySqlSetting.OnBettingWinOrLose.RemoveListener(WinOrLoseBetting);
+        BettingManager.OnBettingWinOrLose.RemoveListener(WinOrLoseBetting);
         MySqlSetting.OnBettingDraw.RemoveListener(DrawBetting);
     }
 }

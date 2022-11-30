@@ -1093,9 +1093,10 @@ namespace Asset.MySql
             }
         }
 
-        public static UnityEvent<Dictionary<string, int>> OnBettingWinOrLose = new UnityEvent<Dictionary<string, int>>();
 
         public static UnityEvent OnBettingDraw = new UnityEvent();
+
+        private static Dictionary<string, int> winnerListDictionary = new Dictionary<string, int>();
 
         /// <summary>
         /// DataSet에 BettingDB의 정보를 불러오고, 배당율을 계산하여 CharacterDB의 골드에 추가하고, BettingDB를 리셋한다. 무승부일 경우, 베팅한 금액 그대로를 다시 반환하고 BettingUI를 리셋한다.
@@ -1105,10 +1106,13 @@ namespace Asset.MySql
         /// <param name="championBetAmount"> 베팅한 참가자에게 베팅한 총 금액</param>
         /// <param name="isDraw"> 무승부 여부 </param>
         /// <returns></returns>
-        public static bool DistributeBet(int winChampionNumber, int betAmount, int championBetAmount, bool isDraw)
+        public static Dictionary<string, int> DistributeBet(int winChampionNumber, int betAmount, int championBetAmount, bool isDraw)
         {
             try
             {
+
+                winnerListDictionary.Clear();
+
                 string selectAllBettingData = SelectDBHelper(ETableType.bettingdb) + $" where BettingChampionNumber = '{winChampionNumber}'";
 
                 string selectDrawBettingData = SelectDBHelper(ETableType.bettingdb);
@@ -1134,13 +1138,11 @@ namespace Asset.MySql
                             command.ExecuteNonQuery();
                         }
                         OnBettingDraw.Invoke();
-                        ResetBettingDB();
                     }
                     else
                     {
                         DataSet bettingDBdata = GetUserData(selectAllBettingData);
 
-                        Dictionary<string, int> winnerListDictionary = new Dictionary<string, int>();
 
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
@@ -1157,27 +1159,25 @@ namespace Asset.MySql
                             command.ExecuteNonQuery();
                         }
 
-                        OnBettingWinOrLose.Invoke(winnerListDictionary);
-                        ResetBettingDB();
                     }
                     _mysqlConnection.Close();
                 }
 
-                return true;
+                return winnerListDictionary;
             }
             catch (System.Exception error)
             {
                 Debug.LogError(error.Message);
-                return false;
+                return winnerListDictionary;
 
             }
         }
 
         /// <summary>
-        /// BettingDB를 리셋한다. DistributeGold에서 호출된다.
+        /// BettingDB를 리셋한다. 
         /// </summary>
         /// <returns></returns>
-        private static bool ResetBettingDB()
+        public static bool ResetBettingDB()
         {
             try
             {
