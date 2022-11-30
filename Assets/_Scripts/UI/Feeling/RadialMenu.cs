@@ -56,7 +56,7 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
             {
                 _buttonOnes[i] = _radialMenu.GetChild(i).GetComponent<Button>();
             }
-            _cursor = _radialMenu.GetChild(_radialMenu.childCount - 1).GetChild(0).GetComponent<Image>();
+            _cursor = _radialMenu.GetChild(_radialMenu.childCount - 1).GetComponent<Image>();
             _cursorInitPosition = _cursor.rectTransform.localPosition;
             _radialMenu.gameObject.SetActive(false);
         }

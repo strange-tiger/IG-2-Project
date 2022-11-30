@@ -68,6 +68,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         RootSet(_setAvatarNum);
 
         // 아바타와 메테리얼을 적용시킴.
+        _materialData = _userData.AvatarMaterial[_setAvatarNum];
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
     }
@@ -76,6 +77,8 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     {
         // 성별을 DB에서 불러옴.
         bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
+
+        IsFemale = _isFemale;
 
         // 성별에 따라 커스터마이즈 데이터 적용.
         if (_isFemale)
@@ -135,7 +138,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         }
 
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
-        _materialData = _userData.AvatarMaterial[_setAvatarNum];
+        _materialData = _userData.AvatarMaterial[avatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
     }
 

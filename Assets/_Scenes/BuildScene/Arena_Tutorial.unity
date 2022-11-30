@@ -1260,7 +1260,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b4abcad4050ef1d4fbc8dc493ca3d762, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1396,6 +1396,9 @@ MonoBehaviour:
   _lobbyManager: {fileID: 1646904020}
   _checkMessage: 
   _nextLobbyName: Go Arena
+  _isTutorialExist: 0
+  _tutorialSceneNumber: 0
+  _state: 0
 --- !u!1001 &1611188273
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2118,6 +2121,9 @@ MonoBehaviour:
   _lobbyManager: {fileID: 0}
   _checkMessage: 
   _nextLobbyName: 
+  _isTutorialExist: 0
+  _tutorialSceneNumber: 0
+  _state: 0
 --- !u!1 &1646904019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,7 +2153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f980e8f8dc23e242be1bb7ba0fadc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isStartRoom: 0
+  _isInLobby: 0
   _canvases:
   - {fileID: 8467435989687871934}
   _playerPrefab: {fileID: 6072405480879903498, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
@@ -4147,7 +4153,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774\uB984"
+  m_text: "\uD29C\uD1A0\uB9AC\uC5BC \uAE30\uC0ACC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
   m_sharedMaterial: {fileID: -413728696600261378, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
@@ -4174,8 +4180,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11012,7 +11018,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uADF8\uB8F9 \uC774\uB984"
+  m_text: "\uD29C\uD1A0\uB9AC\uC5BC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
   m_sharedMaterial: {fileID: -413728696600261378, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
@@ -11682,7 +11688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774\uB984"
+  m_text: "\uD29C\uD1A0\uB9AC\uC5BC \uAE30\uC0ACA"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
   m_sharedMaterial: {fileID: -413728696600261378, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
@@ -11709,8 +11715,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -46358,7 +46364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774\uB984"
+  m_text: "\uD29C\uD1A0\uB9AC\uC5BC \uAE30\uC0ACB"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
   m_sharedMaterial: {fileID: -413728696600261378, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
@@ -46385,8 +46391,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -50551,7 +50557,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774\uB984"
+  m_text: "\uD29C\uD1A0\uB9AC\uC5BC \uAE30\uC0ACD"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
   m_sharedMaterial: {fileID: -413728696600261378, guid: d40555007e53f144cb9a910adb08a62e, type: 2}
@@ -50578,8 +50584,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
