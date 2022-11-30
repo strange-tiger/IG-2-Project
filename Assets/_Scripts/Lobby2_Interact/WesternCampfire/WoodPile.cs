@@ -1,4 +1,3 @@
-#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +23,7 @@ public class WoodPile : InteracterableObject, IPunObservable
         }
     }
 
+    private const string SPAWN_WOOD = "SpawnWood";
     public override void Interact()
     {
         base.Interact();
@@ -32,19 +32,10 @@ public class WoodPile : InteracterableObject, IPunObservable
         {
             return;
         }
-#if _Photon
-        photonView.RPC("SpawnWood", RpcTarget.All);
-#else
-        Vector3 spawnDirection = Vector3.up + SPAWN_DIRECTION[Random.Range(0, 4)];
-
-        GameObject wood = Instantiate(_wood, Vector3.zero, Quaternion.identity);
-
-        wood?.GetComponent<Rigidbody>().AddForce(SPAWN_WOOD_FORCE * spawnDirection, ForceMode.Impulse);
-
-        StartCoroutine(CalculateCooltime());
-#endif
+        photonView.RPC(SPAWN_WOOD, RpcTarget.All);
     }
 
+    private const string WOOD = "Wood";
     [PunRPC]
     private void SpawnWood()
     {
@@ -55,7 +46,7 @@ public class WoodPile : InteracterableObject, IPunObservable
 
         Vector3 spawnDirection = 2f * Vector3.up + SPAWN_DIRECTION[Random.Range(0, 4)];
 
-        GameObject wood = PhotonNetwork.Instantiate("Wood", transform.position + Vector3.up, transform.rotation);
+        GameObject wood = PhotonNetwork.Instantiate(WOOD, transform.position + Vector3.up, transform.rotation);
 
         wood?.GetComponent<Rigidbody>().AddForce(SPAWN_WOOD_FORCE * spawnDirection, ForceMode.Impulse);
 

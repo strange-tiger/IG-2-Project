@@ -51,6 +51,8 @@ public class PetPurchaseUI : MonoBehaviour
 
     private int _currentIndex = -1;
     private int _equipedIndex = -1;
+    private int _chooseIndex = -1;
+    private int[] _chooseIndexes = new int[3];
 
     private void OnEnable()
     {
@@ -78,7 +80,6 @@ public class PetPurchaseUI : MonoBehaviour
             ShowEquipedPet(new PetShopUIManager.PetProfile());
         }
 
-        _purchaseSuccessPopup.SetActive(false);
 
         _currentIndex = -1;
         OnClickRightButton();
@@ -94,6 +95,9 @@ public class PetPurchaseUI : MonoBehaviour
             petInfoButton.onClick.RemoveListener(ShowCurrentPet);
             petInfoButton.onClick.AddListener(ShowCurrentPet);
         }
+
+        _petInfoPopup.SetActive(false);
+        _purchaseSuccessPopup.SetActive(false);
     }
 
     private void OnDisable()
@@ -133,7 +137,7 @@ public class PetPurchaseUI : MonoBehaviour
             _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
         }
 
-        _equipedIndex = _currentIndex;
+        _equipedIndex = _chooseIndex;
         _currentPet.SetStatus(EPetStatus.EQUIPED);
         _ui.PetList[_equipedIndex].SetStatus(EPetStatus.EQUIPED);
 
@@ -159,10 +163,12 @@ public class PetPurchaseUI : MonoBehaviour
 
     private void OnClickLeftButton()
     {
-        int count = 0;
+        int count = _petInfoButtons.Length;
 
-        while (count < _petInfoButtons.Length)
+        while (count > 0)
         {
+            --count;
+
             int prevIndex = _currentIndex;
             do
             {
@@ -180,8 +186,6 @@ public class PetPurchaseUI : MonoBehaviour
             while (_ui.PetList[_currentIndex].Status != EPetStatus.NONE);
 
             ShowPet(count, _ui.PetList[_currentIndex]);
-
-            ++count;
         }
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -219,6 +223,8 @@ public class PetPurchaseUI : MonoBehaviour
 
     private void ShowPet(int index, PetShopUIManager.PetProfile pet)
     {
+        _chooseIndexes[index] = _currentIndex;
+
         _petImages[index].sprite = pet.Image;
 
         _petNames[index].text = pet.Name;
@@ -248,6 +254,7 @@ public class PetPurchaseUI : MonoBehaviour
         {
             if (_petInfoButtons[i].name == EventSystem.current.currentSelectedGameObject.name)
             {
+                _chooseIndex = _chooseIndexes[i];
                 ShowCurrentPet(_petInfoList[i]);
             }
         }

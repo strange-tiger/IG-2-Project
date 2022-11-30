@@ -28,7 +28,6 @@ public class PetEquipUI : MonoBehaviour
 
     [Header("Equiped Pet Info")]
     [SerializeField] Image _equipedPetImage;
-    [SerializeField] TextMeshProUGUI _equipedPetName;
 
     [Header("Current Pet")]
     [SerializeField] Image _petImage;
@@ -43,6 +42,7 @@ public class PetEquipUI : MonoBehaviour
     private const string DEFAULT_APPLY_TEXT = "[저장하기]를 누르면 변환이 반영됩니다.";
     private const string SAVED_APPLY_TEXT = "저장되었습니다!";
     private static readonly WaitForSeconds APPLY_TEXT_DURATION = new WaitForSeconds(1f);
+    private static readonly PetShopUIManager.PetProfile PET_AIR = new PetShopUIManager.PetProfile();
 
     public event Action OnCurrentPetChanged;
     public PetShopUIManager.PetProfile CurrentPet
@@ -59,11 +59,21 @@ public class PetEquipUI : MonoBehaviour
     }
     private PetShopUIManager.PetProfile _currentPet = new PetShopUIManager.PetProfile();
 
+    private PetShopUIManager.PetProfile[] _petList;
+
+    private int _petDataLength;
     private int _currentIndex = 0;
     private int _equipedIndex = -1;
     private int _transformIndex = 0;
     private int _maxTransformIndex = 0;
     private bool _doTransformScale = false;
+
+    private void Awake()
+    {
+        _petDataLength = _ui.PetList.Length;
+        PET_AIR.SetStatus(EPetStatus.HAVE);
+        _petList = new PetShopUIManager.PetProfile[_petDataLength + 1];
+    }
 
     private void OnEnable()
     {
@@ -91,6 +101,12 @@ public class PetEquipUI : MonoBehaviour
         OnCurrentPetChanged -= ShowCurrentPet;
         OnCurrentPetChanged += ShowCurrentPet;
 
+        for (int i = 0; i < _petDataLength; ++i)
+        {
+            _petList[i] = _ui.PetList[i];
+        }
+        _petList[_petDataLength] = PET_AIR;
+
         _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
 
         _currentIndex = _equipedIndex;
@@ -101,11 +117,10 @@ public class PetEquipUI : MonoBehaviour
         }
         else
         {
-            CurrentPet = new PetShopUIManager.PetProfile();
+            CurrentPet = PET_AIR;
         }
 
         _equipedPetImage.sprite = CurrentPet.Image;
-        _equipedPetName.text = CurrentPet.Name;
 
         _applyText.text = DEFAULT_APPLY_TEXT;
     }
@@ -128,18 +143,13 @@ public class PetEquipUI : MonoBehaviour
 
     private void OnClickLeftButton()
     {
-        if (_currentIndex == -1)
-        {
-            return;
-        }
-
         int prevIndex = _currentIndex;
 
         do
         {
             if (_currentIndex - 1 < 0)
             {
-                _currentIndex = _ui.PetList.Length;
+                _currentIndex = _petList.Length;
             }
             --_currentIndex;
 
@@ -148,24 +158,18 @@ public class PetEquipUI : MonoBehaviour
                 break;
             }
         }
-        while (_ui.PetList[_currentIndex].Status < EPetStatus.HAVE);
+        while (_petList[_currentIndex].Status < EPetStatus.HAVE);
 
         UpdateCurrentPet();
     }
 
     private void OnClickRightButton()
     {
-        if (_currentIndex == -1)
-        {
-            return;
-        }
-
         int prevIndex = _currentIndex;
 
-        _ui.PetList[prevIndex].SetStatus(EPetStatus.HAVE);
         do
         {
-            if (_currentIndex + 1 >= _ui.PetList.Length)
+            if (_currentIndex + 1 >= _petList.Length)
             {
                 _currentIndex = -1;
             }
@@ -176,25 +180,27 @@ public class PetEquipUI : MonoBehaviour
                 break;
             }
         }
-        while (_ui.PetList[_currentIndex].Status < EPetStatus.HAVE);
+        while (_petList[_currentIndex].Status < EPetStatus.HAVE);
 
         UpdateCurrentPet();
     }
 
     private void SaveOption()
     {
-        if (_currentIndex == -1 || _equipedIndex != -1)
+        if (_equipedIndex < 0 || _equipedIndex >= _petDataLength)
         {
             return;
         }
-
         _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
-        _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
 
-        TransformPet();
+        if (_currentIndex >= 0 && _currentIndex < _petDataLength)
+        {
+            _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
+            
+            TransformPet();
+        }
 
         _equipedPetImage.sprite = CurrentPet.Image;
-        _equipedPetName.text = CurrentPet.Name;
 
         _equipedIndex = _currentIndex;
 
@@ -211,7 +217,7 @@ public class PetEquipUI : MonoBehaviour
             return;
         }
 
-        PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
+        PetShopUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
 
         StartCoroutine(ChangeApplyText());
     }
@@ -227,7 +233,8 @@ public class PetEquipUI : MonoBehaviour
 
     private void UpdateCurrentPet()
     {
-        CurrentPet = _ui.PetList[_currentIndex];
+        CurrentPet = _petList[_currentIndex];
+        
         _transformIndex = 0;
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -235,7 +242,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void OnClickLeftTransformButton()
     {
-        if (_currentIndex == -1)
+        if (_currentIndex < 0 || _currentIndex >= _petList.Length)
         {
             return;
         }
@@ -261,7 +268,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void OnClickRightTransformButton()
     {
-        if (_currentIndex == -1)
+        if (_currentIndex < 0 || _currentIndex >= _petList.Length)
         {
             return;
         }
@@ -334,14 +341,15 @@ public class PetEquipUI : MonoBehaviour
         _petGrade.color = GRADE_COLOR[(int)grade];
     }
 
+    private const int BEFORE_S_INDEX = 12;
     private void UpdateTransformOption()
     {
-        if (_currentIndex == -1)
+        if (_currentIndex < 0 || _currentIndex > _petDataLength)
         {
             return;
         }
 
-        _doTransformScale = (CurrentPet.EvolCount == EPetMaxExp.NONE);
+        _doTransformScale = (_currentIndex > BEFORE_S_INDEX);
 
         _maxTransformIndex = _transformList[_currentIndex].Image.Length;
 
