@@ -183,7 +183,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void SaveOption()
     {
-        if (_currentIndex == -1 || _equipedIndex != -1)
+        if (_currentIndex == -1 || _equipedIndex == -1)
         {
             return;
         }
