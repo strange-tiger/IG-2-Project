@@ -1,4 +1,3 @@
-#define _Photon
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,7 +42,7 @@ public class Wood : MonoBehaviourPun
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(CAMPFIRE_TAG))
-            photonView.RPC(START_COUNTDOWN, RpcTarget.All);
+            photonView.RPC(STOP_COUNTDOWN, RpcTarget.All);
     }
 
     private void OnTriggerExit(Collider other)
@@ -77,10 +76,6 @@ public class Wood : MonoBehaviourPun
             }
         }
 
-#if _Photon
         PhotonNetwork.Destroy(gameObject);
-#else
-        Destroy(gameObject);
-#endif
     }
 }
