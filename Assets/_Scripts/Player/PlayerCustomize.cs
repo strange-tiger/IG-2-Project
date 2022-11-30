@@ -31,7 +31,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
     private int _setAvatarNum;
     private int _setMaterialNum;
     private string _playerNickname;
-    private int[] _smRootMeshIndex = {0,7,8,9 };
+    private int[] _smRootMeshIndex = {0,7,8,9};
     void Start()
     {
         if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
@@ -66,6 +66,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         RootSet(_setAvatarNum);
 
         // 아바타와 메테리얼을 적용시킴.
+        _materialData = _userData.AvatarMaterial[_setAvatarNum];
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[_setAvatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
     }
@@ -157,7 +158,7 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         }
 
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
-        _materialData = _userData.AvatarMaterial[_setAvatarNum];
+        _materialData = _userData.AvatarMaterial[avatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
     }
 
