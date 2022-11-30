@@ -4,10 +4,10 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "Scriptable/AvatarMaterialData", fileName = "AvatarMaterialData")]
 public class AvatarMaterialData : ScriptableObject
 {
-    [SerializeField] Material[] avatarMaterial;
+    [SerializeField] private Material[] avatarMaterial;
     public Material[] AvatarMaterial { get { return avatarMaterial; } }
 
-    [SerializeField] Sprite[] avatarImage;
+    [SerializeField] private Sprite[] avatarImage;
     public Sprite[] AvatarImage { get { return avatarImage; } }
 }
 

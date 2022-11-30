@@ -39,4 +39,16 @@ public class LobbyChange : ServerChange
         }
 
     }
+
+    protected override void ChangeLobby()
+    {
+        if(MySqlSetting.CheckCompleteTutorial(PhotonNetwork.NickName, _state))
+        {
+            _lobbyManager.ChangeLobby(_sceneType);
+        }
+        else
+        {
+            _lobbyManager.ChangeLobby(_tutorialSceneNumber, true);
+        }
+    }
 }

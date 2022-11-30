@@ -124,7 +124,7 @@ public class PetEquipUI : MonoBehaviour
 
     private void Back() => _ui.LoadUI(_UI.FIRST);
 
-    private void Close() => _ui.ShutUI();
+    private void Close() => _ui.ShutPetUI();
 
     private void OnClickLeftButton()
     {
@@ -183,6 +183,11 @@ public class PetEquipUI : MonoBehaviour
 
     private void SaveOption()
     {
+        if (_currentIndex == -1 || _equipedIndex != -1)
+        {
+            return;
+        }
+
         _ui.PetList[_equipedIndex].SetStatus(EPetStatus.HAVE);
         _ui.PetList[_currentIndex].SetStatus(EPetStatus.EQUIPED);
 
@@ -206,10 +211,7 @@ public class PetEquipUI : MonoBehaviour
             return;
         }
 
-        if (_equipedIndex != -1)
-        {
-            PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
-        }
+        PetUIManager.PlayerPetSpawner.PetChange(_equipedIndex);
 
         StartCoroutine(ChangeApplyText());
     }
@@ -334,7 +336,12 @@ public class PetEquipUI : MonoBehaviour
 
     private void UpdateTransformOption()
     {
-        _doTransformScale = CurrentPet.EvolCount == EPetMaxExp.NONE;
+        if (_currentIndex == -1)
+        {
+            return;
+        }
+
+        _doTransformScale = (CurrentPet.EvolCount == EPetMaxExp.NONE);
 
         _maxTransformIndex = _transformList[_currentIndex].Image.Length;
 

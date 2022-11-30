@@ -21,14 +21,18 @@ public class ArenaTutorial : MonoBehaviourPun
     [Header("Restart Trigger")]
     [SerializeField] private TutorialBettingUI _tutorialBettingUI;
 
-    private Transform _player;
-    private AudioSource _audioSource;
     private List<string> _conversationList = new List<string>();
+
+    private AudioSource _audioSource;
+    private Transform _player;
+
     private Coroutine ConversationCoroutine;
-    private bool _isPause;
+
     private int _pauseNum = 17;
     private int _indexNum = 0;
+
     private bool _isFirstVisit;
+    private bool _isPause;
 
     private void OnEnable()
     {
@@ -36,12 +40,12 @@ public class ArenaTutorial : MonoBehaviourPun
         _tutorialBettingUI.OnTriggered.AddListener(ConversationRestart);
     }
 
-    void Start()
+    private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
 
         _isFirstVisit = MySqlSetting.CheckCompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
-        
+
         _tutorialBettingUI.BettingPanelOff();
 
         if (_isFirstVisit)
@@ -53,14 +57,11 @@ public class ArenaTutorial : MonoBehaviourPun
             _conversationList = _CSV.ParseCSV("FirstVisitArenaTutorial", _conversationList);
         }
 
-
-        ConversationCoroutine = StartCoroutine(ConversationPrint());
-
+        ConversationCoroutine = StartCoroutine(CoConversationPrint());
     }
 
     private void Update()
     {
-
         if (_conversationUI.activeSelf)
         {
             PlayerControlManager.Instance.IsMoveable = false;
@@ -77,9 +78,9 @@ public class ArenaTutorial : MonoBehaviourPun
         {
             ConversationSkip();
         }
-
     }
-    private IEnumerator ConversationPrint()
+
+    private IEnumerator CoConversationPrint()
     {
         for (int i = 0; i < _conversationList[_indexNum].Length; ++i)
         {
@@ -122,15 +123,11 @@ public class ArenaTutorial : MonoBehaviourPun
 
                     _audioSource.PlayOneShot(_dialogueSound);
                     _conversationText.text = null;
-                    ConversationCoroutine = StartCoroutine(ConversationPrint());
+                    ConversationCoroutine = StartCoroutine(CoConversationPrint());
 
                 }
             }
-
-
         }
-
-
     }
 
     private void ConversationPause()
@@ -153,13 +150,14 @@ public class ArenaTutorial : MonoBehaviourPun
 
     private void TutorialEnd()
     {
-        if(_isFirstVisit == false)
+        if (_isFirstVisit == false)
         {
             Debug.Log(MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA));
         }
 
-        SceneManager.LoadScene((int)SceneType.ArenaRoom);
+        PhotonNetwork.LoadLevel((int)SceneType.ArenaRoom);
     }
+
     private void OnDisable()
     {
         _tutorialBettingUI.OnTriggered.RemoveListener(ConversationRestart);

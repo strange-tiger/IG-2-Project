@@ -15,7 +15,8 @@ public class OakBarrel : InteracterableObject
 
     private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
 
-    private void OnEnable()
+
+    protected override void OnEnable()
     {
         if (gameObject.transform.root.tag.Contains("Player"))
         {

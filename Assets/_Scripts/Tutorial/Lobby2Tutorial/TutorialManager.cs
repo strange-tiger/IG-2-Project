@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Asset.MySql;
+using Photon.Pun;
+using TutorialState = Asset.MySql.ETutorialCompleteState;
 
 public class TutorialManager : MonoBehaviour
 {
+    [Header("Tutorial")]
+    [SerializeField] private TutorialState _tutorialNumber;
+
     [Header ("UIs")]
     [Header("TutorialButtons")]
     [SerializeField] private GameObject _tutorialPanel;
@@ -32,6 +38,10 @@ public class TutorialManager : MonoBehaviour
 
     private void Awake()
     {
+        // 튜토리얼 완료 안내
+        MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, _tutorialNumber);
+        Debug.Log("튜토리얼 완료");
+
         // 튜토리얼 세팅
         _tutorialConducters = GetComponentsInChildren<TutorialConducter>();
         foreach (TutorialConducter tutorial in _tutorialConducters)

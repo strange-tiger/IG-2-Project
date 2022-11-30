@@ -12,26 +12,29 @@ using SceneType = Defines.ESceneNumber;
 public class PlayerCustomize : MonoBehaviourPunCallbacks
 {
     [Header("Avatar Data")]
-    [SerializeField] UserCustomizeData _userData;
-    [SerializeField] UserCustomizeData _maleData;
-    [SerializeField] UserCustomizeData _femaleData;
+    [SerializeField] private UserCustomizeData _userData;
+    [SerializeField] private UserCustomizeData _maleData;
+    [SerializeField] private UserCustomizeData _femaleData;
 
     [Header("Material Data")]
-    [SerializeField] AvatarMaterialData _materialData;
+    [SerializeField] private AvatarMaterialData _materialData;
 
     [Header("Avatar")]
-    [SerializeField] SkinnedMeshRenderer _skinnedMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _smMeshRenderer;
-    [SerializeField] SkinnedMeshRenderer _characterMeshRenderer;
-    [SerializeField] GameObject _smMeshRendererObject;
-    [SerializeField] GameObject _characterMeshRendererObject;
+    [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer _smMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer _characterMeshRenderer;
+    [SerializeField] private GameObject _smMeshRendererObject;
+    [SerializeField] private GameObject _characterMeshRendererObject;
 
     public bool IsFemale { get; set; }
 
+    private int[] _smRootMeshIndex = { 0, 7, 8, 9 };
+
     private int _setAvatarNum;
     private int _setMaterialNum;
+
     private string _playerNickname;
-    private int[] _smRootMeshIndex = {0,7,8,9};
+
     void Start()
     {
         if (SceneManager.GetActiveScene().name != "MakeCharacterRoom")
@@ -44,7 +47,6 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
             }
         }
     }
-
 
     public void MakeAvatarData()
     {
@@ -71,11 +73,12 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[_setMaterialNum];
     }
 
-
     private void LoadAvatarData()
     {
         // 성별을 DB에서 불러옴.
         bool _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
+
+        IsFemale = _isFemale;
 
         // 성별에 따라 커스터마이즈 데이터 적용.
         if (_isFemale)
@@ -98,8 +101,6 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
 
         _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
-        Debug.Log(_setAvatarNum);
-        Debug.Log(_setMaterialNum);
         for (int i = 0; i < _userData.AvatarState.Length - 1; ++i)
         {
             if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
@@ -122,27 +123,6 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         }
     }
 
-    private void RootSet(int avatarNum)
-    {
-        for(int i = 0; i < _smRootMeshIndex.Length; ++i)
-        {
-            if (avatarNum == _smRootMeshIndex[i])
-            {
-                _smMeshRendererObject.SetActive(true);
-                _characterMeshRendererObject.SetActive(false);
-                _skinnedMeshRenderer = _smMeshRenderer;
-                break;
-            }
-            else
-            {
-                _smMeshRendererObject.SetActive(false);
-                _characterMeshRendererObject.SetActive(true);
-                _skinnedMeshRenderer = _characterMeshRenderer;
-            }
-
-        }
-    }
-
     [PunRPC]
     public void AvatarSetting(int avatarNum, int materialNum, bool genderNum)
     {
@@ -160,6 +140,27 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         _skinnedMeshRenderer.sharedMesh = _userData.AvatarMesh[avatarNum];
         _materialData = _userData.AvatarMaterial[avatarNum];
         _skinnedMeshRenderer.material = _materialData.AvatarMaterial[materialNum];
+    }
+
+    private void RootSet(int avatarNum)
+    {
+        for (int i = 0; i < _smRootMeshIndex.Length; ++i)
+        {
+            if (avatarNum == _smRootMeshIndex[i])
+            {
+                _smMeshRendererObject.SetActive(true);
+                _characterMeshRendererObject.SetActive(false);
+                _skinnedMeshRenderer = _smMeshRenderer;
+                break;
+            }
+            else
+            {
+                _smMeshRendererObject.SetActive(false);
+                _characterMeshRendererObject.SetActive(true);
+                _skinnedMeshRenderer = _characterMeshRenderer;
+            }
+
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

@@ -66,18 +66,7 @@ public class PetPurchaseUI : MonoBehaviour
         _closeButton.onClick.RemoveListener(Close);
         _closeButton.onClick.AddListener(Close);
 
-        foreach (Button back in _backButtons)
-        {
-            back.onClick.RemoveListener(Back);
-            back.onClick.AddListener(Back);
-        }
 
-        for (int i = 0; i < _petInfoButtons.Length; ++i)
-        {
-            _petInfoButtons[i].onClick.AddListener(() => ShowCurrentPet(_petInfoList[i]));
-        }
-
-        // error
         _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
 
         if (_equipedIndex != -1)
@@ -93,6 +82,36 @@ public class PetPurchaseUI : MonoBehaviour
 
         _currentIndex = -1;
         OnClickRightButton();
+        
+        foreach (Button back in _backButtons)
+        {
+            back.onClick.RemoveListener(Back);
+            back.onClick.AddListener(Back);
+        }
+
+        foreach (Button petInfoButton in _petInfoButtons)
+        {
+            petInfoButton.onClick.RemoveListener(ShowCurrentPet);
+            petInfoButton.onClick.AddListener(ShowCurrentPet);
+        }
+    }
+
+    private void OnDisable()
+    {
+        _leftButton.onClick.RemoveListener(OnClickLeftButton);
+        _rightButton.onClick.RemoveListener(OnClickRightButton);
+        _purchaseButton.onClick.RemoveListener(Purchase);
+        _closeButton.onClick.RemoveListener(Close);
+
+        foreach (Button back in _backButtons)
+        {
+            back.onClick.RemoveListener(Back);
+        }
+
+        foreach (Button petInfoButton in _petInfoButtons)
+        {
+            petInfoButton.onClick.RemoveListener(ShowCurrentPet);
+        }
     }
 
     private void Purchase()
@@ -136,7 +155,7 @@ public class PetPurchaseUI : MonoBehaviour
 
     private void Back() => _ui.LoadUI(_UI.FIRST);
 
-    private void Close() => _ui.ShutUI();
+    private void Close() => _ui.ShutPetUI();
 
     private void OnClickLeftButton()
     {
@@ -221,6 +240,17 @@ public class PetPurchaseUI : MonoBehaviour
         _equipedPetGrade.color = GRADE_COLOR[(int)pet.Grade];
 
         _haveGold.text = _DB.CheckHaveGold(_ui.PlayerNickname).ToString();
+    }
+
+    private void ShowCurrentPet()
+    {
+        for (int i = 0; i < _petInfoButtons.Length; ++i)
+        {
+            if (_petInfoButtons[i].name == EventSystem.current.currentSelectedGameObject.name)
+            {
+                ShowCurrentPet(_petInfoList[i]);
+            }
+        }
     }
 
     private void ShowCurrentPet(PetShopUIManager.PetProfile pet)
