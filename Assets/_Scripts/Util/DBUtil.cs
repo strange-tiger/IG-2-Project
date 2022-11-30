@@ -1462,7 +1462,7 @@ namespace Asset.MySql
                     if (reader.Read())
                     {
 
-                        if (reader["IsOnline"].ToString() == "1")
+                        if (reader["IsOnline"].ToString() == "true")
                         {
                             isOnOff = true;
                         }
