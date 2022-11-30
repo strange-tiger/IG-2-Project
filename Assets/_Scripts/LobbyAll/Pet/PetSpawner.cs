@@ -75,6 +75,11 @@ public class PetSpawner : MonoBehaviourPunCallbacks
             PhotonNetwork.Destroy(_petObject);
         }
 
+        if (index < 0 || index >= _petData.Object.Length)
+        {
+            return;
+        }
+
         _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
         _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
     }
