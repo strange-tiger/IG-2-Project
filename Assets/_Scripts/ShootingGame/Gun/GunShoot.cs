@@ -26,7 +26,6 @@ public class GunShoot : MonoBehaviourPun
     [SerializeField] private TextMeshProUGUI _bulletCountText;
     [SerializeField] private Transform _bulletSpawnTransform;
     [SerializeField] private Transform _bulletShotPoint;
-    private Stack<GameObject> _bulletTrailPull = new Stack<GameObject>();
     private const int _MAX_BULLET_COUNT = 6;
     private int _bulletCount_ = 0;
     private int _bulletCount
@@ -38,6 +37,8 @@ public class GunShoot : MonoBehaviourPun
             _bulletCountText.text = _bulletCount_.ToString();
         }
     }
+    private List<GameObject> _bulletTrailPull = new List<GameObject>();
+    private int _nextBullet = 0;
 
     // 이팩트
     [Header("Effects")]
@@ -97,7 +98,7 @@ public class GunShoot : MonoBehaviourPun
         // 총알 효과 스택에 넣기
         foreach (CapsuleCollider bulltTrial in GetComponentsInChildren<CapsuleCollider>())
         {
-            _bulletTrailPull.Push(bulltTrial.gameObject);
+            _bulletTrailPull.Add(bulltTrial.gameObject);
             bulltTrial.gameObject.SetActive(false);
             bulltTrial.GetComponent<BulletTrailMovement>().enabled = true;
         }
@@ -212,10 +213,14 @@ public class GunShoot : MonoBehaviourPun
 
     private void ShotBullet()
     {
-        GameObject bulletTrail = _bulletTrailPull.Pop();
+        GameObject bulletTrail = _bulletTrailPull[_nextBullet];
+
+        bulletTrail.SetActive(false);
         bulletTrail.transform.position = _bulletSpawnTransform.position;
         bulletTrail.transform.LookAt(_bulletShotPoint);
         bulletTrail.SetActive(true);
+
+        _nextBullet = (_nextBullet + 1) % _bulletTrailPull.Count;
     }
 
     private IEnumerator CoVibrateController()
