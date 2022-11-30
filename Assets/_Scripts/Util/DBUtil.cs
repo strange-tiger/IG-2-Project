@@ -473,7 +473,7 @@ namespace Asset.MySql
                 }
                 return true;
             }
-            catch(System.Exception error)
+            catch (System.Exception error)
             {
                 Debug.LogError(error.Message);
                 return false;
@@ -1217,16 +1217,16 @@ namespace Asset.MySql
 
                 DataSet bettingAmount = GetUserData(selectBettingAmountString);
 
-                    List<int> resultList = new List<int>();
+                List<int> resultList = new List<int>();
 
-                    foreach (DataRow _dataRow in bettingAmount.Tables[0].Rows)
-                    {
-                        resultList.Add(int.Parse(_dataRow["Amount"].ToString()));
-                        resultList.Add(int.Parse(_dataRow["OneAmount"].ToString()));
-                        resultList.Add(int.Parse(_dataRow["TwoAmount"].ToString()));
-                        resultList.Add(int.Parse(_dataRow["ThreeAmount"].ToString()));
-                        resultList.Add(int.Parse(_dataRow["FourAmount"].ToString()));
-                    }
+                foreach (DataRow _dataRow in bettingAmount.Tables[0].Rows)
+                {
+                    resultList.Add(int.Parse(_dataRow["Amount"].ToString()));
+                    resultList.Add(int.Parse(_dataRow["OneAmount"].ToString()));
+                    resultList.Add(int.Parse(_dataRow["TwoAmount"].ToString()));
+                    resultList.Add(int.Parse(_dataRow["ThreeAmount"].ToString()));
+                    resultList.Add(int.Parse(_dataRow["FourAmount"].ToString()));
+                }
 
                 return resultList;
             }
@@ -1478,7 +1478,7 @@ namespace Asset.MySql
                     return isOnOff;
                 }
             }
-            catch(System.Exception error)
+            catch (System.Exception error)
             {
                 Debug.LogError("오류남: " + error);
                 return false;
