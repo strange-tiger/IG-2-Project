@@ -8,44 +8,33 @@ using Photon.Pun;
 
 public class DistributeUI : MonoBehaviourPun
 {
-    private bool _isBettingWin;
 
     private void OnEnable()
     {
-
-        MySqlSetting.OnBettingWin.RemoveListener(WinBetting);
-        MySqlSetting.OnBettingWin.AddListener(WinBetting);
-
-        MySqlSetting.OnBettingLose.RemoveListener(LoseBetting);
-        MySqlSetting.OnBettingLose.AddListener(LoseBetting);
+        BettingManager.OnBettingWinOrLose.RemoveListener(WinOrLoseBetting);
+        BettingManager.OnBettingWinOrLose.AddListener(WinOrLoseBetting);
 
         MySqlSetting.OnBettingDraw.RemoveListener(DrawBetting);
         MySqlSetting.OnBettingDraw.AddListener(DrawBetting);
-
     }
 
-    private void WinBetting(string nickname, int gold)
+    private void WinOrLoseBetting(Dictionary<string,int> winnerListDictionary)
     {
-        Debug.Log("WinOutSide");
-        if (PhotonNetwork.NickName == nickname)
+        Debug.Log("Betting DB Event OutSide");
+        Debug.Log(PhotonNetwork.NickName);
+
+        if (winnerListDictionary.ContainsKey(PhotonNetwork.NickName))
         {
-            MenuUIManager.Instance.ShowConfirmPanel($"베팅에 성공하여 {gold} Gold를 획득하셨습니다.");
+            MenuUIManager.Instance.ShowConfirmPanel($"베팅에 성공하여 {winnerListDictionary[PhotonNetwork.NickName]} Gold를 획득하셨습니다.");
 
             Debug.Log("WinInSide");
-            _isBettingWin = true;
         }
-    }
-
-    private void LoseBetting()
-    {
-        Debug.Log("LoseOutSide");
-        if (_isBettingWin == false)
+        else
         {
-            Debug.Log("LoseInSide");
             MenuUIManager.Instance.ShowConfirmPanel("베팅에 실패하여 골드를 잃었습니다.");
-        }
 
-        _isBettingWin = false;
+            Debug.Log("LoseInSide");
+        }
     }
 
     private void DrawBetting()
@@ -55,10 +44,7 @@ public class DistributeUI : MonoBehaviourPun
 
     private void OnDisable()
     {
-
-        MySqlSetting.OnBettingWin.RemoveListener(WinBetting);
-        MySqlSetting.OnBettingLose.RemoveListener(LoseBetting);
+        BettingManager.OnBettingWinOrLose.RemoveListener(WinOrLoseBetting);
         MySqlSetting.OnBettingDraw.RemoveListener(DrawBetting);
-
     }
 }

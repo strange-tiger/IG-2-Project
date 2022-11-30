@@ -11,13 +11,14 @@ public class BettingManager : MonoBehaviourPunCallbacks
 {
     public UnityEvent OnBettingStart = new UnityEvent();
     public UnityEvent OnBettingEnd = new UnityEvent();
+    public static UnityEvent<Dictionary<string, int>> OnBettingWinOrLose = new UnityEvent<Dictionary<string, int>>();
 
     [SerializeField] private BettingUI _bettingUI;
     [SerializeField] private TournamentManager _tournamentManager;
     [SerializeField] private GroupManager[] _groupManager;
 
     private List<int> _bettingAmountList = new List<int>();
-
+    private Dictionary<string, int> _bettingWinnerList = new Dictionary<string, int>();
     public int BetAmount;
     public int[] ChampionBetAmounts;
     public double[] BetRates;
@@ -82,7 +83,13 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
     private void BettingStart()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ResetAllBetting();
+        }
+
         _isBettingStart = true;
+
         OnBettingStart.Invoke();
     }
 
@@ -162,20 +169,22 @@ public class BettingManager : MonoBehaviourPunCallbacks
     {
         UpdateBettingAmount();
 
-        photonView.RPC("DistributeGoldinDB", RpcTarget.All);
+        _bettingWinnerList = MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
 
-        ResetAllBetting();
+        photonView.RPC("DistributeGoldinDB", RpcTarget.All, _bettingWinnerList);
     }
 
     [PunRPC]
-    public void DistributeGoldinDB()
+    public void DistributeGoldinDB(Dictionary<string,int> winnerList)
     {
-        MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
+        OnBettingWinOrLose.Invoke(winnerList);
     }
 
     private void ResetAllBetting()
     {
         BetAmount = 0;
+
+        MySqlSetting.ResetBettingDB();
 
         for (int i = 0; i < BetRates.Length; ++i)
         {
