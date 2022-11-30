@@ -45,13 +45,12 @@ public class SocialTabManager : MonoBehaviour
     {
         while(gameObject.activeSelf)
         {
-            yield return _listUpdateWaitForSeconds;
-
             // OnOffline 판단 처리
-            foreach(TextMeshProUGUI nicknameText in _nicknameTextList)
+            foreach (TextMeshProUGUI nicknameText in _nicknameTextList)
             {
                 bool isOnline = MySqlSetting.IsPlayerOnline(nicknameText.text.ToString());
                 nicknameText.color = isOnline ? _onLineTextColor : _offLineTextColor;
+                Debug.Log($"[Social] {nicknameText.text} {isOnline}");
 
                 //if(isOnline)
                 //{
@@ -62,6 +61,8 @@ public class SocialTabManager : MonoBehaviour
                 //    nicknameText.color = _offLineTextColor;
                 //}
             }
+
+            yield return _listUpdateWaitForSeconds;
         }
     }
 

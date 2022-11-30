@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Asset.MySql;
 
 using SeceneType = Defines.ESceneNumber;
 using Photon.Realtime;
@@ -14,7 +15,8 @@ public class LogOutButton : NeedCheckButton
     {
         Debug.Log("[LogOut] LogOut");
         Debug.Log("[LogOut] Is In Room? " + PhotonNetwork.InRoom);
-        if(_isStartRoom)
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+        if (_isStartRoom)
         {
             SceneManager.LoadScene((int)SeceneType.LogIn);
         }
