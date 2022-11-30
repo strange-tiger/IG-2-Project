@@ -82,7 +82,7 @@ public class TutorialController : MonoBehaviour
     {
         _dialogueSkip = (OVRInput.GetDown(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.A));
         
-        if (_dialogueSkip && _tutorialDialogueText.text.Length != _startRoomQuestList.Dialogue[_dialogueNum].Length)
+        if (_dialogueSkip)
         {
             StopAllCoroutines();
 
@@ -108,7 +108,8 @@ public class TutorialController : MonoBehaviour
                 if (_dialogueNum == 4 && !_sendMessage)
                 {
                     StopAllCoroutines();
-                    _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum - 1];
+                    _tutorialDialogueText.text = null;
+                    _tutorialDialogueText.text = _lobby1QuestList.Dialogue[3];
                     _dialogueNum = 3;
                 }
                 else
@@ -120,7 +121,7 @@ public class TutorialController : MonoBehaviour
                 }
             }
         }
-
+        Debug.Log(_dialogueNum);
         NextDialogue();
     }
 
@@ -133,11 +134,6 @@ public class TutorialController : MonoBehaviour
     {
         foreach (char c in dialogue)
         {
-            //if (_dialogueSkip)
-            //{
-            //    _tutorialDialogueText.text = dialogue;
-            //    yield break;
-            //}
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
@@ -209,6 +205,8 @@ public class TutorialController : MonoBehaviour
     {
         if (_isTutorialQuest == true)
         {
+            #region StartRoom
+            /*
             if (_tutorialType == TutorialType.StartRoom)
             {
                 if (_dialogueNum == 4)
@@ -254,12 +252,15 @@ public class TutorialController : MonoBehaviour
                     }
                 }
             }
+            */
+            #endregion
 
             if (_tutorialType == TutorialType.Lobby1)
             {
                 _isTutorialQuest = value;
-
                 _lobby1TutorialStartButton.IsQuest = value;
+
+                // _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum + 1];
             }
         }
     }
@@ -267,6 +268,7 @@ public class TutorialController : MonoBehaviour
     private void QuestAccept(int num)
     {
         _dialogueNum = num;
+        _tutorialDialogueText.text = null;
 
         _sendMessage = true;
     }

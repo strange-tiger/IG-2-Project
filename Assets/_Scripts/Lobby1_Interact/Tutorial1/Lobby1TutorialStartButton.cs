@@ -14,10 +14,11 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _questText;
     [SerializeField] private TextMeshProUGUI _questProgress;
     [SerializeField] private LobbyChanger _lobbyChanger;
-    [SerializeField] private GameObject _image;
+    //[SerializeField] private GameObject _image;
 
     private Action OnButtonAction;
-    
+
+    private bool _firstClick;
     private bool _isQuest;
     public bool IsQuest { get { return _isQuest; } set { _isQuest = value; } }
 
@@ -156,65 +157,59 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-//#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.Alpha1))
-//        {
-//            OnClickButton(0);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha2))
-//        {
-//            OnClickButton(1);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha3))
-//        {
-//            OnClickButton(2);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha4))
-//        {
-//            OnClickButton(3);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha5))
-//        {
-//            OnClickButton(4);
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha6))
-//        {
-//            OnClickButton(5);
-//        }
-//#endif
+        //#if UNITY_EDITOR
+        //        if (Input.GetKeyDown(KeyCode.Alpha1))
+        //        {
+        //            OnClickButton(0);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha2))
+        //        {
+        //            OnClickButton(1);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha3))
+        //        {
+        //            OnClickButton(2);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha4))
+        //        {
+        //            OnClickButton(3);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha5))
+        //        {
+        //            OnClickButton(4);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha6))
+        //        {
+        //            OnClickButton(5);
+        //        }
+        //#endif
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0)
-        {
-            _image.SetActive(false);
-        }
-        else
-        {
-            _image.SetActive(true);
-        }
+        //if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0)
+        //{
+        //    _image.SetActive(false);
+        //}
+        //else
+        //{
+        //    _image.SetActive(true);
+        //}
     }
 
     private void OnClickButton(int num)
     {
-        if (_tutorialObject[num].activeSelf)
+        if (_firstClick)
         {
-            QuestReset();
-
-            _tutorialObject[num].SetActive(false);
-            _tutorialObject[num].SetActive(true);
-
-            return;
-        }
-        else
-        {
-            QuestReset();
-
             for (int i = 0; i < _tutorialObject.Length; ++i)
             {
-                _tutorialObject[i].SetActive(false);
+                if (_tutorialObject[i].activeSelf)
+                {
+                    _tutorialObject[i].SetActive(false);
+                }
             }
-
-            _tutorialObject[num].SetActive(true);
         }
+        _firstClick = true;
+        
+        _tutorialController.IsTutorialQuest = false;
+        _tutorialObject[num].SetActive(true);
 
         switch (num)
         {
@@ -247,7 +242,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         }
         //_tutorialObject[num].SetActive(true);
         //_tutorialButton[num].interactable = false;
-        ExitButton();
+        //ExitButton();
     }
 
     private void OnButtons()
@@ -281,7 +276,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         _isQuest = false;
         _isButton = false;
         _questText.text = null;
-        _tutorialController.IsTutorialQuest = false;
+        
 
         if (_questText.text != null)
         {
