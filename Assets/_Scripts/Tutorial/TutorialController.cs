@@ -110,15 +110,17 @@ public class TutorialController : MonoBehaviour
 
             if (_tutorialType == TutorialType.Lobby1)
             {
-                if (_dialogueNum == 3 && !_sendMessage)
+                if (_dialogueNum == 4 && !_sendMessage)
                 {
                     StopAllCoroutines();
                     _tutorialDialogueText.text = null;
                     _tutorialDialogueText.text = _lobby1QuestList.Dialogue[3];
+                    _dialogueNum = 3;
+                    //_sendMessage = true;
+                    Debug.Log("∏ÿ√Á");
                 }
                 else
                 {
-                    StopAllCoroutines();
                     StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
                     _isDialogueEnd = false;
                     _sendMessage = false;
@@ -126,7 +128,7 @@ public class TutorialController : MonoBehaviour
             }
         }
         Debug.Log(_dialogueNum);
-        
+        Debug.Log($"_sendMessage : {_sendMessage}");
     }
 
     /// <summary>
@@ -161,6 +163,9 @@ public class TutorialController : MonoBehaviour
         if (_isDialogueEnd == true && _isNext == true)
         {
             ++_dialogueNum;
+
+            _isDialogueEnd = false;
+            _isNext = false;
         }
     }
 
@@ -169,24 +174,16 @@ public class TutorialController : MonoBehaviour
     /// </summary>
     private void NextDialogue()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true && !_isTutorialQuest)
+        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true && !_sendMessage)
         {
             _tutorialDialogueText.text = null;
             _isNext = true;
         }
-        else
-        {
-            _isNext = false;
-        }
 //#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
 //        {
 //            _tutorialDialogueText.text = null;
 //            _isNext = true;
-//        }
-//        else
-//        {
-//            _isNext = false;
 //        }
 //#endif
     }
@@ -252,8 +249,7 @@ public class TutorialController : MonoBehaviour
             {
                 _isTutorialQuest = value;
                 _lobby1TutorialStartButton.IsQuest = value;
-
-                // _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum + 1];
+                _sendMessage = value;
             }
         }
     }
