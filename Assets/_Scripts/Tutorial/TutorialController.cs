@@ -35,6 +35,7 @@ public class TutorialController : MonoBehaviour
     private bool _isDialogueEnd;
     private bool _isNext;
     private bool _sendMessage;
+    private bool _dialogueSkip;
     private int _dialogueMaxNum;
 
     private float _curTime;
@@ -104,6 +105,8 @@ public class TutorialController : MonoBehaviour
                     _isDialogueEnd = false;
                     _sendMessage = false;
                 }
+
+                _dialogueSkip = OVRInput.GetDown(OVRInput.Button.One);
             }
         }
         NextDialogue();
@@ -121,19 +124,8 @@ public class TutorialController : MonoBehaviour
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
-//#if UNITY_EDITOR
-//            if (Input.GetKeyDown(KeyCode.K))
-//            {
-//                _tutorialDialogueText.text = dialogue;
 
-//                StopCoroutine(TextTyping(dialogue));
-
-//                _isDialogueEnd = true;
-
-//                yield break;
-//            }
-//#endif
-            if (OVRInput.GetDown(OVRInput.Button.One))
+            if (_dialogueSkip)
             {
                 _tutorialDialogueText.text = dialogue;
 

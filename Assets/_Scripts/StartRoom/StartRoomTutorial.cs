@@ -23,6 +23,7 @@ public class StartRoomTutorial : MonoBehaviour
     }
 
     [SerializeField] private TextMeshProUGUI _tutorialRunText;
+    [SerializeField] private TextMeshProUGUI _tutorialNPCName;
     [SerializeField] private TurtorialType _turtorialType;
     public int TurtorialTypeNum { get { return (int)_turtorialType; } }
 
@@ -156,7 +157,7 @@ public class StartRoomTutorial : MonoBehaviour
                 yield break;
             }
         }
-
+        _tutorialNPCName.text = "요정";
         _isDialogueEnd = true;
     }
 

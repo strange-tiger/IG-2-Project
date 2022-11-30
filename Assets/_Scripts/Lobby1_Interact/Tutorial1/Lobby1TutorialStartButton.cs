@@ -296,6 +296,10 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void ClickExitButton()
     {
+        _tutorialController.IsTutorialQuest = false;
+        _isOn = true;
+        _isQuest = false;
+
         _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
     }
 
