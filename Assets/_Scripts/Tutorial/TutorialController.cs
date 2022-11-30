@@ -80,6 +80,18 @@ public class TutorialController : MonoBehaviour
 
     private void Update()
     {
+        _dialogueSkip = (OVRInput.GetDown(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.A));
+        
+        if (_dialogueSkip && _tutorialDialogueText.text.Length != _startRoomQuestList.Dialogue[_dialogueNum].Length)
+        {
+            StopAllCoroutines();
+
+            _tutorialDialogueText.text = null;
+            _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum];
+
+            StartCoroutine(Next());
+        }
+
         if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
             DialogueNumCount();
@@ -95,36 +107,20 @@ public class TutorialController : MonoBehaviour
             {
                 if (_dialogueNum == 4 && !_sendMessage)
                 {
-                    StopCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
+                    StopAllCoroutines();
+                    _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum - 1];
                     _dialogueNum = 3;
                 }
                 else
                 {
+                    StopAllCoroutines();
                     StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
-
-                    _dialogueSkip = OVRInput.GetDown(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.A);
-
-                    if (_dialogueSkip)
-                    {
-                        _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum];
-
-                        StopCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
-
-                        Debug.Log("ÀÌ±ט");
-
-                        _isDialogueEnd = true;
-                    }
-                    else
-                    {
-                        _isDialogueEnd = false;
-                        _sendMessage = false;
-                    }
-
+                    _isDialogueEnd = false;
+                    _sendMessage = false;
                 }
             }
         }
 
-        Debug.Log(_dialogueSkip);
         NextDialogue();
     }
 
@@ -137,14 +133,22 @@ public class TutorialController : MonoBehaviour
     {
         foreach (char c in dialogue)
         {
-            if (c == ' ')
-            {
-                
-            }
+            //if (_dialogueSkip)
+            //{
+            //    _tutorialDialogueText.text = dialogue;
+            //    yield break;
+            //}
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
         }
+
+        _isDialogueEnd = true;
+    }
+
+    IEnumerator Next()
+    {
+        yield return _delayTime;
 
         _isDialogueEnd = true;
     }
@@ -176,7 +180,7 @@ public class TutorialController : MonoBehaviour
     /// </summary>
     private void NextDialogue()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true)
+        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
         {
             _tutorialDialogueText.text = null;
             _isNext = true;
@@ -185,17 +189,17 @@ public class TutorialController : MonoBehaviour
         {
             _isNext = false;
         }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-        {
-            _tutorialDialogueText.text = null;
-            _isNext = true;
-        }
-        else
-        {
-            _isNext = false;
-        }
-#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
+//        {
+//            _tutorialDialogueText.text = null;
+//            _isNext = true;
+//        }
+//        else
+//        {
+//            _isNext = false;
+//        }
+//#endif
     }
 
     /// <summary>

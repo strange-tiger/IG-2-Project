@@ -18,4 +18,9 @@ public class Tu5_minerJ1 : MonoBehaviour
             _isFirst = true;
         }
     }
+
+    private void OnEnable()
+    {
+        _isFirst = false;
+    }
 }
