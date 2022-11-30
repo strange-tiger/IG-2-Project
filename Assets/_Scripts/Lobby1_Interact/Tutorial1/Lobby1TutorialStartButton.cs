@@ -13,6 +13,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     [SerializeField] private TutorialController _tutorialController;
     [SerializeField] private TextMeshProUGUI _questText;
     [SerializeField] private LobbyChanger _lobbyChanger;
+    [SerializeField] private GameObject _image;
 
     private Action OnButtonAction;
 
@@ -58,44 +59,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             OnButtonAction?.Invoke();
             _isButton = true;
         }
-       #region input
-//#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.Alpha1))
-//        {
-//            OnClickButton(0);
-//            Debug.Log("1번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha2))
-//        {
-//            OnClickButton(1);
-//            Debug.Log("2번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha3))
-//        {
-//            OnClickButton(2);
-//            Debug.Log("3번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha4))
-//        {
-//            OnClickButton(3);
-//            Debug.Log("4번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha5))
-//        {
-//            OnClickButton(4);
-//            Debug.Log("5번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha6))
-//        {
-//            OnClickButton(5);
-//            Debug.Log("6번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.R))
-//        {
-//            ClickExitButton();
-//        }
-//#endif
-       #endregion
 
         if (_isOne)
         {
@@ -222,6 +185,15 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 QuestReset();
             }
         }
+
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0)
+        {
+            _image.SetActive(false);
+        }
+        else
+        {
+            _image.SetActive(true);
+        }
     }
 
     private void OnClickButton(int num)
@@ -237,8 +209,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         for (int i = 0; i < _tutorialObject.Length; ++i)
         {
-            if (
-                )
+            if (_tutorialObject[i].activeSelf)   
             {
                 _isOn = false;
                 return;
