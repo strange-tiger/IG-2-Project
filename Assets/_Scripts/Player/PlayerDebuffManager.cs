@@ -124,6 +124,14 @@ public class PlayerDebuffManager : MonoBehaviourPun
         PlayerControlManager.Instance.IsInvincible = false;
     }
 
+    public void CallStunDebuff()
+    {
+        if (photonView.IsMine)
+        {
+            photonView.RPC("StunDebuff", RpcTarget.All);
+        }
+    }
+
     [PunRPC]
     public void StunDebuff()
     {
