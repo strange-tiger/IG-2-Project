@@ -35,6 +35,7 @@ public class TutorialController : MonoBehaviour
     private bool _isDialogueEnd;
     private bool _isNext;
     private bool _sendMessage;
+    private bool _dialogueSkip;
     private int _dialogueMaxNum;
 
     private float _curTime;
@@ -79,7 +80,6 @@ public class TutorialController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_dialogueNum);
         if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
             DialogueNumCount();
@@ -101,48 +101,49 @@ public class TutorialController : MonoBehaviour
                 else
                 {
                     StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
-                    _isDialogueEnd = false;
-                    _sendMessage = false;
+
+                    _dialogueSkip = OVRInput.GetDown(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.A);
+
+                    if (_dialogueSkip)
+                    {
+                        _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum];
+
+                        StopCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
+
+                        Debug.Log("이김");
+
+                        _isDialogueEnd = true;
+                    }
+                    else
+                    {
+                        _isDialogueEnd = false;
+                        _sendMessage = false;
+                    }
+
                 }
             }
         }
+
+        Debug.Log(_dialogueSkip);
         NextDialogue();
     }
 
     /// <summary>
     /// 텍스트 타이핑 효과
     /// </summary>
-    /// <param name="dialogue">출력해야 하는 대사 List</param>
+    /// <param name="dialogue"></param>
     /// <returns></returns>
     IEnumerator TextTyping(string dialogue)
     {
         foreach (char c in dialogue)
         {
+            if (c == ' ')
+            {
+                
+            }
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
-//#if UNITY_EDITOR
-//            if (Input.GetKeyDown(KeyCode.K))
-//            {
-//                _tutorialDialogueText.text = dialogue;
-
-//                StopCoroutine(TextTyping(dialogue));
-
-//                _isDialogueEnd = true;
-
-//                yield break;
-//            }
-//#endif
-            if (OVRInput.GetDown(OVRInput.Button.One))
-            {
-                _tutorialDialogueText.text = dialogue;
-
-                StopCoroutine(TextTyping(dialogue));
-
-                _isDialogueEnd = true;
-
-                yield break;
-            }
         }
 
         _isDialogueEnd = true;
@@ -184,17 +185,17 @@ public class TutorialController : MonoBehaviour
         {
             _isNext = false;
         }
-//#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-//        {
-//            _tutorialDialogueText.text = null;
-//            _isNext = true;
-//        }
-//        else
-//        {
-//            _isNext = false;
-//        }
-//#endif
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+        {
+            _tutorialDialogueText.text = null;
+            _isNext = true;
+        }
+        else
+        {
+            _isNext = false;
+        }
+#endif
     }
 
     /// <summary>

@@ -13,6 +13,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     [SerializeField] private TutorialController _tutorialController;
     [SerializeField] private TextMeshProUGUI _questText;
     [SerializeField] private LobbyChanger _lobbyChanger;
+    [SerializeField] private GameObject _image;
 
     private Action OnButtonAction;
 
@@ -58,44 +59,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             OnButtonAction?.Invoke();
             _isButton = true;
         }
-       #region input
-//#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.Alpha1))
-//        {
-//            OnClickButton(0);
-//            Debug.Log("1번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha2))
-//        {
-//            OnClickButton(1);
-//            Debug.Log("2번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha3))
-//        {
-//            OnClickButton(2);
-//            Debug.Log("3번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha4))
-//        {
-//            OnClickButton(3);
-//            Debug.Log("4번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha5))
-//        {
-//            OnClickButton(4);
-//            Debug.Log("5번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.Alpha6))
-//        {
-//            OnClickButton(5);
-//            Debug.Log("6번누름");
-//        }
-//        if (Input.GetKeyDown(KeyCode.R))
-//        {
-//            ClickExitButton();
-//        }
-//#endif
-       #endregion
 
         if (_isOne)
         {
@@ -113,7 +76,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isOne = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -133,7 +96,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isTwo = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -153,7 +116,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isThree = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -173,7 +136,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isFour = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -193,7 +156,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isFive = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
         }
 
@@ -219,16 +182,34 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 _isSix = false;
                 _questText.text = null;
                 _tutorialController.IsTutorialQuest = false;
-                ClickExitButton();
+                QuestReset();
             }
+        }
+
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0)
+        {
+            _image.SetActive(false);
+        }
+        else
+        {
+            _image.SetActive(true);
         }
     }
 
     private void OnClickButton(int num)
     {
+        //for (int i = 0; i < _tutorialObject.Length; ++i)
+        //{
+        //    if (_tutorialObject[i].activeSelf)
+        //    {
+        //        _isOn = false;
+        //        return;
+        //    }
+        //}
+
         for (int i = 0; i < _tutorialObject.Length; ++i)
         {
-            if (_tutorialObject[i].activeSelf)
+            if (_tutorialObject[i].activeSelf)   
             {
                 _isOn = false;
                 return;
@@ -266,9 +247,16 @@ public class Lobby1TutorialStartButton : MonoBehaviour
                 default:
                     break;
             }
-            
-            _tutorialObject[num].SetActive(true);
-            _tutorialButton[num].interactable = false;
+
+            if (_tutorialObject[num].activeSelf)
+            {
+                _tutorialObject[num].SetActive(false);
+                _tutorialObject[num].SetActive(true);
+            }
+
+
+            //_tutorialObject[num].SetActive(true);
+            //_tutorialButton[num].interactable = false;
             ExitButton();
         }
 
@@ -297,6 +285,35 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     private void ClickExitButton()
     {
         _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
+    }
+
+    private void QuestReset()
+    {
+        for (int i = 0; i < _tutorialObject.Length; ++i)
+        {
+            if (_tutorialObject[i].activeSelf)
+            {
+                _tutorialObject[i].SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < _tutorialObject.Length; ++i)
+        {
+            if (_tutorialButton[i].enabled == false)
+            {
+                _tutorialButton[i].enabled = true;
+            }
+        }
+
+        _tutorialController.QuestAcceptEvent.Invoke(2);
+
+        if (_questText.text != null)
+        {
+            _questText.text = null;
+        }
+        _tutorialController.IsTutorialQuest = false;
+        _isOn = true;
+        _isQuest = false;
     }
 
     private void OnDisable()
