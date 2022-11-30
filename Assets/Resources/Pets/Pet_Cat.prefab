@@ -1543,10 +1543,10 @@ GameObject:
   - component: {fileID: 6083162187182958115}
   - component: {fileID: 3992964988386226528}
   - component: {fileID: 5951707102168110984}
-  - component: {fileID: 1996278031297327562}
   - component: {fileID: 6143291311019858311}
   - component: {fileID: 5933212386357093727}
   - component: {fileID: 562474392191789792}
+  - component: {fileID: 2645698539398963260}
   m_Layer: 0
   m_Name: Cat
   m_TagString: Untagged
@@ -1629,7 +1629,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d3090c04f143449b9742f95c90839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _petEvolutionCount: 0
 --- !u!114 &6083162187182958115
 MonoBehaviour:
@@ -1687,18 +1690,6 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters: []
   m_SynchronizeLayers: []
---- !u!114 &1996278031297327562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347318771476099662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b20e49dc4f40e98419f2a53619d82314, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &6143291311019858311
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1750,6 +1741,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2645698539398963260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347318771476099662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9803a33fc38cc834ba0ed9062e3ca315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2347318771613169349
 GameObject:
   m_ObjectHideFlags: 0
