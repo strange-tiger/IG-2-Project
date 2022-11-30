@@ -196,7 +196,7 @@ public class TutorialBettingUI : MonoBehaviourPun
     }
 
        
-    private void SkipTutorial() => SceneManager.LoadScene((int)SceneType.ArenaRoom);
+    private void SkipTutorial() => PhotonNetwork.LoadLevel((int)SceneType.ArenaRoom);
         
     private void CancelSkipTutorial() => _skipPopUpPanel.SetActive(false);
 

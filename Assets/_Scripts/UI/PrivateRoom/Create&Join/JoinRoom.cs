@@ -86,6 +86,14 @@ public class JoinRoom : MonoBehaviourPunCallbacks
 
         OVRScreenFade.instance.FadeOut();
 
+        StartCoroutine(LoadAfterFadeOut());
+    }
+
+    private static readonly WaitForSeconds FADE_DELAY = new WaitForSeconds(2f);
+    private IEnumerator LoadAfterFadeOut()
+    {
+        yield return FADE_DELAY;
+
         PlayerPrefs.SetInt("PrevScene", SceneManagerHelper.ActiveSceneBuildIndex);
         PhotonNetwork.LoadLevel((int)Defines.ESceneNumber.PrivateRoom);
     }

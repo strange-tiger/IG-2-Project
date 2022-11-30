@@ -54,6 +54,8 @@ public class BettingManager : MonoBehaviourPunCallbacks
         _groupManager[_playGroupNum]._finishTournament.RemoveListener(BettingEnd);
         _groupManager[_playGroupNum]._finishTournament.AddListener(BettingEnd);
 
+        _isDraw = false;
+
         BettingStart();
     }
 
@@ -160,9 +162,15 @@ public class BettingManager : MonoBehaviourPunCallbacks
     {
         UpdateBettingAmount();
 
-        MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
+        photonView.RPC("DistributeGoldinDB", RpcTarget.All);
 
         ResetAllBetting();
+    }
+
+    [PunRPC]
+    public void DistributeGoldinDB()
+    {
+        MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
     }
 
     private void ResetAllBetting()

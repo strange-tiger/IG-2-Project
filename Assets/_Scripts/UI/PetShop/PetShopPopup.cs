@@ -25,6 +25,7 @@ public class PetShopPopup : PopupUI
         _equipButton.onClick.AddListener(LoadEquip);
     }
 
+    protected override void Close() => _ui.ShutPetUI();
     private void LoadPurchase() => _ui.LoadUI(_UI.BUY);
     private void LoadEquip() => _ui.LoadUI(_UI.EQUIP);
 

@@ -14,6 +14,12 @@ public class MapIconMarkerMovement : MonoBehaviour
         StartCoroutine(CoMarkerFloat());
     }
 
+    private void OnEnable()
+    {
+        StopAllCoroutines();
+        StartCoroutine(CoMarkerFloat());
+    }
+
     private IEnumerator CoMarkerFloat()
     {
         float startYPosition = 0f;
