@@ -61,11 +61,17 @@ public class PlayerMenuUIManager : MonoBehaviour
         _currentShownPanel.SetActive(false);
         panel.SetActive(true);
         _currentShownPanel = panel;
+
+        UISimplePopup uiSimplePopup = GetComponent<UISimplePopup>();
+        uiSimplePopup?.SetOn(true);
     }
     public void ExitPanel(GameObject exitPanel)
     {
         Debug.Log(exitPanel.name + " is now closed");
         exitPanel.SetActive(false);
+
+        UISimplePopup uiSimplePopup = GetComponent<UISimplePopup>();
+        uiSimplePopup?.SetOn(false);
     }
 
     /// <summary>
@@ -76,6 +82,9 @@ public class PlayerMenuUIManager : MonoBehaviour
         _goldText.text =
             MySqlSetting.CheckHaveGold(_myNickname).ToString();
         _menuUI.SetActive(true);
+
+        UISimplePopup uiSimplePopup = GetComponent<UISimplePopup>();
+        uiSimplePopup?.SetOn(true);
     }
     /// <summary>
     /// Invantory UI æ»∫∏ø©¡‹
