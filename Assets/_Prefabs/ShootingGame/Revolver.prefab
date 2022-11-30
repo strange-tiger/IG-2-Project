@@ -14840,8 +14840,8 @@ GameObject:
   - component: {fileID: 8892122211702253948}
   - component: {fileID: 1655898102}
   - component: {fileID: 1655898097}
-  - component: {fileID: 802008080}
   - component: {fileID: 5400492418033179342}
+  - component: {fileID: 1745616332640618895}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -15058,17 +15058,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _offsetPosition: {x: 0.0478, y: 0.0146, z: 0.1126}
   _handPositions: []
+  _playerModel: {fileID: 0}
   _gunRange: 18
   _bulletCountText: {fileID: 5391354820270946656}
   _bulletSpawnTransform: {fileID: 183232010}
   _bulletShotPoint: {fileID: 376321025}
+  _lineRendererColor: {r: 1, g: 1, b: 1, a: 0.4}
   _playerColor: {r: 0.22860853, g: 0.8773585, b: 0.16140087, a: 1}
   _shotAudioClip: {fileID: 8300000, guid: a41cd064b14d99c4b809fec08d7f6472, type: 3}
   _reloadAudioClip: {fileID: 8300000, guid: 3de881625ad426545b7dc3589a1a27a6, type: 3}
   _vibrationTime: 0.1
   _vibrationFrequency: 0.3
   _vibrationAmplitude: 0.3
---- !u!120 &802008080
+--- !u!114 &5400492418033179342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8899927513647204242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!120 &1745616332640618895
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15087,7 +15111,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 36719587be0f55a4ea2ba63042962356, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15113,13 +15137,13 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.01
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.0612278
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -15166,28 +15190,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &5400492418033179342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8899927513647204242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1001 &1319484311695914212
 PrefabInstance:
   m_ObjectHideFlags: 0

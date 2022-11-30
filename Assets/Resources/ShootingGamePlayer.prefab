@@ -459,7 +459,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 504067738957094329}
-  - {fileID: 2539422536599616235}
   - {fileID: 9032745608646816325}
   - {fileID: 2232617218266852011}
   sceneViewId: 0
@@ -512,11 +511,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc9063daef1d71d4bb6d0c4f6a0e307a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ovrCameraPosition: {x: 0, y: 0.7, z: 0.8}
-  _ovrCameraRigPrefab: {fileID: 8195805791958106615, guid: 8078935e6379557448a41b2f9e897cd5, type: 3}
   _modelHandTransforms:
   - {fileID: 7895069224636134188}
   - {fileID: 7401276134618709666}
+  _ovrHandTransforms: []
+  _ovrCameraPosition: {x: 0, y: 0.7, z: 0.8}
+  _ovrCameraRigPrefab: {fileID: 8195805791958106615, guid: 8078935e6379557448a41b2f9e897cd5, type: 3}
   _nicknameText: {fileID: 4691367702282538850}
 --- !u!114 &971891850876029811
 MonoBehaviour:
@@ -591,10 +591,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c97333481d5b4354bb7b71dabf71f353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _femaleData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
-  _maleData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
   _userData: {fileID: 0}
-  _materialData: {fileID: 11400000, guid: 0eb480d9a1792e4458eedef990de8e80, type: 2}
+  _maleData: {fileID: 11400000, guid: 48ab2f6c47b01a84bb3b4988558af651, type: 2}
+  _femaleData: {fileID: 11400000, guid: 2974abd1b1ec750479257afc7dbcbd0e, type: 2}
+  _materialData: {fileID: 0}
   _skinnedMeshRenderer: {fileID: 0}
   _smMeshRenderer: {fileID: 0}
   _characterMeshRenderer: {fileID: 0}
@@ -895,6 +895,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7401276134618709666}
     m_Modifications:
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 802008080, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1655898097, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
       propertyPath: _playerModel
       value: 
@@ -921,7 +953,7 @@ PrefabInstance:
       objectReference: {fileID: 7401276134618709666}
     - target: {fileID: 8899927513647204242, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
       propertyPath: m_Name
-      value: Revolver (1)
+      value: Revolver
       objectReference: {fileID: 0}
     - target: {fileID: 8902321758207326220, guid: 10ecb7b33aa096e48b47e168bba187a0, type: 3}
       propertyPath: m_RootOrder
