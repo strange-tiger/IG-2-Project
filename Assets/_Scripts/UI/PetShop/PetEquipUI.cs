@@ -28,7 +28,6 @@ public class PetEquipUI : MonoBehaviour
 
     [Header("Equiped Pet Info")]
     [SerializeField] Image _equipedPetImage;
-    [SerializeField] TextMeshProUGUI _equipedPetName;
 
     [Header("Current Pet")]
     [SerializeField] Image _petImage;
@@ -105,7 +104,6 @@ public class PetEquipUI : MonoBehaviour
         }
 
         _equipedPetImage.sprite = CurrentPet.Image;
-        _equipedPetName.text = CurrentPet.Name;
 
         _applyText.text = DEFAULT_APPLY_TEXT;
     }
@@ -194,7 +192,6 @@ public class PetEquipUI : MonoBehaviour
         TransformPet();
 
         _equipedPetImage.sprite = CurrentPet.Image;
-        _equipedPetName.text = CurrentPet.Name;
 
         _equipedIndex = _currentIndex;
 
