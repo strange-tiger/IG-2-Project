@@ -72,12 +72,6 @@ public class PetPurchaseUI : MonoBehaviour
             back.onClick.AddListener(Back);
         }
 
-        for (int i = 0; i < _petInfoButtons.Length; ++i)
-        {
-            _petInfoButtons[i].onClick.AddListener(() => ShowCurrentPet(_petInfoList[i]));
-        }
-
-        // error
         _equipedIndex = PetShopUIManager.PlayerPetSpawner.EquipedNum;
 
         if (_equipedIndex != -1)
@@ -93,6 +87,11 @@ public class PetPurchaseUI : MonoBehaviour
 
         _currentIndex = -1;
         OnClickRightButton();
+
+        for (int i = 0; i < _petInfoButtons.Length; ++i)
+        {
+            _petInfoButtons[i].onClick.AddListener(() => ShowCurrentPet(_petInfoList[i]));
+        }
     }
 
     private void Purchase()
