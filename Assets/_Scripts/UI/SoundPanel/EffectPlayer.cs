@@ -8,17 +8,17 @@ public class EffectPlayer : MonoBehaviour
     private AudioSource _effectPlayer;
     private void Awake()
     {
-        SoundManager.Instance.OnChangedEffectVolume = UpdateVolume;
+        SoundManager.Instance.OnChangedEffectVolume.RemoveListener(UpdateVolume);
+        SoundManager.Instance.OnChangedEffectVolume.AddListener(UpdateVolume);
     }
 
-    private void OnEnable()
+    public void UpdateVolume(float effectVolume)
     {
-        UpdateVolume();
+        _effectPlayer.volume = effectVolume;
     }
 
-    public void UpdateVolume()
+    private void OnDestroy()
     {
-        _effectPlayer.volume =
-            SoundManager.Instance.MasterVolume * SoundManager.Instance.EffectVolume;
+        SoundManager.Instance.OnChangedEffectVolume.RemoveListener(UpdateVolume);
     }
 }

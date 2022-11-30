@@ -82,6 +82,9 @@ public class PlayerMenuUIManager : MonoBehaviour
         _goldText.text =
             MySqlSetting.CheckHaveGold(_myNickname).ToString();
         _menuUI.SetActive(true);
+
+        UISimplePopup uiSimplePopup = GetComponent<UISimplePopup>();
+        uiSimplePopup?.SetOn(true);
     }
     /// <summary>
     /// Invantory UI æ»∫∏ø©¡‹

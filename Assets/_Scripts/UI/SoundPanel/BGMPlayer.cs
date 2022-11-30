@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,8 @@ public class BGMPlayer : MonoBehaviour
     private AudioClip _bgmClip;
     private void Awake()
     {
-        SoundManager.Instance.OnChangedBackgroundVolume = UpdateVolume;
+        SoundManager.Instance.OnChangedBackgroundVolume.RemoveListener(UpdateVolume);
+        SoundManager.Instance.OnChangedBackgroundVolume.AddListener(UpdateVolume);
         
         _bgmPlayer = gameObject.AddComponent<AudioSource>();     
         _bgmPlayer.clip = _bgmClip;
@@ -17,9 +19,13 @@ public class BGMPlayer : MonoBehaviour
         _bgmPlayer.Play();
     }
 
-    public void UpdateVolume()
+    public void UpdateVolume(float bgmVolume)
     {
-        _bgmPlayer.volume =
-            SoundManager.Instance.MasterVolume * SoundManager.Instance.BackgroundVolume;
+        _bgmPlayer.volume = bgmVolume;
+    }
+
+    private void OnDestroy()
+    {
+        SoundManager.Instance.OnChangedBackgroundVolume.RemoveListener(UpdateVolume);
     }
 }

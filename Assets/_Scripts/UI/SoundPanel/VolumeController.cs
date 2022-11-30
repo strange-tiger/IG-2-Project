@@ -33,6 +33,8 @@ public class VolumeController : MonoBehaviour
     {
         for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
         {
+            Debug.Log(i);
+
             PlayerPrefs.SetFloat(SoundManager.VOLUME_CONTROLLER[i], _slider[i].value);
             SoundManager.Instance.Refresh(i);
         }
