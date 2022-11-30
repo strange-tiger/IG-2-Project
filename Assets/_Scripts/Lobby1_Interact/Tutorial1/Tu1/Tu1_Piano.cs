@@ -16,4 +16,9 @@ public class Tu1_Piano : MonoBehaviour
             _isFirst = true;
         }
     }
+
+    private void OnEnable()
+    {
+        _isFirst = false;
+    }
 }

@@ -16,4 +16,9 @@ public class Tu6_IsekaiCutting : MonoBehaviour
             _isFirst = true;
         }
     }
+
+    private void OnEnable()
+    {
+        _isFirst = false;
+    }
 }
