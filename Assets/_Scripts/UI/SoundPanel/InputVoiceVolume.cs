@@ -6,28 +6,54 @@ using Photon.Pun;
 public class InputVoiceVolume : MonoBehaviourPun
 {
     private AudioSource _voicePlayer;
-    private PhotonView _photonview;
+    private PhotonView photonview;
+    private float _localVolume = 0;
+    private float _remoteVolume = 0;
 
     private void Awake()
     {
         _voicePlayer = GetComponent<AudioSource>();
-        _photonview = GetComponentInParent<PhotonView>();
-        SoundManager.Instance.OnChangedInputVolume.RemoveListener(UpdateVolume);
-        SoundManager.Instance.OnChangedInputVolume.AddListener(UpdateVolume);
+        photonview = GetComponentInParent<PhotonView>();
+        SoundManager.Instance.OnChangedInputVolume.RemoveListener(UpdateInputVolume);
+        SoundManager.Instance.OnChangedOutputVolume.RemoveListener(UpdateOutputVolume);
+        SoundManager.Instance.OnChangedInputVolume.AddListener(UpdateInputVolume);
+        SoundManager.Instance.OnChangedOutputVolume.AddListener(UpdateOutputVolume);
+    }
+
+    public void UpdateInputVolume(float inputVolume)
+    {
+        if(photonview.IsMine)
+        {
+            photonView.RPC(nameof(ChangedVolume), RpcTarget.All, inputVolume);
+        }
     }
 
     [PunRPC]
-    public void UpdateVolume(float voiceVolume)
+    private void ChangedVolume(float inputVolume)
     {
-        _voicePlayer.volume = voiceVolume;
-        if(_photonview.IsMine)
+        _localVolume = inputVolume;
+        if(photonview.IsMine)
         {
-            _photonview.RPC(nameof(UpdateVolume), RpcTarget.Others, voiceVolume);
+            _voicePlayer.volume = inputVolume;
         }
+        else
+        {
+            _voicePlayer.volume = inputVolume * _remoteVolume;
+        }
+    }
+
+    public void UpdateOutputVolume(float outputVolume)
+    {
+        _remoteVolume = outputVolume;
+        if(photonview.IsMine)
+        {
+            return;
+        }
+        _voicePlayer.volume = _localVolume * outputVolume;
     }
 
     private void OnDestroy()
     {
-        SoundManager.Instance.OnChangedInputVolume?.RemoveListener(UpdateVolume);
+        SoundManager.Instance.OnChangedInputVolume?.RemoveListener(UpdateInputVolume);
     }
 }

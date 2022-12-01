@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class SoundManager : SingletonBehaviour<SoundManager>
 {
-    // 볼륨 값 들고있기
+
     private List<UnityEvent<float>> _actions = new List<UnityEvent<float>>();
     public UnityEvent<float> OnChangedMasterVolume { get; private set; } = new UnityEvent<float>();
     public UnityEvent<float> OnChangedEffectVolume { get; private set; } = new UnityEvent<float>();
@@ -28,6 +28,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     private void Awake()
     {
         base.Awake();
+
         _actions.Add(OnChangedMasterVolume);
         _actions.Add(OnChangedEffectVolume);
         _actions.Add(OnChangedBackgroundVolume);
