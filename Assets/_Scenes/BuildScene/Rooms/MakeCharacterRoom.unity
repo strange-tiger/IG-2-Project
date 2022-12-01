@@ -3622,7 +3622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &148903986370308338
 GameObject:
   m_ObjectHideFlags: 0
@@ -4631,7 +4631,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4fe683c5738cbb04fa4778c9029e704b, type: 2}
+  - {fileID: 2100000, guid: 71e41e43b459a244abaf5acca76b89ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4656,7 +4656,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300050, guid: ffdfcb810f2918b4f8fe9f917f07bc78, type: 3}
+  m_Mesh: {fileID: 4300022, guid: 9d545e43681431348908eab98e78aa45, type: 3}
   m_Bones:
   - {fileID: 266036748407721190}
   - {fileID: 266239135970515382}
@@ -6312,7 +6312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &269261653216049212
 GameObject:
   m_ObjectHideFlags: 0
@@ -10453,6 +10453,7 @@ GameObject:
   - component: {fileID: 1835027923}
   - component: {fileID: 6072405481054400789}
   - component: {fileID: 6072405481054400790}
+  - component: {fileID: 6072405481054400791}
   m_Layer: 0
   m_Name: NewPlayer
   m_TagString: Player
@@ -10486,6 +10487,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d5c2b0ad2012649b0cab26e9af4fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6072405481054400791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072405481054400788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5c7ae4cd4f4674ba4168630a91ff8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _modelHandTransforms:
+  - {fileID: 7895069224812712242}
+  - {fileID: 7401276134561455292}
+  _ovrHandTransforms:
+  - {fileID: 2615883491378240086}
+  - {fileID: 6454283771238777723}
 --- !u!1 &6072405481054400794
 GameObject:
   m_ObjectHideFlags: 0

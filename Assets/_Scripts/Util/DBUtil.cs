@@ -209,7 +209,6 @@ namespace Asset.MySql
                     throw new System.Exception("Nickname 중복됨");
                 }
 
-
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     string _insertAccountString = GetInsertString(ETableType.accountdb, Email, Password, Nickname, QuestionNum.ToString(), Answer);
@@ -230,11 +229,16 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// 닉네임과 성별을 받아 CharacterDB에 저장함.
+        /// </summary>
+        /// <param name="nickname"> 캐릭터를 만들 유저의 닉네임</param>
+        /// <param name="gender">캐릭터의 성별</param>
+        /// <returns> CharacterDB에 추가 성공하면 true, 아니면 false </returns>
         public static bool AddNewCharacter(string nickname, string gender)
         {
             try
             {
-
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     string _insertCharacterString = GetInsertString(ETableType.characterdb, nickname, gender);
@@ -246,7 +250,6 @@ namespace Asset.MySql
                     _mysqlConnection.Close();
                 }
 
-
                 return true;
             }
             catch (System.Exception error)
@@ -256,11 +259,15 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// 계정의 펫정보를 저장하는 PetInventory에 Row를 추가함.
+        /// </summary>
+        /// <param name="nickname"> 유저의 닉네임 </param>
+        /// <returns> 추가에 성공하면 true, 아니면 false</returns>
         public static bool AddNewPetInventory(string nickname)
         {
             try
             {
-
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
                     string _insertPetInventoryString = GetInsertString(ETableType.petinventorydb, nickname);
@@ -400,7 +407,7 @@ namespace Asset.MySql
         #region Tutorial
 
         /// <summary>
-        /// 유저의 튜토리얼 수행 여부를 판단한다.
+        /// 유저의 튜토리얼 수행 여부를 4비트 연산으로 확인한다. ____ => 시작의 방, 로비 1, 로비 2, 투기장 순으로 저장됨.
         /// </summary>
         /// <param name="myNickname">유저의 닉네임</param>
         /// <param name="checkState">판단할 튜토리얼의 종류</param>
@@ -1032,6 +1039,12 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// 베팅을 한 후, 유저의 CharacterDB 상의 골드를 업데이트 해줌.
+        /// </summary>
+        /// <param name="nickname">유저의 닉네임</param>
+        /// <param name="betGold"> 베팅을 한 골드의 양</param>
+        /// <returns>성공하면 true, 아니면 false </returns>
         public static bool UpdateGoldAfterBetting(string nickname, int betGold)
         {
 
@@ -1039,12 +1052,9 @@ namespace Asset.MySql
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-
                     int haveGold;
 
-
                     haveGold = int.Parse(GetValueByBase(EcharacterdbColumns.Nickname, nickname, EcharacterdbColumns.Gold)) - (int)betGold;
-
 
                     string updateCharacterGoldString = $"Update {ETableType.characterdb} set Gold = '{haveGold}' where Nickname = '{nickname}'";
 
@@ -1100,12 +1110,13 @@ namespace Asset.MySql
 
         /// <summary>
         /// DataSet에 BettingDB의 정보를 불러오고, 배당율을 계산하여 CharacterDB의 골드에 추가하고, BettingDB를 리셋한다. 무승부일 경우, 베팅한 금액 그대로를 다시 반환하고 BettingUI를 리셋한다.
+        /// 무승부일때는 무승부를 했다는 이벤트를 DistributeUI에 전달함.
         /// </summary>
         /// <param name="winChampionNumber"> 베팅한 참가자의 인덱스 </param>
         /// <param name="betAmount"> 총 베팅 금액 </param>
         /// <param name="championBetAmount"> 베팅한 참가자에게 베팅한 총 금액</param>
         /// <param name="isDraw"> 무승부 여부 </param>
-        /// <returns></returns>
+        /// <returns> 승리한 유저의 명단을 Dictionary로 반환</returns>
         public static Dictionary<string, int> DistributeBet(int winChampionNumber, int betAmount, int championBetAmount, bool isDraw)
         {
             try
@@ -1207,6 +1218,10 @@ namespace Asset.MySql
             }
         }
 
+        /// <summary>
+        /// 총 베팅 금액이 저장되어 있는 BettingAmountDB를 확인함.
+        /// </summary>
+        /// <returns> 각 챔피언의 베팅 총 금액, 전체 베팅 금액을 List로 반환 </returns>
         public static List<int> CheckBettingAmount()
         {
 
@@ -1232,9 +1247,16 @@ namespace Asset.MySql
 
         }
 
+        /// <summary>
+        /// 베팅이 추가되면, 그 금액만큼 총 베팅 금액, 베팅한 챔피언의 베팅 총 금액을 업데이트함.
+        /// 이전 총 베팅 금액과, 베팅한 금액은 BettingManager에서 연산하여 전달해준다.
+        /// </summary>
+        /// <param name="index">베팅한 챔피언의 인덱스</param>
+        /// <param name="amount"> 챔피언에게 베팅한 금액에 이전 금액만큼을 더한 금액</param>
+        /// <param name="championAmount">총 금액에 베팅한 금액만큼을 더한 금액</param>
+        /// <returns></returns>
         public static bool UpdateBettingAmountDB(int index, int amount, int championAmount)
         {
-
             try
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
@@ -1349,7 +1371,12 @@ namespace Asset.MySql
 
         #region PetInventoryList        
 
-
+        /// <summary>
+        /// 유저의 닉네임과 PetData를 저장할 스크립터블 오브젝트를 받아, DB에 있는 정보를 불러 스크립터블 오브젝트에 저장하여 반환해줌.
+        /// </summary>
+        /// <param name="nickname">유저의 닉네임</param>
+        /// <param name="petData">PetData를 저장한 스크립터블 오브젝트</param>
+        /// <returns>DB의 정보가 저장된 PetData 스크립터블 오브젝트를 반환</returns>
         public static PetData GetPetInventoryData(string nickname, PetData petData)
         {
             string selcetPetInventoryString = $"SELECT * from PetInventoryDB " +
@@ -1357,14 +1384,11 @@ namespace Asset.MySql
 
             using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
             {
-
-
                 MySqlCommand command = new MySqlCommand(selcetPetInventoryString, _mysqlConnection);
 
                 _mysqlConnection.Open();
 
                 MySqlDataReader reader = command.ExecuteReader();
-
 
                 if (reader.Read())
                 {
@@ -1376,15 +1400,12 @@ namespace Asset.MySql
 
                     for (int i = 0; i < petStatusArray.Length; ++i)
                     {
-
                         petData.Status[i] = (EPetStatus)Enum.Parse(typeof(EPetStatus), petStatusArray[i]);
                         petData.Level[i] = int.Parse(petLevelArray[i]);
                         petData.Exp[i] = int.Parse(petExpArray[i]);
                         petData.ChildIndex[i] = int.Parse(petAssetArray[i]);
                         petData.Size[i] = float.Parse(petSizeArray[i]);
-
                     }
-
                 }
 
                 _mysqlConnection.Close();
@@ -1394,6 +1415,12 @@ namespace Asset.MySql
 
         }
 
+        /// <summary>
+        /// PetData에 수정사항이 생기면, DB에 업데이트 해줌.
+        /// </summary>
+        /// <param name="nickname">유저의 닉네임</param>
+        /// <param name="petData">업데이트할 PetData</param>
+        /// <returns></returns>
         public static bool UpdatePetInventoryData(string nickname, PetData petData)
         {
 
@@ -1439,10 +1466,13 @@ namespace Asset.MySql
 
 
 
-
+        /// <summary>
+        /// 플레이어의 AccountDB - IsOline Column을 확인하여 온/오프라인 여부를 확인함.
+        /// </summary>
+        /// <param name="nickname">유저의 닉네임</param>
+        /// <returns>온라인이면 true, 아니면 false</returns>
         public static bool IsPlayerOnline(string nickname)
         {
-
             try
             {
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
@@ -1457,10 +1487,8 @@ namespace Asset.MySql
 
                     MySqlDataReader reader = command.ExecuteReader();
 
-
                     if (reader.Read())
                     {
-
                         if (reader["IsOnline"].ToString() == "true")
                         {
                             isOnOff = true;
@@ -1469,7 +1497,6 @@ namespace Asset.MySql
                         {
                             isOnOff = false;
                         }
-
                     }
 
                     _mysqlConnection.Close();
