@@ -13,7 +13,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private AudioSource _audioSource;
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
     private PlayerControllerMove _playerControllerMove;
 
     private MeshCollider _oakBarrelMeshCollider;
@@ -21,6 +21,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private MeshRenderer _oakBarrelMeshRenderer;
 
     private IEnumerator _oakBarrelIsGone;
+    private IEnumerator _fadeOutPlayerScreen;
 
     private static string _player = "Player";
     private static string _oakBarrel = "OakBarrel";
@@ -53,6 +54,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _audioSource = GetComponentInChildren<AudioSource>();
 
         _oakBarrelIsGone = OakBarrelIsGone();
+        _fadeOutPlayerScreen = FadeOutPlayerScreen();
     }
 
     private void Update()
@@ -67,7 +69,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
         if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
         {
             _playerMeshRenderer.material.color = Color.black;
-            StartCoroutine(FadeOutPlayerScreen());
+            StartCoroutine(_fadeOutPlayerScreen);
 
             OutOakBarrel();
         }
