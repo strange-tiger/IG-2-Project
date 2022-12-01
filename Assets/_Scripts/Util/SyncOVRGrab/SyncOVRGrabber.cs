@@ -46,8 +46,6 @@ public class SyncOVRGrabber : MonoBehaviourPun
     [SerializeField]
     protected GameObject m_player;
 
-
-
     protected bool m_grabVolumeEnabled = true;
     protected Vector3 m_lastPos;
     protected Quaternion m_lastRot;
@@ -166,6 +164,10 @@ public class SyncOVRGrabber : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// OnTriggerEnter로 Grabbable을 가져올 때, PhotonView의 Ownership을 가져오게 해줌.
+    /// </summary>
+    /// <param name="otherCollider"></param>
     void OnTriggerEnter(Collider otherCollider)
     {
         if(otherCollider.GetComponent<PhotonView>() != null)
@@ -317,6 +319,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
             if (m_parentHeldObject)
             {
                 m_grabbedObj.transform.parent = transform;
+                _grabbedHandCollider = GetComponent<Collider>();
+                _grabbedHandCollider.isTrigger = true;
             }
             else
             {
