@@ -13,7 +13,7 @@ public class OakBarrel : InteracterableObject
     private MeshRenderer _oakBarrelMeshRenderer;
     private MeshCollider _oakBarrelMeshCollider;
 
-    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(10f);
+    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
 
     protected override void OnEnable()
     {

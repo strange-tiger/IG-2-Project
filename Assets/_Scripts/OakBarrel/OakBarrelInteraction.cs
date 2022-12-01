@@ -13,7 +13,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private AudioSource _audioSource;
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(10f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
     private PlayerControllerMove _playerControllerMove;
 
     private PlayerDebuffManager _playerDebuffManager;
@@ -45,10 +45,16 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _oakBarrelMeshCollider.enabled = false;
     }
 
+    private void OnEnable()
+    {
+        _playerInteraction = GetComponentInChildren<PlayerInteraction>();
+        _playerDebuffManager = GetComponent<PlayerDebuffManager>();
+
+    }
+
     private void Start()
     {
         _playerControllerMove = GetComponent<PlayerControllerMove>();
-        _playerInteraction = GetComponentInChildren<PlayerInteraction>();
 
         _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
         _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
@@ -59,27 +65,32 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
         _oakBarrelIsGone = OakBarrelIsGone();
         _fadeOutPlayerScreen = FadeOutPlayerScreen();
-        _playerDebuffManager = GetComponent<PlayerDebuffManager>();
+        
         _playerDebuffManager.FadeMaterial.color = Color.black;
     }
 
     private void Update()
     {
-        if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+        if (photonView.IsMine)
         {
-            StopAllCoroutines();
 
-            _isSelfExit = false;
-            OutOakBarrel();
-        }
+            if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+            {
+                StopAllCoroutines();
 
-        if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
-        {
-            _playerMeshRenderer.material.color = Color.black;
-            StartCoroutine(_fadeOutPlayerScreen);
+                PlayerControlManager.Instance.IsRayable = true;
+                _isSelfExit = false;
+                OutOakBarrel();
+            }
 
-            _isSelfExit = true;
-            OutOakBarrel();
+            if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
+            {
+                _playerMeshRenderer.material.color = Color.black;
+                StartCoroutine(_fadeOutPlayerScreen);
+                PlayerControlManager.Instance.IsRayable = true;
+                _isSelfExit = true;
+                OutOakBarrel();
+            }
         }
     }
 
@@ -115,7 +126,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         _playerModel.SetActive(value);
         _oakBarrelMeshCollider.enabled = value;
-        _playerInteraction.enabled = value;
     }
 
     /// <summary>
@@ -161,8 +171,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
             _playerDebuffManager.CallStunDebuff();
         }
 
-        PlayerControlManager.Instance.IsRayable = true;
-
         _playerControllerMove.MoveScale /= _speedSlower;
     }
 
@@ -172,8 +180,4 @@ public class OakBarrelInteraction : MonoBehaviourPun
         tag = str;
     }
 
-    private void OnDisable()
-    {
-        _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
-    }
 }
