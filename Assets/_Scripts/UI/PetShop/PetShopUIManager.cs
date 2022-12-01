@@ -105,8 +105,6 @@ public class PetShopUIManager : UIManager
             PetList[i].SetAssetIndex(_petData.ChildIndex[i]);
 
             PetList[i].SetLevel(_petData.Level[i]);
-
-            Debug.Log($"[PET] {PetList[i].Name} {PetList[i].Grade}");
         }
     }
 
@@ -159,4 +157,12 @@ public class PetShopUIManager : UIManager
         public void SetAssetIndex(int assetIndex = 0) => AssetIndex = assetIndex;
         public void SetLevel(int level = 0) => Level = level;
     }
+
+    public static readonly Color[] GRADE_COLOR = new Color[4]
+    {
+        new Color(0f, 0f, 0f),
+        new Color(0f, 128f, 0f),
+        new Color(0f, 103f, 163f),
+        new Color(255f, 0f, 0f)
+    };
 }

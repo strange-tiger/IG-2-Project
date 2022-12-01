@@ -189,6 +189,11 @@ public class PetEquipUI : MonoBehaviour
 
     private void SaveOption()
     {
+        if (!_ui.PlayerNetworking.photonView.IsMine)
+        {
+            return;
+        }
+
         if (_equipedIndex < 0 || _equipedIndex >= _petDataLength)
         {
             return;
@@ -330,17 +335,11 @@ public class PetEquipUI : MonoBehaviour
         UpdateTransformOption();
     }
 
-    private static readonly Color[] GRADE_COLOR = new Color[4]
-    {
-        new Color(128f, 128f, 128f),
-        new Color(0f, 128f, 0f),
-        new Color(0f, 103f, 163f),
-        new Color(155f, 17f, 30f)
-    };
+    
     private void ShowPetGrade(PetShopUIManager.PetProfile.EGrade grade)
     {
         _petGrade.text = grade.ToString();
-        _petGrade.color = GRADE_COLOR[(int)grade];
+        _petGrade.color = PetShopUIManager.GRADE_COLOR[(int)grade];
     }
 
     private const int BEFORE_S_INDEX = 12;

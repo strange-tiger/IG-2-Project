@@ -244,7 +244,7 @@ public class PetPurchaseUI : MonoBehaviour
         _equipedPetName.text = pet.Name;
 
         _equipedPetGrade.text = pet.Grade.ToString();
-        _equipedPetGrade.color = GRADE_COLOR[(int)pet.Grade];
+        _equipedPetGrade.color = PetShopUIManager.GRADE_COLOR[(int)pet.Grade];
 
         _haveGold.text = _DB.CheckHaveGold(_ui.PlayerNickname).ToString();
     }
@@ -294,23 +294,15 @@ public class PetPurchaseUI : MonoBehaviour
         }
     }
 
-    private static readonly Color[] GRADE_COLOR = new Color[4]
-    {
-        new Color(128f, 128f, 128f),
-        new Color(0f, 128f, 0f),
-        new Color(0f, 103f, 163f),
-        new Color(155f, 17f, 30f)
-    };
     private void ShowPetGrade(PetShopUIManager.PetProfile.EGrade grade)
     {
         _petGrade.text = grade.ToString();
-        _petGrade.color = GRADE_COLOR[(int)grade];
+        _petGrade.color = PetShopUIManager.GRADE_COLOR[(int)grade];
     }
 
     private void ShowPetGrade(int index, PetShopUIManager.PetProfile.EGrade grade)
     {
-        Debug.Log($"[GRADE] {grade} {(int)grade} {_petNames[index]}");
         _petGrades[index].text = grade.ToString();
-        _petGrades[index].color = GRADE_COLOR[(int)grade];
+        _petGrades[index].color = PetShopUIManager.GRADE_COLOR[(int)grade];
     }
 }
