@@ -1243,6 +1243,7 @@ GameObject:
   - component: {fileID: 1605077676}
   - component: {fileID: 1605077677}
   - component: {fileID: 1605077679}
+  - component: {fileID: 1605077680}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -1260,7 +1261,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b4abcad4050ef1d4fbc8dc493ca3d762, type: 3}
+  m_audioClip: {fileID: 8300000, guid: fd0811a329c98674aa8db39e1476481e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1360,7 +1361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _conversationText: {fileID: 634287303}
   _conversationUI: {fileID: 634287302}
-  _dialogueSound: {fileID: 8300000, guid: b4abcad4050ef1d4fbc8dc493ca3d762, type: 3}
+  _dialogueSound: {fileID: 8300000, guid: fd0811a329c98674aa8db39e1476481e, type: 3}
   _tutorialBettingUI: {fileID: 1049043459246657422}
 --- !u!4 &1605077678
 Transform:
@@ -1399,6 +1400,19 @@ MonoBehaviour:
   _isTutorialExist: 0
   _tutorialSceneNumber: 0
   _state: 0
+--- !u!114 &1605077680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605077675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 1605077676}
 --- !u!1001 &1611188273
 PrefabInstance:
   m_ObjectHideFlags: 0
