@@ -72,7 +72,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
             {
                 StopAllCoroutines();
 
-                PlayerControlManager.Instance.IsRayable = true;
+                
                 _isSelfExit = false;
                 OutOakBarrel();
             }
@@ -81,7 +81,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
             {
                 _playerMeshRenderer.material.color = Color.black;
                 StartCoroutine(_fadeOutPlayerScreen);
-                PlayerControlManager.Instance.IsRayable = true;
+                
                 _isSelfExit = true;
                 OutOakBarrel();
             }
@@ -159,6 +159,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, false);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, true);
         photonView.RPC(nameof(OakBarrelToPlayer), RpcTarget.All, _player);
+
+        PlayerControlManager.Instance.IsRayable = true;
 
         if (_isSelfExit)
         {
