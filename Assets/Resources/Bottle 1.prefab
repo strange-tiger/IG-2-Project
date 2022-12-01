@@ -32,6 +32,7 @@ GameObject:
   - component: {fileID: 3730579035830989020}
   - component: {fileID: 2073273170412586935}
   - component: {fileID: 7884362735170369360}
+  - component: {fileID: 3472262173432125815}
   m_Layer: 0
   m_Name: Bottle 1
   m_TagString: Untagged
@@ -115,8 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialModel: {fileID: 8265311930181997020}
   _shotSoundEffects:
-  - {fileID: 8300000, guid: 107c7767995da004383551de9783fa1f, type: 3}
-  - {fileID: 8300000, guid: ffc959d1845ab9f4d92212d17ff5abaf, type: 3}
+  - {fileID: 8300000, guid: 0cd25b21c4f742049896994f784c8074, type: 3}
+  - {fileID: 8300000, guid: d6ff90c25022e0740aa9e4ade7632aaa, type: 3}
   _shotEffects:
   - _point: 1
     _isThereEffect: 1
@@ -158,8 +159,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -259,6 +259,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3472262173432125815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640918804740691840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 7884362735170369360}
 --- !u!54 &3767746252873476475
 Rigidbody:
   m_ObjectHideFlags: 0

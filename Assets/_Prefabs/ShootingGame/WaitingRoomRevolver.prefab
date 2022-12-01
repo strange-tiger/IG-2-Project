@@ -14910,6 +14910,7 @@ GameObject:
   - component: {fileID: 3962708869512036514}
   - component: {fileID: 1166621384774203117}
   - component: {fileID: 4616833381316413388}
+  - component: {fileID: 8775965762861599059}
   m_Layer: 10
   m_Name: WaitingRoomRevolver
   m_TagString: Untagged
@@ -15020,8 +15021,8 @@ MonoBehaviour:
   _bulletCountText: {fileID: 3961495911110561236}
   _bulletSpawnTransform: {fileID: 1286332569100847734}
   _bulletShotPoint: {fileID: 1185317146785036776}
-  _shotAudioClip: {fileID: 8300000, guid: a41cd064b14d99c4b809fec08d7f6472, type: 3}
-  _reloadAudioClip: {fileID: 8300000, guid: 3de881625ad426545b7dc3589a1a27a6, type: 3}
+  _shotAudioClip: {fileID: 8300000, guid: 5561c177354bc644395ebda312a57cf1, type: 3}
+  _reloadAudioClip: {fileID: 8300000, guid: 1ec5cea4e3857244aa328ebf6ff933e5, type: 3}
   _vibrationTime: 0.1
   _vibrationFrequency: 0.3
   _vibrationAmplitude: 0.3
@@ -15306,6 +15307,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &8775965762861599059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962708869512036519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 3962708869512036517}
 --- !u!1 &3962764234422350659
 GameObject:
   m_ObjectHideFlags: 0
