@@ -32,6 +32,7 @@ public class StartRoomTutorial : MonoBehaviour
     private bool _isDialogueEnd;
     private bool _isNext;
     private int _dialogueMaxNum;
+    private bool _dialogueSkip;
 
     private bool _isRunText = true;
     private bool _isGrabberText = true;
@@ -68,13 +69,26 @@ public class StartRoomTutorial : MonoBehaviour
         {
             StartCoroutine(TextTyping(_tutorialRayList[_dialogueNum]));
         }
+        _tutorialNPCName.text = "요정";
     }
 
     private void Update()
     {
+        _dialogueSkip = (OVRInput.GetDown(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.A));
+
+        if (_dialogueSkip)
+        {
+            StopAllCoroutines();
+
+            _tutorialRunText.text = null;
+            _tutorialRunText.text = _tutorialRunList[_dialogueNum];
+
+            StartCoroutine(Next());
+        }
 
         if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
+            StopAllCoroutines();
             DialogueNumCount();
 
             if (_turtorialType == TurtorialType.Run && _isRunText)
@@ -134,30 +148,8 @@ public class StartRoomTutorial : MonoBehaviour
             _tutorialRunText.text += c;
 
             yield return _delayTime;
-            //#if UNITY_EDITOR
-            //            if (Input.GetKeyDown(KeyCode.K))
-            //            {
-            //                _tutorialRunText.text = dialogue;
-
-            //                StopCoroutine(TextTyping(dialogue));
-
-            //                _isDialogueEnd = true;
-
-            //                yield break;
-            //            }
-            //#endif
-            if (OVRInput.GetDown(OVRInput.Button.One))
-            {
-                _tutorialRunText.text = dialogue;
-
-                StopCoroutine(TextTyping(dialogue));
-
-                _isDialogueEnd = true;
-
-                yield break;
-            }
         }
-        _tutorialNPCName.text = "요정";
+        
         _isDialogueEnd = true;
     }
 
@@ -214,17 +206,17 @@ public class StartRoomTutorial : MonoBehaviour
         {
             _isNext = false;
         }
-        //#if UNITY_EDITOR
-        //        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-        //        {
-        //            _tutorialRunText.text = null;
-        //            _isNext = true;
-        //        }
-        //        else
-        //        {
-        //            _isNext = false;
-        //        }
-        //#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+//        {
+//            _tutorialRunText.text = null;
+//            _isNext = true;
+//        }
+//        else
+//        {
+//            _isNext = false;
+//        }
+//#endif
     }
 
     public virtual void RunQuest()
@@ -264,5 +256,12 @@ public class StartRoomTutorial : MonoBehaviour
                 _isTutorialQuest = false;
             }
         }
+    }
+
+    IEnumerator Next()
+    {
+        yield return _delayTime;
+
+        _isDialogueEnd = true;
     }
 }
