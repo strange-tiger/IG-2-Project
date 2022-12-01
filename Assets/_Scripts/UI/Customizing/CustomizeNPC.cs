@@ -9,6 +9,7 @@ public class CustomizeNPC : InteracterableObject
 {
     [SerializeField] private GameObject _customizeNPCMenu;
 
+    // 커스터마이징 NPC에게 상호작용하면 UI를 띄워줌.
     public override void Interact()
     {
         base.Interact();

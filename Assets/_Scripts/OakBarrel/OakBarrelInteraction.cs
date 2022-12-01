@@ -11,26 +11,36 @@ public class OakBarrelInteraction : MonoBehaviourPun
     [SerializeField] private AudioClip _inOakBarrelSound;
 
     private AudioSource _audioSource;
-
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
     private PlayerControllerMove _playerControllerMove;
+
+    private PlayerDebuffManager _playerDebuffManager;
 
     private MeshCollider _oakBarrelMeshCollider;
     private MeshRenderer _playerMeshRenderer;
     private MeshRenderer _oakBarrelMeshRenderer;
 
+    private IEnumerator _oakBarrelIsGone;
+    private IEnumerator _fadeOutPlayerScreen;
+
+    private static string _player = "Player";
+    private static string _oakBarrel = "OakBarrel";
+
     private Color _color = new Color(0, 0, 0, 0);
 
-    private float _speedSlower = 0.2f;
+    private float _speedSlower = 0.002f;
     private bool _isInOak;
     public bool IsInOak { get { return _isInOak; } private set { _isInOak = value; } }
+
+    private bool _isSelfExit;
 
     private void Awake()
     {
         _oakBarrelMeshRenderer = _playerOakBarrel.GetComponent<MeshRenderer>();
         _oakBarrelMeshCollider = _playerOakBarrel.GetComponent<MeshCollider>();
+        _playerDebuffManager = GetComponent<PlayerDebuffManager>();
 
         _oakBarrelMeshRenderer.enabled = false;
         _oakBarrelMeshCollider.enabled = false;
@@ -47,23 +57,34 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerMeshRenderer = GameObject.Find("CenterEyeAnchor").GetComponentInChildren<MeshRenderer>();
 
         _audioSource = GetComponentInChildren<AudioSource>();
+
+        _oakBarrelIsGone = OakBarrelIsGone();
+        _fadeOutPlayerScreen = FadeOutPlayerScreen();
+        
+        _playerDebuffManager.FadeMaterial.color = Color.black;
     }
 
     private void Update()
     {
-        if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+        if (photonView.IsMine)
         {
-            StopCoroutine(OakBarrelIsGone());
+            if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+            {
+                StopAllCoroutines();
 
-            OutOakBarrel();
-        }
+                
+                _isSelfExit = false;
+                OutOakBarrel();
+            }
 
-        if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
-        {
-            _playerMeshRenderer.material.color = Color.black;
-            StartCoroutine(FadeOutPlayerScreen());
-
-            OutOakBarrel();
+            if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
+            {
+                _playerMeshRenderer.material.color = Color.black;
+                StartCoroutine(_fadeOutPlayerScreen);
+                
+                _isSelfExit = true;
+                OutOakBarrel();
+            }
         }
     }
 
@@ -95,11 +116,10 @@ public class OakBarrelInteraction : MonoBehaviourPun
     /// </summary>
     /// <param name="value"></param>
     [PunRPC]
-    public void ActivePlayer(bool value)
+    private void ActivePlayer(bool value)
     {
         _playerModel.SetActive(value);
         _oakBarrelMeshCollider.enabled = value;
-        _playerInteraction.enabled = value;
     }
 
     /// <summary>
@@ -107,7 +127,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     /// </summary>
     /// <param name="value"></param>
     [PunRPC]
-    public void ActiveOakBarrel(bool value)
+    private void ActiveOakBarrel(bool value)
     {
         _oakBarrelMeshRenderer.enabled = value;
         _oakBarrelMeshCollider.enabled = value;
@@ -122,8 +142,10 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, true);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, false);
+        photonView.RPC(nameof(OakBarrelToPlayer), RpcTarget.All, _oakBarrel);
 
-        _playerControllerMove.MoveScale -= _speedSlower;
+        _playerControllerMove.MoveScale *= _speedSlower;
+
         _audioSource.PlayOneShot(_inOakBarrelSound);
 
         PlayerControlManager.Instance.IsRayable = false;
@@ -136,14 +158,22 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, false);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, true);
-
-        _playerControllerMove.MoveScale += _speedSlower;
+        photonView.RPC(nameof(OakBarrelToPlayer), RpcTarget.All, _player);
 
         PlayerControlManager.Instance.IsRayable = true;
+
+        if (_isSelfExit)
+        {
+            _playerDebuffManager.CallStunDebuff();
+        }
+
+        _playerControllerMove.MoveScale /= _speedSlower;
     }
 
-    private void OnDisable()
+    [PunRPC]
+    private void OakBarrelToPlayer(string str)
     {
-        _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
+        tag = str;
     }
+
 }

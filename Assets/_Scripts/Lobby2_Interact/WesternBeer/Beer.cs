@@ -11,12 +11,10 @@ public class Beer : InteracterableObject, IPunObservable
     [Header("Beer")]
     [SerializeField] private GameObject _fullBeer;
     [SerializeField] private BoxCollider _grabCollider;
-    [SerializeField] private AudioClip _drinkSound;
 
 
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
-    private AudioSource _audioSource;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -37,7 +35,6 @@ public class Beer : InteracterableObject, IPunObservable
     private void Start()
     {
         _initBeerPosition = transform.position;
-        _audioSource = GetComponent<AudioSource>();
     }
 
     public void CallDrinkBeer()
@@ -48,7 +45,6 @@ public class Beer : InteracterableObject, IPunObservable
     [PunRPC]
     public void DrinkBeer()
     {
-        _audioSource.PlayOneShot(_drinkSound);
         _fullBeer.SetActive(false);
         _grabCollider.enabled = false;
         StartCoroutine(ReGenerateBeer());
