@@ -141,7 +141,7 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
 
         if (m_handRay.GetComponent<LineRenderer>().enabled)
         {
-            if(_playerFocus.FocusedObject != null)
+            if (_playerFocus.FocusedObject != null)
             {
                 target = _playerFocus.FocusedObject.GetComponent<SyncOVRDistanceGrabbable>();
                 targetColl = _playerFocus.FocusedObject.GetComponent<Collider>();
@@ -161,13 +161,16 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
             }
             m_target = target;
             m_targetCollider = targetColl;
-
-            if (m_targetCollider.GetComponent<PhotonView>() != null)
+            if (m_targetCollider != null)
             {
-                if (m_targetCollider.GetComponent<PhotonView>().Owner != PhotonNetwork.LocalPlayer)
+                if (m_targetCollider.GetComponent<PhotonView>() != null)
                 {
-                    m_targetCollider.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+                    if (m_targetCollider.GetComponent<PhotonView>().Owner != PhotonNetwork.LocalPlayer)
+                    {
+                        m_targetCollider.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+                    }
                 }
+
             }
 
             if (m_target != null)
