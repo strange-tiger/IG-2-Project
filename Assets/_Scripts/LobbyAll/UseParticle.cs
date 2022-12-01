@@ -18,6 +18,7 @@ public class UseParticle : MonoBehaviour
 
     private void Update()
     {
+        // 파티클이 플레이어를 따라 움직이지 않게 고정 ex) 마법봉 파티클들
         gameObject.transform.position = _transform;
         gameObject.transform.rotation = Quaternion.identity;
     }
