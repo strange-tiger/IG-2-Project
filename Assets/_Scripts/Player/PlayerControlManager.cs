@@ -25,5 +25,10 @@ public class PlayerControlManager: GlobalInstance<PlayerControlManager>
             _audioSource.PlayOneShot(_audioClipList[STUN_SOUND]);
             _stundParticle.Play();
         }
+        else
+        {
+            _audioSource.Stop();
+            _stundParticle.Stop();
+        }
     }
 }
