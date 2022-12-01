@@ -3823,6 +3823,7 @@ GameObject:
   - component: {fileID: 1195886276515322205}
   - component: {fileID: 2145734672103758956}
   - component: {fileID: 2538187502366353062}
+  - component: {fileID: 8029178736973335105}
   m_Layer: 0
   m_Name: Speaker
   m_TagString: Untagged
@@ -3960,6 +3961,19 @@ MonoBehaviour:
     MinDelaySoft: 200
     MaxDelaySoft: 400
     MaxDelayHard: 1000
+--- !u!114 &8029178736973335105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2167418548363180658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 2145734672103758956}
 --- !u!114 &2298288802248020221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4459,10 +4473,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _drunkenEffect: {fileID: 2807981069024551449}
-  _maleDrunkenSound: {fileID: 8300000, guid: 03adfe969d5d7e842a18dc1b39331a5e, type: 3}
-  _femaleDrunkenSound: {fileID: 8300000, guid: e90c065a8e7c92447a553446e088c93e, type: 3}
+  _maleDrunkenSound: {fileID: 8300000, guid: 1b845f49482b2ba43b3de94163ffe8c8, type: 3}
+  _femaleDrunkenSound: {fileID: 8300000, guid: afe2f56502fd69648ab7ab99dca2ae37, type: 3}
   _stunEffect: {fileID: 2420730521745203448}
-  _stunSound: {fileID: 8300000, guid: 11ac8db238e55c54ab7b5b39891dfc83, type: 3}
+  _stunSound: {fileID: 8300000, guid: 1e1d0a6b903d34e4b98e918dc185b426, type: 3}
   FadeMaterial: {fileID: 2100000, guid: 3298f7672ccba7243a462413bdd1880e, type: 2}
 --- !u!1 &6718035182797435399
 GameObject:
