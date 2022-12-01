@@ -100,11 +100,6 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
 
         _lineRenderer = GetComponent<LineRenderer>();
-//#if _DEV_MODE_
-//        _lineRenderer.enabled = true;
-//#else
-//        _lineRenderer.enabled = false;
-//#endif
     }
 
     void Update()
