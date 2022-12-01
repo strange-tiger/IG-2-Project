@@ -31,6 +31,9 @@ public class BeerForTutorial : MonoBehaviour
     private void OnEnable()
     {
         _myCollider.enabled = true;
+        _myCollider.isTrigger = false;
+        _beerCollider.isTrigger = false;
+
         _rigidbody.useGravity = true;
 
         transform.position = _initBeerPosition;
