@@ -18,6 +18,8 @@ public class PlayerInteraction : MonoBehaviourPun
     private bool _isOak;
     public UnityEvent InteractionOakBarrel = new UnityEvent();
 
+    private OakBarrelInteraction _oakBarrelInteraction;
+
     private void OnEnable()
     {
         _eventSystemInputModule = transform.root.GetComponentInChildren<OVRInputModule>();
@@ -35,6 +37,7 @@ public class PlayerInteraction : MonoBehaviourPun
             _ovrRaycaster.pointer = _pointer.gameObject;
             _isThereUI = true;
         }
+        _oakBarrelInteraction = GetComponentInParent<OakBarrelInteraction>();
     }
 
     private void Update()
@@ -129,20 +132,12 @@ public class PlayerInteraction : MonoBehaviourPun
                 interacterableObject.Interact();
                 Debug.Log(interacterableObject.name);
 
-                if (!photonView.IsMine)
+                if (!photonView.IsMine && !_oakBarrelInteraction.IsInOak)
                 {
                     if (interacterableObject.CompareTag("OakBarrel"))
                     {
                         InteractionOakBarrel.Invoke();
                     }
-
-                    //if (interacterableObject.CompareTag("Player"))
-                    //{
-                    //    OakBarrelInteraction _oakBarrelInteraction;
-                    //    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
-
-                    //    InteractionOakBarrel.Invoke();
-                    //}
                 }
             }
         }
