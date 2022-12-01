@@ -27,6 +27,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
 
     private void Awake()
     {
+        base.Awake();
         _actions.Add(OnChangedMasterVolume);
         _actions.Add(OnChangedEffectVolume);
         _actions.Add(OnChangedBackgroundVolume);
@@ -57,9 +58,16 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             return;
         }
     }
+
+    private const int MASTER_VOLUME = 0;
+    private const int EFFECT_VOLUME = 1;
+    private const int BGM_VOLUME = 2;
+    private const int INPUT_VOLUME = 3;
+    private const int OUTPUT_VOLUME = 4;
+
     public void Refresh(int num)
     {
-        if (num == 0)
+        if (num == MASTER_VOLUME || num == INPUT_VOLUME)
         {
             _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]));
         }
