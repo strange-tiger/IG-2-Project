@@ -15,17 +15,17 @@ public class OakBarrel : InteracterableObject
 
     private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
 
-    protected override void OnEnable()
-    {
-        if (gameObject.transform.root.tag.Contains("Player"))
-        {
-            _isPlayerHave = true;
-        }
-        else
-        {
-            _isPlayerHave = false;
-        }
-    }
+    //protected override void OnEnable()
+    //{
+    //    if (gameObject.transform.root.tag.Contains("Player"))
+    //    {
+    //        _isPlayerHave = true;
+    //    }
+    //    else
+    //    {
+    //        _isPlayerHave = false;
+    //    }
+    //}
 
     private void Start()
     {
@@ -42,7 +42,7 @@ public class OakBarrel : InteracterableObject
             StartCoroutine(SetOakBarrelOriginalPosition());
         }
 
-        photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.All, false);
+        photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.AllBuffered, false);
     }
 
     [PunRPC]
@@ -55,7 +55,6 @@ public class OakBarrel : InteracterableObject
     private IEnumerator SetOakBarrelOriginalPosition()
     {
         yield return _oakBarrelReturnTime;
-        photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.All, true);
-        yield break;
+        photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.AllBuffered, true);
     }
 }

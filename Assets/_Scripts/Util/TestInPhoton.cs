@@ -60,7 +60,7 @@ public class TestInPhoton : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         Debug.Log("된거구나?");
         MySqlSetting.Init();
-        PhotonNetwork.Instantiate("NewPlayer", new Vector3(1,1,1), Quaternion.identity);
+        PhotonNetwork.Instantiate("Lobby2Player", new Vector3(1,1,1), Quaternion.identity);
     }
 
 
