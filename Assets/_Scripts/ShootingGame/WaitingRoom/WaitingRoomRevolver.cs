@@ -100,11 +100,11 @@ public class WaitingRoomRevolver : MonoBehaviourPun
         _breakableObjectLayer = 1 << LayerMask.NameToLayer("BreakableShootingObject");
 
         _lineRenderer = GetComponent<LineRenderer>();
-#if _DEV_MODE_
-        _lineRenderer.enabled = true;
-#else
-        _lineRenderer.enabled = false;
-#endif
+//#if _DEV_MODE_
+//        _lineRenderer.enabled = true;
+//#else
+//        _lineRenderer.enabled = false;
+//#endif
     }
 
     void Update()
@@ -131,13 +131,22 @@ public class WaitingRoomRevolver : MonoBehaviourPun
     {
         _isGrabbed = true;
         _input = hand.transform.parent.GetComponent<PlayerInput>();
-        // _primaryController = 
+#if _DEV_MODE_
+        _lineRenderer.enabled = true;
+#else
+        _lineRenderer.enabled = false;
+#endif
     }
 
     public void OnGrabEnd()
     {
         _isGrabbed = false;
         ObjPosReset();
+#if _DEV_MODE_
+        _lineRenderer.enabled = false;
+#else
+        _lineRenderer.enabled = false;
+#endif
     }
     private void ObjPosReset()
     {
