@@ -84,6 +84,9 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
     [SerializeField]
     int m_obstructionLayer = 0;
 
+    [SerializeField]
+    private PlayerFocus _playerFocus;
+
     SyncOVRDistanceGrabber m_otherHand;
 
     protected SyncOVRDistanceGrabbable m_target;
@@ -125,15 +128,30 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
 #endif
     }
 
+    SyncOVRDistanceGrabbable target;
+    Collider targetColl;
+
     public override void Update()
     {
         base.Update();
 
         Debug.DrawRay(transform.position, transform.forward, Color.red, 0.1f);
 
-        SyncOVRDistanceGrabbable target;
-        Collider targetColl;
-        FindTarget(out target, out targetColl);
+        //FindTarget(out target, out targetColl);
+
+        if (m_handRay.GetComponent<LineRenderer>().enabled)
+        {
+            if(_playerFocus.FocusedObject != null)
+            {
+                target = _playerFocus.FocusedObject.GetComponent<SyncOVRDistanceGrabbable>();
+                targetColl = _playerFocus.FocusedObject.GetComponent<Collider>();
+            }
+        }
+        else
+        {
+            target = null;
+            targetColl = null;
+        }
 
         if (target != m_target)
         {
@@ -143,6 +161,15 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
             }
             m_target = target;
             m_targetCollider = targetColl;
+
+            if (m_targetCollider.GetComponent<PhotonView>() != null)
+            {
+                if (m_targetCollider.GetComponent<PhotonView>().Owner != PhotonNetwork.LocalPlayer)
+                {
+                    m_targetCollider.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+                }
+            }
+
             if (m_target != null)
             {
                 m_target.Targeted = true;
@@ -233,7 +260,7 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
                     grabbableRotation = Quaternion.RotateTowards(m_grabbedObj.transform.rotation, grabbableRotation, m_objectPullMaxRotationRate * Time.deltaTime);
                 }
             }
-            
+
 
 
             // MovePosition을 사용하면 Grab을 한 플레이어가 이동할 때, 잡은 물체가 자연스럽게 이동하지 않는다.
@@ -259,6 +286,8 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
         }
         return null;
     }
+
+
 
     protected bool FindTarget(out SyncOVRDistanceGrabbable dgOut, out Collider collOut)
     {
@@ -351,7 +380,7 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
             {
                 grabbable = hitInfo.collider.gameObject.GetComponentInParent<SyncOVRDistanceGrabbable>();
                 hitCollider = grabbable == null ? null : hitInfo.collider;
-                
+
                 // SyncOVRGrabber와 마찬가지로 Grab을 위해 PhotonView의 Ownership을 Transfer하는 과정을 추가함.
                 if (hitCollider.GetComponent<PhotonView>() != null)
                 {
