@@ -39,6 +39,9 @@ public class BasicPlayerNetworking : PlayerHandRigging
             _ovrCameraHandTransforms[0] = hands[0].transform.parent.GetChild(0);
             _ovrCameraHandTransforms[1] = hands[1].transform.parent.GetChild(0);
 
+            _ovrCameraHandTransforms[0].gameObject.GetComponent<SyncOVRDistanceGrabber>().PlayerHand = _ovrHandTransforms[0].gameObject;
+            _ovrCameraHandTransforms[1].gameObject.GetComponent<SyncOVRDistanceGrabber>().PlayerHand = _ovrHandTransforms[1].gameObject;
+
             // 월드 내의 canvas와 연결하기 위한 포인터 가져오기
             _pointer = cameraRig.GetComponentInChildren<OVRGazePointer>().gameObject;
 
