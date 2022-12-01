@@ -12,24 +12,18 @@ public class PlayerControlManager: GlobalInstance<PlayerControlManager>
     [SerializeField] 
     private AudioSource _audioSource;
     [SerializeField]
-    private List<AudioClip> _audioClipList = new List<AudioClip>();
+    private AudioClip[] _audioClipList;
     [SerializeField] 
     private ParticleSystem _stundParticle;
-    public bool IsStund
+
+    const int STUN_SOUND = 0;
+    const int BEER_SOUND = 1;
+    public void SetStun(bool stun)
     {
-         set
-         {
-            if(value)
-            {
-                // 스턴 효과 실행
-                _audioSource.PlayOneShot(_audioClipList[1]);
-                _stundParticle.Play();
-            }
-            else
-            {
-                IsMoveable = true;
-                IsRayable = true;
-            }
+        if(stun)
+        {
+            _audioSource.PlayOneShot(_audioClipList[STUN_SOUND]);
+            _stundParticle.Play();
         }
     }
 }
