@@ -10,12 +10,18 @@ public class TutorialConducter : MonoBehaviour
 {
     [SerializeField] private TutorialNumber _tutorialNumber;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip _dialogSound;
+    private AudioSource _audioSource;
+    
     [Header("Skip")]
     [SerializeField] private OVRInput.Button _skipButton = OVRInput.Button.One;
     [SerializeField] private float _letterPassTime = 0.1f;
 
     [Header("Quest")]
     [SerializeField] private string _questDisableRequest = "x";
+    [SerializeField] private AudioClip _questStartSound;
+    [SerializeField] private AudioClip _questEndSound;
 
     private TutorialManager _tutorialManager;
     private TutorialCSVManager _csvManager;
@@ -36,11 +42,14 @@ public class TutorialConducter : MonoBehaviour
         
         _csvManager = _tutorialManager.CSVManager;
 
+        _audioSource = GetComponent<AudioSource>();
+
         _questConducters = GetComponentsInChildren<QuestConducter>();
         foreach(QuestConducter quest in _questConducters)
         {
             quest.OnQuestEnd -= QuestEnd;
             quest.OnQuestEnd += QuestEnd;
+            quest.SetQuestSound(_questStartSound, _questEndSound);
             quest.gameObject.SetActive(false);
         }
     }
@@ -129,6 +138,8 @@ public class TutorialConducter : MonoBehaviour
     {
         _currentDialogue = _csvManager.GetDialogue(_nextDialogueID);
         _nextDialogueID = int.Parse(_currentDialogue[TutorialField.Next]);
+
+        _audioSource.PlayOneShot(_dialogSound);
 
         _isDialogueEnd = _isSkip = false;
         StartCoroutine(CoShowDialog());

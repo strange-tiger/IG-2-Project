@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8852925509712102177}
   - component: {fileID: 6941823623895059144}
   - component: {fileID: -5374192262108179413}
+  - component: {fileID: 8959818675005081610}
   m_Layer: 0
   m_Name: Barrel 1
   m_TagString: Untagged
@@ -85,10 +86,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialModel: {fileID: 7449906373358351202}
   _shotSoundEffects:
-  - {fileID: 8300000, guid: f85f65a067ef35541a169d790963bef3, type: 3}
-  - {fileID: 8300000, guid: 42bcc17b5b6c0ca4289cf75d2f1ac06f, type: 3}
-  - {fileID: 8300000, guid: 2636b67c557486349a1debd986276930, type: 3}
-  - {fileID: 8300000, guid: ae0467f86e7c5d046993a2c02ed5a871, type: 3}
+  - {fileID: 8300000, guid: 955a91c1cb8c1c6478259b7658c00a90, type: 3}
+  - {fileID: 8300000, guid: a5f34d28dc5fd604a88c3e724eb4f505, type: 3}
+  - {fileID: 8300000, guid: 862a2859dbf6eae42bd6493958ab229a, type: 3}
+  - {fileID: 8300000, guid: e96adc877d36d814ab775d9dbb424125, type: 3}
   _shotEffects:
   - _point: 1
     _isThereEffect: 0
@@ -240,6 +241,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8959818675005081610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970715587437743427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: -5374192262108179413}
 --- !u!1 &8393776626193530134
 GameObject:
   m_ObjectHideFlags: 0

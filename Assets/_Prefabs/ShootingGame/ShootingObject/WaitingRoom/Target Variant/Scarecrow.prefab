@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6450108282665898660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8108867833589278892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 5358855180968824877}
 --- !u!1001 &910197746706291022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7,6 +20,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5116043419178928483, guid: d9d60bd56c1c2d44ba3311278388f379, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2952c5d1fbf03fc4aa39bfc2e81cc538, type: 3}
     - target: {fileID: 7768084960542201936, guid: d9d60bd56c1c2d44ba3311278388f379, type: 3}
       propertyPath: _hitEffect
       value: 
@@ -61,3 +78,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9d60bd56c1c2d44ba3311278388f379, type: 3}
+--- !u!1 &8108867833589278892 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8946911193011073506, guid: d9d60bd56c1c2d44ba3311278388f379, type: 3}
+  m_PrefabInstance: {fileID: 910197746706291022}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5358855180968824877 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5116043419178928483, guid: d9d60bd56c1c2d44ba3311278388f379, type: 3}
+  m_PrefabInstance: {fileID: 910197746706291022}
+  m_PrefabAsset: {fileID: 0}

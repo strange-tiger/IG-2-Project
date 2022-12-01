@@ -44,6 +44,7 @@ public class Tumbleweed : MonoBehaviourPun
 
     [Header("사운드")]
     [SerializeField] private AudioClip[] _goldCoinAudioClips = new AudioClip[(int)CoinGrade.Max];
+    [SerializeField] private AudioClip _tumbleweedDisableAudioClip;
     private AudioSource _audioSource;
 
     // 플레이어 인식 관련
@@ -227,6 +228,7 @@ public class Tumbleweed : MonoBehaviourPun
             
             _meshRenderer.enabled = false;
 
+            _audioSource.PlayOneShot(_tumbleweedDisableAudioClip);
             StartCoroutine(DisableSelfAfterGetGold());
             //Invoke("DisableSelf", 1f);
         }

@@ -11,4 +11,9 @@ public class TutorialStart : QuestConducter
         _tutorialButtonPanel.SetActive(true);
         QuestEnded();
     }
+
+    protected override void OnQuestEnded()
+    {
+        // 퀘스트 끝 효과음 나오면 안됨
+    }
 }
