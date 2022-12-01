@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class InputVoiceVolume : MonoBehaviourPun
+public class VoiceVolume : MonoBehaviourPun
 {
     private AudioSource _voicePlayer;
     private PhotonView photonview;
