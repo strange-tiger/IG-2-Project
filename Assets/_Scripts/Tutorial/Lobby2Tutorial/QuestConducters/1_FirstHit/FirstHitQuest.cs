@@ -19,6 +19,8 @@ public class FirstHitQuest : QuestConducter
     {
         _mapNPC.SetActive(false);
         _props.SetActive(true);
+
+        base.StartQuest();
     }
 
     private void OnDisable()

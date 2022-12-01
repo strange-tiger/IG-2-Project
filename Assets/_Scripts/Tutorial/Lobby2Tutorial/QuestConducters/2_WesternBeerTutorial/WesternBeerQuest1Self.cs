@@ -21,6 +21,8 @@ public class WesternBeerQuest1Self : QuestConducter
     {
         _props.SetActive(true);
         _playerInteraction.SetActive(true);
+
+        base.StartQuest();
     }
 
     protected override void OnQuestEnded()

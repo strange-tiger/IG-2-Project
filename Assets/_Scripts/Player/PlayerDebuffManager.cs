@@ -84,7 +84,10 @@ public class PlayerDebuffManager : MonoBehaviourPun
     [PunRPC]
     public void DrunkenDebuff()
     {
-        StartCoroutine(CoDrunkenFade());
+        if (photonView.IsMine)
+        {
+            StartCoroutine(CoDrunkenFade());
+        }
     }
 
     private IEnumerator CoDrunkenFade()
@@ -135,7 +138,10 @@ public class PlayerDebuffManager : MonoBehaviourPun
     [PunRPC]
     public void StunDebuff()
     {
-        StartCoroutine(StunFade());
+        if (photonView.IsMine)
+        {
+            StartCoroutine(StunFade());
+        }
     }
 
     private IEnumerator StunFade()

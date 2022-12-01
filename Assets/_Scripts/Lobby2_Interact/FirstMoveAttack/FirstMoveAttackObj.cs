@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class FirstMoveAttackObj : MonoBehaviourPun
+public class FirstMoveAttackObj : FocusableObjects
 {
     private Vector3 _objSpawnPos;
     private AudioSource _audioSource;
@@ -19,6 +19,14 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     private SyncOVRGrabbable _syncGrabbable;
     private PhotonView _grabberPhotonView = null;
 
+    private void Awake()
+    {
+        base.Awake();
+    }
+    private void OnEnable()
+    {
+        base.OnEnable();
+    }
     private void Start()
     {
         _objSpawnPos = transform.position;
@@ -123,5 +131,10 @@ public class FirstMoveAttackObj : MonoBehaviourPun
     {
         yield return _respawnCooldown;
         Respawn();
+    }
+
+    private void OnDisable()
+    {
+        base.OnDisable();
     }
 }

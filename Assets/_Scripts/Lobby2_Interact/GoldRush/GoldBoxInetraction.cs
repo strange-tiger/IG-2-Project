@@ -44,11 +44,16 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     private readonly Vector3 _originalScale = new Vector3(1f, 1f, 1f);
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip _pickUpSound;
+    private AudioSource _audioSource;
+
     private void Awake()
     {
         _spawner = transform.root.GetComponent<GoldBoxSpawner>();
         _rigidbody = transform.parent.GetComponent<Rigidbody>();
         _sencer = transform.parent.GetComponent<GoldBoxSencer>();
+        _audioSource = transform.parent.GetComponentInChildren<AudioSource>();
 
         // È®·ü °è»êÀ» À§ÇÑ ÃÑ È®·ü ±¸ÇÏ±â
         _maxGoldCoinRate = 0f;
@@ -69,6 +74,8 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         base.OnEnable();
 
         _sencer.photonView.RequestOwnership();
+
+        _audioSource.PlayOneShot(_pickUpSound);
 
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;

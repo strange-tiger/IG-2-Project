@@ -7,13 +7,19 @@ using Photon.Pun;
 
 public class BeerInteraction : MonoBehaviourPun, IPunObservable
 {
+
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _drinkSound;
+
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
 
     private PlayerControllerMove _playerContollerMove;
 
     private PlayerDebuffManager _playerDebuff;
 
+
     private Color _initUIColor = new Color(1f, 1f, 0.28f, 0f);
+
 
     private int _drinkStack = -1;
 
@@ -117,6 +123,8 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
+            _audioSource.PlayOneShot(_drinkSound);
+
             _isCoolTime = true;
 
             _drinkStack++;

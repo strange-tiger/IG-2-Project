@@ -13,4 +13,9 @@ public class TutorialEnd : QuestConducter
         _lobbyChanger.ChangeLobby(_nextLobby);
         QuestEnded();
     }
+
+    protected override void OnQuestEnded()
+    {
+        // 퀘스트 끝 효과음 나오면 안됨
+    }
 }

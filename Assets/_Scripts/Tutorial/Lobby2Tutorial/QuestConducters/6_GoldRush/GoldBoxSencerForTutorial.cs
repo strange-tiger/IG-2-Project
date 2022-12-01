@@ -24,8 +24,12 @@ public class GoldBoxSencerForTutorial : MonoBehaviour
 
     private Transform _originalParent;
 
+    private AudioSource _audioSource;
+
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         _sencerCollider = GetComponent<Collider>();
         _originalParent = transform.parent;
 
@@ -48,6 +52,8 @@ public class GoldBoxSencerForTutorial : MonoBehaviour
         if(_isTherePlayer && _playerInteraction.HasInteract && !_playerInteraction.IsGrabbing)
         {
             _sencerCollider.enabled = false;
+
+            _audioSource.Play();
 
             gameObject.transform.parent = _playerTransform;
             gameObject.transform.localPosition = _onPlayerPosition;

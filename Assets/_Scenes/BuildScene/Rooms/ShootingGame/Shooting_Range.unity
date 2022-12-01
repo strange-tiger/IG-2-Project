@@ -5300,6 +5300,7 @@ GameObject:
   - component: {fileID: 612462678}
   - component: {fileID: 612462680}
   - component: {fileID: 612462681}
+  - component: {fileID: 612462682}
   m_Layer: 0
   m_Name: ShootingGameManager
   m_TagString: Untagged
@@ -5323,20 +5324,20 @@ MonoBehaviour:
   _showNicknameOffsetTime: 1
   _startCountDownOffsetTime: 3
   _startCountDownSounds:
-  - {fileID: 8300000, guid: 5a2d8600cac1a99448a1acefebdde7ca, type: 3}
-  - {fileID: 8300000, guid: 00438795658487943a7d6a37cfae1bfb, type: 3}
-  - {fileID: 8300000, guid: 98a3f95841922b94db964f28ef2cb34a, type: 3}
-  - {fileID: 8300000, guid: 45c169e10c653084d8bdbdffcfcbefe1, type: 3}
+  - {fileID: 8300000, guid: 2f94d9db647635941922a351b55ac92e, type: 3}
+  - {fileID: 8300000, guid: 8aa903082c804954ab102bbb12221b4d, type: 3}
+  - {fileID: 8300000, guid: e5012cb32c8ee27439896d02cb8ad89e, type: 3}
+  - {fileID: 8300000, guid: bd60d991bededa844a369b83288f93c9, type: 3}
   _gameStartOffsetTime: 3
   _hoorayTime: 4
   _finalSeconds: 5
   _finalSoundEffect:
-  - {fileID: 8300000, guid: fc78bdd764d56dd44be1282900c84b0d, type: 3}
-  - {fileID: 8300000, guid: cd39983f5b0fe7d41b18f320ee545d93, type: 3}
-  - {fileID: 8300000, guid: 5a2d8600cac1a99448a1acefebdde7ca, type: 3}
-  - {fileID: 8300000, guid: 00438795658487943a7d6a37cfae1bfb, type: 3}
-  - {fileID: 8300000, guid: 98a3f95841922b94db964f28ef2cb34a, type: 3}
-  - {fileID: 8300000, guid: cb72ce3dc75ca464f97221435faee7de, type: 3}
+  - {fileID: 8300000, guid: 852dfb5d1c0a94944a02e6654f06662f, type: 3}
+  - {fileID: 8300000, guid: 222bd66d119188c489635480395bc9dc, type: 3}
+  - {fileID: 8300000, guid: 2f94d9db647635941922a351b55ac92e, type: 3}
+  - {fileID: 8300000, guid: 8aa903082c804954ab102bbb12221b4d, type: 3}
+  - {fileID: 8300000, guid: e5012cb32c8ee27439896d02cb8ad89e, type: 3}
+  - {fileID: 8300000, guid: 3c7016e73b7d38c4e8311ce411446971, type: 3}
   _playerColors:
   - {r: 1, g: 0.19607843, b: 0.19607843, a: 1}
   - {r: 0.19607843, g: 0.54901963, b: 1, a: 1}
@@ -5356,10 +5357,10 @@ MonoBehaviour:
   _lunchObjects: {fileID: 1130950550}
   _uiCanvas: {fileID: 8207156520898004993}
   _uiManager: {fileID: 1551984317}
-  _goldStarAudioClip: {fileID: 8300000, guid: 42b5d4b39b086ef49a28399dcc5f4f46, type: 3}
-  _hoorayAudioClip: {fileID: 8300000, guid: 355d882c1d28b43438757adf20d2a7c0, type: 3}
-  _eagleAudioClip: {fileID: 8300000, guid: 980f6a522dc3a4e4ba3cd14f9ebbafb0, type: 3}
-  _giveGoldAudioClip: {fileID: 8300000, guid: d113ac1ff1dbbcf499a53553640a6453, type: 3}
+  _goldStarAudioClip: {fileID: 8300000, guid: f0bcc93b06ffda848b6542adf3525b34, type: 3}
+  _hoorayAudioClip: {fileID: 8300000, guid: 9a23ddde38e941f4099df2c84d86ed14, type: 3}
+  _eagleAudioClip: {fileID: 8300000, guid: de18f51055265c4469cee4bb291ca1dd, type: 3}
+  _giveGoldAudioClip: {fileID: 8300000, guid: 18989cefdf6fa14499eb7b7b34692420, type: 3}
   OnTimePass:
     m_PersistentCalls:
       m_Calls: []
@@ -5503,6 +5504,19 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &612462682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612462677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 612462680}
 --- !u!1001 &621303509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6307,156 +6321,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4818500250270266, guid: e35b608308de57746b8a7cea43fc068a, type: 3}
   m_PrefabInstance: {fileID: 759603100}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &769656267
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 769656272}
-  - component: {fileID: 769656271}
-  - component: {fileID: 769656270}
-  - component: {fileID: 769656269}
-  m_Layer: 0
-  m_Name: SoundManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &769656269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769656267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65b99afb3758e9e4689c28a18224eb8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RandomRoom: 1
-  autoConnect: 1
-  autoTransmit: 1
-  publishUserId: 0
-  RoomName: 
---- !u!114 &769656270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769656267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logLevel: 2
-  ignoreGlobalLogLevel: 0
-  voiceDetection: 0
-  voiceDetectionThreshold: 0.01
-  voiceDetectionDelayMs: 500
-  unityMicrophoneDevice: 
-  photonMicrophoneDeviceId: -1
-  interestGroup: 0
-  debugEchoMode: 1
-  reliableMode: 0
-  encrypt: 0
-  transmitEnabled: 0
-  samplingRate: 24000
-  frameDuration: 20000
-  bitrate: 30000
-  sourceType: 0
-  microphoneType: 0
-  audioClip: {fileID: 0}
-  loopAudioClip: 1
-  reactOnSystemChanges: 0
-  autoStart: 1
-  audioSessionParameters:
-    Category: 4
-    Mode: 0
-    CategoryOptions: 0800000004000000
-  useCustomAudioSessionParameters: 0
-  audioSessionPresetIndex: 0
-  nativeAndroidMicrophoneSettings:
-    AcousticEchoCancellation: 0
-    AutomaticGainControl: 0
-    NoiseSuppression: 0
-  recordOnlyWhenEnabled: 0
-  skipDeviceChangeChecks: 0
-  stopRecordingWhenPaused: 0
-  useOnAudioFilterRead: 0
-  trySamplingRateMatch: 0
-  useMicrophoneTypeFallback: 1
-  recordOnlyWhenJoined: 1
---- !u!114 &769656271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769656267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697c1cda529a1419782f2a2e3afe37a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DisconnectAfterKeepAlive: 0
-  KeepAliveInBackground: 60000
-  ApplyDontDestroyOnLoad: 1
-  logLevel: 1
-  enableSupportLogger: 0
-  updateInterval: 50
-  runInBackground: 1
-  statsResetInterval: 1000
-  speakerPrefab: {fileID: 0}
-  primaryRecorder: {fileID: 769656270}
-  globalRecordersLogLevel: 1
-  globalSpeakersLogLevel: 1
-  globalPlaybackDelay: -1
-  globalPlaybackDelaySettings:
-    MinDelaySoft: 200
-    MaxDelaySoft: 400
-    MaxDelayHard: 1000
-  Settings:
-    AppIdRealtime: 
-    AppIdFusion: 
-    AppIdChat: 
-    AppIdVoice: fc5005e7-b91f-4655-b020-8b870f8de3d5
-    AppVersion: 
-    UseNameServer: 1
-    FixedRegion: 
-    Server: 
-    Port: 0
-    ProxyServer: 
-    Protocol: 0
-    EnableProtocolFallback: 1
-    AuthMode: 0
-    EnableLobbyStatistics: 0
-    NetworkLogging: 1
-  ShowSettings: 1
-  MinimalTimeScaleToDispatchInFixedUpdate: -1
-  AutoCreateSpeakerIfNotFound: 1
-  MaxDatagrams: 3
-  SendAsap: 0
---- !u!4 &769656272
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769656267}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &775147634
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,6 +6427,7 @@ GameObject:
   - component: {fileID: 775743940}
   - component: {fileID: 775743941}
   - component: {fileID: 775743942}
+  - component: {fileID: 775743943}
   m_Layer: 0
   m_Name: ShootingRange
   m_TagString: Untagged
@@ -6601,7 +6466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbc445bfda19703439a95ab0ac066c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isStartRoom: 0
+  _isInLobby: 0
   _canvases:
   - {fileID: 8207156520898005004}
   _playerPrefab: {fileID: 6072405480879903498, guid: 86fb4eb7a05f52641b347cc352b52dc6, type: 3}
@@ -6634,6 +6499,19 @@ MonoBehaviour:
   sceneViewId: 6
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &775743943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775743939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45997b306a33db7418c2361726237118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgmClip: {fileID: 8300000, guid: 1db9e2d85574e454f83b09a124052fd7, type: 3}
 --- !u!1001 &784700467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8937,17 +8815,29 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4125944960315255163, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4125944960607689702, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125944960822674002, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125944960836496818, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4125944961093476143, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4125944961098379471, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4576341470161486522, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
       propertyPath: _shootingObjectTimings.Array.data[1]._shootingObjects.Array.data[0]._shootingObjectType
@@ -9049,9 +8939,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: LuncherManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4576341471017648548, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4576341471293584185, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 250bc43461e7ed8489e6cc51195fb310, type: 3}

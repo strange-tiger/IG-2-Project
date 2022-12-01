@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+
+/*
+ * OVRGrabber를 동기화하기위해 만든 스크립트.
+ * OVRGrabbable을 그대로 가져왔으며, Grab 상태에 따라 GrabbedObject의 Collider를 IsTrigger로 변경해주는 코드가 추가됨.
+ */
 public class SyncOVRGrabbable : MonoBehaviourPun
 {
     [SerializeField]
@@ -105,7 +110,7 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         m_grabbedBy = hand;
         m_grabbedCollider = grabPoint;
 
-        gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        //GrabBegin이 호출되면, IsTrigger를 true로 만들어줌.
         gameObject.GetComponent<Collider>().isTrigger = true;
 
         CallbackOnGrabBegin?.Invoke();

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1430659288437570594}
   - component: {fileID: 7975739551705404823}
   - component: {fileID: 241394507623452027}
+  - component: {fileID: 6463568006763655393}
   m_Layer: 0
   m_Name: Tin 1
   m_TagString: Untagged
@@ -85,10 +86,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialModel: {fileID: 755605492956867312}
   _shotSoundEffects:
-  - {fileID: 8300000, guid: 4674e6b4473082745ad9a6bd3b4f6ed7, type: 3}
-  - {fileID: 8300000, guid: ed3b380d52bfcce469cff8c047f862b9, type: 3}
-  - {fileID: 8300000, guid: 1d596667638973d4bbd7e7e426bb9d0b, type: 3}
-  - {fileID: 8300000, guid: d3cf64e49d6944046b1ca97f07c25e22, type: 3}
+  - {fileID: 8300000, guid: 0fbf5c0d7e9a5b24ba011c799dc0806c, type: 3}
+  - {fileID: 8300000, guid: 1cfcd34e1434bdf41b54450c8110248a, type: 3}
+  - {fileID: 8300000, guid: 4de29f94b1556d949b3392a16e1f4c26, type: 3}
+  - {fileID: 8300000, guid: ef97fb218e182d64783214586e642fe4, type: 3}
   _shotEffects:
   - _point: 0
     _isThereEffect: 1
@@ -134,8 +135,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -235,6 +235,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6463568006763655393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640918804740691840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 241394507623452027}
 --- !u!1 &3882650594272900767
 GameObject:
   m_ObjectHideFlags: 0

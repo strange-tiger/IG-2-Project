@@ -20,6 +20,8 @@ public class GoldRushQuest1Get : QuestConducter
         _goldBoxSencer.enabled = true;
         _goldBox.SetActive(true);
         _goldRushInteraction.enabled = true;
+
+        base.StartQuest();
     }
 
     private void OnDisable()
