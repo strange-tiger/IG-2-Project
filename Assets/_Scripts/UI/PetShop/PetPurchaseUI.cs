@@ -309,6 +309,7 @@ public class PetPurchaseUI : MonoBehaviour
 
     private void ShowPetGrade(int index, PetShopUIManager.PetProfile.EGrade grade)
     {
+        Debug.Log($"[GRADE] {grade} {(int)grade} {_petNames[index]}");
         _petGrades[index].text = grade.ToString();
         _petGrades[index].color = GRADE_COLOR[(int)grade];
     }
