@@ -15,7 +15,7 @@ public class PlayerFocus : MonoBehaviour
     private Vector3[] _rayPositions = new Vector3[2];
     [SerializeField] private Color _rayColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
 
-    private float _rayLength = 5.0f;
+    private float _rayLength = 3.0f;
     private float _alpha = 1.0f;
 
     // 조준한 오브젝트 관련
