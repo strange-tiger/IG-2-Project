@@ -29,7 +29,7 @@ using UnityEngine.SceneManagement;
 
 /*
  * OVRDistanceGrabber를 사용하기 위해 만든 스크립트.
- * Player의 Raycast를 인식하여, Raycast를 받지 않으면 원하는 물체를 Grab 할 수 없도록 구현.
+ * 잡을 물체를 각 손의 HandRay를 이용하여 FocusedObject면 GrabTarget이 되도록 구현.
  * SyncOVRGrabber를 상속받으며, Grab시에 GrabbedObject의 Position과 Rotation을 각각 GrabbablePosition,GrabbableRotation으로 만들어 Grab상태로 움직였을 때, GrabbedObject의 움직임이 이상하던 문제를 해결함.
  */
 
