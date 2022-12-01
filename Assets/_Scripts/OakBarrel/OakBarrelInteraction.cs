@@ -43,7 +43,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
             photonView.RPC("PlayerSetting", RpcTarget.AllBuffered, false);
         }
     }
-    
+
     private void Start()
     {
         _playerControllerMove = GetComponent<PlayerControllerMove>();
@@ -53,28 +53,25 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
 
         _audioSource = GetComponentInChildren<AudioSource>();
-        
+
         _playerDebuffManager.FadeMaterial.color = Color.black;
     }
 
     private void Update()
     {
-        if (photonView.IsMine)
+        if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
         {
-            if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
-            {
-                StopAllCoroutines();
+            StopAllCoroutines();
 
-                
-                _isSelfExit = true;
-                OutOakBarrel();
-            }
 
-            if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
-            {
-                _isSelfExit = false;
-                OutOakBarrel();
-            }
+            _isSelfExit = true;
+            OutOakBarrel();
+        }
+
+        if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
+        {
+            _isSelfExit = false;
+            OutOakBarrel();
         }
     }
 
