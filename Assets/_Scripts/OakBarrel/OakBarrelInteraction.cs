@@ -16,6 +16,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
     private PlayerControllerMove _playerControllerMove;
 
+    private PlayerDebuffManager _playerDebuffManager;
+
     private MeshCollider _oakBarrelMeshCollider;
     private MeshRenderer _playerMeshRenderer;
     private MeshRenderer _oakBarrelMeshRenderer;
@@ -55,6 +57,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
         _oakBarrelIsGone = OakBarrelIsGone();
         _fadeOutPlayerScreen = FadeOutPlayerScreen();
+
+        _playerDebuffManager.FadeMaterial.color = Color.black;
     }
 
     private void Update()
@@ -147,6 +151,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, false);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, true);
         photonView.RPC(nameof(OakBarrelToPlayer), RpcTarget.All, _player);
+
+        _playerDebuffManager.CallStunDebuff();
 
         _playerControllerMove.MoveScale += _speedSlower;
 
