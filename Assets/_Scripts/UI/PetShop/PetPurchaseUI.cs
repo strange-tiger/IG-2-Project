@@ -28,6 +28,7 @@ public class PetPurchaseUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _equipedPetName;
     [SerializeField] TextMeshProUGUI _equipedPetGrade;
     [SerializeField] TextMeshProUGUI _haveGold;
+    [SerializeField] TextMeshProUGUI _backText;
 
     [Header("Pet Info")]
     [SerializeField] Image[] _petImages;
@@ -263,6 +264,8 @@ public class PetPurchaseUI : MonoBehaviour
 
     private const string ABLE_TO_PURCHASE = "구입하시겠습니까?";
     private const string NOT_ABLE_TO_PURCHASE = "골드가 부족합니다.";
+    private const string ABLE_BACK = "조금 더 둘러볼게요";
+    private const string NOT_ABLE_BACK = "돌아가기";
     private void ShowCurrentPet(PetShopUIManager.PetProfile pet)
     {
         _petInfoPopup.SetActive(true);
@@ -285,11 +288,13 @@ public class PetPurchaseUI : MonoBehaviour
         if (pet.Price > haveGold)
         {
             _purchaseButton.enabled = false;
+            _backText.text = NOT_ABLE_BACK;
             _petPrice.text += NOT_ABLE_TO_PURCHASE;
         }
         else
         {
             _purchaseButton.enabled = true;
+            _backText.text = ABLE_BACK;
             _petPrice.text += ABLE_TO_PURCHASE;
         }
     }
