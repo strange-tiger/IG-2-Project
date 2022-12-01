@@ -8,11 +8,10 @@ using Photon.Realtime;
 public class Beer : InteracterableObject, IPunObservable
 {
 
-
-    [SerializeField] GameObject _fullBeer;
-    [SerializeField] AudioClip _drinkSound;
-    [SerializeField] BoxCollider _grabCollider;
-    [SerializeField] BoxCollider _beerCollider;
+    [Header("Beer")]
+    [SerializeField] private GameObject _fullBeer;
+    [SerializeField] private BoxCollider _grabCollider;
+    [SerializeField] private AudioClip _drinkSound;
 
 
     private Vector3 _initBeerPosition;
@@ -21,18 +20,18 @@ public class Beer : InteracterableObject, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
-            if (stream.IsWriting)
-            {
-                stream.SendNext(_fullBeer.activeSelf);
-                stream.SendNext(_grabCollider.enabled);
-            }
-            else if (stream.IsReading)
-            {
-                _fullBeer.SetActive((bool)stream.ReceiveNext());
-                _grabCollider.enabled = (bool)stream.ReceiveNext();
-            }
-        
+
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_fullBeer.activeSelf);
+            stream.SendNext(_grabCollider.enabled);
+        }
+        else if (stream.IsReading)
+        {
+            _fullBeer.SetActive((bool)stream.ReceiveNext());
+            _grabCollider.enabled = (bool)stream.ReceiveNext();
+        }
+
     }
 
     private void Start()
@@ -43,7 +42,7 @@ public class Beer : InteracterableObject, IPunObservable
 
     public void CallDrinkBeer()
     {
-          photonView.RPC("DrinkBeer", RpcTarget.All);
+        photonView.RPC("DrinkBeer", RpcTarget.All);
     }
 
     [PunRPC]
@@ -63,7 +62,6 @@ public class Beer : InteracterableObject, IPunObservable
         transform.position = _initBeerPosition;
 
         _fullBeer.SetActive(true);
-
 
         _grabCollider.enabled = true;
 

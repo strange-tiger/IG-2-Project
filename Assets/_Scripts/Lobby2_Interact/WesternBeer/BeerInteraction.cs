@@ -13,7 +13,6 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
     private PlayerDebuffManager _playerDebuff;
 
-
     private Color _initUIColor = new Color(1f, 1f, 0.28f, 0f);
 
     private int _drinkStack = -1;

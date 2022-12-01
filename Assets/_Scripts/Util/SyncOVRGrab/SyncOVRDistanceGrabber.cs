@@ -228,8 +228,11 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
                     grabbableRotation = Quaternion.RotateTowards(m_grabbedObj.transform.rotation, grabbableRotation, m_objectPullMaxRotationRate * Time.deltaTime);
                 }
             }
-            grabbedRigidbody.MovePosition(grabbablePosition);
-            grabbedRigidbody.MoveRotation(grabbableRotation);
+            grabbedRigidbody.transform.position = grabbablePosition;
+            grabbedRigidbody.transform.rotation = grabbableRotation;
+
+            //grabbedRigidbody.MovePosition(grabbablePosition);
+            //grabbedRigidbody.MoveRotation(grabbableRotation);
         }
         else
         {
