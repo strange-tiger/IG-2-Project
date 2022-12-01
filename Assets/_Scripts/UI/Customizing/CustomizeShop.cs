@@ -77,6 +77,7 @@ public class CustomizeShop : MonoBehaviourPun
     private int _setAvatarNum;
     private int _setMaterialNum;
     private int _equipNum;
+    private int _equipMaterialNum;
     private int _startNum;
     private int _playerGold;
 
@@ -155,7 +156,8 @@ public class CustomizeShop : MonoBehaviourPun
         }
 
         // 유저의 색 데이터를 불러옴
-        _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
+        _equipMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
+
 
         // 착용중이었던 아바타의 데이터를 불러옴.
         for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
@@ -179,7 +181,7 @@ public class CustomizeShop : MonoBehaviourPun
         // Material 저장 스크립터블 오브젝트
         _currentAvatarMaterialData = _userCustomizeData.AvatarMaterial[_equipNum];
         // 현재 아바타 보여줄 스프라이트
-        _currentAvatarImage.sprite = _currentAvatarMaterialData.AvatarImage[_setMaterialNum];
+        _currentAvatarImage.sprite = _currentAvatarMaterialData.AvatarImage[_equipMaterialNum];
         // 현재 아바타의 이름
         _currentAvatarName.text = _userCustomizeData.AvatarName[_equipNum];
         // 현재 아바타의 닉네임
@@ -187,6 +189,8 @@ public class CustomizeShop : MonoBehaviourPun
         // 현재 아바타의 가격
         _currentGold.text = _playerGold.ToString();
 
+
+        _setMaterialNum = 0;
 
         for (int i = 0; i < _avatarMaterialData.Length; ++i)
         {

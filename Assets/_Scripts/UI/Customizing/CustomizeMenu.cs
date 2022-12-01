@@ -154,6 +154,8 @@ public class CustomizeMenu : MonoBehaviourPun
         // 커스터마이징 창의 아바타 이름, 닉네임을 적용시킴.
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
+        _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
+
     }
 
 
