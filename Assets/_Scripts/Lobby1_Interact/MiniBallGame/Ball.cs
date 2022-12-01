@@ -75,5 +75,10 @@ public class Ball : MonoBehaviourPunCallbacks
             _audioSource.Play();
         }
     }
+
+    public override void OnDisable()
+    {
+        transform.position = _ballPosition;
+    }
 }
 
