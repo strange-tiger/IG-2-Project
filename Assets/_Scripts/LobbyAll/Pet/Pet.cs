@@ -37,9 +37,10 @@ public class Pet : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < _petData.Status.Length; ++i)
         {
-            if (_petData.Object[i] == gameObject)
+            if (_petData.Status[i] == EPetStatus.EQUIPED)
             {
                 _eqiupNum = i;
+                Debug.Log("[PET] " + _eqiupNum);
                 break;
             }
         }

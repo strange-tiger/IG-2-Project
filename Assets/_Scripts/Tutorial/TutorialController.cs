@@ -82,7 +82,7 @@ public class TutorialController : MonoBehaviour
     {
         _dialogueSkip = (OVRInput.GetDown(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.A));
         
-        if (_dialogueSkip && _tutorialDialogueText.text.Length != _startRoomQuestList.Dialogue[_dialogueNum].Length)
+        if (_dialogueSkip)
         {
             StopAllCoroutines();
 
@@ -91,25 +91,32 @@ public class TutorialController : MonoBehaviour
 
             StartCoroutine(Next());
         }
-
+        NextDialogue();
         if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
+            StopAllCoroutines();
             DialogueNumCount();
 
+            #region StartRoom
+            /* 
             if (_tutorialType == TutorialType.StartRoom)
             {
                 StartCoroutine(TextTyping(_startRoomQuestList.Dialogue[_dialogueNum]));
 
                 _isDialogueEnd = false;
             }
+            */
+            #endregion
 
             if (_tutorialType == TutorialType.Lobby1)
             {
                 if (_dialogueNum == 4 && !_sendMessage)
                 {
                     StopAllCoroutines();
-                    _tutorialDialogueText.text = _lobby1QuestList.Dialogue[_dialogueNum - 1];
+                    _tutorialDialogueText.text = null;
+                    _tutorialDialogueText.text = _lobby1QuestList.Dialogue[3];
                     _dialogueNum = 3;
+                    //_sendMessage = true;
                 }
                 else
                 {
@@ -120,8 +127,7 @@ public class TutorialController : MonoBehaviour
                 }
             }
         }
-
-        NextDialogue();
+        Debug.Log(_dialogueNum);
     }
 
     /// <summary>
@@ -133,11 +139,6 @@ public class TutorialController : MonoBehaviour
     {
         foreach (char c in dialogue)
         {
-            //if (_dialogueSkip)
-            //{
-            //    _tutorialDialogueText.text = dialogue;
-            //    yield break;
-            //}
             _tutorialDialogueText.text += c;
 
             yield return _delayTime;
@@ -162,16 +163,8 @@ public class TutorialController : MonoBehaviour
         {
             ++_dialogueNum;
 
-            if (_dialogueNum > _dialogueMaxNum - 1)
-            {
-                _tutorialNPCName.text = null;
-
-                gameObject.SetActive(false);
-
-                _isNext = false;
-
-                _dialogueNum -= _dialogueNum;
-            }
+            _isDialogueEnd = false;
+            _isNext = false;
         }
     }
 
@@ -180,24 +173,16 @@ public class TutorialController : MonoBehaviour
     /// </summary>
     private void NextDialogue()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
+        if (OVRInput.GetDown(OVRInput.Button.One) && _isDialogueEnd == true)
         {
             _tutorialDialogueText.text = null;
             _isNext = true;
         }
-        else
-        {
-            _isNext = false;
-        }
 //#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true && _tutorialDialogueText.text.Length == _lobby1QuestList.Dialogue[_dialogueNum].Length)
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
 //        {
 //            _tutorialDialogueText.text = null;
 //            _isNext = true;
-//        }
-//        else
-//        {
-//            _isNext = false;
 //        }
 //#endif
     }
@@ -209,6 +194,8 @@ public class TutorialController : MonoBehaviour
     {
         if (_isTutorialQuest == true)
         {
+            #region StartRoom
+            /*
             if (_tutorialType == TutorialType.StartRoom)
             {
                 if (_dialogueNum == 4)
@@ -254,21 +241,30 @@ public class TutorialController : MonoBehaviour
                     }
                 }
             }
+            */
+            #endregion
 
             if (_tutorialType == TutorialType.Lobby1)
             {
                 _isTutorialQuest = value;
-
                 _lobby1TutorialStartButton.IsQuest = value;
+                _sendMessage = value;
             }
         }
     }
 
     private void QuestAccept(int num)
     {
-        _dialogueNum = num;
-
-        _sendMessage = true;
+        if (num == 3)
+        {
+            _dialogueNum = num;
+        }
+        else
+        {
+            _dialogueNum = num;
+            _sendMessage = true;
+            _isTutorialQuest = false;
+        }
     }
 
     private void OnDisable()

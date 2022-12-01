@@ -346,7 +346,7 @@ MonoBehaviour:
   m_noSnapThreshhold: 0.05
   m_useSpherecast: 1
   m_preventGrabThroughWalls: 1
-  m_objectPullVelocity: 10
+  m_objectPullVelocity: 5
   m_maxGrabDistance: 3
   m_grabObjectsInLayer: 10
   m_obstructionLayer: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_noSnapThreshhold: 0.05
   m_useSpherecast: 1
   m_preventGrabThroughWalls: 1
-  m_objectPullVelocity: 10
+  m_objectPullVelocity: 5
   m_maxGrabDistance: 3
   m_grabObjectsInLayer: 10
   m_obstructionLayer: 0
@@ -1049,6 +1049,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isInvincible: 0
+  _audioSource: {fileID: 0}
+  _stundParticle: {fileID: 0}
 --- !u!114 &6051071387945764693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2243,6 +2245,14 @@ PrefabInstance:
     - target: {fileID: 3327417988297097662, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710643700959954980, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
+      propertyPath: sortOrder
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710643701075361304, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
+      propertyPath: m_sendNavigationEvents
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4449215289536650735, guid: 6a59054db38c6a54f8aa77b879ed3d98, type: 3}
       propertyPath: m_RootOrder
