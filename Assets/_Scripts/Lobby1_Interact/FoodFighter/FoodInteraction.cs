@@ -49,7 +49,7 @@ public class FoodInteraction : MonoBehaviourPun, IPunObservable
     }
     private void Start()
     {
-        _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
+        _playerContollerMove = GetComponent<PlayerControllerMove>();
     }
 
     private void Update()

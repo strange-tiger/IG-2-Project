@@ -8,16 +8,18 @@ using Photon.Pun;
 public class BeerInteraction : MonoBehaviourPun, IPunObservable
 {
 
-    [SerializeField] private Material _fadeMaterial;
-
-    private PlayerControllerMove _playerContollerMove;
-    private MeshRenderer _fadeRenderer;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _drinkSound;
 
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
-    private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
-    private YieldInstruction _stunTime = new WaitForSeconds(5f);
+
+    private PlayerControllerMove _playerContollerMove;
+
+    private PlayerDebuffManager _playerDebuff;
+
 
     private Color _initUIColor = new Color(1f, 1f, 0.28f, 0f);
+
 
     private int _drinkStack = -1;
 
@@ -29,7 +31,6 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
     private float _tremblingElapsedTime;
 
     private float _initPlayerSpeed = 1.0f;
-    private float _animatedFadeAlpha;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -46,18 +47,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
     private void Start()
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
-
-        StartCoroutine(CoFindFadeImage());
-    }
-
-    private IEnumerator CoFindFadeImage()
-    {
-        yield return new WaitForSeconds(4f);
-
-        _fadeRenderer = GameObject.Find("CenterEyeAnchor").GetComponent<MeshRenderer>();
-        _fadeRenderer.material = _fadeMaterial;
-        _fadeMaterial.color = _initUIColor;
-        _fadeRenderer.enabled = true;
+        _playerDebuff = GetComponentInParent<PlayerDebuffManager>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -113,7 +103,7 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
             _soberUpElapsedTime = 0;
 
-            _fadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
+            _playerDebuff.FadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
 
             _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
             _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
@@ -133,6 +123,8 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
+            _audioSource.PlayOneShot(_drinkSound);
+
             _isCoolTime = true;
 
             _drinkStack++;
@@ -146,11 +138,11 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
 
             if (_drinkStack == 5)
             {
-                StartCoroutine(CoFade(0, 1));
+                DrunkenDebuff();
             }
             else if (_drinkStack < 5 && _drinkStack > 0)
             {
-                _fadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
+                _playerDebuff.FadeMaterial.color = new Color(1f, 1f, 0.28f, (0f + (0.1f * _drinkStack)));
 
                 _tremblingSpeed[0] = _initPlayerSpeed + (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
                 _tremblingSpeed[1] = _initPlayerSpeed - (_playerContollerMove.MoveScale * (0.05f * _drinkStack));
@@ -164,52 +156,13 @@ public class BeerInteraction : MonoBehaviourPun, IPunObservable
         _isCoolTime = false;
 
     }
-    private IEnumerator CoFade(float startAlpha, float endAlpha)
+    private void DrunkenDebuff()
     {
-        float elapsedTime = 0.0f;
-        float fadeTime = 3f;
-
-        while (elapsedTime < fadeTime)
-        {
-            elapsedTime += Time.deltaTime;
-
-            _animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
-
-            _fadeMaterial.color = new Color(0, 0, 0, _animatedFadeAlpha);
-
-            yield return _fadeTime;
-        }
-
-        _animatedFadeAlpha = endAlpha;
-
-        PlayerControlManager.Instance.IsMoveable = false;
-        PlayerControlManager.Instance.IsRayable = false;
-        PlayerControlManager.Instance.IsInvincible = true;
-
-        yield return _stunTime;
-
-        PlayerControlManager.Instance.IsMoveable = true;
-        PlayerControlManager.Instance.IsRayable = true;
-        PlayerControlManager.Instance.IsInvincible = false;
-
-        elapsedTime = 0.0f;
-
-        while (elapsedTime < fadeTime)
-        {
-            elapsedTime += Time.deltaTime;
-
-            _animatedFadeAlpha = Mathf.Lerp(endAlpha, startAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
-
-            _fadeMaterial.color = new Color(0, 0, 0, _animatedFadeAlpha);
-
-            yield return _fadeTime;
-        }
-
-        _animatedFadeAlpha = startAlpha;
+        _playerDebuff.CallDrunkenDebuff();
 
         _drinkStack = -1;
 
-        _fadeMaterial.color = _initUIColor;
+        _playerDebuff.FadeMaterial.color = _initUIColor;
 
         _tremblingSpeed[0] = _initPlayerSpeed;
         _tremblingSpeed[1] = _initPlayerSpeed;

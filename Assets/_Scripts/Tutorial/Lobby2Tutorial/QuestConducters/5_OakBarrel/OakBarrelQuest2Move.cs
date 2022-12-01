@@ -15,6 +15,8 @@ public class OakBarrelQuest2Move : QuestConducter
     public override void StartQuest()
     {
         StartCoroutine(CoQuestEnd());
+
+        base.StartQuest();
     }
 
     private IEnumerator CoQuestEnd()

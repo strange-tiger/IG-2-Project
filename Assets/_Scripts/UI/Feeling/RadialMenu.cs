@@ -33,6 +33,7 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
     private float _coolTime = 4f;
     private float _colorData;
 
+    // 머리위의 이미지의 알파값과 띄울 이미지의 Index를 직렬화하여 전송.
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -47,6 +48,7 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
         }
     }
 
+    // OVRCamera의 VRUI에 있는 RadialMenu를 찾아오고, 각 버튼과 커서를 초기화함.
     private void Start()
     {
         if (photonView.IsMine)
@@ -62,21 +64,25 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
         }
     }
 
+    
     private void Update()
     {
         if (photonView.IsMine)
         {
             if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick))
             {
+                // 왼쪽 스틱 버튼을 눌러 UI 활성화.
                 _radialMenu.gameObject.SetActive(true);
             }
             else if (OVRInput.GetUp(OVRInput.Button.PrimaryThumbstick))
             {
+                // 떼었으면 해당 이미지를 띄우는 RPC 메서드를 호출
                 photonView.RPC("ButtonOneMenu", RpcTarget.All);
 
             }
             else
             {
+                // 이외의 경우 현재 적용된 버튼의 정보를 초기화 한후
                 if (_buttonOne != null)
                 {
                     _buttonOne.transform.GetChild(1).gameObject.SetActive(false);
@@ -84,54 +90,24 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
                     _buttonOneImage = null;
                 }
 
+                // UI를 비활성화 시킴.
                 _radialMenu.gameObject.SetActive(false);
             }
         }
     }
 
-    private bool _isFadeRestart;
-    private bool _isFadeRunning;
-    float animatedFadeAlpha;
-    float _elapsedTime = 0.0f;
-
-    private IEnumerator CoFade(float startAlpha, float endAlpha)
-    {
-        _isFadeRunning = true;
-
-        while (_elapsedTime < _coolTime)
-        {
-            _elapsedTime += Time.deltaTime;
-
-            animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(_elapsedTime / _coolTime));
-
-            _colorData = animatedFadeAlpha;
-
-            _feelingImage.color = new Color(1, 1, 1, _colorData);
-
-            if (!_isFadeRestart)
-            {
-                animatedFadeAlpha = 1f;
-                _isFadeRestart = false;
-            }
-
-            yield return _waitSecond;
-        }
-        _colorData = endAlpha;
-
-        _feelingImage.color = new Color(1, 1, 1, _colorData);
-
-        _isFadeRunning = false;
-    }
-
+    // 선택한 버튼의 이미지를 띄울 RPC 메서드
     [PunRPC]
     public void ButtonOneMenu()
     {
         if (_buttonOne != null)
         {
+            // 알파값을 조절하여 이미지를 띄움.
             _colorData = 1;
 
             _feelingImage.color = new Color(1, 1, 1, _colorData);
 
+            // 선택한 버튼과 일치하는 인덱스를 찾아냄
             if (photonView.IsMine)
             {
                 for (int i = 0; i < _buttonOnes.Length; ++i)
@@ -142,26 +118,67 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
                     }
                 }
             }
-
+            // 이미지를 적용시키고
             _feelingImage.sprite = _buttonOneImages[_buttonIndex];
-
+            // UI를 비활성화 시킴
             _radialMenu.gameObject.SetActive(false);
 
             _elapsedTime = 0f;
 
+            // 페이드아웃이 진행중이 아니라면 코루틴을 재실행하고
             if (_isFadeRunning == false)
             {
                 StartCoroutine(CoFade(1, 0));
             }
             else
             {
+                // 아니라면 이미지가 변경되고, 알파값을 초기화시켜 처음부터 페이드아웃 되게함.
                 _isFadeRestart = true;
             }
         }
-
-
     }
 
+    private bool _isFadeRestart;
+    private bool _isFadeRunning;
+    float animatedFadeAlpha;
+    float _elapsedTime = 0.0f;
+
+    // 머리 위에 띄울 이미지를 페이드 아웃 시키는 함수
+    private IEnumerator CoFade(float startAlpha, float endAlpha)
+    {
+        // 페이드 아웃이 진행중임을 Boolean 값으로 표현
+        _isFadeRunning = true;
+
+        // 선형 보간을 이용한 이미지 페이드 아웃
+        while (_elapsedTime < _coolTime)
+        {
+            _elapsedTime += Time.deltaTime;
+
+            animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(_elapsedTime / _coolTime));
+
+            _colorData = animatedFadeAlpha;
+
+            _feelingImage.color = new Color(1, 1, 1, _colorData);
+
+            // 다른 감정표현을 선택하면 다시 알파값을 1로 만들어 이미지만 변경하여 처음부터 페이드아웃되도록 함.
+            if (!_isFadeRestart)
+            {
+                animatedFadeAlpha = 1f;
+                _isFadeRestart = false;
+            }
+
+            yield return _waitSecond;
+        }
+
+        _colorData = endAlpha;
+
+        _feelingImage.color = new Color(1, 1, 1, _colorData);
+
+        // 페이드 아웃이 끝남을 알림.
+        _isFadeRunning = false;
+    }
+
+    //Cursor의 동작은 FixedUpdate에서 진행함.
     private void FixedUpdate()
     {
         if (photonView.IsMine)
@@ -181,13 +198,16 @@ public class RadialMenu : MonoBehaviourPun, IPunObservable
 
     private void MoveCursor()
     {
+        // Cursor의 움직임은 왼쪽스틱으로 움직임
         Vector3 direction = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
-
+        
         direction.Normalize();
 
+        // Cursor가 특정 지름 크기 내에서만 움직이도록 해줌.
         _cursor.rectTransform.localPosition = Vector3.ClampMagnitude(_cursor.rectTransform.localPosition + direction * _cursorSpeed * Time.deltaTime, _cursorMovementLimit);
     }
 
+    // UI가 비활성화되거나, 스틱의 입력값이 없는 경우 Cursor는 초기 위치로 돌아감.
     private void ResetCursor()
     {
         _cursor.rectTransform.localPosition = _cursorInitPosition;

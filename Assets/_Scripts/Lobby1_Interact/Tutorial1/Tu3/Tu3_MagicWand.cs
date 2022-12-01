@@ -68,7 +68,7 @@ public class Tu3_MagicWand : MonoBehaviour
             GetMagic(RandomNumber);
 
             _magicWandPanel.SetActive(true);
-            _magicNameText.text = gameObject.name;
+            _magicNameText.text = "ºÒ²É³îÀÌ ¸¶¹ý";
 
             _checkCoolTime = true;
         }

@@ -8,48 +8,43 @@ using Photon.Realtime;
 public class Beer : InteracterableObject, IPunObservable
 {
 
+    [Header("Beer")]
+    [SerializeField] private GameObject _fullBeer;
+    [SerializeField] private BoxCollider _grabCollider;
 
-    [SerializeField] GameObject _fullBeer;
-    [SerializeField] AudioClip _drinkSound;
-    [SerializeField] BoxCollider _grabCollider;
-    [SerializeField] BoxCollider _beerCollider;
+
     private Vector3 _initBeerPosition;
     private YieldInstruction _regenerateTime = new WaitForSeconds(30f);
-    private AudioSource _audioSource;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
-            if (stream.IsWriting)
-            {
-                stream.SendNext(_fullBeer.activeSelf);
-                stream.SendNext(_grabCollider.enabled);
-            }
-            else if (stream.IsReading)
-            {
-                _fullBeer.SetActive((bool)stream.ReceiveNext());
-                _grabCollider.enabled = (bool)stream.ReceiveNext();
-            }
-        
+
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_fullBeer.activeSelf);
+            stream.SendNext(_grabCollider.enabled);
+        }
+        else if (stream.IsReading)
+        {
+            _fullBeer.SetActive((bool)stream.ReceiveNext());
+            _grabCollider.enabled = (bool)stream.ReceiveNext();
+        }
+
     }
 
-
-
-    public void Start()
+    private void Start()
     {
         _initBeerPosition = transform.position;
-        _audioSource = GetComponent<AudioSource>();
     }
 
     public void CallDrinkBeer()
     {
-          photonView.RPC("DrinkBeer", RpcTarget.All);
+        photonView.RPC("DrinkBeer", RpcTarget.All);
     }
 
     [PunRPC]
     public void DrinkBeer()
     {
-        _audioSource.PlayOneShot(_drinkSound);
         _fullBeer.SetActive(false);
         _grabCollider.enabled = false;
         StartCoroutine(ReGenerateBeer());
@@ -63,7 +58,6 @@ public class Beer : InteracterableObject, IPunObservable
         transform.position = _initBeerPosition;
 
         _fullBeer.SetActive(true);
-
 
         _grabCollider.enabled = true;
 

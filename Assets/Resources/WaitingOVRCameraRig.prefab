@@ -344,12 +344,13 @@ MonoBehaviour:
   m_spherecastRadius: 0
   m_handRay: {fileID: 2290995942302661129}
   m_noSnapThreshhold: 0.05
-  m_useSpherecast: 1
+  m_useSpherecast: 0
   m_preventGrabThroughWalls: 1
-  m_objectPullVelocity: 10
+  m_objectPullVelocity: 5
   m_maxGrabDistance: 3
   m_grabObjectsInLayer: 10
   m_obstructionLayer: 0
+  _playerFocus: {fileID: 3743059864958464813}
 --- !u!1 &2688028180536851184
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,12 +631,13 @@ MonoBehaviour:
   m_spherecastRadius: 0
   m_handRay: {fileID: 2931618785606480799}
   m_noSnapThreshhold: 0.05
-  m_useSpherecast: 1
+  m_useSpherecast: 0
   m_preventGrabThroughWalls: 1
-  m_objectPullVelocity: 10
+  m_objectPullVelocity: 5
   m_maxGrabDistance: 3
   m_grabObjectsInLayer: 10
   m_obstructionLayer: 0
+  _playerFocus: {fileID: 3935581016300490530}
 --- !u!1 &7567529842783510401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,6 +1093,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isInvincible: 0
+  _audioSource: {fileID: 0}
+  _stundParticle: {fileID: 0}
 --- !u!114 &6051071387945764693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2474,6 +2478,10 @@ PrefabInstance:
     - target: {fileID: 8799736017777623452, guid: 8b9bfa19a31f3e54d8dbfc9ff8a41bea, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860455740610876726, guid: 8b9bfa19a31f3e54d8dbfc9ff8a41bea, type: 3}
+      propertyPath: m_Size
+      value: 0.9999999
       objectReference: {fileID: 0}
     - target: {fileID: 9185608950716037112, guid: 8b9bfa19a31f3e54d8dbfc9ff8a41bea, type: 3}
       propertyPath: m_Pivot.x

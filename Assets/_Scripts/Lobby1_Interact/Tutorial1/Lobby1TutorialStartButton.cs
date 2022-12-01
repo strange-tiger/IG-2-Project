@@ -12,16 +12,17 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     [SerializeField] private GameObject[] _tutorialObject;
     [SerializeField] private TutorialController _tutorialController;
     [SerializeField] private TextMeshProUGUI _questText;
+    [SerializeField] private TextMeshProUGUI _questProgress;
     [SerializeField] private LobbyChanger _lobbyChanger;
-    [SerializeField] private GameObject _image;
+    //[SerializeField] private GameObject _image;
 
     private Action OnButtonAction;
 
-    private bool _isButton;
-    private bool _isOn = true;
+    private bool _firstClick;
     private bool _isQuest;
     public bool IsQuest { get { return _isQuest; } set { _isQuest = value; } }
 
+    private bool _isButton;
     private bool _isOne;
     private bool _isTwo;
     private bool _isThree;
@@ -36,7 +37,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             _tutorialButton[i].interactable = false;
         }
 
-        for (int i = 0; i < _tutorialButton.Length; ++i)
+        for (int i = 0; i < _tutorialObject.Length; ++i)
         {
             int num = i;
             _tutorialButton[i].onClick.RemoveAllListeners();
@@ -62,113 +63,88 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
         if (_isOne)
         {
+            _questText.text = "발판 7개를 모두 밟아보세요";
             if (_tutorialController.DialogueNum == 5 && !_isQuest)
             {
-                _questText.text = "발판 7개를 모두 밟아보세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 6)
             {
-                _tutorialController.QuestAcceptEvent.Invoke(2);
-                _isButton = false;
-                _isOn = true;
                 _isOne = false;
-                _questText.text = null;
-                _tutorialController.IsTutorialQuest = false;
                 QuestReset();
             }
         }
 
         if (_isTwo)
         {
+            _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
             if (_tutorialController.DialogueNum == 8 && !_isQuest)
             {
-                _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 10)
             {
-                _tutorialController.QuestAcceptEvent.Invoke(2);
-                _isButton = false;
-                _isOn = true;
                 _isTwo = false;
-                _questText.text = null;
-                _tutorialController.IsTutorialQuest = false;
                 QuestReset();
             }
         }
 
         if (_isThree)
         {
+            _questText.text = "마법봉을 주워서 마법을 사용하세요";
             if (_tutorialController.DialogueNum == 16 && !_isQuest)
             {
-                _questText.text = "마법봉을 주워서 마법을 사용하세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 17)
             {
-                _tutorialController.QuestAcceptEvent.Invoke(2);
-                _isButton = false;
-                _isOn = true;
                 _isThree = false;
-                _questText.text = null;
-                _tutorialController.IsTutorialQuest = false;
                 QuestReset();
             }
         }
 
         if (_isFour)
         {
+            _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
             if (_tutorialController.DialogueNum == 23 && !_isQuest)
             {
-                _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 24)
             {
-                _tutorialController.QuestAcceptEvent.Invoke(2);
-                _isButton = false;
-                _isOn = true;
                 _isFour = false;
-                _questText.text = null;
-                _tutorialController.IsTutorialQuest = false;
                 QuestReset();
             }
         }
 
         if (_isFive)
         {
+            _questText.text = "채광에 성공하여 골드를 획득하세요";
             if (_tutorialController.DialogueNum == 35 && !_isQuest)
             {
-                _questText.text = "채광에 성공하여 골드를 획득하세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
             if (_tutorialController.DialogueNum == 36)
             {
-                _tutorialController.QuestAcceptEvent.Invoke(2);
-                _isButton = false;
-                _isOn = true;
                 _isFive = false;
-                _questText.text = null;
-                _tutorialController.IsTutorialQuest = false;
                 QuestReset();
             }
         }
 
         if (_isSix)
         {
+            _questText.text = "무기를 집어 이시고르에게 돌아가세요";
             if (_tutorialController.DialogueNum == 45 && !_isQuest)
             {
-                _questText.text = "무기를 집어 이시고르에게 돌아가세요";
                 _tutorialController.IsTutorialQuest = true;
             }
 
-            if (_tutorialController.DialogueNum == 47 && !_isQuest)
+            if (_tutorialController.DialogueNum == 47)
             {
                 _questText.text = "물건을 4개 베세요";
                 _tutorialController.IsTutorialQuest = true;
@@ -176,90 +152,87 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
             if (_tutorialController.DialogueNum == 54)
             {
-                _tutorialController.QuestAcceptEvent.Invoke(2);
-                _isButton = false;
-                _isOn = true;
                 _isSix = false;
-                _questText.text = null;
-                _tutorialController.IsTutorialQuest = false;
                 QuestReset();
             }
         }
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0)
-        {
-            _image.SetActive(false);
-        }
-        else
-        {
-            _image.SetActive(true);
-        }
+        #region EDITOR
+        //#if UNITY_EDITOR
+        //        if (Input.GetKeyDown(KeyCode.Alpha1))
+        //        {
+        //            OnClickButton(0);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha2))
+        //        {
+        //            OnClickButton(1);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha3))
+        //        {
+        //            OnClickButton(2);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha4))
+        //        {
+        //            OnClickButton(3);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha5))
+        //        {
+        //            OnClickButton(4);
+        //        }
+        //        if (Input.GetKeyDown(KeyCode.Alpha6))
+        //        {
+        //            OnClickButton(5);
+        //        }
+        //#endif
+        #endregion
     }
 
     private void OnClickButton(int num)
     {
-        //for (int i = 0; i < _tutorialObject.Length; ++i)
-        //{
-        //    if (_tutorialObject[i].activeSelf)
-        //    {
-        //        _isOn = false;
-        //        return;
-        //    }
-        //}
-
         for (int i = 0; i < _tutorialObject.Length; ++i)
         {
-            if (_tutorialObject[i].activeSelf)   
+            if (_tutorialObject[i].activeSelf)
             {
-                _isOn = false;
-                return;
+                _tutorialObject[i].SetActive(false);
             }
         }
 
-        if (_isOn)
+        _tutorialController.IsTutorialQuest = false;
+        _isQuest = false;
+        _tutorialObject[num].SetActive(true);
+
+        switch (num)
         {
-            switch (num)
-            {
-                case 0:
-                    _tutorialController.QuestAcceptEvent.Invoke(3);
-                    _isOne = true;
-                    break;
-                case 1:
-                    _tutorialController.QuestAcceptEvent.Invoke(6);
-                    _isTwo = true;
-                    break;
-                case 2:
-                    _tutorialController.QuestAcceptEvent.Invoke(10);
-                    _isThree = true;
-                    break;
-                case 3:
-                    _tutorialController.QuestAcceptEvent.Invoke(17);
-                    _isFour = true;
-                    break;
-                case 4:
-                    _tutorialController.QuestAcceptEvent.Invoke(24);
-                    _isFive = true;
-                    break;
-                case 5:
-                    _tutorialController.QuestAcceptEvent.Invoke(36);
-                    _isSix = true;
-                    break;
-                default:
-                    break;
-            }
-
-            if (_tutorialObject[num].activeSelf)
-            {
-                _tutorialObject[num].SetActive(false);
-                _tutorialObject[num].SetActive(true);
-            }
-
-
-            //_tutorialObject[num].SetActive(true);
-            //_tutorialButton[num].interactable = false;
-            ExitButton();
+            case 0:
+                _tutorialController.QuestAcceptEvent.Invoke(4);
+                _isOne = true;
+                break;
+            case 1:
+                _tutorialController.QuestAcceptEvent.Invoke(7);
+                _isTwo = true;
+                break;
+            case 2:
+                _tutorialController.QuestAcceptEvent.Invoke(11);
+                _isThree = true;
+                break;
+            case 3:
+                _tutorialController.QuestAcceptEvent.Invoke(18);
+                _isFour = true;
+                break;
+            case 4:
+                _tutorialController.QuestAcceptEvent.Invoke(25);
+                _isFive = true;
+                break;
+            case 5:
+                _tutorialController.QuestAcceptEvent.Invoke(37);
+                _isSix = true;
+                break;
+            default:
+                break;
         }
-
+        //_tutorialObject[num].SetActive(true);
+        //_tutorialButton[num].interactable = false;
+        //ExitButton();
     }
 
     private void OnButtons()
@@ -289,31 +262,21 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void QuestReset()
     {
-        for (int i = 0; i < _tutorialObject.Length; ++i)
-        {
-            if (_tutorialObject[i].activeSelf)
-            {
-                _tutorialObject[i].SetActive(false);
-            }
-        }
+        _tutorialController.QuestAcceptEvent.Invoke(3);
+        
+        _isQuest = false;
+        _isButton = false;
+        _questText.text = null;
 
-        for (int i = 0; i < _tutorialObject.Length; ++i)
-        {
-            if (_tutorialButton[i].enabled == false)
-            {
-                _tutorialButton[i].enabled = true;
-            }
-        }
-
-        _tutorialController.QuestAcceptEvent.Invoke(2);
 
         if (_questText.text != null)
         {
             _questText.text = null;
         }
-        _tutorialController.IsTutorialQuest = false;
-        _isOn = true;
-        _isQuest = false;
+        if (_questProgress.text != null)
+        {
+            _questProgress.text = null;
+        }
     }
 
     private void OnDisable()

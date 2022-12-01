@@ -26,6 +26,8 @@ public class TumbleweedTutorial : MonoBehaviour
     [SerializeField] private GameObject _getGoldPanel;
     [SerializeField] private TextMeshProUGUI _goldCountText;
 
+    [SerializeField] private AudioClip _coinAudioClip;
+    [SerializeField] private AudioClip _weedDisappearAudioClip;
     private AudioSource _audioSource;
 
     // 플레이어 인식 관련
@@ -175,7 +177,8 @@ public class TumbleweedTutorial : MonoBehaviour
 
     private void GiveCoinEffect()
     {
-        _audioSource.Play();
+        _audioSource.PlayOneShot(_coinAudioClip);
+        _audioSource.PlayOneShot(_weedDisappearAudioClip);
 
         _slider.gameObject.SetActive(false);
         _goldCountText.text = "+1";

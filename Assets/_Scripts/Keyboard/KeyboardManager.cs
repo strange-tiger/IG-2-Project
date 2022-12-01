@@ -42,6 +42,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
+    /// <summary>
+    /// 상위 UI의 인풋필드 OnSelect 이벤트를 구독, 인풋필드가 선택될 때 키보드를 연다.
+    /// _inputField 변수에 선택된 인풋필드를 받는다.
+    /// 열린 키보드의 위치를 MOVE_KEYBOARD로 지정한다.
+    /// 기본 키보드 레이아웃은 QWERTY이다.
+    /// </summary>
     private static readonly Vector3 MOVE_KEYBOARD = new Vector3(0f, -60f, -10f);
     public static void OpenKeyboard()
     {
@@ -53,6 +59,13 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ChangeLayout(EKeyboardLayout.QWERTY);
     }
 
+    /// <summary>
+    /// 상위 UI의 인풋필드 OnSelect 이벤트를 구독, 인풋필드가 선택될 때 키보드 레이아웃을 활성화 한다.
+    /// _inputField 변수에 선택된 인풋필드를 할당한다.
+    /// 열린 키보드의 위치를 MOVE_KEYBOARD로 지정한다.
+    /// type 매개변수로 활성화 할 키보드의 레이아웃을 정한다.
+    /// </summary>
+    /// <param name="type"></param>
     public static void OpenKeyboard(EKeyboardLayout type)
     {
         _inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
@@ -64,6 +77,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ChangeLayout(type);
     }
 
+    /// <summary>
+    /// 키보드 레이아웃을 type 매개변수로 받은 키보드 레이아웃으로 바꿔 활성화한다.
+    /// 먼저 레이아웃을 모두 닫고, type 매개변수가 가리키는 레이아웃만 활성화한다.
+    /// </summary>
+    /// <param name="type"></param>
     private static void ChangeLayout(EKeyboardLayout type)
     {
         CloseLayout();
@@ -72,6 +90,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _layouts[(int)_currentLayout].SetActive(true);
     }
 
+    /// <summary>
+    /// 키보드 레이아웃을 모두 비활성화한다.
+    /// 키보드 입력을 하며 저장된 데이터를 모두 비운다.
+    /// 타입된 문자열을 저장하고 보여주는 텍스트 _typedText를 비활성화한다.
+    /// </summary>
     public static void CloseKeyboard()
     {
         CloseLayout();
@@ -80,6 +103,9 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _typedText.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// _layouts에 저장된 이 키보드의 모든 키보드 레이아웃을 비활성화한다.
+    /// </summary>
     private static void CloseLayout()
     {
         foreach (GameObject layout in _layouts)
@@ -88,6 +114,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
+    /// <summary>
+    /// 키보드의 자판 키 버튼이 클릭될 때마다, _typedText.text에 선택된 버튼의 이름을 저장한다.
+    /// 따라서, 자판 키 버튼의 이름은 모두 입력하고 싶은 문자와 동일해야 한다.
+    /// CutKoreanType로 더 이상 한국어 입력이 아님을 알린다.
+    /// EventSystem으로부터 선택된 버튼의 정보를 지우고 끝낸다.
+    /// </summary>
     public static void PressKey()
     {
         CutKoreanType();
@@ -97,6 +129,14 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    /// <summary>
+    /// 키보드의 자판 키 버튼이 클릭될 때마다, s_koreanSentence 선택된 버튼의 이름을 저장한다.
+    /// 따라서, 자판 키 버튼의 이름은 모두 입력하고 싶은 문자와 동일해야 한다.
+    /// 지금부터 한국어 입력이 실행됨을 알린다. s_isKorean을 true로 바꾼다.
+    /// _typedText.text에 저장된 이전 입력을 s_prevSentence에 저장한다.
+    /// CreateKoreanText(s_koreanSentence)로 생성한 한글 문자열을 s_prevSentence과 함께 _typedText.text에 저장, 유저에게 보인다.
+    /// EventSystem으로부터 선택된 버튼의 정보를 지우고 끝낸다.
+    /// </summary>
     private static bool s_isKorean = false;
     private static string s_prevSentence = string.Empty;
     private static string s_koreanSentence = string.Empty;
@@ -116,6 +156,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    /// <summary>
+    /// 지금부터 한국어 입력이 완료됨을 알린다.
+    /// s_isKorean을 false로 바꾼다.
+    /// s_prevSentence과 s_koreanSentence을 비운다.
+    /// </summary>
     private static void CutKoreanType()
     {
         if (s_isKorean)
@@ -127,6 +172,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
+    /// <summary>
+    /// _typedText.text에 공백을 추가한다.
+    /// CutKoreanType로 더 이상 한국어 입력이 아님을 알린다.
+    /// EventSystem으로부터 선택된 버튼의 정보를 지우고 끝낸다.
+    /// </summary>
     public static void PressSpace()
     {
         CutKoreanType();
@@ -136,6 +186,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    /// <summary>
+    /// _typedText.text에 저장된 문자열의 마지막 한 자리를 줄여 한 글자 지운다.
+    /// CutKoreanType로 더 이상 한국어 입력이 아님을 알린다.
+    /// EventSystem으로부터 선택된 버튼의 정보를 지우고 끝낸다.
+    /// </summary>
     public static void PressBackspace()
     {
         CutKoreanType();
@@ -146,6 +201,10 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    /// <summary>
+    /// _typedText.text에 저장된 문자열을 모두 지운다.
+    /// CutKoreanType로 더 이상 한국어 입력이 아님을 알린다.
+    /// </summary>
     public static void PressClear()
     {
         CutKoreanType();
@@ -154,6 +213,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         _typedText.text = string.Empty;
     }
 
+    /// <summary>
+    /// 키보드의 Shift 혹은 Caps Lock 역할을 한다.
+    /// 레이아웃의 EKeyboardLayout 값을 1씩 줄이고 늘인다.
+    /// _currentLayout이 EKeyboardLayout.QWERTY, KOREAN이면 각각 1씩 늘려 EKeyboardLayout.QWERTY_SHIFTED, KOREAN_SHIFTED로 바꾼다.
+    /// _currentLayout이 EKeyboardLayout.QWERTY_SHIFTED, KOREAN_SHIFTED이면 각각 1씩 늘려 EKeyboardLayout.QWERTY, KOREAN로 바꾼다.
+    /// </summary>
     public static void PressShift()
     {
         if (_currentLayout == EKeyboardLayout.QWERTY
@@ -168,12 +233,23 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
+    /// <summary>
+    /// 지금까지 입력한 문자열을 UI의 인풋필드에 반영한다.
+    /// _typedText.text에 저장된 문자열을 현재 선택된 인풋필드 _inputField.text에 할당하고
+    /// 키보드를 닫는다.
+    /// </summary>
     public static void Submit()
     {
         _inputField.text = _typedText.text;
         CloseKeyboard();
     }
 
+    /// <summary>
+    /// 키보드의 한영키 역할을 한다.
+    /// _currentLayout이 EKeyboardLayout.QWERTY, QWERTY_SHIFTED이면 KOREAN으로 바꾼다.
+    /// _currentLayout이 EKeyboardLayout.KOREAN, KOREAN_SHIFTED이면 QWERTY로 바꾼다.
+    /// CutKoreanType로 더 이상 한국어 입력이 아님을 알린다.
+    /// </summary>
     public static void ChangeLanguage()
     {
         CutKoreanType();

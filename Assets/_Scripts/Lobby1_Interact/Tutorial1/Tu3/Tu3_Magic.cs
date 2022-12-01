@@ -17,4 +17,9 @@ public class Tu3_Magic : MonoBehaviour
             _isFirst = true;
         }
     }
+
+    private void OnEnable()
+    {
+        _isFirst = false;
+    }
 }

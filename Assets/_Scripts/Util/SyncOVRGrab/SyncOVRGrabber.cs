@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+
+/*
+ * OVRGrabber를 Pun으로 동기화하기 위하여 만들어냄.
+ * 추가적으로 Grab을 위하여 OnTriggerEnter에서 GrabbableObject의 photonView Ownership을 Transfer해주는 코드가 추가됨.
+ * GrabBegin에서 Grab을 하게 되면 Hand와 Object의 충돌을 막기위해서 Hand의 Collider를 IsTrigger로 변경해주는 코드도 추가됨.
+ */
 public class SyncOVRGrabber : MonoBehaviourPun
 {
     // Grip trigger thresholds for picking up objects, with some hysteresis.
@@ -45,8 +51,6 @@ public class SyncOVRGrabber : MonoBehaviourPun
 
     [SerializeField]
     protected GameObject m_player;
-
-
 
     protected bool m_grabVolumeEnabled = true;
     protected Vector3 m_lastPos;
@@ -166,6 +170,10 @@ public class SyncOVRGrabber : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// OnTriggerEnter로 Grabbable을 가져올 때, PhotonView의 Ownership을 가져오게 해줌.
+    /// </summary>
+    /// <param name="otherCollider"></param>
     void OnTriggerEnter(Collider otherCollider)
     {
         if(otherCollider.GetComponent<PhotonView>() != null)
@@ -317,6 +325,8 @@ public class SyncOVRGrabber : MonoBehaviourPun
             if (m_parentHeldObject)
             {
                 m_grabbedObj.transform.parent = transform;
+                _grabbedHandCollider = GetComponent<Collider>();
+                _grabbedHandCollider.isTrigger = true;
             }
             else
             {

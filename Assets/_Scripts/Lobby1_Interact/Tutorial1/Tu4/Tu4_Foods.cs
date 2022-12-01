@@ -12,7 +12,7 @@ public enum EFoodSatietyLevels
 
 public class Tu4_Foods : InteracterableObject
 {
-    public static UnityEvent<EFoodSatietyLevels> OnEated = new UnityEvent<EFoodSatietyLevels>();
+    public static UnityEvent<EFoodSatietyLevels> OnEatedTu = new UnityEvent<EFoodSatietyLevels>();
 
     [SerializeField] EFoodSatietyLevels _foodSatietyLevel;
     [SerializeField] GameObject _food;
@@ -32,13 +32,14 @@ public class Tu4_Foods : InteracterableObject
         if (_foodInteraction.SatietyStack != 6)
         {
 
-            OnEated.Invoke(_foodSatietyLevel);
+            OnEatedTu.Invoke(_foodSatietyLevel);
 
             EatFoodState();
 
             StartCoroutine(RegenerateFood());
 
         }
+
         ++_lobby1TutorialsQuest.AdvanceQuest;
 
         if (_lobby1TutorialsQuest.AdvanceQuest >= 5)

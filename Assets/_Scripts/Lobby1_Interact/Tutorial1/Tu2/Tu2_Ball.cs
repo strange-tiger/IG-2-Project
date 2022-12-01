@@ -16,4 +16,9 @@ public class Tu2_Ball : MonoBehaviour
             _isFirst = true;
         }
     }
+
+    private void OnEnable()
+    {
+        _isFirst = false;
+    }
 }

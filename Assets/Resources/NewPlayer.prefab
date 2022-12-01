@@ -3655,7 +3655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7526bc14b4c6049acc0233d852dcae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadeMaterial: {fileID: 2100000, guid: 3298f7672ccba7243a462413bdd1880e, type: 2}
 --- !u!114 &4823571551503449014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3824,6 +3823,7 @@ GameObject:
   - component: {fileID: 1195886276515322205}
   - component: {fileID: 2145734672103758956}
   - component: {fileID: 2538187502366353062}
+  - component: {fileID: 3077636120359671349}
   m_Layer: 0
   m_Name: Speaker
   m_TagString: Untagged
@@ -3961,6 +3961,19 @@ MonoBehaviour:
     MinDelaySoft: 200
     MaxDelaySoft: 400
     MaxDelayHard: 1000
+--- !u!114 &3077636120359671349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2167418548363180658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 2145734672103758956}
 --- !u!1 &4097230144943633450
 GameObject:
   m_ObjectHideFlags: 0
@@ -4396,7 +4409,7 @@ MonoBehaviour:
   OnDeactivateSatietyUI:
     m_PersistentCalls:
       m_Calls: []
-  _eatingSound: {fileID: 8300000, guid: 322ccf4c7fde64445bd49ddd7a1d4c55, type: 3}
+  _eatingSound: {fileID: 8300000, guid: 8b72f86c2b8171f4c91a6b138054921b, type: 3}
 --- !u!114 &5142788475454486305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4557,14 +4570,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a12946137def997489190ccb4bd694c6, type: 3}
---- !u!4 &157771027884285648 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 440707945931341433, guid: a12946137def997489190ccb4bd694c6, type: 3}
-  m_PrefabInstance: {fileID: 300956550242623657}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &160640417621920002 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 438964592465750443, guid: a12946137def997489190ccb4bd694c6, type: 3}
+  m_PrefabInstance: {fileID: 300956550242623657}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &157771027884285648 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 440707945931341433, guid: a12946137def997489190ccb4bd694c6, type: 3}
   m_PrefabInstance: {fileID: 300956550242623657}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1762934784412275844

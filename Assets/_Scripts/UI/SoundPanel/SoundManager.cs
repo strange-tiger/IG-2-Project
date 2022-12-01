@@ -2,33 +2,18 @@ using Photon.Voice.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.Events;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonBehaviour<SoundManager>
 {
-    private static SoundManager _instance;
-    public static SoundManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<SoundManager>();
-            }
-            return _instance;
-        }
-    }
-
     // 볼륨 값 들고있기
-    private float _masterVolume;
-    private float _backgroundVolume;
-    private float _effectVolume;
-    private float _inputVolume;
-    private float _outputVolume;
-    public float MasterVolume { get => _masterVolume; set => _masterVolume = value; }
-    public float BackgroundVolume { get => _backgroundVolume; set => _backgroundVolume = value; }
-    public float EffectVolume { get => _effectVolume; set => _effectVolume = value; }
-    public float InputVolume { get => _inputVolume; set => _inputVolume = value; }
-    public float OutputVolume { get => _outputVolume; set => _outputVolume = value; }
+    private List<UnityEvent<float>> _actions = new List<UnityEvent<float>>();
+    public UnityEvent<float> OnChangedMasterVolume { get; private set; } = new UnityEvent<float>();
+    public UnityEvent<float> OnChangedEffectVolume { get; private set; } = new UnityEvent<float>();
+    public UnityEvent<float> OnChangedBackgroundVolume { get; private set; } = new UnityEvent<float>();
+    public UnityEvent<float> OnChangedInputVolume { get; private set; } = new UnityEvent<float>();
+    public UnityEvent<float> OnChangedOutputVolume { get; private set; } = new UnityEvent<float>();
 
     // PushToTalk 관련
     private bool _isPushToTalk;
@@ -42,14 +27,22 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        _actions.Add(OnChangedMasterVolume);
+        _actions.Add(OnChangedEffectVolume);
+        _actions.Add(OnChangedBackgroundVolume);
+        _actions.Add(OnChangedInputVolume);
+        _actions.Add(OnChangedOutputVolume);
+
         _lobbyRecoder = GetComponent<Recorder>();
         _lobbyRecoder.TransmitEnabled = false;
 
         for (int i = 0; i < VOLUME_CONTROLLER.Length; i++)
         {
             InitValue(VOLUME_CONTROLLER[i]);
+            SoundManager.Instance.Refresh(i);
+            _actions[i]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[i]));
         }
-        SoundManager.Instance.Refresh();
+
     }
 
     private float _initVolume = 0.5f;
@@ -59,19 +52,21 @@ public class SoundManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat(key, _initVolume);
         }
+        else
+        {
+            return;
+        }
     }
-    public void Refresh()
+    public void Refresh(int num)
     {
-        MasterVolume = 
-            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.MasterVolume]);
-        BackgroundVolume = 
-            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.BackGroundVolume]);
-        EffectVolume =
-             PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.EffectVolume]);
-        InputVolume =
-            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.InputVolume]);
-        OutputVolume =
-            PlayerPrefs.GetFloat(VOLUME_CONTROLLER[(int)Defines.EVoiceUIType.OutputVolume]);
+        if (num == 0)
+        {
+            _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]));
+        }
+        else
+        {
+            _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]) * PlayerPrefs.GetFloat(VOLUME_CONTROLLER[0]));
+        }
     }
     
     private void CheckPushToTalkInput()

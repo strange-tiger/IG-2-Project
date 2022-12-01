@@ -20,4 +20,9 @@ public class Tu6_Isekai : MonoBehaviour
             }
         }
     }
+
+    private void OnEnable()
+    {
+        _isFirst = false;
+    }
 }

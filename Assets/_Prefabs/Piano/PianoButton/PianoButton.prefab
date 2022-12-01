@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2631726147761192146}
   - component: {fileID: 3024456005677857959}
   - component: {fileID: 4837561491781631857}
+  - component: {fileID: 1238723083454248950}
   m_Layer: 0
   m_Name: PianoButton
   m_TagString: Untagged
@@ -98,7 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172047fa20a811a46bfcd6df4c0fa010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myAudioClip: {fileID: 0}
 --- !u!82 &2107778415636457095
 AudioSource:
   m_ObjectHideFlags: 0
@@ -246,3 +246,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1238723083454248950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824810273135632314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 2107778415636457095}
