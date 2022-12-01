@@ -38,12 +38,16 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void Awake()
     {
-        _oakBarrelMeshRenderer = _playerOakBarrel.GetComponent<MeshRenderer>();
-        _oakBarrelMeshCollider = _playerOakBarrel.GetComponent<MeshCollider>();
-        _playerDebuffManager = GetComponent<PlayerDebuffManager>();
+        if (photonView.IsMine)
+        {
 
-        _oakBarrelMeshRenderer.enabled = false;
-        _oakBarrelMeshCollider.enabled = false;
+            _oakBarrelMeshRenderer = _playerOakBarrel.GetComponent<MeshRenderer>();
+            _oakBarrelMeshCollider = _playerOakBarrel.GetComponent<MeshCollider>();
+            _playerDebuffManager = GetComponent<PlayerDebuffManager>();
+
+            _oakBarrelMeshRenderer.enabled = false;
+            _oakBarrelMeshCollider.enabled = false;
+        }
     }
 
     private void Start()
@@ -60,7 +64,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
         _oakBarrelIsGone = OakBarrelIsGone();
         _fadeOutPlayerScreen = FadeOutPlayerScreen();
-        
+
         _playerDebuffManager.FadeMaterial.color = Color.black;
     }
 
@@ -72,19 +76,18 @@ public class OakBarrelInteraction : MonoBehaviourPun
             {
                 StopAllCoroutines();
 
-                
                 _isSelfExit = true;
                 OutOakBarrel();
             }
 
-            if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
-            {
-                _playerMeshRenderer.material.color = Color.black;
-                StartCoroutine(_fadeOutPlayerScreen);
-                
-                _isSelfExit = false;
-                OutOakBarrel();
-            }
+        }
+        if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
+        {
+            _playerMeshRenderer.material.color = Color.black;
+            StartCoroutine(_fadeOutPlayerScreen);
+
+            _isSelfExit = false;
+            OutOakBarrel();
         }
     }
 
