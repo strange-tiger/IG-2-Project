@@ -55,6 +55,7 @@ public class CustomizeMenu : MonoBehaviourPun
     private int _setAvatarNum;
     private int _setMaterialNum;
     private int _equipNum;
+    private int _equipMaterialNum;
     private int _startNum;
 
     private bool _isFemale;
@@ -120,9 +121,11 @@ public class CustomizeMenu : MonoBehaviourPun
 
         // DB에 저장되어 있던 아바타의 Material을 불러옴
         _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
-        
+
+        _equipMaterialNum = _setMaterialNum;
+
         // 아바타의 정보를 돌면서 장착중이던 아바타를 찾아냄.
-        for(int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
+        for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
             if(_userCustomizeData.AvatarState[i] == EAvatarState.EQUIPED)
             {
@@ -240,7 +243,7 @@ public class CustomizeMenu : MonoBehaviourPun
         _avatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
         _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-        _avatarNickname.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
         _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -275,7 +278,7 @@ public class CustomizeMenu : MonoBehaviourPun
         _avatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
         _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
-        _avatarNickname.text = _userCustomizeData.AvatarName[_setAvatarNum];
+        _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
         _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -293,7 +296,7 @@ public class CustomizeMenu : MonoBehaviourPun
             _setMaterialNum -= 1;
         }
 
-        if (_avatarImage.sprite != _currentAvatarImage.sprite)
+        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
         {
             _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
         }
@@ -322,7 +325,7 @@ public class CustomizeMenu : MonoBehaviourPun
             _setMaterialNum += 1;
         }
 
-        if (_avatarImage.sprite != _currentAvatarImage.sprite)
+        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
         {
             _messageText.text = "아바타가 변경되었습니다. 저장 버튼을 누르면 반영됩니다.";
         }
