@@ -8041,8 +8041,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470282713}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000044703478}
-  m_LocalPosition: {x: 0, y: 0.709, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.17, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 1871839742}
   m_RootOrder: 11
@@ -31611,7 +31611,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b83fe5a6fdd41fb479fa45852bc9c57f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 94d44fedb4f475543bfc27a558633889, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -31697,6 +31697,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1873103844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873103823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 1873103843}
 --- !u!4 &1883067299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9059321386821698201, guid: 02815118bbf78384db8e88ff276cf61a, type: 3}
@@ -35098,6 +35111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2067093834}
   - component: {fileID: 2067093833}
+  - component: {fileID: 2067093835}
   m_Layer: 0
   m_Name: LobbyChanger
   m_TagString: Untagged
@@ -35141,6 +35155,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2067093835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067093832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45997b306a33db7418c2361726237118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bgmClip: {fileID: 8300000, guid: 49a6d8d111325984d987c96b4b20dc14, type: 3}
 --- !u!1 &2073801997
 GameObject:
   m_ObjectHideFlags: 0
@@ -38593,8 +38620,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3105941981643795965}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.878, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.17, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 1873103821}
   m_RootOrder: 2
