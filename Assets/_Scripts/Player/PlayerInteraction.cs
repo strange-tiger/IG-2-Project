@@ -139,13 +139,13 @@ public class PlayerInteraction : MonoBehaviourPun
                         InteractionOakBarrel.Invoke();
                     }
 
-                    if (interacterableObject.CompareTag("Player"))
-                    {
-                        OakBarrelInteraction _oakBarrelInteraction;
-                        _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
+                    //if (interacterableObject.CompareTag("Player"))
+                    //{
+                    //    OakBarrelInteraction _oakBarrelInteraction;
+                    //    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
 
-                        InteractionOakBarrel.Invoke();
-                    }
+                    //    InteractionOakBarrel.Invoke();
+                    //}
                 }
             }
         }

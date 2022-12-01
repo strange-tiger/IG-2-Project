@@ -11,15 +11,19 @@ public class OakBarrelInteraction : MonoBehaviourPun
     [SerializeField] private AudioClip _inOakBarrelSound;
 
     private AudioSource _audioSource;
-
     private PlayerInteraction _playerInteraction;
 
-    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
+    private static WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
     private PlayerControllerMove _playerControllerMove;
 
     private MeshCollider _oakBarrelMeshCollider;
     private MeshRenderer _playerMeshRenderer;
     private MeshRenderer _oakBarrelMeshRenderer;
+
+    private IEnumerator _oakBarrelIsGone;
+
+    private static string _player = "Player";
+    private static string _oakBarrel = "OakBarrel";
 
     private Color _color = new Color(0, 0, 0, 0);
 
@@ -47,13 +51,15 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerMeshRenderer = GameObject.Find("CenterEyeAnchor").GetComponentInChildren<MeshRenderer>();
 
         _audioSource = GetComponentInChildren<AudioSource>();
+
+        _oakBarrelIsGone = OakBarrelIsGone();
     }
 
     private void Update()
     {
         if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
         {
-            StopCoroutine(OakBarrelIsGone());
+            StopCoroutine(_oakBarrelIsGone);
 
             OutOakBarrel();
         }
@@ -72,7 +78,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
         if (photonView.IsMine)
         {
             InOakBarrel();
-            StartCoroutine(OakBarrelIsGone());
+            StartCoroutine(_oakBarrelIsGone);
         }
     }
 
@@ -95,7 +101,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     /// </summary>
     /// <param name="value"></param>
     [PunRPC]
-    public void ActivePlayer(bool value)
+    private void ActivePlayer(bool value)
     {
         _playerModel.SetActive(value);
         _oakBarrelMeshCollider.enabled = value;
@@ -107,7 +113,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     /// </summary>
     /// <param name="value"></param>
     [PunRPC]
-    public void ActiveOakBarrel(bool value)
+    private void ActiveOakBarrel(bool value)
     {
         _oakBarrelMeshRenderer.enabled = value;
         _oakBarrelMeshCollider.enabled = value;
@@ -122,6 +128,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, true);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, false);
+        photonView.RPC(nameof(OakBarrelToPlayer), RpcTarget.All, _oakBarrel);
+        
 
         _playerControllerMove.MoveScale -= _speedSlower;
         _audioSource.PlayOneShot(_inOakBarrelSound);
@@ -136,10 +144,17 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.All, false);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, true);
+        photonView.RPC(nameof(OakBarrelToPlayer), RpcTarget.All, _player);
 
         _playerControllerMove.MoveScale += _speedSlower;
 
         PlayerControlManager.Instance.IsRayable = true;
+    }
+
+    [PunRPC]
+    private void OakBarrelToPlayer(string str)
+    {
+        tag = str;
     }
 
     private void OnDisable()
