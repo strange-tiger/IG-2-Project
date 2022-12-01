@@ -96,10 +96,10 @@ public class CustomizeMenu : MonoBehaviourPun
     private void AvatarMenuInit()
     {
 
-        // ¼ºº°À» È®ÀÎÇÔ.
+        // ì„±ë³„ì„ í™•ì¸í•¨.
         _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
-        // ¼ºº°¿¡ ¸Â´Â µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // ì„±ë³„ì— ë§ëŠ” ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜´
         if(_isFemale)
         {
             _userCustomizeData = _femaleUserCustomizeData;
@@ -109,19 +109,19 @@ public class CustomizeMenu : MonoBehaviourPun
             _userCustomizeData = _maleUserCustomizeData;
         }
 
-        // DB¿¡ ÀúÀåµÇ¾î ÀÖ´ø ¾Æ¹ÙÅ¸ µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // DBì— ì €ì¥ë˜ì–´ ìˆë˜ ì•„ë°”íƒ€ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜´
         string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
         
-        // ºÒ·¯¿Â µ¥ÀÌÅÍ¸¦ ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®¿¡ ³Ö¾îÁÜ
+        // ë¶ˆëŸ¬ì˜¨ ë°ì´í„°ë¥¼ ìŠ¤í¬ë¦½í„°ë¸” ì˜¤ë¸Œì íŠ¸ì— ë„£ì–´ì¤Œ
         for(int i = 0; i < avatarData.Length - 1; ++i)
         {
             _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
 
-        // DB¿¡ ÀúÀåµÇ¾î ÀÖ´ø ¾Æ¹ÙÅ¸ÀÇ MaterialÀ» ºÒ·¯¿È
+        // DBì— ì €ì¥ë˜ì–´ ìˆë˜ ì•„ë°”íƒ€ì˜ Materialì„ ë¶ˆëŸ¬ì˜´
         _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
         
-        // ¾Æ¹ÙÅ¸ÀÇ Á¤º¸¸¦ µ¹¸é¼­ ÀåÂøÁßÀÌ´ø ¾Æ¹ÙÅ¸¸¦ Ã£¾Æ³¿.
+        // ì•„ë°”íƒ€ì˜ ì •ë³´ë¥¼ ëŒë©´ì„œ ì¥ì°©ì¤‘ì´ë˜ ì•„ë°”íƒ€ë¥¼ ì°¾ì•„ëƒ„.
         for(int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
             if(_userCustomizeData.AvatarState[i] == EAvatarState.EQUIPED)
@@ -140,15 +140,15 @@ public class CustomizeMenu : MonoBehaviourPun
 
         _setAvatarNum = _haveAvatarList[_startNum];
 
-        // ÇöÀç ¾Æ¹ÙÅ¸ Á¤º¸¿¡ ÀåÂøÁßÀÌ´ø ¾ÆÀÌÅÛ°ú MaterialÀ» Àû¿ë½ÃÅ´.
+        // í˜„ì¬ ì•„ë°”íƒ€ ì •ë³´ì— ì¥ì°©ì¤‘ì´ë˜ ì•„ì´í…œê³¼ Materialì„ ì ìš©ì‹œí‚´.
         _currentAvatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
         _currentAvatarImage.sprite = _currentAvatarMaterialData.AvatarImage[_setMaterialNum];
 
-        // ±âº» Ä¿½ºÅÍ¸¶ÀÌÂ¡ Ã¢¿¡µµ ÇöÀç ÀåÂø ¾ÆÀÌÅÛÀ» Àû¿ë½ÃÅ´.
+        // ê¸°ë³¸ ì»¤ìŠ¤í„°ë§ˆì´ì§• ì°½ì—ë„ í˜„ì¬ ì¥ì°© ì•„ì´í…œì„ ì ìš©ì‹œí‚´.
         _avatarMaterialData = _currentAvatarMaterialData;
         _avatarImage.sprite = _currentAvatarImage.sprite;
 
-        // Ä¿½ºÅÍ¸¶ÀÌÂ¡ Ã¢ÀÇ ¾Æ¹ÙÅ¸ ÀÌ¸§, ´Ğ³×ÀÓÀ» Àû¿ë½ÃÅ´.
+        // ì»¤ìŠ¤í„°ë§ˆì´ì§• ì°½ì˜ ì•„ë°”íƒ€ ì´ë¦„, ë‹‰ë„¤ì„ì„ ì ìš©ì‹œí‚´.
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
     }
@@ -193,7 +193,7 @@ public class CustomizeMenu : MonoBehaviourPun
             IsCustomizeChanged = false;
         }
 
-        _messageText.text = "ÀúÀåÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.";
+        _messageText.text = "ì €ì¥ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.";
 
         StartCoroutine(TextFade());
 
@@ -213,7 +213,7 @@ public class CustomizeMenu : MonoBehaviourPun
 
     void LeftAvartarButton()
     {
-        // ¿ŞÂÊ ¹öÆ°À» ´­·¶À» ¶§, ¾Æ¹ÙÅ¸ ¸®½ºÆ®ÀÇ ÀÎµ¦½º¸¦ ÀÌ¿ëÇÏ¿© ¾Æ¹ÙÅ¸¸¦ º¯°æÇÔ.
+        // ì™¼ìª½ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ, ì•„ë°”íƒ€ ë¦¬ìŠ¤íŠ¸ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ ì•„ë°”íƒ€ë¥¼ ë³€ê²½í•¨.
         if(_startNum == 0)
         {
             _startNum = _haveAvatarList.Count - 1;
@@ -225,17 +225,17 @@ public class CustomizeMenu : MonoBehaviourPun
             _setAvatarNum = _haveAvatarList[_startNum];
         }
 
-        // Ã³À½ ¾Æ¹ÙÅ¸¿Í º¯°æ »çÇ×ÀÌ ÀÖÀ» ¶§, ÅØ½ºÆ®¸¦ ¶ç¿ò.
+        // ì²˜ìŒ ì•„ë°”íƒ€ì™€ ë³€ê²½ ì‚¬í•­ì´ ìˆì„ ë•Œ, í…ìŠ¤íŠ¸ë¥¼ ë„ì›€.
         if (_equipNum != _setAvatarNum)
         {
-            _messageText.text = "¾Æ¹ÙÅ¸°¡ º¯°æµÇ¾ú½À´Ï´Ù. ÀúÀå ¹öÆ°À» ´©¸£¸é ¹İ¿µµË´Ï´Ù.";
+            _messageText.text = "ì•„ë°”íƒ€ê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤. ì €ì¥ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ë°˜ì˜ë©ë‹ˆë‹¤.";
         }
         else
         {
             _messageText.text = null;
         }
 
-        // ¸ŞÅ×¸®¾óÀÇ ÀÎµ¦½º¸¦ ÃÊ±âÈ­ ÇÏ°í, ¹Ù²ï ¸®½ºÆ®ÀÇ ÀÎµ¦½º¸¦ ÀÌ¿ëÇÏ¿© ¾Æ¹ÙÅ¸ Á¤º¸¸¦ ºÒ·¯¿È.
+        // ë©”í…Œë¦¬ì–¼ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ˆê¸°í™” í•˜ê³ , ë°”ë€ ë¦¬ìŠ¤íŠ¸ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ ì•„ë°”íƒ€ ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜´.
         _setMaterialNum = 0;
         _avatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
         _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
@@ -248,7 +248,7 @@ public class CustomizeMenu : MonoBehaviourPun
 
     void RightAvatarButton()
     {
-        // ¿À¸¥ÂÊ ¹öÆ°À» ´­·¶À» ¶§, ¾Æ¹ÙÅ¸ ¸®½ºÆ®ÀÇ ÀÎµ¦½º¸¦ ÀÌ¿ëÇÏ¿© ¾Æ¹ÙÅ¸¸¦ º¯°æÇÔ.
+        // ì˜¤ë¥¸ìª½ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ, ì•„ë°”íƒ€ ë¦¬ìŠ¤íŠ¸ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ ì•„ë°”íƒ€ë¥¼ ë³€ê²½í•¨.
         if (_startNum == _haveAvatarList.Count - 1)
         {
             _startNum = 0;
@@ -260,17 +260,17 @@ public class CustomizeMenu : MonoBehaviourPun
             _setAvatarNum = _haveAvatarList[_startNum];
         }
 
-        // Ã³À½ ¾Æ¹ÙÅ¸¿Í º¯°æ »çÇ×ÀÌ ÀÖÀ» ¶§, ÅØ½ºÆ®¸¦ ¶ç¿ò.
+        // ì²˜ìŒ ì•„ë°”íƒ€ì™€ ë³€ê²½ ì‚¬í•­ì´ ìˆì„ ë•Œ, í…ìŠ¤íŠ¸ë¥¼ ë„ì›€.
         if (_equipNum != _setAvatarNum)
         {
-            _messageText.text = "¾Æ¹ÙÅ¸°¡ º¯°æµÇ¾ú½À´Ï´Ù. ÀúÀå ¹öÆ°À» ´©¸£¸é ¹İ¿µµË´Ï´Ù.";
+            _messageText.text = "ì•„ë°”íƒ€ê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤. ì €ì¥ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ë°˜ì˜ë©ë‹ˆë‹¤.";
         }
         else
         {
             _messageText.text = null;
         }
 
-        // ¸ŞÅ×¸®¾óÀÇ ÀÎµ¦½º¸¦ ÃÊ±âÈ­ ÇÏ°í, ¹Ù²ï ¸®½ºÆ®ÀÇ ÀÎµ¦½º¸¦ ÀÌ¿ëÇÏ¿© ¾Æ¹ÙÅ¸ Á¤º¸¸¦ ºÒ·¯¿È.
+        // ë©”í…Œë¦¬ì–¼ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ˆê¸°í™” í•˜ê³ , ë°”ë€ ë¦¬ìŠ¤íŠ¸ì˜ ì¸ë±ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ ì•„ë°”íƒ€ ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜´.
         _setMaterialNum = 0;
         _avatarMaterialData = _userCustomizeData.AvatarMaterial[_setAvatarNum];
         _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
@@ -283,7 +283,7 @@ public class CustomizeMenu : MonoBehaviourPun
 
     void LeftMaterialButton()
     {
-        // ¿ŞÂÊ ÄÃ·¯ ¹öÆ°À» ´­·¶À» ¶§, ¸ŞÅ×¸®¾óÀÇ ÀÎµ¦½º¸¦ º¯È­½ÃÅ´.
+        // ì™¼ìª½ ì»¬ëŸ¬ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ, ë©”í…Œë¦¬ì–¼ì˜ ì¸ë±ìŠ¤ë¥¼ ë³€í™”ì‹œí‚´.
         if (_setMaterialNum == 0)
         {
             _setMaterialNum = _avatarMaterialData.AvatarMaterial.Length - 1;
@@ -295,16 +295,16 @@ public class CustomizeMenu : MonoBehaviourPun
 
         if (_avatarImage.sprite != _currentAvatarImage.sprite)
         {
-            _messageText.text = "¾Æ¹ÙÅ¸°¡ º¯°æµÇ¾ú½À´Ï´Ù. ÀúÀå ¹öÆ°À» ´©¸£¸é ¹İ¿µµË´Ï´Ù.";
+            _messageText.text = "ì•„ë°”íƒ€ê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤. ì €ì¥ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ë°˜ì˜ë©ë‹ˆë‹¤.";
         }
         else
         {
             _messageText.text = null;
         }
-        // ÇöÀç ÄÃ·¯ÀÇ Á¤º¸¸¦ Ui¿¡ Àû¿ë.
-        _avatarMaterialNum.text = $"ÄÃ·¯ {_setMaterialNum + 1}";
+        // í˜„ì¬ ì»¬ëŸ¬ì˜ ì •ë³´ë¥¼ Uiì— ì ìš©.
+        _avatarMaterialNum.text = $"ì»¬ëŸ¬ {_setMaterialNum + 1}";
 
-        // ¾Æ¹ÙÅ¸ ÀÌ¹ÌÁö¸¦ ¸ŞÅ×¸®¾ó ÀÎµ¦½º¿¡ ¸ÂÃç º¯°æ½ÃÅ´.
+        // ì•„ë°”íƒ€ ì´ë¯¸ì§€ë¥¼ ë©”í…Œë¦¬ì–¼ ì¸ë±ìŠ¤ì— ë§ì¶° ë³€ê²½ì‹œí‚´.
         _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -312,7 +312,7 @@ public class CustomizeMenu : MonoBehaviourPun
 
     void RightMaterialButton()
     {
-        // ¿À¸¥ÂÊ ÄÃ·¯ ¹öÆ°À» ´­·¶À» ¶§, ¸ŞÅ×¸®¾óÀÇ ÀÎµ¦½º¸¦ º¯È­½ÃÅ´.
+        // ì˜¤ë¥¸ìª½ ì»¬ëŸ¬ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ, ë©”í…Œë¦¬ì–¼ì˜ ì¸ë±ìŠ¤ë¥¼ ë³€í™”ì‹œí‚´.
         if (_setMaterialNum == _avatarMaterialData.AvatarMaterial.Length - 1)
         {
             _setMaterialNum = 0;
@@ -324,17 +324,17 @@ public class CustomizeMenu : MonoBehaviourPun
 
         if (_avatarImage.sprite != _currentAvatarImage.sprite)
         {
-            _messageText.text = "¾Æ¹ÙÅ¸°¡ º¯°æµÇ¾ú½À´Ï´Ù. ÀúÀå ¹öÆ°À» ´©¸£¸é ¹İ¿µµË´Ï´Ù.";
+            _messageText.text = "ì•„ë°”íƒ€ê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤. ì €ì¥ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ë°˜ì˜ë©ë‹ˆë‹¤.";
         }
         else
         {
             _messageText.text = null;
         }
 
-        // ÇöÀç ÄÃ·¯ÀÇ Á¤º¸¸¦ UI¿¡ Àû¿ë.
-        _avatarMaterialNum.text = $"ÄÃ·¯ {_setMaterialNum + 1}";
+        // í˜„ì¬ ì»¬ëŸ¬ì˜ ì •ë³´ë¥¼ UIì— ì ìš©.
+        _avatarMaterialNum.text = $"ì»¬ëŸ¬ {_setMaterialNum + 1}";
 
-        // ¾Æ¹ÙÅ¸ ÀÌ¹ÌÁö¸¦ ¸ŞÅ×¸®¾ó ÀÎµ¦½º¿¡ ¸ÂÃç º¯°æ½ÃÅ´.
+        // ì•„ë°”íƒ€ ì´ë¯¸ì§€ë¥¼ ë©”í…Œë¦¬ì–¼ ì¸ë±ìŠ¤ì— ë§ì¶° ë³€ê²½ì‹œí‚´.
         _avatarImage.sprite = _avatarMaterialData.AvatarImage[_setMaterialNum];
 
         EventSystem.current.SetSelectedGameObject(null);

@@ -27,6 +27,11 @@ using UnityEngine.SceneManagement;
 #endif
 
 
+/*
+ * OVRDistanceGrabber를 사용하기 위해 만든 스크립트.
+ * Player의 Raycast를 인식하여, Raycast를 받지 않으면 원하는 물체를 Grab 할 수 없도록 구현.
+ * SyncOVRGrabber를 상속받으며, Grab시에 GrabbedObject의 Position과 Rotation을 각각 GrabbablePosition,GrabbableRotation으로 만들어 Grab상태로 움직였을 때, GrabbedObject의 움직임이 이상하던 문제를 해결함.
+ */
 
 /// <summary>
 /// Allows grabbing and throwing of objects with the DistanceGrabbable component on them.
@@ -228,11 +233,16 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
                     grabbableRotation = Quaternion.RotateTowards(m_grabbedObj.transform.rotation, grabbableRotation, m_objectPullMaxRotationRate * Time.deltaTime);
                 }
             }
-            grabbedRigidbody.transform.position = grabbablePosition;
-            grabbedRigidbody.transform.rotation = grabbableRotation;
+            
 
+
+            // MovePosition을 사용하면 Grab을 한 플레이어가 이동할 때, 잡은 물체가 자연스럽게 이동하지 않는다.
             //grabbedRigidbody.MovePosition(grabbablePosition);
             //grabbedRigidbody.MoveRotation(grabbableRotation);
+
+            // 잡은 물체의 Rigidbody를 바로 GrabbablePosition으로 만들어줌으로 문제를 해결함.
+            grabbedRigidbody.transform.position = grabbablePosition;
+            grabbedRigidbody.transform.rotation = grabbableRotation;
         }
         else
         {
@@ -308,6 +318,7 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
             }
         }
 
+        // 플레이어의 RayCast가 활성화되어있지 않은 경우 FindTarget을 호출하지 않음.
         if (dgOut == null && m_useSpherecast && m_handRay.GetComponent<LineRenderer>().enabled)
         {
             return FindTargetWithSpherecast(out dgOut, out collOut);
@@ -317,12 +328,12 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
 
     protected bool FindTargetWithSpherecast(out SyncOVRDistanceGrabbable dgOut, out Collider collOut)
     {
+
+        //GrabbableObject를 찾는 Raycast는 플레이어의 HandRay를 받아옴.
         dgOut = null;
         collOut = null;
         Ray ray = new Ray(m_handRay.position, m_handRay.forward);
         RaycastHit hitInfo;
-
-
 
         // If no objects in grab volume, raycast.
         // Potential optimization: 
@@ -340,7 +351,8 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
             {
                 grabbable = hitInfo.collider.gameObject.GetComponentInParent<SyncOVRDistanceGrabbable>();
                 hitCollider = grabbable == null ? null : hitInfo.collider;
-
+                
+                // SyncOVRGrabber와 마찬가지로 Grab을 위해 PhotonView의 Ownership을 Transfer하는 과정을 추가함.
                 if (hitCollider.GetComponent<PhotonView>() != null)
                 {
                     if (hitCollider.GetComponent<PhotonView>().Owner != PhotonNetwork.LocalPlayer)

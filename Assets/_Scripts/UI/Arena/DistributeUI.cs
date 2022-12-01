@@ -25,13 +25,13 @@ public class DistributeUI : MonoBehaviourPun
 
         if (winnerListDictionary.ContainsKey(PhotonNetwork.NickName))
         {
-            MenuUIManager.Instance.ShowConfirmPanel($"º£ÆÃ¿¡ ¼º°øÇÏ¿© {winnerListDictionary[PhotonNetwork.NickName]} Gold¸¦ È¹µæÇÏ¼Ì½À´Ï´Ù.");
+            MenuUIManager.Instance.ShowConfirmPanel($"ë² íŒ…ì— ì„±ê³µí•˜ì—¬ {winnerListDictionary[PhotonNetwork.NickName]} Goldë¥¼ íšë“í•˜ì…¨ìŠµë‹ˆë‹¤.");
 
             Debug.Log("WinInSide");
         }
         else
         {
-            MenuUIManager.Instance.ShowConfirmPanel("º£ÆÃ¿¡ ½ÇÆĞÇÏ¿© °ñµå¸¦ ÀÒ¾ú½À´Ï´Ù.");
+            MenuUIManager.Instance.ShowConfirmPanel("ë² íŒ…ì— ì‹¤íŒ¨í•˜ì—¬ ê³¨ë“œë¥¼ ìƒì—ˆìŠµë‹ˆë‹¤.");
 
             Debug.Log("LoseInSide");
         }
@@ -39,7 +39,7 @@ public class DistributeUI : MonoBehaviourPun
 
     private void DrawBetting()
     {
-        MenuUIManager.Instance.ShowConfirmPanel("¹«½ÂºÎÀÔ´Ï´Ù. ¸ğµç °ñµå¸¦ ´Ù½Ã µ¹·Áµå¸®°Ú½À´Ï´Ù.");
+        MenuUIManager.Instance.ShowConfirmPanel("ë¬´ìŠ¹ë¶€ì…ë‹ˆë‹¤. ëª¨ë“  ê³¨ë“œë¥¼ ë‹¤ì‹œ ëŒë ¤ë“œë¦¬ê² ìŠµë‹ˆë‹¤.");
     }
 
     private void OnDisable()

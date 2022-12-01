@@ -6,6 +6,12 @@ using OVRTouchSample;
 using UnityEngine.SceneManagement;
 #endif
 
+
+/*
+ * OVRHand를 그대로 받아옴.
+ * SyncOVRGrabber를 사용하기 위해 새로 만들어낸 스크립트.
+ */
+
 namespace OVRTouchSample
 {
     // Animated hand visuals for a user of a Touch controller.

@@ -132,10 +132,10 @@ public class CustomizeShop : MonoBehaviourPun
 
         //MySqlSetting.Init();
 
-        // ¼ºº°À» È®ÀÎÇÔ.
+        // ì„±ë³„ì„ í™•ì¸í•¨.
         _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
-        // ¼ºº°À» È®ÀÎÇÏ¿© ¸Â´Â µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // ì„±ë³„ì„ í™•ì¸í•˜ì—¬ ë§ëŠ” ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜´
         if (_isFemale)
         {
             _userCustomizeData = _femaleUserCustomizeData;
@@ -145,19 +145,19 @@ public class CustomizeShop : MonoBehaviourPun
             _userCustomizeData = _maleUserCustomizeData;
         }
 
-        // ÇØ´ç À¯ÀúÀÇ ¾Æ¹ÙÅ¸ µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // í•´ë‹¹ ìœ ì €ì˜ ì•„ë°”íƒ€ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜´
         string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
 
-        // ºÒ·¯¿Â ¾Æ¹ÙÅ¸ µ¥ÀÌÅÍ¸¦ ½ºÅ©¸³ÅÍºí¿ÀºêÁ§Æ®¿¡ ³Ö¾îÁÜ.
+        // ë¶ˆëŸ¬ì˜¨ ì•„ë°”íƒ€ ë°ì´í„°ë¥¼ ìŠ¤í¬ë¦½í„°ë¸”ì˜¤ë¸Œì íŠ¸ì— ë„£ì–´ì¤Œ.
         for (int i = 0; i < avatarData.Length - 1; ++i)
         {
             _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
 
-        // À¯ÀúÀÇ »ö µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È
+        // ìœ ì €ì˜ ìƒ‰ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜´
         _setMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
-        // Âø¿ëÁßÀÌ¾ú´ø ¾Æ¹ÙÅ¸ÀÇ µ¥ÀÌÅÍ¸¦ ºÒ·¯¿È.
+        // ì°©ìš©ì¤‘ì´ì—ˆë˜ ì•„ë°”íƒ€ì˜ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜´.
         for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
         {
             if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
@@ -174,17 +174,17 @@ public class CustomizeShop : MonoBehaviourPun
 
         _setAvatarNum = _notHaveAvatarList[_startNum];
 
-        // ÇöÀç ¾Æ¹ÙÅ¸ Á¤º¸ ÀúÀå
+        // í˜„ì¬ ì•„ë°”íƒ€ ì •ë³´ ì €ì¥
 
-        // Material ÀúÀå ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®
+        // Material ì €ì¥ ìŠ¤í¬ë¦½í„°ë¸” ì˜¤ë¸Œì íŠ¸
         _currentAvatarMaterialData = _userCustomizeData.AvatarMaterial[_equipNum];
-        // ÇöÀç ¾Æ¹ÙÅ¸ º¸¿©ÁÙ ½ºÇÁ¶óÀÌÆ®
+        // í˜„ì¬ ì•„ë°”íƒ€ ë³´ì—¬ì¤„ ìŠ¤í”„ë¼ì´íŠ¸
         _currentAvatarImage.sprite = _currentAvatarMaterialData.AvatarImage[_setMaterialNum];
-        // ÇöÀç ¾Æ¹ÙÅ¸ÀÇ ÀÌ¸§
+        // í˜„ì¬ ì•„ë°”íƒ€ì˜ ì´ë¦„
         _currentAvatarName.text = _userCustomizeData.AvatarName[_equipNum];
-        // ÇöÀç ¾Æ¹ÙÅ¸ÀÇ ´Ğ³×ÀÓ
+        // í˜„ì¬ ì•„ë°”íƒ€ì˜ ë‹‰ë„¤ì„
         _currentAvatarNickname.text = _userCustomizeData.AvatarNickname[_equipNum];
-        // ÇöÀç ¾Æ¹ÙÅ¸ÀÇ °¡°İ
+        // í˜„ì¬ ì•„ë°”íƒ€ì˜ ê°€ê²©
         _currentGold.text = _playerGold.ToString();
 
 
@@ -273,15 +273,15 @@ public class CustomizeShop : MonoBehaviourPun
         {
             _purchaseButton.image.color = _enoughGoldColor;
             _purchaseButton.interactable = true;
-            _askPurchaseAvatarText.text = $"°¡°İÀº {_userCustomizeData.AvatarValue[_notHaveAvatarList[index]]}ÀÔ´Ï´Ù. ±¸¸ÅÇÏ½Ã°Ú½À´Ï±î?";
-            _purchasePopUpCloseButtonText.text = "Á¶±İ¸¸ ´õ µÑ·¯º¼°Ô¿ä.";
+            _askPurchaseAvatarText.text = $"ê°€ê²©ì€ {_userCustomizeData.AvatarValue[_notHaveAvatarList[index]]}ì…ë‹ˆë‹¤. êµ¬ë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+            _purchasePopUpCloseButtonText.text = "ì¡°ê¸ˆë§Œ ë” ë‘˜ëŸ¬ë³¼ê²Œìš”.";
         }
         else
         {
             _purchaseButton.image.color = _notEnoughGoldColor;
             _purchaseButton.interactable = false;
-            _askPurchaseAvatarText.text = $"µ·ÀÌ ºÎÁ·ÇÏ¿© ±¸¸ÅÇÒ ¼ö ¾ø½À´Ï´Ù.";
-            _purchasePopUpCloseButtonText.text = "µ¹¾Æ°¡±â";
+            _askPurchaseAvatarText.text = $"ëˆì´ ë¶€ì¡±í•˜ì—¬ êµ¬ë§¤í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.";
+            _purchasePopUpCloseButtonText.text = "ëŒì•„ê°€ê¸°";
         }
 
 
