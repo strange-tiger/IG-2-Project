@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public class MagicWand : MonoBehaviourPun
 {
-    enum MagicWandName
+    private enum MagicWandName
     {
         Start,
         BigMagic,
