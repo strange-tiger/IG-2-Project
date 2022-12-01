@@ -46,10 +46,6 @@ public class SyncOVRGrabber : MonoBehaviourPun
     [SerializeField]
     protected GameObject m_player;
 
-    [SerializeField]
-    public GameObject PlayerHand;
-
-
     protected bool m_grabVolumeEnabled = true;
     protected Vector3 m_lastPos;
     protected Quaternion m_lastRot;
@@ -322,7 +318,7 @@ public class SyncOVRGrabber : MonoBehaviourPun
 
             if (m_parentHeldObject)
             {
-                m_grabbedObj.transform.parent = PlayerHand.transform;
+                m_grabbedObj.transform.parent = transform;
                 _grabbedHandCollider = GetComponent<Collider>();
                 _grabbedHandCollider.isTrigger = true;
             }
