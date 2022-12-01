@@ -13,9 +13,7 @@ public class OakBarrel : InteracterableObject
     private MeshRenderer _oakBarrelMeshRenderer;
     private MeshCollider _oakBarrelMeshCollider;
 
-    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
-
-    private IEnumerator _setOakBarrelOriginalPosition;
+    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(10f);
 
     protected override void OnEnable()
     {
@@ -33,8 +31,6 @@ public class OakBarrel : InteracterableObject
     {
         _oakBarrelMeshRenderer = GetComponent<MeshRenderer>();
         _oakBarrelMeshCollider = GetComponent<MeshCollider>();
-
-        _setOakBarrelOriginalPosition = SetOakBarrelOriginalPosition();
     }
 
     public override void Interact()
@@ -43,7 +39,7 @@ public class OakBarrel : InteracterableObject
 
         if (_isPlayerHave == false)
         {
-            StartCoroutine(_setOakBarrelOriginalPosition);
+            StartCoroutine(SetOakBarrelOriginalPosition());
         }
 
         photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.All, false);
@@ -59,7 +55,7 @@ public class OakBarrel : InteracterableObject
     private IEnumerator SetOakBarrelOriginalPosition()
     {
         yield return _oakBarrelReturnTime;
-
         photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.All, true);
+        yield break;
     }
 }
