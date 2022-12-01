@@ -65,6 +65,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     private const int INPUT_VOLUME = 3;
     private const int OUTPUT_VOLUME = 4;
 
+
     public void Refresh(int num)
     {
         if (num == MASTER_VOLUME || num == INPUT_VOLUME)
@@ -96,5 +97,9 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     private void Update()
     {
         CheckPushToTalkInput();
+    }
+    private void OnDestroy()
+    {
+        Debug.Log("파괴되지말라고!!!");
     }
 }

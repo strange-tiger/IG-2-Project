@@ -16,11 +16,13 @@ public class BGMPlayer : MonoBehaviour
         _bgmPlayer = gameObject.AddComponent<AudioSource>();     
         _bgmPlayer.clip = _bgmClip;
         _bgmPlayer.loop = true;
+
         _bgmPlayer.Play();
     }
 
     public void UpdateVolume(float bgmVolume)
     {
+        Debug.Log("bgm update");
         _bgmPlayer.volume = bgmVolume;
     }
 

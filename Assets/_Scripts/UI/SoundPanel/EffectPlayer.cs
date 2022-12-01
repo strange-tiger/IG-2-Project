@@ -19,6 +19,6 @@ public class EffectPlayer : MonoBehaviour
 
     private void OnDestroy()
     {
-        SoundManager.Instance.OnChangedEffectVolume.RemoveListener(UpdateVolume);
+        SoundManager.Instance.OnChangedEffectVolume?.RemoveListener(UpdateVolume);
     }
 }
