@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -46,6 +46,7 @@ public class PetPurchaseUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _petGrade;
     [SerializeField] TextMeshProUGUI _petExplanation;
     [SerializeField] TextMeshProUGUI _petPrice;
+    [SerializeField] TextMeshProUGUI _popupHaveGold;
 
     private PetShopUIManager.PetProfile _currentPet = new PetShopUIManager.PetProfile();
 
@@ -260,6 +261,8 @@ public class PetPurchaseUI : MonoBehaviour
         }
     }
 
+    private const string ABLE_TO_PURCHASE = "êµ¬ìž…í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+    private const string NOT_ABLE_TO_PURCHASE = "ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.";
     private void ShowCurrentPet(PetShopUIManager.PetProfile pet)
     {
         _petInfoPopup.SetActive(true);
@@ -273,15 +276,21 @@ public class PetPurchaseUI : MonoBehaviour
         ShowPetGrade(pet.Grade);
 
         _petExplanation.text = pet.Explanation;
-        _petPrice.text = $"°¡°ÝÀº {pet.Price} °ñµå ÀÔ´Ï´Ù.\n±¸ÀÔ ÇÏ½Ã°Ú½À´Ï±î?";
+        _petPrice.text = $"ê°€ê²©ì€ {pet.Price} ê³¨ë“œ ìž…ë‹ˆë‹¤.\n";
 
-        if (pet.Price > _DB.CheckHaveGold(_ui.PlayerNickname))
+        int haveGold = _DB.CheckHaveGold(_ui.PlayerNickname);
+
+        _popupHaveGold.text = haveGold.ToString();
+
+        if (pet.Price > haveGold)
         {
             _purchaseButton.enabled = false;
+            _petPrice.text += NOT_ABLE_TO_PURCHASE;
         }
         else
         {
             _purchaseButton.enabled = true;
+            _petPrice.text += ABLE_TO_PURCHASE;
         }
     }
 

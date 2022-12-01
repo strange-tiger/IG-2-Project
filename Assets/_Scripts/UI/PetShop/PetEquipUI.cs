@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,6 +28,7 @@ public class PetEquipUI : MonoBehaviour
 
     [Header("Equiped Pet Info")]
     [SerializeField] Image _equipedPetImage;
+    [SerializeField] Sprite _airImage;
 
     [Header("Current Pet")]
     [SerializeField] Image _petImage;
@@ -39,8 +40,8 @@ public class PetEquipUI : MonoBehaviour
     [Header("Apply Text")]
     [SerializeField] TextMeshProUGUI _applyText;
 
-    private const string DEFAULT_APPLY_TEXT = "[ÀúÀåÇÏ±â]¸¦ ´©¸£¸é º¯È¯ÀÌ ¹İ¿µµË´Ï´Ù.";
-    private const string SAVED_APPLY_TEXT = "ÀúÀåµÇ¾ú½À´Ï´Ù!";
+    private const string DEFAULT_APPLY_TEXT = "[ì €ì¥í•˜ê¸°]ë¥¼ ëˆ„ë¥´ë©´ ë³€í™˜ì´ ë°˜ì˜ë©ë‹ˆë‹¤.";
+    private const string SAVED_APPLY_TEXT = "ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤!";
     private static readonly WaitForSeconds APPLY_TEXT_DURATION = new WaitForSeconds(1f);
     private static readonly PetShopUIManager.PetProfile PET_AIR = new PetShopUIManager.PetProfile();
 
@@ -71,6 +72,7 @@ public class PetEquipUI : MonoBehaviour
     private void Awake()
     {
         _petDataLength = _ui.PetList.Length;
+        PET_AIR.SetImage(_airImage);
         PET_AIR.SetStatus(EPetStatus.HAVE);
         _petList = new PetShopUIManager.PetProfile[_petDataLength + 1];
     }

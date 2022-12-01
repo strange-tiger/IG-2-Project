@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +29,6 @@ public class PetShopUIManager : UIManager
     private void Awake()
     {
         ShutPetUI();
-        _DB.Init();
     }
 
     public void ShutPetUI()
@@ -106,11 +105,13 @@ public class PetShopUIManager : UIManager
             PetList[i].SetAssetIndex(_petData.ChildIndex[i]);
 
             PetList[i].SetLevel(_petData.Level[i]);
+
+            Debug.Log($"[PET] {PetList[i].Name} {PetList[i].Grade}");
         }
     }
 
-    private const string AIR_NAME = "°ø±â";
-    private const string AIR_EXPLAIN = "¿ì¸® °ç¿¡ ÀÖ´Â ¼ÒÁßÇÑ Ä£±¸.\n µéÀÌ½¬°í ³»½¬´Ù º¸¸é\nÁú¸± Á¤µµ·Î °Ç°­ÇØÁú °Ì´Ï´Ù! ¿¹!!!";
+    private const string AIR_NAME = "ê³µê¸°";
+    private const string AIR_EXPLAIN = "ìš°ë¦¬ ê³ì— ìˆëŠ” ì†Œì¤‘í•œ ì¹œêµ¬.\në“¤ì´ì‰¬ê³  ë‚´ì‰¬ë‹¤ ë³´ë©´\nì§ˆë¦´ ì •ë„ë¡œ ê±´ê°•í•´ì§ˆ ê²ë‹ˆë‹¤! ì˜ˆ!!!";
 
     public class PetProfile
     {
