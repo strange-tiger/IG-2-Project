@@ -216,6 +216,8 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
                         int vowelIndex = NEUTRAL_VOWEL.IndexOf(input[index]);
 
+                        int initialConsonantIndex = INITIAL_CONSONANT.IndexOf(input[index]);
+
                         if (consonantIndex != -1)
                         {
                             ++index;
@@ -226,35 +228,37 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                             ++index;
                             convertString += NEUTRAL_VOWEL[vowelIndex];
                         }
-                        else if (INITIAL_CONSONANT.IndexOf(input[index]) != -1)
+                        else if (initialConsonantIndex != -1)
                         {
                             ++index;
-                            convertString += input;
+                            convertString += INITIAL_CONSONANT[initialConsonantIndex];
                         }
 
                         break;
                     }
                 case 2:
                     {
-                        int firstConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
-                        int secondConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
+                        int firstFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
+                        int secondFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
 
                         int firstVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index]);
                         int secondVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index + 1]);
 
-                        if (firstConsonantIndex != -1 && secondConsonantIndex != -1)
+                        int firstInitialConsonantIndex = INITIAL_CONSONANT.IndexOf(input[index]);
+
+                        if (firstFinalConsonantIndex != -1 && secondFinalConsonantIndex != -1)
                         {
-                            int i = CombineTwoConsonant(firstConsonantIndex, secondConsonantIndex);
-                            if (i == firstConsonantIndex)
+                            int i = CombineTwoConsonant(firstFinalConsonantIndex, secondFinalConsonantIndex);
+                            if (i == firstFinalConsonantIndex)
                             {
                                 ++index;
                             }
                             else
                             {
-                                firstConsonantIndex = i;
+                                firstFinalConsonantIndex = i;
                                 index += 2;
                             }
-                            convertString += FINAL_CONSONANT[firstConsonantIndex];
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
                         }
                         else if (firstVowelIndex != -1 && secondVowelIndex != -1)
                         {
@@ -271,44 +275,48 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                             }
                             convertString += NEUTRAL_VOWEL[firstVowelIndex];
                         }
-                        else
+                        else if (firstFinalConsonantIndex != -1)
                         {
-                            if (firstConsonantIndex != -1)
-                            {
-                                ++index;
-                                convertString += FINAL_CONSONANT[firstConsonantIndex];
-                            }
-                            else if (firstVowelIndex != -1)
-                            {
-                                ++index;
-                                convertString += NEUTRAL_VOWEL[firstVowelIndex];
-                            }
+                            ++index;
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
+                        }
+                        else if (firstVowelIndex != -1)
+                        {
+                            ++index;
+                            convertString += NEUTRAL_VOWEL[firstVowelIndex];
+                        }
+                        else if (firstInitialConsonantIndex != -1)
+                        {
+                            ++index;
+                            convertString += INITIAL_CONSONANT[firstInitialConsonantIndex];
                         }
                         break;
                     }
                 case 3:
                 default:
                     {
-                        int firstConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
-                        int secondConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
-                        int thirdConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 2]);
+                        int firstFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
+                        int secondFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
+                        int thirdFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 2]);
 
                         int firstVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index]);
                         int secondVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index + 1]);
 
-                        if (firstConsonantIndex != -1 && secondConsonantIndex != -1 && thirdConsonantIndex != -1)
+                        int firstInitialConsonantIndex = INITIAL_CONSONANT.IndexOf(input[index]);
+
+                        if (firstFinalConsonantIndex != -1 && secondFinalConsonantIndex != -1 && thirdFinalConsonantIndex != -1)
                         {
-                            int i = CombineTwoConsonant(firstConsonantIndex, secondConsonantIndex);
-                            if (i == firstConsonantIndex)
+                            int i = CombineTwoConsonant(firstFinalConsonantIndex, secondFinalConsonantIndex);
+                            if (i == firstFinalConsonantIndex)
                             {
                                 ++index;
                             }
                             else
                             {
-                                firstConsonantIndex = i;
+                                firstFinalConsonantIndex = i;
                                 index += 2;
                             }
-                            convertString += FINAL_CONSONANT[firstConsonantIndex];
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
                         }
                         else if (firstVowelIndex != -1 && secondVowelIndex != -1)
                         {
@@ -325,19 +333,22 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                             }
                             convertString += NEUTRAL_VOWEL[firstVowelIndex];
                         }
-                        else
+                        else if (firstFinalConsonantIndex != -1)
                         {
-                            if (firstConsonantIndex != -1)
-                            {
-                                ++index;
-                                convertString += FINAL_CONSONANT[firstConsonantIndex];
-                            }
-                            else if (firstVowelIndex != -1)
-                            {
-                                ++index;
-                                convertString += NEUTRAL_VOWEL[firstVowelIndex];
-                            }
+                            ++index;
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
                         }
+                        else if (firstVowelIndex != -1)
+                        {
+                            ++index;
+                            convertString += NEUTRAL_VOWEL[firstVowelIndex];
+                        }
+                        else if (firstInitialConsonantIndex != -1)
+                        {
+                            ++index;
+                            convertString += INITIAL_CONSONANT[firstInitialConsonantIndex];
+                        }
+                        
                         break;
                     }
             }
@@ -353,7 +364,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                     break;
                 case 1:
                     {
-                        output += convertString;
+                        output += convertString[index];
 
                         ++index;
 
