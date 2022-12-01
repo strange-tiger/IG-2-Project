@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EffectPlayer : MonoBehaviour
 {
-    [SerializeField]
     private AudioSource _effectPlayer;
     private void Awake()
     {
+        _effectPlayer = GetComponent<AudioSource>();
         SoundManager.Instance.OnChangedEffectVolume.RemoveListener(UpdateVolume);
         SoundManager.Instance.OnChangedEffectVolume.AddListener(UpdateVolume);
     }
