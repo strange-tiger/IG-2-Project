@@ -13,6 +13,9 @@ public class TutorialConducter : MonoBehaviour
     [Header("Skip")]
     [SerializeField] private OVRInput.Button _skipButton = OVRInput.Button.One;
     [SerializeField] private float _letterPassTime = 0.1f;
+    
+    [SerializeField] private AudioClip _dialogSound;
+    private AudioSource _audioSource;
 
     [Header("Quest")]
     [SerializeField] private string _questDisableRequest = "x";
@@ -35,6 +38,8 @@ public class TutorialConducter : MonoBehaviour
         _tutorialManager = GetComponentInParent<TutorialManager>();
         
         _csvManager = _tutorialManager.CSVManager;
+
+        _audioSource = GetComponent<AudioSource>();
 
         _questConducters = GetComponentsInChildren<QuestConducter>();
         foreach(QuestConducter quest in _questConducters)
@@ -129,6 +134,8 @@ public class TutorialConducter : MonoBehaviour
     {
         _currentDialogue = _csvManager.GetDialogue(_nextDialogueID);
         _nextDialogueID = int.Parse(_currentDialogue[TutorialField.Next]);
+
+        _audioSource.PlayOneShot(_dialogSound);
 
         _isDialogueEnd = _isSkip = false;
         StartCoroutine(CoShowDialog());
