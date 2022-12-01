@@ -8,6 +8,9 @@ public class OakBarrelInteraction : MonoBehaviourPun
 {
     [SerializeField] private GameObject _playerOakBarrel;
     [SerializeField] private GameObject _playerModel;
+    [SerializeField] private AudioClip _inOakBarrelSound;
+
+    private AudioSource _audioSource;
 
     private PlayerInteraction _playerInteraction;
 
@@ -42,6 +45,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
 
         _playerMeshRenderer = GameObject.Find("CenterEyeAnchor").GetComponentInChildren<MeshRenderer>();
+
+        _audioSource = GetComponentInChildren<AudioSource>();
     }
 
     private void Update()
@@ -119,7 +124,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
         photonView.RPC(nameof(ActivePlayer), RpcTarget.All, false);
 
         _playerControllerMove.MoveScale -= _speedSlower;
-        
+        _audioSource.PlayOneShot(_inOakBarrelSound);
 
         PlayerControlManager.Instance.IsRayable = false;
     }
