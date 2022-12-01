@@ -41823,6 +41823,7 @@ GameObject:
   - component: {fileID: 245856982744617149}
   - component: {fileID: 6912768624105827309}
   - component: {fileID: 245856982744617150}
+  - component: {fileID: 245856982744617151}
   m_Layer: 10
   m_Name: Bottle_02
   m_TagString: Untagged
@@ -41857,6 +41858,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objCollider: {fileID: 245856982744617149}
   _objMeshRenderer: {fileID: 233709285507668588}
+--- !u!114 &245856982744617151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245856982744617148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 246185020139365852}
 --- !u!54 &246185020139365829
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -41905,7 +41919,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fd9eea80de3db7e48943a430950f5077, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c6e8a6a8da182014895de1b1a681ce7f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
