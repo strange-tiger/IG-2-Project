@@ -40,21 +40,16 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         _oakBarrelMeshRenderer = _playerOakBarrel.GetComponent<MeshRenderer>();
         _oakBarrelMeshCollider = _playerOakBarrel.GetComponent<MeshCollider>();
+        _playerDebuffManager = GetComponent<PlayerDebuffManager>();
 
         _oakBarrelMeshRenderer.enabled = false;
         _oakBarrelMeshCollider.enabled = false;
     }
 
-    private void OnEnable()
-    {
-        _playerInteraction = GetComponentInChildren<PlayerInteraction>();
-        _playerDebuffManager = GetComponent<PlayerDebuffManager>();
-
-    }
-
     private void Start()
     {
         _playerControllerMove = GetComponent<PlayerControllerMove>();
+        _playerInteraction = GetComponentInChildren<PlayerInteraction>();
 
         _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
         _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
@@ -73,7 +68,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-
             if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
             {
                 StopAllCoroutines();
