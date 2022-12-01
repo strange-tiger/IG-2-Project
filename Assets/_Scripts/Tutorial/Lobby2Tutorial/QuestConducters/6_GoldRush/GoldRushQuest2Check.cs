@@ -16,6 +16,7 @@ public class GoldRushQuest2Check : QuestConducter
     {
         StopAllCoroutines();
         StartCoroutine(CoQuestEnd());
+        base.StartQuest();
     }
 
     private IEnumerator CoQuestEnd()

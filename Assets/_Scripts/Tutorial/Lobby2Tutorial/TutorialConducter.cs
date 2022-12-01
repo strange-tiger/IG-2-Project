@@ -10,15 +10,18 @@ public class TutorialConducter : MonoBehaviour
 {
     [SerializeField] private TutorialNumber _tutorialNumber;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip _dialogSound;
+    private AudioSource _audioSource;
+    
     [Header("Skip")]
     [SerializeField] private OVRInput.Button _skipButton = OVRInput.Button.One;
     [SerializeField] private float _letterPassTime = 0.1f;
-    
-    [SerializeField] private AudioClip _dialogSound;
-    private AudioSource _audioSource;
 
     [Header("Quest")]
     [SerializeField] private string _questDisableRequest = "x";
+    [SerializeField] private AudioClip _questStartSound;
+    [SerializeField] private AudioClip _questEndSound;
 
     private TutorialManager _tutorialManager;
     private TutorialCSVManager _csvManager;
@@ -46,6 +49,7 @@ public class TutorialConducter : MonoBehaviour
         {
             quest.OnQuestEnd -= QuestEnd;
             quest.OnQuestEnd += QuestEnd;
+            quest.SetQuestSound(_questStartSound, _questEndSound);
             quest.gameObject.SetActive(false);
         }
     }

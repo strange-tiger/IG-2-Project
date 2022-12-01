@@ -21,6 +21,8 @@ public class OakBarrelQuest3Take : QuestConducter
 
         _oakBarrelNPC.PrepareForQuest();
         _npc.SetActive(true);
+
+        base.StartQuest();
     }
 
     private void OnDisable()
