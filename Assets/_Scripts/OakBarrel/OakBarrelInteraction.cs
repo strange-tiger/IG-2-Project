@@ -73,7 +73,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
                 StopAllCoroutines();
 
                 
-                _isSelfExit = false;
+                _isSelfExit = true;
                 OutOakBarrel();
             }
 
@@ -82,7 +82,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
                 _playerMeshRenderer.material.color = Color.black;
                 StartCoroutine(_fadeOutPlayerScreen);
                 
-                _isSelfExit = true;
+                _isSelfExit = false;
                 OutOakBarrel();
             }
         }
@@ -161,13 +161,13 @@ public class OakBarrelInteraction : MonoBehaviourPun
         photonView.RPC(nameof(OakBarrelToPlayer), RpcTarget.All, _player);
 
         PlayerControlManager.Instance.IsRayable = true;
+        _playerControllerMove.MoveScale /= _speedSlower;
 
-        if (_isSelfExit)
+        if (!_isSelfExit)
         {
             _playerDebuffManager.CallStunDebuff();
         }
 
-        _playerControllerMove.MoveScale /= _speedSlower;
     }
 
     [PunRPC]
