@@ -6,7 +6,6 @@ using Photon.Pun;
 public class InputVoiceVolume : MonoBehaviourPun
 {
     private AudioSource _voicePlayer;
-    
     private PhotonView _photonview;
 
     private void Awake()
@@ -20,11 +19,11 @@ public class InputVoiceVolume : MonoBehaviourPun
     [PunRPC]
     public void UpdateVolume(float voiceVolume)
     {
+        _voicePlayer.volume = voiceVolume;
         if(_photonview.IsMine)
         {
             _photonview.RPC(nameof(UpdateVolume), RpcTarget.Others, voiceVolume);
         }
-        _voicePlayer.volume = voiceVolume;
     }
 
     private void OnDestroy()
