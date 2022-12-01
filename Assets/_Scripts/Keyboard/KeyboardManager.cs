@@ -226,6 +226,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                             ++index;
                             convertString += NEUTRAL_VOWEL[vowelIndex];
                         }
+                        else if (INITIAL_CONSONANT.IndexOf(input[index]) != -1)
+                        {
+                            ++index;
+                            convertString += input;
+                        }
 
                         break;
                     }
@@ -348,9 +353,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                     break;
                 case 1:
                     {
-                        int i = convertString[index];
-                        char letter = Convert.ToChar(i);
-                        output += letter.ToString();
+                        output += convertString;
 
                         ++index;
 
@@ -372,9 +375,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                         }
                         else
                         {
-                            int i = convertString[index];
-                            char letter = Convert.ToChar(i);
-                            output += letter.ToString();
+                            output += convertString[index];
 
                             ++index;
                         }
@@ -413,9 +414,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                         }
                         else
                         {
-                            int i = convertString[index];
-                            char letter = Convert.ToChar(i);
-                            output += letter.ToString();
+                            output += convertString[index];
 
                             ++index;
                         }
