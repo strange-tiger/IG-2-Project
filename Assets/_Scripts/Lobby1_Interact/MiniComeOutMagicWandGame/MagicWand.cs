@@ -7,6 +7,19 @@ using Photon.Pun;
 
 public class MagicWand : MonoBehaviourPun
 {
+    enum MagicWandName
+    {
+        Start,
+        BigMagic,
+        CoinMagic,
+        ElementMagic,
+        EnvironmentMagic,
+        FireworksMagic,
+        LightMagic,
+        SmokeMagic,
+        End, 
+    }
+
     [Header("확률에 해당하는 숫자를 누적시켜 적어주세요")]
     [SerializeField] private int[] _useMagicChance;
 
@@ -18,12 +31,13 @@ public class MagicWand : MonoBehaviourPun
 
     [Header("VRUI의 MagicWandPanel을 넣어주세요")]
     [SerializeField] private GameObject _magicWandPanel;
+    [SerializeField] private ParticleSystem[] _magic;
+
+    [SerializeField] private MagicWandName _magicWandName;
 
     private TextMeshProUGUI _magicNameText;
     private TextMeshProUGUI _magicCoolTimeText;
 
-    [SerializeField]
-    private ParticleSystem[] _magic;
     private float _currentTime;
     private bool _checkCoolTime;
     public bool CheckCoolTime { get { return _checkCoolTime; } set { _checkCoolTime = value; } }
@@ -70,7 +84,14 @@ public class MagicWand : MonoBehaviourPun
                 photonView.RPC(nameof(GetMagic), RpcTarget.All, RandomNumber);
 
                 _magicWandPanel.SetActive(true);
-                _magicNameText.text = gameObject.name;
+
+                if ((int)_magicWandName == 1) { _magicNameText.text = "대규모 마법"; }
+                if ((int)_magicWandName == 2) { _magicNameText.text = "코인 마법"; }
+                if ((int)_magicWandName == 3) { _magicNameText.text = "원소 마법"; }
+                if ((int)_magicWandName == 4) { _magicNameText.text = "환경 변화 마법"; }
+                if ((int)_magicWandName == 5) { _magicNameText.text = "불꽃놀이 마법"; }
+                if ((int)_magicWandName == 6) { _magicNameText.text = "빛 마법"; }
+                if ((int)_magicWandName == 7) { _magicNameText.text = "연기 마법"; }
 
                 _checkCoolTime = true;
             }

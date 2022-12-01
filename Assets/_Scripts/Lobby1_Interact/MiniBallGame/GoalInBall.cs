@@ -23,14 +23,16 @@ public class GoalInBall : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            if (_goalLine.gameObject.tag == "Ball" && _goalLine.gameObject.transform.position.y > gameObject.transform.position.y)
+            if (_goalLine.gameObject.tag.Contains("Ball") && _goalLine.gameObject.transform.position.y > gameObject.transform.position.y)
             {
-                photonView.RPC("PlayGoalInParticle", RpcTarget.All);
+                photonView.RPC(nameof(PlayGoalInParticle), RpcTarget.All);
             }
-
         }
     }
 
+    /// <summary>
+    /// 골인 파티클 온
+    /// </summary>
     [PunRPC]
     public void PlayGoalInParticle()
     {
