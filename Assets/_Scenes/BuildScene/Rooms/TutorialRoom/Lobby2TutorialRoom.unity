@@ -42939,7 +42939,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9b7916a57132f8a45b66c69d2f8cdcb8, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -43893,6 +43893,7 @@ GameObject:
   - component: {fileID: 4093293112127926045}
   - component: {fileID: 2913137920730049025}
   - component: {fileID: 3262905328152902882}
+  - component: {fileID: 3262905328152902883}
   m_Layer: 0
   m_Name: Tumbleweed
   m_TagString: Untagged
@@ -43920,6 +43921,21 @@ MonoBehaviour:
   _slider: {fileID: 2913137920428725770}
   _getGoldPanel: {fileID: 2913137922113038611}
   _goldCountText: {fileID: 2913137920940510235}
+  _coinAudioClip: {fileID: 8300000, guid: 334b4750d20d4b0459e0cb65bafc9237, type: 3}
+  _weedDisappearAudioClip: {fileID: 8300000, guid: d933bd766149b3d449fbff6e2149fc31, type: 3}
+--- !u!114 &3262905328152902883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3262905328152902881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 2913137920730049025}
 --- !u!4 &3262905328153387201
 Transform:
   m_ObjectHideFlags: 0
