@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -21,8 +21,8 @@ public class Wood : MonoBehaviourPun
     }
 
     /// <summary>
-    /// Ãæµ¹ÀÌ ÀÏ¾î³ª°í ÀâÇôÀÖÁö ¾ÊÀ¸¸ç ÇöÀç ÄðÅ¸ÀÓÀÌ ¾Æ´Ï¸é ¼Ò¸®¸¦ ³½´Ù.
-    /// ÄðÅ¸ÀÓÀº 1ÃÊÀÌ´Ù.
+    /// ì¶©ëŒì´ ì¼ì–´ë‚˜ê³  ìž¡í˜€ìžˆì§€ ì•Šìœ¼ë©° í˜„ìž¬ ì¿¨íƒ€ìž„ì´ ì•„ë‹ˆë©´ ì†Œë¦¬ë¥¼ ë‚¸ë‹¤.
+    /// ì¿¨íƒ€ìž„ì€ 1ì´ˆì´ë‹¤.
     /// </summary>
     /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
@@ -35,9 +35,9 @@ public class Wood : MonoBehaviourPun
     }
 
     /// <summary>
-    /// ÄðÅ¸ÀÓÀ» °è»êÇÑ´Ù.
-    /// ÇöÀç ÄðÅ¸ÀÓÀÎÁö¸¦ _notOnCooltime º¯¼ö·Î ÆÇ´ÜÇÑ´Ù.
-    /// ÄðÅ¸ÀÓÀº 1ÃÊÀÌ´Ù.
+    /// ì¿¨íƒ€ìž„ì„ ê³„ì‚°í•œë‹¤.
+    /// í˜„ìž¬ ì¿¨íƒ€ìž„ì¸ì§€ë¥¼ _notOnCooltime ë³€ìˆ˜ë¡œ íŒë‹¨í•œë‹¤.
+    /// ì¿¨íƒ€ìž„ì€ 1ì´ˆì´ë‹¤.
     /// </summary>
     /// <returns></returns>
     IEnumerator Cooltime()
@@ -50,8 +50,8 @@ public class Wood : MonoBehaviourPun
     }
 
     /// <summary>
-    /// Æ®¸®°Å Ãæµ¹ ½Ã ½ÇÇàÇÑ´Ù.
-    /// ¸Å°³º¯¼ö otherÀÇ ÅÂ±×°¡ "Campfire"ÀÌ¸é StopCountDownÀ» RPC·Î È£ÃâÇÑ´Ù.
+    /// íŠ¸ë¦¬ê±° ì¶©ëŒ ì‹œ ì‹¤í–‰í•œë‹¤.
+    /// ë§¤ê°œë³€ìˆ˜ otherì˜ íƒœê·¸ê°€ "Campfire"ì´ë©´ StopCountDownì„ RPCë¡œ í˜¸ì¶œí•œë‹¤.
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
@@ -63,8 +63,8 @@ public class Wood : MonoBehaviourPun
     }
 
     /// <summary>
-    /// Æ®¸®°Å Ãæµ¹¿¡¼­ ¹þ¾î³¯ ½Ã ½ÇÇàÇÑ´Ù.
-    /// ¸Å°³º¯¼ö otherÀÇ ÅÂ±×°¡ "Campfire"ÀÌ¸é StartCountDownÀ» RPC·Î È£ÃâÇÑ´Ù.
+    /// íŠ¸ë¦¬ê±° ì¶©ëŒì—ì„œ ë²—ì–´ë‚  ì‹œ ì‹¤í–‰í•œë‹¤.
+    /// ë§¤ê°œë³€ìˆ˜ otherì˜ íƒœê·¸ê°€ "Campfire"ì´ë©´ StartCountDownì„ RPCë¡œ í˜¸ì¶œí•œë‹¤.
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
@@ -84,9 +84,9 @@ public class Wood : MonoBehaviourPun
     private void StartCountDown() => StartCoroutine(CountDown());
 
     /// <summary>
-    /// ÅÂ±×°¡ "Campfire"ÀÎ Æ®¸®°Å ÄÝ¶óÀÌ´õ¿¡¼­ ¹þ¾î³ª¸é ÀÌ ÄÚ·çÆ¾ÀÌ ½ÇÇàµÈ´Ù.
-    /// Æ®¸®°Å ÄÝ¶óÀÌ´õ¿¡¼­ ¹þ¾î³µÀ» ¶§ ºÎÅÍ Ä«¿îÆ®´Ù¿îÀ» ½ÃÀÛÇÏ¿©, 3ÃÊ°¡ Áö³ª¸é ÀÌ ¿ÀºêÁ§Æ®¸¦ »èÁ¦ÇÑ´Ù.
-    /// ÀÌ ¿ÀºêÁ§Æ®°¡ ÀâÇôÀÖ´Â µ¿¾ÈÀº Ä«¿îÆ®´Ù¿îÀ» ¸ØÃá´Ù.
+    /// íƒœê·¸ê°€ "Campfire"ì¸ íŠ¸ë¦¬ê±° ì½œë¼ì´ë”ì—ì„œ ë²—ì–´ë‚˜ë©´ ì´ ì½”ë£¨í‹´ì´ ì‹¤í–‰ëœë‹¤.
+    /// íŠ¸ë¦¬ê±° ì½œë¼ì´ë”ì—ì„œ ë²—ì–´ë‚¬ì„ ë•Œ ë¶€í„° ì¹´ìš´íŠ¸ë‹¤ìš´ì„ ì‹œìž‘í•˜ì—¬, 3ì´ˆê°€ ì§€ë‚˜ë©´ ì´ ì˜¤ë¸Œì íŠ¸ë¥¼ ì‚­ì œí•œë‹¤.
+    /// ì´ ì˜¤ë¸Œì íŠ¸ê°€ ìž¡í˜€ìžˆëŠ” ë™ì•ˆì€ ì¹´ìš´íŠ¸ë‹¤ìš´ì„ ë©ˆì¶˜ë‹¤.
     /// </summary>
     /// <returns></returns>
     IEnumerator CountDown()

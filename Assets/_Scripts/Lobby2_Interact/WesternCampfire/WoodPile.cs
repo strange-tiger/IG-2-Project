@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -24,7 +24,7 @@ public class WoodPile : InteracterableObject, IPunObservable
     }
 
     /// <summary>
-    /// »óÈ£ÀÛ¿ëÇÏ¸é Wood¸¦ SpawnWood ÇÔ¼ö¸¦ RPC·Î È£ÃâÇÑ´Ù.
+    /// ìƒí˜¸ì‘ìš©í•˜ë©´ Woodë¥¼ SpawnWood í•¨ìˆ˜ë¥¼ RPCë¡œ í˜¸ì¶œí•œë‹¤.
     /// </summary>
     private const string SPAWN_WOOD = "SpawnWood";
     public override void Interact()
@@ -39,10 +39,10 @@ public class WoodPile : InteracterableObject, IPunObservable
     }
 
     /// <summary>
-    /// Wood ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇÑ´Ù.
-    /// »ı¼ºµÈ ¿ÀºêÁ§Æ®¸¦ ÀüÈÄÁÂ¿ì ³× ¹æÇâ Áß ·£´ıÀ¸·Î °ñ¶ó ±× ¹æÇâÀ¸·Î ÈûÀ» °¡ÇØ Æ¢¾î³ª°¡°Ô ÇÑ´Ù.
-    /// ¹æÇâ º¤ÅÍ´Â ·£´ı ¹æÇâ ´ë°¢¼± À§ÂÊÀÌ´Ù.
-    /// »ı¼º ÄğÅ¸ÀÓÀ» °è»êÇÑ´Ù. ÄğÅ¸ÀÓÀº 5ÃÊÀÌ´Ù.
+    /// Wood ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+    /// ìƒì„±ëœ ì˜¤ë¸Œì íŠ¸ë¥¼ ì „í›„ì¢Œìš° ë„¤ ë°©í–¥ ì¤‘ ëœë¤ìœ¼ë¡œ ê³¨ë¼ ê·¸ ë°©í–¥ìœ¼ë¡œ í˜ì„ ê°€í•´ íŠ€ì–´ë‚˜ê°€ê²Œ í•œë‹¤.
+    /// ë°©í–¥ ë²¡í„°ëŠ” ëœë¤ ë°©í–¥ ëŒ€ê°ì„  ìœ„ìª½ì´ë‹¤.
+    /// ìƒì„± ì¿¨íƒ€ì„ì„ ê³„ì‚°í•œë‹¤. ì¿¨íƒ€ì„ì€ 5ì´ˆì´ë‹¤.
     /// </summary>
     private const string WOOD = "Wood";
     [PunRPC]
@@ -63,9 +63,9 @@ public class WoodPile : InteracterableObject, IPunObservable
     }
 
     /// <summary>
-    /// ÄğÅ¸ÀÓÀ» °è»êÇÑ´Ù.
-    /// ÇöÀç ÄğÅ¸ÀÓÀÎÁö¸¦ _onCooltime º¯¼ö·Î ÆÇ´ÜÇÑ´Ù.
-    /// ÄğÅ¸ÀÓÀº 5ÃÊÀÌ´Ù.
+    /// ì¿¨íƒ€ì„ì„ ê³„ì‚°í•œë‹¤.
+    /// í˜„ì¬ ì¿¨íƒ€ì„ì¸ì§€ë¥¼ _onCooltime ë³€ìˆ˜ë¡œ íŒë‹¨í•œë‹¤.
+    /// ì¿¨íƒ€ì„ì€ 5ì´ˆì´ë‹¤.
     /// </summary>
     /// <returns></returns>
     private IEnumerator CalculateCooltime()
