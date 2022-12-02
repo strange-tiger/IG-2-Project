@@ -5,9 +5,13 @@ using Photon.Pun;
 public class IsekaiWeapon : MonoBehaviourPun
 {
     [SerializeField] Collider[] _attackPoints;
-    
+
+    [SerializeField] Rigidbody _velocityChecker;
+
     private static readonly WaitForSeconds RETURN_DELAY = new WaitForSeconds(0.5f);
     
+    public float Velocity { get; private set; }
+
     private SyncOVRDistanceGrabbable _grabbable;
     private Rigidbody _rigidbody;
     private Coroutine _coroutine;
@@ -42,6 +46,12 @@ public class IsekaiWeapon : MonoBehaviourPun
         }
     }
 
+    private void MonitorWeaponVelocity()
+    {
+        _velocityChecker.MovePosition(transform.position);
+        Velocity = _velocityChecker.velocity.magnitude;
+    }
+
     /// <summary>
     /// 현재 작동하고 있는 코루틴 _coroutine이 있다면 멈춘다.
     /// 코루틴 MonitorWeaponGrabbed를 시작하고 _coroutine에 저장한다.
@@ -70,6 +80,7 @@ public class IsekaiWeapon : MonoBehaviourPun
 
         while (_grabbable.isGrabbed)
         {
+            MonitorWeaponVelocity();
             yield return null;
         }
 

@@ -38,11 +38,21 @@ public class WeaponRack : MonoBehaviourPun
             _weaponIndexGroup[i] = 0;
             _weaponMaxIndexGroup[i] = _weapons[i].childCount;
         }
-        
+
+        // PhotonView ID duplicate 에러를 막기 위함 : Disable된 상태로 생성되는 오브젝트는 PhotonView ID를 할당받지 못한다.
         foreach (Transform weapons in _weapons)
         {
-            weapons.GetChild(0).gameObject.SetActive(true);
+            for (int i = 0; i < weapons.childCount; ++i)
+            {
+                weapons.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+    }
 
+    private void OnEnable()
+    {
+        foreach (Transform weapons in _weapons)
+        {
             for (int i = 1; i < weapons.childCount; ++i)
             {
                 weapons.GetChild(i).gameObject.SetActive(false);
