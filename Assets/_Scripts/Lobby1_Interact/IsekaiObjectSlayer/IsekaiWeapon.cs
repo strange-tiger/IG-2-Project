@@ -30,14 +30,7 @@ public class IsekaiWeapon : MonoBehaviourPun
         _initPosition = transform.position;
         _initRotation = transform.rotation.eulerAngles;
 
-        _velocityChecker.transform.parent = null;
-
         ChangeSetting(false);
-    }
-
-    private void OnDisable()
-    {
-        _velocityChecker.transform.parent = transform;
     }
 
     /// <summary>
@@ -50,7 +43,6 @@ public class IsekaiWeapon : MonoBehaviourPun
         if (_grabbable.isGrabbed && !_isUsing)
         {
             MonitorWeaponCoroutine();
-            //MonitorWeaponVelocity();
         }
     }
 
@@ -88,6 +80,7 @@ public class IsekaiWeapon : MonoBehaviourPun
 
         while (_grabbable.isGrabbed)
         {
+            MonitorWeaponVelocity();
             yield return null;
         }
 

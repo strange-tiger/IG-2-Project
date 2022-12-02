@@ -134,6 +134,67 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1199411065304132966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5009843914567124922}
+  - component: {fileID: 189661357019007440}
+  - component: {fileID: 2708972670277072788}
+  m_Layer: 10
+  m_Name: VelocityChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5009843914567124922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199411065304132966}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8831978266181594686}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &189661357019007440
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199411065304132966}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &2708972670277072788
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199411065304132966}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.05
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1309032707897762255
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,6 +692,7 @@ Transform:
   - {fileID: 6533223054512948767}
   - {fileID: 1076039645730687747}
   - {fileID: 4695780960842133810}
+  - {fileID: 5009843914567124922}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -794,6 +856,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7220785150609590066, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
 --- !u!4 &1097142683928891310 stripped
@@ -864,6 +930,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7220785150609590066, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
 --- !u!4 &1097142683934226366 stripped
@@ -934,6 +1004,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 9066418275080222029, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
 --- !u!4 &6874554886864982777 stripped
@@ -948,6 +1022,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6533223054512948767}
     m_Modifications:
+    - target: {fileID: 2331670312430723328, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 2799801225857652339, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1074,6 +1152,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7220785150609590066, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
 --- !u!4 &1097142684210368941 stripped
@@ -1088,6 +1170,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1076039645730687747}
     m_Modifications:
+    - target: {fileID: 2042769831200556798, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 7727710056165695372, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1158,6 +1244,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8030943416437019583}
     m_Modifications:
+    - target: {fileID: 214355533703360246, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 424689352873908888, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
       propertyPath: m_Name
       value: Weapon4 (2)
@@ -1228,6 +1318,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6393421460938108952}
     m_Modifications:
+    - target: {fileID: 350976735611131941, guid: 4377125a06598d246964bb604b531ddb, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 1516507799864197500, guid: 4377125a06598d246964bb604b531ddb, type: 3}
       propertyPath: m_Name
       value: Weapon2 (1)
@@ -1302,6 +1396,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6776007969054683051, guid: 986310e9a93b98a41b015687256562a6, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 6991266897521618460, guid: 986310e9a93b98a41b015687256562a6, type: 3}
       propertyPath: m_Name
       value: Weapon1 (2)
@@ -1424,6 +1522,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7220785150609590066, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
 --- !u!4 &1097142684604905491 stripped
@@ -1494,6 +1596,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 9066418275080222029, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
 --- !u!4 &6874554886343105849 stripped
@@ -1508,6 +1614,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6393421460938108952}
     m_Modifications:
+    - target: {fileID: 350976735611131941, guid: 4377125a06598d246964bb604b531ddb, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 1516507799864197500, guid: 4377125a06598d246964bb604b531ddb, type: 3}
       propertyPath: m_Name
       value: Weapon2 (4)
@@ -1578,6 +1688,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8030943416437019583}
     m_Modifications:
+    - target: {fileID: 214355533703360246, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 424689352873908888, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
       propertyPath: m_Name
       value: Weapon4 (3)
@@ -1648,6 +1762,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1076039645730687747}
     m_Modifications:
+    - target: {fileID: 2042769831200556798, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 7727710056165695372, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1718,6 +1836,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6533223054512948767}
     m_Modifications:
+    - target: {fileID: 2331670312430723328, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 2799801225857652339, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1788,6 +1910,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 632049509223184458}
     m_Modifications:
+    - target: {fileID: 1726676209685883627, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 5668516368141316525, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
       propertyPath: sceneViewId
       value: 0
@@ -1862,6 +1988,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6776007969054683051, guid: 986310e9a93b98a41b015687256562a6, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 6991266897521618460, guid: 986310e9a93b98a41b015687256562a6, type: 3}
       propertyPath: m_Name
       value: Weapon1 (3)
@@ -1928,6 +2058,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1076039645730687747}
     m_Modifications:
+    - target: {fileID: 2042769831200556798, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 7727710056165695372, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1998,6 +2132,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 632049509223184458}
     m_Modifications:
+    - target: {fileID: 1726676209685883627, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 5668516368141316525, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
       propertyPath: sceneViewId
       value: 0
@@ -2068,6 +2206,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 632049509223184458}
     m_Modifications:
+    - target: {fileID: 1726676209685883627, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 5668516368141316525, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
       propertyPath: sceneViewId
       value: 0
@@ -2138,6 +2280,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6393421460938108952}
     m_Modifications:
+    - target: {fileID: 350976735611131941, guid: 4377125a06598d246964bb604b531ddb, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 1516507799864197500, guid: 4377125a06598d246964bb604b531ddb, type: 3}
       propertyPath: m_Name
       value: Weapon2 (2)
@@ -2208,6 +2354,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8030943416437019583}
     m_Modifications:
+    - target: {fileID: 214355533703360246, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 424689352873908888, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
       propertyPath: m_Name
       value: Weapon4 (4)
@@ -2282,6 +2432,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6776007969054683051, guid: 986310e9a93b98a41b015687256562a6, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 6991266897521618460, guid: 986310e9a93b98a41b015687256562a6, type: 3}
       propertyPath: m_Name
       value: Weapon1 (4)
@@ -2348,6 +2502,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6533223054512948767}
     m_Modifications:
+    - target: {fileID: 2331670312430723328, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 2799801225857652339, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2474,6 +2632,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 9066418275080222029, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
 --- !u!4 &6874554887530550729 stripped
@@ -2488,6 +2650,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8030943416437019583}
     m_Modifications:
+    - target: {fileID: 214355533703360246, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 424689352873908888, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
       propertyPath: m_Name
       value: Weapon4 (1)
@@ -2614,6 +2780,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 9066418275080222029, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
 --- !u!4 &6874554887506348034 stripped
@@ -2632,6 +2802,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6776007969054683051, guid: 986310e9a93b98a41b015687256562a6, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 6991266897521618460, guid: 986310e9a93b98a41b015687256562a6, type: 3}
       propertyPath: m_Name
       value: Weapon1 (1)
@@ -2698,6 +2872,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 632049509223184458}
     m_Modifications:
+    - target: {fileID: 1726676209685883627, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 5668516368141316525, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
       propertyPath: sceneViewId
       value: 0
@@ -2768,6 +2946,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6393421460938108952}
     m_Modifications:
+    - target: {fileID: 350976735611131941, guid: 4377125a06598d246964bb604b531ddb, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 1516507799864197500, guid: 4377125a06598d246964bb604b531ddb, type: 3}
       propertyPath: m_Name
       value: Weapon2 (3)
@@ -2838,6 +3020,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6533223054512948767}
     m_Modifications:
+    - target: {fileID: 2331670312430723328, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 2799801225857652339, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2908,6 +3094,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1076039645730687747}
     m_Modifications:
+    - target: {fileID: 2042769831200556798, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 7727710056165695372, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3034,6 +3224,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7220785150609590066, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca9944066fc75d429d6e8287cbdff99, type: 3}
 --- !u!4 &270627241109173640 stripped
@@ -3052,6 +3246,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6776007969054683051, guid: 986310e9a93b98a41b015687256562a6, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 6991266897521618460, guid: 986310e9a93b98a41b015687256562a6, type: 3}
       propertyPath: m_Name
       value: Weapon1
@@ -3118,6 +3316,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8030943416437019583}
     m_Modifications:
+    - target: {fileID: 214355533703360246, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 424689352873908888, guid: 493663316c6a6fd44a980ae559e39d35, type: 3}
       propertyPath: m_Name
       value: Weapon4
@@ -3188,6 +3390,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1076039645730687747}
     m_Modifications:
+    - target: {fileID: 2042769831200556798, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 7727710056165695372, guid: f4cb91106a88bbe40ad058d3c0b26293, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3314,6 +3520,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 9066418275080222029, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44c81dea77fe7ab47b001580543792bc, type: 3}
 --- !u!4 &8182297766027411058 stripped
@@ -3328,6 +3538,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 632049509223184458}
     m_Modifications:
+    - target: {fileID: 1726676209685883627, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 5668516368141316525, guid: 83a492a3bd9430a478ea8feda8c56c77, type: 3}
       propertyPath: sceneViewId
       value: 0
@@ -3398,6 +3612,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6533223054512948767}
     m_Modifications:
+    - target: {fileID: 2331670312430723328, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 2799801225857652339, guid: 589d4fd22f3df824eaa7c5f93249823c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3468,6 +3686,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6393421460938108952}
     m_Modifications:
+    - target: {fileID: 350976735611131941, guid: 4377125a06598d246964bb604b531ddb, type: 3}
+      propertyPath: _velocityChecker
+      value: 
+      objectReference: {fileID: 189661357019007440}
     - target: {fileID: 1516507799864197500, guid: 4377125a06598d246964bb604b531ddb, type: 3}
       propertyPath: m_Name
       value: Weapon2
