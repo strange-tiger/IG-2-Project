@@ -19,15 +19,17 @@ public class VolumeController : MonoBehaviour
         for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
         {
             _textDict.Add(_slider[i], _text[i]);
-        }
-    }
-    private void OnEnable()
-    {
-        for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
-        {
             _slider[i].value = PlayerPrefs.GetFloat(SoundManager.VOLUME_CONTROLLER[i]);
         }
     }
+
+    //private void OnEnable()
+    //{
+    //    for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
+    //    {
+    //        _slider[i].value = PlayerPrefs.GetFloat(SoundManager.VOLUME_CONTROLLER[i]);
+    //    }
+    //}
 
     private void OnDisable()
     {

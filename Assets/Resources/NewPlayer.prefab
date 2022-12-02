@@ -3655,6 +3655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7526bc14b4c6049acc0233d852dcae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioSource: {fileID: 0}
+  _drinkSound: {fileID: 0}
 --- !u!114 &4823571551503449014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3823,7 +3825,8 @@ GameObject:
   - component: {fileID: 1195886276515322205}
   - component: {fileID: 2145734672103758956}
   - component: {fileID: 2538187502366353062}
-  - component: {fileID: 3077636120359671349}
+  - component: {fileID: 1341438815320106764}
+  - component: {fileID: 7110712232908221772}
   m_Layer: 0
   m_Name: Speaker
   m_TagString: Untagged
@@ -3961,7 +3964,7 @@ MonoBehaviour:
     MinDelaySoft: 200
     MaxDelaySoft: 400
     MaxDelayHard: 1000
---- !u!114 &3077636120359671349
+--- !u!114 &1341438815320106764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3970,10 +3973,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 2167418548363180658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 917dcc579de911a4790f442704ab3ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 2145734672103758956}
+--- !u!114 &7110712232908221772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2167418548363180658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 0
+  ObservedComponents:
+  - {fileID: 0}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &4097230144943633450
 GameObject:
   m_ObjectHideFlags: 0
@@ -4436,6 +4461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerOakBarrel: {fileID: 160640417621920002}
   _playerModel: {fileID: 4097230144943633450}
+  _inOakBarrelSound: {fileID: 0}
 --- !u!1 &6718035182797435399
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,8 +52,18 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
             playerNetworking.CanvasSetting(_canvases);
             _myPlayer = player;
         }
+
+
     }
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        Application.wantsToQuit -= PlayerOffline;
+        Application.wantsToQuit += PlayerOffline;
+
+    }
     public void ChangeLobby(SceneNumber sceneNumber)
     {
         ChangeLobby(sceneNumber, sceneNumber.ToString(), _defaultRoomOptions);
@@ -173,6 +183,23 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     }
 
+    private bool PlayerOffline()
+    {
+        try
+        {
+            Debug.Log("[Player] Offline Update");
+
+            MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
+
+            return true;
+        }
+        catch (System.Exception error)
+        {
+            Debug.LogError(error);
+
+            return false;
+        }
+    }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
@@ -180,11 +207,18 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
     }
 
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        Application.wantsToQuit -= PlayerOffline;
+
+    }
+
     private void OnApplicationQuit()
     {
-
         Debug.Log("[Player] Offline Update");
-        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
 
+        MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
     }
 }
