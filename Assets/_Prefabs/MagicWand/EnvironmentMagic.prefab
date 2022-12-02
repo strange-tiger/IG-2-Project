@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1595268502363961855}
   - component: {fileID: 1504846662753548372}
   - component: {fileID: 4111742704208079030}
+  - component: {fileID: 8988251795686700470}
   m_Layer: 10
   m_Name: FX_Rain_01
   m_TagString: Untagged
@@ -4837,6 +4838,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8988251795686700470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504846662753548373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 4111742704208079030}
 --- !u!1 &4054838540223496973
 GameObject:
   m_ObjectHideFlags: 0
@@ -4850,6 +4864,7 @@ GameObject:
   - component: {fileID: 4215496166225918823}
   - component: {fileID: 4054838540223496972}
   - component: {fileID: 2343523111185419614}
+  - component: {fileID: 8568446907826276435}
   m_Layer: 10
   m_Name: FX_Blizzard_Snow_01
   m_TagString: Untagged
@@ -9675,6 +9690,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8568446907826276435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4054838540223496973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 2343523111185419614}
 --- !u!1 &4055073141256489785
 GameObject:
   m_ObjectHideFlags: 0
@@ -14530,7 +14558,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7459632908672490200}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d58575f1784eaf40a7a48c4dbbcb392, type: 3}
   m_Name: 
@@ -14655,6 +14683,7 @@ GameObject:
   - component: {fileID: 7881440560878738985}
   - component: {fileID: 8044916959493875296}
   - component: {fileID: 5575360087258212382}
+  - component: {fileID: 114119646558423983}
   m_Layer: 10
   m_Name: FX_Bubbles_Float_01
   m_TagString: Untagged
@@ -19587,6 +19616,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114119646558423983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8044916959493875297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 5575360087258212382}
 --- !u!114 &860303487097064506
 MonoBehaviour:
   m_ObjectHideFlags: 0
