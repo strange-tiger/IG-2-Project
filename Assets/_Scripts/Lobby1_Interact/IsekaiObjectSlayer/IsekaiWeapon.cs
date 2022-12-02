@@ -10,7 +10,7 @@ public class IsekaiWeapon : MonoBehaviourPun
 
     private static readonly WaitForSeconds RETURN_DELAY = new WaitForSeconds(0.5f);
     
-    public float Velocity { get; private set; }
+    public Vector3 Velocity { get => _velocityChecker.velocity; }
 
     private SyncOVRDistanceGrabbable _grabbable;
     private Rigidbody _rigidbody;
@@ -49,7 +49,6 @@ public class IsekaiWeapon : MonoBehaviourPun
     private void MonitorWeaponVelocity()
     {
         _velocityChecker.MovePosition(transform.position);
-        Velocity = _velocityChecker.velocity.magnitude;
     }
 
     /// <summary>
