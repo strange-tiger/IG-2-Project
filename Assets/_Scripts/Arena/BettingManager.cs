@@ -7,6 +7,18 @@ using UnityEngine.Events;
 using Asset.MySql;
 using Photon.Pun;
 using Photon.Realtime;
+
+
+/*
+ * 베팅을 연산하여 베팅율을 보여주고, 경기가 종료되면 DB를 참고하여 골드를 분배함.
+ * BettingDB => 각 플레이어의 닉네임, 베팅 금액, 베팅한 챔피언의 인덱스를 저장함.
+ * BettingAmountDB => 각 챔피언에게 베팅된 총 금액과 전체 베팅액을 저장함.
+ * 
+ * 베팅 시작 
+ * 기획 => 25분, 55분으로 투기장 경기가 시작하기 5분전에 시작하고, 경기 시작 1분전에 베팅이 종료됨.
+ * 현재(테스트) => 투기장의 GameStart 버튼을 누르면 베팅이 시작되고 약 3분 뒤에 베팅이 종료되고 경기가 시작됨.
+ * 
+ */
 public class BettingManager : MonoBehaviourPunCallbacks
 {
     public UnityEvent OnBettingStart = new UnityEvent();
@@ -25,6 +37,7 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
     public int WinnerIndex;
 
+    [Obsolete]
     private bool _isBettingStart;
     private int[] _startTime = { 55, 60, 25, 30 };
 
