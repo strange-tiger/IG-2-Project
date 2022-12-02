@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+Ôªøusing System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
 using _DB = Asset.MySql.MySqlSetting;
-using _IRM = Defines.RPC.IsekaiRPCMethodName;
-using UnityEngine.SceneManagement;
 
 public class SummonCircle : MonoBehaviourPun
 {
@@ -27,7 +24,7 @@ public class SummonCircle : MonoBehaviourPun
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
     private const float RISE_TIME = 1f;
     private const int MAX_TO_HIT = 101;
-    private const int PERCENT_TO_POINT = 1; // ø¯«œ¥¬ % ºˆ
+    private const int PERCENT_TO_POINT = 1; // ÏõêÌïòÎäî % Ïàò
     private const int EARN_GOLD = 500;
 
 
@@ -92,8 +89,8 @@ public class SummonCircle : MonoBehaviourPun
     {
         _currentIndex = Random.Range(0, _objects.Length);
 
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.SpawnHelper);
-        photonView.RPC(_IRM.SpawnHelper, RpcTarget.AllBuffered, _currentIndex);
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, nameof(SpawnHelper));
+        photonView.RPC(nameof(SpawnHelper), RpcTarget.AllBuffered, _currentIndex);
     }
 
     [PunRPC]
