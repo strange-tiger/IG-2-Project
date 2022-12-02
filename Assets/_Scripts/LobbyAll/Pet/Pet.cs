@@ -40,7 +40,6 @@ public class Pet : MonoBehaviourPunCallbacks
             if (_petData.Status[i] == EPetStatus.EQUIPED)
             {
                 _eqiupNum = i;
-                Debug.Log("[PET] " + _eqiupNum);
                 break;
             }
         }
