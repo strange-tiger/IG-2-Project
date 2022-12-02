@@ -130,7 +130,9 @@ public class PlayerInteraction : MonoBehaviourPun
             if (interacterableObject)
             {
                 interacterableObject.Interact();
-                Debug.Log(interacterableObject.name);
+                Debug.Log($"name : {interacterableObject.name}");
+                Debug.Log($"tag : {interacterableObject.tag}");
+                Debug.Log($"obtag : {interacterableObject.gameObject.tag}");
 
                 if (interacterableObject.gameObject.tag == "OakBarrel" && !photonView.IsMine)
                 {
