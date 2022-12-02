@@ -46,14 +46,13 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     [Header("Sound")]
     [SerializeField] private AudioClip _pickUpSound;
-    private AudioSource _audioSource;
+    [SerializeField] private AudioSource _audioSource;
 
     private void Awake()
     {
         _spawner = transform.root.GetComponent<GoldBoxSpawner>();
         _rigidbody = transform.parent.GetComponent<Rigidbody>();
         _sencer = transform.parent.GetComponent<GoldBoxSencer>();
-        _audioSource = transform.parent.GetComponentInChildren<AudioSource>();
 
         // È®·ü °è»êÀ» À§ÇÑ ÃÑ È®·ü ±¸ÇÏ±â
         _maxGoldCoinRate = 0f;
