@@ -94,13 +94,16 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         gameObject.transform.localScale = newScale;
     }
 
-    private void DropBox()
+    private void DropBox(bool isDestory)
     {
         photonView.RPC(nameof(BoxDropped), RpcTarget.AllBuffered);
 
         //gameObject.transform.localScale = _originalScale;
         photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
-        transform.parent.parent = _spawner.transform;
+        if(!isDestory)
+        {
+            transform.parent.parent = _spawner.transform;
+        }
 
         Debug.Log("µé¾î¿È");
         //_sencer.enabled = true;
