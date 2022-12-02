@@ -1579,7 +1579,45 @@ namespace Asset.MySql
             return MySqlStatement.SELECT + db.ToString();
         }
 
+
+        /// <summary>
+        /// 해당 값이 BettingDB에 있는지 확인한다.
+        /// </summary>
+        /// <param name="columnType">Account 태이블에서 비교하기 위한 colum 명</param>
+        /// <param name="value">비교할 값</param>
+        /// <returns>값이 있다면 true, 아니면 false를 반환한다.</returns>
+        public static bool HasValue(EbettingdbColumns columnType, string value)
+        {
+            try
+            {
+                using (MySqlConnection _sqlConnection = new MySqlConnection(_connectionString))
+                {
+                    bool result = false;
+
+                    string selectString = SelectDBHelper(ETableType.bettingdb) + $" WHERE {columnType} = '{value}';";
+
+                    _sqlConnection.Open();
+
+                    MySqlCommand _selectCommand = new MySqlCommand(selectString, _sqlConnection);
+                    MySqlDataReader _selectData = _selectCommand.ExecuteReader();
+
+                    result = _selectData.Read();
+
+                    _sqlConnection.Close();
+
+                    return result;
+                }
+            }
+            catch
+            {
+                Debug.LogError("오류남: Doublecheck");
+                return false;
+            }
+
+        }
+
         #region ValueByBase
+
         /// <summary>
         /// CharacterDB Table에서 baseType의 baseValue를 기준으로 checkType의 checkValue가 일치하는지 확인함
         /// </summary>
