@@ -235,13 +235,19 @@ public class BettingManager : MonoBehaviourPunCallbacks
 
         _bettingWinnerList = MySqlSetting.DistributeBet(WinnerIndex, BetAmount, ChampionBetAmounts[WinnerIndex], _isDraw);
 
+
         photonView.RPC("DistributeGoldinDB", RpcTarget.All, _bettingWinnerList);
     }
 
     [PunRPC]
     public void DistributeGoldinDB(Dictionary<string,int> winnerList)
     {
-        OnBettingWinOrLose.Invoke(winnerList);
+        // BettingDB에 베팅을 한 정보가 있으면
+        if (MySqlSetting.HasValue(Asset.EbettingdbColumns.Nickname, PhotonNetwork.NickName))
+        {
+            // 이벤트를 호출함.
+            OnBettingWinOrLose.Invoke(winnerList);
+        }
     }
 
     /// <summary>
