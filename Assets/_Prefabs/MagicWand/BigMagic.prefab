@@ -9509,6 +9509,7 @@ GameObject:
   - component: {fileID: 365518054991564217}
   - component: {fileID: 564219564297143466}
   - component: {fileID: 1233045292294220399}
+  - component: {fileID: 6749304348831592236}
   m_Layer: 10
   m_Name: FX_Explosion_Large_Dark_01
   m_TagString: Untagged
@@ -14502,6 +14503,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6749304348831592236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564219564297143465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 1233045292294220399}
 --- !u!1 &564310296010738135
 GameObject:
   m_ObjectHideFlags: 0
@@ -19499,7 +19513,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2647564234267455223}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d58575f1784eaf40a7a48c4dbbcb392, type: 3}
   m_Name: 
@@ -19508,6 +19522,7 @@ MonoBehaviour:
   _coolTime: 10
   _magicWandPanel: {fileID: 7594156511919201187}
   _magic: []
+  _magicWandName: 1
 --- !u!54 &2647564234267455210
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -33792,6 +33807,7 @@ GameObject:
   - component: {fileID: 4957340956491992019}
   - component: {fileID: 5048315166634345814}
   - component: {fileID: 1387475748485903459}
+  - component: {fileID: 49401754095575183}
   m_Layer: 10
   m_Name: FX_Portal_Sphere_01
   m_TagString: Untagged
@@ -38615,6 +38631,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &49401754095575183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5048315166634345813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 1387475748485903459}
 --- !u!1 &5048391782179636745
 GameObject:
   m_ObjectHideFlags: 0
@@ -48175,6 +48204,7 @@ GameObject:
   - component: {fileID: 6001947454183408057}
   - component: {fileID: 5875345509955500798}
   - component: {fileID: 3606248199864453013}
+  - component: {fileID: 4306717229757411995}
   m_Layer: 10
   m_Name: FX_Ritual_Circle_01
   m_TagString: Untagged
@@ -53023,6 +53053,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4306717229757411995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5875345509955500797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 3606248199864453013}
 --- !u!1 &5875372486783162941
 GameObject:
   m_ObjectHideFlags: 0
@@ -62744,6 +62787,7 @@ GameObject:
   - component: {fileID: 8642571808014368402}
   - component: {fileID: 8445847469539275411}
   - component: {fileID: 1363118200810958333}
+  - component: {fileID: 8374065747463896292}
   m_Layer: 10
   m_Name: FX_Explosion_01
   m_TagString: Untagged
@@ -67718,6 +67762,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8374065747463896292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445847469539275410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 1363118200810958333}
 --- !u!1 &8446361951886096198
 GameObject:
   m_ObjectHideFlags: 0
@@ -72839,13 +72896,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
---- !u!224 &2165391848778154690 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8207156521027552009, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
-  m_PrefabInstance: {fileID: 8063881185187725771}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2165391848778154702 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8207156521027552005, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
+  m_PrefabInstance: {fileID: 8063881185187725771}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2165391848778154690 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8207156521027552009, guid: d077a186d55dc5e45bb7a594ad5e1256, type: 3}
   m_PrefabInstance: {fileID: 8063881185187725771}
   m_PrefabAsset: {fileID: 0}

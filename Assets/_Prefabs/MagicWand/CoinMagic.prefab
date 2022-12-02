@@ -112,7 +112,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800243632553537528}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d58575f1784eaf40a7a48c4dbbcb392, type: 3}
   m_Name: 
@@ -121,6 +121,7 @@ MonoBehaviour:
   _coolTime: 10
   _magicWandPanel: {fileID: 2564696226248871699}
   _magic: []
+  _magicWandName: 2
 --- !u!54 &1800243632553537525
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -236,6 +237,7 @@ GameObject:
   - component: {fileID: 5253370931982379989}
   - component: {fileID: 5342738344557365446}
   - component: {fileID: 7656511592752618212}
+  - component: {fileID: 4029097932030341460}
   m_Layer: 10
   m_Name: FX_Money_Coins_Burst_01
   m_TagString: Untagged
@@ -5217,6 +5219,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4029097932030341460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5342738344557365447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 7656511592752618212}
 --- !u!114 &8945140873215727540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5229,9 +5244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de208c6d5a6576a46aea0a87e18bb184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coolTime: 10
   _magicWand: {fileID: 1800243632553537527}
-  _magicWandPanel: {fileID: 2564696226248871699}
 --- !u!1001 &911403510663741420
 PrefabInstance:
   m_ObjectHideFlags: 0

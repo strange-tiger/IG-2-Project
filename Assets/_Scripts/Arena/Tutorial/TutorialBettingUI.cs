@@ -141,7 +141,7 @@ public class TutorialBettingUI : MonoBehaviourPun
 
             _popUpPanel.SetActive(true);
 
-            _popUpMessage.text = "º£ÆÃÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.";
+            _popUpMessage.text = "ë² íŒ…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.";
 
             _betRateText[index].text = "100";
 
@@ -172,26 +172,26 @@ public class TutorialBettingUI : MonoBehaviourPun
     private void BetCancelChampionOne()
     {
         _popUpPanel.SetActive(true);
-        _popUpMessage.text = "º£ÆÃ ³»¿ªÀÌ ¾ø½À´Ï´Ù.";
+        _popUpMessage.text = "ë² íŒ… ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.";
     }
 
     private void BetCancelChampionTwo()
     {
         _popUpPanel.SetActive(true);
-        _popUpMessage.text = "º£ÆÃ ³»¿ªÀÌ ¾ø½À´Ï´Ù.";
+        _popUpMessage.text = "ë² íŒ… ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.";
     }
 
     private void BetCancelChampionThree()
     {
         _popUpPanel.SetActive(true);
-        _popUpMessage.text = "º£ÆÃ ³»¿ªÀÌ ¾ø½À´Ï´Ù.";
+        _popUpMessage.text = "ë² íŒ… ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.";
     }
 
     private void BetCancelChampionFour()
     {
 
         _popUpPanel.SetActive(true);
-        _popUpMessage.text = "º£ÆÃ ³»¿ªÀÌ ¾ø½À´Ï´Ù.";
+        _popUpMessage.text = "ë² íŒ… ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.";
 
     }
 

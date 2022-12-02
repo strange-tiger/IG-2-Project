@@ -24,7 +24,6 @@ public class ArenaTutorial : MonoBehaviourPun
     private List<string> _conversationList = new List<string>();
 
     private AudioSource _audioSource;
-    private Transform _player;
 
     private LobbyChange _lobbyChange;
 
@@ -144,8 +143,6 @@ public class ArenaTutorial : MonoBehaviourPun
 
     private void ConversationRestart()
     {
-        _player = FindObjectOfType<SatietyUI>().transform;
-        _conversationUI.transform.root.position = _player.transform.position;
         _pauseNum = 18;
         _tutorialBettingUI.transform.GetChild(0).gameObject.SetActive(false);
         _conversationUI.SetActive(true);
@@ -158,7 +155,7 @@ public class ArenaTutorial : MonoBehaviourPun
         {
             MySqlSetting.CompleteTutorial(PhotonNetwork.NickName, ETutorialCompleteState.ARENA);
         }
-
+        _tutorialBettingUI.gameObject.SetActive(false);
         _lobbyChange.Interact();
     }
 

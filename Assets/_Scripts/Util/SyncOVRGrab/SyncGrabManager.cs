@@ -53,7 +53,7 @@ highlight. How these states are best presented is highly app-specific.
 
 using UnityEngine;
 
-
+// 사용하지 않음
 public class SyncGrabManager : MonoBehaviour
 {
     Collider m_grabVolume;

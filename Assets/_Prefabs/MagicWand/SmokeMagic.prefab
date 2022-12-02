@@ -126,7 +126,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5629383023853544445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d58575f1784eaf40a7a48c4dbbcb392, type: 3}
   m_Name: 
@@ -135,6 +135,7 @@ MonoBehaviour:
   _coolTime: 10
   _magicWandPanel: {fileID: 7125831850109558972}
   _magic: []
+  _magicWandName: 7
 --- !u!54 &5629383023853544442
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -250,6 +251,7 @@ GameObject:
   - component: {fileID: 6576130100241314637}
   - component: {fileID: 6450316517004166478}
   - component: {fileID: 9057691679924449442}
+  - component: {fileID: 4367915023777559334}
   m_Layer: 10
   m_Name: FX_Grenade_Smoke_01
   m_TagString: Untagged
@@ -5186,6 +5188,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4367915023777559334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450316517004166479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 9057691679924449442}
 --- !u!1 &7716498669555020962
 GameObject:
   m_ObjectHideFlags: 0
@@ -5199,6 +5214,7 @@ GameObject:
   - component: {fileID: 7625596680486110362}
   - component: {fileID: 7716498669555020961}
   - component: {fileID: 154170048665063873}
+  - component: {fileID: 7956241993878797533}
   m_Layer: 10
   m_Name: FX_Fog_Big_01
   m_TagString: Untagged
@@ -9892,6 +9908,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7956241993878797533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7716498669555020962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 154170048665063873}
 --- !u!1001 &257994167809368609
 PrefabInstance:
   m_ObjectHideFlags: 0

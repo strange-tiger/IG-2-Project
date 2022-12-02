@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,6 +28,7 @@ public class PetPurchaseUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _equipedPetName;
     [SerializeField] TextMeshProUGUI _equipedPetGrade;
     [SerializeField] TextMeshProUGUI _haveGold;
+    [SerializeField] TextMeshProUGUI _backText;
 
     [Header("Pet Info")]
     [SerializeField] Image[] _petImages;
@@ -46,6 +47,7 @@ public class PetPurchaseUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _petGrade;
     [SerializeField] TextMeshProUGUI _petExplanation;
     [SerializeField] TextMeshProUGUI _petPrice;
+    [SerializeField] TextMeshProUGUI _popupHaveGold;
 
     private PetShopUIManager.PetProfile _currentPet = new PetShopUIManager.PetProfile();
 
@@ -243,7 +245,7 @@ public class PetPurchaseUI : MonoBehaviour
         _equipedPetName.text = pet.Name;
 
         _equipedPetGrade.text = pet.Grade.ToString();
-        _equipedPetGrade.color = GRADE_COLOR[(int)pet.Grade];
+        _equipedPetGrade.color = PetShopUIManager.GRADE_COLOR[(int)pet.Grade];
 
         _haveGold.text = _DB.CheckHaveGold(_ui.PlayerNickname).ToString();
     }
@@ -260,6 +262,10 @@ public class PetPurchaseUI : MonoBehaviour
         }
     }
 
+    private const string ABLE_TO_PURCHASE = "구입하시겠습니까?";
+    private const string NOT_ABLE_TO_PURCHASE = "골드가 부족합니다.";
+    private const string ABLE_BACK = "조금 더 둘러볼게요";
+    private const string NOT_ABLE_BACK = "돌아가기";
     private void ShowCurrentPet(PetShopUIManager.PetProfile pet)
     {
         _petInfoPopup.SetActive(true);
@@ -273,34 +279,35 @@ public class PetPurchaseUI : MonoBehaviour
         ShowPetGrade(pet.Grade);
 
         _petExplanation.text = pet.Explanation;
-        _petPrice.text = $"������ {pet.Price} ��� �Դϴ�.\n���� �Ͻðڽ��ϱ�?";
+        _petPrice.text = $"가격은 {pet.Price} 골드 입니다.\n";
 
-        if (pet.Price > _DB.CheckHaveGold(_ui.PlayerNickname))
+        int haveGold = _DB.CheckHaveGold(_ui.PlayerNickname);
+
+        _popupHaveGold.text = haveGold.ToString();
+
+        if (pet.Price > haveGold)
         {
             _purchaseButton.enabled = false;
+            _backText.text = NOT_ABLE_BACK;
+            _petPrice.text += NOT_ABLE_TO_PURCHASE;
         }
         else
         {
             _purchaseButton.enabled = true;
+            _backText.text = ABLE_BACK;
+            _petPrice.text += ABLE_TO_PURCHASE;
         }
     }
 
-    private static readonly Color[] GRADE_COLOR = new Color[4]
-    {
-        new Color(128f, 128f, 128f),
-        new Color(0f, 128f, 0f),
-        new Color(0f, 103f, 163f),
-        new Color(155f, 17f, 30f)
-    };
     private void ShowPetGrade(PetShopUIManager.PetProfile.EGrade grade)
     {
         _petGrade.text = grade.ToString();
-        _petGrade.color = GRADE_COLOR[(int)grade];
+        _petGrade.color = PetShopUIManager.GRADE_COLOR[(int)grade];
     }
 
     private void ShowPetGrade(int index, PetShopUIManager.PetProfile.EGrade grade)
     {
         _petGrades[index].text = grade.ToString();
-        _petGrades[index].color = GRADE_COLOR[(int)grade];
+        _petGrades[index].color = PetShopUIManager.GRADE_COLOR[(int)grade];
     }
 }

@@ -331,6 +331,7 @@ public class ShootingGameManager : MonoBehaviourPun
         _uiManager.ShowGoldPanel();
         _audioSource.PlayOneShot(_giveGoldAudioClip);
         _uiManager.ShowRestartPanel();
+        OnGameOver.Invoke();
     }
 
     private bool SortPlayerListByScore()

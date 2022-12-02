@@ -931,6 +931,7 @@ GameObject:
   - component: {fileID: 8453438239750014300}
   - component: {fileID: 8544305156342997846}
   - component: {fileID: 1691225174}
+  - component: {fileID: 7046547528308585054}
   m_Layer: 0
   m_Name: Tumbleweed
   m_TagString: Untagged
@@ -1074,6 +1075,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9b7916a57132f8a45b66c69d2f8cdcb8, type: 3}
   - {fileID: 8300000, guid: cec5d39e44a6cf44a81fd9630028e65c, type: 3}
   - {fileID: 8300000, guid: 7743f0d9fe3936145a95360c52881092, type: 3}
+  _tumbleweedDisableAudioClip: {fileID: 8300000, guid: d933bd766149b3d449fbff6e2149fc31, type: 3}
 --- !u!114 &3371439233463353418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1278,3 +1280,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7046547528308585054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370879131813141174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 1691225174}

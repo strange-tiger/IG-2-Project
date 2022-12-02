@@ -16,7 +16,6 @@ public class Ball : MonoBehaviourPunCallbacks
     private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
 
     private float _ballNoTouchTime;
-    private bool _isGrabBall;
 
     private void Awake()
     {
@@ -43,9 +42,11 @@ public class Ball : MonoBehaviourPunCallbacks
         {
             _ThrowBall.enabled = true;
         }
-
     }
 
+    /// <summary>
+    /// Ball에 아무런 움직임이 없을 때 초기위치로
+    /// </summary>
     private void SetBall()
     {
         if (_rigidbody.velocity == Vector3.zero)
@@ -73,6 +74,11 @@ public class Ball : MonoBehaviourPunCallbacks
         {
             _audioSource.Play();
         }
+    }
+
+    public override void OnDisable()
+    {
+        transform.position = _ballPosition;
     }
 }
 

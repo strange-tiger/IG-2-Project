@@ -23,7 +23,10 @@ using System;
 using UnityEngine;
 using OVRTouchSample;
 
-
+/* 
+ * OVRDistanceGrabbable을 사용하기 위하여 만든 스크립트.
+ * SyncOVRGrabbable을 상속받으며, 기존의 DistanceGrabbable에 있던 Crosshair는 사용하지 않음.
+ */
 public class SyncOVRDistanceGrabbable : SyncOVRGrabbable
 {
     public string m_materialColorField;

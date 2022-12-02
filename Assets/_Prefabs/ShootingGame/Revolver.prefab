@@ -14842,6 +14842,7 @@ GameObject:
   - component: {fileID: 1655898097}
   - component: {fileID: 5400492418033179342}
   - component: {fileID: 1745616332640618895}
+  - component: {fileID: 8207990796314051388}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -15065,8 +15066,8 @@ MonoBehaviour:
   _bulletShotPoint: {fileID: 376321025}
   _lineRendererColor: {r: 1, g: 1, b: 1, a: 0.4}
   _playerColor: {r: 0.22860853, g: 0.8773585, b: 0.16140087, a: 1}
-  _shotAudioClip: {fileID: 8300000, guid: a41cd064b14d99c4b809fec08d7f6472, type: 3}
-  _reloadAudioClip: {fileID: 8300000, guid: 3de881625ad426545b7dc3589a1a27a6, type: 3}
+  _shotAudioClip: {fileID: 8300000, guid: 5561c177354bc644395ebda312a57cf1, type: 3}
+  _reloadAudioClip: {fileID: 8300000, guid: 1ec5cea4e3857244aa328ebf6ff933e5, type: 3}
   _vibrationTime: 0.1
   _vibrationFrequency: 0.3
   _vibrationAmplitude: 0.3
@@ -15190,6 +15191,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &8207990796314051388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8899927513647204242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 1655898102}
 --- !u!1001 &1319484311695914212
 PrefabInstance:
   m_ObjectHideFlags: 0
