@@ -32,9 +32,15 @@ public class FirstMoveAttackObj : FocusableObjects
         _objSpawnPos = transform.position;
         _audioSource = GetComponent<AudioSource>();
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
-        _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
-        _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
-        _syncGrabbable.CallbackGrabberSetting = GrabberSetting;
+
+        _syncGrabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+        _syncGrabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+
+        _syncGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+        _syncGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
+
+        _syncGrabbable.CallbackGrabberSetting.RemoveListener(GrabberSetting);
+        _syncGrabbable.CallbackGrabberSetting.AddListener(GrabberSetting);
     }
 
     private void OnTriggerEnter(Collider other)
