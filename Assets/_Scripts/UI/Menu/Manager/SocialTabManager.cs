@@ -32,6 +32,9 @@ public class SocialTabManager : MonoBehaviour
     private void Awake()
     {
         _myNickname = TempAccountDB.Nickname;
+
+        Debug.Log($"[Social] {_myNickname} {MySqlSetting.IsPlayerOnline(_myNickname)}");
+
         _listUpdateWaitForSeconds = new WaitForSeconds(_listUpdateOffsetTime);
         setButtons();
     }
@@ -51,15 +54,6 @@ public class SocialTabManager : MonoBehaviour
                 bool isOnline = MySqlSetting.IsPlayerOnline(nicknameText.text.ToString());
                 nicknameText.color = isOnline ? _onLineTextColor : _offLineTextColor;
                 Debug.Log($"[Social] {nicknameText.text} {isOnline}");
-
-                //if(isOnline)
-                //{
-                //    nicknameText.color = _onLineTextColor;
-                //}
-                //else
-                //{
-                //    nicknameText.color = _offLineTextColor;
-                //}
             }
 
             yield return _listUpdateWaitForSeconds;
