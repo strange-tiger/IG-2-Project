@@ -52,7 +52,23 @@ public class FocusableObjects : MonoBehaviourPun
             _sencer = sencerObejct.AddComponent<FocusableObjectsSencer>();
         }
 
+        SyncOVRGrabbable _syncGrabbable = GetComponent<SyncOVRGrabbable>();
+        _syncGrabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+        _syncGrabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+
+        _syncGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+        _syncGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
+
         _sencer.SetSencer(_sencerRadius, this);
+    }
+
+    private void OnGrabBegin()
+    {
+        _sencer.gameObject.SetActive(false);
+    }
+    private void OnGrabEnd()
+    {
+        _sencer.gameObject.SetActive(true);
     }
 
     public virtual void OnFocus()
