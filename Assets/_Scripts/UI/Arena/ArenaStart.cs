@@ -29,21 +29,24 @@ public class ArenaStart : MonoBehaviourPun
 
     private void Update()
     {
-        if (_StartBattleButton.interactable == false)
+        if (PhotonNetwork.IsMasterClient)
         {
-            _curStartTime += Time.deltaTime;
-            _curOutTime += Time.deltaTime;
-
-            if (_curStartTime >= _reStartCoolTime)
+            if (_StartBattleButton.interactable == false)
             {
-                _StartBattleButton.interactable = true;
-                _curStartTime -= _curStartTime;
-            }
+                _curStartTime += Time.deltaTime;
+                _curOutTime += Time.deltaTime;
 
-            if (_curOutTime >= _youCanOutTime)
-            {
-                _shutDown.SetActive(true);
-                _curOutTime -= _curOutTime;
+                if (_curStartTime >= _reStartCoolTime)
+                {
+                    _StartBattleButton.interactable = true;
+                    _curStartTime -= _curStartTime;
+                }
+
+                if (_curOutTime >= _youCanOutTime)
+                {
+                    _shutDown.SetActive(true);
+                    _curOutTime -= _curOutTime;
+                }
             }
         }
     }
@@ -53,16 +56,18 @@ public class ArenaStart : MonoBehaviourPun
     /// </summary>
     public void OnClickStartBattle()
     {
-        photonView.RPC("StartTournament", RpcTarget.AllBuffered, false);
+        photonView.RPC("StartTournament", RpcTarget.AllBuffered, false, 0f);
     }
 
     [PunRPC]
-    public void StartTournament(bool value)
+    public void StartTournament(bool value, float resetTimer)
     {
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate("Tournament", Vector3.zero, Quaternion.identity);
             _shutDown.SetActive(value);
+            _curOutTime = resetTimer;
+            _curStartTime = resetTimer;
             OnTournamentStart.Invoke();
         }
         _StartBattleButton.interactable = value;
