@@ -195,11 +195,6 @@ public class CustomizeShop : MonoBehaviourPun
             }
         }
 
-        // 리스트의 처음부터 시작함.
-        _startNum = 0;
-
-        // 아바타 인덱스를 리스트의 처음으로 초기화함.
-        _setAvatarNum = _notHaveAvatarList[_startNum];
 
         // 현재 아바타 정보 저장.
 
@@ -214,17 +209,37 @@ public class CustomizeShop : MonoBehaviourPun
         // 현재 아바타의 가격.
         _currentGold.text = _playerGold.ToString();
 
+        // 리스트의 처음부터 시작함.
+        _startNum = 0;
 
-        _setMaterialNum = 0;
+        // 아바타 인덱스를 리스트의 처음으로 초기화함.
+        _setAvatarNum = _notHaveAvatarList[_startNum];
 
-        // 상점 인덱스를 아바타 리스트로 초기화함.
-        for (int i = 0; i < _avatarMaterialData.Length; ++i)
+        // 가지고 있지 않은 아바타가 없다면 상점을 비우고
+        if (_notHaveAvatarList.Count == 0)
         {
-            _avatarMaterialData[i] = _userCustomizeData.AvatarMaterial[_notHaveAvatarList[_startNum + i]];
-            _avatarImage[i].sprite = _avatarMaterialData[i].AvatarImage[0];
-            _avatarName[i].text = _userCustomizeData.AvatarName[_notHaveAvatarList[_startNum + i]];
-            _avatarNickname[i].text = _userCustomizeData.AvatarNickname[_notHaveAvatarList[_startNum + i]];
-            _avatarPrice[i].text = _userCustomizeData.AvatarValue[_notHaveAvatarList[_startNum + i]].ToString();
+            for(int i = 0; i < _avatarPanel.Length; ++i)
+            {
+                _avatarPanel[i].SetActive(false);
+            }
+
+            // 상점 페이지 버튼을 비활성화 시킴.
+            _leftAvatarButton.interactable = false;
+            _rightAvatarButton.interactable = false;
+        }
+        else
+        {
+            _setMaterialNum = 0;
+
+            // 상점 인덱스를 아바타 리스트로 초기화함.
+            for (int i = 0; i < _avatarMaterialData.Length; ++i)
+            {
+                _avatarMaterialData[i] = _userCustomizeData.AvatarMaterial[_notHaveAvatarList[_startNum + i]];
+                _avatarImage[i].sprite = _avatarMaterialData[i].AvatarImage[0];
+                _avatarName[i].text = _userCustomizeData.AvatarName[_notHaveAvatarList[_startNum + i]];
+                _avatarNickname[i].text = _userCustomizeData.AvatarNickname[_notHaveAvatarList[_startNum + i]];
+                _avatarPrice[i].text = _userCustomizeData.AvatarValue[_notHaveAvatarList[_startNum + i]].ToString();
+            }
         }
     }
 
