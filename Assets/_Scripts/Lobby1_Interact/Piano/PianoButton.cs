@@ -15,7 +15,7 @@ public class PianoButton : MonoBehaviourPunCallbacks
         get { return _steppedCount; }
         set 
         { 
-            photonView.RPC(nameof(SetSteppedCount), RpcTarget.All, value); 
+            photonView.RPC(nameof(SetSteppedCount), RpcTarget.AllBuffered, value); 
         }
     }
     private void Awake()
@@ -25,15 +25,15 @@ public class PianoButton : MonoBehaviourPunCallbacks
         _audioSource.volume = 1;
     }
     
-    [PunRPC]
-    private void PlayerJoined(int steppedCount)
-    {
-        _steppedCount = steppedCount;
-    }
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        photonView.RPC(nameof(PlayerJoined), newPlayer, SteppedCount);
-    }
+    //[PunRPC]
+    //private void PlayerJoined(int steppedCount)
+    //{
+    //    _steppedCount = steppedCount;
+    //}
+    //public override void OnPlayerEnteredRoom(Player newPlayer)
+    //{
+    //    photonView.RPC(nameof(PlayerJoined), newPlayer, SteppedCount);
+    //}
 
     private void OnCollisionEnter(Collision collision)
     {
