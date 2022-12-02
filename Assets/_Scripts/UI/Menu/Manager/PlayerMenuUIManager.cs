@@ -91,6 +91,7 @@ public class PlayerMenuUIManager : MonoBehaviour
     /// </summary>
     public void HideMenuUI()
     {
+        ShowMenuPanel(_mapPanel);
         _menuUI.SetActive(false);
     }
 }

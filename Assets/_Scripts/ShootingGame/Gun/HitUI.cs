@@ -35,7 +35,7 @@ public class HitUI : MonoBehaviourPun
         if(active)
         {
             _scoreText.color = new Color(playerColor.x, playerColor.y, playerColor.z);
-            _scoreText.text = point > 0 ? $"+{point}" : $"-{point}";
+            _scoreText.text = point > 0 ? $"+{point}" : $"{point}";
         }
     }
 }
