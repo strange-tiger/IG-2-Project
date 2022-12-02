@@ -132,7 +132,7 @@ public class PlayerInteraction : MonoBehaviourPun
                 interacterableObject.Interact();
                 Debug.Log(interacterableObject.name);
 
-                if (interacterableObject.tag == "OakBarrel")
+                if (interacterableObject.gameObject.tag == "OakBarrel" && !photonView.IsMine)
                 {
                     Debug.Log("테그가 오크통임을 확인하고 이벤트 인보크");
                     InteractionOakBarrel.Invoke();
