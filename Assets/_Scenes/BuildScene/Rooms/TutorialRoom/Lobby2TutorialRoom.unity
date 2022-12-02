@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 16718043}
   - component: {fileID: 16718042}
   - component: {fileID: 16718041}
+  - component: {fileID: 16718050}
   m_Layer: 10
   m_Name: Bottle_02 (1)
   m_TagString: Untagged
@@ -465,6 +466,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16718039}
   m_Mesh: {fileID: 4300000, guid: 4956bdb6d9d0f3a48a8a58bc7fd17dbd, type: 3}
+--- !u!114 &16718050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16718039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 10
 --- !u!1 &17397496
 GameObject:
   m_ObjectHideFlags: 0
@@ -36926,6 +36943,7 @@ GameObject:
   - component: {fileID: 6912768624105827309}
   - component: {fileID: 245856982744617150}
   - component: {fileID: 245856982744617151}
+  - component: {fileID: 245856982744617152}
   m_Layer: 10
   m_Name: Bottle_02
   m_TagString: Untagged
@@ -36973,6 +36991,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _effectPlayer: {fileID: 246185020139365852}
+--- !u!114 &245856982744617152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245856982744617148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
 --- !u!54 &246185020139365829
 Rigidbody:
   m_ObjectHideFlags: 0
