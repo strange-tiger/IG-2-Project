@@ -53,21 +53,26 @@ public class FocusableObjects : MonoBehaviourPun
         }
 
         SyncOVRGrabbable _syncGrabbable = GetComponent<SyncOVRGrabbable>();
-        _syncGrabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
-        _syncGrabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+        if(_syncGrabbable != null)
+        {
+            _syncGrabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+            _syncGrabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
 
-        _syncGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
-        _syncGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
+            _syncGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+            _syncGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
+        }
 
         _sencer.SetSencer(_sencerRadius, this);
     }
 
     private void OnGrabBegin()
     {
+        Debug.Log("[FocusableObject] Grab Begin");
         _sencer.gameObject.SetActive(false);
     }
     private void OnGrabEnd()
     {
+        Debug.Log("[FocusableObject] Grab End");
         _sencer.gameObject.SetActive(true);
     }
 
