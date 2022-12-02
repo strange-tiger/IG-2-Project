@@ -41,6 +41,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
         if (photonView.IsMine)
         {
             photonView.RPC("PlayerSetting", RpcTarget.AllBuffered, false);
+            Debug.Log("시작할 때 플레이어의 오크통 꺼주기");
         }
     }
 
@@ -63,15 +64,17 @@ public class OakBarrelInteraction : MonoBehaviourPun
         {
             StopAllCoroutines();
 
-
             _isSelfExit = true;
             OutOakBarrel();
+            Debug.Log("스스로 탈출");
         }
 
         if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
         {
             _isSelfExit = false;
+
             OutOakBarrel();
+            Debug.Log("타의로 탈출");
         }
     }
 
@@ -87,25 +90,15 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private IEnumerator OakBarrelIsGone()
     {
         yield return _oakBarrelReturnTime;
-
+        _isSelfExit = true;
         OutOakBarrel();
+        Debug.Log("시간지나서 탈출");
     }
 
     [PunRPC]
     private void PlayerSetting(bool value)
     {
         _oakBarrelMeshRenderer.enabled = value;
-        _oakBarrelMeshCollider.enabled = value;
-    }
-
-    /// <summary>
-    /// 플레이어 외관의 변화
-    /// </summary>
-    /// <param name="value"></param>
-    [PunRPC]
-    private void ActivePlayer(bool value)
-    {
-        _playerModel.SetActive(value);
         _oakBarrelMeshCollider.enabled = value;
     }
 
@@ -120,6 +113,19 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _oakBarrelMeshCollider.enabled = value;
 
         _isInOak = value;
+
+        Debug.Log("플레이어의 오크통 RPC");
+    }
+
+    /// <summary>
+    /// 플레이어 외관의 변화
+    /// </summary>
+    /// <param name="value"></param>
+    [PunRPC]
+    private void ActivePlayer(bool value)
+    {
+        _playerModel.SetActive(value);
+        Debug.Log("플레이어 모델 RPC");
     }
 
     /// <summary>
@@ -136,6 +142,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _audioSource.PlayOneShot(_inOakBarrelSound);
 
         PlayerControlManager.Instance.IsRayable = false;
+        Debug.Log("오크통 안으로");
     }
 
     /// <summary>
@@ -154,13 +161,14 @@ public class OakBarrelInteraction : MonoBehaviourPun
         {
             _playerDebuffManager.CallStunDebuff();
         }
-
+        Debug.Log("오크통 밖으로");
     }
 
     [PunRPC]
     private void ChangePlayerTagFor(string str)
     {
         tag = str;
+        Debug.Log("테크교체 RPC");
     }
 
 }
