@@ -19,8 +19,6 @@ public class OakBarrel : InteracterableObject
     {
         _oakBarrelMeshRenderer = GetComponent<MeshRenderer>();
         _oakBarrelMeshCollider = GetComponent<MeshCollider>();
-
-        photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.AllBuffered, _isPlayerHave);
     }
 
     public override void Interact()
@@ -42,12 +40,6 @@ public class OakBarrel : InteracterableObject
         _oakBarrelMeshRenderer.enabled = value;
         _oakBarrelMeshCollider.enabled = value;
         Debug.Log($"{photonView.IsMine}오크통과 상호작용 RPC 뿌리기");
-    }
-
-    [PunRPC]
-    private void IHaveOakBarrel(bool value)
-    {
-        _isPlayerHave = value;
     }
 
     private IEnumerator SetOakBarrelOriginalPosition()
