@@ -124,7 +124,7 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     {
         if (PlayerControlManager.Instance.IsInvincible)
         {
-            DropBox();
+            DropBox(false);
         }
         
         _elapsedTime += Time.deltaTime;
@@ -204,6 +204,6 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     private void OnDestroy()
     {
-        DropBox();
+        DropBox(true);
     }
 }
