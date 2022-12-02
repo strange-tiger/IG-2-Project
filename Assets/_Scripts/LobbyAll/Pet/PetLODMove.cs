@@ -29,7 +29,7 @@ public class PetLODMove : PetMove
     {
         foreach (Animator animator in _animators)
         {
-            animator.SetBool("IsWalk", isMove);
+            animator.SetBool(PARAM_IS_WALK, isMove);
         }
 
         ChangeMoveStateHelper(isMove);
