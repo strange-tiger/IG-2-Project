@@ -130,6 +130,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private void ActivePlayer(bool value)
     {
         _playerModel.SetActive(value);
+        _oakBarrelMeshCollider.isTrigger = value;
         Debug.Log($"{photonView.IsMine}플레이어 모델 RPC");
     }
 
@@ -155,8 +156,8 @@ public class OakBarrelInteraction : MonoBehaviourPun
     /// </summary>
     private void OutOakBarrel()
     {
-        photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.AllBuffered, false);
         photonView.RPC(nameof(ActivePlayer), RpcTarget.AllBuffered, true);
+        photonView.RPC(nameof(ActiveOakBarrel), RpcTarget.AllBuffered, false);
         photonView.RPC(nameof(ChangePlayerTagFor), RpcTarget.AllBuffered, _player);
 
         PlayerControlManager.Instance.IsRayable = true;
