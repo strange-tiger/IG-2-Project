@@ -31,6 +31,7 @@ public class OakBarrel : InteracterableObject
         }
 
         photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.AllBuffered, false);
+        Debug.Log("오크통과 상호작용");
     }
 
     [PunRPC]
@@ -38,6 +39,7 @@ public class OakBarrel : InteracterableObject
     {
         _oakBarrelMeshRenderer.enabled = value;
         _oakBarrelMeshCollider.enabled = value;
+        Debug.Log("오크통과 상호작용 RPC 뿌리기");
     }
 
     private IEnumerator SetOakBarrelOriginalPosition()

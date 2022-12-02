@@ -41,6 +41,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
         if (photonView.IsMine)
         {
             photonView.RPC("PlayerSetting", RpcTarget.AllBuffered, false);
+            Debug.Log("시작할 때 플레이어의 오크통 꺼주기");
         }
     }
 
@@ -49,8 +50,11 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _playerControllerMove = GetComponent<PlayerControllerMove>();
         _playerInteraction = GetComponentInChildren<PlayerInteraction>();
 
-        _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
-        _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
+        if (photonView.IsMine)
+        {
+            _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
+            _playerInteraction.InteractionOakBarrel.AddListener(BecomeOakBarrel);
+        }
 
         _audioSource = GetComponentInChildren<AudioSource>();
 
@@ -59,19 +63,24 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
     private void Update()
     {
-        if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+        if (photonView.IsMine)
         {
-            StopAllCoroutines();
+            if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
+            {
+                _isSelfExit = false;
 
+                OutOakBarrel();
+                Debug.Log("타의로 탈출");
+            }
 
-            _isSelfExit = true;
-            OutOakBarrel();
-        }
+            if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
+            {
+                StopAllCoroutines();
 
-        if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
-        {
-            _isSelfExit = false;
-            OutOakBarrel();
+                _isSelfExit = true;
+                OutOakBarrel();
+                Debug.Log("스스로 탈출");
+            }
         }
     }
 
@@ -87,25 +96,15 @@ public class OakBarrelInteraction : MonoBehaviourPun
     private IEnumerator OakBarrelIsGone()
     {
         yield return _oakBarrelReturnTime;
-
+        _isSelfExit = true;
         OutOakBarrel();
+        Debug.Log("시간지나서 탈출");
     }
 
     [PunRPC]
     private void PlayerSetting(bool value)
     {
         _oakBarrelMeshRenderer.enabled = value;
-        _oakBarrelMeshCollider.enabled = value;
-    }
-
-    /// <summary>
-    /// 플레이어 외관의 변화
-    /// </summary>
-    /// <param name="value"></param>
-    [PunRPC]
-    private void ActivePlayer(bool value)
-    {
-        _playerModel.SetActive(value);
         _oakBarrelMeshCollider.enabled = value;
     }
 
@@ -120,6 +119,19 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _oakBarrelMeshCollider.enabled = value;
 
         _isInOak = value;
+
+        Debug.Log("플레이어의 오크통 RPC");
+    }
+
+    /// <summary>
+    /// 플레이어 외관의 변화
+    /// </summary>
+    /// <param name="value"></param>
+    [PunRPC]
+    private void ActivePlayer(bool value)
+    {
+        _playerModel.SetActive(value);
+        Debug.Log("플레이어 모델 RPC");
     }
 
     /// <summary>
@@ -131,11 +143,12 @@ public class OakBarrelInteraction : MonoBehaviourPun
         photonView.RPC(nameof(ActivePlayer), RpcTarget.AllBuffered, false);
         photonView.RPC(nameof(ChangePlayerTagFor), RpcTarget.AllBuffered, _oakBarrel);
 
-        _playerControllerMove.MoveScale *= _speedSlower;
+        //_playerControllerMove.MoveScale *= _speedSlower;
 
         _audioSource.PlayOneShot(_inOakBarrelSound);
 
         PlayerControlManager.Instance.IsRayable = false;
+        Debug.Log("오크통 안으로");
     }
 
     /// <summary>
@@ -148,19 +161,28 @@ public class OakBarrelInteraction : MonoBehaviourPun
         photonView.RPC(nameof(ChangePlayerTagFor), RpcTarget.AllBuffered, _player);
 
         PlayerControlManager.Instance.IsRayable = true;
-        _playerControllerMove.MoveScale /= _speedSlower;
+        //_playerControllerMove.MoveScale /= _speedSlower;
 
         if (!_isSelfExit)
         {
             _playerDebuffManager.CallStunDebuff();
         }
-
+        Debug.Log("오크통 밖으로");
     }
 
     [PunRPC]
     private void ChangePlayerTagFor(string str)
     {
         tag = str;
+        Debug.Log("테크교체 RPC");
     }
 
+    private void OnDisable()
+    {
+        if (photonView.IsMine)
+        {
+            _playerInteraction.InteractionOakBarrel.RemoveListener(BecomeOakBarrel);
+        }
+    }
 }
+
