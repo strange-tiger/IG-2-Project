@@ -1136,7 +1136,6 @@ namespace Asset.MySql
 
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
-                            _mysqlConnection.Open();
                             
                             int betGold = (int)double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString());
 
@@ -1145,6 +1144,8 @@ namespace Asset.MySql
                             string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.Nickname.ToString()]}';";
 
                             MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
+
+                            _mysqlConnection.Open();
 
                             command.ExecuteNonQuery();
 
@@ -1159,7 +1160,6 @@ namespace Asset.MySql
 
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
-                            _mysqlConnection.Open();
 
                             int betGold = Convert.ToInt32(Math.Round(((Convert.ToDouble(betAmount) * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / Convert.ToDouble(championBetAmount)))
                                 )));
@@ -1171,6 +1171,9 @@ namespace Asset.MySql
                             string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.Nickname.ToString()]}';";
 
                             MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
+
+                            _mysqlConnection.Open();
+
                             command.ExecuteNonQuery();
 
                             _mysqlConnection.Close();
