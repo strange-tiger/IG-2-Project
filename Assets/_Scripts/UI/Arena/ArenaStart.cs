@@ -29,21 +29,24 @@ public class ArenaStart : MonoBehaviourPun
 
     private void Update()
     {
-        if (_StartBattleButton.interactable == false)
+        if (PhotonNetwork.IsMasterClient)
         {
-            _curStartTime += Time.deltaTime;
-            _curOutTime += Time.deltaTime;
-
-            if (_curStartTime >= _reStartCoolTime)
+            if (_StartBattleButton.interactable == false)
             {
-                _StartBattleButton.interactable = true;
-                _curStartTime -= _curStartTime;
-            }
+                _curStartTime += Time.deltaTime;
+                _curOutTime += Time.deltaTime;
 
-            if (_curOutTime >= _youCanOutTime)
-            {
-                _shutDown.SetActive(true);
-                _curOutTime -= _curOutTime;
+                if (_curStartTime >= _reStartCoolTime)
+                {
+                    _StartBattleButton.interactable = true;
+                    _curStartTime -= _curStartTime;
+                }
+
+                if (_curOutTime >= _youCanOutTime)
+                {
+                    _shutDown.SetActive(true);
+                    _curOutTime -= _curOutTime;
+                }
             }
         }
     }
