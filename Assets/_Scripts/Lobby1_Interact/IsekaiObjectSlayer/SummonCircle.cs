@@ -3,7 +3,6 @@ using UnityEngine;
 using Photon.Pun;
 
 using _DB = Asset.MySql.MySqlSetting;
-using _IRM = Defines.RPC.IsekaiRPCMethodName;
 
 public class SummonCircle : MonoBehaviourPun
 {
@@ -90,8 +89,8 @@ public class SummonCircle : MonoBehaviourPun
     {
         _currentIndex = Random.Range(0, _objects.Length);
 
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, _IRM.SpawnHelper);
-        photonView.RPC(_IRM.SpawnHelper, RpcTarget.AllBuffered, _currentIndex);
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, nameof(SpawnHelper));
+        photonView.RPC(nameof(SpawnHelper), RpcTarget.AllBuffered, _currentIndex);
     }
 
     [PunRPC]

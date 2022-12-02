@@ -24,6 +24,8 @@ public class PetLODMove : PetMove
     }
 
     /// <summary>
+    /// 펫의 애니메이터 작동을 제어하고 ChangeMoveStateHelper를 호출한다.
+    /// 
     /// LOD Group을 갖는 펫은 애니메이터가 여러 개 있어, 그 상태를 한 번에 관리하기 위해
     /// 기존 PetMove의 ChangeMoveState와는 다른 로직이 필요하다.
     /// _animators로 펫의 모든 애니메이터를 배열로 관리한다.
