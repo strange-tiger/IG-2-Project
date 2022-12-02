@@ -53,20 +53,6 @@ public class FocusableObjects : MonoBehaviourPun
         }
 
         _sencer.SetSencer(_sencerRadius, this);
-
-        SyncOVRDistanceGrabbable _grabbable = GetComponent<SyncOVRDistanceGrabbable>();
-        _grabbable.CallbackOnGrabBegin = OnGrabBegin;
-        _grabbable.CallbackOnGrabEnd = OnGrabEnd;
-    }
-
-    private void OnGrabBegin()
-    {
-        _sencer.gameObject.SetActive(false);
-    }
-
-    private void OnGrabEnd()
-    {
-        _sencer.gameObject.SetActive(true);
     }
 
     public virtual void OnFocus()
