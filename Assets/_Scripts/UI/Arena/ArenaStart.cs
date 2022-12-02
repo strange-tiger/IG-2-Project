@@ -47,10 +47,13 @@ public class ArenaStart : MonoBehaviourPun
             }
         }
     }
+
+    /// <summary>
+    /// 클릭 시 경기시작
+    /// </summary>
     public void OnClickStartBattle()
     {
         photonView.RPC("StartTournament", RpcTarget.AllBuffered, false);
-     
     }
 
     [PunRPC]
