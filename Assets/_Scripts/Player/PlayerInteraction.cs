@@ -132,20 +132,9 @@ public class PlayerInteraction : MonoBehaviourPun
                 interacterableObject.Interact();
                 Debug.Log(interacterableObject.name);
 
-                if (!photonView.IsMine && !_oakBarrelInteraction.IsInOak)
+                if (interacterableObject.tag == "OakBarrel")
                 {
-                    if (interacterableObject.CompareTag("OakBarrel"))
-                    {
-                        InteractionOakBarrel.Invoke();
-                    }
-
-                    //if (interacterableObject.CompareTag("Player"))
-                    //{
-                    //    OakBarrelInteraction _oakBarrelInteraction;
-                    //    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
-
-                    //    InteractionOakBarrel.Invoke();
-                    //}
+                    InteractionOakBarrel.Invoke();
                 }
             }
         }
