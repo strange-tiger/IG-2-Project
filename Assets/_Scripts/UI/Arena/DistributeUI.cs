@@ -6,7 +6,9 @@ using Asset.MySql;
 using TMPro;
 using Photon.Pun;
 
-// 투기장에서 경기가 끝난 뒤, 베팅 결과에 따른 UI를 출력하는 스크립트.
+/*
+ * 투기장에서 경기가 끝난 뒤, 베팅 결과에 따른 UI를 출력함.
+ */
 public class DistributeUI : MonoBehaviourPun
 {
 
@@ -21,7 +23,10 @@ public class DistributeUI : MonoBehaviourPun
         MySqlSetting.OnBettingDraw.AddListener(DrawBetting);
     }
 
-    // 이벤트를 통해 플레이어의 닉네임과 획득 골드를 담은 Dictionary를 매개 변수를 받아
+    /// <summary>
+    ///  이벤트를 통해 플레이어의 닉네임과 획득 골드를 담은 Dictionary를 매개 변수를 받아 베팅 성공 혹은 실패를 알리는 UI를 출력함.
+    /// </summary>
+    /// <param name="winnerListDictionary"></param>
     private void WinOrLoseBetting(Dictionary<string,int> winnerListDictionary)
     {
         // Dictionary에 플레이어의 닉네임이 있다면
@@ -37,7 +42,9 @@ public class DistributeUI : MonoBehaviourPun
         }
     }
 
-    // 무승부 일 때, 무승부 텍스트를 출력.
+    /// <summary>
+    /// 무승부 일 때, 무승부 텍스트를 출력.
+    /// </summary>
     private void DrawBetting()
     {
         MenuUIManager.Instance.ShowConfirmPanel("무승부입니다. 모든 골드를 다시 돌려드리겠습니다.");

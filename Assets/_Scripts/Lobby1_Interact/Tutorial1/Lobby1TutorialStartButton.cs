@@ -14,11 +14,14 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _questText;
     [SerializeField] private TextMeshProUGUI _questProgress;
     [SerializeField] private LobbyChanger _lobbyChanger;
+    [SerializeField] private AudioClip[] _audioClips;
+    [SerializeField] private AudioSource _audioSource;
+
+
     //[SerializeField] private GameObject _image;
 
     private Action OnButtonAction;
 
-    private bool _firstClick;
     private bool _isQuest;
     public bool IsQuest { get { return _isQuest; } set { _isQuest = value; } }
 
@@ -189,6 +192,8 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void OnClickButton(int num)
     {
+        _audioSource.PlayOneShot(_audioClips[0]);
+
         for (int i = 0; i < _tutorialObject.Length; ++i)
         {
             if (_tutorialObject[i].activeSelf)
@@ -262,6 +267,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
 
     private void QuestReset()
     {
+        _audioSource.PlayOneShot(_audioClips[1]);
         _tutorialController.QuestAcceptEvent.Invoke(3);
         
         _isQuest = false;
