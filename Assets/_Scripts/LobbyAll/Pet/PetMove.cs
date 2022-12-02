@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using UnityEngine.SocialPlatforms;
 
 public enum EPetMoveState
 {
@@ -27,7 +28,8 @@ public class PetMove : MonoBehaviourPun
     }
     protected EPetMoveState _state = EPetMoveState.IDLE;
 
-    protected Transform _destination;
+    protected int _targetId;
+    protected Transform _targetTransform;
     protected NavMeshAgent _agent;
     private Animator _animator;
 
@@ -38,6 +40,8 @@ public class PetMove : MonoBehaviourPun
 
         OnStateChanged -= ChangeMoveState;
         OnStateChanged += ChangeMoveState;
+
+        State = EPetMoveState.IDLE;
     }
 
     private void OnDisable()
@@ -45,9 +49,10 @@ public class PetMove : MonoBehaviourPun
         OnStateChanged -= ChangeMoveState;
     }
 
+    protected const string PET_SPAWNER_TAG = "PetSpawner";
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && photonView.IsMine)
+        if (other.CompareTag(PET_SPAWNER_TAG) && other.gameObject.GetPhotonView().ViewID == _targetId)
         {
             State = EPetMoveState.IDLE;
         }
@@ -55,20 +60,22 @@ public class PetMove : MonoBehaviourPun
 
     protected void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && photonView.IsMine)
+        if (other.CompareTag(PET_SPAWNER_TAG) && other.gameObject.GetPhotonView().ViewID == _targetId)
         {
             State = EPetMoveState.MOVE;
         }
     }
 
-    public void SetTarget(Transform destination)
+    public void SetTarget(int id, Transform target)
     {
-        _destination = destination;
+        _targetId = id;
+        _targetTransform = target;
     }
 
+    protected const string PARAM_IS_WALK = "IsWalk";
     private void ChangeMoveState(bool isMove)
     {
-        _animator.SetBool("IsWalk", isMove);
+        _animator.SetBool(PARAM_IS_WALK, isMove);
 
         ChangeMoveStateHelper(isMove);
     }
@@ -77,10 +84,18 @@ public class PetMove : MonoBehaviourPun
     {
         if (isMove)
         {
-            _agent.SetDestination(_destination.position);
-            Debug.Log(_destination.position);
+            StartCoroutine(TrackDestination());
         }
 
         _agent.isStopped = !isMove;
+    }
+
+    protected IEnumerator TrackDestination()
+    {
+        while(_state == EPetMoveState.MOVE)
+        {
+            _agent.SetDestination(_targetTransform.position);
+            yield return null;
+        }
     }
 }
