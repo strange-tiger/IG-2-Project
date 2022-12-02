@@ -24,6 +24,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         GetComponentInChildren<OVRScreenFade>()?.FadeOut(0.0f);
         PlayerControlManager.Instance.IsMoveable = false;
         PlayerControlManager.Instance.IsRayable = false;
+        PlayerControlManager.Instance.SetStun(true);
         StartCoroutine(Invincible(20f));
         StartCoroutine(ReviveCooldown());
     }
@@ -33,6 +34,7 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         GetComponentInChildren<OVRScreenFade>()?.FadeIn(2.0f);
         PlayerControlManager.Instance.IsMoveable = true;
         PlayerControlManager.Instance.IsRayable = true;
+        PlayerControlManager.Instance.SetStun(false);
     }
 
     IEnumerator Invincible(float coolTime)
