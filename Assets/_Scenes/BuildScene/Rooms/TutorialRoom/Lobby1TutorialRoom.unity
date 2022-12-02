@@ -6108,7 +6108,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 439850053}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 010833dcf8b8dcc4bbcf7c5bd440605b, type: 3}
   m_Name: 
@@ -7037,6 +7037,8 @@ GameObject:
   - component: {fileID: 607167150}
   - component: {fileID: 607167149}
   - component: {fileID: 607167151}
+  - component: {fileID: 607167153}
+  - component: {fileID: 607167152}
   m_Layer: 0
   m_Name: TutorialController
   m_TagString: Untagged
@@ -7117,6 +7119,115 @@ MonoBehaviour:
   _questText: {fileID: 5647800627473572404}
   _questProgress: {fileID: 794198961}
   _lobbyChanger: {fileID: 1646323785}
+--- !u!114 &607167152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607167148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 0}
+--- !u!82 &607167153
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607167148}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &607886254 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8313499586359123397, guid: de93472b0578f574393656e3e5799808, type: 3}
@@ -21831,29 +21942,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _magicWand: {fileID: 439850056}
---- !u!1 &2072066356 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5175203216797828651, guid: 60af9c44d9be86d4580030cb3bd360c9, type: 3}
-  m_PrefabInstance: {fileID: 2072066351}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &2072066357 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1834344178210243779, guid: 60af9c44d9be86d4580030cb3bd360c9, type: 3}
-  m_PrefabInstance: {fileID: 2072066351}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2072066358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072066356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 2072066357}
 --- !u!1 &2075449388 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7155078121666303208, guid: 60af9c44d9be86d4580030cb3bd360c9, type: 3}
