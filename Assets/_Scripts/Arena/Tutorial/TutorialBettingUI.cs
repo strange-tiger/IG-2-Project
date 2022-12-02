@@ -51,6 +51,9 @@ public class TutorialBettingUI : MonoBehaviourPun
     [Header("Betting Rate")]
     [SerializeField] private TextMeshProUGUI[] _betRateText;
 
+    [Header("Lobby Change")]
+    [SerializeField] private LobbyChange _lobbyChange;
+
     private bool _isBettingComplete;
 
     private void OnEnable()
@@ -198,8 +201,8 @@ public class TutorialBettingUI : MonoBehaviourPun
     }
 
        
-    private void SkipTutorial() => PhotonNetwork.LoadLevel((int)SceneType.ArenaRoom);
-        
+    private void SkipTutorial() => _lobbyChange.Interact();
+
     private void CancelSkipTutorial() => _skipPopUpPanel.SetActive(false);
 
     private void OnDisable()
