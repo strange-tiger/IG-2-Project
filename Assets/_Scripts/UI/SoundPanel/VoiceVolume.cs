@@ -6,14 +6,12 @@ using Photon.Pun;
 public class VoiceVolume : MonoBehaviourPun
 {
     private AudioSource _voicePlayer;
-    private PhotonView photonview;
     private float _localVolume = 0;
     private float _remoteVolume = 0;
 
     private void Awake()
     {
         _voicePlayer = GetComponent<AudioSource>();
-        photonview = GetComponentInParent<PhotonView>();
         SoundManager.Instance.OnChangedInputVolume.RemoveListener(UpdateInputVolume);
         SoundManager.Instance.OnChangedOutputVolume.RemoveListener(UpdateOutputVolume);
         SoundManager.Instance.OnChangedInputVolume.AddListener(UpdateInputVolume);
@@ -22,7 +20,7 @@ public class VoiceVolume : MonoBehaviourPun
 
     public void UpdateInputVolume(float inputVolume)
     {
-        if(photonview.IsMine)
+        if(photonView.IsMine)
         {
             photonView.RPC(nameof(ChangedVolume), RpcTarget.All, inputVolume);
         }
@@ -32,7 +30,7 @@ public class VoiceVolume : MonoBehaviourPun
     private void ChangedVolume(float inputVolume)
     {
         _localVolume = inputVolume;
-        if(photonview.IsMine)
+        if(photonView.IsMine)
         {
             _voicePlayer.volume = inputVolume;
         }
@@ -45,7 +43,7 @@ public class VoiceVolume : MonoBehaviourPun
     public void UpdateOutputVolume(float outputVolume)
     {
         _remoteVolume = outputVolume;
-        if(photonview.IsMine)
+        if(photonView.IsMine)
         {
             return;
         }
