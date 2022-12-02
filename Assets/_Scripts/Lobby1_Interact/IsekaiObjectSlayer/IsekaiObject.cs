@@ -41,12 +41,12 @@ public class IsekaiObject : MonoBehaviourPun
     {
         if (other.CompareTag(WEAPON_TAG))
         {
-            Debug.Log("[Isekai] " + other.GetComponent<Rigidbody>().velocity.magnitude);
+            Debug.Log("[Isekai] " + other.GetComponent<IsekaiWeapon>().Velocity);
             Debug.Log("[Isekai] " + _hitAllowed);
         }
 
         if (other.CompareTag(WEAPON_TAG)
-            && other.GetComponent<Rigidbody>().velocity.magnitude >= WEAPON_VALID_VELOCITY
+            && other.GetComponent<IsekaiWeapon>().Velocity >= WEAPON_VALID_VELOCITY
             && _hitAllowed)
         {
             Debug.Log("[Isekai] Crush");

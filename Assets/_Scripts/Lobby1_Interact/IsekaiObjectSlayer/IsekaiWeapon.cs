@@ -5,9 +5,13 @@ using Photon.Pun;
 public class IsekaiWeapon : MonoBehaviourPun
 {
     [SerializeField] Collider[] _attackPoints;
-    
+
+    [SerializeField] Rigidbody _velocityChecker;
+
     private static readonly WaitForSeconds RETURN_DELAY = new WaitForSeconds(0.5f);
     
+    public float Velocity { get; private set; }
+
     private SyncOVRDistanceGrabbable _grabbable;
     private Rigidbody _rigidbody;
     private Coroutine _coroutine;
@@ -26,7 +30,14 @@ public class IsekaiWeapon : MonoBehaviourPun
         _initPosition = transform.position;
         _initRotation = transform.rotation.eulerAngles;
 
+        _velocityChecker.transform.parent = null;
+
         ChangeSetting(false);
+    }
+
+    private void OnDisable()
+    {
+        _velocityChecker.transform.parent = transform;
     }
 
     /// <summary>
@@ -39,7 +50,14 @@ public class IsekaiWeapon : MonoBehaviourPun
         if (_grabbable.isGrabbed && !_isUsing)
         {
             MonitorWeaponCoroutine();
+            //MonitorWeaponVelocity();
         }
+    }
+
+    private void MonitorWeaponVelocity()
+    {
+        _velocityChecker.MovePosition(transform.position);
+        Velocity = _velocityChecker.velocity.magnitude;
     }
 
     /// <summary>
