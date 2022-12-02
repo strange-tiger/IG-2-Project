@@ -64,7 +64,7 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            if (_oakBarrelMeshRenderer.enabled == false && _playerModel.activeSelf == false)
+            if (_oakBarrelMeshRenderer.enabled == false && _oakBarrelMeshCollider.enabled == false && _playerModel.activeSelf == false)
             {
                 _isSelfExit = false;
 
