@@ -46,7 +46,7 @@ public class IsekaiObject : MonoBehaviourPun
         }
 
         if (other.CompareTag(WEAPON_TAG)
-            && other.GetComponent<IsekaiWeapon>().Velocity >= WEAPON_VALID_VELOCITY
+            && other.GetComponent<IsekaiWeapon>().Velocity.magnitude >= WEAPON_VALID_VELOCITY
             && _hitAllowed)
         {
             Debug.Log("[Isekai] Crush");
