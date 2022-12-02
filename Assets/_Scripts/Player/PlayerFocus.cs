@@ -11,7 +11,6 @@ public class PlayerFocus : MonoBehaviour
 
     // LineRenderer 관련
     private LineRenderer _lineRenderer;
-
     private Vector3[] _rayPositions = new Vector3[2];
     [SerializeField] private Color _rayColor = new Color(42f / 255f, 244f / 255f, 37f / 255f);
 
@@ -28,9 +27,10 @@ public class PlayerFocus : MonoBehaviour
         get => _focusedObject;
         private set
         {
+            // 만약 새로 들어온 오브젝트라면 기존의 오브젝트에 OnFocus 효과를 꺼줌
             if (value != _focusedObject)
             {
-                if(_focusedObject)
+                if(HaveFocuseObject)
                 {
                     _focusedObject.OutFocus();
                 }
@@ -68,6 +68,9 @@ public class PlayerFocus : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 자신(오른손 or 왼손)의 레이 버튼이 눌렸다면 레이를 쏨
+    /// </summary>
     private void OnTriggerButton()
     {
         bool isRay = isLeft ? _playerInput.IsLeftRay : _playerInput.IsRightRay;
@@ -86,6 +89,9 @@ public class PlayerFocus : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 레이를 쏘아, 닿은 상대가 조준 가능한 오브젝트(FocusableObjects)라면 해당 정보를 저장함
+    /// </summary>
     private void SetRayPosition()
     {
         _rayPositions[0] = transform.position;
@@ -103,6 +109,7 @@ public class PlayerFocus : MonoBehaviour
             }
             else
             {
+                // 콜라이더 맞은 대상에게 FocusableObjects가 없다면 부모 중에 찾음
                 focusObject = hit.collider.gameObject.GetComponentInParent<FocusableObjects>();
                 if(focusObject)
                 {
