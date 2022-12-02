@@ -4,6 +4,12 @@ using UnityEngine;
 using EPOOutline;
 using System.Net.NetworkInformation;
 
+/// <summary>
+/// 플레이어의 양손에 있는 스크립트.
+/// 플레이어가 양 컨트롤러의 트리거 버튼을 누르면 레이를 쏠 수 있도록 함.
+/// 레이와 충돌한 대상 중, 포커스가 가능한 오브젝트(FocusableObjects가 붙어있는 오브젝트)를 받아 둔다.
+/// PlayerInteraction 등의 스크립트에서 현재 플레이어가 포커스하고 있는 오브젝트에 대한 정보를 받아올 수 있도록 연결해준다.
+/// </summary>
 public class PlayerFocus : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
