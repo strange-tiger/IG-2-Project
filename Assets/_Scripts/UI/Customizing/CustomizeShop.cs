@@ -130,6 +130,7 @@ public class CustomizeShop : MonoBehaviourPun
         _purchaseCompletePopUpCloseButton.onClick.AddListener(PurchaseCompletePopUpClose);
 
 
+        // UI와 상호작용하는 플레이어를 찾아
         _playerNetworkings = FindObjectsOfType<PlayerNetworking>();
 
         foreach (var player in _playerNetworkings)
@@ -140,6 +141,7 @@ public class CustomizeShop : MonoBehaviourPun
             }
         }
 
+        // 닉네임을 적용시킴.
         _playerNickname = _playerNetworking.MyNickname;
 
         // 플레이어의 소지 골드를 DB에서 불러옴
@@ -149,12 +151,15 @@ public class CustomizeShop : MonoBehaviourPun
         AvatarShopInit();
     }
 
+    /// <summary>
+    /// 아바타 상점의 데이터를 초기화하는 메서드.
+    /// </summary>
     private void AvatarShopInit()
     {
         // 성별을 확인함.
         _isFemale = bool.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.Gender));
 
-        // 성별을 확인하여 맞는 데이터를 불러옴
+        // 성별을 확인하여 맞는 데이터를 불러옴.
         if (_isFemale)
         {
             _userCustomizeData = _femaleUserCustomizeData;
@@ -164,7 +169,7 @@ public class CustomizeShop : MonoBehaviourPun
             _userCustomizeData = _maleUserCustomizeData;
         }
 
-        // 해당 유저의 아바타 데이터를 불러옴
+        // 해당 유저의 아바타 데이터를 불러옴.
         string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
 
         // 불러온 아바타 데이터를 스크립터블오브젝트에 넣어줌.
@@ -173,7 +178,7 @@ public class CustomizeShop : MonoBehaviourPun
             _userCustomizeData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
 
-        // 유저의 색 데이터를 불러옴
+        // 유저의 색 데이터를 불러옴.
         _equipMaterialNum = int.Parse(MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarColor));
 
 
@@ -190,29 +195,29 @@ public class CustomizeShop : MonoBehaviourPun
             }
         }
 
-        // 리스트의 처음부터 시작함
+        // 리스트의 처음부터 시작함.
         _startNum = 0;
 
         // 아바타 인덱스를 리스트의 처음으로 초기화함.
         _setAvatarNum = _notHaveAvatarList[_startNum];
 
-        // 현재 아바타 정보 저장
+        // 현재 아바타 정보 저장.
 
-        // Material 저장 스크립터블 오브젝트
+        // Material 저장 스크립터블 오브젝트.
         _currentAvatarMaterialData = _userCustomizeData.AvatarMaterial[_equipNum];
-        // 현재 아바타 보여줄 스프라이트
+        // 현재 아바타 보여줄 스프라이트.
         _currentAvatarImage.sprite = _currentAvatarMaterialData.AvatarImage[_equipMaterialNum];
-        // 현재 아바타의 이름
+        // 현재 아바타의 이름.
         _currentAvatarName.text = _userCustomizeData.AvatarName[_equipNum];
-        // 현재 아바타의 닉네임
+        // 현재 아바타의 닉네임.
         _currentAvatarNickname.text = _userCustomizeData.AvatarNickname[_equipNum];
-        // 현재 아바타의 가격
+        // 현재 아바타의 가격.
         _currentGold.text = _playerGold.ToString();
 
 
         _setMaterialNum = 0;
 
-        // 상점 인덱스를 아바타 리스트로 초기화함
+        // 상점 인덱스를 아바타 리스트로 초기화함.
         for (int i = 0; i < _avatarMaterialData.Length; ++i)
         {
             _avatarMaterialData[i] = _userCustomizeData.AvatarMaterial[_notHaveAvatarList[_startNum + i]];
@@ -224,10 +229,12 @@ public class CustomizeShop : MonoBehaviourPun
     }
 
 
-    // 아바타 상점의 버튼을 누르면 상점의 페이지를 이동시킴
+    /// <summary>
+    /// 아바타 상점의 버튼을 누르면 상점의 페이지를 이동시킴.
+    /// </summary>
     private void AvatarShopPage()
     {
-        // 한 페이지에 3개의 아바타를 적용시킴
+        // 한 페이지에 3개의 아바타를 적용시킴.
         for (int i = 0; i < _avatarMaterialData.Length; ++i)
         {
             if (_startNum + i <= _notHaveAvatarList.Count - 1)
@@ -241,16 +248,18 @@ public class CustomizeShop : MonoBehaviourPun
             }
             else
             {
-                // 리스트가 더 이상 존재하지 않으면 빈 창으로 출력됨
+                // 리스트가 더 이상 존재하지 않으면 빈 창으로 출력됨.
                 _avatarPanel[i].SetActive(false);
             }
         }
     }
 
-    // 왼쪽 페이지 버튼을 눌렀을때 
+    /// <summary>
+    /// 왼쪽 페이지 버튼을 눌렀을때 상점 페이지 인덱스를 바꿔줌.
+    /// </summary>
     private void LeftAvartarButton()
     {
-        // 인덱스가 0 이라면 가장 뒤쪽의 페이지로 넘어감
+        // 인덱스가 0 이라면 가장 뒤쪽의 페이지로 넘어감.
         if (_startNum == 0)
         {
             _startNum = ((_notHaveAvatarList.Count - 1) / 3) * 3;
@@ -266,10 +275,12 @@ public class CustomizeShop : MonoBehaviourPun
 
     }
 
-    // 오른쪽 페이지 버튼을 눌렀을 때
+    /// <summary>
+    /// 오른쪽 페이지 버튼을 눌렀을 때 상점 페이저 인덱스를 바꿔줌.
+    /// </summary>
     private void RightAvatarButton()
     {
-        // 페이지의 끝이라면 처음으로 돌아감
+        // 페이지의 끝이라면 처음으로 돌아감.
         if (_startNum >= _notHaveAvatarList.Count - 2)
         {
             _startNum = 0;
@@ -285,10 +296,13 @@ public class CustomizeShop : MonoBehaviourPun
 
     }
 
-    // 아바타의 구매정보 팝업을 초기화해주는 메서드
+    /// <summary>
+    /// 아바타의 구매정보 팝업을 초기화해주는 메서드.
+    /// </summary>
+    /// <param name="index"> 구매정보를 불러올 아바타의 인덱스</param>
     private void AvatarInfo(int index)
     {
-        // 플레이어의 소지 골드와 선택한 아바타의 인덱스를 활용하여 해당 아바타의 정보를 불러옴
+        // 플레이어의 소지 골드와 선택한 아바타의 인덱스를 활용하여 해당 아바타의 정보를 불러옴.
         _haveGoldText.text = "Gold : " + _playerGold.ToString();
         _purchaseAvatarMaterialData = _userCustomizeData.AvatarMaterial[_notHaveAvatarList[index]];
         _purchaseAvatarImage.sprite = _purchaseAvatarMaterialData.AvatarImage[0];
@@ -297,7 +311,7 @@ public class CustomizeShop : MonoBehaviourPun
         _purchaseAvatarInfo.text = _userCustomizeData.AvatarInfo[_notHaveAvatarList[index]];
         _setAvatarNum = _notHaveAvatarList[index];
 
-        // 플레이어의 소지 골드가 아바타의 가격보다 많으면 구매 가능하도록 버튼과 텍스트를 설정
+        // 플레이어의 소지 골드가 아바타의 가격보다 많으면 구매 가능하도록 버튼과 텍스트를 설정.
         if (_playerGold >= _userCustomizeData.AvatarValue[_notHaveAvatarList[index]])
         {
             _purchaseButton.image.color = _enoughGoldColor;
@@ -307,7 +321,7 @@ public class CustomizeShop : MonoBehaviourPun
         }
         else
         {
-            // 아니라면 구매가 불가능하도록 설정
+            // 아니라면 구매가 불가능하도록 설정.
             _purchaseButton.image.color = _notEnoughGoldColor;
             _purchaseButton.interactable = false;
             _askPurchaseAvatarText.text = $"돈이 부족하여 구매할 수 없습니다.";
@@ -318,21 +332,25 @@ public class CustomizeShop : MonoBehaviourPun
         _purchasePopUp.SetActive(true);
     }
 
-    // 아바타의 순서대로 아바타를 누르면 아바타 구매 정보 팝업에 인덱스를 전달함.
+    /// <summary>
+    /// 아바타의 순서대로 아바타를 누르면 아바타 구매 정보 팝업에 인덱스를 전달함.
+    /// </summary>
     private void FirstAvatarInfo() => AvatarInfo(_startNum);
     private void SecondAvatarInfo() => AvatarInfo(_startNum + 1);
     private void ThirdAvatarInfo() => AvatarInfo(_startNum + 2);
 
-    // 구매 버튼을 눌렀을 때 구매를 적용시키는 메서드
+    /// <summary>
+    /// 구매 버튼을 눌렀을 때 구매를 적용시키는 메서드.
+    /// </summary>
     private void PurchaseButton()
     {
         
         if (_playerNetworking.GetComponent<PhotonView>().IsMine)
         {
-            // 아바타를 구매했으므로 플레이어의 소지 골드를 아바타의 가격만큼 줄여서 업데이트
+            // 아바타를 구매했으므로 플레이어의 소지 골드를 아바타의 가격만큼 줄여서 업데이트.
             MySqlSetting.UseGold(_playerNickname, _userCustomizeData.AvatarValue[_setAvatarNum]);
 
-            // 구매한 아바타는 바로 착용되며, 착용하고 있던 아바타는 가지고 있음 상태로 전환
+            // 구매한 아바타는 바로 착용되며, 착용하고 있던 아바타는 가지고 있음 상태로 전환.
             _userCustomizeData.AvatarState[_equipNum] = EAvatarState.HAVE;
             _equipNum = _setAvatarNum;
             _userCustomizeData.AvatarState[_setAvatarNum] = EAvatarState.EQUIPED;
@@ -348,15 +366,15 @@ public class CustomizeShop : MonoBehaviourPun
 
             _saveString = null;
 
-            // 플레이어의 커스터마이징 정보를 적용시키는 RPC 함수
+            // 플레이어의 커스터마이징 정보를 적용시키는 RPC 함수.
             _playerCustomize = _playerNetworking.GetComponentInChildren<PlayerCustomize>();
             _playerCustomize.photonView.RPC("AvatarSetting", RpcTarget.All, _setAvatarNum, _setMaterialNum, _isFemale);
 
-            // 구매정보 팝업을 닫고 구매 완료 팝업을 띄움
+            // 구매정보 팝업을 닫고 구매 완료 팝업을 띄움.
             _purchaseCompletePopUp.SetActive(true);
             _purchasePopUp.SetActive(false);
 
-            // 아바타 구매로 모든 아바타를 소지한다면 메서드 종료
+            // 아바타 구매로 모든 아바타를 소지한다면 메서드 종료.
             if (_notHaveAvatarList.Count == 0)
             {
                 return;
@@ -365,7 +383,7 @@ public class CustomizeShop : MonoBehaviourPun
             // 아니라면 리스트를 비우고
             _notHaveAvatarList.Clear();
 
-            // 다시 가지고 있지 않은 리스트를 만들어냄
+            // 다시 가지고 있지 않은 리스트를 만들어냄.
             for (int i = 0; i < _userCustomizeData.AvatarState.Length; ++i)
             {
                 if (_userCustomizeData.AvatarState[i] == EAvatarState.NONE)
@@ -378,14 +396,20 @@ public class CustomizeShop : MonoBehaviourPun
         // 플레이어의 골드를 다시 저장하고
         _playerGold = MySqlSetting.CheckHaveGold(_playerNickname);
 
-        // UI에 적용시킴
+        // UI에 적용시킴.
         _currentGold.text = _playerGold.ToString();
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    /// <summary>
+    /// 구매 정보 팝업을 닫음.
+    /// </summary>
     private void PopUpClose() => _purchasePopUp.SetActive(false);
 
+    /// <summary>
+    /// 구매 완료 팝업을 닫음.
+    /// </summary>
     private void PurchaseCompletePopUpClose() => _purchaseCompletePopUp.SetActive(false);
 
     private void OnDisable()

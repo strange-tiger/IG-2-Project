@@ -10,12 +10,15 @@ using Photon.Pun;
 
 using SceneType = Defines.ESceneNumber;
 
+/*
+ * 성별을 결정하고 캐릭터 생성을 하는 UI.
+ */
 public class MakeCharacterManager : MonoBehaviourPun
 {
-    // 플레이어 조작 튜토리얼에서 사용되는 여성 버튼을 눌렀을 때 호출 할 이벤트
+    // 플레이어 조작 튜토리얼에서 사용되는 여성 버튼을 눌렀을 때 호출 할 이벤트.
     public UnityEvent OnClickFemaleButton = new UnityEvent();
 
-    // 플레이어에게 커스터마이즈를 적용시켜 주는 PlayerCustomize
+    // 플레이어에게 커스터마이즈를 적용시켜 주는 PlayerCustomize.
     [Header("Player")]
     [SerializeField] private PlayerCustomize _playerCustomize;
 
@@ -25,7 +28,7 @@ public class MakeCharacterManager : MonoBehaviourPun
     [SerializeField] private Button _femaleSelectButton;
     [SerializeField] private Button _makeCharacterButton;
 
-    // 한 성별을 선택했을 때, 그 성별 버튼의 중복 선택을 막기위한 패널과 튜토리얼 때 아웃라인을 보여줄 패널
+    // 한 성별을 선택했을 때, 그 성별 버튼의 중복 선택을 막기위한 패널과 튜토리얼 때 아웃라인을 보여줄 패널.
     [Header("Block Raycast")]
     [SerializeField] private GameObject _femalePanel;
     [SerializeField] private GameObject _malePanel;
@@ -45,13 +48,13 @@ public class MakeCharacterManager : MonoBehaviourPun
         Application.wantsToQuit -= PlayerOffline;
         Application.wantsToQuit += PlayerOffline;
 
-        // 초기 캐릭터 성별은 남성이므로 여성의 선택을 가능하게 함
+        // 초기 캐릭터 성별은 남성이므로 여성의 선택을 가능하게 함.
         _femalePanel.SetActive(false);
     }
 
-
-
-    // 남성 버튼을 선택했을 때
+    /// <summary>
+    /// 남성 버튼을 선택했을 때 호출됨.
+    /// </summary>
     private void SelectMale()
     {
         // PlayerCustomize에서 성별을 남성으로 바꾼 후
@@ -64,7 +67,9 @@ public class MakeCharacterManager : MonoBehaviourPun
         _femalePanel.SetActive(false);
     }
 
-    // 여성 버튼을 선택했을 때
+    /// <summary>
+    /// 여성 버튼을 선택했을 때 호출됨.
+    /// </summary>
     private void SelectFemale()
     {
         // 플레이어 조작 튜토리얼 매니저에게 여성버튼을 클릭했다는 이벤트를 호출함.
@@ -76,7 +81,9 @@ public class MakeCharacterManager : MonoBehaviourPun
         _rayPlane.SetActive(false);
     }
 
-    // 캐릭터 생성 버튼을 눌렀을 때
+    /// <summary>
+    /// 캐릭터 생성 버튼을 눌렀을 때 호출됨.
+    /// </summary>
     private void CreateCharacter()
     {
         // 계정의 캐릭터 생성 여부를 업데이트
@@ -92,7 +99,10 @@ public class MakeCharacterManager : MonoBehaviourPun
         SceneManager.LoadScene((int)SceneType.StartRoom);
     }
 
-    // 캐릭터 생성씬에는 LobbyManager가 없으므로 게임을 종료할 때, 계정의 Online 여부를 업데이트 해주어야함.
+    /// <summary>
+    ///  계정의 Online 여부를 DB에 업데이트 해주는 메서드.
+    /// </summary>
+    /// <returns></returns>
     private bool PlayerOffline()
     {
         try
@@ -110,6 +120,7 @@ public class MakeCharacterManager : MonoBehaviourPun
             return false;
         }
     }
+
     private void OnDisable()
     {
         _maleSelectButton.onClick.RemoveListener(SelectMale);
@@ -118,6 +129,9 @@ public class MakeCharacterManager : MonoBehaviourPun
         Application.wantsToQuit -= PlayerOffline;
     }
 
+    /// <summary>
+    ///  캐릭터 생성씬에는 LobbyManager가 없으므로 게임을 종료할 때, 계정의 Online 여부를 업데이트 해주어야함.
+    /// </summary>
     private void OnApplicationQuit()
     {
        
