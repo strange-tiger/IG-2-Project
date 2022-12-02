@@ -10,7 +10,7 @@ using TMPro;
 
 using SceneType = Defines.ESceneNumber;
 
-
+// BettingUI 를 가져와 만든 튜토리얼 BettingUI. 금액을 입력하여 100의 베팅율을 출력하는 기능과 베팅 완료, 베팅 내역이 없음을 알리는 팝업을 띄우는 역할만 한다.
 public class TutorialBettingUI : MonoBehaviourPun
 {
 
