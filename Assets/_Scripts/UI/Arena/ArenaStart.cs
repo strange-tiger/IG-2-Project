@@ -53,16 +53,18 @@ public class ArenaStart : MonoBehaviourPun
     /// </summary>
     public void OnClickStartBattle()
     {
-        photonView.RPC("StartTournament", RpcTarget.AllBuffered, false);
+        photonView.RPC("StartTournament", RpcTarget.AllBuffered, false, 0f);
     }
 
     [PunRPC]
-    public void StartTournament(bool value)
+    public void StartTournament(bool value, float resetTimer)
     {
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate("Tournament", Vector3.zero, Quaternion.identity);
             _shutDown.SetActive(value);
+            _curOutTime = resetTimer;
+            _curStartTime = resetTimer;
             OnTournamentStart.Invoke();
         }
         _StartBattleButton.interactable = value;
