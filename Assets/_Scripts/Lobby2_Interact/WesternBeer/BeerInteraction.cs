@@ -13,7 +13,7 @@ public class BeerInteraction : MonoBehaviourPun
 {
 
     [Header("Drink Sound")]
-    [SerializeField] private AudioSource _audioSource;
+    private AudioSource _audioSource;
     [SerializeField] private AudioClip _drinkSound;
 
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
@@ -45,6 +45,7 @@ public class BeerInteraction : MonoBehaviourPun
     {
         _playerContollerMove = GetComponentInParent<PlayerControllerMove>();
         _playerDebuff = GetComponentInParent<PlayerDebuffManager>();
+        _audioSource = transform.root.GetChild(1).GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -63,6 +64,9 @@ public class BeerInteraction : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// 취기 스택을 줄여주는 시간 연산을 위해 Update 사용.
+    /// </summary>
     private void Update()
     {
         if (_drinkStack > -1)
