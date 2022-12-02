@@ -271,7 +271,7 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
-        if (_equipNum != _setAvatarNum)
+        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
         {
             _messageText.text = _changeExistText;
         }
@@ -287,6 +287,8 @@ public class CustomizeMenu : MonoBehaviourPun
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
         _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
+
+        _avatarMaterialNum.text = $"컬러 {_setMaterialNum + 1}";
 
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -309,7 +311,7 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
-        if (_equipNum != _setAvatarNum)
+        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
         {
             _messageText.text = _changeExistText;
         }
@@ -325,6 +327,8 @@ public class CustomizeMenu : MonoBehaviourPun
         _avatarName.text = _userCustomizeData.AvatarName[_setAvatarNum];
         _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
         _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
+
+        _avatarMaterialNum.text = $"컬러 {_setMaterialNum + 1}";
 
         EventSystem.current.SetSelectedGameObject(null);
     }

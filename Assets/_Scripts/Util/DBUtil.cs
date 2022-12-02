@@ -1121,16 +1121,14 @@ namespace Asset.MySql
         {
             try
             {
-
-                winnerListDictionary.Clear();
-
-                string selectAllBettingData = SelectDBHelper(ETableType.bettingdb) + $" where BettingChampionNumber = '{winChampionNumber}'";
-
-                string selectDrawBettingData = SelectDBHelper(ETableType.bettingdb);
-
                 using (MySqlConnection _mysqlConnection = new MySqlConnection(_connectionString))
                 {
-                    _mysqlConnection.Open();
+                    winnerListDictionary.Clear();
+
+                    string selectAllBettingData = SelectDBHelper(ETableType.bettingdb) + $" where BettingChampionNumber = '{winChampionNumber}'";
+
+                    string selectDrawBettingData = SelectDBHelper(ETableType.bettingdb);
+
 
                     if (isDraw)
                     {
@@ -1138,6 +1136,7 @@ namespace Asset.MySql
 
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
+                            
                             int betGold = (int)double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString());
 
                             int haveGold = int.Parse(_dataRow["HaveGold"].ToString()) + betGold;
@@ -1146,7 +1145,12 @@ namespace Asset.MySql
 
                             MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
 
+                            _mysqlConnection.Open();
+
                             command.ExecuteNonQuery();
+
+                            _mysqlConnection.Close();
+
                         }
                         OnBettingDraw.Invoke();
                     }
@@ -1154,9 +1158,9 @@ namespace Asset.MySql
                     {
                         DataSet bettingDBdata = GetUserData(selectAllBettingData);
 
-
                         foreach (DataRow _dataRow in bettingDBdata.Tables[0].Rows)
                         {
+
                             int betGold = Convert.ToInt32(Math.Round(((Convert.ToDouble(betAmount) * (double.Parse(_dataRow[EbettingdbColumns.BettingGold.ToString()].ToString()) / Convert.ToDouble(championBetAmount)))
                                 )));
 
@@ -1167,11 +1171,16 @@ namespace Asset.MySql
                             string updateString = $"Update {ETableType.characterdb} SET Gold = '{haveGold}' WHERE Nickname = '{_dataRow[EbettingdbColumns.Nickname.ToString()]}';";
 
                             MySqlCommand command = new MySqlCommand(updateString, _mysqlConnection);
+
+                            _mysqlConnection.Open();
+
                             command.ExecuteNonQuery();
+
+                            _mysqlConnection.Close();
+
                         }
 
                     }
-                    _mysqlConnection.Close();
                 }
 
                 return winnerListDictionary;
