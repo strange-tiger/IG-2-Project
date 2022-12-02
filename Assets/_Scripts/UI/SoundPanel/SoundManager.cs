@@ -25,7 +25,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     public readonly static string[] VOLUME_CONTROLLER =
        { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
-    private void Awake()
+    private new void Awake()
     {
         base.Awake();
 
