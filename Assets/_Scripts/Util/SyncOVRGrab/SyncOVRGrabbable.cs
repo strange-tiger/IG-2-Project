@@ -26,10 +26,10 @@ public class SyncOVRGrabbable : MonoBehaviourPun
     protected Collider m_grabbedCollider = null;
     protected SyncOVRGrabber m_grabbedBy = null;
 
-    public UnityEvent CallbackOnGrabBegin { get; set; } = null;
-    public UnityEvent<SyncOVRGrabber> CallbackOnGrabHand { get; set; } = null;
-    public UnityEvent CallbackOnGrabEnd { get; set; } = null;
-    public UnityEvent<PhotonView, SyncOVRGrabber> CallbackGrabberSetting { get; set; } = null;
+    public UnityEvent CallbackOnGrabBegin { get; set; } = new UnityEvent();
+    public UnityEvent<SyncOVRGrabber> CallbackOnGrabHand { get; set; } = new UnityEvent<SyncOVRGrabber>();
+    public UnityEvent CallbackOnGrabEnd { get; set; } = new UnityEvent();
+    public UnityEvent<PhotonView, SyncOVRGrabber> CallbackGrabberSetting { get; set; } = new UnityEvent<PhotonView, SyncOVRGrabber>();
 
     /// <summary>
     /// If true, the object can currently be grabbed.
