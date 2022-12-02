@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 195082498324664529}
   - component: {fileID: 195082498324664530}
   - component: {fileID: 195082498324664528}
+  - component: {fileID: 3882409040354053179}
   m_Layer: 0
   m_Name: PetSpawner
-  m_TagString: Untagged
+  m_TagString: PetSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195082498324664531}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2961453, y: 0.6071453, z: -1.6032858}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,11 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _petData: {fileID: 11400000, guid: 01e67c6a783c3f749baf213db99f3619, type: 2}
   _petObject: {fileID: 0}
-  _petMaxExpType: 0
-  _petLevel: 0
-  _petExp: 0
-  _petMaxExp: 0
-  _petSize: 0
 --- !u!114 &195082498324664528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,3 +69,16 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!65 &3882409040354053179
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195082498324664531}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 2.5, y: 0.5, z: 2.5}
