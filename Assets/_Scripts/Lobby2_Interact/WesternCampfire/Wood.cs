@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -48,14 +47,26 @@ public class Wood : MonoBehaviourPun
         _notOnCooltime = true;
     }
 
+    /// <summary>
+    /// CampfirePlace와 트리거 충돌이 일어나면 호출된다.
+    /// 현재 Wood에서 실행되는 모든 코루틴을 멈춘다.
+    /// </summary>
     [PunRPC]
-    private void StopCountDown() => StopAllCoroutines();
+    private void StopCountDown()
+    {
+        StopAllCoroutines();
+        _notOnCooltime = true;
+    }
 
+    /// <summary>
+    /// CampfirePlace의 트리거 콜라이더에서 벗어나면 호출된다.
+    /// CoutDown 코루틴을 실행한다.
+    /// </summary>
     [PunRPC]
     private void StartCountDown() => StartCoroutine(CountDown());
 
     /// <summary>
-    /// 태그가 "Campfire"인 트리거 콜라이더에서 벗어나면 이 코루틴이 실행된다.
+    /// StartCountDown()이 호출되면 실행된다.
     /// 트리거 콜라이더에서 벗어났을 때 부터 카운트다운을 시작하여, 3초가 지나면 이 오브젝트를 삭제한다.
     /// 이 오브젝트가 잡혀있는 동안은 카운트다운을 멈춘다.
     /// </summary>

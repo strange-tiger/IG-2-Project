@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+ï»¿using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
 using _DB = Asset.MySql.MySqlSetting;
 using _IRM = Defines.RPC.IsekaiRPCMethodName;
-using UnityEngine.SceneManagement;
 
 public class SummonCircle : MonoBehaviourPun
 {
@@ -27,7 +25,7 @@ public class SummonCircle : MonoBehaviourPun
     private static readonly Vector3 WAIT_POSITION = new Vector3(0f, -1.5f, 0f);
     private const float RISE_TIME = 1f;
     private const int MAX_TO_HIT = 101;
-    private const int PERCENT_TO_POINT = 1; // ¿øÇÏ´Â % ¼ö
+    private const int PERCENT_TO_POINT = 1; // ì›í•˜ëŠ” % ìˆ˜
     private const int EARN_GOLD = 500;
 
 
