@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Photon.Pun;
 
 /*
@@ -25,10 +26,10 @@ public class SyncOVRGrabbable : MonoBehaviourPun
     protected Collider m_grabbedCollider = null;
     protected SyncOVRGrabber m_grabbedBy = null;
 
-    public Action CallbackOnGrabBegin { private get; set; } = null;
-    public Action <SyncOVRGrabber> CallbackOnGrabHand { private get; set; } = null;
-    public Action CallbackOnGrabEnd { private get; set; } = null;
-    public Action<PhotonView, SyncOVRGrabber> CallbackGrabberSetting { private get; set; } = null;
+    public UnityEvent CallbackOnGrabBegin { get; set; } = null;
+    public UnityEvent<SyncOVRGrabber> CallbackOnGrabHand { get; set; } = null;
+    public UnityEvent CallbackOnGrabEnd { get; set; } = null;
+    public UnityEvent<PhotonView, SyncOVRGrabber> CallbackGrabberSetting { get; set; } = null;
 
     /// <summary>
     /// If true, the object can currently be grabbed.

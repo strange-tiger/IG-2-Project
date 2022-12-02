@@ -76,6 +76,14 @@ public class Ball : MonoBehaviourPunCallbacks
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "BallDie")
+        {
+            transform.position = _ballPosition;
+        }
+    }
+
     public override void OnDisable()
     {
         transform.position = _ballPosition;
