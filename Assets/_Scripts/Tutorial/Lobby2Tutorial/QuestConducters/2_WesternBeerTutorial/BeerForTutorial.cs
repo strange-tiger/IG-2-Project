@@ -24,8 +24,11 @@ public class BeerForTutorial : MonoBehaviour
         _myCollider = GetComponent<BoxCollider>();
 
         _syncOVRGrabbable = GetComponent<SyncOVRGrabbable>();
-        _syncOVRGrabbable.CallbackOnGrabBegin = OnGrabBegin;
-        _syncOVRGrabbable.CallbackOnGrabEnd = OnGrabEnd;
+
+        _syncOVRGrabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+        _syncOVRGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+        _syncOVRGrabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+        _syncOVRGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
     }
 
     private void OnEnable()

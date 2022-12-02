@@ -11,6 +11,8 @@ public class FocusableObjectsSencer : MonoBehaviour
 
     private void Awake()
     {
+        //gameObject.layer = LayerMask.NameToLayer("PlayerSencer");
+
         _sencerCollider = gameObject.AddComponent<SphereCollider>();
         _sencerCollider.isTrigger = true;
         _sencerCollider.radius = 0f;
