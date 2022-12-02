@@ -198,4 +198,9 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     {
         _elapsedTime = elapsedTime;
     }
+
+    private void OnDestroy()
+    {
+        DropBox();
+    }
 }
