@@ -46,6 +46,11 @@ public class IsekaiWeapon : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// 무기의 속도를 측정하는 오브젝트를 이동시킨다.
+    /// 
+    /// 무기가 잡혀있는 동안 호출한다.
+    /// </summary>
     private void MonitorWeaponVelocity()
     {
         _velocityChecker.MovePosition(transform.position);
