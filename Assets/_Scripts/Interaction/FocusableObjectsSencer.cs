@@ -19,6 +19,14 @@ public class FocusableObjectsSencer : MonoBehaviourPun
         _sencerCollider.isTrigger = true;
         _sencerCollider.radius = 0f;
 
+        SyncOVRGrabbable grabbable = GetComponentInParent<SyncOVRGrabbable>();
+
+        grabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+        grabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+
+        grabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+        grabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
+
         SetRigidbody();
     }
 
