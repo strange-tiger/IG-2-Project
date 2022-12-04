@@ -24,8 +24,10 @@ public class FirstMoveAttackObjForTutorial : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
 
-        _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
-        _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
+        _syncGrabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+        _syncGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+        _syncGrabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+        _syncGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
     }
 
     private void OnEnable()

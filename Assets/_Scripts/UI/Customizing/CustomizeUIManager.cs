@@ -57,7 +57,9 @@ public class CustomizeUIManager : UIManager
         _customizeMenuOffButton.onClick.AddListener(MenuOff);
     }
 
-    // 초기 NPC UI를 닫는 버튼
+    /// <summary>
+    /// 초기 NPC UI를 닫는 버튼.
+    /// </summary>
     private void NPCMenuClose()
     {
         _customizeNPCMenu.gameObject.SetActive(false);
@@ -67,7 +69,9 @@ public class CustomizeUIManager : UIManager
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // 변환/장착 UI를 키는 버튼
+    /// <summary>
+    /// 변환/장착 UI를 키는 버튼.
+    /// </summary>
     private void MenuOn()
     {
         _customizeMenu.gameObject.SetActive(true);
@@ -76,7 +80,9 @@ public class CustomizeUIManager : UIManager
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // 변환/장착 UI를 끄는 버튼
+    /// <summary>
+    /// 변환/장착 UI를 끄는 버튼.
+    /// </summary>
     private void MenuOff()
     {
         _customizeMenu.gameObject.SetActive(false);
@@ -85,7 +91,9 @@ public class CustomizeUIManager : UIManager
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // 변환/장착 UI에서 모든 UI를 닫는 버튼
+    /// <summary>
+    /// 변환/장착 UI에서 모든 UI를 닫는 버튼.
+    /// </summary>
     private void MenuClose()
     {
         _customizeMenu.gameObject.SetActive(false);
@@ -97,7 +105,9 @@ public class CustomizeUIManager : UIManager
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // 상점 UI를 키는 버튼
+    /// <summary>
+    /// 상점 UI를 키는 버튼.
+    /// </summary>
     private void ShopOn()
     {
         _customizeShop.SetActive(true);
@@ -106,7 +116,9 @@ public class CustomizeUIManager : UIManager
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // 상점 UI를 끄는 버튼
+    /// <summary>
+    /// 상점 UI를 끄는 버튼.
+    /// </summary>
     private void ShopOff()
     {
         _customizeShop.SetActive(false);
@@ -115,7 +127,9 @@ public class CustomizeUIManager : UIManager
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // 상점 UI에서 모든 UI를 닫는 버튼
+    /// <summary>
+    /// 상점 UI에서 모든 UI를 닫는 버튼.
+    /// </summary>
     private void ShopClose()
     {
         _customizeMenu.gameObject.SetActive(false);

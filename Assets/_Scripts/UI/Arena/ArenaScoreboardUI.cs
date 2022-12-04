@@ -31,6 +31,9 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
 
     private int _minute;
     private int _second;
+
+    private float oneSecond = 1f;
+
     private float _cumulativeTime;
 
     private void OnEnable()
@@ -57,7 +60,7 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("SetChampionInfo", RpcTarget.All);
+            photonView.RPC(nameof(SetChampionInfo), RpcTarget.All);
         }
     }
 
@@ -66,9 +69,9 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             FlowingTime();
-            photonView.RPC("UpdateTimerText", RpcTarget.All, _minute, _second);
+            photonView.RPC(nameof(UpdateTimerText), RpcTarget.All, _minute, _second);
 
-            photonView.RPC("SetChampionHp", RpcTarget.All);
+            photonView.RPC(nameof(SetChampionHp), RpcTarget.All);
         }
     }
 
@@ -81,7 +84,7 @@ public class ArenaScoreboardUI : MonoBehaviourPun, IPunObservable
         {
             _cumulativeTime += Time.deltaTime;
 
-            if (_cumulativeTime > 1f)
+            if (_cumulativeTime > oneSecond)
             {
                 if (_second == 0)
                 {

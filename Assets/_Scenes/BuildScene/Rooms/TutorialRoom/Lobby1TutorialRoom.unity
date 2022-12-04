@@ -638,6 +638,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7110712232908221772, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
+      propertyPath: sceneViewId
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 7251217095818517979, guid: 6d93b18d69efc4746b3192b51cf27e61, type: 3}
       propertyPath: sceneViewId
       value: 14
@@ -1066,22 +1070,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _syncOVRDistanceGrabbable: {fileID: 82579707}
   _lobby1TutorialsQuest: {fileID: 2007845958}
---- !u!114 &82579706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 82579703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
-  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
-  _outlineDilate: 1
-  _sencerRadius: 3.75
 --- !u!114 &82579707 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -3365895939905230885, guid: 0f76d8ca2ea166140b30dc43e43ce1f1, type: 3}
@@ -3630,22 +3618,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _syncOVRDistanceGrabbable: {fileID: 244004938}
   _lobby1TutorialsQuest: {fileID: 2007845958}
---- !u!114 &244004937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244004933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
-  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
-  _outlineDilate: 1
-  _sencerRadius: 3.75
 --- !u!114 &244004938 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -5828115475273850450, guid: 483d16e0351535949a7a2dc035c6e856, type: 3}
@@ -7049,6 +7021,7 @@ GameObject:
   - component: {fileID: 607167150}
   - component: {fileID: 607167149}
   - component: {fileID: 607167151}
+  - component: {fileID: 607167152}
   m_Layer: 0
   m_Name: TutorialController
   m_TagString: Untagged
@@ -7129,6 +7102,106 @@ MonoBehaviour:
   _questText: {fileID: 5647800627473572404}
   _questProgress: {fileID: 794198961}
   _lobbyChanger: {fileID: 1646323785}
+  _audioClips:
+  - {fileID: 8300000, guid: bdf129d66088855478550bdff1017f92, type: 3}
+  - {fileID: 8300000, guid: a06029c0adf9cb7418487ec3815f517c, type: 3}
+  _audioSource: {fileID: 607167152}
+--- !u!82 &607167152
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607167148}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &607886254 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8313499586359123397, guid: de93472b0578f574393656e3e5799808, type: 3}
@@ -10150,22 +10223,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _syncOVRDistanceGrabbable: {fileID: 973050125}
   _lobby1TutorialsQuest: {fileID: 2007845958}
---- !u!114 &973050124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973050120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
-  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
-  _outlineDilate: 1
-  _sencerRadius: 3.75
 --- !u!114 &973050125 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4015945490045496120, guid: a28ecf952ce1e894691e0c9583937086, type: 3}
@@ -12550,22 +12607,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _syncOVRDistanceGrabbable: {fileID: 1219734765}
   _lobby1TutorialsQuest: {fileID: 2007845958}
---- !u!114 &1219734764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219734760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
-  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
-  _outlineDilate: 1
-  _sencerRadius: 3.75
 --- !u!114 &1219734765 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6790586963319436342, guid: f137bb275b2df7b47ad3cb4a5aba090e, type: 3}
@@ -14667,22 +14708,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _syncOVRDistanceGrabbable: {fileID: 1517274030}
   _lobby1TutorialsQuest: {fileID: 2007845958}
---- !u!114 &1517274029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1517274025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
-  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
-  _outlineDilate: 1
-  _sencerRadius: 3.75
 --- !u!114 &1517274030 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -7389924456960412857, guid: 5f9d56ad60548e944942024551cb770e, type: 3}

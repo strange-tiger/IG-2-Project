@@ -34,13 +34,13 @@ public class PetSpawner : MonoBehaviourPunCallbacks
 
         PetDataInitializeFromDB();
 
-        if (_havePet)
-        {
-            photonView.RPC("PetInstantiate", RpcTarget.All, _eqiupNum);
-        }
-
         if (photonView.IsMine)
         {
+            if (_havePet)
+            {
+                photonView.RPC(nameof(PetInstantiate), RpcTarget.All, _eqiupNum);
+            }
+
             PetShopUIManager.PlayerPetSpawner = this;
         }
     }
@@ -70,7 +70,12 @@ public class PetSpawner : MonoBehaviourPunCallbacks
     [PunRPC]
     public void PetInstantiate(int index)
     {
-        if (_petObject != null)
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
+            if (_petObject != null)
         {
             PhotonNetwork.Destroy(_petObject);
         }
@@ -83,21 +88,13 @@ public class PetSpawner : MonoBehaviourPunCallbacks
         _eqiupNum = index;
 
         _petObject = PhotonNetwork.Instantiate($"Pets\\{_petData.Object[index].name}", transform.position, Quaternion.identity);
-        _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(transform);
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        if (_petObject.activeSelf)
-        {
-            photonView.RPC("PetInstantiate", newPlayer, _eqiupNum);
-        }
+        _petObject.transform.GetChild(_petData.ChildIndex[index]).GetComponent<PetMove>().SetTarget(photonView.ViewID, transform.root);
     }
 
     public void PetChange(int index)
     {
         _eqiupNum = index;
-        photonView.RPC("PetInstantiate", RpcTarget.All, _eqiupNum);
+        photonView.RPC(nameof(PetInstantiate), RpcTarget.All, _eqiupNum);
     }
 
     private void PetDataUpdate(string nickname)

@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class RadialCursor : MonoBehaviour
 {
 
-    // 커서의 Collider를 이용하여 버튼을 가져와, 해당 버튼의 이미지를 RadialMenu로 전달함.
+    /// <summary>
+    /// 커서의 Collider를 이용하여 버튼을 가져와, 해당 버튼의 이미지를 RadialMenu로 전달함.
+    /// </summary>
+    /// <param name="collision">선택한 버튼의 Collider</param>
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Button"))
@@ -26,6 +29,10 @@ public class RadialCursor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Cursor가 버튼의 Collider에서 벗어나면 선택된 버튼을 Clear함.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Button"))
