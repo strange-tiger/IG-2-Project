@@ -181,6 +181,9 @@ public class CustomizeMenu : MonoBehaviourPun
         _avatarNickname.text = _userCustomizeData.AvatarNickname[_setAvatarNum];
         _avatarInfoText.text = _userCustomizeData.AvatarInfo[_setAvatarNum];
 
+        // 저장하라는 메세지 텍스트 초기화.
+        _messageText.text = null;
+
     }
 
 
