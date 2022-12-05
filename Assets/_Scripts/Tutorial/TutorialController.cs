@@ -37,21 +37,23 @@ public class TutorialController : MonoBehaviour
     // 퀘스트 클리어 이벤트
     public UnityEvent<bool> QuestClearEvent = new UnityEvent<bool>();
 
-    // 대사 종료
+    // 대사가 마지막까지 나오면 true 아니면 false
     private bool _isDialogueEnd;
 
-    // 다음 대사로 넘어가기 위한 변수
+    // _isDialogueEnd == true 고 OVRInput.Button.One == ture 면 true 아니면 false
     private bool _isNext;
 
-    // 퀘스트 대사
+    // 퀘스트를 받으면 true 클리어하면 false
     private bool _sendMessage;
 
-    // 스킵 버튼
+    // _isDialogueEnd == false 고 OVRInput.Button.One == ture 면 true 아니면 false
     private bool _dialogueSkip;
 
+    // CSV인덱스 값
     private int _dialogueNum = 0;
     public int DialogueNum { get { return _dialogueNum; } }
 
+    // 현재 튜토리얼 중이면 false 아니면 true
     private bool _isTutorialQuest;
     public bool IsTutorialQuest { get { return _isTutorialQuest; } set { _isTutorialQuest = value; } }
 
@@ -162,18 +164,19 @@ public class TutorialController : MonoBehaviour
             _tutorialDialogueText.text = null;
             _isNext = true;
         }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-        {
-            _tutorialDialogueText.text = null;
-            _isNext = true;
-        }
-#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+//        {
+//            _tutorialDialogueText.text = null;
+//            _isNext = true;
+//        }
+//#endif
     }
 
     /// <summary>
-    /// 퀘스트가 있을 때..?
+    /// 퀘스트를 깻을 때
     /// </summary>
+    /// <param name="value"></param>
     private void QuestClear(bool value)
     {
         if (_isTutorialQuest == true)
@@ -187,6 +190,10 @@ public class TutorialController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 퀘스트 수락 시(버튼을 눌렀을 때)
+    /// </summary>
+    /// <param name="num"></param>
     private void QuestAccept(int num)
     {
         if (num == 3)
