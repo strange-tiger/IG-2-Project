@@ -874,7 +874,6 @@ GameObject:
   m_Component:
   - component: {fileID: 268166413}
   - component: {fileID: 268166412}
-  - component: {fileID: 268166415}
   - component: {fileID: 268166414}
   m_Layer: 0
   m_Name: Tutorial
@@ -898,6 +897,7 @@ MonoBehaviour:
   _newPlayerMove: {fileID: 651344143}
   _playerControllerMove: {fileID: 651344141}
   _syncOVRDistanceGrabbable: {fileID: 574064837}
+  _questText: {fileID: 1146504227007840407}
   _tutorialRunText: {fileID: 1490045391}
   _tutorialNPCName: {fileID: 878324655}
   _turtorialType: 0
@@ -932,20 +932,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _state: 8
   _tutorial: {fileID: 268166411}
---- !u!114 &268166415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 268166411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899bcfd799605374cbce3c14dc44660e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _questText: {fileID: 1146504227007840407}
-  _startRoomTutorial: {fileID: 268166412}
 --- !u!1 &299992080
 GameObject:
   m_ObjectHideFlags: 0
