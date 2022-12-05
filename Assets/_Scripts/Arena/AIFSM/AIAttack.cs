@@ -50,7 +50,7 @@ public class AIAttack : AIState
     {
         if (_changeStateAttackToDamage == true)
         {
-            aiFSM.ChangeState(EAIState.Damage);
+            _aiFSM.ChangeState(EAIState.Damage);
 
             _changeStateAttackToDamage = false;
         }
@@ -64,7 +64,7 @@ public class AIAttack : AIState
         {
             _curTime -= _curTime;
             _isSkillCoolTime = false;
-            aiFSM.ChangeState(EAIState.Skill);
+            _aiFSM.ChangeState(EAIState.Skill);
         }
     }
 

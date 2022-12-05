@@ -18,7 +18,9 @@ public class ArenaStart : MonoBehaviourPun
     [Header("나갈 수 있는 시간")]
     [SerializeField] private float _youCanOutTime;
 
+    // 게임 재시작까지 걸리는 시간
     private float _curStartTime;
+    // 나가는 문 활성화까지 걸리는 시간
     private float _curOutTime;
 
     void Start()
