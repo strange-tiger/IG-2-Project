@@ -271,13 +271,13 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
-        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
+        if (_setMaterialNum == _equipMaterialNum && _equipNum == _setAvatarNum)
         {
-            _messageText.text = _changeExistText;
+            _messageText.text = null;
         }
         else
         {
-            _messageText.text = null;
+            _messageText.text = _changeExistText;
         }
 
         // 메테리얼의 인덱스를 초기화 하고, 바뀐 리스트의 인덱스를 이용하여 아바타 정보를 불러옴.
@@ -311,13 +311,13 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 처음 아바타와 변경 사항이 있을 때, 텍스트를 띄움.
-        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
+        if (_setMaterialNum == _equipMaterialNum && _equipNum == _setAvatarNum)
         {
-            _messageText.text = _changeExistText;
+            _messageText.text = null;
         }
         else
         {
-            _messageText.text = null;
+            _messageText.text = _changeExistText;
         }
 
         // 메테리얼의 인덱스를 초기화 하고, 바뀐 리스트의 인덱스를 이용하여 아바타 정보를 불러옴.
@@ -349,13 +349,13 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 현재의 메테리얼 인덱스와 초기 착용중이던 메테리얼 인덱스, 그리고 초기 아바타와 현재 아바타 인덱스가 같지 않으면 변경사항이 존재한다는 텍스트를 띄움.
-        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
+        if (_setMaterialNum == _equipMaterialNum && _equipNum == _setAvatarNum)
         {
-            _messageText.text = _changeExistText;
+            _messageText.text = null;
         }
         else
         {
-            _messageText.text = null;
+            _messageText.text = _changeExistText;
         }
 
         // 현재 컬러의 정보를 Ui에 적용.
@@ -383,13 +383,13 @@ public class CustomizeMenu : MonoBehaviourPun
         }
 
         // 현재의 메테리얼 인덱스와 초기 착용중이던 메테리얼 인덱스, 그리고 초기 아바타와 현재 아바타 인덱스가 같지 않으면 변경사항이 존재한다는 텍스트를 띄움.
-        if (_setMaterialNum != _equipMaterialNum && _equipNum != _setAvatarNum)
+        if (_setMaterialNum == _equipMaterialNum && _equipNum == _setAvatarNum)
         {
-            _messageText.text = _changeExistText;
+            _messageText.text = null;
         }
         else
         {
-            _messageText.text = null;
+            _messageText.text = _changeExistText;
         }
 
         // 현재 컬러의 정보를 UI에 적용.
