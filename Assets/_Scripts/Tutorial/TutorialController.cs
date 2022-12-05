@@ -127,7 +127,6 @@ public class TutorialController : MonoBehaviour
                 }
             }
         }
-        Debug.Log(_dialogueNum);
     }
 
     /// <summary>
