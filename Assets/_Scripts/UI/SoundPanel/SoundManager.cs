@@ -36,7 +36,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         _actions.Add(OnChangedOutputVolume);
 
         _lobbyRecoder = GetComponent<Recorder>();
-        _lobbyRecoder.TransmitEnabled = false;
+        //_lobbyRecoder.TransmitEnabled = false;
 
         for (int i = 0; i < VOLUME_CONTROLLER.Length; i++)
         {
