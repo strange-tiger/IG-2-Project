@@ -116,7 +116,6 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         // 아바타의 착용, 소지여부를 DB에 불러와 커스터마이즈 데이터에 적용.
         for (int i = 0; i < _userData.AvatarState.Length; ++i)
         {
-            Debug.Log(avatarData[i] + $"index : {i}");
             _userData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
 
