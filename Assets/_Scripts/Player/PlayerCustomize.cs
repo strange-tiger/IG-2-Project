@@ -114,13 +114,13 @@ public class PlayerCustomize : MonoBehaviourPunCallbacks
         string[] avatarData = MySqlSetting.GetValueByBase(Asset.EcharacterdbColumns.Nickname, _playerNickname, Asset.EcharacterdbColumns.AvatarData).Split(',');
 
         // 아바타의 착용, 소지여부를 DB에 불러와 커스터마이즈 데이터에 적용.
-        for (int i = 0; i < avatarData.Length - 1; ++i)
+        for (int i = 0; i < _userData.AvatarState.Length; ++i)
         {
             _userData.AvatarState[i] = (EAvatarState)Enum.Parse(typeof(EAvatarState), avatarData[i]);
         }
 
         // 불러온 커스터마이즈 데이터를 돌면서 착용한 아바타의 인덱스를 저장함.
-        for (int i = 0; i < _userData.AvatarState.Length - 1; ++i)
+        for (int i = 0; i < _userData.AvatarState.Length; ++i)
         {
             if (_userData.AvatarState[i] == EAvatarState.EQUIPED)
             {
