@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class SoundManager : SingletonBehaviour<SoundManager>
 {
-    // 볼륨 값 들고있기
+
     private List<UnityEvent<float>> _actions = new List<UnityEvent<float>>();
     public UnityEvent<float> OnChangedMasterVolume { get; private set; } = new UnityEvent<float>();
     public UnityEvent<float> OnChangedEffectVolume { get; private set; } = new UnityEvent<float>();
@@ -25,8 +25,10 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     public readonly static string[] VOLUME_CONTROLLER =
        { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
+
         _actions.Add(OnChangedMasterVolume);
         _actions.Add(OnChangedEffectVolume);
         _actions.Add(OnChangedBackgroundVolume);
@@ -57,9 +59,17 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             return;
         }
     }
+
+    private const int MASTER_VOLUME = 0;
+    private const int EFFECT_VOLUME = 1;
+    private const int BGM_VOLUME = 2;
+    private const int INPUT_VOLUME = 3;
+    private const int OUTPUT_VOLUME = 4;
+
+
     public void Refresh(int num)
     {
-        if (num == 0)
+        if (num == MASTER_VOLUME || num == INPUT_VOLUME)
         {
             _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]));
         }
@@ -88,5 +98,9 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     private void Update()
     {
         CheckPushToTalkInput();
+    }
+    private void OnDestroy()
+    {
+        Debug.Log("파괴되지말라고!!!");
     }
 }

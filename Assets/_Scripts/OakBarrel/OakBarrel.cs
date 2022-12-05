@@ -13,20 +13,7 @@ public class OakBarrel : InteracterableObject
     private MeshRenderer _oakBarrelMeshRenderer;
     private MeshCollider _oakBarrelMeshCollider;
 
-    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(30f);
-
-
-    protected override void OnEnable()
-    {
-        if (gameObject.transform.root.tag.Contains("Player"))
-        {
-            _isPlayerHave = true;
-        }
-        else
-        {
-            _isPlayerHave = false;
-        }
-    }
+    private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
 
     private void Start()
     {
@@ -43,20 +30,21 @@ public class OakBarrel : InteracterableObject
             StartCoroutine(SetOakBarrelOriginalPosition());
         }
 
-        photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, false);
+        Debug.Log($"{photonView.IsMine}오크통과 상호작용");
+        photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.AllBuffered, false);
     }
 
     [PunRPC]
-    public void SomeoneInteractedOakBarrel(bool value)
+    private void SomeoneInteractedOakBarrel(bool value)
     {
         _oakBarrelMeshRenderer.enabled = value;
         _oakBarrelMeshCollider.enabled = value;
+        Debug.Log($"{photonView.IsMine}오크통과 상호작용 RPC 뿌리기");
     }
 
     private IEnumerator SetOakBarrelOriginalPosition()
     {
         yield return _oakBarrelReturnTime;
-
-        photonView.RPC("SomeoneInteractedOakBarrel", RpcTarget.All, true);
+        photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.AllBuffered, true);
     }
 }

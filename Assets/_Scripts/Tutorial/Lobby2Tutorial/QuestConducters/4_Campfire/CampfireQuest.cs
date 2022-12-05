@@ -21,6 +21,8 @@ public class CampfireQuest : QuestConducter
         _woodPile.ResetWood();
         _woodCount = 0;
         _props.SetActive(true);
+
+        base.StartQuest();
     }
 
     public void StackWood()

@@ -9,6 +9,7 @@ public class BallManager : MonoBehaviourPun
     private Vector3 _ballSspawnVector;
 
     private bool _isball = true;
+    private static readonly string _ball = "Ball";
 
     private void Start()
     {
@@ -19,7 +20,7 @@ public class BallManager : MonoBehaviourPun
     {
         if(PhotonNetwork.IsMasterClient && _isball)
         {
-            PhotonNetwork.Instantiate("Ball", _ballSspawnVector, Quaternion.identity);
+            PhotonNetwork.Instantiate(_ball, _ballSspawnVector, Quaternion.identity);
 
             _isball = false;
         }

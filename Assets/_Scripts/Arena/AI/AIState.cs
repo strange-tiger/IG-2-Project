@@ -4,14 +4,14 @@ using UnityEngine;
 
 public abstract class AIState : MonoBehaviour
 {
-    protected AIFSM aiFSM;
+    protected AIFSM _aiFSM;
 
     protected Animator _animator;
     protected AudioSource _audioSource; 
 
     public void Initialize(AIFSM aiFSM)
     {
-        this.aiFSM = aiFSM;
+        this._aiFSM = aiFSM;
     }
 
     public abstract void OnEnter();

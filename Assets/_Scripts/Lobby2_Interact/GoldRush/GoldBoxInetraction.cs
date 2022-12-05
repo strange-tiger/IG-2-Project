@@ -44,6 +44,10 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
     private readonly Vector3 _originalScale = new Vector3(1f, 1f, 1f);
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip _pickUpSound;
+    [SerializeField] private AudioSource _audioSource;
+
     private void Awake()
     {
         _spawner = transform.root.GetComponent<GoldBoxSpawner>();
@@ -70,6 +74,8 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
 
         _sencer.photonView.RequestOwnership();
 
+        _audioSource.PlayOneShot(_pickUpSound);
+
         _rigidbody.useGravity = false;
         _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
@@ -88,13 +94,16 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
         gameObject.transform.localScale = newScale;
     }
 
-    private void DropBox()
+    private void DropBox(bool isDestory)
     {
         photonView.RPC(nameof(BoxDropped), RpcTarget.AllBuffered);
 
         //gameObject.transform.localScale = _originalScale;
         photonView.RPC(nameof(SetLocalScale), RpcTarget.All, _originalScale);
-        transform.parent.parent = _spawner.transform;
+        if(!isDestory)
+        {
+            transform.parent.parent = _spawner.transform;
+        }
 
         Debug.Log("µé¾î¿È");
         //_sencer.enabled = true;
@@ -115,7 +124,7 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     {
         if (PlayerControlManager.Instance.IsInvincible)
         {
-            DropBox();
+            DropBox(false);
         }
         
         _elapsedTime += Time.deltaTime;
@@ -191,5 +200,10 @@ public class GoldBoxInetraction : MonoBehaviourPunCallbacks
     private void SetElapsedTime(int elapsedTime)
     {
         _elapsedTime = elapsedTime;
+    }
+
+    private void OnDestroy()
+    {
+        DropBox(true);
     }
 }

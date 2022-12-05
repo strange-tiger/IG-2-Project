@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -43,10 +43,10 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// »óÀ§ UIÀÇ ÀÎÇ²ÇÊµå OnSelect ÀÌº¥Æ®¸¦ ±¸µ¶, ÀÎÇ²ÇÊµå°¡ ¼±ÅÃµÉ ¶§ Å°º¸µå¸¦ ¿¬´Ù.
-    /// _inputField º¯¼ö¿¡ ¼±ÅÃµÈ ÀÎÇ²ÇÊµå¸¦ ¹Ş´Â´Ù.
-    /// ¿­¸° Å°º¸µåÀÇ À§Ä¡¸¦ MOVE_KEYBOARD·Î ÁöÁ¤ÇÑ´Ù.
-    /// ±âº» Å°º¸µå ·¹ÀÌ¾Æ¿ôÀº QWERTYÀÌ´Ù.
+    /// ìƒìœ„ UIì˜ ì¸í’‹í•„ë“œ OnSelect ì´ë²¤íŠ¸ë¥¼ êµ¬ë…, ì¸í’‹í•„ë“œê°€ ì„ íƒë  ë•Œ í‚¤ë³´ë“œë¥¼ ì—°ë‹¤.
+    /// _inputField ë³€ìˆ˜ì— ì„ íƒëœ ì¸í’‹í•„ë“œë¥¼ ë°›ëŠ”ë‹¤.
+    /// ì—´ë¦° í‚¤ë³´ë“œì˜ ìœ„ì¹˜ë¥¼ MOVE_KEYBOARDë¡œ ì§€ì •í•œë‹¤.
+    /// ê¸°ë³¸ í‚¤ë³´ë“œ ë ˆì´ì•„ì›ƒì€ QWERTYì´ë‹¤.
     /// </summary>
     private static readonly Vector3 MOVE_KEYBOARD = new Vector3(0f, -60f, -10f);
     public static void OpenKeyboard()
@@ -60,10 +60,10 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// »óÀ§ UIÀÇ ÀÎÇ²ÇÊµå OnSelect ÀÌº¥Æ®¸¦ ±¸µ¶, ÀÎÇ²ÇÊµå°¡ ¼±ÅÃµÉ ¶§ Å°º¸µå ·¹ÀÌ¾Æ¿ôÀ» È°¼ºÈ­ ÇÑ´Ù.
-    /// _inputField º¯¼ö¿¡ ¼±ÅÃµÈ ÀÎÇ²ÇÊµå¸¦ ÇÒ´çÇÑ´Ù.
-    /// ¿­¸° Å°º¸µåÀÇ À§Ä¡¸¦ MOVE_KEYBOARD·Î ÁöÁ¤ÇÑ´Ù.
-    /// type ¸Å°³º¯¼ö·Î È°¼ºÈ­ ÇÒ Å°º¸µåÀÇ ·¹ÀÌ¾Æ¿ôÀ» Á¤ÇÑ´Ù.
+    /// ìƒìœ„ UIì˜ ì¸í’‹í•„ë“œ OnSelect ì´ë²¤íŠ¸ë¥¼ êµ¬ë…, ì¸í’‹í•„ë“œê°€ ì„ íƒë  ë•Œ í‚¤ë³´ë“œ ë ˆì´ì•„ì›ƒì„ í™œì„±í™” í•œë‹¤.
+    /// _inputField ë³€ìˆ˜ì— ì„ íƒëœ ì¸í’‹í•„ë“œë¥¼ í• ë‹¹í•œë‹¤.
+    /// ì—´ë¦° í‚¤ë³´ë“œì˜ ìœ„ì¹˜ë¥¼ MOVE_KEYBOARDë¡œ ì§€ì •í•œë‹¤.
+    /// type ë§¤ê°œë³€ìˆ˜ë¡œ í™œì„±í™” í•  í‚¤ë³´ë“œì˜ ë ˆì´ì•„ì›ƒì„ ì •í•œë‹¤.
     /// </summary>
     /// <param name="type"></param>
     public static void OpenKeyboard(EKeyboardLayout type)
@@ -78,8 +78,8 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Å°º¸µå ·¹ÀÌ¾Æ¿ôÀ» type ¸Å°³º¯¼ö·Î ¹ŞÀº Å°º¸µå ·¹ÀÌ¾Æ¿ôÀ¸·Î ¹Ù²ã È°¼ºÈ­ÇÑ´Ù.
-    /// ¸ÕÀú ·¹ÀÌ¾Æ¿ôÀ» ¸ğµÎ ´İ°í, type ¸Å°³º¯¼ö°¡ °¡¸®Å°´Â ·¹ÀÌ¾Æ¿ô¸¸ È°¼ºÈ­ÇÑ´Ù.
+    /// í‚¤ë³´ë“œ ë ˆì´ì•„ì›ƒì„ type ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì€ í‚¤ë³´ë“œ ë ˆì´ì•„ì›ƒìœ¼ë¡œ ë°”ê¿” í™œì„±í™”í•œë‹¤.
+    /// ë¨¼ì € ë ˆì´ì•„ì›ƒì„ ëª¨ë‘ ë‹«ê³ , type ë§¤ê°œë³€ìˆ˜ê°€ ê°€ë¦¬í‚¤ëŠ” ë ˆì´ì•„ì›ƒë§Œ í™œì„±í™”í•œë‹¤.
     /// </summary>
     /// <param name="type"></param>
     private static void ChangeLayout(EKeyboardLayout type)
@@ -91,9 +91,9 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Å°º¸µå ·¹ÀÌ¾Æ¿ôÀ» ¸ğµÎ ºñÈ°¼ºÈ­ÇÑ´Ù.
-    /// Å°º¸µå ÀÔ·ÂÀ» ÇÏ¸ç ÀúÀåµÈ µ¥ÀÌÅÍ¸¦ ¸ğµÎ ºñ¿î´Ù.
-    /// Å¸ÀÔµÈ ¹®ÀÚ¿­À» ÀúÀåÇÏ°í º¸¿©ÁÖ´Â ÅØ½ºÆ® _typedText¸¦ ºñÈ°¼ºÈ­ÇÑ´Ù.
+    /// í‚¤ë³´ë“œ ë ˆì´ì•„ì›ƒì„ ëª¨ë‘ ë¹„í™œì„±í™”í•œë‹¤.
+    /// í‚¤ë³´ë“œ ì…ë ¥ì„ í•˜ë©° ì €ì¥ëœ ë°ì´í„°ë¥¼ ëª¨ë‘ ë¹„ìš´ë‹¤.
+    /// íƒ€ì…ëœ ë¬¸ìì—´ì„ ì €ì¥í•˜ê³  ë³´ì—¬ì£¼ëŠ” í…ìŠ¤íŠ¸ _typedTextë¥¼ ë¹„í™œì„±í™”í•œë‹¤.
     /// </summary>
     public static void CloseKeyboard()
     {
@@ -104,7 +104,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// _layouts¿¡ ÀúÀåµÈ ÀÌ Å°º¸µåÀÇ ¸ğµç Å°º¸µå ·¹ÀÌ¾Æ¿ôÀ» ºñÈ°¼ºÈ­ÇÑ´Ù.
+    /// _layoutsì— ì €ì¥ëœ ì´ í‚¤ë³´ë“œì˜ ëª¨ë“  í‚¤ë³´ë“œ ë ˆì´ì•„ì›ƒì„ ë¹„í™œì„±í™”í•œë‹¤.
     /// </summary>
     private static void CloseLayout()
     {
@@ -115,10 +115,10 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Å°º¸µåÀÇ ÀÚÆÇ Å° ¹öÆ°ÀÌ Å¬¸¯µÉ ¶§¸¶´Ù, _typedText.text¿¡ ¼±ÅÃµÈ ¹öÆ°ÀÇ ÀÌ¸§À» ÀúÀåÇÑ´Ù.
-    /// µû¶ó¼­, ÀÚÆÇ Å° ¹öÆ°ÀÇ ÀÌ¸§Àº ¸ğµÎ ÀÔ·ÂÇÏ°í ½ÍÀº ¹®ÀÚ¿Í µ¿ÀÏÇØ¾ß ÇÑ´Ù.
-    /// CutKoreanType·Î ´õ ÀÌ»ó ÇÑ±¹¾î ÀÔ·ÂÀÌ ¾Æ´ÔÀ» ¾Ë¸°´Ù.
-    /// EventSystemÀ¸·ÎºÎÅÍ ¼±ÅÃµÈ ¹öÆ°ÀÇ Á¤º¸¸¦ Áö¿ì°í ³¡³½´Ù.
+    /// í‚¤ë³´ë“œì˜ ìíŒ í‚¤ ë²„íŠ¼ì´ í´ë¦­ë  ë•Œë§ˆë‹¤, _typedText.textì— ì„ íƒëœ ë²„íŠ¼ì˜ ì´ë¦„ì„ ì €ì¥í•œë‹¤.
+    /// ë”°ë¼ì„œ, ìíŒ í‚¤ ë²„íŠ¼ì˜ ì´ë¦„ì€ ëª¨ë‘ ì…ë ¥í•˜ê³  ì‹¶ì€ ë¬¸ìì™€ ë™ì¼í•´ì•¼ í•œë‹¤.
+    /// CutKoreanTypeë¡œ ë” ì´ìƒ í•œêµ­ì–´ ì…ë ¥ì´ ì•„ë‹˜ì„ ì•Œë¦°ë‹¤.
+    /// EventSystemìœ¼ë¡œë¶€í„° ì„ íƒëœ ë²„íŠ¼ì˜ ì •ë³´ë¥¼ ì§€ìš°ê³  ëë‚¸ë‹¤.
     /// </summary>
     public static void PressKey()
     {
@@ -130,12 +130,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Å°º¸µåÀÇ ÀÚÆÇ Å° ¹öÆ°ÀÌ Å¬¸¯µÉ ¶§¸¶´Ù, s_koreanSentence ¼±ÅÃµÈ ¹öÆ°ÀÇ ÀÌ¸§À» ÀúÀåÇÑ´Ù.
-    /// µû¶ó¼­, ÀÚÆÇ Å° ¹öÆ°ÀÇ ÀÌ¸§Àº ¸ğµÎ ÀÔ·ÂÇÏ°í ½ÍÀº ¹®ÀÚ¿Í µ¿ÀÏÇØ¾ß ÇÑ´Ù.
-    /// Áö±İºÎÅÍ ÇÑ±¹¾î ÀÔ·ÂÀÌ ½ÇÇàµÊÀ» ¾Ë¸°´Ù. s_isKoreanÀ» true·Î ¹Ù²Û´Ù.
-    /// _typedText.text¿¡ ÀúÀåµÈ ÀÌÀü ÀÔ·ÂÀ» s_prevSentence¿¡ ÀúÀåÇÑ´Ù.
-    /// CreateKoreanText(s_koreanSentence)·Î »ı¼ºÇÑ ÇÑ±Û ¹®ÀÚ¿­À» s_prevSentence°ú ÇÔ²² _typedText.text¿¡ ÀúÀå, À¯Àú¿¡°Ô º¸ÀÎ´Ù.
-    /// EventSystemÀ¸·ÎºÎÅÍ ¼±ÅÃµÈ ¹öÆ°ÀÇ Á¤º¸¸¦ Áö¿ì°í ³¡³½´Ù.
+    /// í‚¤ë³´ë“œì˜ ìíŒ í‚¤ ë²„íŠ¼ì´ í´ë¦­ë  ë•Œë§ˆë‹¤, s_koreanSentence ì„ íƒëœ ë²„íŠ¼ì˜ ì´ë¦„ì„ ì €ì¥í•œë‹¤.
+    /// ë”°ë¼ì„œ, ìíŒ í‚¤ ë²„íŠ¼ì˜ ì´ë¦„ì€ ëª¨ë‘ ì…ë ¥í•˜ê³  ì‹¶ì€ ë¬¸ìì™€ ë™ì¼í•´ì•¼ í•œë‹¤.
+    /// ì§€ê¸ˆë¶€í„° í•œêµ­ì–´ ì…ë ¥ì´ ì‹¤í–‰ë¨ì„ ì•Œë¦°ë‹¤. s_isKoreanì„ trueë¡œ ë°”ê¾¼ë‹¤.
+    /// _typedText.textì— ì €ì¥ëœ ì´ì „ ì…ë ¥ì„ s_prevSentenceì— ì €ì¥í•œë‹¤.
+    /// CreateKoreanText(s_koreanSentence)ë¡œ ìƒì„±í•œ í•œê¸€ ë¬¸ìì—´ì„ s_prevSentenceê³¼ í•¨ê»˜ _typedText.textì— ì €ì¥, ìœ ì €ì—ê²Œ ë³´ì¸ë‹¤.
+    /// EventSystemìœ¼ë¡œë¶€í„° ì„ íƒëœ ë²„íŠ¼ì˜ ì •ë³´ë¥¼ ì§€ìš°ê³  ëë‚¸ë‹¤.
     /// </summary>
     private static bool s_isKorean = false;
     private static string s_prevSentence = string.Empty;
@@ -157,9 +157,9 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Áö±İºÎÅÍ ÇÑ±¹¾î ÀÔ·ÂÀÌ ¿Ï·áµÊÀ» ¾Ë¸°´Ù.
-    /// s_isKoreanÀ» false·Î ¹Ù²Û´Ù.
-    /// s_prevSentence°ú s_koreanSentenceÀ» ºñ¿î´Ù.
+    /// ì§€ê¸ˆë¶€í„° í•œêµ­ì–´ ì…ë ¥ì´ ì™„ë£Œë¨ì„ ì•Œë¦°ë‹¤.
+    /// s_isKoreanì„ falseë¡œ ë°”ê¾¼ë‹¤.
+    /// s_prevSentenceê³¼ s_koreanSentenceì„ ë¹„ìš´ë‹¤.
     /// </summary>
     private static void CutKoreanType()
     {
@@ -173,9 +173,9 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// _typedText.text¿¡ °ø¹éÀ» Ãß°¡ÇÑ´Ù.
-    /// CutKoreanType·Î ´õ ÀÌ»ó ÇÑ±¹¾î ÀÔ·ÂÀÌ ¾Æ´ÔÀ» ¾Ë¸°´Ù.
-    /// EventSystemÀ¸·ÎºÎÅÍ ¼±ÅÃµÈ ¹öÆ°ÀÇ Á¤º¸¸¦ Áö¿ì°í ³¡³½´Ù.
+    /// _typedText.textì— ê³µë°±ì„ ì¶”ê°€í•œë‹¤.
+    /// CutKoreanTypeë¡œ ë” ì´ìƒ í•œêµ­ì–´ ì…ë ¥ì´ ì•„ë‹˜ì„ ì•Œë¦°ë‹¤.
+    /// EventSystemìœ¼ë¡œë¶€í„° ì„ íƒëœ ë²„íŠ¼ì˜ ì •ë³´ë¥¼ ì§€ìš°ê³  ëë‚¸ë‹¤.
     /// </summary>
     public static void PressSpace()
     {
@@ -187,9 +187,9 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// _typedText.text¿¡ ÀúÀåµÈ ¹®ÀÚ¿­ÀÇ ¸¶Áö¸· ÇÑ ÀÚ¸®¸¦ ÁÙ¿© ÇÑ ±ÛÀÚ Áö¿î´Ù.
-    /// CutKoreanType·Î ´õ ÀÌ»ó ÇÑ±¹¾î ÀÔ·ÂÀÌ ¾Æ´ÔÀ» ¾Ë¸°´Ù.
-    /// EventSystemÀ¸·ÎºÎÅÍ ¼±ÅÃµÈ ¹öÆ°ÀÇ Á¤º¸¸¦ Áö¿ì°í ³¡³½´Ù.
+    /// _typedText.textì— ì €ì¥ëœ ë¬¸ìì—´ì˜ ë§ˆì§€ë§‰ í•œ ìë¦¬ë¥¼ ì¤„ì—¬ í•œ ê¸€ì ì§€ìš´ë‹¤.
+    /// CutKoreanTypeë¡œ ë” ì´ìƒ í•œêµ­ì–´ ì…ë ¥ì´ ì•„ë‹˜ì„ ì•Œë¦°ë‹¤.
+    /// EventSystemìœ¼ë¡œë¶€í„° ì„ íƒëœ ë²„íŠ¼ì˜ ì •ë³´ë¥¼ ì§€ìš°ê³  ëë‚¸ë‹¤.
     /// </summary>
     public static void PressBackspace()
     {
@@ -202,8 +202,8 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// _typedText.text¿¡ ÀúÀåµÈ ¹®ÀÚ¿­À» ¸ğµÎ Áö¿î´Ù.
-    /// CutKoreanType·Î ´õ ÀÌ»ó ÇÑ±¹¾î ÀÔ·ÂÀÌ ¾Æ´ÔÀ» ¾Ë¸°´Ù.
+    /// _typedText.textì— ì €ì¥ëœ ë¬¸ìì—´ì„ ëª¨ë‘ ì§€ìš´ë‹¤.
+    /// CutKoreanTypeë¡œ ë” ì´ìƒ í•œêµ­ì–´ ì…ë ¥ì´ ì•„ë‹˜ì„ ì•Œë¦°ë‹¤.
     /// </summary>
     public static void PressClear()
     {
@@ -214,10 +214,10 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Å°º¸µåÀÇ Shift È¤Àº Caps Lock ¿ªÇÒÀ» ÇÑ´Ù.
-    /// ·¹ÀÌ¾Æ¿ôÀÇ EKeyboardLayout °ªÀ» 1¾¿ ÁÙÀÌ°í ´ÃÀÎ´Ù.
-    /// _currentLayoutÀÌ EKeyboardLayout.QWERTY, KOREANÀÌ¸é °¢°¢ 1¾¿ ´Ã·Á EKeyboardLayout.QWERTY_SHIFTED, KOREAN_SHIFTED·Î ¹Ù²Û´Ù.
-    /// _currentLayoutÀÌ EKeyboardLayout.QWERTY_SHIFTED, KOREAN_SHIFTEDÀÌ¸é °¢°¢ 1¾¿ ´Ã·Á EKeyboardLayout.QWERTY, KOREAN·Î ¹Ù²Û´Ù.
+    /// í‚¤ë³´ë“œì˜ Shift í˜¹ì€ Caps Lock ì—­í• ì„ í•œë‹¤.
+    /// ë ˆì´ì•„ì›ƒì˜ EKeyboardLayout ê°’ì„ 1ì”© ì¤„ì´ê³  ëŠ˜ì¸ë‹¤.
+    /// _currentLayoutì´ EKeyboardLayout.QWERTY, KOREANì´ë©´ ê°ê° 1ì”© ëŠ˜ë ¤ EKeyboardLayout.QWERTY_SHIFTED, KOREAN_SHIFTEDë¡œ ë°”ê¾¼ë‹¤.
+    /// _currentLayoutì´ EKeyboardLayout.QWERTY_SHIFTED, KOREAN_SHIFTEDì´ë©´ ê°ê° 1ì”© ëŠ˜ë ¤ EKeyboardLayout.QWERTY, KOREANë¡œ ë°”ê¾¼ë‹¤.
     /// </summary>
     public static void PressShift()
     {
@@ -234,9 +234,9 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Áö±İ±îÁö ÀÔ·ÂÇÑ ¹®ÀÚ¿­À» UIÀÇ ÀÎÇ²ÇÊµå¿¡ ¹İ¿µÇÑ´Ù.
-    /// _typedText.text¿¡ ÀúÀåµÈ ¹®ÀÚ¿­À» ÇöÀç ¼±ÅÃµÈ ÀÎÇ²ÇÊµå _inputField.text¿¡ ÇÒ´çÇÏ°í
-    /// Å°º¸µå¸¦ ´İ´Â´Ù.
+    /// ì§€ê¸ˆê¹Œì§€ ì…ë ¥í•œ ë¬¸ìì—´ì„ UIì˜ ì¸í’‹í•„ë“œì— ë°˜ì˜í•œë‹¤.
+    /// _typedText.textì— ì €ì¥ëœ ë¬¸ìì—´ì„ í˜„ì¬ ì„ íƒëœ ì¸í’‹í•„ë“œ _inputField.textì— í• ë‹¹í•˜ê³ 
+    /// í‚¤ë³´ë“œë¥¼ ë‹«ëŠ”ë‹¤.
     /// </summary>
     public static void Submit()
     {
@@ -245,10 +245,10 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     }
 
     /// <summary>
-    /// Å°º¸µåÀÇ ÇÑ¿µÅ° ¿ªÇÒÀ» ÇÑ´Ù.
-    /// _currentLayoutÀÌ EKeyboardLayout.QWERTY, QWERTY_SHIFTEDÀÌ¸é KOREANÀ¸·Î ¹Ù²Û´Ù.
-    /// _currentLayoutÀÌ EKeyboardLayout.KOREAN, KOREAN_SHIFTEDÀÌ¸é QWERTY·Î ¹Ù²Û´Ù.
-    /// CutKoreanType·Î ´õ ÀÌ»ó ÇÑ±¹¾î ÀÔ·ÂÀÌ ¾Æ´ÔÀ» ¾Ë¸°´Ù.
+    /// í‚¤ë³´ë“œì˜ í•œì˜í‚¤ ì—­í• ì„ í•œë‹¤.
+    /// _currentLayoutì´ EKeyboardLayout.QWERTY, QWERTY_SHIFTEDì´ë©´ KOREANìœ¼ë¡œ ë°”ê¾¼ë‹¤.
+    /// _currentLayoutì´ EKeyboardLayout.KOREAN, KOREAN_SHIFTEDì´ë©´ QWERTYë¡œ ë°”ê¾¼ë‹¤.
+    /// CutKoreanTypeë¡œ ë” ì´ìƒ í•œêµ­ì–´ ì…ë ¥ì´ ì•„ë‹˜ì„ ì•Œë¦°ë‹¤.
     /// </summary>
     public static void ChangeLanguage()
     {
@@ -266,11 +266,11 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         }
     }
 
-    #region ÇÑ±Û_ÀÔ·Â
+    #region í•œê¸€_ì…ë ¥
 
-    private const string INITIAL_CONSONANT = "¤¡¤¢¤¤¤§¤¨¤©¤±¤²¤³¤µ¤¶¤·¤¸¤¹¤º¤»¤¼¤½¤¾";
-    private const string NEUTRAL_VOWEL = "¤¿¤À¤Á¤Â¤Ã¤Ä¤Å¤Æ¤Ç¤È¤É¤Ê¤Ë¤Ì¤Í¤Î¤Ï¤Ğ¤Ñ¤Ò¤Ó";
-    private const string FINAL_CONSONANT = "¤¡¤¢¤£¤¤¤¥¤¦¤§¤©¤ª¤«¤¬¤­¤®¤¯¤°¤±¤²¤´¤µ¤¶¤·¤¸¤º¤»¤¼¤½¤¾";
+    private const string INITIAL_CONSONANT = "ã„±ã„²ã„´ã„·ã„¸ã„¹ã…ã…‚ã…ƒã……ã…†ã…‡ã…ˆã…‰ã…Šã…‹ã…Œã…ã…";
+    private const string NEUTRAL_VOWEL = "ã…ã…ã…‘ã…’ã…“ã…”ã…•ã…–ã…—ã…˜ã…™ã…šã…›ã…œã…ã…ã…Ÿã… ã…¡ã…¢ã…£";
+    private const string FINAL_CONSONANT = "ã„±ã„²ã„³ã„´ã„µã„¶ã„·ã„¹ã„ºã„»ã„¼ã„½ã„¾ã„¿ã…€ã…ã…‚ã…„ã……ã…†ã…‡ã…ˆã…Šã…‹ã…Œã…ã…";
 
     private static string CreateKoreanText(string input)
     {
@@ -292,6 +292,8 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
                         int vowelIndex = NEUTRAL_VOWEL.IndexOf(input[index]);
 
+                        int initialConsonantIndex = INITIAL_CONSONANT.IndexOf(input[index]);
+
                         if (consonantIndex != -1)
                         {
                             ++index;
@@ -302,30 +304,37 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                             ++index;
                             convertString += NEUTRAL_VOWEL[vowelIndex];
                         }
+                        else if (initialConsonantIndex != -1)
+                        {
+                            ++index;
+                            convertString += INITIAL_CONSONANT[initialConsonantIndex];
+                        }
 
                         break;
                     }
                 case 2:
                     {
-                        int firstConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
-                        int secondConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
+                        int firstFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
+                        int secondFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
 
                         int firstVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index]);
                         int secondVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index + 1]);
 
-                        if (firstConsonantIndex != -1 && secondConsonantIndex != -1)
+                        int firstInitialConsonantIndex = INITIAL_CONSONANT.IndexOf(input[index]);
+
+                        if (firstFinalConsonantIndex != -1 && secondFinalConsonantIndex != -1)
                         {
-                            int i = CombineTwoConsonant(firstConsonantIndex, secondConsonantIndex);
-                            if (i == firstConsonantIndex)
+                            int i = CombineTwoConsonant(firstFinalConsonantIndex, secondFinalConsonantIndex);
+                            if (i == firstFinalConsonantIndex)
                             {
                                 ++index;
                             }
                             else
                             {
-                                firstConsonantIndex = i;
+                                firstFinalConsonantIndex = i;
                                 index += 2;
                             }
-                            convertString += FINAL_CONSONANT[firstConsonantIndex];
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
                         }
                         else if (firstVowelIndex != -1 && secondVowelIndex != -1)
                         {
@@ -342,44 +351,48 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                             }
                             convertString += NEUTRAL_VOWEL[firstVowelIndex];
                         }
-                        else
+                        else if (firstFinalConsonantIndex != -1)
                         {
-                            if (firstConsonantIndex != -1)
-                            {
-                                ++index;
-                                convertString += FINAL_CONSONANT[firstConsonantIndex];
-                            }
-                            else if (firstVowelIndex != -1)
-                            {
-                                ++index;
-                                convertString += NEUTRAL_VOWEL[firstVowelIndex];
-                            }
+                            ++index;
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
+                        }
+                        else if (firstVowelIndex != -1)
+                        {
+                            ++index;
+                            convertString += NEUTRAL_VOWEL[firstVowelIndex];
+                        }
+                        else if (firstInitialConsonantIndex != -1)
+                        {
+                            ++index;
+                            convertString += INITIAL_CONSONANT[firstInitialConsonantIndex];
                         }
                         break;
                     }
                 case 3:
                 default:
                     {
-                        int firstConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
-                        int secondConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
-                        int thirdConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 2]);
+                        int firstFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index]);
+                        int secondFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 1]);
+                        int thirdFinalConsonantIndex = FINAL_CONSONANT.IndexOf(input[index + 2]);
 
                         int firstVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index]);
                         int secondVowelIndex = NEUTRAL_VOWEL.IndexOf(input[index + 1]);
 
-                        if (firstConsonantIndex != -1 && secondConsonantIndex != -1 && thirdConsonantIndex != -1)
+                        int firstInitialConsonantIndex = INITIAL_CONSONANT.IndexOf(input[index]);
+
+                        if (firstFinalConsonantIndex != -1 && secondFinalConsonantIndex != -1 && thirdFinalConsonantIndex != -1)
                         {
-                            int i = CombineTwoConsonant(firstConsonantIndex, secondConsonantIndex);
-                            if (i == firstConsonantIndex)
+                            int i = CombineTwoConsonant(firstFinalConsonantIndex, secondFinalConsonantIndex);
+                            if (i == firstFinalConsonantIndex)
                             {
                                 ++index;
                             }
                             else
                             {
-                                firstConsonantIndex = i;
+                                firstFinalConsonantIndex = i;
                                 index += 2;
                             }
-                            convertString += FINAL_CONSONANT[firstConsonantIndex];
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
                         }
                         else if (firstVowelIndex != -1 && secondVowelIndex != -1)
                         {
@@ -396,19 +409,22 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                             }
                             convertString += NEUTRAL_VOWEL[firstVowelIndex];
                         }
-                        else
+                        else if (firstFinalConsonantIndex != -1)
                         {
-                            if (firstConsonantIndex != -1)
-                            {
-                                ++index;
-                                convertString += FINAL_CONSONANT[firstConsonantIndex];
-                            }
-                            else if (firstVowelIndex != -1)
-                            {
-                                ++index;
-                                convertString += NEUTRAL_VOWEL[firstVowelIndex];
-                            }
+                            ++index;
+                            convertString += FINAL_CONSONANT[firstFinalConsonantIndex];
                         }
+                        else if (firstVowelIndex != -1)
+                        {
+                            ++index;
+                            convertString += NEUTRAL_VOWEL[firstVowelIndex];
+                        }
+                        else if (firstInitialConsonantIndex != -1)
+                        {
+                            ++index;
+                            convertString += INITIAL_CONSONANT[firstInitialConsonantIndex];
+                        }
+                        
                         break;
                     }
             }
@@ -424,9 +440,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                     break;
                 case 1:
                     {
-                        int i = convertString[index];
-                        char letter = Convert.ToChar(i);
-                        output += letter.ToString();
+                        output += convertString[index];
 
                         ++index;
 
@@ -448,9 +462,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                         }
                         else
                         {
-                            int i = convertString[index];
-                            char letter = Convert.ToChar(i);
-                            output += letter.ToString();
+                            output += convertString[index];
 
                             ++index;
                         }
@@ -489,9 +501,7 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
                         }
                         else
                         {
-                            int i = convertString[index];
-                            char letter = Convert.ToChar(i);
-                            output += letter.ToString();
+                            output += convertString[index];
 
                             ++index;
                         }
@@ -508,40 +518,40 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         return 0xAC00 + (first * 588) + (second * 28) + third;
     }
 
-    #region ÀÌÁßÀÚ¸ğÀ½
+    #region ì´ì¤‘ìëª¨ìŒ
 
     private static readonly Dictionary<int, int>[] DOUBLE_CONSONANT_INDEX = new Dictionary<int, int>[4]
     {
         new Dictionary<int, int>()
         {
-            { FINAL_CONSONANT.IndexOf('¤µ'), FINAL_CONSONANT.IndexOf('¤£') }
+            { FINAL_CONSONANT.IndexOf('ã……'), FINAL_CONSONANT.IndexOf('ã„³') }
         },
         new Dictionary<int, int>()
         {
-            { FINAL_CONSONANT.IndexOf('¤¸'), FINAL_CONSONANT.IndexOf('¤¥') },
-            { FINAL_CONSONANT.IndexOf('¤¾'), FINAL_CONSONANT.IndexOf('¤¦') }
+            { FINAL_CONSONANT.IndexOf('ã…ˆ'), FINAL_CONSONANT.IndexOf('ã„µ') },
+            { FINAL_CONSONANT.IndexOf('ã…'), FINAL_CONSONANT.IndexOf('ã„¶') }
         },
         new Dictionary<int, int>()
         {
-            { FINAL_CONSONANT.IndexOf('¤¡'), FINAL_CONSONANT.IndexOf('¤ª') },
-            { FINAL_CONSONANT.IndexOf('¤±'), FINAL_CONSONANT.IndexOf('¤«') },
-            { FINAL_CONSONANT.IndexOf('¤²'), FINAL_CONSONANT.IndexOf('¤¬') },
-            { FINAL_CONSONANT.IndexOf('¤µ'), FINAL_CONSONANT.IndexOf('¤­') },
-            { FINAL_CONSONANT.IndexOf('¤¼'), FINAL_CONSONANT.IndexOf('¤®') },
-            { FINAL_CONSONANT.IndexOf('¤¾'), FINAL_CONSONANT.IndexOf('¤°') }
+            { FINAL_CONSONANT.IndexOf('ã„±'), FINAL_CONSONANT.IndexOf('ã„º') },
+            { FINAL_CONSONANT.IndexOf('ã…'), FINAL_CONSONANT.IndexOf('ã„»') },
+            { FINAL_CONSONANT.IndexOf('ã…‚'), FINAL_CONSONANT.IndexOf('ã„¼') },
+            { FINAL_CONSONANT.IndexOf('ã……'), FINAL_CONSONANT.IndexOf('ã„½') },
+            { FINAL_CONSONANT.IndexOf('ã…Œ'), FINAL_CONSONANT.IndexOf('ã„¾') },
+            { FINAL_CONSONANT.IndexOf('ã…'), FINAL_CONSONANT.IndexOf('ã…€') }
         },
         new Dictionary<int, int>()
         {
-            { FINAL_CONSONANT.IndexOf('¤µ'), FINAL_CONSONANT.IndexOf('¤´') }
+            { FINAL_CONSONANT.IndexOf('ã……'), FINAL_CONSONANT.IndexOf('ã…„') }
         }
     };
 
     private enum FirstConsonant
     {
-        ¤¡ = 0,
-        ¤¤ = 3,
-        ¤© = 7,
-        ¤² = 16
+        ã„± = 0,
+        ã„´ = 3,
+        ã„¹ = 7,
+        ã…‚ = 16
     }
 
     private static int CombineTwoConsonant(int first, int second)
@@ -550,18 +560,18 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
         switch ((FirstConsonant)first)
         {
-            case FirstConsonant.¤¡:
+            case FirstConsonant.ã„±:
                 break;
 
-            case FirstConsonant.¤¤:
+            case FirstConsonant.ã„´:
                 first = 1;
                 break;
 
-            case FirstConsonant.¤©:
+            case FirstConsonant.ã„¹:
                 first = 2;
                 break;
 
-            case FirstConsonant.¤²:
+            case FirstConsonant.ã…‚:
                 first = 3;
                 break;
 
@@ -579,27 +589,27 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     {
         new Dictionary<int, int>()
         {
-            { NEUTRAL_VOWEL.IndexOf('¤¿'), NEUTRAL_VOWEL.IndexOf('¤È') },
-            { NEUTRAL_VOWEL.IndexOf('¤À'), NEUTRAL_VOWEL.IndexOf('¤É') },
-            { NEUTRAL_VOWEL.IndexOf('¤Ó'), NEUTRAL_VOWEL.IndexOf('¤Ê') }
+            { NEUTRAL_VOWEL.IndexOf('ã…'), NEUTRAL_VOWEL.IndexOf('ã…˜') },
+            { NEUTRAL_VOWEL.IndexOf('ã…'), NEUTRAL_VOWEL.IndexOf('ã…™') },
+            { NEUTRAL_VOWEL.IndexOf('ã…£'), NEUTRAL_VOWEL.IndexOf('ã…š') }
         },
         new Dictionary<int, int>()
         {
-            { NEUTRAL_VOWEL.IndexOf('¤Ã'), NEUTRAL_VOWEL.IndexOf('¤Í') },
-            { NEUTRAL_VOWEL.IndexOf('¤Ä'), NEUTRAL_VOWEL.IndexOf('¤Î') },
-            { NEUTRAL_VOWEL.IndexOf('¤Ó'), NEUTRAL_VOWEL.IndexOf('¤Ï') }
+            { NEUTRAL_VOWEL.IndexOf('ã…“'), NEUTRAL_VOWEL.IndexOf('ã…') },
+            { NEUTRAL_VOWEL.IndexOf('ã…”'), NEUTRAL_VOWEL.IndexOf('ã…') },
+            { NEUTRAL_VOWEL.IndexOf('ã…£'), NEUTRAL_VOWEL.IndexOf('ã…Ÿ') }
         },
         new Dictionary<int, int>()
         {
-            { NEUTRAL_VOWEL.IndexOf('¤Ó'), NEUTRAL_VOWEL.IndexOf('¤Ò') }
+            { NEUTRAL_VOWEL.IndexOf('ã…£'), NEUTRAL_VOWEL.IndexOf('ã…¢') }
         }
     };
 
     private enum FirstVowel
     {
-        ¤Ç = 8,
-        ¤Ì = 13,
-        ¤Ñ = 18,
+        ã…— = 8,
+        ã…œ = 13,
+        ã…¡ = 18,
     }
 
     private static int CombineTwoVowel(int first, int second)
@@ -608,15 +618,15 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
 
         switch ((FirstVowel)first)
         {
-            case FirstVowel.¤Ç:
+            case FirstVowel.ã…—:
                 first = 0;
                 break;
 
-            case FirstVowel.¤Ì:
+            case FirstVowel.ã…œ:
                 first = 1;
                 break;
 
-            case FirstVowel.¤Ñ:
+            case FirstVowel.ã…¡:
                 first = 2;
                 break;
 

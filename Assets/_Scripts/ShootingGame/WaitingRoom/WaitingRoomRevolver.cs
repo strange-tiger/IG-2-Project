@@ -78,8 +78,10 @@ public class WaitingRoomRevolver : MonoBehaviourPun
 
         // 그랩 상태 받아오기
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
-        _syncGrabbable.CallbackOnGrabHand = OnGrabBegin;
-        _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
+        _syncGrabbable.CallbackOnGrabHand.RemoveListener(OnGrabBegin);
+        _syncGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+        _syncGrabbable.CallbackOnGrabHand.AddListener(OnGrabBegin);
+        _syncGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
 
         // 이펙트를 위한 기타 컴포넌트 가져오기
         _shootEffects = GetComponentsInChildren<ParticleSystem>();

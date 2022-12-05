@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
@@ -23,6 +22,11 @@ public class WoodPile : InteracterableObject, IPunObservable
         }
     }
 
+    /// <summary>
+    /// 상호작용하면 장작을 생성한다.
+    /// 
+    /// 상호작용하면 Wood의 "SpawnWood" 함수를 RPC로 호출한다.
+    /// </summary>
     private const string SPAWN_WOOD = "SpawnWood";
     public override void Interact()
     {
@@ -35,6 +39,14 @@ public class WoodPile : InteracterableObject, IPunObservable
         photonView.RPC(SPAWN_WOOD, RpcTarget.All);
     }
 
+    /// <summary>
+    /// 장작을 생성한다.
+    /// 
+    /// Wood 오브젝트를 생성한다.
+    /// 생성된 오브젝트를 전후좌우 네 방향 중 랜덤으로 골라 그 방향으로 힘을 가해 튀어나가게 한다.
+    /// 방향 벡터는 랜덤 방향 대각선 위쪽이다.
+    /// 생성 쿨타임을 계산한다. 쿨타임은 5초이다.
+    /// </summary>
     private const string WOOD = "Wood";
     [PunRPC]
     private void SpawnWood()
@@ -53,6 +65,13 @@ public class WoodPile : InteracterableObject, IPunObservable
         StartCoroutine(CalculateCooltime());
     }
 
+    /// <summary>
+    /// 쿨타임을 계산한다.
+    /// 
+    /// 현재 쿨타임인지를 _onCooltime 변수로 판단한다.
+    /// 쿨타임은 5초이다.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CalculateCooltime()
     {
         _onCooltime = true;

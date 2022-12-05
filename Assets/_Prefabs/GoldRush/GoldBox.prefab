@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6757212407687515435}
   - component: {fileID: 6504426949288896141}
   - component: {fileID: 8621651391955515533}
+  - component: {fileID: 4003679117175653741}
   m_Layer: 0
   m_Name: GiveGold
   m_TagString: Untagged
@@ -174,6 +175,19 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4003679117175653741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226330094353142229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 6504426949288896141}
 --- !u!1 &226330095324491067
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +549,8 @@ MonoBehaviour:
       m_Calls: []
   _effect: {fileID: 6757212407687515435}
   _dropForce: 2
+  _pickUpSound: {fileID: 8300000, guid: 0f615aa8842031f4ba018b95044fcc11, type: 3}
+  _audioSource: {fileID: 6504426949288896141}
 --- !u!114 &4731725431502683410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,13 +1076,13 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 391503911965529316, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
   m_PrefabInstance: {fileID: 226330095948278221}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &439690878013295125 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 377755377905460184, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
-  m_PrefabInstance: {fileID: 226330095948278221}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &454032418799373785 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 389871505845412884, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
+  m_PrefabInstance: {fileID: 226330095948278221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &439690878013295125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 377755377905460184, guid: 027aa2fc1b5720849ae07de746efc0f4, type: 3}
   m_PrefabInstance: {fileID: 226330095948278221}
   m_PrefabAsset: {fileID: 0}

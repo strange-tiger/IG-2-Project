@@ -46,6 +46,8 @@ public class GoldRushQuest3Hit : QuestConducter
         _goldBox.SetActive(true);
         _props.SetActive(true);
         _mapNPC.SetActive(false);
+
+        base.StartQuest();
     }
 
     private void DropBox()

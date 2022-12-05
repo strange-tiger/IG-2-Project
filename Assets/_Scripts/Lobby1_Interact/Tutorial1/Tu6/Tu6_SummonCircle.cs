@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using _DB = Asset.MySql.MySqlSetting;
-using _IRM = Defines.RPC.IsekaiRPCMethodName;
 using UnityEngine.SceneManagement;
 
 public class Tu6_SummonCircle : MonoBehaviour

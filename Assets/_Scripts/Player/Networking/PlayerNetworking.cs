@@ -67,6 +67,12 @@ public class PlayerNetworking : BasicPlayerNetworking
 
     }
 
-
+    private void Start()
+    {
+        for (int i = 0; i < SoundManager.VOLUME_CONTROLLER.Length; i++)
+        {
+            SoundManager.Instance.Refresh(i);
+        }
+    }
 
 }

@@ -18,6 +18,8 @@ public class PlayerInteraction : MonoBehaviourPun
     private bool _isOak;
     public UnityEvent InteractionOakBarrel = new UnityEvent();
 
+    private OakBarrelInteraction _oakBarrelInteraction;
+
     private void OnEnable()
     {
         _eventSystemInputModule = transform.root.GetComponentInChildren<OVRInputModule>();
@@ -35,6 +37,7 @@ public class PlayerInteraction : MonoBehaviourPun
             _ovrRaycaster.pointer = _pointer.gameObject;
             _isThereUI = true;
         }
+        _oakBarrelInteraction = GetComponentInParent<OakBarrelInteraction>();
     }
 
     private void Update()
@@ -127,22 +130,14 @@ public class PlayerInteraction : MonoBehaviourPun
             if (interacterableObject)
             {
                 interacterableObject.Interact();
-                Debug.Log(interacterableObject.name);
+                Debug.Log($"name : {interacterableObject.name}");
+                Debug.Log($"tag : {interacterableObject.tag}");
+                Debug.Log($"obtag : {interacterableObject.gameObject.tag}");
 
-                if (!photonView.IsMine)
+                if (interacterableObject.gameObject.tag == "OakBarrel" && !photonView.IsMine)
                 {
-                    if (interacterableObject.CompareTag("OakBarrel"))
-                    {
-                        InteractionOakBarrel.Invoke();
-                    }
-
-                    //if (interacterableObject.CompareTag("Player"))
-                    //{
-                    //    OakBarrelInteraction _oakBarrelInteraction;
-                    //    _oakBarrelInteraction = interacterableObject.transform.root.gameObject.GetComponentInParent<OakBarrelInteraction>();
-
-                    //    InteractionOakBarrel.Invoke();
-                    //}
+                    Debug.Log("테그가 오크통임을 확인하고 이벤트 인보크");
+                    InteractionOakBarrel.Invoke();
                 }
             }
         }

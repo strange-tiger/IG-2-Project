@@ -16,6 +16,8 @@ public class FindGoldQuest : QuestConducter
     public override void StartQuest()
     {
         _tumbleweed.SetActive(true);
+
+        base.StartQuest();
     }
 
     private void OnDisable()

@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 545357877811899108}
   - component: {fileID: 6158274761205573617}
   - component: {fileID: -5828115475273850450}
+  - component: {fileID: 3349275763792348205}
   m_Layer: 10
   m_Name: Sword3
   m_TagString: IsekaiWeapon
@@ -185,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackPoints:
   - {fileID: 4583443661616537438}
+  _velocityChecker: {fileID: 0}
 --- !u!114 &-5828115475273850450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,3 +205,19 @@ MonoBehaviour:
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
   m_materialColorField: 
+--- !u!114 &3349275763792348205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8814394626126454102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75

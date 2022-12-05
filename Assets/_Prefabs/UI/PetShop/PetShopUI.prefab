@@ -1751,6 +1751,7 @@ MonoBehaviour:
   _equipedPetName: {fileID: 6562773529362768225}
   _equipedPetGrade: {fileID: 6562773529356741753}
   _haveGold: {fileID: 6562773528698232920}
+  _backText: {fileID: 6562773527233947142}
   _petImages:
   - {fileID: 6562773528727453871}
   - {fileID: 6562773527901919257}
@@ -1774,6 +1775,7 @@ MonoBehaviour:
   _petGrade: {fileID: 6562773528834994114}
   _petExplanation: {fileID: 6562773528863794966}
   _petPrice: {fileID: 6562773528438068728}
+  _popupHaveGold: {fileID: 6562773527443461510}
 --- !u!1 &6562773527329928012
 GameObject:
   m_ObjectHideFlags: 0
@@ -2589,7 +2591,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: aa6654ac90233d4428a4a422dd091462, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f322b04163bcab40b1498983c452918, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2686,7 +2688,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6562773527530628437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5071,6 +5073,7 @@ MonoBehaviour:
   _closeButton: {fileID: 2361887242040028352}
   _saveButton: {fileID: 6562773528102809515}
   _equipedPetImage: {fileID: 6562773527517318102}
+  _airImage: {fileID: 21300000, guid: 1f322b04163bcab40b1498983c452918, type: 3}
   _petImage: {fileID: 6562773529356110481}
   _petName: {fileID: 6562773527357589768}
   _petGrade: {fileID: 6562773527758333387}
@@ -5951,6 +5954,7 @@ GameObject:
   - component: {fileID: 6562773528554641243}
   - component: {fileID: 4666212397762762078}
   - component: {fileID: 1045410209432282077}
+  - component: {fileID: 1565631918049303557}
   m_Layer: 5
   m_Name: InfoScreen
   m_TagString: Untagged
@@ -6019,6 +6023,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1565631918049303557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6562773528554641242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1832641a743ae54a879fbab6113554a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _closeButton: {fileID: 6562773528858080098}
 --- !u!1 &6562773528561802067
 GameObject:
   m_ObjectHideFlags: 0
@@ -6477,7 +6494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: aa6654ac90233d4428a4a422dd091462, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f322b04163bcab40b1498983c452918, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8011,7 +8028,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: aa6654ac90233d4428a4a422dd091462, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f322b04163bcab40b1498983c452918, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8694,7 +8711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6985402415106744445
 RectTransform:
   m_ObjectHideFlags: 0

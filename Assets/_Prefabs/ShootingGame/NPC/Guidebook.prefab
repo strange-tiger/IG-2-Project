@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 1618495473}
   - component: {fileID: 1618495472}
   - component: {fileID: 8614214692476364437}
+  - component: {fileID: 2173125067398979613}
   m_Layer: 0
   m_Name: GuideBook
   m_TagString: Untagged
@@ -140,8 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e75e23a6ffdff8f46bdd6991a7b2071e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bookOpenAndCloseClip: {fileID: 8300000, guid: ca759b0d863e3b74fa63513a8724882c, type: 3}
-  _pageFlipClip: {fileID: 8300000, guid: d2f47e379f37b7346b973ef610c81d37, type: 3}
+  _bookOpenAndCloseClip: {fileID: 8300000, guid: e2c30d2451ecfe544a58ab58dd5497b0, type: 3}
+  _pageFlipClip: {fileID: 8300000, guid: 870a73e5542a57646b77f6e606dd12b1, type: 3}
   _guildPages:
   - {fileID: 3052136771731323494}
   - {fileID: 6329350531448770302}
@@ -251,6 +252,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2173125067398979613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618495471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPlayer: {fileID: 8614214692476364437}
 --- !u!1 &1912196438899772872
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +508,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d7d2f731c19e246b77e421dab8c838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.9, b: 0.01, a: 1}
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _sencerRadius: 3.75
   _guideBook: {fileID: 1618495472}
 --- !u!1 &4256264434552584965
 GameObject:

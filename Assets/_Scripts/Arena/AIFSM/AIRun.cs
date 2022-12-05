@@ -33,9 +33,10 @@ public class AIRun : AIState
     public override void OnUpdate()
     {
         transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+
         if (_changeStateRunToAttack == true)
         {
-            aiFSM.ChangeState(EAIState.Attack);
+            _aiFSM.ChangeState(EAIState.Attack);
 
             _changeStateRunToAttack = false;
         }
@@ -56,7 +57,6 @@ public class AIRun : AIState
     {
         if (other.gameObject.tag == "AIRange")
         {
-            // _myCollider.enabled = false;
             _changeStateRunToAttack = true;
         }
     }

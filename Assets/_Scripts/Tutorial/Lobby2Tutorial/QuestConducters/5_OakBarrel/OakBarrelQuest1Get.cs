@@ -20,6 +20,8 @@ public class OakBarrelQuest1Get : QuestConducter
     {
         _oakBarrel.SetActive(true);
         _playerInteraction.enabled = true;
+
+        base.StartQuest();
     }
 
     private void OnDisable()
