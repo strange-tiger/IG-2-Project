@@ -8,6 +8,7 @@ public class FirstMoveAttackObj : FocusableObjects
     [SerializeField] private GameObject _bottle;
     [SerializeField] private MeshRenderer _objMeshRenderer;
     [SerializeField] private BoxCollider _objCollider;
+    private Rigidbody _rigidbody;
 
     private Vector3 _objSpawnPos;
     private AudioSource _audioSource;
@@ -28,6 +29,7 @@ public class FirstMoveAttackObj : FocusableObjects
     }
     private void Start()
     {
+        _rigidbody = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
 
@@ -51,11 +53,8 @@ public class FirstMoveAttackObj : FocusableObjects
             return;
         }
 
-        //_objCollider.isTrigger = true;
-        //gameObject.GetComponent<Rigidbody>().useGravity = false;
-
         // 그랩 후 플레이어 태그를 가진 오브젝트만 인식
-        if(other.CompareTag("PlayerBody") == false)
+        if (other.CompareTag("PlayerBody") == false)
         {
             return;
         }
@@ -78,7 +77,9 @@ public class FirstMoveAttackObj : FocusableObjects
     public void OnGrabBegin()
     {
         _isGrabbed = true;
-        if(photonView.IsMine)
+        _objCollider.isTrigger = true;
+        _rigidbody.useGravity = false;
+        if (photonView.IsMine)
         {
             photonView.RPC("OnGrabBegin", RpcTarget.Others);
         }
@@ -89,6 +90,7 @@ public class FirstMoveAttackObj : FocusableObjects
     {
         _isGrabbed = false;
         _objCollider.isTrigger = false;
+        _rigidbody.useGravity = true;
         _grabberPhotonView = null;
         _grabber = null;
         ObjPosReset();

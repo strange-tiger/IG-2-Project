@@ -116,8 +116,8 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         CallbackOnGrabHand?.Invoke(hand);
         CallbackGrabberSetting?.Invoke(hand.transform.root.gameObject.GetPhotonView(), hand.GetComponent<SyncOVRGrabber>());
 
-        photonView.RPC(nameof(GrabObject), RpcTarget.AllBuffered, true);
-        //gameObject.GetComponentInChildren<Collider>().isTrigger = true;
+        //photonView.RPC(nameof(GrabObject), RpcTarget.AllBuffered, true);
+        gameObject.GetComponentInChildren<Collider>().isTrigger = true;
         //gameObject.GetComponentInChildren<Rigidbody>().useGravity = false;
     }
 
@@ -136,18 +136,12 @@ public class SyncOVRGrabbable : MonoBehaviourPun
 
         CallbackOnGrabEnd?.Invoke();
 
-        photonView.RPC(nameof(GrabObject), RpcTarget.AllBuffered, false);
-        //gameObject.GetComponent<Collider>().isTrigger = false;
+        //photonView.RPC(nameof(GrabObject), RpcTarget.AllBuffered, false);
+        gameObject.GetComponent<Collider>().isTrigger = false;
         //gameObject.GetComponentInChildren<Rigidbody>().useGravity = true;
 
     }
 
-    [PunRPC]
-    private void GrabObject(bool value)
-    {
-        gameObject.GetComponent<Collider>().isTrigger = value;
-        gameObject.GetComponentInChildren<Rigidbody>().useGravity = !value;
-    }
 
     void Awake()
     {
