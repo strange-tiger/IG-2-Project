@@ -69,7 +69,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
                 _isSelfExit = false;
 
                 OutOakBarrel();
-                Debug.Log($"{photonView.IsMine}타의로 탈출");
             }
 
             if (_isInOak == true && OVRInput.GetDown(OVRInput.Button.One))
@@ -78,7 +77,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
 
                 _isSelfExit = true;
                 OutOakBarrel();
-                Debug.Log($"{photonView.IsMine}스스로 탈출");
             }
         }
     }
@@ -97,7 +95,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
         yield return _oakBarrelReturnTime;
         _isSelfExit = true;
         OutOakBarrel();
-        Debug.Log($"{photonView.IsMine}시간지나서 탈출");
     }
 
     [PunRPC]
@@ -118,8 +115,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _oakBarrelMeshCollider.enabled = value;
 
         _isInOak = value;
-
-        Debug.Log($"{photonView.IsMine}플레이어의 오크통 RPC");
     }
 
     /// <summary>
@@ -131,7 +126,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
     {
         _playerModel.SetActive(value);
         _oakBarrelMeshCollider.isTrigger = value;
-        Debug.Log($"{photonView.IsMine}플레이어 모델 RPC");
     }
 
     /// <summary>
@@ -148,7 +142,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
         _audioSource.PlayOneShot(_inOakBarrelSound);
 
         PlayerControlManager.Instance.IsRayable = false;
-        Debug.Log($"{photonView.IsMine}오크통 안으로");
     }
 
     /// <summary>
@@ -167,7 +160,6 @@ public class OakBarrelInteraction : MonoBehaviourPun
         {
             _playerDebuffManager.CallStunDebuff();
         }
-        Debug.Log($"{photonView.IsMine}오크통 밖으로");
     }
 
     [PunRPC]
