@@ -60,11 +60,11 @@ public class AIDamage : AIState
             _damageTime -= _damageTime;
             _isdamage = false;
             _animator.SetBool(AIAnimatorID.isDamage, false);
-            aiFSM.ChangeState(EAIState.Attack);
+            _aiFSM.ChangeState(EAIState.Attack);
         }
         if (_hp <= 0)
         {
-            aiFSM.ChangeState(EAIState.Death);
+            _aiFSM.ChangeState(EAIState.Death);
         }
     }
 

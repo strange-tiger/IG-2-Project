@@ -46,7 +46,7 @@ public class AISkill : AIState
 
         if (_curTime >= 2f)
         {
-            aiFSM.ChangeState(EAIState.Attack);
+            _aiFSM.ChangeState(EAIState.Attack);
             _isSkill = false;
             _curTime -= _curTime;
         }
