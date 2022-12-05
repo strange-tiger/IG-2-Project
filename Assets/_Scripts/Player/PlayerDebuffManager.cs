@@ -27,9 +27,10 @@ public class PlayerDebuffManager : MonoBehaviourPun
     // 각 코루틴에 사용되는 시간 변수
     private YieldInstruction _fadeTime = new WaitForSeconds(0.0001f);
     private YieldInstruction _drunkenTime = new WaitForSeconds(5f);
-    private YieldInstruction _InvicibleTime = new WaitForSeconds(20f);
+    private YieldInstruction _invicibleTime = new WaitForSeconds(20f);
+    private YieldInstruction _stunTime = new WaitForSeconds(2f);
 
-    
+
     // 플레이어에 관련된 컴포넌트
     private AudioSource _audioSource;
     private PlayerCustomize _playerCustomize;
@@ -96,7 +97,7 @@ public class PlayerDebuffManager : MonoBehaviourPun
     /// </summary>
     public void CallDrunkenDebuff()
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
             photonView.RPC("DrunkenDebuff", RpcTarget.All);
         }
@@ -159,7 +160,7 @@ public class PlayerDebuffManager : MonoBehaviourPun
         // 만취 이펙트 비활성화.
         _drunkenEffect.SetActive(false);
 
-        yield return _InvicibleTime;
+        yield return _invicibleTime;
 
         // 만취가 풀린 후 20초가 지나면 무적 상태 해제.
         PlayerControlManager.Instance.IsInvincible = false;
@@ -198,7 +199,7 @@ public class PlayerDebuffManager : MonoBehaviourPun
         _playerVoiceView.enabled = false;
 
         // 기절 이펙트 활성화.
-        _stunEffect.SetActive(true);
+        StartCoroutine(StartStunEffect());
 
         // 화면을 검게 만들어줌.
         FadeMaterial.color = Color.black;
@@ -218,12 +219,35 @@ public class PlayerDebuffManager : MonoBehaviourPun
         PlayerControlManager.Instance.IsMoveable = true;
         PlayerControlManager.Instance.IsRayable = true;
 
-        // 기절 이펙트를 비활성화 하고
-        _stunEffect.SetActive(false);
-
-        yield return _InvicibleTime;
+        yield return _invicibleTime;
 
         // 20초가 지난 후 무적상태를 해제함.
         PlayerControlManager.Instance.IsInvincible = false;
+    }
+
+    /// <summary>
+    /// 기절 상태 디버프 시 출력되는 파티클 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator StartStunEffect()
+    {
+        photonView.RPC(nameof(StunEffect), RpcTarget.AllBuffered, true);
+
+        yield return _stunTime;
+
+        photonView.RPC(nameof(StunEffect), RpcTarget.AllBuffered, false);
+    }
+
+    /// <summary>
+    /// 기절 상태때 파티클 출력 해 주는 RPC함수
+    /// </summary>
+    /// <param name="value"></param>
+    [PunRPC]
+    private void StunEffect(bool value)
+    {
+        if (photonView.IsMine)
+        {
+            _stunEffect.SetActive(value);
+        }
     }
 }
