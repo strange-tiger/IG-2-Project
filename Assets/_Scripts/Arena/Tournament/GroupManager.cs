@@ -6,40 +6,53 @@ using Photon.Pun;
 
 public class GroupManager : MonoBehaviourPun
 {
+    // 챔피언의 초기 위치값
     [SerializeField] private int _setPositionX;
     [SerializeField] private float _setPositionZ;
 
+    // 그룹 내 참가자들의 배열
     private GameObject[] _member = new GameObject[4];
     public GameObject[] Member { get { return _member; } }
 
+    // 결승전에 들어갈 배열
     private GameObject[] _finalBattle = new GameObject[2];
 
-    // 준결승 1 위치 셋팅 해 주는 이벤트
+    // 첫번째 준결승 위치 셋팅 해 주는 이벤트
     private UnityEvent _setFirstBattle = new UnityEvent();
-    private UnityEvent _FirstBattleWinnerSetFinalGroup = new UnityEvent();
-    private UnityEvent _SecondBattleWinnerSetFinalGroup = new UnityEvent();
 
+    // 첫번째 준결승 이 종료되면 호출되는 이벤트
+    private UnityEvent _FirstBattleWinnerSetFinalGroup = new UnityEvent();
+    // 두번째 준결승 이 종료되면 호출되는 이벤트
+    private UnityEvent _SecondBattleWinnerSetFinalGroup = new UnityEvent();
+    // 베팅매니저와 연결되어있는 경기가 종료되면 호출되는 이벤트
     public UnityEvent _finishTournament = new UnityEvent();
 
+    // 랜덤하게 결정되는 그룹 순서
     List<int> _memberIndexList;
 
     private bool _isFirstBattle;
     private bool _isSecondBattle;
     private bool _isFinelBattle;
 
+    // 이긴 챔피언의 인덱스
     private int _winnerIndex;
-    private int _firstWinnerIndex;
-    private int _secondWinnerIndex;
     public int WinnerIndex { get { return _winnerIndex; } private set { _winnerIndex = value; } }
+    // 첫번째 준결승때 이긴 챔피언의 인덱스
+    private int _firstWinnerIndex;
+    // 두번째 준결승때 이긴 챔피언의 인덱스 
+    private int _secondWinnerIndex;
 
-    private int a;
-    private int b;
-    private int c;
-    private int d;
+    // RPC로 보내줄 맴버들의 
+    private int _firstMember;
+    private int _secondMember;
+    private int _thirdMember;
+    private int _fourthMember;
 
+    // 무승부인지 확인하는 변수 -> 현재 미사용
     private bool _isDraw;
     public bool IsDraw { get { return _isDraw; } private set { _isDraw = value; } }
 
+    // 그룹내 챔피언의 순서를 랜덤하게 담을 값
     private int _randomIndex;
 
     private void OnEnable()
@@ -57,7 +70,7 @@ public class GroupManager : MonoBehaviourPun
         {
             // 1번
             SettingRandomGroup();
-
+            // 첫번째 준결승전 시작
             _setFirstBattle.Invoke();
         }
     }
@@ -93,10 +106,7 @@ public class GroupManager : MonoBehaviourPun
 
     }
 
-    private void OnDisable()
-    {
-        SettingReset();
-    }
+    
 
     /// <summary>
     /// 그룹 내 참가자들의 순서 정하기
@@ -131,9 +141,7 @@ public class GroupManager : MonoBehaviourPun
             _member[i] = transform.GetChild(index).gameObject;
         }
 
-        Debug.Log($"<color=blue>{_memberIndexList[0]},{_memberIndexList[1]},{_memberIndexList[2]},{_memberIndexList[3]}</color>");
-        Debug.Log($"<color=blue>{_member[0].name},{_member[1].name},{_member[2].name},{_member[3].name}</color>");
-
+        // 마스터가 짠 _member 그룹의 내용을 Others 에게 전달
         photonView.RPC("ClientsSettingGroup", RpcTarget.Others, _memberIndexList[0], _memberIndexList[1], _memberIndexList[2], _memberIndexList[3]);
     }
 
@@ -141,20 +149,18 @@ public class GroupManager : MonoBehaviourPun
     /// SettingRandomGroup 클라버전
     /// </summary>
     [PunRPC]
-    public void ClientsSettingGroup(int list_0, int list_1, int list_2, int list_3)
+    public void ClientsSettingGroup(int _memberIndexList_0, int _memberIndexList_1, int _memberIndexList_2, int _memberIndexList_3)
     {
-        a = list_0;
-        b = list_1;
-        c = list_2;
-        d = list_3;
+        _firstMember = _memberIndexList_0;
+        _secondMember = _memberIndexList_1;
+        _thirdMember = _memberIndexList_2;
+        _fourthMember = _memberIndexList_3;
 
-        Debug.Log($"<color=green>{a},{b},{c},{d}</green>");
-
-        _member[0] = transform.GetChild(a).gameObject;
-        _member[1] = transform.GetChild(b).gameObject;
-        _member[2] = transform.GetChild(c).gameObject;
-        _member[3] = transform.GetChild(d).gameObject;
-
+        _member[0] = transform.GetChild(_firstMember).gameObject;
+        _member[1] = transform.GetChild(_secondMember).gameObject;
+        _member[2] = transform.GetChild(_thirdMember).gameObject;
+        _member[3] = transform.GetChild(_fourthMember).gameObject;
+        // 첫번째 준결승전 시작
         _setFirstBattle.Invoke();
     }
 
@@ -217,10 +223,8 @@ public class GroupManager : MonoBehaviourPun
             }
             else
             {
-                _firstWinnerIndex = a;
+                _firstWinnerIndex = _firstMember;
             }
-
-            Debug.Log($"첫 경기 우승자 인덱스 : {_firstWinnerIndex}");
 
             _finalBattle[0] = _member[0];
             _member[0].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
@@ -235,10 +239,8 @@ public class GroupManager : MonoBehaviourPun
             }
             else
             {
-                _firstWinnerIndex = b;
+                _firstWinnerIndex = _secondMember;
             }
-
-            Debug.Log($"첫 경기 우승자 인덱스 : {_firstWinnerIndex}");
 
             _finalBattle[0] = _member[1];
             _member[1].transform.position = new Vector3(-_setPositionX, -4.5f, _setPositionZ);
@@ -262,10 +264,8 @@ public class GroupManager : MonoBehaviourPun
             }
             else
             {
-                _secondWinnerIndex = c;
+                _secondWinnerIndex = _thirdMember;
             }
-
-            Debug.Log($"두번째 경기 우승자 인덱스 : {_secondWinnerIndex}");
 
             _finalBattle[1] = _member[2];
             _member[2].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
@@ -280,10 +280,8 @@ public class GroupManager : MonoBehaviourPun
             }
             else
             {
-                _secondWinnerIndex = d;            
+                _secondWinnerIndex = _fourthMember;            
             }
-
-            Debug.Log($"두번째 경기 우승자 인덱스 : {_secondWinnerIndex}");
 
             _finalBattle[1] = _member[3];
             _member[3].transform.position = new Vector3(_setPositionX, -4.5f, _setPositionZ);
@@ -306,7 +304,6 @@ public class GroupManager : MonoBehaviourPun
         {
             _winnerIndex = _secondWinnerIndex;
         }
-        Debug.Log(_winnerIndex);
     }
 
     /// <summary>
@@ -337,7 +334,7 @@ public class GroupManager : MonoBehaviourPun
     }
 
     /// <summary>
-    /// 꺼
+    /// 우승자 나올 시 경기 끝내는 함수
     /// </summary>
     private void Finish()
     {
@@ -348,5 +345,10 @@ public class GroupManager : MonoBehaviourPun
 
         _finishTournament.Invoke();
         gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        SettingReset();
     }
 }
