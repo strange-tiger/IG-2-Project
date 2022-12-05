@@ -76,29 +76,33 @@ public class FirstMoveAttackObj : FocusableObjects
     [PunRPC]
     public void OnGrabBegin()
     {
-        _isGrabbed = true;
-        _objCollider.isTrigger = true;
-        _rigidbody.useGravity = false;
+        IsGrab(true);
         if (photonView.IsMine)
         {
-            photonView.RPC("OnGrabBegin", RpcTarget.Others);
+            photonView.RPC(nameof(OnGrabBegin), RpcTarget.Others);
         }
     }
 
     [PunRPC]
     public void OnGrabEnd()
     {
-        _isGrabbed = false;
-        _objCollider.isTrigger = false;
-        _rigidbody.useGravity = true;
+        IsGrab(false);
         _grabberPhotonView = null;
         _grabber = null;
         ObjPosReset();
 
         if (photonView.IsMine)
         {
-            photonView.RPC("OnGrabEnd", RpcTarget.Others);
+            photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
         }
+    }
+
+    private void IsGrab(bool value)
+    {
+        _isGrabbed = value;
+        _objCollider.isTrigger = value;
+        _rigidbody.useGravity = !value;
+        StopCoroutine(CoReviveCooldown());
     }
 
     public void GrabberSetting(PhotonView grabberPhotonView, SyncOVRGrabber grabber)
@@ -116,7 +120,7 @@ public class FirstMoveAttackObj : FocusableObjects
         }
         _grabber?.GrabEnd();
         TurnOnOff(false);
-        StartCoroutine(ReviveCooldown());
+        StartCoroutine(CoReviveCooldown());
     }
 
     private void TurnOnOff(bool value)
@@ -136,7 +140,7 @@ public class FirstMoveAttackObj : FocusableObjects
     }
 
     YieldInstruction _respawnCooldown = new WaitForSeconds(2.0f);
-    IEnumerator ReviveCooldown()
+    IEnumerator CoReviveCooldown()
     {
         yield return _respawnCooldown;
         Respawn();
