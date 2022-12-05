@@ -13,6 +13,7 @@ public class MagicWandReUse : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
+            // ÄðÅ¸ÀÓ
             if (_magicWand.CheckCoolTime)
             {
                 _currentTime += Time.deltaTime;

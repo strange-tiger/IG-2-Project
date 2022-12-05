@@ -16,7 +16,9 @@ public class BeerInteraction : MonoBehaviourPun
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _drinkSound;
 
+    
     private YieldInstruction _coolTime = new WaitForSeconds(10f);
+
 
     private PlayerControllerMove _playerContollerMove;
 
@@ -40,6 +42,7 @@ public class BeerInteraction : MonoBehaviourPun
 
     // 플레이어의 초기 속도.
     private float _initPlayerSpeed = 1.0f;
+
 
     private void Start()
     {

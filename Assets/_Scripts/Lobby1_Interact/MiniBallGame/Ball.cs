@@ -6,6 +6,7 @@ using Photon.Realtime;
 
 public class Ball : MonoBehaviourPunCallbacks
 {
+    // 공의 위치
     private Vector3 _ballPosition;
 
     [SerializeField] private float _resetBallTimer;
@@ -19,6 +20,7 @@ public class Ball : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        // 초기 공의 위치 기억
         _ballPosition = transform.position;
     }
 
@@ -78,7 +80,7 @@ public class Ball : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "BallDie")
+        if (other.tag.Contains("BallDie"))
         {
             transform.position = _ballPosition;
         }

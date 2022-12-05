@@ -8,7 +8,7 @@ using Photon.Realtime;
 /*
  * Food와 플레이어가 상호작용 할 수 있게 함
  */
-public class Food : InteracterableObject, IPunObservable
+public class Food : InteracterableObject
 {
     // 플레이어에게 음식의 포만감 레벨과 먹었음을 전달하는 이벤트
     public static UnityEvent<EFoodSatietyLevel> OnEated = new UnityEvent<EFoodSatietyLevel>();
@@ -22,24 +22,6 @@ public class Food : InteracterableObject, IPunObservable
 
     private FoodInteraction _foodInteraction;
 
-    /// <summary>
-    /// 음식의 Collider와 Object의 활성화 여부를 직렬화하여 송수신
-    /// </summary>
-    /// <param name="stream"></param>
-    /// <param name="info"></param>
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(_food.activeSelf);
-            stream.SendNext(_collider.enabled);
-        }
-        else if (stream.IsReading)
-        {
-            _food.SetActive((bool)stream.ReceiveNext());
-            _collider.enabled = (bool)stream.ReceiveNext();
-        }
-    }
 
     /// <summary>
     /// 플레이어가 음식과 상호작용하면 상호작용한 플레이어의 OnEated 이벤트 호출과 음식의 Collider와 Object를 비활성화 시킴.
@@ -55,7 +37,7 @@ public class Food : InteracterableObject, IPunObservable
         {
             OnEated.Invoke(_foodSatietyLevel);
 
-            photonView.RPC(nameof(EatFoodState), RpcTarget.All);
+            photonView.RPC(nameof(EatFoodState), RpcTarget.AllBuffered);
 
             StartCoroutine(CoRegenerateFood());
         }
