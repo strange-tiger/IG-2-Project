@@ -17,9 +17,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
     [SerializeField] private AudioClip[] _audioClips;
     [SerializeField] private AudioSource _audioSource;
 
-
-    //[SerializeField] private GameObject _image;
-
     private Action OnButtonAction;
 
     private bool _isQuest;
@@ -79,7 +76,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isTwo)
+        else if (_isTwo)
         {
             _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
             if (_tutorialController.DialogueNum == 8 && !_isQuest)
@@ -94,7 +91,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isThree)
+        else if (_isThree)
         {
             _questText.text = "마법봉을 주워서 마법을 사용하세요";
             if (_tutorialController.DialogueNum == 16 && !_isQuest)
@@ -109,7 +106,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isFour)
+        else if (_isFour)
         {
             _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
             if (_tutorialController.DialogueNum == 23 && !_isQuest)
@@ -124,7 +121,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isFive)
+        else if (_isFive)
         {
             _questText.text = "채광에 성공하여 골드를 획득하세요";
             if (_tutorialController.DialogueNum == 35 && !_isQuest)
@@ -139,7 +136,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isSix)
+        else if (_isSix)
         {
             _questText.text = "무기를 집어 이시고르에게 돌아가세요";
             if (_tutorialController.DialogueNum == 45 && !_isQuest)
@@ -161,32 +158,32 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         }
 
         #region EDITOR
-        //#if UNITY_EDITOR
-        //        if (Input.GetKeyDown(KeyCode.Alpha1))
-        //        {
-        //            OnClickButton(0);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha2))
-        //        {
-        //            OnClickButton(1);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha3))
-        //        {
-        //            OnClickButton(2);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha4))
-        //        {
-        //            OnClickButton(3);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha5))
-        //        {
-        //            OnClickButton(4);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha6))
-        //        {
-        //            OnClickButton(5);
-        //        }
-        //#endif
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            OnClickButton(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            OnClickButton(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            OnClickButton(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            OnClickButton(3);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            OnClickButton(4);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            OnClickButton(5);
+        }
+#endif
         #endregion
     }
 
@@ -235,9 +232,6 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             default:
                 break;
         }
-        //_tutorialObject[num].SetActive(true);
-        //_tutorialButton[num].interactable = false;
-        //ExitButton();
     }
 
     private void OnButtons()

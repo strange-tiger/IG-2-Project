@@ -9,37 +9,45 @@ public class TutorialController : MonoBehaviour
 {
     public enum TutorialType
     {
-        StartRoom,
         Lobby1,
     }
 
-    [SerializeField] StartRoomQuestList _startRoomQuestList;
+    // 스크립터블 오브젝트
     [SerializeField] Lobby1QuestList _lobby1QuestList;
 
+    // NPC 이름
     [SerializeField] private TextMeshProUGUI _tutorialNPCName;
+
+    // 진행중인 퀘스트 내용
     [SerializeField] private TextMeshProUGUI _questText;
-    [SerializeField] private NewPlayerMove _newPlayerMove;
-    [SerializeField] private PlayerControllerMove _playerControllerMove;
-    [SerializeField] private SyncOVRDistanceGrabbable _syncOVRDistanceGrabbable;
+
+    // NPC 대사
     [SerializeField] private TextMeshProUGUI _tutorialDialogueText;
     [SerializeField] private Lobby1TutorialStartButton _lobby1TutorialStartButton;
 
+    // 튜토리얼 종류 선택 현재는 1종류밖에 없어서 
     [SerializeField] private TutorialType _tutorialType;
-    public int TurtorialTypeNum { get { return (int)_tutorialType; } }
+    //public int TurtorialTypeNum { get { return (int)_tutorialType; } }
 
     private WaitForSeconds _delayTime = new WaitForSeconds(0.1f);
 
+    // 퀘스트 수락 이벤트
     public UnityEvent<int> QuestAcceptEvent = new UnityEvent<int>();
+
+    // 퀘스트 클리어 이벤트
     public UnityEvent<bool> QuestClearEvent = new UnityEvent<bool>();
 
+    // 대사 종료
     private bool _isDialogueEnd;
-    private bool _isNext;
-    private bool _sendMessage;
-    private bool _dialogueSkip;
-    private int _dialogueMaxNum;
 
-    private float _curTime;
-    private float _requestClearTime = 3f;
+    // 다음 대사로 넘어가기 위한 변수
+    private bool _isNext;
+
+    // 퀘스트 대사
+    private bool _sendMessage;
+
+    // 스킵 버튼
+    private bool _dialogueSkip;
 
     private int _dialogueNum = 0;
     public int DialogueNum { get { return _dialogueNum; } }
@@ -55,24 +63,11 @@ public class TutorialController : MonoBehaviour
         QuestClearEvent.RemoveListener(QuestClear);
         QuestClearEvent.AddListener(QuestClear);
 
-        if (_tutorialType == TutorialType.StartRoom)
-        {
-            _tutorialNPCName.text = "요정";
-
-            _startRoomQuestList = _CSV.ParseCSV("StartRoomTutorialCSV", _startRoomQuestList);
-
-            _dialogueMaxNum = _startRoomQuestList.Dialogue.Length;
-
-            StartCoroutine(TextTyping(_startRoomQuestList.Dialogue[_dialogueNum]));
-        }
-
         if (_tutorialType == TutorialType.Lobby1)
         {
             _tutorialNPCName.text = "이시고르 경";
 
             _lobby1QuestList = _CSV.ParseCSV("Lobby1TutorialCSV", _lobby1QuestList);
-
-            _dialogueMaxNum = _lobby1QuestList.Dialogue.Length;
 
             StartCoroutine(TextTyping(_lobby1QuestList.Dialogue[_dialogueNum]));
         }
@@ -91,22 +86,13 @@ public class TutorialController : MonoBehaviour
 
             StartCoroutine(Next());
         }
+
         NextDialogue();
+        
         if (_isDialogueEnd == true && _isNext == true && !_isTutorialQuest)
         {
             StopAllCoroutines();
             DialogueNumCount();
-
-            #region StartRoom
-            /* 
-            if (_tutorialType == TutorialType.StartRoom)
-            {
-                StartCoroutine(TextTyping(_startRoomQuestList.Dialogue[_dialogueNum]));
-
-                _isDialogueEnd = false;
-            }
-            */
-            #endregion
 
             if (_tutorialType == TutorialType.Lobby1)
             {
@@ -116,7 +102,6 @@ public class TutorialController : MonoBehaviour
                     _tutorialDialogueText.text = null;
                     _tutorialDialogueText.text = _lobby1QuestList.Dialogue[3];
                     _dialogueNum = 3;
-                    //_sendMessage = true;
                 }
                 else
                 {
@@ -177,13 +162,13 @@ public class TutorialController : MonoBehaviour
             _tutorialDialogueText.text = null;
             _isNext = true;
         }
-//#if UNITY_EDITOR
-//        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
-//        {
-//            _tutorialDialogueText.text = null;
-//            _isNext = true;
-//        }
-//#endif
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.A) && _isDialogueEnd == true)
+        {
+            _tutorialDialogueText.text = null;
+            _isNext = true;
+        }
+#endif
     }
 
     /// <summary>
@@ -193,56 +178,6 @@ public class TutorialController : MonoBehaviour
     {
         if (_isTutorialQuest == true)
         {
-            #region StartRoom
-            /*
-            if (_tutorialType == TutorialType.StartRoom)
-            {
-                if (_dialogueNum == 4)
-                {
-                    _questText.text = "달리기 기능 3초 유지 시 다음으로 넘어감";
-
-                    if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
-                    {
-                        _curTime += Time.deltaTime;
-                        if (_curTime >= _requestClearTime)
-                        {
-                            _isTutorialQuest = false;
-                            _questText.text = null;
-                            _curTime -= _curTime;
-                        }
-                    }
-                    else
-                    {
-                        _curTime -= _curTime;
-                    }
-                }
-
-
-                if (_dialogueNum == 7)
-                {
-                    _questText.text = "그랩 해 보세요";
-
-                    if (_syncOVRDistanceGrabbable.isGrabbed)
-                    {
-                        _isTutorialQuest = false;
-                        _questText.text = null;
-                    }
-                }
-
-                if (_dialogueNum == 10)
-                {
-                    _questText.text = "레이캐스트를 이용 해 그랩 해 보세요";
-
-                    if (_syncOVRDistanceGrabbable.isGrabbed)
-                    {
-                        _isTutorialQuest = false;
-                        _questText.text = null;
-                    }
-                }
-            }
-            */
-            #endregion
-
             if (_tutorialType == TutorialType.Lobby1)
             {
                 _isTutorialQuest = value;
