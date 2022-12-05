@@ -233,7 +233,6 @@ GameObject:
   - component: {fileID: -3956731072230785877}
   - component: {fileID: 3643322930513002996}
   - component: {fileID: 5088931005297678728}
-  - component: {fileID: 8366275784910438280}
   - component: {fileID: 383444014415168400}
   - component: {fileID: 1650864810139363385}
   - component: {fileID: 4535378072681980112}
@@ -282,8 +281,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5088931005297678728}
-  - {fileID: 8366275784910438280}
-  - {fileID: 4535378072681980112}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -319,22 +317,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &8366275784910438280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275704744721549321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &383444014415168400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,11 +363,10 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
   _fullBeer: {fileID: 8268717291742268568}
-  _drinkSound: {fileID: 8300000, guid: 889185375ff2e834f811d61ac55c7418, type: 3}
   _grabCollider: {fileID: 4948263395224740375}
-  _beerCollider: {fileID: 0}
 --- !u!82 &4863836221134295301
 AudioSource:
   m_ObjectHideFlags: 0

@@ -111,14 +111,14 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         m_grabbedBy = hand;
         m_grabbedCollider = grabPoint;
 
-        //GrabBegin이 호출되면, IsTrigger를 true로 만들어줌.
-        gameObject.GetComponentInChildren<Collider>().isTrigger = true;
-        gameObject.GetComponentInChildren<Rigidbody>().useGravity = false;
 
         CallbackOnGrabBegin?.Invoke();
         CallbackOnGrabHand?.Invoke(hand);
         CallbackGrabberSetting?.Invoke(hand.transform.root.gameObject.GetPhotonView(), hand.GetComponent<SyncOVRGrabber>());
 
+        photonView.RPC(nameof(GrabObject), RpcTarget.AllBuffered, true);
+        //gameObject.GetComponentInChildren<Collider>().isTrigger = true;
+        //gameObject.GetComponentInChildren<Rigidbody>().useGravity = false;
     }
 
     /// <summary>
@@ -131,13 +131,22 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         rb.velocity = linearVelocity;
         rb.angularVelocity = angularVelocity;
 
-        gameObject.GetComponent<Collider>().isTrigger = false;
-        gameObject.GetComponentInChildren<Rigidbody>().useGravity = true;
-
         m_grabbedBy = null;
         m_grabbedCollider = null;
 
         CallbackOnGrabEnd?.Invoke();
+
+        photonView.RPC(nameof(GrabObject), RpcTarget.AllBuffered, false);
+        //gameObject.GetComponent<Collider>().isTrigger = false;
+        //gameObject.GetComponentInChildren<Rigidbody>().useGravity = true;
+
+    }
+
+    [PunRPC]
+    private void GrabObject(bool value)
+    {
+        gameObject.GetComponent<Collider>().isTrigger = value;
+        gameObject.GetComponentInChildren<Rigidbody>().useGravity = !value;
     }
 
     void Awake()

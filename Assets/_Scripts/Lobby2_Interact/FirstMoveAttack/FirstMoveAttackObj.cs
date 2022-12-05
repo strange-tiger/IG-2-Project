@@ -51,7 +51,8 @@ public class FirstMoveAttackObj : FocusableObjects
             return;
         }
 
-        _objCollider.isTrigger = true;
+        //_objCollider.isTrigger = true;
+        //gameObject.GetComponent<Rigidbody>().useGravity = false;
 
         // 그랩 후 플레이어 태그를 가진 오브젝트만 인식
         if(other.CompareTag("PlayerBody") == false)
