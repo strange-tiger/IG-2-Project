@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -24,10 +24,11 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     protected GameObject _myPlayer;
 
+    // 다음 이동 씬 관련
+    private bool _needSceneChange = false;                      // 서버 이동이 필요한
     private SceneNumber _nextScene;
     private string _nextSceneRoomName;
     private RoomOptions _nextRoomOption;
-    private bool _needSceneChange = false;
     private RoomOptions _defaultRoomOptions = new RoomOptions
     {
         PublishUserId = true,
@@ -38,10 +39,11 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     private Hashtable _expectedCustromRoomProperties = null;
     private byte _expectedMaxPlayers = 0;
 
-    private bool _lobbyChangeRoom = false;
+    private bool _lobbyChangeRoom = false;                      // 서버에서 이동해야하는 경우인지
 
     protected virtual void Awake()
     {
+        // PhotonNetwork 상 로비에 있을 경우 플레이어를 Instantiate하지 않음
         if (!_isInLobby)
         {
             GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name, _playerSpawnPosition,
@@ -52,8 +54,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
             playerNetworking.CanvasSetting(_canvases);
             _myPlayer = player;
         }
-
-
     }
 
     public override void OnEnable()
@@ -64,23 +64,50 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         Application.wantsToQuit += PlayerOffline;
 
     }
+
+    /// <summary>
+    /// PhotonNetwork 상 서버나 룸을 특정 씬으로 이동하게 함
+    /// </summary>
+    /// <param name="sceneNumber">이동하려는 씬 번호. 해당 이름의 서버로 들어감</param>
     public void ChangeLobby(SceneNumber sceneNumber)
     {
         ChangeLobby(sceneNumber, sceneNumber.ToString(), _defaultRoomOptions);
     }
 
+    /// <summary>
+    /// PhotonNetwork 상 서버나 룸으로 이동하게 함
+    /// </summary>
+    /// <param name="sceneNumber">이동하려는 씬 번호.</param>
+    /// <param name="isLobbyChange">로비에서 이동해야하는 씬인지 여부. true면 로비에서 해당 씬을 호출함</param>
     public void ChangeLobby(SceneNumber sceneNumber, bool isLobbyChange)
     {
         _lobbyChangeRoom = isLobbyChange;
         ChangeLobby(sceneNumber, sceneNumber.ToString(), _defaultRoomOptions);
     }
 
+    /// <summary>
+    /// PhotonNetwork 상 서버나 룸으로 이동하게 함
+    /// </summary>
+    /// <param name="sceneNumber">이동하려는 씬 번호</param>
+    /// <param name="roomOption">입장하려는 룸의 조건</param>
+    /// <param name="joinRamdonRoom">랜덤 룸인지. 랜덤 룸이라면 다음의 조건들 받아들여 특정 조건의 랜덤룸에 참여하거나 생성할 수 있도록 함. 방 이름도 자동으로 생성됨</param>
+    /// <param name="expectedCustomRoomProperties">커스텀 룸의 프로퍼티</param>
+    /// <param name="expectedMaxPlayers">기대 플레이어 수</param>
     public void ChangeLobby(SceneNumber sceneNumber, RoomOptions roomOption, bool joinRamdonRoom = false,
         Hashtable expectedCustomRoomProperties = null, byte expectedMaxPlayers = 0)
     {
         ChangeLobby(sceneNumber, sceneNumber.ToString(), roomOption, joinRamdonRoom, expectedCustomRoomProperties, expectedMaxPlayers);
     }
 
+    /// <summary>
+    /// PhotonNetwork 상 서버나 룸으로 이동하게 함
+    /// </summary>
+    /// <param name="sceneNumber">이동하려는 씬 번호</param>
+    /// <param name="roomName">이동하려는 씬 이름(특정 상황에서는 해당 이름으로 룸을 만들지 않음)</param>
+    /// <param name="roomOption">입장하려는 룸의 조건</param>
+    /// <param name="joinRamdonRoom">랜덤 룸인지. 랜덤 룸이라면 다음의 조건들 받아들여 특정 조건의 랜덤룸에 참여하거나 생성할 수 있도록 함. 방 이름도 자동으로 생성됨</param>
+    /// <param name="expectedCustomRoomProperties">커스텀 룸의 프로퍼티</param>
+    /// <param name="expectedMaxPlayers">기대 플레이어 수</param>
     public void ChangeLobby(SceneNumber sceneNumber, string roomName, RoomOptions roomOption, bool joinRamdonRoom = false,
         Hashtable expectedCustomRoomProperties = null, byte expectedMaxPlayers = 0)
     {
