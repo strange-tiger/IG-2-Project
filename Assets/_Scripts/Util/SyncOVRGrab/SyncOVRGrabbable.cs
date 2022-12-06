@@ -112,7 +112,8 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         m_grabbedCollider = grabPoint;
 
         //GrabBegin이 호출되면, IsTrigger를 true로 만들어줌.
-        gameObject.GetComponent<Collider>().isTrigger = true;
+        gameObject.GetComponentInChildren<Collider>().isTrigger = true;
+        gameObject.GetComponentInChildren<Rigidbody>().useGravity = false;
 
         CallbackOnGrabBegin?.Invoke();
         CallbackOnGrabHand?.Invoke(hand);
@@ -131,6 +132,7 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         rb.angularVelocity = angularVelocity;
 
         gameObject.GetComponent<Collider>().isTrigger = false;
+        gameObject.GetComponentInChildren<Rigidbody>().useGravity = true;
 
         m_grabbedBy = null;
         m_grabbedCollider = null;

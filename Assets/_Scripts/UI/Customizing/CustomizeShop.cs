@@ -58,7 +58,7 @@ public class CustomizeShop : MonoBehaviourPun
     [SerializeField] private TextMeshProUGUI _purchaseAvatarName;
     [SerializeField] private TextMeshProUGUI _purchaseAvatarNickname;
     [SerializeField] private TextMeshProUGUI _purchaseAvatarInfo;
-    
+
     // 구매 정보 팝업의 아바타 메테리얼 데이터와 이미지
     [Header("Purchase Avatar")]
     [SerializeField] private AvatarMaterialData _purchaseAvatarMaterialData;
@@ -212,13 +212,11 @@ public class CustomizeShop : MonoBehaviourPun
         // 리스트의 처음부터 시작함.
         _startNum = 0;
 
-        // 아바타 인덱스를 리스트의 처음으로 초기화함.
-        _setAvatarNum = _notHaveAvatarList[_startNum];
 
         // 가지고 있지 않은 아바타가 없다면 상점을 비우고
         if (_notHaveAvatarList.Count == 0)
         {
-            for(int i = 0; i < _avatarPanel.Length; ++i)
+            for (int i = 0; i < _avatarPanel.Length; ++i)
             {
                 _avatarPanel[i].SetActive(false);
             }
@@ -229,6 +227,9 @@ public class CustomizeShop : MonoBehaviourPun
         }
         else
         {
+            // 아바타 인덱스를 리스트의 처음으로 초기화함.
+            _setAvatarNum = _notHaveAvatarList[_startNum];
+
             _setMaterialNum = 0;
 
             // 상점 인덱스를 아바타 리스트로 초기화함.
@@ -359,7 +360,7 @@ public class CustomizeShop : MonoBehaviourPun
     /// </summary>
     private void PurchaseButton()
     {
-        
+
         if (_playerNetworking.GetComponent<PhotonView>().IsMine)
         {
             // 아바타를 구매했으므로 플레이어의 소지 골드를 아바타의 가격만큼 줄여서 업데이트.
