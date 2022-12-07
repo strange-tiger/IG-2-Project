@@ -6,7 +6,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
-public class WaitingRoomRevolver : MonoBehaviourPun
+public class WaitingRoomRevolver : FocusableObjects
 {
     private LineRenderer _lineRenderer;
     private Vector3[] _rayPositions = new Vector3[2];
