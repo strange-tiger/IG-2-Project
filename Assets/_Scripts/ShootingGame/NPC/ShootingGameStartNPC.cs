@@ -21,10 +21,11 @@ public class ShootingGameStartNPC : InteracterableObject
         IsVisible = true,
         IsOpen = true,
     };
+    [SerializeField] private string _checkMessage = "총쏘기 게임에 참여하시겠습니까?";
 
     public override void Interact()
     {
-        MenuUIManager.Instance.ShowCheckPanel("Play?",
+        MenuUIManager.Instance.ShowCheckPanel(_checkMessage,
             () => {
                 _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, _waitingRoomOption, true,
                     _waitingRoomOption.CustomRoomProperties, (byte) _waitingRoomOption.MaxPlayers);

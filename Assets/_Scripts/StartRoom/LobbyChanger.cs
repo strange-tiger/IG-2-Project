@@ -10,13 +10,16 @@ using MapType = Defines.EMapType;
 
 public class LobbyChanger : MonoBehaviourPunCallbacks
 {
+    [Header("Basic Setting")]
     [SerializeField] private bool _isInLobby;
     [SerializeField] private OVRRaycaster[] _canvases;
-    [SerializeField] private GameObject _playerPrefab;
 
+    [Header("Player")]
+    [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private Vector3 _playerSpawnPosition = new Vector3(0f, 1f, 3f);
     [SerializeField] private Vector3 _playerSpawnRotatinon;
 
+    [Header("Map")]
     [SerializeField] protected MapType _mapType;
     [SerializeField] protected bool _isFixedPosition;
     [SerializeField] protected Vector3 _fixedPosition;
