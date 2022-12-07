@@ -10,7 +10,7 @@ namespace Asset {
 		Max,
 	}
 	public enum EaccountdbColumns {
-		Email,
+		ID,
 		Password,
 		Nickname,
 		Question,

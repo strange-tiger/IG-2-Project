@@ -52,13 +52,13 @@ public class ChangePasswordUI : MonoBehaviour
 
     private void ChangePassword()
     {
-        if (!Sql.HasValue(Column.Email, _idInput.text))
+        if (!Sql.HasValue(Column.ID, _idInput.text))
         {
             _errorPopup.ErrorPopup(Error.ID);
             return;
         }
-        if (!Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Question, _questionList.Value.ToString()) ||
-            !Sql.CheckValueByBase(Column.Email, _idInput.text, Column.Answer, _answerInput.text))
+        if (!Sql.CheckValueByBase(Column.ID, _idInput.text, Column.Question, _questionList.Value.ToString()) ||
+            !Sql.CheckValueByBase(Column.ID, _idInput.text, Column.Answer, _answerInput.text))
         {
             _errorPopup.ErrorPopup(Error.ANSWER);
             return;
