@@ -31,9 +31,7 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 
     protected void Awake()
     {
-        T instance = FindObjectOfType<T>();
-
-        if (instance != null && instance != _instance)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
