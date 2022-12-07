@@ -117,7 +117,7 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     private void EmailDoubleCheck()
     {
-        if (!Sql.HasValue(Column.Email, _idInput.text))
+        if (!Sql.HasValue(Column.ID, _idInput.text))
         {
             _idConfiremPopup.SetActive(true);
             _hasIdCheck = true;
