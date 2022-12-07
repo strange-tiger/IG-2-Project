@@ -8,24 +8,32 @@ using TMPro;
 
 public class Lobby1TutorialStartButton : MonoBehaviour
 {
+    // 튜토리얼 버튼들
     [SerializeField] private Button[] _tutorialButton;
+
+    // 튜토리얼 오브젝트들
     [SerializeField] private GameObject[] _tutorialObject;
     [SerializeField] private TutorialController _tutorialController;
+
+    // 진행 중 퀘스트의 텍스트
     [SerializeField] private TextMeshProUGUI _questText;
+    // 0 / 0 퀘스트 진행도의 텍스트
     [SerializeField] private TextMeshProUGUI _questProgress;
+
     [SerializeField] private LobbyChanger _lobbyChanger;
     [SerializeField] private AudioClip[] _audioClips;
     [SerializeField] private AudioSource _audioSource;
 
-
-    //[SerializeField] private GameObject _image;
-
+    // 버튼 활성화 이벤트
     private Action OnButtonAction;
 
+    // 현재 퀘스트중이면 true 아니면 false
     private bool _isQuest;
     public bool IsQuest { get { return _isQuest; } set { _isQuest = value; } }
 
     private bool _isButton;
+
+    // 하드코딩 입니다. 각각 버튼을 눌렀을 때  true 로 바뀌며 누른 버튼의 퀘스트가 완료되면 false 가 됩니다.
     private bool _isOne;
     private bool _isTwo;
     private bool _isThree;
@@ -40,6 +48,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             _tutorialButton[i].interactable = false;
         }
 
+        // 각각의 버튼 이벤트
         for (int i = 0; i < _tutorialObject.Length; ++i)
         {
             int num = i;
@@ -50,9 +59,11 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             });
         }
 
+        // 튜토리얼에서 나가는 버튼 이벤트
         _tutorialButton[6].onClick.RemoveListener(ClickExitButton);
         _tutorialButton[6].onClick.AddListener(ClickExitButton);
 
+        // 버튼 활성화 시키는 이벤트 등록
         OnButtonAction = OnButtons;
     }
 
@@ -79,7 +90,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isTwo)
+        else if (_isTwo)
         {
             _questText.text = "공을 그랩으로 집어서 골대에 넣어보세요";
             if (_tutorialController.DialogueNum == 8 && !_isQuest)
@@ -94,7 +105,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isThree)
+        else if (_isThree)
         {
             _questText.text = "마법봉을 주워서 마법을 사용하세요";
             if (_tutorialController.DialogueNum == 16 && !_isQuest)
@@ -109,7 +120,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isFour)
+        else if (_isFour)
         {
             _questText.text = "음식을 먹고 포만감을 최대 수치까지 채워주세요";
             if (_tutorialController.DialogueNum == 23 && !_isQuest)
@@ -124,7 +135,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isFive)
+        else if (_isFive)
         {
             _questText.text = "채광에 성공하여 골드를 획득하세요";
             if (_tutorialController.DialogueNum == 35 && !_isQuest)
@@ -139,7 +150,7 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             }
         }
 
-        if (_isSix)
+        else if (_isSix)
         {
             _questText.text = "무기를 집어 이시고르에게 돌아가세요";
             if (_tutorialController.DialogueNum == 45 && !_isQuest)
@@ -161,32 +172,32 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         }
 
         #region EDITOR
-        //#if UNITY_EDITOR
-        //        if (Input.GetKeyDown(KeyCode.Alpha1))
-        //        {
-        //            OnClickButton(0);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha2))
-        //        {
-        //            OnClickButton(1);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha3))
-        //        {
-        //            OnClickButton(2);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha4))
-        //        {
-        //            OnClickButton(3);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha5))
-        //        {
-        //            OnClickButton(4);
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha6))
-        //        {
-        //            OnClickButton(5);
-        //        }
-        //#endif
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.Alpha1))
+//        {
+//            OnClickButton(0);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha2))
+//        {
+//            OnClickButton(1);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha3))
+//        {
+//            OnClickButton(2);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha4))
+//        {
+//            OnClickButton(3);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha5))
+//        {
+//            OnClickButton(4);
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha6))
+//        {
+//            OnClickButton(5);
+//        }
+//#endif
         #endregion
     }
 
@@ -235,11 +246,11 @@ public class Lobby1TutorialStartButton : MonoBehaviour
             default:
                 break;
         }
-        //_tutorialObject[num].SetActive(true);
-        //_tutorialButton[num].interactable = false;
-        //ExitButton();
     }
 
+    /// <summary>
+    /// 버튼 활성화
+    /// </summary>
     private void OnButtons()
     {
         for (int i = 0; i < _tutorialObject.Length; ++i)
@@ -248,23 +259,17 @@ public class Lobby1TutorialStartButton : MonoBehaviour
         }
     }
 
-    private void ExitButton()
-    {
-        for (int i = 0; i < _tutorialObject.Length; ++i)
-        {
-            if (_tutorialObject[i].activeSelf)
-            {
-                _tutorialButton[6].interactable = true;
-                return;
-            }
-        }
-    }
-
+    /// <summary>
+    /// _tutorialButton[6].onClick.AddListener(ClickExitButton); 에 해당되는 이벤트
+    /// </summary>
     private void ClickExitButton()
     {
         _lobbyChanger.ChangeLobby(Defines.ESceneNumber.FantasyLobby);
     }
 
+    /// <summary>
+    /// 퀘스트 클리어 혹은 다른 퀘스트 시작 시 호출
+    /// </summary>
     private void QuestReset()
     {
         _audioSource.PlayOneShot(_audioClips[1]);
