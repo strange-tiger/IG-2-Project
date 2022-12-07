@@ -7,32 +7,39 @@ using UnityEngine.Events;
 
 public class SoundManager : SingletonBehaviour<SoundManager>
 {
-    private List<UnityEvent<float>> _actions = new List<UnityEvent<float>>();
+    /// <summary>
+    /// 각 사운드에 필요한 Event들
+    /// </summary>
+    private List<UnityEvent<float>> _volumeEvents = new List<UnityEvent<float>>();
     public UnityEvent<float> OnChangedMasterVolume { get; private set; } = new UnityEvent<float>();
     public UnityEvent<float> OnChangedEffectVolume { get; private set; } = new UnityEvent<float>();
     public UnityEvent<float> OnChangedBackgroundVolume { get; private set; } = new UnityEvent<float>();
     public UnityEvent<float> OnChangedInputVolume { get; private set; } = new UnityEvent<float>();
     public UnityEvent<float> OnChangedOutputVolume { get; private set; } = new UnityEvent<float>();
 
-    // PushToTalk 관련
-    private bool _isPushToTalk;
-    public bool IsPushToTalk { get => _isPushToTalk; set => _isPushToTalk = value; }
+    /// <summary>
+    /// PlayerPref에 사용하는 Key값
+    /// </summary>
+    public readonly static string[] VOLUME_CONTROLLER =
+       { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
+
+    /// <summary>
+    /// Push to talk에 필요한 기능
+    /// </summary>
+    public bool IsPushToTalk { get; set; }
 
     private Recorder _lobbyRecoder;
     public Recorder LobbyRecorder { get { return _lobbyRecoder; } }
-
-    public readonly static string[] VOLUME_CONTROLLER =
-       { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
     private new void Awake()
     {
         base.Awake();
 
-        _actions.Add(OnChangedMasterVolume);
-        _actions.Add(OnChangedEffectVolume);
-        _actions.Add(OnChangedBackgroundVolume);
-        _actions.Add(OnChangedInputVolume);
-        _actions.Add(OnChangedOutputVolume);
+        _volumeEvents.Add(OnChangedMasterVolume);
+        _volumeEvents.Add(OnChangedEffectVolume);
+        _volumeEvents.Add(OnChangedBackgroundVolume);
+        _volumeEvents.Add(OnChangedInputVolume);
+        _volumeEvents.Add(OnChangedOutputVolume);
 
         _lobbyRecoder = GetComponent<Recorder>();
 
@@ -40,7 +47,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         {
             InitValue(VOLUME_CONTROLLER[i]);
             SoundManager.Instance.Refresh(i);
-            _actions[i]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[i]));
+            _volumeEvents[i]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[i]));
         }
     }
 
@@ -67,17 +74,17 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     {
         if (num == MASTER_VOLUME || num == INPUT_VOLUME)
         {
-            _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]));
+            _volumeEvents[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]));
         }
         else
         {
-            _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]) * PlayerPrefs.GetFloat(VOLUME_CONTROLLER[MASTER_VOLUME]));
+            _volumeEvents[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]) * PlayerPrefs.GetFloat(VOLUME_CONTROLLER[MASTER_VOLUME]));
         }
     }
     
     private void CheckPushToTalkInput()
     {
-        if (_isPushToTalk == false)
+        if (IsPushToTalk == false)
         {
             return;
         }
