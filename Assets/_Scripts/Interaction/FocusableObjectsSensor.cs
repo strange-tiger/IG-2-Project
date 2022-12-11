@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class FocusableObjectsSencer : MonoBehaviourPun
+public class FocusableObjectsSensor : MonoBehaviourPun
 {
     private SphereCollider _sencerCollider;
     private FocusableObjects _focusableObject;

@@ -22,8 +22,6 @@ public class WoodPileForTutorial : InteracterableObject
 
     public override void Interact()
     {
-        base.Interact();
-
         if(_onCooltime)
         {
             return;

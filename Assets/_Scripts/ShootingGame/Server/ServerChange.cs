@@ -11,7 +11,6 @@ public class ServerChange : InteracterableObject
 
     public override void Interact()
     {
-        base.Interact();
         MenuUIManager.Instance.ShowCheckPanel(CheckMessage(),
             () => { ChangeLobby(); },
             () => { });

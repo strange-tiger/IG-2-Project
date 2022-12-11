@@ -15,7 +15,7 @@ public class GoldRushQuest3Hit : QuestConducter
     private Rigidbody _boxRigidbody;
 
     private FocusableObjects _goldBoxFocusable;
-    private FocusableObjectsSencer _goldBoxFocusableSencer;
+    private FocusableObjectsSensor _goldBoxFocusableSencer;
 
     [Header("NCP")]
     [SerializeField] private GameObject _mapNPC;

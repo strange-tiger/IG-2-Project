@@ -9,9 +9,5 @@ public class PetInteract : InteracterableObject
     public EPetEvolutionCount PetEvolutionCount { get { return _petEvolutionCount; } }
     public override void Interact()
     {
-        base.Interact();
-
     }
-
-
 }

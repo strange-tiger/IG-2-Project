@@ -10,8 +10,6 @@ public class PrivateRoomNPC : InteracterableObject
 
     public override void Interact()
     {
-        base.Interact();
-
         OutFocus();
 
         _privateRoomUI.LoadUI(_UI.JOIN);

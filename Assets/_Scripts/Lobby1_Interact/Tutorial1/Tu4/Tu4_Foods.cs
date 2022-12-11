@@ -25,8 +25,6 @@ public class Tu4_Foods : InteracterableObject
 
     public override void Interact()
     {
-        base.Interact();
-
         _foodInteraction = FindObjectOfType<PlayerInteraction>().transform.root.GetComponent<FoodInteraction>();
 
         if (_foodInteraction.SatietyStack != 6)

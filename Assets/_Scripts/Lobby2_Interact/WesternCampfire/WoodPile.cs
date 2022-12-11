@@ -30,8 +30,6 @@ public class WoodPile : InteracterableObject, IPunObservable
     private const string SPAWN_WOOD = "SpawnWood";
     public override void Interact()
     {
-        base.Interact();
-
         if (_onCooltime)
         {
             return;

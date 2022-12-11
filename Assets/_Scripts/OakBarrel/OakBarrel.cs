@@ -23,8 +23,6 @@ public class OakBarrel : InteracterableObject
 
     public override void Interact()
     {
-        base.Interact();
-
         if (_isPlayerHave == false)
         {
             StartCoroutine(SetOakBarrelOriginalPosition());

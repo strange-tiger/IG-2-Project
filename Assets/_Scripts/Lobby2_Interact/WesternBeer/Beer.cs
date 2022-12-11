@@ -60,4 +60,8 @@ public class Beer : InteracterableObject
 
         yield return null;
     }
+
+    public override void Interact()
+    {
+    }
 }

@@ -8,7 +8,6 @@ public class TestPrivateRoomUI : InteracterableObject
 
     public override void Interact()
     {
-        base.Interact();
         _ui.SetActive(true);
     }
 }

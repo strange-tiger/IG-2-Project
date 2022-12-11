@@ -15,8 +15,6 @@ public class CustomizeNPC : InteracterableObject
     /// </summary>
     public override void Interact()
     {
-        base.Interact();
-
         _customizeNPCMenu.SetActive(true);
     }
 }

@@ -6,7 +6,6 @@ public class OakBarrelForTutorial : InteracterableObject
 {
     public override void Interact()
     {
-        base.Interact();
         gameObject.SetActive(false);
 
         OakBarrelInteractionForTutorial _interaction

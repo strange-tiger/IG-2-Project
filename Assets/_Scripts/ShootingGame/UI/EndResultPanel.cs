@@ -96,13 +96,14 @@ public class EndResultPanel : MonoBehaviourPun
         {
             PhotonNetwork.RemoveBufferedRPCs();
         }
+
+        PhotonNetwork.CurrentRoom.IsOpen = true;
         _regamePanel.SetActive(true);
         _regameCheckScript.ShowCheckPanel("REGAME?",
             () =>
             {
                 Debug.Log("[Shooting] 게임 재시작");
-                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, _waitingRoomOption, true,
-                    _waitingRoomOption.CustomRoomProperties, (byte)_waitingRoomOption.MaxPlayers);
+                _lobbyChanger.ChangeLobby(SceneNumber.ShootingWaitingRoom, PhotonNetwork.CurrentRoom.Name,  _waitingRoomOption);
             },
             () =>
             {

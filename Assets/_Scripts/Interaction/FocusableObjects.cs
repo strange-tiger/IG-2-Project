@@ -7,7 +7,7 @@ using Photon.Pun;
 public class FocusableObjects : MonoBehaviourPun
 {
     protected Outlinable _outlineable;
-    protected FocusableObjectsSencer _sencer;
+    protected FocusableObjectsSensor _sencer;
 
     [SerializeField] private Color _sencedoutlineColor = new Color(0.576f, 0.745f, 1f);
     [SerializeField] private Color _onFocusOutlineColor = new Color(0.408f, 1f, 0f);
@@ -47,13 +47,13 @@ public class FocusableObjects : MonoBehaviourPun
 
     protected void SetSencer()
     {
-        _sencer = GetComponentInChildren<FocusableObjectsSencer>();
+        _sencer = GetComponentInChildren<FocusableObjectsSensor>();
         if(!_sencer)
         {
             GameObject sencerObejct = new GameObject();
             sencerObejct.transform.parent = transform;
             sencerObejct.transform.position = transform.position;
-            _sencer = sencerObejct.AddComponent<FocusableObjectsSencer>();
+            _sencer = sencerObejct.AddComponent<FocusableObjectsSensor>();
         }
 
 

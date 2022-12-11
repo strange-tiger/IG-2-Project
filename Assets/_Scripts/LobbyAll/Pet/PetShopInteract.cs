@@ -10,8 +10,6 @@ public class PetShopInteract : InteracterableObject
 
     public override void Interact()
     {
-        base.Interact();
-
         OutFocus();
 
         _petUI.LoadUI(_UI.CONVERSATION);
