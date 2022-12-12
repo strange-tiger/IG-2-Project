@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ThrowBall : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
+    [SerializeField] private Rigidbody _rigidbody;
     private Vector3 _throwPower;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
         _throwPower = new Vector3(0f, 15f, 50f);
     }
 

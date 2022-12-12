@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 16718043}
   - component: {fileID: 16718042}
   - component: {fileID: 16718041}
+  - component: {fileID: 16718050}
   m_Layer: 10
   m_Name: Bottle_02 (1)
   m_TagString: Untagged
@@ -236,7 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 16718046}
 --- !u!114 &16718042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,6 +465,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16718039}
   m_Mesh: {fileID: 4300000, guid: 4956bdb6d9d0f3a48a8a58bc7fd17dbd, type: 3}
+--- !u!114 &16718050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16718039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _doNotNeedSencer: 1
+  _sencerRadius: 10
 --- !u!1 &17397496
 GameObject:
   m_ObjectHideFlags: 0
@@ -3257,7 +3274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 210189909}
 --- !u!1001 &210624981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3465,7 +3481,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 213675257}
 --- !u!82 &213675257
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3775,6 +3790,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 0}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 0}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!1001 &222574029
 PrefabInstance:
@@ -4127,7 +4143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 225820935}
 --- !u!1001 &241626827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5742,7 +5757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 331205770}
 --- !u!82 &331205770
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7315,6 +7329,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 0}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 0}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!1001 &443943646
 PrefabInstance:
@@ -7509,7 +7524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 446543551}
 --- !u!82 &446543551
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8522,7 +8536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 505375198}
 --- !u!82 &505375198
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13888,7 +13901,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 779919229}
 --- !u!1001 &780055443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14011,6 +14023,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3
 --- !u!54 &780716037
 Rigidbody:
@@ -15256,6 +15269,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 0}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 0}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!1001 &860496681
 PrefabInstance:
@@ -18976,7 +18990,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 1077661362}
 --- !u!1001 &1080127901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19531,7 +19544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 1123968076}
 --- !u!82 &1123968076
 AudioSource:
   m_ObjectHideFlags: 0
@@ -22441,7 +22453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 1340209961}
 --- !u!82 &1340209961
 AudioSource:
   m_ObjectHideFlags: 0
@@ -22961,7 +22972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 1370545348}
 --- !u!82 &1370545348
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23593,6 +23603,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 0}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 0}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!1001 &1389475558
 PrefabInstance:
@@ -24602,7 +24613,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 1456347415}
 --- !u!82 &1456347415
 AudioSource:
   m_ObjectHideFlags: 0
@@ -29760,6 +29770,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 0}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 0}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!1 &1789440122
 GameObject:
@@ -31288,6 +31299,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 10
   _oakBarrel: {fileID: 470282713}
   _stunEffect: {fileID: 1991541405}
@@ -31430,6 +31442,10 @@ PrefabInstance:
     - target: {fileID: 2855934986612203333, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072854513800007386, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
+      propertyPath: m_Layer
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3328509509990662500, guid: ad5f99493f91f1f4a898ba6b9fd41e4a, type: 3}
       propertyPath: m_sendNavigationEvents
@@ -31756,7 +31772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 1873103843}
 --- !u!4 &1883067299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9059321386821698201, guid: 02815118bbf78384db8e88ff276cf61a, type: 3}
@@ -32689,6 +32704,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 0}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 0}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!1001 &1951163235
 PrefabInstance:
@@ -35366,6 +35382,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 0}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 0}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!1001 &2076593163
 PrefabInstance:
@@ -36926,6 +36943,7 @@ GameObject:
   - component: {fileID: 6912768624105827309}
   - component: {fileID: 245856982744617150}
   - component: {fileID: 245856982744617151}
+  - component: {fileID: 245856982744617152}
   m_Layer: 10
   m_Name: Bottle_02
   m_TagString: Untagged
@@ -36972,7 +36990,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 246185020139365852}
+--- !u!114 &245856982744617152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245856982744617148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9edd02d114fde942af549e57bd761b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
+  _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
+  _outlineDilate: 1
+  _doNotNeedSencer: 1
+  _sencerRadius: 3.75
 --- !u!54 &246185020139365829
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -37219,6 +37253,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 10
 --- !u!114 &478588409846015517
 MonoBehaviour:
@@ -37355,6 +37390,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3
 --- !u!82 &1740136636230220610
 AudioSource:
@@ -37464,7 +37500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 1740136636230220610}
 --- !u!1 &1740136636379654850
 GameObject:
   m_ObjectHideFlags: 0
@@ -38926,7 +38961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68ac1862f4a064f99957a903f958ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPlayer: {fileID: 2913137920730049025}
 --- !u!4 &3262905328153387201
 Transform:
   m_ObjectHideFlags: 0
@@ -39243,6 +39277,7 @@ MonoBehaviour:
   _sencedoutlineColor: {r: 0.576, g: 0.745, b: 1, a: 1}
   _onFocusOutlineColor: {r: 0.408, g: 1, b: 0, a: 1}
   _outlineDilate: 1
+  _doNotNeedSencer: 0
   _sencerRadius: 3.75
 --- !u!4 &8796792965838343804 stripped
 Transform:

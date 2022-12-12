@@ -7,7 +7,6 @@ using UnityEngine.Events;
 
 public class SoundManager : SingletonBehaviour<SoundManager>
 {
-
     private List<UnityEvent<float>> _actions = new List<UnityEvent<float>>();
     public UnityEvent<float> OnChangedMasterVolume { get; private set; } = new UnityEvent<float>();
     public UnityEvent<float> OnChangedEffectVolume { get; private set; } = new UnityEvent<float>();
@@ -25,7 +24,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     public readonly static string[] VOLUME_CONTROLLER =
        { "MasterVolume", "EffectVolume", "BackGroundVolume", "InputVolume", "OutputVolume" };
 
-    private void Awake()
+    private new void Awake()
     {
         base.Awake();
 
@@ -36,7 +35,6 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         _actions.Add(OnChangedOutputVolume);
 
         _lobbyRecoder = GetComponent<Recorder>();
-        _lobbyRecoder.TransmitEnabled = false;
 
         for (int i = 0; i < VOLUME_CONTROLLER.Length; i++)
         {
@@ -44,7 +42,6 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             SoundManager.Instance.Refresh(i);
             _actions[i]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[i]));
         }
-
     }
 
     private float _initVolume = 0.5f;
@@ -66,7 +63,6 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     private const int INPUT_VOLUME = 3;
     private const int OUTPUT_VOLUME = 4;
 
-
     public void Refresh(int num)
     {
         if (num == MASTER_VOLUME || num == INPUT_VOLUME)
@@ -75,7 +71,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         }
         else
         {
-            _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]) * PlayerPrefs.GetFloat(VOLUME_CONTROLLER[0]));
+            _actions[num]?.Invoke(PlayerPrefs.GetFloat(VOLUME_CONTROLLER[num]) * PlayerPrefs.GetFloat(VOLUME_CONTROLLER[MASTER_VOLUME]));
         }
     }
     
@@ -98,9 +94,5 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     private void Update()
     {
         CheckPushToTalkInput();
-    }
-    private void OnDestroy()
-    {
-        Debug.Log("파괴되지말라고!!!");
     }
 }

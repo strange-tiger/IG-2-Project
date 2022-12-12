@@ -56,27 +56,27 @@ public class LogInUI : MonoBehaviour
     /// </summary>
     private void LogIn()
     {
-        if (!Sql.HasValue(Column.Email, _idInput.text))
+        if (!Sql.HasValue(Column.ID, _idInput.text))
         {
             _errorPopup.ErrorPopup(Error.ID);
             return;
         }
 
-        if (!Sql.CheckValueByBase(Column.Email, _idInput.text, 
+        if (!Sql.CheckValueByBase(Column.ID, _idInput.text, 
             Column.Password, Hash.Compute(_passwordInput.text)))
         {
             _errorPopup.ErrorPopup(Error.PASSWORD);
             return;
         }
 
-        if (IS_ONLINE == bool.Parse(Sql.GetValueByBase(Column.Email, _idInput.text,
+        if (IS_ONLINE == bool.Parse(Sql.GetValueByBase(Column.ID, _idInput.text,
             Column.IsOnline)))
         {
             _errorPopup.ErrorPopup(Error.DUPLICATED);
             return;
         }
 
-        TempAccountDB.SetAccountData(_idInput.text, Sql.GetValueByBase(Column.Email, _idInput.text, Column.Nickname));
+        TempAccountDB.SetAccountData(_idInput.text, Sql.GetValueByBase(Column.ID, _idInput.text, Column.Nickname));
         
         _logInServerManager.LogIn();
     }

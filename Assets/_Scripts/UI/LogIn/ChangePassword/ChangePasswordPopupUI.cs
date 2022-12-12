@@ -39,7 +39,7 @@ public class ChangePasswordPopupUI : PopupUI
 
         string hash = Crypt.Compute(_passwordInput.text);
 
-        if (hash == Sql.GetValueByBase(Account.Email, _ui.GetID(), Account.Password))
+        if (hash == Sql.GetValueByBase(Account.ID, _ui.GetID(), Account.Password))
         {
             _passwordErrorMessage.SetActive(true);
             return;
@@ -51,7 +51,7 @@ public class ChangePasswordPopupUI : PopupUI
             return;
         }
 
-        Sql.UpdateValueByBase(Account.Email, _ui.GetID(), Account.Password, hash);
+        Sql.UpdateValueByBase(Account.ID, _ui.GetID(), Account.Password, hash);
 
         _successPopup.SetActive(true);
         gameObject.SetActive(false);

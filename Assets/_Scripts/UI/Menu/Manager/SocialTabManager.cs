@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Asset.MySql;
+using Column = Asset.EaccountdbColumns;
 
 public class SocialTabManager : MonoBehaviour
 {
@@ -32,9 +33,6 @@ public class SocialTabManager : MonoBehaviour
     private void Awake()
     {
         _myNickname = TempAccountDB.Nickname;
-
-        Debug.Log($"[Social] {_myNickname} {MySqlSetting.IsPlayerOnline(_myNickname)}");
-
         _listUpdateWaitForSeconds = new WaitForSeconds(_listUpdateOffsetTime);
         setButtons();
     }
@@ -44,6 +42,10 @@ public class SocialTabManager : MonoBehaviour
         ShowFriendList();
     }
 
+    /// <summary>
+    /// 특정 시간마다 친구 리스트의 온/오프라인 여부를 업데이트 함
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator OnOfflineSetting()
     {
         while(gameObject.activeSelf)
@@ -51,9 +53,9 @@ public class SocialTabManager : MonoBehaviour
             // OnOffline 판단 처리
             foreach (TextMeshProUGUI nicknameText in _nicknameTextList)
             {
-                bool isOnline = MySqlSetting.IsPlayerOnline(nicknameText.text.ToString());
+                bool isOnline = bool.Parse(MySqlSetting.GetValueByBase(Column.Nickname, nicknameText.text,
+                    Column.IsOnline));
                 nicknameText.color = isOnline ? _onLineTextColor : _offLineTextColor;
-                Debug.Log($"[Social] {nicknameText.text} {isOnline}");
             }
 
             yield return _listUpdateWaitForSeconds;

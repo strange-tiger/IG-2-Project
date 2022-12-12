@@ -5,36 +5,42 @@ using Photon.Pun;
 
 public class FirstMoveAttackObj : FocusableObjects
 {
+    [SerializeField] private GameObject _bottle;
+    [SerializeField] private MeshRenderer _objMeshRenderer;
+    [SerializeField] private BoxCollider _objCollider;
+
     private Vector3 _objSpawnPos;
     private AudioSource _audioSource;
 
     private bool _isGrabbed = false;
 
-    [SerializeField]
-    private BoxCollider _objCollider;
-    [SerializeField]
-    private MeshRenderer _objMeshRenderer;
-
     private SyncOVRGrabber _grabber = null;
     private SyncOVRGrabbable _syncGrabbable;
     private PhotonView _grabberPhotonView = null;
 
-    private void Awake()
+    private new void Awake()
     {
         base.Awake();
     }
-    private void OnEnable()
+    private new void OnEnable()
     {
         base.OnEnable();
     }
     private void Start()
     {
-        _objSpawnPos = transform.position;
         _audioSource = GetComponent<AudioSource>();
         _syncGrabbable = GetComponent<SyncOVRGrabbable>();
-        _syncGrabbable.CallbackOnGrabBegin = OnGrabBegin;
-        _syncGrabbable.CallbackOnGrabEnd = OnGrabEnd;
-        _syncGrabbable.CallbackGrabberSetting = GrabberSetting;
+
+        _syncGrabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+        _syncGrabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+
+        _syncGrabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+        _syncGrabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
+
+        _syncGrabbable.CallbackGrabberSetting.RemoveListener(GrabberSetting);
+        _syncGrabbable.CallbackGrabberSetting.AddListener(GrabberSetting);
+
+        _objSpawnPos = transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -133,7 +139,7 @@ public class FirstMoveAttackObj : FocusableObjects
         Respawn();
     }
 
-    private void OnDisable()
+    private new void OnDisable()
     {
         base.OnDisable();
     }

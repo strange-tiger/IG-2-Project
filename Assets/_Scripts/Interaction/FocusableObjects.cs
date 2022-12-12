@@ -13,6 +13,7 @@ public class FocusableObjects : MonoBehaviourPun
     [SerializeField] private Color _onFocusOutlineColor = new Color(0.408f, 1f, 0f);
     [SerializeField] private float _outlineDilate = 1f;
 
+    [SerializeField] private bool _doNotNeedSencer = false;
     [SerializeField] private float _sencerRadius = 3.75f;
 
 
@@ -20,7 +21,10 @@ public class FocusableObjects : MonoBehaviourPun
     {
         SetOutline();
         _outlineable.enabled = false;
-        SetSencer();
+        if(!_doNotNeedSencer)
+        {
+            SetSencer();
+        }
     }
 
     protected virtual void OnEnable()
@@ -52,7 +56,28 @@ public class FocusableObjects : MonoBehaviourPun
             _sencer = sencerObejct.AddComponent<FocusableObjectsSencer>();
         }
 
+
+        SyncOVRGrabbable _grabbable = GetComponent<SyncOVRGrabbable>();
+        if (_grabbable)
+        {
+            _grabbable.CallbackOnGrabBegin.RemoveListener(OnGrabBegin);
+            _grabbable.CallbackOnGrabBegin.AddListener(OnGrabBegin);
+
+            _grabbable.CallbackOnGrabEnd.RemoveListener(OnGrabEnd);
+            _grabbable.CallbackOnGrabEnd.AddListener(OnGrabEnd);
+        }
+
         _sencer.SetSencer(_sencerRadius, this);
+    }
+
+    private void OnGrabBegin()
+    {
+        _sencer.gameObject.SetActive(false);
+    }
+
+    private void OnGrabEnd()
+    {
+        _sencer.gameObject.SetActive(true);
     }
 
     public virtual void OnFocus()

@@ -6,26 +6,34 @@ using UnityEngine.Events;
 
 public class FirstMoveAttackPlayer : MonoBehaviourPun
 {
+    [Header("2D AudioSource")]
+    [SerializeField] private AudioSource _audioSource;
+
+    [SerializeField] private AudioClip _stunClip;
+    [SerializeField] private GameObject _stunEffect;
+    [SerializeField] private float _stunEffectTime = 2.0f;
 
     [PunRPC]
     public void OnDamageByBottle()
     {
+        if (PlayerControlManager.Instance.IsInvincible == true)
+        {
+            return;
+        }
+        _stunEffect.SetActive(true);
+        StartCoroutine(CoStunEffectOver());
+
         if (photonView.IsMine == false)
         {
             return;
         }
 
-        if (PlayerControlManager.Instance.IsInvincible == true)
-        {
-            return;
-        }
-
-        Debug.Log("OnDamageByBottle");
         GetComponentInChildren<OVRScreenFade>()?.FadeOut(0.0f);
         PlayerControlManager.Instance.IsMoveable = false;
         PlayerControlManager.Instance.IsRayable = false;
-        PlayerControlManager.Instance.SetStun(true);
-        StartCoroutine(Invincible(20f));
+        PlayerControlManager.Instance.IsInvincible = true;
+        _audioSource.PlayOneShot(_stunClip);
+        StartCoroutine(CoInvincible());
         StartCoroutine(ReviveCooldown());
     }
 
@@ -34,30 +42,6 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
         GetComponentInChildren<OVRScreenFade>()?.FadeIn(2.0f);
         PlayerControlManager.Instance.IsMoveable = true;
         PlayerControlManager.Instance.IsRayable = true;
-        PlayerControlManager.Instance.SetStun(false);
-    }
-
-    IEnumerator Invincible(float coolTime)
-    {
-        float elapsedTime = 0;
-
-        while (true)
-        {
-            elapsedTime += Time.deltaTime;
-
-            if (elapsedTime >= coolTime)
-            {
-                PlayerControlManager.Instance.IsInvincible = false;
-                elapsedTime = 0;
-                Debug.Log("무적 상태 해제");
-                break;
-            }
-            else
-            {
-                PlayerControlManager.Instance.IsInvincible = true;
-            }
-            yield return null;
-        }
     }
 
     YieldInstruction _reviveCooldown = new WaitForSeconds(2.0f);
@@ -65,5 +49,18 @@ public class FirstMoveAttackPlayer : MonoBehaviourPun
     {
         yield return _reviveCooldown;
         Revive();
+    }
+
+    YieldInstruction _invincibleTime = new WaitForSeconds(20f);
+    private IEnumerator CoInvincible()
+    {
+        yield return _invincibleTime;
+        PlayerControlManager.Instance.IsInvincible = false;
+    }
+
+    private IEnumerator CoStunEffectOver()
+    {
+        yield return new WaitForSeconds(_stunEffectTime);
+        _stunEffect.SetActive(false);
     }
 }

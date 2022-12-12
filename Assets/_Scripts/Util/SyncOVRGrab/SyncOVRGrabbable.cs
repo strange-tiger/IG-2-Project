@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Photon.Pun;
 
 /*
@@ -25,10 +26,10 @@ public class SyncOVRGrabbable : MonoBehaviourPun
     protected Collider m_grabbedCollider = null;
     protected SyncOVRGrabber m_grabbedBy = null;
 
-    public Action CallbackOnGrabBegin { private get; set; } = null;
-    public Action <SyncOVRGrabber> CallbackOnGrabHand { private get; set; } = null;
-    public Action CallbackOnGrabEnd { private get; set; } = null;
-    public Action<PhotonView, SyncOVRGrabber> CallbackGrabberSetting { private get; set; } = null;
+    public UnityEvent CallbackOnGrabBegin { get; set; } = new UnityEvent();
+    public UnityEvent<SyncOVRGrabber> CallbackOnGrabHand { get; set; } = new UnityEvent<SyncOVRGrabber>();
+    public UnityEvent CallbackOnGrabEnd { get; set; } = new UnityEvent();
+    public UnityEvent<PhotonView, SyncOVRGrabber> CallbackGrabberSetting { get; set; } = new UnityEvent<PhotonView, SyncOVRGrabber>();
 
     /// <summary>
     /// If true, the object can currently be grabbed.
@@ -111,7 +112,8 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         m_grabbedCollider = grabPoint;
 
         //GrabBegin이 호출되면, IsTrigger를 true로 만들어줌.
-        gameObject.GetComponent<Collider>().isTrigger = true;
+        gameObject.GetComponentInChildren<Collider>().isTrigger = true;
+        gameObject.GetComponentInChildren<Rigidbody>().useGravity = false;
 
         CallbackOnGrabBegin?.Invoke();
         CallbackOnGrabHand?.Invoke(hand);
@@ -130,6 +132,7 @@ public class SyncOVRGrabbable : MonoBehaviourPun
         rb.angularVelocity = angularVelocity;
 
         gameObject.GetComponent<Collider>().isTrigger = false;
+        gameObject.GetComponentInChildren<Rigidbody>().useGravity = true;
 
         m_grabbedBy = null;
         m_grabbedCollider = null;

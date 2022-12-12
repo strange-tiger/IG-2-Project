@@ -37,7 +37,7 @@ public class AIIdle : AIState
 
         if (_curTime >= 4f)
         {
-            aiFSM.ChangeState(EAIState.Run);
+            _aiFSM.ChangeState(EAIState.Run);
             _curTime -= _curTime;
         }
     }

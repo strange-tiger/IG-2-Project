@@ -6,7 +6,7 @@ using _CSV = Asset.ParseCSV.CSVParser;
 
 public class StartRoomTutorial : MonoBehaviour
 {
-    private List<string> _tutorialRunList = new List<string>();
+    private List<string> _tutorialCSV = new List<string>();
     private List<string> _tutorialGrabberList = new List<string>();
     private List<string> _tutorialRayList = new List<string>();
 
@@ -22,6 +22,7 @@ public class StartRoomTutorial : MonoBehaviour
         End,
     }
 
+    [SerializeField] private TextMeshProUGUI _questText;
     [SerializeField] private TextMeshProUGUI _tutorialRunText;
     [SerializeField] private TextMeshProUGUI _tutorialNPCName;
     [SerializeField] private TurtorialType _turtorialType;
@@ -52,28 +53,22 @@ public class StartRoomTutorial : MonoBehaviour
         // _newPlayerMove.enabled = false;
         // _playerControllerMove.enabled = false;
 
-        _CSV.ParseCSV("StartRoomTutorialRun", _tutorialRunList, '\n', ',');
-        _CSV.ParseCSV("StartRoomTutorialGrabber", _tutorialGrabberList, '\n', ',');
-        _CSV.ParseCSV("StartRoomTutorialRay", _tutorialRayList, '\n', ',');
+        _dialogueMaxNum = _tutorialCSV.Count;
+
+        _CSV.ParseCSV("StartRoomTutorialCSV", _tutorialCSV, '\n', ',');
 
         if (_turtorialType == TurtorialType.Run && _isRunText)
         {
-            _dialogueMaxNum = _tutorialRunList.Count;
-            StartCoroutine(TextTyping(_tutorialRunList[_dialogueNum]));
+            StartCoroutine(TextTyping(_tutorialCSV[_dialogueNum]));
         }
-        if (_turtorialType == TurtorialType.Grabber)
-        {
-            StartCoroutine(TextTyping(_tutorialGrabberList[_dialogueNum]));
-        }
-        if (_turtorialType == TurtorialType.Ray)
-        {
-            StartCoroutine(TextTyping(_tutorialRayList[_dialogueNum]));
-        }
+
         _tutorialNPCName.text = "요정";
     }
 
     private void Update()
     {
+        Debug.Log(_dialogueNum);
+
         _dialogueSkip = (OVRInput.GetDown(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.A));
 
         if (_dialogueSkip)
@@ -81,7 +76,7 @@ public class StartRoomTutorial : MonoBehaviour
             StopAllCoroutines();
 
             _tutorialRunText.text = null;
-            _tutorialRunText.text = _tutorialRunList[_dialogueNum];
+            _tutorialRunText.text = _tutorialCSV[_dialogueNum];
 
             StartCoroutine(Next());
         }
@@ -91,45 +86,42 @@ public class StartRoomTutorial : MonoBehaviour
             StopAllCoroutines();
             DialogueNumCount();
 
-            if (_turtorialType == TurtorialType.Run && _isRunText)
-            {
-                StartCoroutine(TextTyping(_tutorialRunList[_dialogueNum]));
-                if (_dialogueNum == 4)
-                {
-                    _newPlayerMove.enabled = true;
-                    _playerControllerMove.enabled = true;
+            StartCoroutine(TextTyping(_tutorialCSV[_dialogueNum]));
 
-                    _isTutorialQuest = true;
-                }
-                else
-                {
-                    _isTutorialQuest = false;
-                }
+            if (_dialogueNum == 4)
+            {
+                _questText.text = "달리기 기능 3초 유지 시 다음으로 넘어감";
+                _newPlayerMove.enabled = true;
+                _playerControllerMove.enabled = true;
+
+                _isTutorialQuest = true;
             }
 
-            if (_turtorialType == TurtorialType.Grabber && _isGrabberText)
-            {
-                _dialogueMaxNum = _tutorialGrabberList.Count;
-                StartCoroutine(TextTyping(_tutorialGrabberList[_dialogueNum]));
 
-                if (_dialogueNum == 1 && !_syncOVRDistanceGrabbable.isGrabbed)
-                {
-                    _isTutorialQuest = true;
-                }
+            else if (_dialogueNum == 7)
+            {
+                _questText.text = "그랩 해 보세요";
+                _isTutorialQuest = true;
             }
 
-            if (_turtorialType == TurtorialType.Ray && _isRayText)
+            else if (_dialogueNum == 10)
             {
-                _dialogueMaxNum = _tutorialRayList.Count;
-                StartCoroutine(TextTyping(_tutorialRayList[_dialogueNum]));
+                _questText.text = "레이캐스트를 이용 해 그랩 해 보세요";
+                _isTutorialQuest = true;
+            }
 
-                if (_dialogueNum == 1 && !_syncOVRDistanceGrabbable.isGrabbed)
-                {
-                    _isTutorialQuest = true;
-                }
+            else
+            {
+                _questText.text = null;
+                _isTutorialQuest = false;
             }
 
             _isDialogueEnd = false;
+        }
+
+        if (_dialogueNum == 24)
+        {
+            gameObject.SetActive(false);
         }
 
         NextDialogue();
@@ -149,7 +141,7 @@ public class StartRoomTutorial : MonoBehaviour
 
             yield return _delayTime;
         }
-        
+
         _isDialogueEnd = true;
     }
 
@@ -162,33 +154,7 @@ public class StartRoomTutorial : MonoBehaviour
         {
             ++_dialogueNum;
 
-            if (_dialogueNum > _dialogueMaxNum - 1)
-            {
-                ++_turtorialType;
-
-                if (_turtorialType == TurtorialType.Grabber)
-                {
-                    _isRunText = false;
-                    _isGrabberText = true;
-                    _isRayText = false;
-                }
-
-                if (_turtorialType == TurtorialType.Ray)
-                {
-                    _isRunText = false;
-                    _isGrabberText = false;
-                    _isRayText = true;
-                }
-
-                if (_turtorialType == TurtorialType.End)
-                {
-                    gameObject.SetActive(false);
-                }
-
-                _isNext = false;
-
-                _dialogueNum -= _dialogueNum;
-            }
+            _isNext = false;
         }
     }
 
@@ -223,13 +189,14 @@ public class StartRoomTutorial : MonoBehaviour
     {
         if (_isTutorialQuest == true)
         {
-            if (_turtorialType == TurtorialType.Run && _isRunText)
+            if (_isRunText)
             {
                 if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0 || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0 || Input.GetKey(KeyCode.F))
                 {
                     _curTime += Time.deltaTime;
                     if (_curTime >= _requestClearTime)
                     {
+                        _questText.text = "Clear";
                         _isTutorialQuest = false;
                         _curTime -= _curTime;
                     }
@@ -241,18 +208,20 @@ public class StartRoomTutorial : MonoBehaviour
             }
         }
 
-        if (_turtorialType == TurtorialType.Grabber && _isGrabberText)
+        if ( _isGrabberText)
         {
-            if (_syncOVRDistanceGrabbable.isGrabbed)
+            if (_syncOVRDistanceGrabbable.isGrabbed || Input.GetKey(KeyCode.Q))
             {
+                _questText.text = "Clear";
                 _isTutorialQuest = false;
             }
         }
 
-        if (_turtorialType == TurtorialType.Ray && _isRayText)
+        if (_isRayText)
         {
-            if (_syncOVRDistanceGrabbable.isGrabbed)
+            if (_syncOVRDistanceGrabbable.isGrabbed || Input.GetKey(KeyCode.W))
             {
+                _questText.text = "Clear";
                 _isTutorialQuest = false;
             }
         }

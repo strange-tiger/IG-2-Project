@@ -139,16 +139,20 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
 
         //FindTarget(out target, out targetColl);
 
+        // HandRay의 LineRenderer가 활성화 되면
         if (m_handRay.GetComponent<LineRenderer>().enabled)
         {
+            // 물체를 Focus했을때
             if (_playerFocus.FocusedObject != null)
             {
+                // 그 물체를 targer으로 만들고
                 target = _playerFocus.FocusedObject.GetComponent<SyncOVRDistanceGrabbable>();
                 targetColl = _playerFocus.FocusedObject.GetComponent<Collider>();
             }
         }
         else
         {
+            // LineRenderer가 비활성화 되면 targer을 지워줌.
             target = null;
             targetColl = null;
         }
@@ -159,8 +163,11 @@ public class SyncOVRDistanceGrabber : SyncOVRGrabber
             {
                 m_target.Targeted = m_otherHand.m_target == m_target;
             }
+            // 위에서 지정한 타겟을 Grab을 위한 타겟에 다시 할당해주고
             m_target = target;
             m_targetCollider = targetColl;
+
+            // Ownership을 Transfer함.
             if (m_targetCollider != null)
             {
                 if (m_targetCollider.GetComponent<PhotonView>() != null)
