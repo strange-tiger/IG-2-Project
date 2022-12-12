@@ -16,19 +16,12 @@ public class WaitingRoomBulletTrail : MonoBehaviour
     private Material _material;
     private readonly Vector3 ZERO_VECTOR = Vector3.zero;
 
-    private float _elapsedTime;
-    private bool _isOutRange;
     private Rigidbody _rigidbody;
 
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-
-        //_material = GetComponent<Material>();
-        //_originalColor = _material.color;
-
-        _elapsedTime = 0f;
     }
 
     private void Start()
@@ -46,7 +39,6 @@ public class WaitingRoomBulletTrail : MonoBehaviour
         StopAllCoroutines();
         _rigidbody.velocity = ZERO_VECTOR;
         _rigidbody.velocity = transform.forward * _bulletSpeed;
-        //_material.color = _originalColor;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,20 +53,7 @@ public class WaitingRoomBulletTrail : MonoBehaviour
     {
         if (other.CompareTag("ShootingHitRange"))
         {
-            //_isOutRange = true;
             gameObject.SetActive(false);
-        }
-    }
-
-    private IEnumerator FadeToDisable()
-    {
-        float alpha = _originalColor.a;
-
-        while (true)
-        {
-            alpha = Mathf.Lerp(alpha, 0f, _fadeTime);
-            _material.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, alpha);
-            yield return null;
         }
     }
 

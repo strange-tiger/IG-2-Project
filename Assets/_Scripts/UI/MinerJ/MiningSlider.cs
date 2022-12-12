@@ -6,22 +6,22 @@ using UnityEngine.UI;
 public class MiningSlider : MonoBehaviour
 {
     private Slider _slider;
-    [SerializeField]
-    private Coin _coin;
-    [SerializeField]
-    private GameObject _circleCheckBox;
+    [SerializeField] private GameObject _circleCheckBox;
 
     private float _elapsedTime;
     public float ElapsedTime { get { return _elapsedTime; } set { _elapsedTime = value; } }
     private bool _isHitCircleEnable;
     public bool IsHitCircleEnable { get { return _isHitCircleEnable; } set { _isHitCircleEnable = value; } }
 
-    [SerializeField]
-    private float _delay = 10;
+    [Header("채광 소요 시간")]
+    [SerializeField] private float _delay = 10;
 
+    // 채광 사운드
     private AudioSource _audioSource;
-    [SerializeField]
-    private AudioClip _miningClip;
+    [SerializeField] private AudioClip _miningClip;
+
+    [Header("채광이 끝나면 열릴 Coin UI")]
+    [SerializeField] private Coin _coin;
 
     private void Awake()
     {
@@ -71,6 +71,8 @@ public class MiningSlider : MonoBehaviour
         _slider.value = 0;
         _elapsedTime = 0;
     }
+
+    // 이거 한번에 묶기 (함수 이름 생각)
     public void HitCircleDisable()
     {
         _circleCheckBox.gameObject.SetActive(false);

@@ -45,7 +45,9 @@ public class FirstMoveAttackObj : FocusableObjects
 
     private void OnTriggerEnter(Collider other)
     {
-        // 그랩 전까진 모든 Enter 무시
+        /// <summary>
+        /// Grab전까진 모든 Enter 무시
+        /// </summary>
         if (_isGrabbed == false)
         {
             return;
@@ -53,21 +55,26 @@ public class FirstMoveAttackObj : FocusableObjects
 
         _objCollider.isTrigger = true;
 
-        // 그랩 후 플레이어 태그를 가진 오브젝트만 인식
-        if(other.CompareTag("PlayerBody") == false)
+        /// <summary>
+        /// 그랩 후 플레이어 태그를 가진 오브젝트만 인식
+        /// </summary>
+        if (other.CompareTag("PlayerBody") == false)
         {
             return;
         }
 
-        //플레이어 태그가 인식되면 현재 잡고있는 사람의 photonView와 비교
+        /// <summary>
+        /// 플레이어 태그가 인식되면 현재 Grab하고있는 사람의 photonView와 비교
+        /// </summary>
         if (_grabberPhotonView == other.transform.root.gameObject.GetPhotonView())
         {
             return;
         }
 
-        // 일치하지 않으면 병이 깨지고 타격을 받음
-        this.photonView.RPC("Crack", RpcTarget.All);
-        
+        /// <summary>
+        /// Grab한 플레이어 외의 다른 플레이어와 충돌하면 병이 깨지고 타플레이어는 타격을 받음
+        /// </summary>
+        this.photonView.RPC(nameof(Crack), RpcTarget.All);
         FirstMoveAttackPlayer player = other.transform.root.GetComponentInChildren<FirstMoveAttackPlayer>();
         player.photonView.RPC("OnDamageByBottle", RpcTarget.All);
     }
@@ -79,7 +86,7 @@ public class FirstMoveAttackObj : FocusableObjects
         _isGrabbed = true;
         if(photonView.IsMine)
         {
-            photonView.RPC("OnGrabBegin", RpcTarget.Others);
+            photonView.RPC(nameof(OnGrabBegin), RpcTarget.Others);
         }
     }
 
@@ -94,7 +101,7 @@ public class FirstMoveAttackObj : FocusableObjects
 
         if (photonView.IsMine)
         {
-            photonView.RPC("OnGrabEnd", RpcTarget.Others);
+            photonView.RPC(nameof(OnGrabEnd), RpcTarget.Others);
         }
     }
 
@@ -105,15 +112,18 @@ public class FirstMoveAttackObj : FocusableObjects
     }
 
     [PunRPC]
-    public void Crack()
+    private void Crack()
     {
+        /// <summary>
+        /// 3D사운드기 때문에 MasterClient만 호출
+        /// </summary>
         if (PhotonNetwork.IsMasterClient)
         {
             _audioSource.Play();
         }
         _grabber?.GrabEnd();
         TurnOnOff(false);
-        StartCoroutine(ReviveCooldown());
+        StartCoroutine(CoReviveCooldown());
     }
 
     private void TurnOnOff(bool value)
@@ -121,7 +131,7 @@ public class FirstMoveAttackObj : FocusableObjects
         _objMeshRenderer.enabled = value;
         _objCollider.enabled = value;
     }
-    public void Respawn()
+    private void Respawn()
     {
         ObjPosReset();
         TurnOnOff(true);
@@ -133,7 +143,7 @@ public class FirstMoveAttackObj : FocusableObjects
     }
 
     YieldInstruction _respawnCooldown = new WaitForSeconds(2.0f);
-    IEnumerator ReviveCooldown()
+    private IEnumerator CoReviveCooldown()
     {
         yield return _respawnCooldown;
         Respawn();

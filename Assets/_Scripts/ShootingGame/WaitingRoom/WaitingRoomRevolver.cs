@@ -71,8 +71,10 @@ public class WaitingRoomRevolver : FocusableObjects
 
     private LayerMask _breakableObjectLayer;
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
+
         _boxCollider = GetComponent<BoxCollider>();
         _objSpawnPos = transform.position;
 
@@ -151,7 +153,7 @@ public class WaitingRoomRevolver : FocusableObjects
         gameObject.transform.position = _objSpawnPos;
     }
 
-    public void SetGrabbed(bool value)
+    private void SetGrabbed(bool value)
     {
         _isGrabbed = value;
         _boxCollider.isTrigger = value;
@@ -201,7 +203,6 @@ public class WaitingRoomRevolver : FocusableObjects
     private void PlayShotEffect()
     {
         _audioSource.PlayOneShot(_shotAudioClip);
-        // 임시로 추가한 컨트롤러 진동
         StartCoroutine(CoVibrateController());
         photonView.RPC(nameof(ShotEffect), RpcTarget.All);
     }
