@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -51,6 +51,10 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         _passwordToggle.isOn = false;
     }
 
+    /// <summary>
+    /// 방 생성을 요청한다.
+    /// MakeRoom을 호출한다.
+    /// </summary>
     public void RequestMakeRoom()
     {
         try
@@ -59,10 +63,13 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         }
         catch
         {
-            Debug.LogError("�� ���� ��û ����");
+            Debug.LogError("방 생성 요청 실패");
         }
     }
 
+    /// <summary>
+    /// 현재 방에서 나간다. 방을 생성하기 위해 마스터 서버로 나가야 한다.
+    /// </summary>
     private void MakeRoom()
     {
         try
@@ -71,78 +78,78 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         }
         catch
         {
-            Debug.LogError("�� ���� ����");
+            Debug.LogError("방 퇴장 실패");
         }
 
-        Debug.Log("�� ���� �õ�");
+        Debug.Log("방 생성 시도");
     }
 
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
-        Debug.Log("������ ���� ����");
+        Debug.Log("마스터 서버 입장");
     }
 
+    /// <summary>
+    /// 성공적으로 마스터 서버의 로비까지 나간다면 CreatePrivateRoom을 호출한다.
+    /// </summary>
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        Debug.Log("�κ� ����");
+        Debug.Log("로비 입장");
         CreatePrivateRoom();
     }
 
     private string _roomName;
+    /// <summary>
+    /// 입력된 방 정보에 따라 방을 생성한다.
+    /// _roomOptions에 방 정보를 할당하고 DB에 새로운 방의 정보를 저장한다.
+    /// PhotonNetwork.CreateRoom을 호출한다.
+    /// </summary>
     private void CreatePrivateRoom()
     {
         _roomName = PhotonNetwork.LocalPlayer.UserId + "_" + _passwordInput.text;
 
-        try
+        if (_roomNameInput.text != string.Empty)
         {
-            if (_roomNameInput.text != string.Empty)
-            {
-                _roomOptions.MaxPlayers = byte.Parse(_roomNumberInput.text);
-            }
-            else
-            {
-                _roomOptions.MaxPlayers = 0;
-            }
-
-            _roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
-            {
-                { "roomname", _roomName },
-                { "password", _passwordInput.text },
-                { "displayname", _roomNameInput.text }
-            };
-            _roomOptions.CustomRoomPropertiesForLobby = new string[]
-            {
-                "roomname",
-                "password",
-                "displayname"
-            };
-
-            _DB.AddNewRoomInfo(_roomName, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
-            PhotonNetwork.CreateRoom(_roomName, _roomOptions, null);
-            
-            Debug.Log("�� ���� ����");
+            _roomOptions.MaxPlayers = byte.Parse(_roomNumberInput.text);
         }
-        catch
+        else
         {
-            Debug.LogError("�� ���� ����");
+            _roomOptions.MaxPlayers = 0;
         }
+
+        _roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
+        {
+            { "roomname", _roomName },
+            { "password", _passwordInput.text },
+            { "displayname", _roomNameInput.text }
+        };
+        _roomOptions.CustomRoomPropertiesForLobby = new string[]
+        {
+            "roomname",
+            "password",
+            "displayname"
+        };
+
+        _DB.AddNewRoomInfo(_roomName, _passwordInput.text, _roomNameInput.text, int.Parse(_roomNumberInput.text));
+        PhotonNetwork.CreateRoom(_roomName, _roomOptions, null);
     }
 
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        Debug.Log("�� ����");
     }
 
     private const string PREV_SCENE = "PrevScene";
+    /// <summary>
+    /// FadeOut을 호출한다.
+    /// PlayerPrefs로 레지스토리에 이전 씬 넘버를 저장하고 사설 공간 씬을 로드한다.
+    /// </summary>
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-
-        Debug.Log("�� ����");
 
         OVRScreenFade.instance.FadeOut();
 
@@ -150,6 +157,10 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel((int)Defines.ESceneNumber.PrivateRoom);
     }
 
+    /// <summary>
+    /// 비밀번호 체크박스 입력에 따라 비밀번호 입력 InputField 활성화 여부를 결정한다.
+    /// </summary>
+    /// <param name="isOn"></param>
     private void ActivePasswordInput(bool isOn)
     {
         _passwordInput.interactable = isOn;
@@ -163,6 +174,9 @@ public class MakeRoomUI : MonoBehaviourPunCallbacks
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    /// <summary>
+    /// 현재 창을 닫고 방 참가 창을 띄운다.
+    /// </summary>
     private void Close() => _uiManager.LoadUI(_UI.JOIN);
 
     public override void OnDisable()

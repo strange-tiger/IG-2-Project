@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,13 +39,19 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     }
 
     private const string EYE_CAMERA = "CenterEyeAnchor";
+    /// <summary>
+    /// 이 오브젝트의 캔버스 _canvas의 설정을 변경하고 
+    /// 각 월드에서 각 플레이어만 갖는 카메라를 찾아 _canvas의 worldCamera에 할당한다.
+    /// 메뉴가 활성화되면 플레이어의 움직임을 멈추기 위해 _playerMove 또한 할당한다.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator FindCamera()
     {
         yield return MENU_DELAY;
 
         GameObject findCamera = GameObject.Find(EYE_CAMERA);
 
-        Debug.Assert(findCamera != null, "ī�޶� ã�� ����");
+        Debug.Assert(findCamera != null, "카메라 찾기 실패");
         
         if (photonView.IsMine)
         {
@@ -59,6 +65,11 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     private static readonly Vector3 INSTANTIATE_POS = new Vector3(0f, 2f, 0f);
 
+    /// <summary>
+    /// 유저가 사설 공간에 처음 들어가고 사설 공간 씬이 로드될 때, 
+    /// 유저가 마스터 클라이언트라면 주사위를 생성하고, 
+    /// 각 유저가 소유하는 그림판을 생성한다.
+    /// </summary>
     private void PrivateRoomEnterance()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -79,6 +90,11 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         _spawnPaintbrush.SetPlayerTransform(transform);
     }
 
+    /// <summary>
+    /// 룸의 마스터 클라이언트가 바뀔 때 호출된다.
+    /// 주사위를 생성한다.
+    /// </summary>
+    /// <param name="newMasterClient"></param>
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         base.OnMasterClientSwitched(newMasterClient);
@@ -95,6 +111,11 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     }
 
     private const string CALL_METHOD = "CallMethod";
+    /// <summary>
+    /// 매 프레임 오른손 조이스틱에 버튼 입력을 검사한다.
+    /// 입력 여부에 따라 메뉴의 활성화 여부와 플레이어 움직임 활성화 여부를 결정한다.
+    /// GetUp 메소드로 CallMethod를 RPC로 호출한다.
+    /// </summary>
     private void Update()
     {
         if (!photonView.IsMine)
@@ -119,6 +140,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
     }
 
     private const string BUTTON_A = "ButtonA";
+    /// <summary>
+    /// 메뉴의 커서가 ButtonA에 충돌했는가 아닌가로 ButtonAMethod와 ButtonBMethod 중 어느 메소드를 호출할 지 결정한다.
+    /// </summary>
     [PunRPC]
     private void CallMethod()
     {
@@ -132,6 +156,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// 현재 이 클라이언트가 마스터 클라이언트라면 생성했던 주사위의 ToggleDice를 호출한다.
+    /// </summary>
     private void ButtonAMethod()
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -141,6 +168,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         _spawnDice.ToggleDice();
     }
 
+    /// <summary>
+    /// 그림판의 TogglePaintbrush를 호출한다.
+    /// </summary>
     private void ButtonBMethod()
     {
         if (!_spawnPaintbrush.photonView.IsMine)
@@ -150,6 +180,10 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         _spawnPaintbrush.TogglePaintbrush();
     }
 
+    /// <summary>
+    /// 매 프레임 오른손 조이스틱의 터치 입력을 검사한다.
+    /// 입력에 따라 커서를 움직이고 입력이 없다면 커서를 원위치로 되돌린다.
+    /// </summary>
     void FixedUpdate()
     {
         if (OVRInput.Get(OVRInput.Touch.SecondaryThumbstick))
@@ -162,6 +196,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// 오른손 조이스틱의 터치 입력에 따라 커서 오브젝트를 움직인다.
+    /// </summary>
     void MoveCursor()
     {
         Vector3 direction = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
@@ -174,6 +211,9 @@ public class PrivateRoomRadialMenu : MonoBehaviourPunCallbacks
 
     }
 
+    /// <summary>
+    /// 커서를 원위치로 되돌린다.
+    /// </summary>
     void ResetCursor()
     {
         _privateRoomRadialCursor.rectTransform.localPosition = _priavteRoomRadialCursorInitPosition;

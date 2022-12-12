@@ -38,18 +38,33 @@ public class UnlockPopupUI : PopupUI
         _passwordInput.text = string.Empty;
     }
 
+    /// <summary>
+    /// 오브젝트를 활성화한다.
+    /// SetRoom을 호출해 전달받은 방 정보를 할당한다.
+    /// </summary>
+    /// <param name="room"></param>
+    /// <param name="password"></param>
     public void PopupUnlock(string room, string password)
     {
         gameObject.SetActive(true);
         SetRoom(room, password);
     }
 
+    /// <summary>
+    /// 방 이름과 비밀번호를 할당한다.
+    /// </summary>
+    /// <param name="room"></param>
+    /// <param name="password"></param>
     private void SetRoom(string room, string password)
     {
         _currentRoomName = room;
         _currentRoomPassword = password;
     }
 
+    /// <summary>
+    /// 저장된 비밀번호와 _passwordInput에 입력받은 비밀번호가 일치하지 않으면 _errorPopup을 활성화하고 return한다.
+    /// 일치하면 JoinRoom.JoinInRoom를 호출하고 방 정보를 전달한다.
+    /// </summary>
     private void JoinLockedRoom()
     {
         if (!_currentRoomPassword.Equals(_passwordInput.text))
@@ -74,7 +89,6 @@ public class UnlockPopupUI : PopupUI
         catch
         {
             _errorPopup.SetActive(true);
-            Debug.LogError("암호 있는 방 입장 실패");
         }
     }
 }

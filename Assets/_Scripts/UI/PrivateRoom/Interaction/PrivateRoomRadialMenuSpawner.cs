@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -16,6 +16,10 @@ public class PrivateRoomRadialMenuSpawner : MonoBehaviourPunCallbacks
         StartCoroutine(SpawnDelay());
     }
 
+    /// <summary>
+    /// MENU_DELAY의 지연 이후 사설 공간 메뉴를 생성한다.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SpawnDelay()
     {
         yield return MENU_DELAY;
@@ -24,6 +28,11 @@ public class PrivateRoomRadialMenuSpawner : MonoBehaviourPunCallbacks
         _menuList.Add(newMenu.GetComponent<Canvas>());
     }
 
+    /// <summary>
+    /// 유저가 룸에서 나가면 그 외 월드에서 호출된다.
+    /// 생성했던 메뉴를 삭제한다.
+    /// </summary>
+    /// <param name="otherPlayer"></param>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
