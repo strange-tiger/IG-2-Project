@@ -60,8 +60,13 @@ public class BasicPlayerNetworking : PlayerHandRigging
         }
     }
 
-    [PunRPC]
     public void SetNickname(string id, string nickname)
+    {
+        photonView.RPC(nameof(SetNicknameByServer), RpcTarget.All, id, nickname);
+    }
+
+    [PunRPC]
+    public void SetNicknameByServer(string id, string nickname)
     {
         MyNickname = nickname;
         _nicknameText.text = nickname;

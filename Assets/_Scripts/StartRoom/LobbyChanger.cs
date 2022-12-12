@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Asset.MySql;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using SceneNumber = Defines.ESceneNumber;
 using MapType = Defines.EMapType;
 
@@ -25,22 +25,24 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     [SerializeField] protected Vector3 _fixedPosition;
     [SerializeField] protected Vector3 _fixedRotation;
 
+    // PhotonNetwork 상에서 Instantiate 한 플레이어
     protected GameObject _myPlayer;
 
     // 다음 이동 씬 관련
-    private bool _needSceneChange = false;                      // 서버 이동이 필요한
-    private SceneNumber _nextScene;
-    private string _nextSceneRoomName;
-    private RoomOptions _nextRoomOption;
-    private RoomOptions _defaultRoomOptions = new RoomOptions
+    private bool _needSceneChange = false;                      // 서버 이동이 필요한지 여부
+    private SceneNumber _nextScene;                             // 다음 씬 번호
+    private string _nextSceneRoomName;                          // 다음 씬의 이름
+    private RoomOptions _nextRoomOption;                        // 다음 씬의 옵션
+    private RoomOptions _defaultRoomOptions = new RoomOptions   // 기본 씬 옵션(로비 등)
     {
         PublishUserId = true,
         MaxPlayers = 30
     };
 
-    private bool _joinRandomRoom = false;
-    private Hashtable _expectedCustromRoomProperties = null;
-    private byte _expectedMaxPlayers = 0;
+    // Customproperty를 사용한 랜덤 룸 참가 관련
+    private bool _joinRandomRoom = false;                       // CustomProperty를 통한 랜덤 룸 참가 여부
+    private Hashtable _expectedCustromRoomProperties = null;    // 검색을 위한 CustomProperty
+    private byte _expectedMaxPlayers = 0;                       // 검색을 위한 플레이어 최대 수
 
     private bool _lobbyChangeRoom = false;                      // 서버에서 이동해야하는 경우인지
 
@@ -51,10 +53,12 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         {
             GameObject player = PhotonNetwork.Instantiate(_playerPrefab.name, _playerSpawnPosition,
                 Quaternion.Euler(_playerSpawnRotatinon), 0, null);
+
             BasicPlayerNetworking playerNetworking = player.GetComponent<BasicPlayerNetworking>();
-            playerNetworking.photonView.RPC("SetNickname", RpcTarget.All, TempAccountDB.ID, TempAccountDB.Nickname);
+            playerNetworking.SetNickname(TempAccountDB.ID, TempAccountDB.Nickname);
             playerNetworking.SetMap(_mapType, _isFixedPosition, _fixedPosition, _fixedRotation);
             playerNetworking.CanvasSetting(_canvases);
+
             _myPlayer = player;
         }
     }
@@ -114,6 +118,7 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     public void ChangeLobby(SceneNumber sceneNumber, string roomName, RoomOptions roomOption, bool joinRamdonRoom = false,
         Hashtable expectedCustomRoomProperties = null, byte expectedMaxPlayers = 0)
     {
+        // 다음 씬 정보 저장
         _nextScene = sceneNumber;
         _nextSceneRoomName = roomName;
         _nextRoomOption = roomOption;
@@ -134,11 +139,19 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         if (!_isInLobby)
         {
             PhotonNetwork.LeaveRoom();
+            return;
         }
-        else if(_lobbyChangeRoom)
+
+        if(_lobbyChangeRoom)
         {
-            Debug.Log("[LogOut] LobbyChanger LoadLevel On Lobby");
             PhotonNetwork.LoadLevel((int)_nextScene);
+        }
+        else if(_joinRandomRoom)
+        {
+            PhotonNetwork.JoinRandomOrCreateRoom(
+                expectedCustomRoomProperties: _expectedCustromRoomProperties,
+                expectedMaxPlayers: _expectedMaxPlayers,
+                roomOptions: _nextRoomOption);
         }
         else
         {
@@ -150,11 +163,8 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     {
         if (_needSceneChange)
         {
-            Debug.Log("[LogOut] LobbyChanger OnConnectedToMaster");
-
             if (_joinRandomRoom)
             {
-                Debug.Log($"[LogOut] LobbyChanger {_defaultRoomOptions.CustomRoomPropertiesForLobby.ToStringFull()} {_defaultRoomOptions.CustomRoomProperties}");
                 PhotonNetwork.JoinRandomOrCreateRoom(
                     expectedCustomRoomProperties: _expectedCustromRoomProperties,
                     expectedMaxPlayers: _expectedMaxPlayers,
@@ -173,21 +183,13 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
         {
             if (_nextScene <= SceneNumber.StartRoom || _lobbyChangeRoom)
             {
-                Debug.Log("[LogOut] LobbyChanger LoadLevel On Lobby");
                 PhotonNetwork.LoadLevel((int)_nextScene);
-
-                return;
             }
-            
-            Debug.Log("[LogOut] LobbyChanger OnJoinedLobby");
-            PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
+            else
+            {
+                PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
+            }
         }
-    }
-
-    public override void OnCreatedRoom()
-    {
-        base.OnCreatedRoom();
-        Debug.Log("[LogOut] LobbyChanger OnCreatedRoom" + PhotonNetwork.CurrentRoom.Name);
     }
 
     public override void OnJoinedRoom()
@@ -199,7 +201,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() { { ShootingServerManager.RoomPropertyKey, 1 } });
                 PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(new string[] { ShootingServerManager.RoomPropertyKey });
             }
-            Debug.Log($"[LogOut] LobbyChanger OnCreatedRoom {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PropertiesListedInLobby.ToStringFull()}");
             PhotonNetwork.LoadLevel((int)_nextScene);
         }
     }
@@ -207,18 +208,14 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
-        Debug.Log("[Server] Offline Update");
 
         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
-
     }
 
     private bool PlayerOffline()
     {
         try
         {
-            Debug.Log("[Player] Offline Update");
-
             MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
 
             return true;
@@ -233,7 +230,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("[LogOut] LobbyChanger OnJoinRoomFailed, Reconnecting with same name");
         PhotonNetwork.JoinOrCreateRoom(_nextSceneRoomName, _nextRoomOption, TypedLobby.Default);
     }
 
@@ -247,8 +243,6 @@ public class LobbyChanger : MonoBehaviourPunCallbacks
 
     private void OnApplicationQuit()
     {
-        Debug.Log("[Player] Offline Update");
-
         MySqlSetting.UpdateValueByBase(Asset.EaccountdbColumns.Nickname, PhotonNetwork.NickName, Asset.EaccountdbColumns.IsOnline, 0);
     }
 }
