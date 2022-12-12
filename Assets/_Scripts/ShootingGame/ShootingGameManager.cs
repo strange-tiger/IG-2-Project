@@ -183,7 +183,7 @@ public class ShootingGameManager : MonoBehaviourPun
                     _uiCanvas.transform.position = _canvasPosition[PlayerNumber].position;
 
 
-                    _myClient.PlayerInfoSetting(info.PlayerNumber, info.PlayerColor);
+                    _myClient.PlayerInfoSettingToStart(info.PlayerNumber, info.PlayerColor);
 
 
                     break;

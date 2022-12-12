@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class ShootingServerManager : LobbyChanger
 {
@@ -13,8 +11,10 @@ public class ShootingServerManager : LobbyChanger
     protected override void Awake()
     {
         base.Awake();
+
+        // 플레이어에 있는 GunShoot 스크립트에  메니저를 세팅해줌
         GunShoot gun = _myPlayer.GetComponentInChildren<GunShoot>();
-        gun.SetManager(_shootingGameManager, 
+        gun.Init(_shootingGameManager, 
             _myPlayer.GetComponentInChildren<ShootingPlayerLoadingUI>());
     }
 }
