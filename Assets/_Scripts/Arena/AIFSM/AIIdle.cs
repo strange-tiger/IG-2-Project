@@ -35,6 +35,7 @@ public class AIIdle : AIState
             _curTime += Time.deltaTime;
         }
 
+        // 일정 시간 뒤 Run으로 상태 변경
         if (_curTime >= 4f)
         {
             _aiFSM.ChangeState(EAIState.Run);

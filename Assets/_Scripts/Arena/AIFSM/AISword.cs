@@ -9,6 +9,7 @@ public class AISword : MonoBehaviour
     [Header("기본공격 이펙트를 넣어주세요")]
     [SerializeField] private GameObject _attackEffect;
 
+    // 애니메이션 이벤트 무기의 콜라이더 온
     public void OnHitBox()
     {
         if (_attackEffect != null)
@@ -30,6 +31,7 @@ public class AISword : MonoBehaviour
         }
     }
 
+    // 애니메이션 이벤트 무기의 콜라이더 오프
     public void OffHitBox()
     {
         if (_attackEffect != null)

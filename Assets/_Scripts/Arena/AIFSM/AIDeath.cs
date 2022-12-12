@@ -26,6 +26,7 @@ public class AIDeath : AIState
 
         _animator.SetTrigger(AIAnimatorID.onDeath);
 
+        // 죽음상태에 들어온 후 다음 토너먼트 진행을 위한 시체 제거
         Invoke("Delete", 5f);
 
 

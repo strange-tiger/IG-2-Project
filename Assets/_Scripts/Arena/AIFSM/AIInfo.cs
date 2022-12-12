@@ -11,9 +11,11 @@ public class AIInfo : MonoBehaviour
     [Header("스킬 데미지를 입력 해 주세요")]
     [SerializeField] private int _insertSkill;
 
+    // 데미지
     private int _damage;
     public int Damage { get { return _damage; } private set { _damage = value; } }
 
+    // 스킬데미지
     private int _skillDamage;
     public int SkillDamage { get { return _skillDamage; } private set { _skillDamage = value; } }
 

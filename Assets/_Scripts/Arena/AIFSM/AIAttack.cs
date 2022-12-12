@@ -51,8 +51,6 @@ public class AIAttack : AIState
         if (_changeStateAttackToDamage == true)
         {
             _aiFSM.ChangeState(EAIState.Damage);
-
-            _changeStateAttackToDamage = false;
         }
 
         if (_isSkillCoolTime == true && _skillCoolTime != 0 && !_isAnd)
@@ -75,6 +73,7 @@ public class AIAttack : AIState
         _changeStateAttackToDamage = false;
     }
 
+    // 무기 혹은 스킬에 맞으면
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "AISword")
@@ -95,8 +94,6 @@ public class AIAttack : AIState
             int _enemyHp;
             _enemyHp = other.gameObject.GetComponentInParent<AIDamage>().Hp;
 
-            //Debug.Log($"_enemyHp : {_enemyHp}, Me : {gameObject.name}");
-
             if (_enemyHp <= 0)
             {
                 _animator.SetBool(AIAnimatorID.isAttack, false);
@@ -106,6 +103,10 @@ public class AIAttack : AIState
         }
     }
 
+    /// <summary>
+    /// 때린얘의 데미지를 가져와 이벤트 실행
+    /// </summary>
+    /// <param name="other"></param>
     private void AttackProcess(Collider other)
     {
         _enemyDamage = other.gameObject.GetComponentInParent<AIInfo>().Damage;
@@ -114,6 +115,10 @@ public class AIAttack : AIState
         _changeStateAttackToDamage = true;
     }
 
+    /// <summary>
+    /// 때린얘의 스킬 데미지를 가져와 이벤트 실행
+    /// </summary>
+    /// <param name="other"></param>
     private void SkillProcess(Collider other)
     {
         _enemySkillDamage = other.gameObject.GetComponentInParent<AIInfo>().SkillDamage;
