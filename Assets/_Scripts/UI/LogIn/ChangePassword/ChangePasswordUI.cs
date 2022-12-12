@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +41,9 @@ public class ChangePasswordUI : MonoBehaviour
         DeactivePopup();
     }
 
+    /// <summary>
+    /// 비밀번호 변경 UI에 속한 팝업을 모두 비활성화한다.
+    /// </summary>
     private void DeactivePopup()
     {
         _errorPopup.gameObject.SetActive(false);
@@ -48,8 +51,16 @@ public class ChangePasswordUI : MonoBehaviour
         _successPopup.gameObject.SetActive(false);
     }
 
-    private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
+    /// <summary>
+    /// 로그인 UI 로드
+    /// </summary>
+    public void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
 
+    /// <summary>
+    /// ID 입력과 문답 내용이 모두 DB의 정보와 일치하는지 비교하고 전부 일치하면 
+    /// 비밀번호 변경을 위한 팝업 _changePopup을 활성화한다.
+    /// 일치하지 않으면 유저에게 팝업으로 피드백한다.
+    /// </summary>
     private void ChangePassword()
     {
         if (!Sql.HasValue(Column.ID, _idInput.text))
@@ -69,14 +80,13 @@ public class ChangePasswordUI : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    /// <summary>
+    /// _idInput에 입력된 텍스트를 전달한다.
+    /// </summary>
+    /// <returns></returns>
     public string GetID()
     {
         return _idInput.text;
-    }
-
-    public void LoadLogin()
-    {
-        _logInUIManager.LoadUI(UI.LOGIN);
     }
 
     private void OnDisable()

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +33,11 @@ public class ChangePasswordPopupUI : PopupUI
         _changeButton.onClick.AddListener(ChangePassword);
     }
 
+    /// <summary>
+    /// _passwordInput에 입력 받은 새 비밀번호가 이전 비밀번호와 일치하지 않고, 
+    /// _passwordCheckInput에 입력 받은 비밀번호 확인 내용과 일치하는 지 비교 후 
+    /// 두 조건을 모두 충족하면 DB에 새로운 비밀번호를 저장한다.
+    /// </summary>
     private void ChangePassword()
     {
         SetErrorMessageDeactive();
@@ -57,6 +62,9 @@ public class ChangePasswordPopupUI : PopupUI
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// 비밀번호 변경에서 에러 발생 시 활성화할 에러 피드백 텍스트들을 비활성화
+    /// </summary>
     private void SetErrorMessageDeactive()
     {
         _passwordErrorMessage.SetActive(false);

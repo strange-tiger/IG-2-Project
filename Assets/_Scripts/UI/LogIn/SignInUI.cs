@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -82,8 +82,8 @@ public class SignInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀÔ·ÂµÈ °èÁ¤ Á¤º¸(Email, Password, Nickname)¸¦ ¹ÙÅÁÀ¸
-    /// °¢ Á¤º¸ÀÇ Áßº¹Ã¼Å©°¡ ¿Ï·áµÇ¾ú´Ù¸é °èÁ¤ DB¿¡ ÀúÀåÇÑ´Ù.
+    /// ì…ë ¥ëœ ê³„ì • ì •ë³´(Email, Password, Nickname)ë¥¼ ë°”íƒ•ìœ¼
+    /// ê° ì •ë³´ì˜ ì¤‘ë³µì²´í¬ê°€ ì™„ë£Œë˜ì—ˆë‹¤ë©´ ê³„ì • DBì— ì €ì¥í•œë‹¤.
     /// </summary>
     private void SignIn()
     {
@@ -104,7 +104,7 @@ public class SignInUI : MonoBehaviour
                 _questionList.Value,
                 _answerInput.text
             ),
-            "°èÁ¤ »ı¼º ½ÇÆĞ!"
+            "ê³„ì • ìƒì„± ì‹¤íŒ¨!"
         );
 
         _successPopup.SetActive(true);
@@ -113,7 +113,7 @@ public class SignInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀÔ·ÂµÈ Email Á¤º¸¸¦ DB¿Í ºñ±³ÇØ Áßº¹Ã¼Å©
+    /// ì…ë ¥ëœ Email ì •ë³´ë¥¼ DBì™€ ë¹„êµí•´ ì¤‘ë³µì²´í¬
     /// </summary>
     private void EmailDoubleCheck()
     {
@@ -131,7 +131,7 @@ public class SignInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀÔ·ÂµÈ ºñ¹Ğ¹øÈ£¿Í ºñ¹Ğ¹øÈ£ Ã¼Å©¿ë ÀÔ·ÂÀ» ºñ±³ÇØ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ
+    /// ì…ë ¥ëœ ë¹„ë°€ë²ˆí˜¸ì™€ ë¹„ë°€ë²ˆí˜¸ ì²´í¬ìš© ì…ë ¥ì„ ë¹„êµí•´ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸
     /// </summary>
     private void PasswordDoubleCheck()
     {
@@ -149,7 +149,7 @@ public class SignInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀÔ·ÂµÈ Nickname Á¤º¸¸¦ DB¿Í ºñ±³ÇØ Áßº¹Ã¼Å©
+    /// ì…ë ¥ëœ Nickname ì •ë³´ë¥¼ DBì™€ ë¹„êµí•´ ì¤‘ë³µì²´í¬
     /// </summary>
     private void NicknameDoubleCheck()
     {
@@ -167,7 +167,7 @@ public class SignInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// È¸¿ø°¡ÀÔ UI ·Îµå
+    /// íšŒì›ê°€ì… UI ë¡œë“œ
     /// </summary>
     private void LoadLogIn() => _logInUIManager.LoadUI(UI.LOGIN);
 

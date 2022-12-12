@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,6 +49,10 @@ public class SpinnerUI : MonoBehaviour
         _rightButton.onClick.RemoveListener(OnClickRightButton);
     }
 
+    /// <summary>
+    /// UI의 상태 인덱스를 하나 감소
+    /// 감소된 인덱스가 0 이하라면 최대 인덱스로 변경
+    /// </summary>
     public virtual void OnClickLeftButton()
     {
         if (_index - 1 < 0)
@@ -59,6 +63,10 @@ public class SpinnerUI : MonoBehaviour
         Type = _states[_index];
     }
 
+    /// <summary>
+    /// UI의 상태 인덱스를 하나 증가
+    /// 증가된 인덱스가 최대 인덱스 이상이라면 0으로 변경
+    /// </summary>
     public virtual void OnClickRightButton()
     {
         if (_index + 1 >= _states.Length)

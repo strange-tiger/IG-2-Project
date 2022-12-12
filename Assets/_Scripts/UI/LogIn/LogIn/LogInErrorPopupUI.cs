@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,6 +11,10 @@ public class LogInErrorPopupUI : PopupUI
     [SerializeField] TextMeshProUGUI _passwordErrorMessage;
     [SerializeField] TextMeshProUGUI _duplicatedErrorMessage;
 
+    /// <summary>
+    /// 로그인 에러의 타입 error에 따라 활성화할 텍스트 오브젝트를 결정
+    /// </summary>
+    /// <param name="error"></param>
     public void ErrorPopup(Error error)
     {
         Debug.Assert(error != Error.NONE && error != Error.MAX, "Error in Error");
