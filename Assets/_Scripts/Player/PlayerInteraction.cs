@@ -115,13 +115,10 @@ public class PlayerInteraction : MonoBehaviourPun
             if (interacterableObject)
             {
                 interacterableObject.Interact();
-                Debug.Log($"name : {interacterableObject.name}");
-                Debug.Log($"tag : {interacterableObject.tag}");
-                Debug.Log($"obtag : {interacterableObject.gameObject.tag}");
 
+                // 오크통을 상호작용 했을 때 생기는 이벤트
                 if (interacterableObject.gameObject.tag == "OakBarrel" && !photonView.IsMine)
                 {
-                    Debug.Log("테그가 오크통임을 확인하고 이벤트 인보크");
                     InteractionOakBarrel.Invoke();
                 }
             }

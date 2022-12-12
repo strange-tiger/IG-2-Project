@@ -81,6 +81,9 @@ public class OakBarrelInteraction : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// 오크통을 상호작용 했을 때 이벤트로 실행되는 함수
+    /// </summary>
     private void BecomeOakBarrel()
     {
         if (photonView.IsMine)
@@ -90,6 +93,10 @@ public class OakBarrelInteraction : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// 오크통이 자연스럽게 사라지는 코루틴
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator OakBarrelIsGone()
     {
         yield return _oakBarrelReturnTime;
