@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -33,8 +33,8 @@ public class PrivateRoomUIManager : UIManager
     }
 
     /// <summary>
-    /// EPrivateRoomUIIndex¸¦ ui ¸Å°³º¯¼ö·Î ¹Ş¾Æ, UIManager.LoadUI¿¡ Àü´ŞÇØ 
-    /// UI ¿ÀºêÁ§Æ®¸¦ ¸ğµÎ ºñÈ°¼ºÈ­ÇÑ ÈÄ ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â UI ¿ÀºêÁ§Æ®¸¦ È°¼ºÈ­ÇÑ´Ù.
+    /// EPrivateRoomUIIndexë¥¼ ui ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„, UIManager.LoadUIì— ì „ë‹¬í•´ 
+    /// UI ì˜¤ë¸Œì íŠ¸ë¥¼ ëª¨ë‘ ë¹„í™œì„±í™”í•œ í›„ ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” UI ì˜¤ë¸Œì íŠ¸ë¥¼ í™œì„±í™”í•œë‹¤.
     /// </summary>
     /// <param name="ui"></param>
     public void LoadUI(_UI ui)
@@ -44,6 +44,9 @@ public class PrivateRoomUIManager : UIManager
         LoadUI((int)ui);
     }
 
+    /// <summary>
+    /// ShutUIë¥¼ í˜¸ì¶œí•˜ì—¬ UI ì°½ì„ ëª¨ë‘ ë‹«ê³  NPCì˜ ìƒí˜¸ì‘ìš©ì´ ê°€ëŠ¥í•˜ë„ë¡ ë§Œë“ ë‹¤.
+    /// </summary>
     public void ShutUIPrivateRoom()
     {
         ShutUI();

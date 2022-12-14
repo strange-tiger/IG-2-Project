@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -34,8 +34,6 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        Debug.DrawRay(transform.position + RAY_ORIGIN, transform.forward);
-
         RaycastOnClients();
     }
 
@@ -52,6 +50,12 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
     }
 
     private const string PAINT_PAD_TAG = "PaintPad";
+    /// <summary>
+    /// 매 프레임 호출된다.
+    /// 그리는 오브젝트(이하 연필)에서 나오는 레이가 그려지는 오브젝트(이하 패드)의 콜라이더와 충돌할 때, 
+    /// 충돌 지점을 _currentPoint에 저장하고 DrawLine을 호출한다.
+    /// 충돌하지 않으면 현재 그리고 있는 중임을 알리는 변수 _isDraw에 false를 할당한다.
+    /// </summary>
     private void RaycastOnClients()
     {
         RaycastHit hit;
@@ -59,10 +63,9 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
 
         if (Physics.Raycast(ray, out hit, RAY_LENGTH, _padMask.value))
         {
-            _currentPoint = hit.point;
-
             if (hit.collider.CompareTag(PAINT_PAD_TAG))
             {
+                _currentPoint = hit.point;
                 DrawLine();
             }
         }
@@ -72,16 +75,25 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         }
     }
 
+    /// <summary>
+    /// _isDraw가 false이면 true를 할당하고 CreateLine을 RPC로 호출한다.
+    /// </summary>
     private void DrawLine()
     {
         if (!_isDraw)
         {
             _isDraw = true;
             
-            photonView.RPC("CreateLine", RpcTarget.AllBuffered, _currentPoint);
+            photonView.RPC(nameof(CreateLine), RpcTarget.AllBuffered, _currentPoint);
         }
     }
 
+    /// <summary>
+    /// _positionCount에 기본 값 2를 할당하고 GenerateLineRenderer를 호출한다.
+    /// _currentLineRenderer에 GenerateLineRenderer에서 반환하는 LineRenderer를 할당한다.
+    /// ConnectLine을 실행한다.
+    /// </summary>
+    /// <param name="startPos"></param>
     [PunRPC]
     private void CreateLine(Vector3 startPos)
     {
@@ -93,6 +105,13 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         StartCoroutine(ConnectLine());
     }
 
+    /// <summary>
+    /// 프리팹 line을 생성한다.
+    /// line의 라인렌더러 및 위치 정보를 할당한다.
+    /// line의 라인렌더러 lineRenderer를 반환한다.
+    /// </summary>
+    /// <param name="startPos"></param>
+    /// <returns>LineRenderer</returns>
     private LineRenderer GenerateLineRenderer(Vector3 startPos)
     {
         GameObject line = PhotonNetwork.Instantiate("PrivateRoom\\Line", Vector3.zero, Quaternion.identity);
@@ -108,18 +127,30 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         return lineRenderer;
     }
 
+    /// <summary>
+    /// _isDraw = true인 동안 ConnectLineHelper를 RPC로 호출한다.
+    /// _prevPoint에 _currentPoint을 할당한다.
+    /// </summary>
+    /// <returns></returns>
     [PunRPC]
     private IEnumerator ConnectLine()
     {
         while (_isDraw)
         {
-            photonView.RPC("ConnectLineHelper", RpcTarget.AllBuffered, _prevPoint, _currentPoint);
+            photonView.RPC(nameof(ConnectLineHelper), RpcTarget.AllBuffered, _prevPoint, _currentPoint);
 
             _prevPoint = _currentPoint;
             yield return null;
         }
     }
 
+    /// <summary>
+    /// prevPoint가 null이 아니고 prevPoint와 currentPoint 사이 거리가 POINTS_DISTANCE 이상이면 
+    /// _currentLineRenderer에 다음 점을 추가한다.
+    /// 다음 점의 위치는 currentPoint가 된다.
+    /// </summary>
+    /// <param name="prevPoint"></param>
+    /// <param name="currentPoint"></param>
     [PunRPC]
     private void ConnectLineHelper(Vector3 prevPoint, Vector3 currentPoint)
     {
@@ -131,11 +162,16 @@ public class PaintbrushDraw : MonoBehaviourPun, IPunObservable
         }
     }
 
+    /// <summary>
+    /// 그리기를 멈춘다.
+    /// PaintbrushReset의 OnReset을 구독한다. 
+    /// _isDraw를 false로 바꾸고, CreateLine과 ConnectLineHelper의 RPC 실행 캐시를 지운다.
+    /// </summary>
     private void StopDraw()
     {
         _isDraw = false;
 
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "CreateLine");
-        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, "ConnectLineHelper");
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, nameof(CreateLine));
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID, nameof(ConnectLineHelper));
     }
 }

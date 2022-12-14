@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,8 +51,8 @@ public class LogInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀÔ·ÂµÈ °èÁ¤ Á¤º¸(Email, Password)¸¦ °èÁ¤ DB¿Í ºñ±³ÇØ
-    /// ÀÏÄ¡ÇÏ¸é ´ÙÀ½ ¾ÀÀ» ·ÎµåÇÑ´Ù.
+    /// ì…ë ¥ëœ ê³„ì • ì •ë³´(Email, Password)ë¥¼ ê³„ì • DBì™€ ë¹„êµí•´
+    /// ì¼ì¹˜í•˜ë©´ ë‹¤ìŒ ì”¬ì„ ë¡œë“œí•œë‹¤.
     /// </summary>
     private void LogIn()
     {
@@ -82,17 +82,17 @@ public class LogInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// È¸¿ø°¡ÀÔ UI ·Îµå
+    /// íšŒì›ê°€ì… UI ë¡œë“œ
     /// </summary>
     private void LoadSignIn() => _logInUIManager.LoadUI(UI.SIGNIN);
 
     /// <summary>
-    /// ºñ¹Ğ¹øÈ£ Ã£±â UI ·Îµå
+    /// ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° UI ë¡œë“œ
     /// </summary>
     private void LoadFind() => _logInUIManager.LoadUI(UI.FINDPASSWORD);
 
     /// <summary>
-    /// °ÔÀÓ Á¾·á
+    /// ê²Œì„ ì¢…ë£Œ
     /// </summary>
     private void Quit() => Application.Quit();
 

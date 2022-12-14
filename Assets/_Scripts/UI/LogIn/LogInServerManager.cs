@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +37,11 @@ public class LogInServerManager : MonoBehaviourPunCallbacks
         _loginButton.interactable = true;
     }
 
+    /// <summary>
+    /// 로그인을 실행한다.
+    /// DB에 계정의 캐릭터가 있는지를 CheckValueByBase를 호출해 검사하고, 
+    /// 있다면 StartRoom, 없다면 MakeCharacterRoom 씬을 로드한다.
+    /// </summary>
     public void LogIn()
     {
         PlayerControlManager.Instance.IsRayable = false;

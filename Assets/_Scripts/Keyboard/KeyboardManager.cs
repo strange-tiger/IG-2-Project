@@ -272,6 +272,24 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
     private const string NEUTRAL_VOWEL = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
     private const string FINAL_CONSONANT = "ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
 
+    /// <summary>
+    /// 한글 자판이 입력되면 그 이후의 입력을 별개 문자열 s_koreanSentence에 저장, 이것이 매개변수 input이 된다.
+    /// 한글을 초성 19개, 중성 21개, 종성 28개의 세 가지로 분리해 각 소리에 들어갈 수 있는 글자를 모아둔다. 각각 INITIAL_CONSONANT, NEUTRAL_VOWEL, FINAL_CONSONANT이다.
+    /// 이때 각 문자열에 글자가 있는지 없는지로 입력된 글자의 구성을 구분한다.
+    /// 만약 문자열에 연달아 있는 두 글자가 ㅗ와 ㅏ, ㄹ과 ㅎ처럼 이중자모음으로 합쳐질 수 있는 그룹이면 연산과정에서 ㅘ, ㅀ과 같은 글자로 치환하고 문자열의 길이를 하나 줄여 계산한다.
+    /// input의 길이에 따라 예외를 두어 이중자모음으로 합치고, convertString으로 바꾼다.
+    /// convertString의 길이에 따라 예외를 두어 모아쓰기를 구현한다.
+    /// 길이가 1이라면 입력 그대로 출력.
+    /// 2라면 앞글자가 초성, 뒷글자가 중성이면 한 글자로 모아쓴다.
+    /// 3이상이면 초성 중성 종성이 모두 있다면 한 글자로 모아쓰고, 종성이 없고 중성이 있다면 중성 앞의 초성과 중성만 모아쓴다.
+    /// 모아쓰기는 각 글자의 유니코드를 계산해 구현한다.
+    /// 유니코드에서 한글 각 글자는 AC00 ~ D7AF의 11,184개의 범위로 구현되어있다. 이를 다음 식처럼 초성, 중성, 종성의 3가지 글자의 인덱스 값의 곱과 합으로 표현할 수 있다.
+    /// 0xAC00 + (초성) * 21 * 28 + (중성) * 28 + (종성)
+    /// 여기서 위 식의 종성은 없는 경우를 0으로 생각하고, ㄱ부터 1로 계산한다.
+    /// 이는 CalculateLetterCode를 호출해 이루어진다.
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     private static string CreateKoreanText(string input)
     {
         string convertString = string.Empty;
@@ -513,6 +531,17 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         return output;
     }
 
+    /// <summary>
+    /// 모아쓰기를 구현한다.
+    /// 초성, 중성, 종성을 받아 모아쓰기의 결과를 반환한다.
+    /// 유니코드에서 한글 각 글자는 AC00 ~ D7AF의 11,184개의 범위로 구현되어있다. 이를 다음 식처럼 초성, 중성, 종성의 3가지 글자의 인덱스 값의 곱과 합으로 표현할 수 있다.
+    /// 0xAC00 + (first) * 21 * 28 + (second) * 28 + (third)
+    /// 여기서 위 식의 third는 없는 경우를 0으로 생각하고, ㄱ부터 1로 계산한다.
+    /// </summary>
+    /// <param name="first"></param>
+    /// <param name="second"></param>
+    /// <param name="third"></param>
+    /// <returns></returns>
     private static int CalculateLetterCode(int first, int second, int third)
     {
         return 0xAC00 + (first * 588) + (second * 28) + third;
@@ -554,6 +583,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ㅂ = 16
     }
 
+    /// <summary>
+    /// first와 second가 조건에 맞다면 하나의 이중자음으로 치환하여 반환한다.
+    /// </summary>
+    /// <param name="first"></param>
+    /// <param name="second"></param>
+    /// <returns></returns>
     private static int CombineTwoConsonant(int first, int second)
     {
         int outputValue = first;
@@ -612,6 +647,12 @@ public class KeyboardManager : GlobalInstance<KeyboardManager>
         ㅡ = 18,
     }
 
+    /// <summary>
+    /// first와 second가 조건에 맞다면 하나의 이중모음으로 치환하여 반환한다.
+    /// </summary>
+    /// <param name="first"></param>
+    /// <param name="second"></param>
+    /// <returns></returns>
     private static int CombineTwoVowel(int first, int second)
     {
         int outputValue = first;
