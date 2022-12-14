@@ -37,6 +37,7 @@ public class AIDamage : AIState
         _enemyDamage.EnemySkillDamage.AddListener(SkillHit);
     }
 
+    // AIDamage 상태로 오면 이벤트로 들어온 수치만큼 체력 감소
     public override void OnEnter()
     {
         _animator.SetBool(AIAnimatorID.isDamage, true);
@@ -62,6 +63,8 @@ public class AIDamage : AIState
             _animator.SetBool(AIAnimatorID.isDamage, false);
             _aiFSM.ChangeState(EAIState.Attack);
         }
+
+        // HP가 0보다 작으면 AIDeath상태로
         if (_hp <= 0)
         {
             _aiFSM.ChangeState(EAIState.Death);

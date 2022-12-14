@@ -13,6 +13,7 @@ public class OakBarrel : InteracterableObject
     private MeshRenderer _oakBarrelMeshRenderer;
     private MeshCollider _oakBarrelMeshCollider;
 
+    // 오크통이 돌아오는 시간
     private WaitForSeconds _oakBarrelReturnTime = new WaitForSeconds(60f);
 
     private void Start()
@@ -25,12 +26,12 @@ public class OakBarrel : InteracterableObject
     {
         base.Interact();
 
+        // 플레이어의 오크통인지 아닌지
         if (_isPlayerHave == false)
         {
             StartCoroutine(SetOakBarrelOriginalPosition());
         }
 
-        Debug.Log($"{photonView.IsMine}오크통과 상호작용");
         photonView.RPC(nameof(SomeoneInteractedOakBarrel), RpcTarget.AllBuffered, false);
     }
 
@@ -39,9 +40,9 @@ public class OakBarrel : InteracterableObject
     {
         _oakBarrelMeshRenderer.enabled = value;
         _oakBarrelMeshCollider.enabled = value;
-        Debug.Log($"{photonView.IsMine}오크통과 상호작용 RPC 뿌리기");
     }
 
+    // 야생의 오크통이면 일정시간 후 돌아오게 됨
     private IEnumerator SetOakBarrelOriginalPosition()
     {
         yield return _oakBarrelReturnTime;

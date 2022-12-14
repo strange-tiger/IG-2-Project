@@ -32,6 +32,7 @@ public class AIRun : AIState
 
     public override void OnUpdate()
     {
+        // Animator의 ApplyRootMotion을 사용하지 않아서 Run상태때만 이동시킴
         transform.Translate(Vector3.forward * Time.deltaTime * _speed);
 
         if (_changeStateRunToAttack == true)

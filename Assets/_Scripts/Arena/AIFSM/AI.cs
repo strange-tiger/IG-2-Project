@@ -13,12 +13,14 @@ public class AI : MonoBehaviour
     {
         _aiFSM = GetComponent<AIFSM>();
         _aiFSM.Init();
+        // 상태추가
         _aiFSM.AddState(EAIState.IDLE, GetComponent<AIIdle>());
         _aiFSM.AddState(EAIState.Run, GetComponent<AIRun>());
         _aiFSM.AddState(EAIState.Attack, GetComponent<AIAttack>());
         _aiFSM.AddState(EAIState.Skill, GetComponent<AISkill>());
         _aiFSM.AddState(EAIState.Damage, GetComponent<AIDamage>());
         _aiFSM.AddState(EAIState.Death, GetComponent<AIDeath>());
+        // 상태 전환
         _aiFSM.ChangeState(EAIState.IDLE);
     }
 
