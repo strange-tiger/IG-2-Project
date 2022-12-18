@@ -126,71 +126,39 @@ public class TempGroupManager : MonoBehaviour
 
         while (true)
         {
-            if (IsEmpty(list))
+            List<GameObject> nowList = IsEmpty(list) ? winnerList : list;
+            List<GameObject> nextList = IsEmpty(list) ? list : winnerList;
+            WaitUntil waitUntil = IsEmpty(list) ? waitUntilWinnerList : waitUntilList;
+
+            // 부전승 판정들
+            LuckyWinnerSet(nowList);
+
+            BattlePositionAndRotationSet(nowList);
+
+            // 경기 진행
+            while (true)
             {
-                // 부전승 판정들
-                LuckyWinnerSet(winnerList);
-
-                BattlePositionAndRotationSet(winnerList);
-
-                // 경기 진행
-                while (true)
-                {
-                    FightGroup(winnerList);
-                    if (!_battleValue)
-                    {
-                        break;
-                    }
-                    yield return waitUntilWinnerList;
-                }
-                yield return _waitTime;
-
-                if (list.Count > 1)
-                {
-                    _battleValue = true;
-                }
-                else if (list.Count == 1 && !IsEmpty(_luckyGroup))
-                {
-                    continue;
-                }
-                else
+                FightGroup(nowList);
+                if (!_battleValue)
                 {
                     break;
                 }
+                yield return waitUntil;
             }
+            yield return _waitTime;
 
+            if (nextList.Count > 1)
+            {
+                _battleValue = true;
+            }
+            else if (nextList.Count == 1 && !IsEmpty(_luckyGroup))
+            {
+                continue;
+            }
             else
             {
-                // 부전승 판정들
-                LuckyWinnerSet(list);
-
-                BattlePositionAndRotationSet(list);
-
-                // 경기 진행
-                while (true)
-                {
-                    FightGroup(list);
-                    if (!_battleValue)
-                    {
-                        break;
-                    }
-                    yield return waitUntilList;
-                }
-                yield return _waitTime;
-
-                if (winnerList.Count > 1)
-                {
-                    _battleValue = true;
-                }
-                else if (winnerList.Count == 1 && !IsEmpty(_luckyGroup))
-                {
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-            }  
+                break;
+            }
         }
     }
 
@@ -234,34 +202,22 @@ public class TempGroupManager : MonoBehaviour
     /// <returns></returns>
     private bool SomeOneDie(List<GameObject> fightGroup, List<GameObject> winnerGroup)
     {
-        if (fightGroup.Count == 0 || fightGroup.Count == 1)
+        if (fightGroup.Count < 2)
         {
             return false;
         }
 
         if (fightGroup[0].activeSelf == false || fightGroup[1].activeSelf == false)
         {
-            if (fightGroup[0].activeSelf == false)
-            {
-                winnerGroup.Add(fightGroup[1]);
-                fightGroup[1].SetActive(false);
-            }
-            else if (fightGroup[1].activeSelf == false)
-            {
-                winnerGroup.Add(fightGroup[0]);
-                fightGroup[0].SetActive(false);
-            }
-
+            int index = fightGroup[0].activeSelf == false ? 1 : 0;
+            winnerGroup.Add(fightGroup[index]);
+            fightGroup[index].SetActive(false);
             fightGroup.RemoveRange(0, 2);
+
             return true;
         }
 
         return false;
-    }
-
-    private void SetGroup(List<GameObject> fightGroup, List<GameObject> winnerGroup, int num)
-    {
-        
     }
 
     /// <summary>
