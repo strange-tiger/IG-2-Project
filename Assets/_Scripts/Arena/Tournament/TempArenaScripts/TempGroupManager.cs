@@ -25,6 +25,10 @@ public class TempGroupManager : MonoBehaviour
 
     private bool _battleValue = true;
 
+    private const int _redTeamIndex = 0;
+    private const int _blueTeamIndex = 1;
+    private const int _luckyWinnerIndex = 0;
+
     private int _randGroupIndex;
 
     private void Awake()
@@ -52,7 +56,7 @@ public class TempGroupManager : MonoBehaviour
         {
             if (!IsEmpty(_luckyGroup))
             {
-                list.Add(_luckyGroup[0]);
+                list.Add(_luckyGroup[_luckyWinnerIndex]);
                 _luckyGroup.Clear();
                 return;
             }
@@ -185,8 +189,8 @@ public class TempGroupManager : MonoBehaviour
     {
         if (!IsEmpty(fightGroup))
         {
-            fightGroup[0].SetActive(true);
-            fightGroup[1].SetActive(true);
+            fightGroup[_redTeamIndex].SetActive(true);
+            fightGroup[_blueTeamIndex].SetActive(true);
         }
         else
         {
@@ -207,9 +211,9 @@ public class TempGroupManager : MonoBehaviour
             return false;
         }
 
-        if (fightGroup[0].activeSelf == false || fightGroup[1].activeSelf == false)
+        if (fightGroup[_redTeamIndex].activeSelf == false || fightGroup[_blueTeamIndex].activeSelf == false)
         {
-            int index = fightGroup[0].activeSelf == false ? 1 : 0;
+            int index = fightGroup[_redTeamIndex].activeSelf == false ? _blueTeamIndex : _redTeamIndex;
             winnerGroup.Add(fightGroup[index]);
             fightGroup[index].SetActive(false);
             fightGroup.RemoveRange(0, 2);
