@@ -53,6 +53,11 @@ public class TournamentManager : MonoBehaviourPun
     [PunRPC]
     public void BettingStart(bool value)
     {
+        if (_vrUI == null)
+        {
+            return;
+        }
+
         if (_vrUI.activeSelf == false)
         {
             _vrUI.SetActive(value);

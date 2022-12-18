@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class Tournament : MonoBehaviourPun
 {
-    [Header("튜토리얼 프리팹 파괴까지 걸리는 시간")]
+    [Header("토너먼트 프리팹 파괴까지 걸리는 시간")]
     [SerializeField] private float _reStartTime;
 
     private float _curTime;

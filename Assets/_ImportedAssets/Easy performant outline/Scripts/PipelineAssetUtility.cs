@@ -79,7 +79,7 @@ namespace EPOOutline
         }
 
 #if URP_OUTLINE
-        public static RenderPipelineAsset CreateAsset(ForwardRendererData data)
+        public static RenderPipelineAsset CreateAsset(UniversalRendererData data)
         {
 #if UNITY_2019_3_OR_NEWER
             return UniversalRenderPipelineAsset.Create(data);
@@ -103,9 +103,9 @@ namespace EPOOutline
 #endif
         }
 
-        public static ForwardRendererData CreateRenderData()
+        public static UniversalRendererData CreateRenderData()
         {
-            return ScriptableObject.CreateInstance<ForwardRendererData>();
+            return ScriptableObject.CreateInstance<UniversalRendererData>();
         }
 #endif
 
