@@ -27,9 +27,6 @@ public class TempGroupManager : MonoBehaviour
 
     private int _randGroupIndex;
 
-    private int _evenIndex = 0;
-    private int _oddIndex = 1;
-
     private void Awake()
     {
         GroupTournamentSet();
@@ -220,8 +217,8 @@ public class TempGroupManager : MonoBehaviour
     {
         if (!IsEmpty(fightGroup))
         {
-            fightGroup[_evenIndex].SetActive(true);
-            fightGroup[_oddIndex].SetActive(true);
+            fightGroup[0].SetActive(true);
+            fightGroup[1].SetActive(true);
         }
         else
         {
@@ -237,35 +234,32 @@ public class TempGroupManager : MonoBehaviour
     /// <returns></returns>
     private bool SomeOneDie(List<GameObject> fightGroup, List<GameObject> winnerGroup)
     {
-        if (_evenIndex == fightGroup.Count || _oddIndex == fightGroup.Count)
+        if (fightGroup.Count == 0 || fightGroup.Count == 1)
         {
             return false;
         }
 
-        if (fightGroup[_evenIndex].activeSelf == false || fightGroup[_oddIndex].activeSelf == false)
+        if (fightGroup[0].activeSelf == false || fightGroup[1].activeSelf == false)
         {
-            if (fightGroup[_evenIndex].activeSelf == false)
+            if (fightGroup[0].activeSelf == false)
             {
-                winnerGroup.Add(fightGroup[_oddIndex]);
-                fightGroup[_oddIndex].SetActive(false);
-                fightGroup.RemoveRange(0, 2);
-
-                return true;
+                winnerGroup.Add(fightGroup[1]);
+                fightGroup[1].SetActive(false);
             }
-            else if (fightGroup[_oddIndex].activeSelf == false)
+            else if (fightGroup[1].activeSelf == false)
             {
-                winnerGroup.Add(fightGroup[_evenIndex]);
-                fightGroup[_evenIndex].SetActive(false);
-                fightGroup.RemoveRange(0, 2);
-
-                return true;
+                winnerGroup.Add(fightGroup[0]);
+                fightGroup[0].SetActive(false);
             }
+
+            fightGroup.RemoveRange(0, 2);
+            return true;
         }
 
         return false;
     }
 
-    private void SetGroup(int num)
+    private void SetGroup(List<GameObject> fightGroup, List<GameObject> winnerGroup, int num)
     {
         
     }
